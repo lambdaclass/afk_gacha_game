@@ -8,6 +8,13 @@
 import Config
 
 # Configures the endpoint
+dispatch = [
+  _: [
+    {"/play", DarkWorldsServerWeb.PlayWebSocket, []},
+    {:_, Phoenix.Endpoint.Cowboy2Handler, {DarkWorldsServerWeb.Endpoint, []}}
+  ]
+]
+
 config :dark_worlds_server, DarkWorldsServerWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
@@ -15,7 +22,8 @@ config :dark_worlds_server, DarkWorldsServerWeb.Endpoint,
     layout: false
   ],
   pubsub_server: DarkWorldsServer.PubSub,
-  live_view: [signing_salt: "HPijD5SN"]
+  live_view: [signing_salt: "HPijD5SN"],
+  http:  [dispatch: dispatch]
 
 # Configures the mailer
 #
