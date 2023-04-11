@@ -15,9 +15,9 @@ defmodule DarkWorldsServer.Application do
       # Start Finch
       {Finch, name: DarkWorldsServer.Finch},
       # Start the Endpoint (http/https)
-      DarkWorldsServerWeb.Endpoint
-      # Start a worker by calling: DarkWorldsServer.Worker.start_link(arg)
-      # {DarkWorldsServer.Worker, arg}
+      DarkWorldsServerWeb.Endpoint,
+      # Start the Game Engine
+      DarkWorldsServer.Engine.Game
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
