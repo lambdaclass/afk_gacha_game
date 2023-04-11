@@ -1,6 +1,4 @@
 defmodule DarkWorldsServer.Engine.Runner do
-
-
   @enforce_keys [:players, :board]
   defstruct [:players, :board]
 
@@ -13,9 +11,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def init(_opts) do
-
     state = %__MODULE__{
-      board: Board.new(10,10),
+      board: Board.new(10, 10),
       players: [
         Player.new(1, 100),
         Player.new(2, 100)
