@@ -1,10 +1,9 @@
 defmodule DarkWorldsServer.Engine.Board do
   import Nx, only: [is_tensor: 1]
+  alias DarkWorldsServer.Engine.Player
 
   @enforce_keys [:grid]
   defstruct [:grid]
-
-  alias DarkWorldsServer.Engine.Player
 
   def new(width, height) when is_integer(width) and is_integer(height) do
     grid =
