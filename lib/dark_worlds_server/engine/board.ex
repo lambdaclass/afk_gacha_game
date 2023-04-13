@@ -42,7 +42,7 @@ defmodule DarkWorldsServer.Engine.Board do
         direction
       ) do
     case direction do
-      "UP" ->
+      :up ->
         {
           grid
           |> Nx.put_slice([y - 1, x], Nx.tensor([[number]]))
@@ -51,7 +51,7 @@ defmodule DarkWorldsServer.Engine.Board do
           %Player{player | position: {y - 1, x}}
         }
 
-      "DOWN" ->
+      :down ->
         {
           grid
           |> Nx.put_slice([y + 1, x], Nx.tensor([[number]]))
@@ -60,7 +60,7 @@ defmodule DarkWorldsServer.Engine.Board do
           %Player{player | position: {y + 1, x}}
         }
 
-      "LEFT" ->
+      :left ->
         {
           grid
           |> Nx.put_slice([y, x - 1], Nx.tensor([[number]]))
@@ -69,7 +69,7 @@ defmodule DarkWorldsServer.Engine.Board do
           %Player{player | position: {y, x - 1}}
         }
 
-      "RIGHT" ->
+      :right ->
         {
           grid
           |> Nx.put_slice([y, x + 1], Nx.tensor([[number]]))

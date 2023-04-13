@@ -2,7 +2,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine.{Action, Runner}
+  alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
 
   @behaviour :cowboy_websocket
 
@@ -13,13 +13,19 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_handle({:text, message}, state) do
-    case Action.from_json(message) do
+    case ActionRaw.from_json(message) do
       {:ok, action} ->
-        Runner.play(action)
-        {:ok, state}
+        IO.inspect(action)
+        case ActionOk.from_action_raw(action) do
+          {:ok, action} ->
+            Runner.play(action)
+            {:reply, {:text, "OK"}, state}
 
+          {:error, msg} ->
+            {:reply, {:text, "ERROR: #{msg}"}, state}
+        end
       {:error, _error} ->
-        {:reply, {:text, "ERROR: Could not decode json"}, state}
+        {:reply, {:text, "ERROR: Invalid json"}, state}
     end
   end
 

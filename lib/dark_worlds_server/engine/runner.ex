@@ -2,7 +2,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer
 
   alias DarkWorldsServer.Engine.Game
-  alias DarkWorldsServer.Engine.{Action}
+  alias DarkWorldsServer.Engine.{ActionRaw, ActionOk}
 
   @players 2
   @board {5, 5}
@@ -17,15 +17,15 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:ok, state}
   end
 
-  def play(%Action{} = action) do
+  def play(%ActionOk{} = action) do
     __MODULE__ |> GenServer.cast({:play, action})
   end
 
-  def handle_cast({:play, %Action{action: "MOVE"} = action}, state) do
+  def handle_cast({:play, %ActionOk{action: :move, player: player, value: value}}, state) do
     {
       :noreply,
       state
-      |> Game.move_player(action.player, action.value)
+      |> Game.move_player(player, value)
       |> IO.inspect()
     }
   end
