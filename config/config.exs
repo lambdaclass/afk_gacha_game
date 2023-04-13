@@ -23,7 +23,7 @@ config :dark_worlds_server, DarkWorldsServerWeb.Endpoint,
   ],
   pubsub_server: DarkWorldsServer.PubSub,
   live_view: [signing_salt: "HPijD5SN"],
-  http:  [dispatch: dispatch]
+  http: [dispatch: dispatch]
 
 # Configures the mailer
 #

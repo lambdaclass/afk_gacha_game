@@ -1,33 +1,33 @@
-
 defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  import Jason, only: [decode: 1]
+  alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
 
   @behaviour :cowboy_websocket
 
-  @impl :cowboy_websocket
   def init(req, opts), do: {:cowboy_websocket, req, opts}
 
-  @impl :cowboy_websocket
-  def websocket_init(state), do: {[], state}
-
-  @impl :cowboy_websocket
-  def websocket_handle(frame, state)
-
-  def websocket_handle(:ping, state) do
-    {[:pong], state}
+  def websocket_init(state) do
+    {:ok, state}
   end
 
   def websocket_handle({:text, message}, state) do
-    {:ok, data} = decode(message)
+    case ActionRaw.from_json(message) do
+      {:ok, action} ->
+        IO.inspect(action)
+        case ActionOk.from_action_raw(action) do
+          {:ok, action} ->
+            Runner.play(action)
+            {:reply, {:text, "OK"}, state}
 
-    {[{:text, "OK"}], state}
+          {:error, msg} ->
+            {:reply, {:text, "ERROR: #{msg}"}, state}
+        end
+      {:error, _error} ->
+        {:reply, {:text, "ERROR: Invalid json"}, state}
+    end
   end
 
-  @impl :cowboy_websocket
-  def websocket_info(info, state)
-
-  def websocket_info(_info, state), do: {[], state}
+  def websocket_info(info, state), do: {:reply, {:text, info}, state}
 end
