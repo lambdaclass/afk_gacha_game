@@ -36,51 +36,22 @@ defmodule DarkWorldsServer.Engine.Board do
     end
   end
 
-  def move_player(
-        %__MODULE__{grid: grid} = board,
-        %Player{number: number, position: {y, x}} = player,
-        direction
-      ) do
-    case direction do
-      :up ->
-        {
-          grid
-          |> Nx.put_slice([y - 1, x], Nx.tensor([[number]]))
-          |> Nx.put_slice([y, x], Nx.tensor([[0]]))
-          |> new(),
-          %Player{player | position: {y - 1, x}}
-        }
+  def move_player(%__MODULE__{grid: grid}, %Player{number: player_number, position: player_position} = player, direction) do
+    new_player_position = move_position(direction, player_position)
+    new_grid = grid |> update_grid(player_number, player_position, new_player_position)
+    {new_grid, %Player{player | position: new_player_position}}
+  end
 
-      :down ->
-        {
-          grid
-          |> Nx.put_slice([y + 1, x], Nx.tensor([[number]]))
-          |> Nx.put_slice([y, x], Nx.tensor([[0]]))
-          |> new(),
-          %Player{player | position: {y + 1, x}}
-        }
+  defp move_position(:up, {y, x}), do: {y - 1, x}
+  defp move_position(:down, {y, x}), do: {y + 1, x}
+  defp move_position(:left, {y, x}), do: {y, x - 1}
+  defp move_position(:right, {y, x}), do: {y, x + 1}
 
-      :left ->
-        {
-          grid
-          |> Nx.put_slice([y, x - 1], Nx.tensor([[number]]))
-          |> Nx.put_slice([y, x], Nx.tensor([[0]]))
-          |> new(),
-          %Player{player | position: {y, x - 1}}
-        }
-
-      :right ->
-        {
-          grid
-          |> Nx.put_slice([y, x + 1], Nx.tensor([[number]]))
-          |> Nx.put_slice([y, x], Nx.tensor([[0]]))
-          |> new(),
-          %Player{player | position: {y, x + 1}}
-        }
-
-      _ ->
-        {board, player}
-    end
+  defp update_grid(grid, number, {old_y, old_x}, {new_y, new_x}) do
+    grid
+    |> Nx.put_slice([new_y, new_x], Nx.tensor([[number]]))
+    |> Nx.put_slice([old_y, old_x], Nx.tensor([[0]]))
+    |> new()
   end
 
   defp get_height(%__MODULE__{} = board) do
