@@ -97,8 +97,8 @@ fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
 mod tests {
     use crate::player::Player;
 
-    use super::GameState;
     use super::Direction;
+    use super::GameState;
 
     #[test]
     fn no_move_if_beyond_boundaries() {
