@@ -1,0 +1,14 @@
+[package]
+name = "gamestate"
+version = "0.1.0"
+authors = []
+edition = "2021"
+
+[lib]
+name = "gamestate"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+rand = "0.8.5"
+rustler = "0.27.0"
