@@ -41,3 +41,11 @@ and sending messages like this:
 which will move player `1` down, then up, left and right by one cell each.
 
 You should be able to see the updated state grid on the server logs after every command.
+
+## Tests
+
+Run tests with
+
+```
+make tests
+```
