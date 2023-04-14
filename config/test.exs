@@ -8,8 +8,7 @@ config :dark_worlds_server, DarkWorldsServerWeb.Endpoint,
   server: false
 
 # In test we don't send emails.
-config :dark_worlds_server, DarkWorldsServer.Mailer,
-  adapter: Swoosh.Adapters.Test
+config :dark_worlds_server, DarkWorldsServer.Mailer, adapter: Swoosh.Adapters.Test
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
