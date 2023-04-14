@@ -5,7 +5,11 @@ defmodule DarkWorldsServer.Engine.ActionOk do
   @derive Jason.Encoder
   defstruct [:player, :action, :value]
 
-  def from_action_raw(%ActionRaw{player: {:ok, player}, action: {:ok, action}, value: {:ok, value}}) do
+  def from_action_raw(%ActionRaw{
+        player: {:ok, player},
+        action: {:ok, action},
+        value: {:ok, value}
+      }) do
     {:ok, %__MODULE__{player: player, action: action, value: value}}
   end
 
