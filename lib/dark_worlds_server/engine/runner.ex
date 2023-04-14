@@ -12,7 +12,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def init(_opts) do
-    state = Game.new_game(@players, 5, 5)
+    state = Game.new(number_of_players: @players, board: @board)
     IO.inspect(state)
     {:ok, state}
   end

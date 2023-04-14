@@ -1,5 +1,5 @@
 use rand::{thread_rng, Rng};
-use rustler::NifStruct;
+use rustler::{NifStruct, NifUnitEnum};
 
 use crate::board::Board;
 use crate::player::Player;
@@ -11,6 +11,7 @@ pub struct GameState {
     pub board: Board,
 }
 
+#[derive(Debug, NifUnitEnum)]
 pub enum Direction {
     UP,
     DOWN,
