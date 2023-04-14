@@ -25,3 +25,5 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 dark_worlds_server-*.tar
 
+# Ignore dynamic library created by rustler
+*.so

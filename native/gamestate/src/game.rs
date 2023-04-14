@@ -1,8 +1,11 @@
+use rand::{thread_rng, Rng};
+use rustler::NifStruct;
+
 use crate::board::Board;
 use crate::player::Player;
 
-use rand::prelude::*;
-
+#[derive(NifStruct)]
+#[module = "DarkWorldsServer.Engine.Game"]
 pub struct GameState {
     pub players: Vec<Player>,
     pub board: Board,
@@ -17,10 +20,11 @@ pub enum Direction {
 
 impl GameState {
     pub fn new(number_of_players: u64, board_width: usize, board_height: usize) -> Self {
+        let rng = &mut thread_rng();
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
-                let x_coordinate: usize = rand::random();
-                let y_coordinate: usize = rand::random();
+                let x_coordinate: usize = rng.gen_range(0..board_width);
+                let y_coordinate: usize = rng.gen_range(0..board_height);
                 Player::new(player_id, 100, (x_coordinate, y_coordinate))
             })
             .collect();

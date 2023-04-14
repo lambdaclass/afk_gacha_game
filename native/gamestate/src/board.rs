@@ -1,3 +1,7 @@
+use rustler::NifStruct;
+
+#[derive(Debug, Clone, NifStruct)]
+#[module = "DarkWorldsServer.Engine.Board"]
 pub struct Board {
     pub width: usize,
     pub height: usize,

@@ -1,4 +1,6 @@
-#[derive(Debug, Clone)]
+use rustler::NifStruct;
+#[derive(Debug, Clone, NifStruct)]
+#[module = "DarkWorldsServer.Engine.Player"]
 pub struct Player {
     pub id: u64,
     pub health: u64,

@@ -32,18 +32,9 @@ defmodule DarkWorldsServer.Engine.Game do
     }
   end
 
-  def move_player(%__MODULE__{players: players, board: board} = _game, player_number, direction) do
-    player = players |> get_player(player_number)
-    {new_board, new_player} = board |> Board.move_player(player, direction)
-    new_players = players |> update_player(new_player)
-    new(new_players, new_board)
-  end
+  use Rustler, otp_app: :dark_worlds_server, crate: "gamestate"
 
-  defp get_player(players, player_number) when is_integer(player_number) do
-    Enum.find(players, fn player ->
-      player.number == player_number
-    end)
-  end
+  def new_game(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
 
   defp update_player(players, %Player{} = player) do
     Enum.map(players, fn p ->
