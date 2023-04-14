@@ -1,18 +1,43 @@
-# DarkWorldsServer
+# Dark Worlds Server
 
-To start your Phoenix server:
+Elixir + Rust backend for Dark Worlds.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Requirements
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+- [Elixir](https://elixir-lang.org/)
+- [Rust](https://www.rust-lang.org/tools/install)
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+## Running locally
 
-## Learn more
+Install dependencies and compile the project with
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```
+make setup
+```
+
+Then run the server with
+
+```
+make run
+```
+
+This will setup a server listening through a websocket on port `4000`, on the `/play` path. This server handles the game state, consisting of a number of players scattered on a grid. By default there are two players on a `5x5` grid.
+
+Clients can move players by sending `JSON` messages through the websocket. To try it locally, you can use [websocat](https://github.com/vi/websocat) (or something like [Postman](https://www.postman.com/)) and then issue move commands to the server by connecting
+
+```
+websocat ws://127.0.0.1:4000/play
+```
+
+and sending messages like this:
+
+```
+{"player": 1, "action": "move", "value": "down"}
+{"player": 1, "action": "move", "value": "up"}
+{"player": 1, "action": "move", "value": "left"}
+{"player": 1, "action": "move", "value": "right"}
+```
+
+which will move player `1` down, then up, left and right by one cell each.
+
+You should be able to see the updated state grid on the server logs after every command.
