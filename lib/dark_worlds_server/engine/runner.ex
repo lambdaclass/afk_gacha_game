@@ -8,12 +8,13 @@ defmodule DarkWorldsServer.Engine.Runner do
   @board {10, 10}
 
   def start_link(args) do
-    GenServer.start_link(__MODULE__, args, name: __MODULE__)
+    GenServer.start_link(__MODULE__, args)
   end
 
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board)
     IO.inspect(state)
+    IO.inspect("To join: #{self() |> :erlang.term_to_binary |> Base.encode64()}")
     {:ok, state}
   end
 
@@ -25,6 +26,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   def get_board do
     __MODULE__
     |> GenServer.call(:get_board)
+  end
+
+  def play(runner_pid, %ActionOk{} = action) do
+    GenServer.cast(runner_pid, {:play, action})
   end
 
   def handle_cast({:play, %ActionOk{action: :move, player: player, value: value}}, state) do
