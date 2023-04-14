@@ -16,6 +16,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     case ActionRaw.from_json(message) do
       {:ok, action} ->
         IO.inspect(action)
+
         case ActionOk.from_action_raw(action) do
           {:ok, action} ->
             Runner.play(action)
@@ -24,6 +25,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
           {:error, msg} ->
             {:reply, {:text, "ERROR: #{msg}"}, state}
         end
+
       {:error, _error} ->
         {:reply, {:text, "ERROR: Invalid json"}, state}
     end
