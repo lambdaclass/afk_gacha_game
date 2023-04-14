@@ -48,10 +48,15 @@ impl GameState {
             .find(|player| player.id == player_id)
             .unwrap();
 
+        let new_position = new_position(direction, player.position);
+        if !is_valid_movement(&self.board, new_position) {
+            return;
+        }
+
         // Remove the player from their previous position on the board
         self.board.set_cell(player.position.0, player.position.1, 0);
 
-        player.position = new_position(direction, player.position);
+        player.position = new_position;
         self.board
             .set_cell(player.position.0, player.position.1, player.id);
     }
@@ -66,4 +71,24 @@ fn new_position(direction: Direction, position: (usize, usize)) -> (usize, usize
         Direction::LEFT => (x, y - 1),
         Direction::RIGHT => (x, y + 1),
     }
+}
+
+fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
+    let (row_idx, col_idx) = new_position;
+
+    // Check board boundaries
+    // Since we have usizes as types when `new_position` is calculated and 0 - 1 happens
+    // it will wrap around to usize::MAX which will alway be greater than `board.height`
+    // so we just need to check that it idx are equal or greather than boundaries
+    if row_idx >= board.height || col_idx >= board.width {
+        return false;
+    }
+
+    // Check if cell is not-occupied
+    let cell = board.get_cell(row_idx, col_idx);
+    if cell != 0 {
+        return false;
+    }
+
+    true
 }
