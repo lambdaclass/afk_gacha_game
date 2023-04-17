@@ -27,3 +27,6 @@ dark_worlds_server-*.tar
 
 # Ignore dynamic library created by rustler
 *.so
+
+# assets
+priv/static/assets

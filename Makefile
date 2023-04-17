@@ -5,6 +5,7 @@ setup:
 	mix deps.compile
 
 run:
+	mix assets.build
 	iex -S mix phx.server
 
 tests: elixir-tests rust-tests

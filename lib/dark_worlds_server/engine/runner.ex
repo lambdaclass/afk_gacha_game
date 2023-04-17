@@ -2,10 +2,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer
 
   alias DarkWorldsServer.Engine.Game
-  alias DarkWorldsServer.Engine.{ActionRaw, ActionOk}
+  alias DarkWorldsServer.Engine.{ActionOk}
 
   @players 2
-  @board {5, 5}
+  @board {10, 10}
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args, name: __MODULE__)
@@ -18,15 +18,27 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def play(%ActionOk{} = action) do
-    __MODULE__ |> GenServer.cast({:play, action})
+    __MODULE__
+    |> GenServer.cast({:play, action})
+  end
+
+  def get_board do
+    __MODULE__
+    |> GenServer.call(:get_board)
   end
 
   def handle_cast({:play, %ActionOk{action: :move, player: player, value: value}}, state) do
-    {
-      :noreply,
+    state =
       state
       |> Game.move_player(player, value)
-      |> IO.inspect()
-    }
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play", {:move, state.board})
+
+    {:noreply, state}
+  end
+
+  def handle_call(:get_board, _from, %Game{board: board} = state) do
+    {:reply, board, state}
   end
 end
