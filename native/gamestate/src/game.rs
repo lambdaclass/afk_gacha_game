@@ -198,4 +198,38 @@ mod tests {
         state.move_player(player_id, Direction::UP);
         assert_eq!(vec![vec![player_id, 0], vec![0, 0]], state.board.grid);
     }
+
+    #[test]
+    fn attacking() {
+        let mut state = GameState::new(0, 2, 2);
+        let player_1_id = 1;
+        let player_2_id = 2;
+        let player1 = Player::new(player_1_id, 100, (0, 0));
+        let player2 = Player::new(player_2_id, 100, (0, 0));
+        state.players = vec![player1, player2];
+        state.board.set_cell(0, 0, player_1_id);
+        state.board.set_cell(0, 1, player_2_id);
+
+        // Attack lands and damages player
+        state.attack_player(player_1_id, Direction::RIGHT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        // Attack misses and does nothing
+        state.attack_player(player_1_id, Direction::DOWN);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        state.move_player(player_1_id, Direction::DOWN);
+
+        // Attacking to the right now does nothing since the player moved down.
+        state.attack_player(player_1_id, Direction::RIGHT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        // Attacking to a non-existent position on the board does nothing.
+        state.attack_player(player_1_id, Direction::LEFT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+    }
 }
