@@ -48,7 +48,7 @@ impl GameState {
             .find(|player| player.id == player_id)
             .unwrap();
 
-        let new_position = new_position(direction, player.position);
+        let new_position = compute_adjacent_position(direction, player.position);
         if !is_valid_movement(&self.board, new_position) {
             return;
         }
@@ -60,9 +60,33 @@ impl GameState {
         self.board
             .set_cell(player.position.0, player.position.1, player.id);
     }
+
+    pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
+        let attacking_player = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == attacking_player_id)
+            .unwrap();
+
+        let (target_position_x, target_position_y) =
+            compute_adjacent_position(attack_direction, attacking_player.position);
+        let maybe_target_cell = self.board.get_cell(target_position_x, target_position_y);
+
+        if let Some(target_player_id) = maybe_target_cell {
+            if let Some(target_player) = self
+                .players
+                .iter_mut()
+                .find(|player| player.id == *target_player_id)
+            {
+                target_player.health -= 10;
+            }
+        }
+    }
 }
 
-fn new_position(direction: Direction, position: (usize, usize)) -> (usize, usize) {
+/// Given a position and a direction, returns the position adjacent to it in that direction.
+/// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
+fn compute_adjacent_position(direction: Direction, position: (usize, usize)) -> (usize, usize) {
     let (x, y) = position;
 
     match direction {
@@ -76,17 +100,14 @@ fn new_position(direction: Direction, position: (usize, usize)) -> (usize, usize
 fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
     let (row_idx, col_idx) = new_position;
 
-    // Check board boundaries
-    // Since we have usizes as types when `new_position` is calculated and 0 - 1 happens
-    // it will wrap around to usize::MAX which will alway be greater than `board.height`
-    // so we just need to check that it idx are equal or greather than boundaries
-    if row_idx >= board.height || col_idx >= board.width {
+    let cell = board.get_cell(row_idx, col_idx);
+    if cell.is_none() {
         return false;
     }
 
     // Check if cell is not-occupied
-    let cell = board.get_cell(row_idx, col_idx);
-    if cell != 0 {
+    // This unwrap is safe since we checked for None in the line above.
+    if *cell.unwrap() != 0 {
         return false;
     }
 

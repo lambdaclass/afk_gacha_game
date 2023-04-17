@@ -38,6 +38,17 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  def handle_cast({:play, %ActionOk{action: :attack, player: player, value: value}}, state) do
+    state =
+      state
+      |> Game.attack_player(player, value)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play", {:attack, state.board})
+
+    {:noreply, state}
+  end
+
   def handle_call(:get_board, _from, %Game{board: board} = state) do
     {:reply, board, state}
   end

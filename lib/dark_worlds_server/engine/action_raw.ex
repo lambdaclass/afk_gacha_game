@@ -22,6 +22,7 @@ defmodule DarkWorldsServer.Engine.ActionRaw do
   def encode_player(_other), do: {:error, :invalid}
 
   def encode_action("move"), do: {:ok, :move}
+  def encode_action("attack"), do: {:ok, :attack}
   def encode_action(_other), do: {:error, :invalid}
 
   def encode_value("up"), do: {:ok, :up}

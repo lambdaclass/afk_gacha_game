@@ -18,7 +18,18 @@ fn move_player(game: GameState, player_id: u64, direction: Direction) -> GameSta
     game_2
 }
 
+#[rustler::nif(schedule = "DirtyCpu")]
+fn attack_player(
+    game: GameState,
+    attacking_player_id: u64,
+    attack_direction: Direction,
+) -> GameState {
+    let mut game_2 = game;
+    game_2.attack_player(attacking_player_id, attack_direction);
+    game_2
+}
+
 rustler::init!(
     "Elixir.DarkWorldsServer.Engine.Game",
-    [new_game, move_player]
+    [new_game, move_player, attack_player]
 );

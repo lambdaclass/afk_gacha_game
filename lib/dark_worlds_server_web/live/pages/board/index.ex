@@ -23,4 +23,12 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
       |> assign(:grid, grid)
     }
   end
+
+  def handle_info({:attack, %Board{grid: grid}}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:grid, grid)
+    }
+  end
 end
