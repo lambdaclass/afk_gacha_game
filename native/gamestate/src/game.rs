@@ -5,7 +5,7 @@ use crate::board::Board;
 use crate::player::Player;
 use crate::time_utils::time_now;
 
-const MELEE_ATTACK_COOLDOWN: u64 = 2;
+const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -128,7 +128,9 @@ fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use crate::game::MELEE_ATTACK_COOLDOWN;
     use crate::player::Player;
+    use crate::time_utils;
 
     use super::Direction;
     use super::GameState;
@@ -222,15 +224,26 @@ mod tests {
         state.board.set_cell(0, 0, player_1_id);
         state.board.set_cell(0, 1, player_2_id);
 
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
+
         // Attack lands and damages player
         state.attack_player(player_1_id, Direction::RIGHT);
         assert_eq!(100, state.players[0].health);
         assert_eq!(90, state.players[1].health);
 
+        // Attack does nothing because of cooldown
+        state.attack_player(player_1_id, Direction::RIGHT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
+
         // Attack misses and does nothing
         state.attack_player(player_1_id, Direction::DOWN);
         assert_eq!(100, state.players[0].health);
         assert_eq!(90, state.players[1].health);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 
         state.move_player(player_1_id, Direction::DOWN);
 
@@ -238,6 +251,8 @@ mod tests {
         state.attack_player(player_1_id, Direction::RIGHT);
         assert_eq!(100, state.players[0].health);
         assert_eq!(90, state.players[1].health);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 
         // Attacking to a non-existent position on the board does nothing.
         state.attack_player(player_1_id, Direction::LEFT);
