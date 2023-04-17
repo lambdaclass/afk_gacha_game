@@ -1,4 +1,4 @@
-.PHONY: setup run tests
+.PHONY: setup run elixir-tests rust-tests
 
 setup:
 	mix deps.get
@@ -7,5 +7,10 @@ setup:
 run:
 	iex -S mix phx.server
 
-tests:
+tests: elixir-tests rust-tests
+
+elixir-tests:
 	mix test
+
+rust-tests:
+	cargo test --manifest-path native/gamestate/Cargo.toml
