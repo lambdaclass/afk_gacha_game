@@ -16,7 +16,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     }
   end
 
-  def handle_info({:move, grid}, socket) do
+  def handle_info({:move, %Board{grid: grid}}, socket) do
     {
       :noreply,
       socket
