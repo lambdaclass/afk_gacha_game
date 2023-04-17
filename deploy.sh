@@ -35,8 +35,7 @@ Restart=on-failure
 ExecStart=/root/dark_worlds_server/entrypoint.sh
 ExecReload=/bin/kill -HUP
 KillSignal=SIGTERM
-# Optional: environment file
-# EnvironmentFile=/root/.env
+EnvironmentFile=/root/.env
 
 [Install]
 WantedBy=multi-user.target
