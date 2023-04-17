@@ -1,6 +1,7 @@
 mod board;
 mod game;
 mod player;
+mod time_utils;
 
 use game::GameState;
 

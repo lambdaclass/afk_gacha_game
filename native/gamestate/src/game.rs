@@ -3,6 +3,9 @@ use rustler::{NifStruct, NifUnitEnum};
 
 use crate::board::Board;
 use crate::player::Player;
+use crate::time_utils::time_now;
+
+const MELEE_ATTACK_COOLDOWN: u64 = 2;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -68,18 +71,27 @@ impl GameState {
             .find(|player| player.id == attacking_player_id)
             .unwrap();
 
+        let now = time_now();
+
+        if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
+            return;
+        }
+        attacking_player.last_melee_attack = now;
+
         let (target_position_x, target_position_y) =
             compute_adjacent_position(attack_direction, attacking_player.position);
         let maybe_target_cell = self.board.get_cell(target_position_x, target_position_y);
 
-        if let Some(target_player_id) = maybe_target_cell {
-            if let Some(target_player) = self
-                .players
-                .iter_mut()
-                .find(|player| player.id == *target_player_id)
-            {
-                target_player.health -= 10;
-            }
+        if maybe_target_cell.is_none() {
+            return;
+        }
+
+        if let Some(target_player) = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == *maybe_target_cell.unwrap())
+        {
+            target_player.health -= 10;
         }
     }
 }
