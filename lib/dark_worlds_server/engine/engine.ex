@@ -16,6 +16,6 @@ defmodule DarkWorldsServer.Engine do
 
   @impl true
   def init(_opts) do
-    DynamicSupervisor.init(restart: :transient, strategy: :one_for_one)
+    DynamicSupervisor.init(strategy: :one_for_one)
   end
 end
