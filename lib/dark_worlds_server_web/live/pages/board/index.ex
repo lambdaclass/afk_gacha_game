@@ -8,11 +8,13 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     |> Phoenix.PubSub.subscribe("game_play")
 
     %Board{grid: grid} = Runner.get_board()
+    players = Runner.get_players()
 
     {
       :ok,
       socket
       |> assign(:grid, grid)
+      |> assign(:players, players)
     }
   end
 
@@ -24,11 +26,11 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     }
   end
 
-  def handle_info({:attack, %Board{grid: grid}}, socket) do
+  def handle_info({:attack, players}, socket) do
     {
       :noreply,
       socket
-      |> assign(:grid, grid)
+      |> assign(:players, players)
     }
   end
 end

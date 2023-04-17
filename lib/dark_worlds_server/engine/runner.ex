@@ -27,6 +27,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     |> GenServer.call(:get_board)
   end
 
+  def get_players do
+    __MODULE__
+    |> GenServer.call(:get_players)
+  end
+
   def handle_cast({:play, %ActionOk{action: :move, player: player, value: value}}, state) do
     state =
       state
@@ -44,12 +49,16 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play", {:attack, state.board})
+    |> Phoenix.PubSub.broadcast("game_play", {:attack, state.players})
 
     {:noreply, state}
   end
 
   def handle_call(:get_board, _from, %Game{board: board} = state) do
     {:reply, board, state}
+  end
+
+  def handle_call(:get_players, _from, %Game{players: players} = state) do
+    {:reply, players, state}
   end
 end

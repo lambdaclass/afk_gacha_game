@@ -2,8 +2,11 @@
   <div class="board">
     <%= for row <- @grid do %>
       <div class="row">
-        <%= for element <- row do %>
-          <div class={"box box-#{element}"}></div>
+        <%= for player_id <- row do %>
+          <% player = Enum.find(@players, fn player -> player.id == player_id end)  %>
+          <div class={"box box-#{player_id}"}>
+            <%= if player != nil do player.health end %>
+          </div>
         <% end %>
       </div>
     <% end %>
