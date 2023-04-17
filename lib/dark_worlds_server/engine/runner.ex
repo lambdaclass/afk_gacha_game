@@ -18,18 +18,12 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:ok, state}
   end
 
-  def play(%ActionOk{} = action) do
-    __MODULE__
-    |> GenServer.cast({:play, action})
-  end
-
-  def get_board do
-    __MODULE__
-    |> GenServer.call(:get_board)
-  end
-
   def play(runner_pid, %ActionOk{} = action) do
     GenServer.cast(runner_pid, {:play, action})
+  end
+
+  def get_board(runner_pid) do
+    GenServer.call(runner_pid, :get_board)
   end
 
   def handle_cast({:play, %ActionOk{action: :move, player: player, value: value}}, state) do
