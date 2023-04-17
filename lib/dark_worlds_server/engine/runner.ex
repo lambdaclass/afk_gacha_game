@@ -54,6 +54,17 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  def handle_cast({:play, %ActionOk{action: :attack_aoe, player: player, value: value}}, state) do
+    state =
+      state
+      |> Game.attack_aoe(player, value)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play", {:attack, state.players})
+
+    {:noreply, state}
+  end
+
   def handle_call(:get_board, _from, %Game{board: board} = state) do
     {:reply, board, state, @session_timeout_ms}
   end
