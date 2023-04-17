@@ -6,8 +6,8 @@ if [ -d "/tmp/dark_worlds_server" ]; then
   rm -rf /tmp/dark_worlds_server
 fi
 
-cd /tmp/dark_worlds_server
-git git@github.com:lambdaclass/dark_worlds_server.git --branch main
+cd /tmp
+git clone git@github.com:lambdaclass/dark_worlds_server.git --branch main
 cd dark_worlds_server
 
 mix local.hex --force && mix local.rebar --force
