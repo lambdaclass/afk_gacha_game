@@ -6,7 +6,8 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   @players 2
   @board {10, 10}
-  @session_timeout_ms 5 * 60 * 1000 # 5 minutes in milliseconds
+  # 5 minutes in milliseconds
+  @session_timeout_ms 5 * 60 * 1000
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
@@ -15,7 +16,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board)
     IO.inspect(state)
-    IO.inspect("To join: #{self() |> :erlang.term_to_binary |> Base.encode64()}")
+    IO.inspect("To join: #{self() |> :erlang.term_to_binary() |> Base.encode64()}")
     {:ok, state, @session_timeout_ms}
   end
 

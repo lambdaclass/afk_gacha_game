@@ -26,9 +26,8 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     %Board{grid: grid} = Runner.get_board(runner_pid)
 
     {:ok,
-      socket
-      |> assign(runner_pid: runner_pid, grid: grid)
-    }
+     socket
+     |> assign(runner_pid: runner_pid, grid: grid)}
   end
 
   def handle_info({:move, %Board{grid: grid}}, socket) do
