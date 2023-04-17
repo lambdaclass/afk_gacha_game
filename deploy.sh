@@ -42,12 +42,11 @@ KillSignal=SIGTERM
 WantedBy=multi-user.target
 EOF
 
-cat <<EOF > /home/ordinals/.env
+cat <<EOF > /root/.env
 PHX_HOST=${PHX_HOST}
 PHX_SERVER=${PHX_SERVER}
 SECRET_KEY_BASE=${SECRET_KEY_BASE}
 DATABASE_URL=${DATABASE_URL}
-ACTIVATE_TWITTER_FOLLOWERS_UPDATER=${ACTIVATE_TWITTER_FOLLOWERS_UPDATER}
 EOF
 
 systemctl stop dark_worlds_server
