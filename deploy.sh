@@ -41,6 +41,8 @@ EnvironmentFile=/root/.env
 WantedBy=multi-user.target
 EOF
 
+systemctl enable dark_worlds_server
+
 cat <<EOF > /root/.env
 PHX_HOST=${PHX_HOST}
 PHX_SERVER=${PHX_SERVER}
