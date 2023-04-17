@@ -2,7 +2,7 @@ name: Deploy to testing
 on:
   push:
     branches:
-      - deploy-script
+      - main
 
 jobs:
 

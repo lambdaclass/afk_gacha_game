@@ -7,7 +7,7 @@ if [ -d "/tmp/dark_worlds_server" ]; then
 fi
 
 cd /tmp
-git clone git@github.com:lambdaclass/dark_worlds_server.git --branch deploy-script
+git clone git@github.com:lambdaclass/dark_worlds_server.git --branch main
 cd dark_worlds_server
 
 mix local.hex --force && mix local.rebar --force
