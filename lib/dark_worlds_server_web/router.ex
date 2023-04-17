@@ -10,6 +10,10 @@ defmodule DarkWorldsServerWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :game do
+    plug :put_root_layout, {DarkWorldsServerWeb.Layouts, :game}
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -22,6 +26,12 @@ defmodule DarkWorldsServerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+  end
+
+  scope "/", DarkWorldsServerWeb do
+    pipe_through [:browser, :game]
+
+    live "/board", BoardLive.Index
   end
 
   # Enable Swoosh mailbox preview in development

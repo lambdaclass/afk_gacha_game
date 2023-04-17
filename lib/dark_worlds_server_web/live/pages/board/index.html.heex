@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="board">
+    <%= for row <- @grid do %>
+      <div class="row">
+        <%= for element <- row do %>
+          <div class={"box box-#{element}"}></div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
