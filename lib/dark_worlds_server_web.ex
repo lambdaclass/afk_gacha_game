@@ -86,6 +86,7 @@ defmodule DarkWorldsServerWeb do
       # Core UI components and translation
       import DarkWorldsServerWeb.CoreComponents
       import DarkWorldsServerWeb.Gettext
+      alias DarkWorldsServer.{Engine, Runner}
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

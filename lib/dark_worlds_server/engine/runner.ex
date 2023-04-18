@@ -67,7 +67,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:stop, :normal, state}
   end
 
-  defp encode_pid(pid) do
+  def encode_pid(pid) do
     pid |> :erlang.term_to_binary() |> Base.encode64()
   end
 end

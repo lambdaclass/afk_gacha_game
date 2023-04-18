@@ -18,4 +18,9 @@ defmodule DarkWorldsServer.Engine do
   def init(_opts) do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
+
+  def children_pids() do
+    DynamicSupervisor.which_children(__MODULE__)
+    |> Enum.map(fn {_, pid, _, _} -> pid end)
+  end
 end
