@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :dark_worlds_server,
+  ecto_repos: [DarkWorldsServer.Repo]
+
 # Configures the endpoint
 dispatch = [
   _: [
