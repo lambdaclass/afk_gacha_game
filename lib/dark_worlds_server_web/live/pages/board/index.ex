@@ -6,7 +6,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
 
   def mount(%{"game_id" => encoded_game_id}, _session, socket) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.subscribe("game_play")
+    |> Phoenix.PubSub.subscribe("game_play_#{encoded_game_id}")
 
     runner_pid = Base.decode64!(encoded_game_id) |> :erlang.binary_to_term([:safe])
     %Board{grid: grid} = Runner.get_board(runner_pid)

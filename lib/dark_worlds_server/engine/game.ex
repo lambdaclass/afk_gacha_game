@@ -1,5 +1,4 @@
 defmodule DarkWorldsServer.Engine.Game do
-  alias DarkWorldsServer.Engine.{Board, Player}
   use Rustler, otp_app: :dark_worlds_server, crate: "gamestate"
 
   @enforce_keys [:players, :board]
