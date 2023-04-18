@@ -51,5 +51,8 @@ DATABASE_URL=${DATABASE_URL}
 EOF
 
 systemctl stop dark_worlds_server
+
+/root/dark_worlds_server/_build/prod/rel/dark_worlds_server/bin/dark_worlds_server migrate
+
 systemctl daemon-reload
 systemctl start dark_worlds_server
