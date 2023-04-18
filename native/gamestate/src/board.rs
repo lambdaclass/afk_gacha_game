@@ -17,8 +17,12 @@ impl Board {
         }
     }
 
-    pub fn get_cell(self: &Self, row_idx: usize, col_idx: usize) -> u64 {
-        self.grid[row_idx][col_idx]
+    pub fn get_cell(self: &Self, row_idx: usize, col_idx: usize) -> Option<&u64> {
+        if let Some(row) = self.grid.get(row_idx) {
+            row.get(col_idx)
+        } else {
+            None
+        }
     }
 
     pub fn set_cell(self: &mut Self, row_idx: usize, col_idx: usize, value: u64) {

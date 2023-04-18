@@ -28,6 +28,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.call(runner_pid, :get_board)
   end
 
+  def get_players(runner_pid) do
+    GenServer.call(runner_pid, :get_players)
+  end
+
   def handle_cast({:play, %ActionOk{action: :move, player: player, value: value}}, state) do
     state =
       state
@@ -39,8 +43,23 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state, @session_timeout_ms}
   end
 
+  def handle_cast({:play, %ActionOk{action: :attack, player: player, value: value}}, state) do
+    state =
+      state
+      |> Game.attack_player(player, value)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play", {:attack, state.players})
+
+    {:noreply, state}
+  end
+
   def handle_call(:get_board, _from, %Game{board: board} = state) do
     {:reply, board, state, @session_timeout_ms}
+  end
+
+  def handle_call(:get_players, _from, %Game{players: players} = state) do
+    {:reply, players, state}
   end
 
   def handle_info(:timeout, state) do

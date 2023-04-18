@@ -11,4 +11,5 @@ defmodule DarkWorldsServer.Engine.Game do
 
   def new_game(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
   def move_player(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
+  def attack_player(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
 end
