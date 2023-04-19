@@ -47,7 +47,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.move_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:move, state.board})
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:move, game.board})
 
     {:noreply, Map.put(state, :game, game)}
   end
@@ -61,7 +61,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, state.players})
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game.players})
 
     {:noreply, Map.put(state, :game, game)}
   end
