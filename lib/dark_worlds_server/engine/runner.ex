@@ -77,8 +77,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_info(:session_timeout, _state) do
+  def handle_info(:session_timeout, state) do
     IO.inspect(self(), label: "session timeout")
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:game_finished, state.game})
 
     {:stop, :normal}
   end
