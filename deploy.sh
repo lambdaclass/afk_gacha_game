@@ -52,7 +52,7 @@ EOF
 
 systemctl stop dark_worlds_server
 
-/root/dark_worlds_server/_build/prod/rel/dark_worlds_server/bin/migrate
+/root/dark_worlds_server/rel/overlays/bin/migrate
 
 systemctl daemon-reload
 systemctl start dark_worlds_server
