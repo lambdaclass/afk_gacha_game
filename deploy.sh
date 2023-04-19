@@ -18,6 +18,7 @@ mix compile
 mix release
 mix phx.gen.release
 
+cp rel/overlays/bin/migrate _build/prod/rel/dark_worlds_server/bin/
 
 rm -rf /root/dark_worlds_server
 mv /tmp/dark_worlds_server /root/
@@ -52,7 +53,7 @@ EOF
 
 systemctl stop dark_worlds_server
 
-/root/dark_worlds_server/rel/overlays/bin/migrate
+/root/dark_worlds_server/_build/prod/rel/dark_worlds_server/bin/migrate
 
 systemctl daemon-reload
 systemctl start dark_worlds_server
