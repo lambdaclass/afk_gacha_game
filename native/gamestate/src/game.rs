@@ -3,6 +3,9 @@ use rustler::{NifStruct, NifUnitEnum};
 
 use crate::board::Board;
 use crate::player::Player;
+use crate::time_utils::time_now;
+
+const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -48,7 +51,7 @@ impl GameState {
             .find(|player| player.id == player_id)
             .unwrap();
 
-        let new_position = new_position(direction, player.position);
+        let new_position = compute_adjacent_position(direction, player.position);
         if !is_valid_movement(&self.board, new_position) {
             return;
         }
@@ -60,9 +63,42 @@ impl GameState {
         self.board
             .set_cell(player.position.0, player.position.1, player.id);
     }
+
+    pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
+        let attacking_player = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == attacking_player_id)
+            .unwrap();
+
+        let now = time_now();
+
+        if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
+            return;
+        }
+        attacking_player.last_melee_attack = now;
+
+        let (target_position_x, target_position_y) =
+            compute_adjacent_position(attack_direction, attacking_player.position);
+        let maybe_target_cell = self.board.get_cell(target_position_x, target_position_y);
+
+        if maybe_target_cell.is_none() {
+            return;
+        }
+
+        if let Some(target_player) = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == *maybe_target_cell.unwrap())
+        {
+            target_player.health -= 10;
+        }
+    }
 }
 
-fn new_position(direction: Direction, position: (usize, usize)) -> (usize, usize) {
+/// Given a position and a direction, returns the position adjacent to it in that direction.
+/// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
+fn compute_adjacent_position(direction: Direction, position: (usize, usize)) -> (usize, usize) {
     let (x, y) = position;
 
     match direction {
@@ -76,17 +112,14 @@ fn new_position(direction: Direction, position: (usize, usize)) -> (usize, usize
 fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
     let (row_idx, col_idx) = new_position;
 
-    // Check board boundaries
-    // Since we have usizes as types when `new_position` is calculated and 0 - 1 happens
-    // it will wrap around to usize::MAX which will alway be greater than `board.height`
-    // so we just need to check that it idx are equal or greather than boundaries
-    if row_idx >= board.height || col_idx >= board.width {
+    let cell = board.get_cell(row_idx, col_idx);
+    if cell.is_none() {
         return false;
     }
 
     // Check if cell is not-occupied
-    let cell = board.get_cell(row_idx, col_idx);
-    if cell != 0 {
+    // This unwrap is safe since we checked for None in the line above.
+    if *cell.unwrap() != 0 {
         return false;
     }
 
@@ -95,7 +128,9 @@ fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use crate::game::MELEE_ATTACK_COOLDOWN;
     use crate::player::Player;
+    use crate::time_utils;
 
     use super::Direction;
     use super::GameState;
@@ -176,5 +211,52 @@ mod tests {
 
         state.move_player(player_id, Direction::UP);
         assert_eq!(vec![vec![player_id, 0], vec![0, 0]], state.board.grid);
+    }
+
+    #[test]
+    fn attacking() {
+        let mut state = GameState::new(0, 2, 2);
+        let player_1_id = 1;
+        let player_2_id = 2;
+        let player1 = Player::new(player_1_id, 100, (0, 0));
+        let player2 = Player::new(player_2_id, 100, (0, 0));
+        state.players = vec![player1, player2];
+        state.board.set_cell(0, 0, player_1_id);
+        state.board.set_cell(0, 1, player_2_id);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
+
+        // Attack lands and damages player
+        state.attack_player(player_1_id, Direction::RIGHT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        // Attack does nothing because of cooldown
+        state.attack_player(player_1_id, Direction::RIGHT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
+
+        // Attack misses and does nothing
+        state.attack_player(player_1_id, Direction::DOWN);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
+
+        state.move_player(player_1_id, Direction::DOWN);
+
+        // Attacking to the right now does nothing since the player moved down.
+        state.attack_player(player_1_id, Direction::RIGHT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
+
+        time_utils::sleep(MELEE_ATTACK_COOLDOWN);
+
+        // Attacking to a non-existent position on the board does nothing.
+        state.attack_player(player_1_id, Direction::LEFT);
+        assert_eq!(100, state.players[0].health);
+        assert_eq!(90, state.players[1].health);
     }
 }

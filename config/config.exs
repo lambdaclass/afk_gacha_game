@@ -7,10 +7,13 @@
 # General application configuration
 import Config
 
+config :dark_worlds_server,
+  ecto_repos: [DarkWorldsServer.Repo]
+
 # Configures the endpoint
 dispatch = [
   _: [
-    {"/play", DarkWorldsServerWeb.PlayWebSocket, []},
+    {"/play/[:game_id]", DarkWorldsServerWeb.PlayWebSocket, []},
     {:_, Plug.Cowboy.Handler, {DarkWorldsServerWeb.Endpoint, []}}
   ]
 ]
