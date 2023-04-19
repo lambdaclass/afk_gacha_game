@@ -52,4 +52,11 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
       |> assign(:players, players)
     }
   end
+
+  def handle_info({:game_finished, game}, socket) do
+    {
+      :noreply,
+      socket
+    }
+  end
 end
