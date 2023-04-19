@@ -15,10 +15,8 @@ mix deps.get --only $MIX_ENV
 mix deps.compile
 mix assets.deploy
 mix compile
-mix release
 mix phx.gen.release
-
-cp rel/overlays/bin/migrate _build/prod/rel/dark_worlds_server/bin/
+mix release
 
 rm -rf /root/dark_worlds_server
 mv /tmp/dark_worlds_server /root/
