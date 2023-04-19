@@ -28,6 +28,7 @@ defmodule DarkWorldsServerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/new_session", SessionController, :new
   end
 
   scope "/", DarkWorldsServerWeb do
