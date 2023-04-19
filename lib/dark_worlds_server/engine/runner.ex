@@ -17,12 +17,9 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def init(_opts) do
     game = Game.new(number_of_players: @players, board: @board)
-
     IO.inspect(game)
     IO.inspect("To join: #{encode_pid(self())}")
-
     Process.send_after(self(), :game_timeout, @game_timeout)
-
     {:ok, %{game: game, has_finished?: false}}
   end
 
