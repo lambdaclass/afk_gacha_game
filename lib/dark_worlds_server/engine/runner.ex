@@ -7,7 +7,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   @players 2
   @board {10, 10}
   # The game will be closed five minute after it starts
-  @game_timeout 30 * 1000
+  @game_timeout 5 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
 
@@ -75,7 +75,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_info(:game_timeout, state) do
-
     Process.send_after(self(), :session_timeout, @session_timeout)
 
     {:noreply, Map.put(state, :has_finished?, true)}
