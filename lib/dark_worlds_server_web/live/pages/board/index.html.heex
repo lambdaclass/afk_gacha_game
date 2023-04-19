@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="board">
+  <div id="board_game" class="board" phx-hook="Play">
     <%= for row <- @grid do %>
       <div class="row">
         <%= for element <- row do %>
