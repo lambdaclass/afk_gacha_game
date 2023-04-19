@@ -77,7 +77,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_info(:session_timeout, state) do
+  def handle_info(:session_timeout, _state) do
     IO.inspect(self(), label: "session timeout")
 
     {:stop, :normal}
