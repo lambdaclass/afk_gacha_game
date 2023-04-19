@@ -3,6 +3,7 @@
 setup:
 	mix deps.get
 	mix deps.compile
+	mix setup
 
 run:
 	mix assets.build

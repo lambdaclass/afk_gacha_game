@@ -10,6 +10,8 @@ defmodule DarkWorldsServer.Application do
     children = [
       # Start the Telemetry supervisor
       DarkWorldsServerWeb.Telemetry,
+      # Start the Ecto repository
+      DarkWorldsServer.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: DarkWorldsServer.PubSub},
       # Start Finch
