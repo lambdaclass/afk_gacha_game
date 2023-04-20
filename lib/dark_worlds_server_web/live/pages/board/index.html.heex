@@ -22,10 +22,12 @@
       </div>
     <% end %>
   <% else %>
-    <h1> Current Game Sessions </h1>
-    <% game_session_ids = Enum.map(Engine.children_pids(), fn pid -> Runner.encode_pid(pid) end) %>
-    <%= for session_id <- game_session_ids do %>
-      <div> <.link patch={~p"/board/#{session_id}"}><%= session_id %></.link> </div>
-    <% end %>
+  <h1> Current Game Sessions </h1>
+  <% game_session_ids = Enum.map(Engine.children_pids(), fn pid -> Runner.encode_pid(pid) end) %>
+  <%= for session_id <- game_session_ids do %>
+    <div> <.link patch={~p"/board/#{session_id}"}><%= session_id %></.link> </div>
+  <% end %>
+  <h1> Start New Session </h1>
+    <div> <.link patch={~p"/new_session"}>New</.link> </div>
   <% end %>
 </div>

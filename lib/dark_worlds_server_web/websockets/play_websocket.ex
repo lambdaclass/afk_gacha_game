@@ -2,7 +2,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
 
   @behaviour :cowboy_websocket
@@ -13,8 +12,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_init(%{game_id: :undefined}) do
-    {:ok, runner_pid} = Engine.start_child()
-    {:ok, %{runner_pid: runner_pid}}
+    {:stop, %{}}
   end
 
   def websocket_init(%{game_id: encoded_game_id}) do
