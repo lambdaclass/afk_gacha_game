@@ -72,7 +72,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_aoe(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play", {:attack, game.players})
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game.players})
 
     {:noreply, Map.put(state, :game, game)}
   end
