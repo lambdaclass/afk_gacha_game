@@ -17,7 +17,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_init(%{game_id: game_id}) do
-    runner_pid = game_id |> Runner.game_id_to_pid()
+    runner_pid = game_id |> URI.decode_www_form() |> Runner.game_id_to_pid()
 
     state = %{runner_pid: runner_pid}
 
