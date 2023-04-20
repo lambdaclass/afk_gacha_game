@@ -52,7 +52,8 @@ defmodule DarkWorldsServer.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:nx, "~> 0.5"},
-      {:rustler, "~> 0.27.0"}
+      {:rustler, "~> 0.27.0"},
+      {:exbase58, "~> 1.0.2"}
     ]
   end
 
