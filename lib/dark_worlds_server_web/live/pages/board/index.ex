@@ -57,6 +57,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     {
       :noreply,
       socket
+      |> assign(:players, game.players)
     }
   end
 end
