@@ -3,6 +3,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
   alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
+  alias DarkWorldsServer.Engine
 
   @behaviour :cowboy_websocket
 
@@ -15,9 +16,16 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:stop, %{}}
   end
 
-  def websocket_init(%{game_id: encoded_game_id}) do
-    runner_pid = Base.decode64!(encoded_game_id) |> :erlang.binary_to_term([:safe])
-    {:ok, %{runner_pid: runner_pid}}
+  def websocket_init(%{game_id: game_id}) do
+    runner_pid = game_id |> Runner.game_id_to_pid()
+
+    state = %{runner_pid: runner_pid}
+
+    if runner_pid in Engine.list_runners_pids() do
+      {:reply, {:text, "CONNECTED_TO: #{runner_pid |> Runner.pid_to_game_id()}"}, state}
+    else
+      {:stop, state}
+    end
   end
 
   def websocket_handle({:text, message}, state) do

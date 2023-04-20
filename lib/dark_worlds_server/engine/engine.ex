@@ -19,8 +19,20 @@ defmodule DarkWorldsServer.Engine do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  def children_pids() do
-    DynamicSupervisor.which_children(__MODULE__)
+  def list_runners_pids() do
+    __MODULE__
+    |> DynamicSupervisor.which_children()
+    |> Enum.filter(fn children ->
+      case children do
+        {:undefined, pid, :worker, [Runner]} when is_pid(pid) -> true
+        _ -> false
+      end
+    end)
     |> Enum.map(fn {_, pid, _, _} -> pid end)
+  end
+
+  def list_games_ids() do
+    list_runners_pids()
+    |> Enum.map(fn pid -> Runner.pid_to_game_id(pid) end)
   end
 end

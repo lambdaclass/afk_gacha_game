@@ -16,10 +16,11 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def init(_opts) do
-    game = Game.new(number_of_players: @players, board: @board)
-    IO.inspect("To join: #{encode_pid(self())}")
+    state = Game.new(number_of_players: @players, board: @board)
+    IO.inspect(state)
+    IO.inspect("To join: #{pid_to_game_id(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
-    {:ok, %{game: game, has_finished?: false}}
+    {:ok, %{game: state, has_finished?: false}}
   end
 
   def play(runner_pid, %ActionOk{} = action) do
@@ -43,7 +44,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.move_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:move, game.board})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, game.board})
 
     {:noreply, Map.put(state, :game, game)}
   end
@@ -98,13 +99,20 @@ defmodule DarkWorldsServer.Engine.Runner do
     IO.inspect(self(), label: "session timeout")
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:game_finished, state.game})
+    |> Phoenix.PubSub.broadcast(
+      "game_play_#{pid_to_game_id(self())}",
+      {:game_finished, state.game}
+    )
 
     {:stop, :normal, state}
   end
 
-  def encode_pid(pid) do
+  def pid_to_game_id(pid) do
     pid |> :erlang.term_to_binary() |> Base.encode64()
+  end
+
+  def game_id_to_pid(game_id) do
+    game_id |> Base.decode64!() |> :erlang.binary_to_term([:safe])
   end
 
   def game_has_finished?(pid) do
@@ -119,13 +127,13 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp maybe_broadcast_game_finished_message(true, game) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:game_finished, game})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:game_finished, game})
 
     Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
   defp maybe_broadcast_game_finished_message(_false, game) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, game})
   end
 end

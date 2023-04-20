@@ -7,7 +7,7 @@ defmodule DarkWorldsServerWeb.SessionController do
     {:ok, runner_pid} = Engine.start_child()
 
     headers = Enum.into(conn.req_headers, %{})
-    session_id = Runner.encode_pid(runner_pid)
+    session_id = Runner.pid_to_game_id(runner_pid)
 
     if headers["content-type"] == "application/json" do
       json(conn, %{session_id: session_id})

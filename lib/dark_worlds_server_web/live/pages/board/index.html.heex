@@ -8,7 +8,7 @@
             <div><%= "#{index + 1}. Player_#{player.id} with #{player.health}HP points!" %></div>
         <% end %>
     <% else %>
-      <div class="board">
+      <div id="board_game" class="board" phx-hook="Play" data-game-id={@game_id}>
         <%= for row <- @grid do %>
           <div class="row">
             <%= for player_id <- row do %>
@@ -23,7 +23,7 @@
     <% end %>
   <% else %>
   <h1> Current Game Sessions </h1>
-  <% game_session_ids = Enum.map(Engine.children_pids(), fn pid -> Runner.encode_pid(pid) end) %>
+  <% game_session_ids = Engine.list_games_ids() %>
   <%= for session_id <- game_session_ids do %>
     <div> <.link patch={~p"/board/#{session_id}"}><%= session_id %></.link> </div>
   <% end %>

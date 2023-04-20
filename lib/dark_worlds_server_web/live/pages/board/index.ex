@@ -1,20 +1,21 @@
 defmodule DarkWorldsServerWeb.BoardLive.Index do
   use DarkWorldsServerWeb, :live_view
 
+  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Engine.{Runner, Board}
 
-  def mount(%{"game_id" => encoded_game_id}, _session, socket) do
+  def mount(%{"game_id" => game_id}, _session, socket) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.subscribe("game_play_#{encoded_game_id}")
+    |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
 
-    runner_pid = Base.decode64!(encoded_game_id) |> :erlang.binary_to_term([:safe])
+    runner_pid = game_id |> Runner.game_id_to_pid()
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 
     {
       :ok,
       socket
-      |> assign(runner_pid: runner_pid, grid: grid, players: players)
+      |> assign(runner_pid: runner_pid, grid: grid, players: players, game_id: game_id)
     }
   end
 
@@ -22,11 +23,11 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     {:ok, socket}
   end
 
-  def handle_params(%{"game_id" => encoded_game_id}, _url, socket) do
+  def handle_params(%{"game_id" => game_id}, _url, socket) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.subscribe("game_play_#{encoded_game_id}")
+    |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
 
-    runner_pid = Base.decode64!(encoded_game_id) |> :erlang.binary_to_term([:safe])
+    runner_pid = game_id |> Runner.game_id_to_pid()
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 
