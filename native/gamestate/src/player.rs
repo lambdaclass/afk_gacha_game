@@ -11,7 +11,7 @@ use rustler::NifStruct;
 #[module = "DarkWorldsServer.Engine.Player"]
 pub struct Player {
     pub id: u64,
-    pub health: u64,
+    pub health: i64,
     pub position: Position,
     /// Time of the last melee attack done by the player, measured in seconds.
     pub last_melee_attack: u64,
@@ -25,7 +25,7 @@ pub struct Position {
 }
 
 impl Player {
-    pub fn new(id: u64, health: u64, position: Position) -> Self {
+    pub fn new(id: u64, health: i64, position: Position) -> Self {
         Self {
             id,
             health,

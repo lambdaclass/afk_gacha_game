@@ -1,5 +1,6 @@
 use rand::{thread_rng, Rng};
 use rustler::{NifStruct, NifUnitEnum};
+use std::collections::HashSet;
 
 use crate::board::Board;
 use crate::player::{Player, Position};
@@ -24,12 +25,11 @@ pub enum Direction {
 
 impl GameState {
     pub fn new(number_of_players: u64, board_width: usize, board_height: usize) -> Self {
-        let rng = &mut thread_rng();
+        let mut positions = HashSet::new();
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
-                let x_coordinate: usize = rng.gen_range(0..board_width);
-                let y_coordinate: usize = rng.gen_range(0..board_height);
-                Player::new(player_id, 100, Position::new(x_coordinate, y_coordinate))
+                let new_position = generate_new_position(&mut positions, board_width, board_height);
+                Player::new(player_id, 100, new_position)
             })
             .collect();
 
@@ -90,8 +90,11 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == *maybe_target_cell.unwrap())
         {
-            target_player.health -= 10;
+            let new_health = target_player.health - 10;
+            target_player.health = if new_health < 0 { 0 } else { new_health };
         }
+
+        self.remove_dead_players();
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -104,9 +107,19 @@ impl GameState {
 
             let distance = distance_to_center(player, center_of_attack);
             if distance < 3.0 {
-                player.health -= (((3.0 - distance) / 3.0) * 10.0) as u64;
+                let new_health = (((3.0 - distance) / 3.0) * 10.0) as i64;
+                player.health = if new_health < 0 { 0 } else { new_health };
             }
         }
+        self.remove_dead_players();
+    }
+
+    fn remove_dead_players(self: &mut Self) {
+        self.players.iter().for_each(|player| {
+            if player.health == 0 {
+                self.board.set_cell(player.position.x, player.position.y, 0);
+            }
+        })
     }
 }
 
@@ -143,6 +156,24 @@ fn distance_to_center(player: &Player, center: &Position) -> f64 {
     let distance_squared =
         (player.position.x - center.x).pow(2) + (player.position.y - center.y).pow(2);
     (distance_squared as f64).sqrt()
+}
+
+fn generate_new_position(
+    positions: &mut HashSet<(usize, usize)>,
+    board_width: usize,
+    board_height: usize,
+) -> Position {
+    let rng = &mut thread_rng();
+    let mut x_coordinate: usize = rng.gen_range(0..board_width);
+    let mut y_coordinate: usize = rng.gen_range(0..board_height);
+
+    while positions.contains(&(x_coordinate, y_coordinate)) {
+        x_coordinate = rng.gen_range(0..board_width);
+        y_coordinate = rng.gen_range(0..board_height);
+    }
+
+    positions.insert((x_coordinate, y_coordinate));
+    Position::new(x_coordinate, y_coordinate)
 }
 
 #[cfg(test)]
