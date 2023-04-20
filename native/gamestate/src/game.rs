@@ -115,7 +115,7 @@ impl GameState {
     }
 
     fn remove_dead_players(self: &mut Self) {
-        self.players.iter_mut().for_each(|player| {
+        self.players.iter().for_each(|player| {
             if player.health == 0 {
                 self.board.set_cell(player.position.x, player.position.y, 0);
             }
