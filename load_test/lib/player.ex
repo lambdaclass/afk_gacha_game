@@ -10,8 +10,27 @@ defmodule LoadTest.Player do
   def move(player, :left), do: _move(player, "left")
   def move(player, :right), do: _move(player, "right")
 
+  def attack(player, :up), do: _attack(player, "up")
+  def attack(player, :down), do: _attack(player, "down")
+  def attack(player, :left), do: _attack(player, "left")
+  def attack(player, :right), do: _attack(player, "right")
+
+  def attack_aoe(player, position) do
+    %{
+      "player" => player,
+      "action" => "attack_aoe",
+      "value" => %{"x" => position.x, "y" => position.y}
+    }
+    |> send_command()
+  end
+
   defp _move(player, direction) do
     %{"player" => player, "action" => "move", "value" => direction}
+    |> send_command()
+  end
+
+  defp _attack(player, direction) do
+    %{"player" => player, "action" => "attack", "value" => direction}
     |> send_command()
   end
 
@@ -34,7 +53,24 @@ defmodule LoadTest.Player do
 
   def handle_info(:play, state) do
     direction = Enum.random([:up, :down, :left, :right])
-    move(state.player_number, direction)
+    action = Enum.random([:move, :attack, :attack_aoe])
+
+    # Melee attacks pretty much never ever land, but in general we have to rework how
+    # both melee and aoe attacks work in general, so w/e
+    case action do
+      :move ->
+        move(state.player_number, direction)
+
+      :attack ->
+        attack(state.player_number, direction)
+
+      :attack_aoe ->
+        random_x = Enum.random(0..9)
+        random_y = Enum.random(0..9)
+        random_position = %{x: random_x, y: random_y}
+        attack_aoe(state.player_number, random_position)
+    end
+
     Process.send_after(self(), :play, 100, [])
     {:ok, state}
   end
