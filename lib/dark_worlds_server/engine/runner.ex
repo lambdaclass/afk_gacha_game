@@ -16,7 +16,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board)
     IO.inspect(state)
-    IO.inspect("To join: #{encode_pid(self())}")
+    IO.inspect("To join: #{pid_to_game_id(self())}")
     {:ok, state, @session_timeout_ms}
   end
 
@@ -38,7 +38,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.move_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:move, state.board})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, state.board})
 
     {:noreply, state, @session_timeout_ms}
   end
@@ -49,7 +49,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, state.players})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, state.players})
 
     {:noreply, state}
   end
@@ -78,7 +78,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:stop, :normal, state}
   end
 
-  def encode_pid(pid) do
+  def pid_to_game_id(pid) do
     pid |> :erlang.term_to_binary() |> Base.encode64()
+  end
+
+  def game_id_to_pid(game_id) do
+    game_id |> Base.decode64!() |> :erlang.binary_to_term([:safe])
   end
 end
