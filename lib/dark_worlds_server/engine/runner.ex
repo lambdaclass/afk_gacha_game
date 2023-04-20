@@ -63,6 +63,20 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, Map.put(state, :game, game)}
   end
 
+  def handle_cast(
+        {:play, %ActionOk{action: :attack_aoe, player: player, value: value}},
+        %{game: game} = state
+      ) do
+    game =
+      game
+      |> Game.attack_aoe(player, value)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play", {:attack, game.players})
+
+    {:noreply, Map.put(state, :game, game)}
+  end
+
   def handle_call(:get_board, _from, %{game: %Game{board: board}} = state) do
     {:reply, board, state}
   end

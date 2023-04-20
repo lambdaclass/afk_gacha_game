@@ -19,7 +19,9 @@ defmodule DarkWorldsServer.Application do
       # Start the Endpoint (http/https)
       DarkWorldsServerWeb.Endpoint,
       # Start the Game Engine
-      DarkWorldsServer.Engine
+      DarkWorldsServer.Engine,
+      # Start the matchmaking supervisor
+      DarkWorldsServer.Matchmaking.MatchingSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
