@@ -8,7 +8,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
 
-    runner_pid = game_id |> URI.decode_www_form() |> Runner.game_id_to_pid()
+    runner_pid = game_id |> Runner.game_id_to_pid()
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 
@@ -27,7 +27,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
 
-    runner_pid = game_id |> URI.decode_www_form() |> Runner.game_id_to_pid()
+    runner_pid = game_id |> Runner.game_id_to_pid()
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 

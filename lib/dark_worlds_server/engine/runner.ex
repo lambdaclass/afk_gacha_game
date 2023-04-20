@@ -108,11 +108,11 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def pid_to_game_id(pid) do
-    pid |> :erlang.term_to_binary() |> Base.encode64()
+    pid |> :erlang.term_to_binary() |> Base58.encode()
   end
 
   def game_id_to_pid(game_id) do
-    game_id |> Base.decode64!() |> :erlang.binary_to_term([:safe])
+    game_id |> Base58.decode() |> :erlang.binary_to_term([:safe])
   end
 
   def game_has_finished?(pid) do
