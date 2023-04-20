@@ -93,6 +93,8 @@ impl GameState {
             let new_health = target_player.health - 10;
             target_player.health = if new_health < 0 { 0 } else { new_health };
         }
+
+        self.remove_dead_players();
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -109,6 +111,15 @@ impl GameState {
                 player.health = if new_health < 0 { 0 } else { new_health };
             }
         }
+        self.remove_dead_players();
+    }
+
+    fn remove_dead_players(self: &mut Self) {
+        self.players.iter_mut().for_each(|player| {
+            if player.health == 0 {
+                self.board.set_cell(player.position.x, player.position.y, 0);
+            }
+        })
     }
 }
 
