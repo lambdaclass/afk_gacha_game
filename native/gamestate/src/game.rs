@@ -91,7 +91,7 @@ impl GameState {
             .find(|player| player.id == *maybe_target_cell.unwrap())
         {
             let new_health = target_player.health - 10;
-            target_player.health = if new_health < 0 {0} else {new_health};
+            target_player.health = if new_health < 0 { 0 } else { new_health };
         }
     }
 
@@ -106,7 +106,7 @@ impl GameState {
             let distance = distance_to_center(player, center_of_attack);
             if distance < 3.0 {
                 let new_health = (((3.0 - distance) / 3.0) * 10.0) as i64;
-                player.health = if new_health < 0 {0} else {new_health};
+                player.health = if new_health < 0 { 0 } else { new_health };
             }
         }
     }
