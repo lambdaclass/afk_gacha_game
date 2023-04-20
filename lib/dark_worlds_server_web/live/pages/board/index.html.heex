@@ -8,7 +8,7 @@
             <div><%= "#{index + 1}. Player_#{player.id} with #{player.health}HP points!" %></div>
         <% end %>
     <% else %>
-      <div id="board_game" class="board" phx-hook="Play" data-game-id={@game_id}>
+      <div id="board_game" class="board" phx-hook="Play" data-game-id={URI.encode_www_form(@game_id)}>
         <%= for row <- @grid do %>
           <div class="row">
             <%= for player_id <- row do %>
@@ -25,7 +25,7 @@
   <h1> Current Game Sessions </h1>
   <% game_session_ids = Engine.list_games_ids() %>
   <%= for session_id <- game_session_ids do %>
-    <div> <.link patch={~p"/board/#{session_id}"}><%= session_id %></.link> </div>
+    <div> <.link patch={~p"/board/#{URI.encode_www_form(session_id)}"}><%= session_id %></.link> </div>
   <% end %>
   <h1> Start New Session </h1>
     <div> <.link patch={~p"/new_session"}>New</.link> </div>
