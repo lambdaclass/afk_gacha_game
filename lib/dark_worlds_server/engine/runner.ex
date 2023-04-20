@@ -17,7 +17,6 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def init(_opts) do
     game = Game.new(number_of_players: @players, board: @board)
-    IO.inspect(game)
     IO.inspect("To join: #{encode_pid(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
     {:ok, %{game: game, has_finished?: false}}
@@ -57,10 +56,12 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.attack_player(player, value)
 
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game.players})
+    has_a_player_won? = has_a_player_won?(game.players)
+    maybe_broadcast_game_finished_message(has_a_player_won?, game)
 
-    {:noreply, Map.put(state, :game, game)}
+    state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+
+    {:noreply, state}
   end
 
   def handle_cast(
@@ -71,10 +72,12 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.attack_aoe(player, value)
 
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game.players})
+    has_a_player_won? = has_a_player_won?(game.players)
+    maybe_broadcast_game_finished_message(has_a_player_won?, game)
 
-    {:noreply, Map.put(state, :game, game)}
+    state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+
+    {:noreply, state}
   end
 
   def handle_call(:get_board, _from, %{game: %Game{board: board}} = state) do
@@ -97,7 +100,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:game_finished, state.game})
 
-    {:stop, :normal}
+    {:stop, :normal, state}
   end
 
   def encode_pid(pid) do
@@ -107,5 +110,22 @@ defmodule DarkWorldsServer.Engine.Runner do
   def game_has_finished?(pid) do
     %{has_finished?: has_finished?} = :sys.get_state(pid)
     has_finished?
+  end
+
+  defp has_a_player_won?(players) do
+    players_alive = Enum.filter(players, fn player -> player.health != 0 end)
+    Enum.count(players_alive) == 1
+  end
+
+  defp maybe_broadcast_game_finished_message(true, game) do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:game_finished, game})
+
+    Process.send_after(self(), :session_timeout, @session_timeout)
+  end
+
+  defp maybe_broadcast_game_finished_message(_false, game) do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game.players})
   end
 end
