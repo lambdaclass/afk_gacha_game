@@ -16,7 +16,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board)
     IO.inspect(state)
-    IO.inspect("To join: #{self() |> :erlang.term_to_binary() |> Base.encode64()}")
+    IO.inspect("To join: #{encode_pid(self())}")
     {:ok, state, @session_timeout_ms}
   end
 
@@ -38,7 +38,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.move_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play", {:move, state.board})
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:move, state.board})
 
     {:noreply, state, @session_timeout_ms}
   end
@@ -47,6 +47,17 @@ defmodule DarkWorldsServer.Engine.Runner do
     state =
       state
       |> Game.attack_player(player, value)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, state.players})
+
+    {:noreply, state}
+  end
+
+  def handle_cast({:play, %ActionOk{action: :attack_aoe, player: player, value: value}}, state) do
+    state =
+      state
+      |> Game.attack_aoe(player, value)
 
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast("game_play", {:attack, state.players})
@@ -65,5 +76,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   def handle_info(:timeout, state) do
     IO.inspect(self(), label: "session timeout")
     {:stop, :normal, state}
+  end
+
+  def encode_pid(pid) do
+    pid |> :erlang.term_to_binary() |> Base.encode64()
   end
 end

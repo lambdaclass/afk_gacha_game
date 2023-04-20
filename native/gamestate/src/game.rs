@@ -2,7 +2,7 @@ use rand::{thread_rng, Rng};
 use rustler::{NifStruct, NifUnitEnum};
 
 use crate::board::Board;
-use crate::player::Player;
+use crate::player::{Player, Position};
 use crate::time_utils::time_now;
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
@@ -29,7 +29,7 @@ impl GameState {
             .map(|player_id| {
                 let x_coordinate: usize = rng.gen_range(0..board_width);
                 let y_coordinate: usize = rng.gen_range(0..board_height);
-                Player::new(player_id, 100, (x_coordinate, y_coordinate))
+                Player::new(player_id, 100, Position::new(x_coordinate, y_coordinate))
             })
             .collect();
 
@@ -37,8 +37,7 @@ impl GameState {
         let mut board = Board::new(grid, board_width, board_height);
 
         for player in players.clone() {
-            let (player_x, player_y) = player.position;
-            board.set_cell(player_x, player_y, player.id);
+            board.set_cell(player.position.x, player.position.y, player.id);
         }
 
         Self { players, board }
@@ -51,17 +50,17 @@ impl GameState {
             .find(|player| player.id == player_id)
             .unwrap();
 
-        let new_position = compute_adjacent_position(direction, player.position);
-        if !is_valid_movement(&self.board, new_position) {
+        let new_position = compute_adjacent_position(&direction, &player.position);
+        if !is_valid_movement(&self.board, &new_position) {
             return;
         }
 
         // Remove the player from their previous position on the board
-        self.board.set_cell(player.position.0, player.position.1, 0);
+        self.board.set_cell(player.position.x, player.position.y, 0);
 
         player.position = new_position;
         self.board
-            .set_cell(player.position.0, player.position.1, player.id);
+            .set_cell(player.position.x, player.position.y, player.id);
     }
 
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
@@ -78,9 +77,9 @@ impl GameState {
         }
         attacking_player.last_melee_attack = now;
 
-        let (target_position_x, target_position_y) =
-            compute_adjacent_position(attack_direction, attacking_player.position);
-        let maybe_target_cell = self.board.get_cell(target_position_x, target_position_y);
+        let target_position =
+            compute_adjacent_position(&attack_direction, &attacking_player.position);
+        let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
 
         if maybe_target_cell.is_none() {
             return;
@@ -94,25 +93,39 @@ impl GameState {
             target_player.health -= 10;
         }
     }
+
+    // Go over each player, check if they are inside the circle. If they are, damage them according
+    // to their distance to the center.
+    pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, center_of_attack: &Position) {
+        for player in self.players.iter_mut() {
+            if player.id == attacking_player_id {
+                continue;
+            }
+
+            let distance = distance_to_center(player, center_of_attack);
+            if distance < 3.0 {
+                player.health -= (((3.0 - distance) / 3.0) * 10.0) as u64;
+            }
+        }
+    }
 }
 
 /// Given a position and a direction, returns the position adjacent to it in that direction.
 /// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
-fn compute_adjacent_position(direction: Direction, position: (usize, usize)) -> (usize, usize) {
-    let (x, y) = position;
+fn compute_adjacent_position(direction: &Direction, position: &Position) -> Position {
+    let x = position.x;
+    let y = position.y;
 
     match direction {
-        Direction::UP => (x.wrapping_sub(1), y),
-        Direction::DOWN => (x + 1, y),
-        Direction::LEFT => (x, y.wrapping_sub(1)),
-        Direction::RIGHT => (x, y + 1),
+        Direction::UP => Position::new(x.wrapping_sub(1), y),
+        Direction::DOWN => Position::new(x + 1, y),
+        Direction::LEFT => Position::new(x, y.wrapping_sub(1)),
+        Direction::RIGHT => Position::new(x, y + 1),
     }
 }
 
-fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
-    let (row_idx, col_idx) = new_position;
-
-    let cell = board.get_cell(row_idx, col_idx);
+fn is_valid_movement(board: &Board, new_position: &Position) -> bool {
+    let cell = board.get_cell(new_position.x, new_position.y);
     if cell.is_none() {
         return false;
     }
@@ -126,10 +139,17 @@ fn is_valid_movement(board: &Board, new_position: (usize, usize)) -> bool {
     true
 }
 
+fn distance_to_center(player: &Player, center: &Position) -> f64 {
+    let distance_squared =
+        (player.position.x - center.x).pow(2) + (player.position.y - center.y).pow(2);
+    (distance_squared as f64).sqrt()
+}
+
 #[cfg(test)]
 mod tests {
     use crate::game::MELEE_ATTACK_COOLDOWN;
     use crate::player::Player;
+    use crate::player::Position;
     use crate::time_utils;
 
     use super::Direction;
@@ -143,7 +163,7 @@ mod tests {
 
         // Check UP boundary
         state.move_player(player_id, Direction::UP);
-        assert_eq!(0, state.players.first().unwrap().position.0);
+        assert_eq!(0, state.players.first().unwrap().position.x);
 
         expected_grid = state.board.grid.clone();
         state.move_player(player_id, Direction::UP);
@@ -151,7 +171,7 @@ mod tests {
 
         // Check DOWN boundary
         state.move_player(player_id, Direction::DOWN);
-        assert_eq!(1, state.players.first().unwrap().position.0);
+        assert_eq!(1, state.players.first().unwrap().position.x);
 
         expected_grid = state.board.grid.clone();
         state.move_player(player_id, Direction::DOWN);
@@ -159,7 +179,7 @@ mod tests {
 
         // Check RIGHT boundary
         state.move_player(player_id, Direction::RIGHT);
-        assert_eq!(1, state.players.first().unwrap().position.1);
+        assert_eq!(1, state.players.first().unwrap().position.y);
 
         expected_grid = state.board.grid.clone();
         state.move_player(player_id, Direction::RIGHT);
@@ -167,7 +187,7 @@ mod tests {
 
         // Check LEFT boundary
         state.move_player(player_id, Direction::LEFT);
-        assert_eq!(0, state.players.first().unwrap().position.1);
+        assert_eq!(0, state.players.first().unwrap().position.y);
 
         expected_grid = state.board.grid.clone();
         state.move_player(player_id, Direction::LEFT);
@@ -179,8 +199,8 @@ mod tests {
         let mut state = GameState::new(2, 2, 2);
         let player1_id = 1;
         let player2_id = 2;
-        let player1 = Player::new(player1_id, 100, (0, 0));
-        let player2 = Player::new(player2_id, 100, (0, 1));
+        let player1 = Player::new(player1_id, 100, Position::new(0, 0));
+        let player2 = Player::new(player2_id, 100, Position::new(0, 1));
         state.players = vec![player1, player2];
         state.board.set_cell(0, 0, player1_id);
         state.board.set_cell(0, 1, player2_id);
@@ -196,7 +216,7 @@ mod tests {
     fn movement() {
         let mut state = GameState::new(0, 2, 2);
         let player_id = 1;
-        let player1 = Player::new(player_id, 100, (0, 0));
+        let player1 = Player::new(player_id, 100, Position::new(0, 0));
         state.players = vec![player1];
         state.board.set_cell(0, 0, player_id);
 
@@ -218,8 +238,8 @@ mod tests {
         let mut state = GameState::new(0, 2, 2);
         let player_1_id = 1;
         let player_2_id = 2;
-        let player1 = Player::new(player_1_id, 100, (0, 0));
-        let player2 = Player::new(player_2_id, 100, (0, 0));
+        let player1 = Player::new(player_1_id, 100, Position::new(0, 0));
+        let player2 = Player::new(player_2_id, 100, Position::new(0, 0));
         state.players = vec![player1, player2];
         state.board.set_cell(0, 0, player_1_id);
         state.board.set_cell(0, 1, player_2_id);

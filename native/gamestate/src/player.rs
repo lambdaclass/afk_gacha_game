@@ -12,18 +12,31 @@ use rustler::NifStruct;
 pub struct Player {
     pub id: u64,
     pub health: u64,
-    pub position: (usize, usize),
+    pub position: Position,
     /// Time of the last melee attack done by the player, measured in seconds.
     pub last_melee_attack: u64,
 }
 
+#[derive(Debug, Clone, NifStruct)]
+#[module = "DarkWorldsServer.Engine.Position"]
+pub struct Position {
+    pub x: usize,
+    pub y: usize,
+}
+
 impl Player {
-    pub fn new(id: u64, health: u64, position: (usize, usize)) -> Self {
+    pub fn new(id: u64, health: u64, position: Position) -> Self {
         Self {
             id,
             health,
             position,
             last_melee_attack: time_now(),
         }
+    }
+}
+
+impl Position {
+    pub fn new(x: usize, y: usize) -> Self {
+        Self { x, y }
     }
 }

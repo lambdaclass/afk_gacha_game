@@ -1,5 +1,4 @@
 defmodule DarkWorldsServer.Engine.Game do
-  alias DarkWorldsServer.Engine.{Board, Player}
   use Rustler, otp_app: :dark_worlds_server, crate: "gamestate"
 
   @enforce_keys [:players, :board]
@@ -12,4 +11,5 @@ defmodule DarkWorldsServer.Engine.Game do
   def new_game(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
   def move_player(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
   def attack_player(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
+  def attack_aoe(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
 end
