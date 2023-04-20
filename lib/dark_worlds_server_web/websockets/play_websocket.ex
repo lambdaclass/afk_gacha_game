@@ -2,22 +2,18 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
+  alias DarkWorldsServer.Engine
 
   @behaviour :cowboy_websocket
 
   def init(req, _opts) do
-    game_id = :cowboy_req.header("game_id", req)
-    IO.inspect(DynamicSupervisor.which_children(DarkWorldsServer.Engine))
+    game_id = :cowboy_req.binding(:game_id, req)
     {:cowboy_websocket, req, %{game_id: game_id}}
   end
 
   def websocket_init(%{game_id: :undefined}) do
-    {:ok, runner_pid} = Engine.start_child()
-
-    {:reply, {:text, "CONNECTED_NEW: #{runner_pid |> Runner.pid_to_game_id()}"},
-     %{runner_pid: runner_pid}}
+    {:stop, %{}}
   end
 
   def websocket_init(%{game_id: game_id}) do

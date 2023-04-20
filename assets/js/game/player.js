@@ -1,7 +1,7 @@
 export class Player{
-    constructor(number) {
+    constructor(number, game_id) {
         this.number = number
-        this.socket = new WebSocket(this.getplayConnection())
+        this.socket = new WebSocket(this.getplayConnection(game_id))
     }
 
     move(direction) {
@@ -18,11 +18,11 @@ export class Player{
         return JSON.stringify(msg)
     }
 
-    getplayConnection() {
+    getplayConnection(game_id) {
         let protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
         let host = window.location.host
         let path = '/play'
 
-        return `${protocol}${host}${path}`
+        return `${protocol}${host}${path}/${game_id}`
     }
 }

@@ -1,7 +1,7 @@
 <div class="container">
   <%= if assigns[:runner_pid] do %>
   <p>Game session: <%= :erlang.term_to_binary(@runner_pid) |> Base.encode64() %></p>
-  <div id="board_game" class="board" phx-hook="Play">
+  <div id="board_game" class="board" phx-hook="Play" data-game-id={@game_id}>
     <%= for row <- @grid do %>
       <div class="row">
         <%= for player_id <- row do %>
@@ -19,5 +19,7 @@
   <%= for session_id <- game_session_ids do %>
     <div> <.link patch={~p"/board/#{session_id}"}><%= session_id %></.link> </div>
   <% end %>
+  <h1> Start New Session </h1>
+    <div> <.link patch={~p"/new_session"}>New</.link> </div>
   <% end %>
 </div>

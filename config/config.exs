@@ -13,7 +13,7 @@ config :dark_worlds_server,
 # Configures the endpoint
 dispatch = [
   _: [
-    {"/play", DarkWorldsServerWeb.PlayWebSocket, []},
+    {"/play/:game_id", DarkWorldsServerWeb.PlayWebSocket, []},
     {:_, Plug.Cowboy.Handler, {DarkWorldsServerWeb.Endpoint, []}}
   ]
 ]

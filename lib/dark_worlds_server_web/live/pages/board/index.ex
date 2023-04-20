@@ -15,7 +15,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     {
       :ok,
       socket
-      |> assign(runner_pid: runner_pid, grid: grid, players: players)
+      |> assign(runner_pid: runner_pid, grid: grid, players: players, game_id: game_id)
     }
   end
 

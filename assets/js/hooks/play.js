@@ -1,10 +1,9 @@
-
 import {Player} from "../game/player.js"
 
 export const Play = function () {
-    
     this.mounted = function () {
-        let player = new Player(1)
+        let game_id = document.getElementById("board_game").dataset.gameId
+        let player = new Player(1, game_id)
 
         document.addEventListener("keypress", function onPress(event) {
             if (event.key === "a") {
