@@ -4,7 +4,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
 
-  @players 2
+  @players 3
   @board {10, 10}
   # The game will be closed five minute after it starts
   @game_timeout 5 * 60 * 1000
@@ -126,6 +126,6 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp maybe_broadcast_game_finished_message(_false, game) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game.players})
+    |> Phoenix.PubSub.broadcast("game_play_#{encode_pid(self())}", {:attack, game})
   end
 end
