@@ -1,5 +1,6 @@
 use rand::{thread_rng, Rng};
 use rustler::{NifStruct, NifUnitEnum};
+use std::collections::HashSet;
 
 use crate::board::Board;
 use crate::player::{Player, Position};
@@ -24,12 +25,11 @@ pub enum Direction {
 
 impl GameState {
     pub fn new(number_of_players: u64, board_width: usize, board_height: usize) -> Self {
-        let rng = &mut thread_rng();
+        let mut positions = HashSet::new();
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
-                let x_coordinate: usize = rng.gen_range(0..board_width);
-                let y_coordinate: usize = rng.gen_range(0..board_height);
-                Player::new(player_id, 100, Position::new(x_coordinate, y_coordinate))
+                let new_position = generate_new_position(&mut positions, board_width, board_height);
+                Player::new(player_id, 100, new_position)
             })
             .collect();
 
@@ -156,6 +156,24 @@ fn distance_to_center(player: &Player, center: &Position) -> f64 {
     let distance_squared =
         (player.position.x - center.x).pow(2) + (player.position.y - center.y).pow(2);
     (distance_squared as f64).sqrt()
+}
+
+fn generate_new_position(
+    positions: &mut HashSet<(usize, usize)>,
+    board_width: usize,
+    board_height: usize,
+) -> Position {
+    let rng = &mut thread_rng();
+    let mut x_coordinate: usize = rng.gen_range(0..board_width);
+    let mut y_coordinate: usize = rng.gen_range(0..board_height);
+
+    while positions.contains(&(x_coordinate, y_coordinate)) {
+        x_coordinate = rng.gen_range(0..board_width);
+        y_coordinate = rng.gen_range(0..board_height);
+    }
+
+    positions.insert((x_coordinate, y_coordinate));
+    Position::new(x_coordinate, y_coordinate)
 }
 
 #[cfg(test)]
