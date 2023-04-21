@@ -29,4 +29,9 @@ defmodule DarkWorldsServer.Matchmaking do
   def session_topic(session_id) do
     "matching_session_#{session_id}"
   end
+
+  def start_game(session_id) do
+    session_pid = Runner.game_id_to_pid(session_id)
+    MatchingSession.start_game(session_pid)
+  end
 end

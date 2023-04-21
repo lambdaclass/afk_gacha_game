@@ -1,6 +1,7 @@
 defmodule DarkWorldsServer.Matchmaking.MatchingSession do
-  alias DarkWorldsServer.Matchmaking
   use GenServer, restart: :transient
+  alias DarkWorldsServer.Engine
+  alias DarkWorldsServer.Matchmaking
 
   # 2 minutes
   @timeout_ms 2 * 60 * 1000
@@ -18,6 +19,10 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   def remove_player(player_id, session_pid) do
     GenServer.call(session_pid, {:remove_player, player_id})
+  end
+
+  def start_game(session_pid) do
+    GenServer.cast(session_pid, :start_game)
   end
 
   #######################
@@ -59,6 +64,13 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
   end
 
   @impl GenServer
+  def handle_cast(:start_game, state) do
+    {:ok, game_pid} = Engine.start_child()
+    Phoenix.PubSub.broadcast!(DarkWorldsServer.PubSub, state[:topic], {:game_started, game_pid})
+    {:stop, :normal, state}
+  end
+
+  @impl GenServer
   def handle_info(:player_added, state) do
     Phoenix.PubSub.broadcast!(
       DarkWorldsServer.PubSub,
@@ -83,9 +95,13 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     {:noreply, state}
   end
 
+  def handle_info(:timeout, state) do
+    {:stop, :normal, state}
+  end
+
   def handle_info(:check_timeout, state) do
     Phoenix.PubSub.broadcast!(DarkWorldsServer.PubSub, state[:topic], {:ping, self()})
-    Process.send_after(self(), :set_timeout, @timeout_ms * 2)
+    Process.send_after(self(), :check_timeout, @timeout_ms * 2)
     {:noreply, state, @timeout_ms}
   end
 end
