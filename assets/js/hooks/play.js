@@ -6,6 +6,7 @@ export const Play = function () {
         let player = new Player(game_id)
 
         document.addEventListener("keypress", function onPress(event) {
+            console.log(event.key);
             if (event.key === "a") {
                 player.move("left")
             }
@@ -17,6 +18,9 @@ export const Play = function () {
             }
             if (event.key === "d") {
                 player.move("right")
+            }
+            if (event.key === " "){
+                player.attack()
             }
         });
     }
