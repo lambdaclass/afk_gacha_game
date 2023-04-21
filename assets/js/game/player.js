@@ -1,6 +1,5 @@
 export class Player{
-    constructor(number, game_id) {
-        this.number = number
+    constructor(game_id) {
         this.socket = new WebSocket(this.getplayConnection(game_id))
     }
 
@@ -10,7 +9,6 @@ export class Player{
 
     createMoveMessage(direction) {
         let msg = {
-            player: this.number,
             action: "move",
             value: direction
         }

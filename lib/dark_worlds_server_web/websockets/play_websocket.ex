@@ -19,12 +19,13 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   def websocket_init(%{game_id: game_id}) do
     runner_pid = game_id |> Runner.game_id_to_pid()
 
-    state = %{runner_pid: runner_pid}
-
-    if runner_pid in Engine.list_runners_pids() do
+    with true <- runner_pid in Engine.list_runners_pids(),
+         {:ok, player_id} <- Runner.join(runner_pid) do
+      state = %{runner_pid: runner_pid, player_id: player_id}
       {:reply, {:text, "CONNECTED_TO: #{runner_pid |> Runner.pid_to_game_id()}"}, state}
     else
-      {:stop, state}
+      false -> {:stop, %{}}
+      {:error, _reason} -> {:stop, %{}}
     end
   end
 
@@ -35,7 +36,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
 
         case ActionOk.from_action_raw(action) do
           {:ok, action} ->
-            Runner.play(state[:runner_pid], action)
+            Runner.play(state[:runner_pid], state[:player_id], action)
             {:reply, {:text, "OK"}, state}
 
           {:error, msg} ->

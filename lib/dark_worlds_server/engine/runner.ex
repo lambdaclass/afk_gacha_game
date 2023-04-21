@@ -20,11 +20,15 @@ defmodule DarkWorldsServer.Engine.Runner do
     IO.inspect(state)
     IO.inspect("To join: #{pid_to_game_id(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
-    {:ok, %{game: state, has_finished?: false}}
+    {:ok, %{game: state, has_finished?: false, max_players: @players, current_players: 0}}
   end
 
-  def play(runner_pid, %ActionOk{} = action) do
-    GenServer.cast(runner_pid, {:play, action})
+  def join(runner_pid) do
+    GenServer.call(runner_pid, :join)
+  end
+
+  def play(runner_pid, player_id, %ActionOk{} = action) do
+    GenServer.cast(runner_pid, {:play, player_id, action})
   end
 
   def get_board(runner_pid) do
@@ -36,7 +40,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_cast(
-        {:play, %ActionOk{action: :move, player: player, value: value}},
+        {:play, player, %ActionOk{action: :move, value: value}},
         %{game: game} = state
       ) do
     game =
@@ -50,7 +54,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_cast(
-        {:play, %ActionOk{action: :attack, player: player, value: value}},
+        {:play, player, %ActionOk{action: :attack, value: value}},
         %{game: game} = state
       ) do
     game =
@@ -66,7 +70,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_cast(
-        {:play, %ActionOk{action: :attack_aoe, player: player, value: value}},
+        {:play, player, %ActionOk{action: :attack_aoe, value: value}},
         %{game: game} = state
       ) do
     game =
@@ -79,6 +83,15 @@ defmodule DarkWorldsServer.Engine.Runner do
     state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
 
     {:noreply, state}
+  end
+
+  def handle_call(:join, _, %{max_players: max, current_players: current} = state)
+      when current < max do
+    {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
+  end
+
+  def handle_call(:join, _, %{max_players: max, current_players: max} = state) do
+    {:reply, {:error, :game_full}, state}
   end
 
   def handle_call(:get_board, _from, %{game: %Game{board: board}} = state) do

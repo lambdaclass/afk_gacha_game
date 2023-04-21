@@ -1,7 +1,7 @@
 defmodule DarkWorldsServer.Engine.ActionRaw do
-  @enforce_keys [:player, :action, :value]
+  @enforce_keys [:action, :value]
   @derive Jason.Encoder
-  defstruct [:player, :action, :value]
+  defstruct [:action, :value]
 
   alias DarkWorldsServer.Engine.Position
 
@@ -10,7 +10,6 @@ defmodule DarkWorldsServer.Engine.ActionRaw do
       {:ok, data} ->
         {:ok,
          %__MODULE__{
-           player: data["player"] |> encode_player(),
            action: data["action"] |> encode_action(),
            value: data["value"] |> encode_value()
          }}
@@ -19,9 +18,6 @@ defmodule DarkWorldsServer.Engine.ActionRaw do
         {:error, error}
     end
   end
-
-  def encode_player(player) when is_integer(player), do: {:ok, player}
-  def encode_player(_other), do: {:error, :invalid}
 
   def encode_action("move"), do: {:ok, :move}
   def encode_action("attack"), do: {:ok, :attack}
