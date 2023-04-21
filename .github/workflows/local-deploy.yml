@@ -1,9 +1,11 @@
-name: Deploy to testing
+name: Deploy to LambdaClass local machine
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: 
+      - Deploy to testing
+    types:
+      - requested
 
 jobs:
 
@@ -12,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testing
-      url: https://testing.dark-worlds.lambdaclass.com/board
+      url: http://10.150.20.186:4000/board
 
     steps:
 
@@ -29,9 +31,9 @@ jobs:
 
     - name: Copy deploy script to server
       env:
-        SSH_HOST: ${{ secrets.SSH_HOST }}
-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        SSH_PORT: ${{ secrets.SSH_PORT }}
+        SSH_HOST: ${{ secrets.SSH_HOST_LOCAL }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME_LOCAL }}
+        SSH_PORT: ${{ secrets.SSH_PORT_LOCAL }}
         SCRIPT_SRC: "deploy.sh"
         SCRIPT_DEST: "/root/deploy-script/"
       run: |
@@ -44,9 +46,9 @@ jobs:
 
     - name: Execute deploy script
       env:
-        SSH_HOST: ${{ secrets.SSH_HOST }}
-        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        SSH_PORT: ${{ secrets.SSH_PORT }}
+        SSH_HOST: ${{ secrets.SSH_HOST_LOCAL }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME_LOCAL }}
+        SSH_PORT: ${{ secrets.SSH_PORT_LOCAL }}
         MIX_ENV: ${{ vars.MIX_ENV }}
         PHX_SERVER: ${{ vars.PHX_SERVER }}
         PHX_HOST: ${{ vars.PHX_HOST }}
