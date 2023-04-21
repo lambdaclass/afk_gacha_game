@@ -16,11 +16,11 @@ pub struct Player {
     pub position: Position,
     /// Time of the last melee attack done by the player, measured in seconds.
     pub last_melee_attack: u64,
-    pub state: State,
+    pub status: Status,
 }
 
 #[derive(Debug, Clone, NifUnitEnum)]
-pub enum State {
+pub enum Status {
     ALIVE,
     DEAD,
 }
@@ -39,7 +39,7 @@ impl Player {
             health,
             position,
             last_melee_attack: time_now(),
-            state: State::ALIVE,
+            status: Status::ALIVE,
         }
     }
 }

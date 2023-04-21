@@ -3,7 +3,7 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::Board;
-use crate::player::{Player, Position, State};
+use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
@@ -50,7 +50,7 @@ impl GameState {
             .find(|player| player.id == player_id)
             .unwrap();
 
-        if matches!(player.state, State::DEAD) {
+        if matches!(player.status, Status::DEAD) {
             return;
         }
 
@@ -74,7 +74,7 @@ impl GameState {
             .find(|player| player.id == attacking_player_id)
             .unwrap();
 
-        if matches!(attacking_player.state, State::DEAD) {
+        if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
 
@@ -98,12 +98,10 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == *maybe_target_cell.unwrap())
         {
-            // let new_health = target_player.health - 10;
-            // target_player.health = if new_health < 0 { 0 } else { new_health };
             modify_health(target_player, -10);
         }
 
-        self.remove_dead_players();
+        // self.remove_dead_players();
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -120,12 +118,12 @@ impl GameState {
                 player.health = if new_health < 0 { 0 } else { new_health };
             }
         }
-        self.remove_dead_players();
+        // self.remove_dead_players();
     }
 
     fn remove_dead_players(self: &mut Self) {
         self.players.iter_mut().for_each(|player| {
-            if matches!(player.state, State::DEAD) {
+            if matches!(player.status, Status::DEAD) {
                 self.board.set_cell(player.position.x, player.position.y, 0);
             }
         })
@@ -133,10 +131,10 @@ impl GameState {
 }
 
 fn modify_health(player: &mut Player, hp_points: i64) {
-    if matches!(player.state, State::ALIVE) {
+    if matches!(player.status, Status::ALIVE) {
         player.health += hp_points;
-        if (player.health <= 0) {
-            player.state = State::DEAD;
+        if player.health <= 0 {
+            player.status = Status::DEAD;
         }
     }
 }
