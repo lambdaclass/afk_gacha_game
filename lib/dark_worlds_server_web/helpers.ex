@@ -1,5 +1,4 @@
 defmodule DarkWorldsServerWeb.Helpers do
-
   def order_players_by_health(players) do
     players
     |> Enum.sort_by(fn player -> player.health end, :desc)
