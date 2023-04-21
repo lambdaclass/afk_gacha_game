@@ -11,6 +11,6 @@ defmodule DarkWorldsServerWeb.Helpers do
     |> Enum.filter(fn player -> is_alive?(player) end)
   end
 
-  def is_alive?(%{state: :alive}), do: true
-  def is_alive(_), do: false
+  def is_alive?(%{status: :alive}), do: true
+  def is_alive?(_), do: false
 end
