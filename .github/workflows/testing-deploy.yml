@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testing
-      url: https://testing.dark-worlds.lambdaclass.com/
+      url: https://testing.dark-worlds.lambdaclass.com/board
 
     steps:
 
