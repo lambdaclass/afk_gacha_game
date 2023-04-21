@@ -99,9 +99,9 @@ impl GameState {
             .find(|player| player.id == *maybe_target_cell.unwrap())
         {
             modify_health(target_player, -10);
+            let player = target_player.clone();
+            self.modify_cell_if_player_died(&player);
         }
-
-        // self.remove_dead_players();
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -114,11 +114,10 @@ impl GameState {
 
             let distance = distance_to_center(player, center_of_attack);
             if distance < 3.0 {
-                let new_health = (((3.0 - distance) / 3.0) * 10.0) as i64;
-                player.health = if new_health < 0 { 0 } else { new_health };
+                let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
+                modify_health(player, -damage);
             }
         }
-        // self.remove_dead_players();
     }
 
     fn remove_dead_players(self: &mut Self) {
@@ -127,6 +126,12 @@ impl GameState {
                 self.board.set_cell(player.position.x, player.position.y, 0);
             }
         })
+    }
+
+    fn modify_cell_if_player_died(self: &mut Self, player: &Player) {
+        if matches!(player.status, Status::DEAD) {
+            self.board.set_cell(player.position.x, player.position.y, 0);
+        }
     }
 }
 
