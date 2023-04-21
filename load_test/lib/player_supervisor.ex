@@ -8,8 +8,6 @@ defmodule LoadTest.PlayerSupervisor do
 
   alias LoadTest.Player
 
-  @server_host "localhost:4000"
-
   def start_link(args) do
     DynamicSupervisor.start_link(__MODULE__, args, name: __MODULE__)
   end
@@ -25,7 +23,7 @@ defmodule LoadTest.PlayerSupervisor do
 
   # Spawns a game lobby, populates it with players and starts moving them randomly
   def spawn_session() do
-    {:ok, response} = get("http://#{@server_host}/new_session")
+    {:ok, response} = get(server_url())
     %{"session_id" => session_id} = Jason.decode!(response.body)
 
     for i <- 1..2 do
@@ -37,5 +35,21 @@ defmodule LoadTest.PlayerSupervisor do
   def children_pids() do
     DynamicSupervisor.which_children(__MODULE__)
     |> Enum.map(fn {_, pid, _, _} -> pid end)
+  end
+
+  def server_host() do
+    System.get_env("SERVER_HOST", "localhost:4000")
+  end
+
+  defp server_url() do
+    host = server_host()
+
+    case System.get_env("SSL_ENABLED") do
+      "true" ->
+        "https://#{host}/new_session"
+
+      _ ->
+        "http://#{host}/new_session"
+    end
   end
 end

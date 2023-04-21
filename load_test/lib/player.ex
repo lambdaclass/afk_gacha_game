@@ -3,7 +3,7 @@ defmodule LoadTest.Player do
   require Logger
   use Tesla
 
-  @server_host "localhost:4000"
+  alias LoadTest.PlayerSupervisor
 
   def move(player, :up), do: _move(player, "up")
   def move(player, :down), do: _move(player, "down")
@@ -35,7 +35,9 @@ defmodule LoadTest.Player do
   end
 
   def start_link({player_number, session_id}) do
-    WebSockex.start_link("ws://#{@server_host}/play/#{session_id}", __MODULE__, %{
+    ws_url = ws_url(session_id)
+
+    WebSockex.start_link(ws_url, __MODULE__, %{
       player_number: player_number,
       session_id: session_id
     })
@@ -77,5 +79,17 @@ defmodule LoadTest.Player do
 
   defp send_command(command) do
     WebSockex.cast(self(), {:send, {:text, Jason.encode!(command)}})
+  end
+
+  defp ws_url(session_id) do
+    host = PlayerSupervisor.server_host()
+
+    case System.get_env("SSL_ENABLED") do
+      "true" ->
+        "wss://#{host}/play/#{session_id}"
+
+      _ ->
+        "ws://#{host}/play/#{session_id}"
+    end
   end
 end
