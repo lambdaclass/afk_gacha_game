@@ -6,7 +6,7 @@ setup:
 	mix setup
 
 db:
-	docker-compose up -d
+	docker compose up -d
 
 run:
 	mix assets.build
