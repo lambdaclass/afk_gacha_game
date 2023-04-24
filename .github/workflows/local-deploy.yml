@@ -10,7 +10,7 @@ on:
 jobs:
 
   build-deploy:
-    name: Build and deploy to testing
+    name: Build and deploy to LambdaClass local machine
     runs-on: ubuntu-latest
     environment:
       name: testing
@@ -51,7 +51,7 @@ jobs:
         SSH_PORT: ${{ secrets.SSH_PORT_LOCAL }}
         MIX_ENV: ${{ vars.MIX_ENV }}
         PHX_SERVER: ${{ vars.PHX_SERVER }}
-        PHX_HOST: ${{ vars.PHX_HOST }}
+        PHX_HOST: ${{ vars.PHX_HOST_LOCAL }}
         SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
