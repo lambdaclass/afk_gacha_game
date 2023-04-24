@@ -5,6 +5,9 @@ setup:
 	mix deps.compile
 	mix setup
 
+db:
+	docker-compose up -d
+
 run:
 	mix assets.build
 	iex -S mix phx.server
