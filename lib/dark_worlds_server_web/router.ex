@@ -1,5 +1,4 @@
 defmodule DarkWorldsServerWeb.Router do
-  alias DarkWorldsServerWeb.Pages.Matchmaking
   use DarkWorldsServerWeb, :router
   import DarkWorldsServerWeb.UserAuth
 
@@ -37,8 +36,11 @@ defmodule DarkWorldsServerWeb.Router do
 
     live "/board", BoardLive.Index
     live "/board/:game_id", BoardLive.Index
-    live "/matchmaking", MatchmakingLive.Index
-    live "/matchmaking/:session_id", MatchmakingLive.Show
+
+    live_session :authenticated, on_mount: [{DarkWorldsServerWeb.UserAuth, :ensure_authenticated}] do
+      live "/matchmaking", MatchmakingLive.Index
+      live "/matchmaking/:session_id", MatchmakingLive.Show
+    end
   end
 
   # Enable Swoosh mailbox preview in development
