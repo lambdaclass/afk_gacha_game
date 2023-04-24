@@ -1,5 +1,6 @@
 use crate::time_utils::time_now;
 use rustler::NifStruct;
+use rustler::NifUnitEnum;
 
 /*
     Note: To track cooldowns we are storing the last system time when the ability/attack
@@ -15,6 +16,13 @@ pub struct Player {
     pub position: Position,
     /// Time of the last melee attack done by the player, measured in seconds.
     pub last_melee_attack: u64,
+    pub status: Status,
+}
+
+#[derive(Debug, Clone, NifUnitEnum)]
+pub enum Status {
+    ALIVE,
+    DEAD,
 }
 
 #[derive(Debug, Clone, NifStruct)]
@@ -31,6 +39,7 @@ impl Player {
             health,
             position,
             last_melee_attack: time_now(),
+            status: Status::ALIVE,
         }
     }
 }

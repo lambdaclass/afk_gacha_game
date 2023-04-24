@@ -86,6 +86,8 @@ defmodule DarkWorldsServerWeb do
       # Core UI components and translation
       import DarkWorldsServerWeb.CoreComponents
       import DarkWorldsServerWeb.Gettext
+      import DarkWorldsServerWeb.Helpers
+
       alias DarkWorldsServer.{Engine, Runner}
 
       # Shortcut for generating JS commands

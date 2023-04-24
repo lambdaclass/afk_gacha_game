@@ -21,9 +21,13 @@
           <div class="row">
             <%= for player_id <- row do %>
               <% player = Enum.find(@players, fn player -> player.id == player_id end)  %>
-              <div class={"box box-#{player_id}"}>
-                <%= if player != nil do player.health end %>
-              </div>
+              <%= if is_alive?(player) do %>
+                <div class={"box box-#{player_id}"}>
+                  <%= player.health %>
+                </div>
+              <% else %>
+                <div class="box box-0"></div>
+              <% end %>
             <% end %>
           </div>
         <% end %>

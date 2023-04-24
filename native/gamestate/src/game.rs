@@ -3,7 +3,7 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::Board;
-use crate::player::{Player, Position};
+use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
@@ -50,6 +50,10 @@ impl GameState {
             .find(|player| player.id == player_id)
             .unwrap();
 
+        if matches!(player.status, Status::DEAD) {
+            return;
+        }
+
         let new_position = compute_adjacent_position(&direction, &player.position);
         if !is_valid_movement(&self.board, &new_position) {
             return;
@@ -69,6 +73,10 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
+
+        if matches!(attacking_player.status, Status::DEAD) {
+            return;
+        }
 
         let now = time_now();
 
@@ -90,11 +98,10 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == *maybe_target_cell.unwrap())
         {
-            let new_health = target_player.health - 10;
-            target_player.health = if new_health < 0 { 0 } else { new_health };
+            modify_health(target_player, -10);
+            let player = target_player.clone();
+            self.modify_cell_if_player_died(&player);
         }
-
-        self.remove_dead_players();
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -107,22 +114,35 @@ impl GameState {
 
             let distance = distance_to_center(player, center_of_attack);
             if distance < 3.0 {
-                let new_health = (((3.0 - distance) / 3.0) * 10.0) as i64;
-                player.health = if new_health < 0 { 0 } else { new_health };
+                let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
+                modify_health(player, -damage);
             }
         }
-        self.remove_dead_players();
     }
 
     fn remove_dead_players(self: &mut Self) {
-        self.players.iter().for_each(|player| {
-            if player.health == 0 {
+        self.players.iter_mut().for_each(|player| {
+            if matches!(player.status, Status::DEAD) {
                 self.board.set_cell(player.position.x, player.position.y, 0);
             }
         })
     }
+
+    fn modify_cell_if_player_died(self: &mut Self, player: &Player) {
+        if matches!(player.status, Status::DEAD) {
+            self.board.set_cell(player.position.x, player.position.y, 0);
+        }
+    }
 }
 
+fn modify_health(player: &mut Player, hp_points: i64) {
+    if matches!(player.status, Status::ALIVE) {
+        player.health += hp_points;
+        if player.health <= 0 {
+            player.status = Status::DEAD;
+        }
+    }
+}
 /// Given a position and a direction, returns the position adjacent to it in that direction.
 /// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
 fn compute_adjacent_position(direction: &Direction, position: &Position) -> Position {
