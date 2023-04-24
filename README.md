@@ -44,7 +44,13 @@ Once connected, instructions can be sent via messages like this:
 {"action": "move", "value": "right"}
 ```
 
-which will move the active player down, then up, left and right by one cell each.
+which will move the active player down, then up, left and right by one cell each. While this command:
+
+```
+{"action": "attack", "value": "down"}
+```
+
+will issue an attack to the player below. Attacks have a 1-second cooldown.
 
 You should be able to see the updated state grid on the server logs after every command.
 
