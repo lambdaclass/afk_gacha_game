@@ -35,6 +35,9 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
         IO.inspect(action)
 
         case ActionOk.from_action_raw(action) do
+          {:ok, %{action: :ping}} ->
+            {:reply, {:text, "pong"}, state}
+
           {:ok, action} ->
             Runner.play(state[:runner_pid], state[:player_id], action)
             {:reply, {:text, "OK"}, state}

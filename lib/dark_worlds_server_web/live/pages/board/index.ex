@@ -15,7 +15,13 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     {
       :ok,
       socket
-      |> assign(runner_pid: runner_pid, grid: grid, players: players, game_id: game_id)
+      |> assign(
+        runner_pid: runner_pid,
+        grid: grid,
+        players: players,
+        game_id: game_id,
+        pings: %{}
+      )
     }
   end
 
@@ -60,6 +66,16 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
       :noreply,
       socket
       |> assign(:players, game.players)
+    }
+  end
+
+  def handle_info({:update_ping, player, ping}, socket) do
+    pings = socket.assigns.pings
+
+    {
+      :noreply,
+      socket
+      |> assign(:pings, Map.put(pings, player, ping))
     }
   end
 end

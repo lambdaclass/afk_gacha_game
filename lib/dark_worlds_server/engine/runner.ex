@@ -85,6 +85,15 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  def handle_cast(
+        {:play, player, %ActionOk{action: :update_ping, value: value}},
+        state
+      ) do
+    broadcast_players_ping(player, value)
+
+    {:noreply, state}
+  end
+
   def handle_call(:join, _, %{max_players: max, current_players: current} = state)
       when current < max do
     {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
@@ -148,5 +157,13 @@ defmodule DarkWorldsServer.Engine.Runner do
   defp maybe_broadcast_game_finished_message(_false, game) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, game})
+  end
+
+  defp broadcast_players_ping(player, ping) do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(
+      "game_play_#{pid_to_game_id(self())}",
+      {:update_ping, player, ping}
+    )
   end
 end

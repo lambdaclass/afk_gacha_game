@@ -1,6 +1,17 @@
+import { time_now } from "../time_utils.js"
+
 export class Player{
     constructor(game_id) {
         this.socket = new WebSocket(this.getplayConnection(game_id));
+
+        this.socket.addEventListener("message", (event) => {
+            if (event.data == "pong") {
+                let now = time_now();
+                let latency = now - this.last_ping_sent;
+                this.socket.send(this.createLatencyMessage(latency))
+            }
+        });
+
         this.aimingDirection = "right"; // Set up a default direction
     }
 
@@ -37,5 +48,23 @@ export class Player{
         let path = '/play'
 
         return `${protocol}${host}${path}/${game_id}`
+    }
+
+    createLatencyMessage(latency) {
+        let msg = {
+            action: "update_ping",
+            value: latency
+        }
+
+        return JSON.stringify(msg)
+    }
+
+    ping() {
+        let msg = { action: "ping", value: "ping" }
+
+        now = time_now()
+        this.last_ping_sent = now;
+
+        this.socket.send(JSON.stringify(msg))
     }
 }
