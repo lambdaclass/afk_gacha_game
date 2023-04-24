@@ -15,21 +15,28 @@ Install dependencies and compile the project with
 make setup
 ```
 
+Start the Docker database with
+
+```
+make db
+```
+
 Then run the server with
 
 ```
 make run
 ```
 
-This will setup a server listening through a websocket on port `4000`, on the `/play` path. This server handles the game state, consisting of a number of players scattered on a grid. By default there are two players on a `5x5` grid.
+This will setup a server listening through a websocket on port `4000`, on the `/matchmaking` path. This server handles the game state, consisting of a number of players scattered on a grid. By default there are two players on a `5x5` grid.
 
-Clients can move players by sending `JSON` messages through the websocket. To try it locally, you can use [websocat](https://github.com/vi/websocat) (or something like [Postman](https://www.postman.com/)) and then issue move commands to the server by connecting
+Clients can move players by sending `JSON` messages through the websocket. To try it locally, you can use [websocat](https://github.com/vi/websocat) (or something like [Postman](https://www.postman.com/)) and then issue move commands to the server by connecting to
 
 ```
-websocat ws://127.0.0.1:4000/play
+websocat ws://127.0.0.1:4000/play/[GAME-SESSION]
 ```
+where `[GAME-SESSION]` is the unique ID that can be found on the screen and at the end of the URL after starting a new game.
 
-and sending messages like this:
+Once connected, instructions can be sent via messages like this:
 
 ```
 {"player": 1, "action": "move", "value": "down"}

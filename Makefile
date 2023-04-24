@@ -1,9 +1,12 @@
-.PHONY: setup run elixir-tests rust-tests
+.PHONY: setup run elixir-tests rust-tests db
 
 setup:
 	mix deps.get
 	mix deps.compile
 	mix setup
+
+db:
+	docker compose up -d
 
 run:
 	mix assets.build
