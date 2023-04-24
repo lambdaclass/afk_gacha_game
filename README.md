@@ -26,7 +26,6 @@ Then run the server with
 ```
 make run
 ```
-
 This will setup a server listening through a websocket on port `4000`, on the `/matchmaking` path. This server handles the game state, consisting of a number of players scattered on a grid. By default there are two players on a `5x5` grid.
 
 Clients can move players by sending `JSON` messages through the websocket. To try it locally, you can use [websocat](https://github.com/vi/websocat) (or something like [Postman](https://www.postman.com/)) and then issue move commands to the server by connecting to
@@ -39,13 +38,13 @@ where `[GAME-SESSION]` is the unique ID that can be found on the screen and at t
 Once connected, instructions can be sent via messages like this:
 
 ```
-{"player": 1, "action": "move", "value": "down"}
-{"player": 1, "action": "move", "value": "up"}
-{"player": 1, "action": "move", "value": "left"}
-{"player": 1, "action": "move", "value": "right"}
+{"action": "move", "value": "down"}
+{"action": "move", "value": "up"}
+{"action": "move", "value": "left"}
+{"action": "move", "value": "right"}
 ```
 
-which will move player `1` down, then up, left and right by one cell each.
+which will move the active player down, then up, left and right by one cell each.
 
 You should be able to see the updated state grid on the server logs after every command.
 
