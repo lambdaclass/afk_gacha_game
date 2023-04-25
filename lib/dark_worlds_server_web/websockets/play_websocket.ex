@@ -3,6 +3,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
   alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
+  alias DarkWorldsServer.Engine.{Runner, Board}
   alias DarkWorldsServer.Engine
 
   @behaviour :cowboy_websocket
@@ -18,6 +19,9 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
 
   def websocket_init(%{game_id: game_id}) do
     runner_pid = game_id |> Runner.game_id_to_pid()
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
 
     with true <- runner_pid in Engine.list_runners_pids(),
          {:ok, player_id} <- Runner.join(runner_pid) do
@@ -49,6 +53,22 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
       {:error, _error} ->
         {:reply, {:text, "ERROR: Invalid json"}, state}
     end
+  end
+
+  def websocket_info({:move, game_state}, state) do
+    {:reply, {:text, Jason.encode!(game_state)}, state}
+  end
+
+  def websocket_info({:attack, game_state}, state) do
+    {:reply, {:text, Jason.encode!(game_state)}, state}
+  end
+
+  def websocket_info({:game_finished, game_state}, state) do
+    {:reply, {:text, Jason.encode!(game_state)}, state}
+  end
+
+  def websocket_info({:update_ping, player, ping}, state) do
+    {:reply, {:text, Jason.encode!(%{player => ping})}, state}
   end
 
   def websocket_info(info, state), do: {:reply, {:text, info}, state}
