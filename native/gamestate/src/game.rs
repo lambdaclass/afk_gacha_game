@@ -7,6 +7,7 @@ use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
+const WALL: u64 = 11111111111111111111;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -38,6 +39,16 @@ impl GameState {
 
         for player in players.clone() {
             board.set_cell(player.position.x, player.position.y, player.id);
+        }
+
+        // We generate 10 random walls
+        for _ in 1..=10 {
+            let rng = &mut thread_rng();
+            let row_idx: usize = rng.gen_range(0..board_width);
+            let col_idx: usize = rng.gen_range(0..board_height);
+            if let Some(0) = board.get_cell(row_idx, col_idx) {
+                board.set_cell(row_idx, col_idx, WALL);
+            }
         }
 
         Self { players, board }

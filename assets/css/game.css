@@ -33,3 +33,7 @@ body{
 .box-3{
     background: linear-gradient(lightcoral, lightgreen);;
 }
+
+.box-wall{
+    background-color: black;
+}

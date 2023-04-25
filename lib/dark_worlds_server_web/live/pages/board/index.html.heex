@@ -19,14 +19,19 @@
       <div id="board_game" class="board" phx-hook="Play" data-game-id={@game_id}>
         <%= for row <- @grid do %>
           <div class="row">
-            <%= for player_id <- row do %>
-              <% player = Enum.find(@players, fn player -> player.id == player_id end)  %>
+            <%= for tile <- row do %>
+              <% player = Enum.find(@players, fn player -> player.id == tile end)  %>
               <%= if is_alive?(player) do %>
-                <div class={"box box-#{player_id}"}>
+                <div class={"box box-#{tile}"}>
                   <%= player.health %>
                 </div>
               <% else %>
-                <div class="box box-0"></div>
+                <% IO.inspect(tile, label: "tile_value") %>
+                <%= if tile == 11111111111111111111 do %>
+                  <div class="box box-wall"></div>
+                <% else %>
+                  <div class="box box-0"></div>
+                <% end %>
               <% end %>
             <% end %>
           </div>
