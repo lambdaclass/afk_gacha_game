@@ -2,12 +2,11 @@ use rand::{thread_rng, Rng};
 use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
-use crate::board::Board;
+use crate::board::{Board, Tile};
 use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
-const WALL: u64 = 11111111111111111111;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -25,7 +24,12 @@ pub enum Direction {
 }
 
 impl GameState {
-    pub fn new(number_of_players: u64, board_width: usize, board_height: usize) -> Self {
+    pub fn new(
+        number_of_players: u64,
+        board_width: usize,
+        board_height: usize,
+        build_walls: bool,
+    ) -> Self {
         let mut positions = HashSet::new();
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
@@ -34,20 +38,25 @@ impl GameState {
             })
             .collect();
 
-        let grid = vec![vec![0; board_height]; board_width];
-        let mut board = Board::new(grid, board_width, board_height);
+        let mut board = Board::new(board_width, board_height);
 
         for player in players.clone() {
-            board.set_cell(player.position.x, player.position.y, player.id);
+            board.set_cell(
+                player.position.x,
+                player.position.y,
+                Tile::Player(player.id),
+            );
         }
 
-        // We generate 10 random walls
-        for _ in 1..=10 {
-            let rng = &mut thread_rng();
-            let row_idx: usize = rng.gen_range(0..board_width);
-            let col_idx: usize = rng.gen_range(0..board_height);
-            if let Some(0) = board.get_cell(row_idx, col_idx) {
-                board.set_cell(row_idx, col_idx, WALL);
+        // We generate 10 random walls if walls is true
+        if build_walls {
+            for _ in 1..=10 {
+                let rng = &mut thread_rng();
+                let row_idx: usize = rng.gen_range(0..board_width);
+                let col_idx: usize = rng.gen_range(0..board_height);
+                if let Some(Tile::Empty) = board.get_cell(row_idx, col_idx) {
+                    board.set_cell(row_idx, col_idx, Tile::Wall);
+                }
             }
         }
 
@@ -71,11 +80,15 @@ impl GameState {
         }
 
         // Remove the player from their previous position on the board
-        self.board.set_cell(player.position.x, player.position.y, 0);
+        self.board
+            .set_cell(player.position.x, player.position.y, Tile::Empty);
 
         player.position = new_position;
-        self.board
-            .set_cell(player.position.x, player.position.y, player.id);
+        self.board.set_cell(
+            player.position.x,
+            player.position.y,
+            Tile::Player(player.id),
+        );
     }
 
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
@@ -104,11 +117,13 @@ impl GameState {
             return;
         }
 
-        if let Some(target_player) = self
-            .players
-            .iter_mut()
-            .find(|player| player.id == *maybe_target_cell.unwrap())
-        {
+        if let Some(target_player) = self.players.iter_mut().find(|player| {
+            let tile = maybe_target_cell.unwrap();
+            match tile {
+                Tile::Player(tile_player_id) if *tile_player_id == player.id => true,
+                _ => false,
+            }
+        }) {
             modify_health(target_player, -10);
             let player = target_player.clone();
             self.modify_cell_if_player_died(&player);
@@ -134,14 +149,16 @@ impl GameState {
     fn remove_dead_players(self: &mut Self) {
         self.players.iter_mut().for_each(|player| {
             if matches!(player.status, Status::DEAD) {
-                self.board.set_cell(player.position.x, player.position.y, 0);
+                self.board
+                    .set_cell(player.position.x, player.position.y, Tile::Empty);
             }
         })
     }
 
     fn modify_cell_if_player_died(self: &mut Self, player: &Player) {
         if matches!(player.status, Status::DEAD) {
-            self.board.set_cell(player.position.x, player.position.y, 0);
+            self.board
+                .set_cell(player.position.x, player.position.y, Tile::Empty);
         }
     }
 }
@@ -176,11 +193,11 @@ fn is_valid_movement(board: &Board, new_position: &Position) -> bool {
 
     // Check if cell is not-occupied
     // This unwrap is safe since we checked for None in the line above.
-    if *cell.unwrap() != 0 {
-        return false;
+    if let Tile::Empty = *cell.unwrap() {
+        true
+    } else {
+        false
     }
-
-    true
 }
 
 fn distance_to_center(player: &Player, center: &Position) -> f64 {
@@ -209,6 +226,7 @@ fn generate_new_position(
 
 #[cfg(test)]
 mod tests {
+    use crate::board::Tile;
     use crate::game::MELEE_ATTACK_COOLDOWN;
     use crate::player::Player;
     use crate::player::Position;
@@ -219,8 +237,8 @@ mod tests {
 
     #[test]
     fn no_move_if_beyond_boundaries() {
-        let mut expected_grid: Vec<Vec<u64>>;
-        let mut state = GameState::new(1, 2, 2);
+        let mut expected_grid: Vec<Vec<Tile>>;
+        let mut state = GameState::new(1, 2, 2, false);
         let player_id = state.players.first().unwrap().id;
 
         // Check UP boundary
@@ -258,16 +276,30 @@ mod tests {
 
     #[test]
     fn no_move_if_occupied() {
-        let mut state = GameState::new(2, 2, 2);
+        let mut state = GameState::new(2, 2, 2, false);
         let player1_id = 1;
         let player2_id = 2;
         let player1 = Player::new(player1_id, 100, Position::new(0, 0));
         let player2 = Player::new(player2_id, 100, Position::new(0, 1));
         state.players = vec![player1, player2];
-        state.board.set_cell(0, 0, player1_id);
-        state.board.set_cell(0, 1, player2_id);
-        state.board.set_cell(1, 1, 0);
-        state.board.set_cell(1, 0, 0);
+        state.board.set_cell(0, 0, Tile::Player(player1_id));
+        state.board.set_cell(0, 1, Tile::Player(player2_id));
+        state.board.set_cell(1, 1, Tile::Empty);
+        state.board.set_cell(1, 0, Tile::Empty);
+
+        let expected_grid = state.board.grid.clone();
+        state.move_player(player1_id, Direction::RIGHT);
+        assert_eq!(expected_grid, state.board.grid);
+    }
+
+    #[test]
+    fn no_move_if_wall() {
+        let mut state = GameState::new(1, 2, 2, false);
+        let player1_id = 1;
+        let player1 = Player::new(player1_id, 100, Position::new(0, 0));
+        state.players = vec![player1];
+        state.board.set_cell(0, 0, Tile::Player(player1_id));
+        state.board.set_cell(0, 1, Tile::Wall);
 
         let expected_grid = state.board.grid.clone();
         state.move_player(player1_id, Direction::RIGHT);
@@ -276,35 +308,59 @@ mod tests {
 
     #[test]
     fn movement() {
-        let mut state = GameState::new(0, 2, 2);
+        let mut state = GameState::new(0, 2, 2, false);
         let player_id = 1;
         let player1 = Player::new(player_id, 100, Position::new(0, 0));
         state.players = vec![player1];
-        state.board.set_cell(0, 0, player_id);
+        state.board.set_cell(0, 0, Tile::Player(player_id));
 
         state.move_player(player_id, Direction::RIGHT);
-        assert_eq!(vec![vec![0, player_id], vec![0, 0]], state.board.grid);
+        assert_eq!(
+            vec![
+                vec![Tile::Empty, Tile::Player(player_id)],
+                vec![Tile::Empty, Tile::Empty]
+            ],
+            state.board.grid
+        );
 
         state.move_player(player_id, Direction::DOWN);
-        assert_eq!(vec![vec![0, 0], vec![0, player_id]], state.board.grid);
+        assert_eq!(
+            vec![
+                vec![Tile::Empty, Tile::Empty],
+                vec![Tile::Empty, Tile::Player(player_id)]
+            ],
+            state.board.grid
+        );
 
         state.move_player(player_id, Direction::LEFT);
-        assert_eq!(vec![vec![0, 0], vec![player_id, 0]], state.board.grid);
+        assert_eq!(
+            vec![
+                vec![Tile::Empty, Tile::Empty],
+                vec![Tile::Player(player_id), Tile::Empty]
+            ],
+            state.board.grid
+        );
 
         state.move_player(player_id, Direction::UP);
-        assert_eq!(vec![vec![player_id, 0], vec![0, 0]], state.board.grid);
+        assert_eq!(
+            vec![
+                vec![Tile::Player(player_id), Tile::Empty],
+                vec![Tile::Empty, Tile::Empty]
+            ],
+            state.board.grid
+        );
     }
 
     #[test]
     fn attacking() {
-        let mut state = GameState::new(0, 2, 2);
+        let mut state = GameState::new(0, 2, 2, false);
         let player_1_id = 1;
         let player_2_id = 2;
         let player1 = Player::new(player_1_id, 100, Position::new(0, 0));
         let player2 = Player::new(player_2_id, 100, Position::new(0, 0));
         state.players = vec![player1, player2];
-        state.board.set_cell(0, 0, player_1_id);
-        state.board.set_cell(0, 1, player_2_id);
+        state.board.set_cell(0, 0, Tile::Player(player_1_id));
+        state.board.set_cell(0, 1, Tile::Player(player_2_id));
 
         time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 

@@ -1,15 +1,24 @@
-use rustler::NifStruct;
+use rustler::{NifStruct, NifTaggedEnum};
 
 #[derive(Debug, Clone, NifStruct)]
 #[module = "DarkWorldsServer.Engine.Board"]
 pub struct Board {
     pub width: usize,
     pub height: usize,
-    pub grid: Vec<Vec<u64>>,
+    pub grid: Vec<Vec<Tile>>,
+}
+
+#[derive(Debug, Clone, NifTaggedEnum, PartialEq)]
+pub enum Tile {
+    Player(u64),
+    Empty,
+    Wall,
 }
 
 impl Board {
-    pub fn new(grid: Vec<Vec<u64>>, width: usize, height: usize) -> Self {
+    pub fn new(width: usize, height: usize) -> Self {
+        let grid = vec![vec![Tile::Empty; height]; width];
+
         Self {
             grid,
             width,
@@ -17,7 +26,7 @@ impl Board {
         }
     }
 
-    pub fn get_cell(self: &Self, row_idx: usize, col_idx: usize) -> Option<&u64> {
+    pub fn get_cell(self: &Self, row_idx: usize, col_idx: usize) -> Option<&Tile> {
         if let Some(row) = self.grid.get(row_idx) {
             row.get(col_idx)
         } else {
@@ -25,7 +34,7 @@ impl Board {
         }
     }
 
-    pub fn set_cell(self: &mut Self, row_idx: usize, col_idx: usize, value: u64) {
+    pub fn set_cell(self: &mut Self, row_idx: usize, col_idx: usize, value: Tile) {
         self.grid[row_idx][col_idx] = value;
     }
 }
