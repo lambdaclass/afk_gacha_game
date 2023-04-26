@@ -19,14 +19,15 @@
       <div id="board_game" class="board" phx-hook="Play" data-game-id={@game_id}>
         <%= for row <- @grid do %>
           <div class="row">
-            <%= for player_id <- row do %>
-              <% player = Enum.find(@players, fn player -> player.id == player_id end)  %>
-              <%= if is_alive?(player) do %>
-                <div class={"box box-#{player_id}"}>
-                  <%= player.health %>
-                </div>
-              <% else %>
-                <div class="box box-0"></div>
+            <%= for tile <- row do %>
+              <%= case tile do %>
+                <% {:player, player_id} -> %>
+                  <% player = Enum.find(@players, fn player -> player.id == player_id end) %>
+                  <div class={"box box-#{player_id}"}><%= if is_alive?(player), do: player.health %></div>
+                <% :wall -> %>
+                  <div class="box box-wall"></div>
+                <% :empty -> %>
+                  <div class="box box-empty"></div>
               <% end %>
             <% end %>
           </div>
