@@ -20,7 +20,7 @@ defmodule DarkWorldsServerWeb.SessionControllerTest do
       new_session = String.slice(new_session, 42..-32)
       board = get(conn, ~p"/board", %{})
       board = board.resp_body
-      String.contains? board, new_session
+      String.contains?(board, new_session)
     end
   end
 end
