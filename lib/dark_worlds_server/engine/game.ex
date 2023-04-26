@@ -2,6 +2,7 @@ defmodule DarkWorldsServer.Engine.Game do
   use Rustler, otp_app: :dark_worlds_server, crate: "gamestate"
 
   @enforce_keys [:players, :board]
+  @derive Jason.Encoder
   defstruct [:players, :board]
 
   def new(number_of_players: number_of_players, board: {width, height}) do

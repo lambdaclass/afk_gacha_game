@@ -1,4 +1,5 @@
 defmodule DarkWorldsServer.Engine.Player do
-  @enforce_keys [:number, :health, :position]
-  defstruct [:number, :health, :position]
+  @enforce_keys [:id, :health, :position]
+  @derive Jason.Encoder
+  defstruct [:id, :health, :position]
 end
