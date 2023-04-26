@@ -18,9 +18,10 @@ defmodule DarkWorldsServerWeb.SessionControllerTest do
       new_session = get(conn, ~p"/new_session", %{})
       new_session = new_session.resp_body
       new_session = String.slice(new_session, 42..-32)
+      IO.inspect(new_session)
       board = get(conn, ~p"/board", %{})
       board = board.resp_body
-      String.contains?(board, new_session)
+      assert board =~ new_session
     end
   end
 end
