@@ -48,7 +48,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.move_player(player, value)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, game.board})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, state})
 
     {:noreply, Map.put(state, :game, game)}
   end
@@ -62,7 +62,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-    maybe_broadcast_game_finished_message(has_a_player_won?, game)
+    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
 
@@ -78,7 +78,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_aoe(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-    maybe_broadcast_game_finished_message(has_a_player_won?, game)
+    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
 
@@ -147,16 +147,16 @@ defmodule DarkWorldsServer.Engine.Runner do
     Enum.count(players_alive) == 1
   end
 
-  defp maybe_broadcast_game_finished_message(true, game) do
+  defp maybe_broadcast_game_finished_message(true, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:game_finished, game})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:game_finished, state})
 
     Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
-  defp maybe_broadcast_game_finished_message(_false, game) do
+  defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, game})
+    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, state})
   end
 
   defp broadcast_players_ping(player, ping) do
