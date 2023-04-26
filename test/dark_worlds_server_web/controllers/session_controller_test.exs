@@ -14,14 +14,14 @@ defmodule DarkWorldsServerWeb.SessionControllerTest do
 
     @tag :board_list
     test "Board lists all active game sessions", %{conn: conn} do
-      conn = Conn.put_req_header(conn, "content-type", "application/http")
+      conn = Conn.put_req_header(conn, "content-type", "application/json")
       new_session = get(conn, ~p"/new_session", %{})
-      new_session = new_session.resp_body
-      new_session = String.slice(new_session, 42..-32)
-      IO.inspect(new_session)
+      new_session = json_response(new_session, 200)
+      session_id = Map.get(new_session, "session_id")
       board = get(conn, ~p"/board", %{})
       board = board.resp_body
-      assert board =~ new_session
+      assert board =~ session_id
+
     end
   end
 end
