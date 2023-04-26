@@ -20,10 +20,8 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   def websocket_init(%{game_id: game_id}) do
     runner_pid = game_id |> Runner.game_id_to_pid()
 
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
-
-    with true <- runner_pid in Engine.list_runners_pids(),
+    with :ok = Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}"),
+         true <- runner_pid in Engine.list_runners_pids(),
          {:ok, player_id} <- Runner.join(runner_pid) do
       state = %{runner_pid: runner_pid, player_id: player_id}
       {:reply, {:text, "CONNECTED_TO: #{runner_pid |> Runner.pid_to_game_id()}"}, state}
