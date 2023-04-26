@@ -21,7 +21,6 @@ defmodule DarkWorldsServerWeb.SessionControllerTest do
       board = get(conn, ~p"/board", %{})
       board = board.resp_body
       assert board =~ session_id
-
     end
   end
 end
