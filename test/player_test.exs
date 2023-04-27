@@ -18,9 +18,11 @@ defmodule DarkWorldsServer.PlayerTest do
 
       walls = get_wall_coordinates(board.grid)
 
-      if first_player_before_moving.position.x == 0 do # if player is touching the top border of the board, assert that position didn't change
+      # if player is touching the top border of the board, assert that position didn't change
+      # if there's a wall above, assert that position didn't change
+      if first_player_before_moving.position.x == 0 do
         assert first_player_after_moving.position.x == first_player_before_moving.position.x
-        else # if there's a wall above, assert that position didn't change
+      else
         if {first_player_before_moving.position.x - 1, first_player_before_moving.position.y} in walls do
           assert first_player_after_moving.position.x == first_player_before_moving.position.x
         else
@@ -42,9 +44,11 @@ defmodule DarkWorldsServer.PlayerTest do
 
       walls = get_wall_coordinates(board.grid)
 
-      if first_player_before_moving.position.x == board.height - 1 do # if player is touching the bottom border of the board, assert that position didn't change
+      # if player is touching the bottom border of the board, assert that position didn't change
+      # if there's a wall below, assert that position didn't change
+      if first_player_before_moving.position.x == board.height - 1 do
         assert first_player_after_moving.position.x == first_player_before_moving.position.x
-      else # if there's a wall below, assert that position didn't change
+      else
         if {first_player_before_moving.position.x + 1, first_player_before_moving.position.y} in walls do
           assert first_player_after_moving.position.x == first_player_before_moving.position.x
         else
@@ -66,9 +70,11 @@ defmodule DarkWorldsServer.PlayerTest do
 
       walls = get_wall_coordinates(board.grid)
 
-      if first_player_before_moving.position.y == 0 do # if player is touching the left border of the board, assert that position didn't change
+      # if player is touching the left border of the board, assert that position didn't change
+      # if there's a wall to the left, assert that position didn't change
+      if first_player_before_moving.position.y == 0 do
         assert first_player_after_moving.position.y == first_player_before_moving.position.y
-      else # if there's a wall to the left, assert that position didn't change
+      else
         if {first_player_before_moving.position.x, first_player_before_moving.position.y - 1} in walls do
           assert first_player_after_moving.position.y == first_player_before_moving.position.y
         else
@@ -90,9 +96,11 @@ defmodule DarkWorldsServer.PlayerTest do
 
       walls = get_wall_coordinates(board.grid)
 
-      if first_player_before_moving.position.y == board.width - 1 do # if player is touching the right border of the board, assert that position didn't change
+      # if player is touching the right border of the board, assert that position didn't change
+      # if there's a wall to the right, assert that position didn't change
+      if first_player_before_moving.position.y == board.width - 1 do
         assert first_player_after_moving.position.y == first_player_before_moving.position.y
-      else # if there's a wall to the right, assert that position didn't change
+      else
         if {first_player_before_moving.position.x, first_player_before_moving.position.y + 1} in walls do
           assert first_player_after_moving.position.y == first_player_before_moving.position.y
         else

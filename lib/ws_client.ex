@@ -17,6 +17,19 @@ defmodule DarkWorldsServer.WsClient do
     GenServer.call(runner_pid, :get_players)
   end
 
+  def get_wall_coordinates(session_id) do
+    board(matrix = get_board(session_id))
+
+    board_matrix
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {row, x} ->
+      row
+      |> Enum.with_index()
+      |> Enum.filter(fn {cell, _} -> cell == :wall end)
+      |> Enum.map(fn {_, y} -> {x, y} end)
+    end)
+  end
+
   def move(player, :up), do: _move(player, "up")
   def move(player, :down), do: _move(player, "down")
   def move(player, :left), do: _move(player, "left")
