@@ -26,7 +26,7 @@ Then run the server with
 ```
 make run
 ```
-This will setup a server listening through a websocket on port `4000`, on the `/matchmaking` path. This server handles the game state, consisting of a number of players scattered on a grid. By default there are two players on a `5x5` grid.
+This will setup a server listening through a websocket on port `4000`, on the `/matchmaking` path. This server handles the game state, consisting of a number of players scattered on a grid. By default there are three players on a `10x10` grid.
 
 Clients can move players by sending `JSON` messages through the websocket. To try it locally, you can use [websocat](https://github.com/vi/websocat) (or something like [Postman](https://www.postman.com/)) and then issue move commands to the server by connecting to
 
