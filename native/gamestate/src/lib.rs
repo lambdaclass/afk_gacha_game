@@ -8,7 +8,12 @@ use game::GameState;
 use crate::{game::Direction, player::Position};
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn new_game(number_of_players: u64, board_width: usize, board_height: usize, build_walls: bool) -> GameState {
+fn new_game(
+    number_of_players: u64,
+    board_width: usize,
+    board_height: usize,
+    build_walls: bool,
+) -> GameState {
     GameState::new(number_of_players, board_width, board_height, build_walls)
 }
 
