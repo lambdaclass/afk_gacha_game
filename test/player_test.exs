@@ -17,10 +17,6 @@ defmodule DarkWorldsServer.PlayerTest do
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
       walls = get_wall_coordinates(board.grid)
-      IO.inspect(board.grid)
-      IO.inspect(walls)
-      IO.inspect(first_player_before_moving.position)
-      IO.inspect(first_player_after_moving.position)
 
       if first_player_before_moving.position.x == 0 do
         assert first_player_after_moving.position.x == first_player_before_moving.position.x
@@ -53,6 +49,35 @@ defmodule DarkWorldsServer.PlayerTest do
           assert first_player_after_moving.position.x == first_player_before_moving.position.x
         else
           assert first_player_after_moving.position.x == first_player_before_moving.position.x + 1
+        end
+      end
+    end
+
+    @tag :move_left
+    test "Move left", %{conn: conn} do
+      session_id = create_session(conn)
+      {:ok, _ws_pid} = ws_connect(session_id)
+      board = WsClient.get_board(session_id)
+
+      first_player_before_moving = WsClient.get_players(session_id) |> List.first()
+      WsClient.move(1, :left)
+      :timer.sleep(1_000)
+      first_player_after_moving = WsClient.get_players(session_id) |> List.first()
+
+      walls = get_wall_coordinates(board.grid)
+
+      IO.inspect(board.grid)
+      IO.inspect(walls)
+      IO.inspect(first_player_before_moving.position)
+      IO.inspect(first_player_after_moving.position)
+
+      if first_player_before_moving.position.y == 0 do
+        assert first_player_after_moving.position.y == first_player_before_moving.position.y
+      else # if there's a wall to the left, assert that player didn't move left
+        if {first_player_before_moving.position.x, first_player_before_moving.position.y - 1} in walls do
+          assert first_player_after_moving.position.x == first_player_before_moving.position.x
+        else
+          assert first_player_after_moving.position.y == first_player_before_moving.position.y - 1
         end
       end
     end
