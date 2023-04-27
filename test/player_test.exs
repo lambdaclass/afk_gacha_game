@@ -5,7 +5,7 @@ defmodule DarkWorldsServer.PlayerTest do
   alias Plug.Conn
 
   describe "Move the player around" do
-    test "Move right", %{conn: conn} do
+    test "Move up", %{conn: conn} do
       session_id = create_session(conn)
       {:ok, _ws_pid} = ws_connect(session_id)
 
