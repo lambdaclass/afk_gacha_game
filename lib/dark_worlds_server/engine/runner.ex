@@ -51,10 +51,12 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.move_player(player, value)
 
+    state = Map.put(state, :game, game)
+
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, state})
 
-    {:noreply, Map.put(state, :game, game)}
+    {:noreply, state}
   end
 
   def handle_cast(
