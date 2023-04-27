@@ -5,9 +5,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.{ActionOk}
 
   @players 3
-  @board {10, 10}
+  @board {20, 20}
   # The game will be closed five minute after it starts
-  @game_timeout 5 * 60 * 1000
+  @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
 
@@ -16,7 +16,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def init(_opts) do
-    state = Game.new(number_of_players: @players, board: @board)
+    state = Game.new(number_of_players: @players, board: @board, build_walls: false)
     IO.inspect(state)
     IO.inspect("To join: #{pid_to_game_id(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
