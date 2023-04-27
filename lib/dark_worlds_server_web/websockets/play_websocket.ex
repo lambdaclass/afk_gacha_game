@@ -3,7 +3,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
   alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
-  alias DarkWorldsServer.Engine.{Runner, Board}
+  alias DarkWorldsServer.Engine.Runner
   alias DarkWorldsServer.Engine
 
   @behaviour :cowboy_websocket
