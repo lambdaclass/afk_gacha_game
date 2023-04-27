@@ -17,8 +17,8 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board)
-    IO.inspect(state)
-    IO.inspect("To join: #{pid_to_game_id(self())}")
+    #IO.inspect(state)
+    #IO.inspect("To join: #{pid_to_game_id(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
     {:ok, %{game: state, has_finished?: false, max_players: @players, current_players: 0}}
   end
@@ -118,7 +118,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_info(:session_timeout, state) do
-    IO.inspect(self(), label: "session timeout")
+    #IO.inspect(self(), label: "session timeout")
 
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(

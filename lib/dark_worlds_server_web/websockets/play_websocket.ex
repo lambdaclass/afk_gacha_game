@@ -34,7 +34,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   def websocket_handle({:text, message}, state) do
     case ActionRaw.from_json(message) do
       {:ok, action} ->
-        IO.inspect(action)
+        #IO.inspect(action)
 
         case ActionOk.from_action_raw(action) do
           {:ok, %{action: :ping}} ->
