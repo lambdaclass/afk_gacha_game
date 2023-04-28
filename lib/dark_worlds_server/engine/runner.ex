@@ -39,6 +39,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.call(runner_pid, :get_players)
   end
 
+  def handle_cast(_actions, %{has_finished?: true} = state) do
+    {:noreply, state}
+  end
+
   def handle_cast(
         {:play, player, %ActionOk{action: :move, value: value}},
         %{game: game} = state
@@ -47,10 +51,12 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.move_player(player, value)
 
+    state = Map.put(state, :game, game)
+
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, state})
 
-    {:noreply, Map.put(state, :game, game)}
+    {:noreply, state}
   end
 
   def handle_cast(
@@ -62,9 +68,9 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     {:noreply, state}
   end
@@ -78,9 +84,9 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_aoe(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     {:noreply, state}
   end
