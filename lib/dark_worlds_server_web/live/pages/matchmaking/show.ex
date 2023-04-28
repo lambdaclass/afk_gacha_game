@@ -12,13 +12,21 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
         # TODO: Replace this by a proper player_id once we use actual accounts
         player_id = "player_id_#{:rand.uniform(1000)}"
         Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, Matchmaking.session_topic(session_id))
-        Matchmaking.add_player(player_id, session_id)
-        {:ok, assign(socket, session_id: session_id, player_id: player_id, player_count: 1)}
+        session_pid = Communication.external_id_to_pid(session_id)
+        Matchmaking.add_player(player_id, session_pid)
+
+        {:ok,
+         assign(socket,
+           session_id: session_id,
+           player_id: player_id,
+           player_count: 1,
+           session_pid: session_pid
+         )}
     end
   end
 
   def handle_event("start_game", _params, socket) do
-    Matchmaking.start_game(socket.assigns[:session_id])
+    Matchmaking.start_game(socket.assigns[:session_pid])
     {:noreply, socket}
   end
 
@@ -40,7 +48,7 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   end
 
   def terminate(_reason, socket) do
-    Matchmaking.remove_player(socket.assigns[:player_id], socket.assigns[:session_id])
+    Matchmaking.remove_player(socket.assigns[:player_id], socket.assigns[:session_pid])
     :ignored
   end
 end

@@ -1,5 +1,6 @@
 defmodule DarkWorldsServerWeb.MatchmakingLive.Index do
   use DarkWorldsServerWeb, :live_view
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Matchmaking
 
   def mount(_params, _session, socket) do
@@ -14,7 +15,8 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Index do
   end
 
   def handle_event("create_session", _params, socket) do
-    session_id = Matchmaking.create_session()
+    session_pid = Matchmaking.create_session()
+    session_id = Communication.pid_to_external_id(session_pid)
     {:noreply, push_navigate(socket, to: ~p"/matchmaking/#{session_id}")}
   end
 

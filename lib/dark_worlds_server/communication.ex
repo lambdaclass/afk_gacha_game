@@ -18,4 +18,8 @@ defmodule DarkWorldsServer.Communication do
   def external_id_to_pid(external_id) do
     external_id |> Base58.decode() |> :erlang.binary_to_term([:safe])
   end
+
+  def pubsub_game_topic(game_pid) when is_pid(game_pid) do
+    "game_play_#{pid_to_external_id(game_pid)}"
+  end
 end

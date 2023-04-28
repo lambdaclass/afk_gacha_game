@@ -2,7 +2,6 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
   use DarkWorldsServerWeb, :live_view
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Engine.{Runner, Board}
 
   def mount(%{"game_id" => game_id}, _session, socket) do
@@ -50,7 +49,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
       :noreply,
       socket
       |> assign(:grid, game.board.grid)
-      |> assign(:count, socket.assigns.count+1)
+      |> assign(:count, socket.assigns.count + 1)
     }
   end
 
