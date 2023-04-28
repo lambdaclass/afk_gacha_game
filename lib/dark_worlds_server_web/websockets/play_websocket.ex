@@ -3,8 +3,8 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
   alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
-  alias DarkWorldsServer.Engine.{Runner, Board}
   alias DarkWorldsServer.Engine
+  alias DarkWorldsServer.Communication
 
   @behaviour :cowboy_websocket
 
@@ -54,19 +54,19 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_info({:move, game_state}, state) do
-    {:reply, {:text, Jason.encode!(game_state)}, state}
+    {:reply, {:text, Communication.encode!(game_state)}, state}
   end
 
   def websocket_info({:attack, game_state}, state) do
-    {:reply, {:text, Jason.encode!(game_state)}, state}
+    {:reply, {:text, Communication.encode!(game_state)}, state}
   end
 
   def websocket_info({:game_finished, game_state}, state) do
-    {:reply, {:text, Jason.encode!(game_state)}, state}
+    {:reply, {:text, Communication.encode!(game_state)}, state}
   end
 
   def websocket_info({:update_ping, player, ping}, state) do
-    {:reply, {:text, Jason.encode!(%{player => ping})}, state}
+    {:reply, {:text, Communication.encode!(%{player => ping})}, state}
   end
 
   def websocket_info(info, state), do: {:reply, {:text, info}, state}
