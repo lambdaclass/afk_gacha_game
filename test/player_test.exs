@@ -16,18 +16,13 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      walls = get_wall_coordinates(board.grid)
-
       # if player is touching the top border of the board, assert that position didn't change
       # if there's a wall above, assert that position didn't change
-      if first_player_before_moving.position.x == 0 do
-        assert first_player_after_moving.position.x == first_player_before_moving.position.x
+
+      if first_player_after_moving.position.x == first_player_before_moving.position.x - 1 do
+        assert true
       else
-        if {first_player_before_moving.position.x - 1, first_player_before_moving.position.y} in walls do
-          assert first_player_after_moving.position.x == first_player_before_moving.position.x
-        else
-          assert first_player_after_moving.position.x == first_player_before_moving.position.x - 1
-        end
+        assert Enum.at(board, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y) == :wall
       end
     end
 
