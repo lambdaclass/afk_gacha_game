@@ -4,6 +4,7 @@ defmodule DarkWorldsServer.Engine do
   """
   use DynamicSupervisor
 
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Runner
 
   def start_link(args) do
@@ -33,6 +34,6 @@ defmodule DarkWorldsServer.Engine do
 
   def list_games_ids() do
     list_runners_pids()
-    |> Enum.map(fn pid -> Runner.pid_to_game_id(pid) end)
+    |> Enum.map(fn pid -> Communication.pid_to_external_id(pid) end)
   end
 end

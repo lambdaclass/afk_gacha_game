@@ -3,13 +3,19 @@ defmodule DarkWorldsServer.Communication do
   The Communication context
   """
 
-  @spec encode!(term()) :: String.t() | no_return
   def encode!(value) do
     Jason.encode!(value)
   end
 
-  @spec decode(iodata()) :: {:ok, term()} | {:error, Jason.DecodeError.t()}
   def decode(value) do
     Jason.decode(value)
+  end
+
+  def pid_to_external_id(pid) when is_pid(pid) do
+    pid |> :erlang.term_to_binary() |> Base58.encode()
+  end
+
+  def external_id_to_pid(external_id) do
+    external_id |> Base58.decode() |> :erlang.binary_to_term([:safe])
   end
 end

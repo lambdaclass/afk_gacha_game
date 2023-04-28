@@ -1,6 +1,7 @@
 defmodule DarkWorldsServerWeb.BoardLive.Index do
   use DarkWorldsServerWeb, :live_view
 
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Engine.{Runner, Board}
 
@@ -10,7 +11,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
       |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
     end
 
-    runner_pid = game_id |> Runner.game_id_to_pid()
+    runner_pid = Communication.external_id_to_pid(game_id)
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 
@@ -33,7 +34,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
   end
 
   def handle_params(%{"game_id" => game_id}, _url, socket) do
-    runner_pid = game_id |> Runner.game_id_to_pid()
+    runner_pid = Communication.external_id_to_pid(game_id)
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 

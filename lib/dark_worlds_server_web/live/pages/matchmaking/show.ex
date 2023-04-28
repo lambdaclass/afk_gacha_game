@@ -1,7 +1,7 @@
 defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   use DarkWorldsServerWeb, :live_view
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Matchmaking
-  alias DarkWorldsServer.Engine.Runner
 
   def mount(%{"session_id" => session_id}, _session, socket) do
     case connected?(socket) do
@@ -31,7 +31,7 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   end
 
   def handle_info({:game_started, game_pid}, socket) do
-    {:noreply, redirect(socket, to: ~p"/board/#{Runner.pid_to_game_id(game_pid)}")}
+    {:noreply, redirect(socket, to: ~p"/board/#{Communication.pid_to_external_id(game_pid)}")}
   end
 
   def handle_info({:ping, pid}, socket) do
