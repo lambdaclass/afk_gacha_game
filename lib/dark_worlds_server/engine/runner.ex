@@ -11,7 +11,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
-  # This is the amount of time between batches
+  # This is the amount of time between updates (30ms)
   @update_time 30
 
   def start_link(args) do
