@@ -1,4 +1,4 @@
-.PHONY: setup run elixir-tests rust-tests db
+.PHONY: setup run elixir-tests rust-tests db docs
 
 setup:
 	mix deps.get
@@ -19,3 +19,6 @@ elixir-tests:
 
 rust-tests:
 	cargo test --manifest-path native/gamestate/Cargo.toml
+
+docs:
+	cd docs && mdbook serve --open
