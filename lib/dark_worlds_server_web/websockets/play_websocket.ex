@@ -53,16 +53,8 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     end
   end
 
-  def websocket_info({:move, game_state}, state) do
-    {:reply, {:text, Communication.encode!(game_state)}, state}
-  end
-
-  def websocket_info({:attack, game_state}, state) do
-    {:reply, {:text, Communication.encode!(game_state)}, state}
-  end
-
-  def websocket_info({:game_finished, game_state}, state) do
-    {:reply, {:text, Communication.encode!(game_state)}, state}
+  def websocket_info({:game_update, game_state}, state) do
+    {:reply, {:text, Communication.encode!(game_state.current_state)}, state}
   end
 
   def websocket_info({:update_ping, player, ping}, state) do

@@ -44,23 +44,29 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     {:noreply, socket}
   end
 
-  def handle_info({:move, %{game: game}}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:grid, game.board.grid)
-      |> assign(:count, socket.assigns.count + 1)
-    }
+  def handle_info({:game_update, %{current_state: %{game: game}}}, socket) do
+    {:noreply,
+     socket
+     |> assign(:players, game.players)
+     |> assign(:grid, game.board.grid)}
   end
 
-  def handle_info({:attack, %{game: game}}, socket) do
-    {
-      :noreply,
-      socket
-      |> assign(:players, game.players)
-      |> assign(:grid, game.board.grid)
-    }
-  end
+  # def handle_info({:move, %{game: game}}, socket) do
+  #   {
+  #     :noreply,
+  #     socket
+  #     |> assign(:grid, game.board.grid)
+  #   }
+  # end
+
+  # def handle_info({:attack, %{game: game}}, socket) do
+  #   {
+  #     :noreply,
+  #     socket
+  #     |> assign(:players, game.players)
+  #     |> assign(:grid, game.board.grid)
+  #   }
+  # end
 
   def handle_info({:game_finished, %{game: game}}, socket) do
     {
