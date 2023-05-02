@@ -69,8 +69,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     next_state = Map.put(next_state, :game, game)
 
     state = Map.put(state, :next_state, next_state)
-    # DarkWorldsServer.PubSub
-    # |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:move, state})
 
     {:noreply, state}
   end
@@ -151,11 +149,16 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:stop, :normal, state}
   end
 
+  def handle_info(:update_state, %{current_state: %{has_finished?: true}} = state) do
+    {:noreply, state}
+  end
+
   def handle_info(:update_state, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
 
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
+    has_a_player_won? = has_a_player_won?(next_state.game.players)
+
+    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     Process.send_after(self(), :update_state, @update_time)
     {:noreply, state}
@@ -180,7 +183,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:attack, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
   end
 
   defp broadcast_players_ping(player, ping) do
