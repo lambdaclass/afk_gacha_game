@@ -54,7 +54,11 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_info({:game_update, game_state}, state) do
-    reply_map = %{current_players: game_state.current_players, game: game_state.current_state.game}
+    reply_map = %{
+      current_players: game_state.current_players,
+      game: game_state.current_state.game
+    }
+
     {:reply, {:text, Communication.encode!(reply_map)}, state}
   end
 
