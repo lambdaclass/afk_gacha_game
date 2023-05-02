@@ -1,14 +1,16 @@
 defmodule DarkWorldsServerWeb.BoardLive.Index do
   use DarkWorldsServerWeb, :live_view
 
-  alias DarkWorldsServer.Engine
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.{Runner, Board}
 
   def mount(%{"game_id" => game_id}, _session, socket) do
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
+    if connected?(socket) do
+      DarkWorldsServer.PubSub
+      |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
+    end
 
-    runner_pid = game_id |> Runner.game_id_to_pid()
+    runner_pid = Communication.external_id_to_pid(game_id)
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 
@@ -20,7 +22,8 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
         grid: grid,
         players: players,
         game_id: game_id,
-        pings: %{}
+        pings: %{},
+        count: 0
       )
     }
   end
@@ -30,10 +33,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
   end
 
   def handle_params(%{"game_id" => game_id}, _url, socket) do
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
-
-    runner_pid = game_id |> Runner.game_id_to_pid()
+    runner_pid = Communication.external_id_to_pid(game_id)
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
 
@@ -49,6 +49,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
       :noreply,
       socket
       |> assign(:grid, game.board.grid)
+      |> assign(:count, socket.assigns.count + 1)
     }
   end
 

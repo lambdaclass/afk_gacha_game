@@ -30,9 +30,4 @@ defmodule DarkWorldsServer.Engine do
     end)
     |> Enum.map(fn {_, pid, _, _} -> pid end)
   end
-
-  def list_games_ids() do
-    list_runners_pids()
-    |> Enum.map(fn pid -> Runner.pid_to_game_id(pid) end)
-  end
 end

@@ -1,6 +1,7 @@
 defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
 
@@ -17,8 +18,6 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board, build_walls: false)
-    IO.inspect(state)
-    IO.inspect("To join: #{pid_to_game_id(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
     {:ok, %{game: state, has_finished?: false, max_players: @players, current_players: 0}}
   end
@@ -54,7 +53,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     state = Map.put(state, :game, game)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:move, state})
 
     {:noreply, state}
   end
@@ -128,19 +127,11 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
-      "game_play_#{pid_to_game_id(self())}",
+      Communication.pubsub_game_topic(self()),
       {:game_finished, state.game}
     )
 
     {:stop, :normal, state}
-  end
-
-  def pid_to_game_id(pid) do
-    pid |> :erlang.term_to_binary() |> Base58.encode()
-  end
-
-  def game_id_to_pid(game_id) do
-    game_id |> Base58.decode() |> :erlang.binary_to_term([:safe])
   end
 
   def game_has_finished?(pid) do
@@ -155,20 +146,20 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp maybe_broadcast_game_finished_message(true, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:game_finished, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
 
     Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
   defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:attack, state})
   end
 
   defp broadcast_players_ping(player, ping) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
-      "game_play_#{pid_to_game_id(self())}",
+      Communication.pubsub_game_topic(self()),
       {:update_ping, player, ping}
     )
   end
