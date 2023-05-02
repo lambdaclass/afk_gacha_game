@@ -16,14 +16,25 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      # if player is touching the top border of the board, assert that position didn't change
-      # if there's a wall above, assert that position didn't change
+      IO.inspect(first_player_before_moving.position.x)
+      IO.inspect(first_player_after_moving.position.x)
+      IO.inspect(Enum.at(board.grid, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y))
 
-      if first_player_after_moving.position.x == first_player_before_moving.position.x - 1 do
-        assert true
-      else
-        assert Enum.at(board, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y) == :wall
+      x_before_eq_after = first_player_before_moving.position.x == first_player_after_moving.position.x
+
+      contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
+
+      movement = first_player_after_moving.position.x == (first_player_before_moving.position.x - 1)
+
+      # first condition checks if player moved as expected
+      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      success = case x_before_eq_after do
+        true when contiguous_position_is_wall_or_player -> true
+        true when first_player_before_moving.position.x == 0 -> true
+        true -> false
+        false -> movement
       end
+      assert success
     end
 
     @tag :move_down
@@ -105,6 +116,8 @@ defmodule DarkWorldsServer.PlayerTest do
     end
   end
 
+  # Gets the position of anything that would impede a player from moving into a cell in the grid,
+  # be it a wall or another player
   def get_wall_coordinates(board_matrix) do
     board_matrix
     |> Enum.with_index()
