@@ -160,7 +160,6 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
-    Process.send_after(self(), :update_state, @update_time)
     {:noreply, state}
   end
 
@@ -184,6 +183,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
+    Process.send_after(self(), :update_state, @update_time)
   end
 
   defp broadcast_players_ping(player, ping) do
