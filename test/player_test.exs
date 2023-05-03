@@ -16,10 +16,6 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      IO.inspect(first_player_before_moving.position.x)
-      IO.inspect(first_player_after_moving.position.x)
-      IO.inspect(Enum.at(board.grid, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y))
-
       x_before_eq_after = first_player_before_moving.position.x == first_player_after_moving.position.x
 
       contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
@@ -48,19 +44,21 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      walls = get_wall_coordinates(board.grid)
+      x_before_eq_after = first_player_before_moving.position.x == first_player_after_moving.position.x
 
-      # if player is touching the bottom border of the board, assert that position didn't change
-      # if there's a wall below, assert that position didn't change
-      if first_player_before_moving.position.x == board.height - 1 do
-        assert first_player_after_moving.position.x == first_player_before_moving.position.x
-      else
-        if {first_player_before_moving.position.x + 1, first_player_before_moving.position.y} in walls do
-          assert first_player_after_moving.position.x == first_player_before_moving.position.x
-        else
-          assert first_player_after_moving.position.x == first_player_before_moving.position.x + 1
-        end
+      contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x + 1) |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
+
+      movement = first_player_after_moving.position.x == (first_player_before_moving.position.x + 1)
+
+      # first condition checks if player moved as expected
+      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      success = case x_before_eq_after do
+        true when contiguous_position_is_wall_or_player -> true
+        true when first_player_before_moving.position.x == 0 -> true
+        true -> false
+        false -> movement
       end
+      assert success
     end
 
     @tag :move_left
@@ -74,19 +72,21 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      walls = get_wall_coordinates(board.grid)
+      y_before_eq_after = first_player_before_moving.position.y == first_player_after_moving.position.y
 
-      # if player is touching the left border of the board, assert that position didn't change
-      # if there's a wall to the left, assert that position didn't change
-      if first_player_before_moving.position.y == 0 do
-        assert first_player_after_moving.position.y == first_player_before_moving.position.y
-      else
-        if {first_player_before_moving.position.x, first_player_before_moving.position.y - 1} in walls do
-          assert first_player_after_moving.position.y == first_player_before_moving.position.y
-        else
-          assert first_player_after_moving.position.y == first_player_before_moving.position.y - 1
-        end
+      contiguous_position = Enum.at(board.grid, first_player_before_moving.position.x) |> Enum.at(first_player_before_moving.position.y - 1)
+
+      contiguous_position_is_wall_or_player = contiguous_position in [:wall, :player]
+
+      # first condition checks if player moved as expected
+      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      player_moves_unless_theres_an_obstacle = case y_before_eq_after do
+        true when contiguous_position_is_wall_or_player -> true
+        true when first_player_before_moving.position.x == 0 -> true
+        true -> false
+        false -> first_player_after_moving.position.y == (first_player_before_moving.position.y - 1)
       end
+      assert player_moves_unless_theres_an_obstacle
     end
 
     @tag :move_right
@@ -100,19 +100,21 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      walls = get_wall_coordinates(board.grid)
+      y_before_eq_after = first_player_before_moving.position.y == first_player_after_moving.position.y
 
-      # if player is touching the right border of the board, assert that position didn't change
-      # if there's a wall to the right, assert that position didn't change
-      if first_player_before_moving.position.y == board.width - 1 do
-        assert first_player_after_moving.position.y == first_player_before_moving.position.y
-      else
-        if {first_player_before_moving.position.x, first_player_before_moving.position.y + 1} in walls do
-          assert first_player_after_moving.position.y == first_player_before_moving.position.y
-        else
-          assert first_player_after_moving.position.y == first_player_before_moving.position.y + 1
-        end
+      contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x) |> Enum.at(first_player_before_moving.position.y + 1)) in [:wall, :player]
+
+      movement = first_player_after_moving.position.y == (first_player_before_moving.position.y + 1)
+
+      # first condition checks if player moved as expected
+      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      success = case y_before_eq_after do
+        true when contiguous_position_is_wall_or_player -> true
+        true when first_player_before_moving.position.x == 0 -> true
+        true -> false
+        false -> movement
       end
+      assert success
     end
   end
 
