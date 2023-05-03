@@ -16,20 +16,25 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      x_before_eq_after = first_player_before_moving.position.x == first_player_after_moving.position.x
+      x_before_eq_after =
+        first_player_before_moving.position.x == first_player_after_moving.position.x
 
-      contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x - 1) |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
+      contiguous_position_is_wall_or_player =
+        (Enum.at(board.grid, first_player_before_moving.position.x - 1)
+         |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
 
-      movement = first_player_after_moving.position.x == (first_player_before_moving.position.x - 1)
+      movement = first_player_after_moving.position.x == first_player_before_moving.position.x - 1
 
       # first condition checks if player moved as expected
       # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
-      success = case x_before_eq_after do
-        true when contiguous_position_is_wall_or_player -> true
-        true when first_player_before_moving.position.x == 0 -> true
-        true -> false
-        false -> movement
-      end
+      success =
+        case x_before_eq_after do
+          true when contiguous_position_is_wall_or_player -> true
+          true when first_player_before_moving.position.x == 0 -> true
+          true -> false
+          false -> movement
+        end
+
       assert success
     end
 
@@ -44,20 +49,25 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      x_before_eq_after = first_player_before_moving.position.x == first_player_after_moving.position.x
+      x_before_eq_after =
+        first_player_before_moving.position.x == first_player_after_moving.position.x
 
-      contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x + 1) |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
+      contiguous_position_is_wall_or_player =
+        (Enum.at(board.grid, first_player_before_moving.position.x + 1)
+         |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
 
-      movement = first_player_after_moving.position.x == (first_player_before_moving.position.x + 1)
+      movement = first_player_after_moving.position.x == first_player_before_moving.position.x + 1
 
       # first condition checks if player moved as expected
       # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
-      success = case x_before_eq_after do
-        true when contiguous_position_is_wall_or_player -> true
-        true when first_player_before_moving.position.x == 0 -> true
-        true -> false
-        false -> movement
-      end
+      success =
+        case x_before_eq_after do
+          true when contiguous_position_is_wall_or_player -> true
+          true when first_player_before_moving.position.x == 0 -> true
+          true -> false
+          false -> movement
+        end
+
       assert success
     end
 
@@ -72,20 +82,32 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      y_before_eq_after = first_player_before_moving.position.y == first_player_after_moving.position.y
+      y_before_eq_after =
+        first_player_before_moving.position.y == first_player_after_moving.position.y
 
-      contiguous_position = Enum.at(board.grid, first_player_before_moving.position.x) |> Enum.at(first_player_before_moving.position.y - 1)
+      contiguous_position =
+        Enum.at(board.grid, first_player_before_moving.position.x)
+        |> Enum.at(first_player_before_moving.position.y - 1)
 
       contiguous_position_is_wall_or_player = contiguous_position in [:wall, :player]
 
       # first condition checks if player moved as expected
       # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
-      player_moves_unless_theres_an_obstacle = case y_before_eq_after do
-        true when contiguous_position_is_wall_or_player -> true
-        true when first_player_before_moving.position.x == 0 -> true
-        true -> false
-        false -> first_player_after_moving.position.y == (first_player_before_moving.position.y - 1)
-      end
+      player_moves_unless_theres_an_obstacle =
+        case y_before_eq_after do
+          true when contiguous_position_is_wall_or_player ->
+            true
+
+          true when first_player_before_moving.position.x == 0 ->
+            true
+
+          true ->
+            false
+
+          false ->
+            first_player_after_moving.position.y == first_player_before_moving.position.y - 1
+        end
+
       assert player_moves_unless_theres_an_obstacle
     end
 
@@ -100,20 +122,25 @@ defmodule DarkWorldsServer.PlayerTest do
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
-      y_before_eq_after = first_player_before_moving.position.y == first_player_after_moving.position.y
+      y_before_eq_after =
+        first_player_before_moving.position.y == first_player_after_moving.position.y
 
-      contiguous_position_is_wall_or_player = (Enum.at(board.grid, first_player_before_moving.position.x) |> Enum.at(first_player_before_moving.position.y + 1)) in [:wall, :player]
+      contiguous_position_is_wall_or_player =
+        (Enum.at(board.grid, first_player_before_moving.position.x)
+         |> Enum.at(first_player_before_moving.position.y + 1)) in [:wall, :player]
 
-      movement = first_player_after_moving.position.y == (first_player_before_moving.position.y + 1)
+      movement = first_player_after_moving.position.y == first_player_before_moving.position.y + 1
 
       # first condition checks if player moved as expected
       # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
-      success = case y_before_eq_after do
-        true when contiguous_position_is_wall_or_player -> true
-        true when first_player_before_moving.position.x == 0 -> true
-        true -> false
-        false -> movement
-      end
+      success =
+        case y_before_eq_after do
+          true when contiguous_position_is_wall_or_player -> true
+          true when first_player_before_moving.position.x == 0 -> true
+          true -> false
+          false -> movement
+        end
+
       assert success
     end
   end
