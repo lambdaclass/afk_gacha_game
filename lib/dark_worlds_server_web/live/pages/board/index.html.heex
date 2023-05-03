@@ -36,8 +36,7 @@
     <% end %>
   <% else %>
     <h1> Current Game Sessions </h1>
-    <% game_session_ids = Engine.list_games_ids() %>
-    <%= for session_id <- game_session_ids do %>
+    <%= for session_id <- list_game_sessions() do %>
       <div> <.link patch={~p"/board/#{session_id}"}><%= session_id %></.link> </div>
     <% end %>
   <% end %>

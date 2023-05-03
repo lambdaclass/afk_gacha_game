@@ -1,6 +1,7 @@
 defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
 
@@ -11,6 +12,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
+  # This is the amount of time between updates (30ms)
+  @update_time 30
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
@@ -21,7 +24,21 @@ defmodule DarkWorldsServer.Engine.Runner do
     # IO.inspect(state)
     # IO.inspect("To join: #{pid_to_game_id(self())}")
     Process.send_after(self(), :game_timeout, @game_timeout)
-    {:ok, %{game: state, has_finished?: false, max_players: @players, current_players: 0}}
+
+    initial_state = %{
+      game: state,
+      has_finished?: false
+    }
+
+    Process.send_after(self(), :update_state, @update_time)
+
+    {:ok,
+     %{
+       current_state: initial_state,
+       next_state: initial_state,
+       max_players: @players,
+       current_players: 0
+     }}
   end
 
   def join(runner_pid) do
@@ -40,48 +57,53 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.call(runner_pid, :get_players)
   end
 
+  def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
+    {:noreply, state}
+  end
+
   def handle_cast(
         {:play, player, %ActionOk{action: :move, value: value}},
-        %{game: game} = state
+        %{next_state: %{game: game} = next_state} = state
       ) do
     game =
       game
       |> Game.move_player(player, value)
 
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:move, state})
+    next_state = Map.put(next_state, :game, game)
 
-    {:noreply, Map.put(state, :game, game)}
+    state = Map.put(state, :next_state, next_state)
+
+    {:noreply, state}
   end
 
   def handle_cast(
         {:play, player, %ActionOk{action: :attack, value: value}},
-        %{game: game} = state
+        %{next_state: %{game: game} = next_state} = state
       ) do
     game =
       game
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
-    state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+    next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+    state = Map.put(state, :next_state, next_state)
 
     {:noreply, state}
   end
 
   def handle_cast(
         {:play, player, %ActionOk{action: :attack_aoe, value: value}},
-        %{game: game} = state
+        %{next_state: %{game: game} = next_state} = state
       ) do
     game =
       game
       |> Game.attack_aoe(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
-    state = state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+    next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
+    state = Map.put(state, :next_state, next_state)
 
     {:noreply, state}
   end
@@ -104,11 +126,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, {:error, :game_full}, state}
   end
 
-  def handle_call(:get_board, _from, %{game: %Game{board: board}} = state) do
+  def handle_call(:get_board, _from, %{current_state: %{game: %Game{board: board}}} = state) do
     {:reply, board, state}
   end
 
-  def handle_call(:get_players, _from, %{game: %Game{players: players}} = state) do
+  def handle_call(:get_players, _from, %{current_state: %{game: %Game{players: players}}} = state) do
     {:reply, players, state}
   end
 
@@ -123,23 +145,29 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
-      "game_play_#{pid_to_game_id(self())}",
+      Communication.pubsub_game_topic(self()),
       {:game_finished, state.game}
     )
 
     {:stop, :normal, state}
   end
 
-  def pid_to_game_id(pid) do
-    pid |> :erlang.term_to_binary() |> Base58.encode()
+  def handle_info(:update_state, %{current_state: %{has_finished?: true}} = state) do
+    {:noreply, state}
   end
 
-  def game_id_to_pid(game_id) do
-    game_id |> Base58.decode() |> :erlang.binary_to_term([:safe])
+  def handle_info(:update_state, %{next_state: next_state} = state) do
+    state = Map.put(state, :current_state, next_state)
+
+    has_a_player_won? = has_a_player_won?(next_state.game.players)
+
+    maybe_broadcast_game_finished_message(has_a_player_won?, state)
+
+    {:noreply, state}
   end
 
   def game_has_finished?(pid) do
-    %{has_finished?: has_finished?} = :sys.get_state(pid)
+    %{current_state: %{has_finished?: has_finished?}} = :sys.get_state(pid)
     has_finished?
   end
 
@@ -150,20 +178,22 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp maybe_broadcast_game_finished_message(true, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:game_finished, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
 
     Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
   defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast("game_play_#{pid_to_game_id(self())}", {:attack, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
+
+    Process.send_after(self(), :update_state, @update_time)
   end
 
   defp broadcast_players_ping(player, ping) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
-      "game_play_#{pid_to_game_id(self())}",
+      Communication.pubsub_game_topic(self()),
       {:update_ping, player, ping}
     )
   end

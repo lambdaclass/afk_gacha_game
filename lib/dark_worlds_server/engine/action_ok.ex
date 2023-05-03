@@ -1,8 +1,8 @@
 defmodule DarkWorldsServer.Engine.ActionOk do
+  use DarkWorldsServer.Communication.Encoder
   alias DarkWorldsServer.Engine.ActionRaw
 
   @enforce_keys [:action, :value]
-  @derive Jason.Encoder
   defstruct [:action, :value]
 
   def from_action_raw(%ActionRaw{
