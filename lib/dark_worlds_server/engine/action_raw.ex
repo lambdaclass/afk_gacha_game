@@ -1,12 +1,14 @@
 defmodule DarkWorldsServer.Engine.ActionRaw do
+  use DarkWorldsServer.Communication.Encoder
+
   @enforce_keys [:action, :value]
-  @derive Jason.Encoder
   defstruct [:action, :value]
 
+  alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Position
 
   def from_json(json) do
-    case Jason.decode(json) do
+    case Communication.decode(json) do
       {:ok, data} ->
         {:ok,
          %__MODULE__{

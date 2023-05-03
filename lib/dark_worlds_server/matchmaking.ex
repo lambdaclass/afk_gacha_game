@@ -5,33 +5,29 @@ defmodule DarkWorldsServer.Matchmaking do
 
   alias DarkWorldsServer.Matchmaking.MatchingSession
   alias DarkWorldsServer.Matchmaking.MatchingSupervisor
-  alias DarkWorldsServer.Engine.Runner
 
   def create_session() do
     {:ok, pid} = MatchingSupervisor.start_child()
-    Runner.pid_to_game_id(pid)
+    pid
   end
 
-  def add_player(player_id, session_id) do
-    session_pid = Runner.game_id_to_pid(session_id)
+  def add_player(player_id, session_pid) do
     MatchingSession.add_player(player_id, session_pid)
   end
 
-  def remove_player(player_id, session_id) do
-    session_pid = Runner.game_id_to_pid(session_id)
+  def remove_player(player_id, session_pid) do
     MatchingSession.remove_player(player_id, session_pid)
   end
 
   def fetch_sessions() do
-    Enum.map(MatchingSupervisor.children_pids(), fn pid -> Runner.pid_to_game_id(pid) end)
+    MatchingSupervisor.children_pids()
   end
 
   def session_topic(session_id) do
     "matching_session_#{session_id}"
   end
 
-  def start_game(session_id) do
-    session_pid = Runner.game_id_to_pid(session_id)
+  def start_game(session_pid) do
     MatchingSession.start_game(session_pid)
   end
 end
