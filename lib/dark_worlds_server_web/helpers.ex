@@ -26,4 +26,8 @@ defmodule DarkWorldsServerWeb.Helpers do
     Engine.list_runners_pids()
     |> Enum.map(fn pid -> Communication.pid_to_external_id(pid) end)
   end
+
+  def pid_to_external_id(pid) do
+    Communication.pid_to_external_id(pid)
+  end
 end
