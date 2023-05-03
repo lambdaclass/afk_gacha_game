@@ -118,9 +118,9 @@ impl GameState {
         }
 
         if let Some(target_player) = self.players.iter_mut().find(|player| {
-            let tile = maybe_target_cell.unwrap();
+            let tile = maybe_target_cell.clone().unwrap();
             match tile {
-                Tile::Player(tile_player_id) if *tile_player_id == player.id => true,
+                Tile::Player(tile_player_id) if tile_player_id == player.id => true,
                 _ => false,
             }
         }) {
@@ -193,7 +193,7 @@ fn is_valid_movement(board: &Board, new_position: &Position) -> bool {
 
     // Check if cell is not-occupied
     // This unwrap is safe since we checked for None in the line above.
-    if let Tile::Empty = *cell.unwrap() {
+    if let Tile::Empty = cell.unwrap() {
         true
     } else {
         false
@@ -226,6 +226,10 @@ fn generate_new_position(
 
 #[cfg(test)]
 mod tests {
+    use rustler::Env;
+    use rustler::Term;
+
+    use crate::board::GridResource;
     use crate::board::Tile;
     use crate::game::MELEE_ATTACK_COOLDOWN;
     use crate::player::Player;
@@ -234,6 +238,11 @@ mod tests {
 
     use super::Direction;
     use super::GameState;
+
+    fn get_grid(game: &GameState) -> Vec<Vec<Tile>> {
+        let grid = game.board.grid.resource.lock().unwrap();
+        grid.clone()
+    }
 
     #[test]
     fn no_move_if_beyond_boundaries() {
@@ -245,33 +254,33 @@ mod tests {
         state.move_player(player_id, Direction::UP);
         assert_eq!(0, state.players.first().unwrap().position.x);
 
-        expected_grid = state.board.grid.clone();
+        expected_grid = get_grid(&state);
         state.move_player(player_id, Direction::UP);
-        assert_eq!(expected_grid, state.board.grid);
+        assert_eq!(expected_grid, get_grid(&state));
 
         // Check DOWN boundary
         state.move_player(player_id, Direction::DOWN);
         assert_eq!(1, state.players.first().unwrap().position.x);
 
-        expected_grid = state.board.grid.clone();
+        expected_grid = get_grid(&state);
         state.move_player(player_id, Direction::DOWN);
-        assert_eq!(expected_grid, state.board.grid);
+        assert_eq!(expected_grid, get_grid(&state));
 
         // Check RIGHT boundary
         state.move_player(player_id, Direction::RIGHT);
         assert_eq!(1, state.players.first().unwrap().position.y);
 
-        expected_grid = state.board.grid.clone();
+        expected_grid = get_grid(&state);
         state.move_player(player_id, Direction::RIGHT);
-        assert_eq!(expected_grid, state.board.grid);
+        assert_eq!(expected_grid, get_grid(&state));
 
         // Check LEFT boundary
         state.move_player(player_id, Direction::LEFT);
         assert_eq!(0, state.players.first().unwrap().position.y);
 
-        expected_grid = state.board.grid.clone();
+        expected_grid = get_grid(&state);
         state.move_player(player_id, Direction::LEFT);
-        assert_eq!(expected_grid, state.board.grid);
+        assert_eq!(expected_grid, get_grid(&state));
     }
 
     #[test]
@@ -287,9 +296,9 @@ mod tests {
         state.board.set_cell(1, 1, Tile::Empty);
         state.board.set_cell(1, 0, Tile::Empty);
 
-        let expected_grid = state.board.grid.clone();
+        let expected_grid = get_grid(&state);
         state.move_player(player1_id, Direction::RIGHT);
-        assert_eq!(expected_grid, state.board.grid);
+        assert_eq!(expected_grid, get_grid(&state));
     }
 
     #[test]
@@ -301,9 +310,9 @@ mod tests {
         state.board.set_cell(0, 0, Tile::Player(player1_id));
         state.board.set_cell(0, 1, Tile::Wall);
 
-        let expected_grid = state.board.grid.clone();
+        let expected_grid = get_grid(&state);
         state.move_player(player1_id, Direction::RIGHT);
-        assert_eq!(expected_grid, state.board.grid);
+        assert_eq!(expected_grid, get_grid(&state));
     }
 
     #[test]
@@ -320,7 +329,7 @@ mod tests {
                 vec![Tile::Empty, Tile::Player(player_id)],
                 vec![Tile::Empty, Tile::Empty]
             ],
-            state.board.grid
+            get_grid(&state)
         );
 
         state.move_player(player_id, Direction::DOWN);
@@ -329,7 +338,7 @@ mod tests {
                 vec![Tile::Empty, Tile::Empty],
                 vec![Tile::Empty, Tile::Player(player_id)]
             ],
-            state.board.grid
+            get_grid(&state)
         );
 
         state.move_player(player_id, Direction::LEFT);
@@ -338,7 +347,7 @@ mod tests {
                 vec![Tile::Empty, Tile::Empty],
                 vec![Tile::Player(player_id), Tile::Empty]
             ],
-            state.board.grid
+            get_grid(&state)
         );
 
         state.move_player(player_id, Direction::UP);
@@ -347,7 +356,7 @@ mod tests {
                 vec![Tile::Player(player_id), Tile::Empty],
                 vec![Tile::Empty, Tile::Empty]
             ],
-            state.board.grid
+            get_grid(&state)
         );
     }
 
