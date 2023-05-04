@@ -18,7 +18,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.start_link(__MODULE__, args)
   end
 
-  def init(_opts) do
+  def init(opts) do
     state = Game.new(number_of_players: @players, board: @board, build_walls: false)
     Process.send_after(self(), :game_timeout, @game_timeout)
 

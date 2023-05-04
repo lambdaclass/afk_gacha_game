@@ -42,7 +42,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   @impl GenServer
   def handle_call({:add_player, player}, _from, state) do
-    players = state[:players] |> IO.inspect()
+    players = state[:players]
 
     case Enum.member?(players, player) do
       true ->
@@ -73,7 +73,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   @impl GenServer
   def handle_cast(:start_game, state) do
-    {:ok, game_pid} = Engine.start_child()
+    {:ok, game_pid} = Engine.start_child(state.players)
     Phoenix.PubSub.broadcast!(DarkWorldsServer.PubSub, state[:topic], {:game_started, game_pid})
     {:stop, :normal, state}
   end
