@@ -1,4 +1,9 @@
 defmodule DarkWorldsServer.Engine.Runner do
+  @moduledoc """
+  Receives client state updates and updates
+  the overall gamestate accordingly with
+  PubSub broadcast.
+  """
   use GenServer, restart: :transient
 
   alias DarkWorldsServer.Communication
@@ -18,8 +23,13 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.start_link(__MODULE__, args)
   end
 
+  @doc """
+  Starts a new game state, triggers the first
+  update and the final game timeout.
+  """
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board, build_walls: false)
+    # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
 
     initial_state = %{
@@ -58,6 +68,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  @doc """
+  Update game state based on the received action.
+  """
   def handle_cast(
         {:play, player, %ActionOk{action: :move, value: value}},
         %{next_state: %{game: game} = next_state} = state
@@ -73,6 +86,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  @doc """
+  Update game state based on the received action.
+  """
   def handle_cast(
         {:play, player, %ActionOk{action: :attack, value: value}},
         %{next_state: %{game: game} = next_state} = state
@@ -89,6 +105,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  @doc """
+  Update game state based on the received action.
+  """
   def handle_cast(
         {:play, player, %ActionOk{action: :attack_aoe, value: value}},
         %{next_state: %{game: game} = next_state} = state
@@ -105,6 +124,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  @doc """
+  Update game state based on the received action.
+  """
   def handle_cast(
         {:play, player, %ActionOk{action: :update_ping, value: value}},
         state
@@ -138,8 +160,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_info(:session_timeout, state) do
-    IO.inspect(self(), label: "session timeout")
-
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
@@ -153,12 +173,26 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  @doc """
+  Trigger a state broadcast update.
+  If some player has won, start the countdown
+  to finish the session.
+  Else, trigger another update.
+  """
   def handle_info(:update_state, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
 
     has_a_player_won? = has_a_player_won?(next_state.game.players)
 
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
+    cond do
+      has_a_player_won? ->
+        Process.send_after(self(), :session_timeout, @session_timeout)
+
+      not has_a_player_won? ->
+        Process.send_after(self(), :update_state, @update_time)
+    end
+
+    broadcast_game_update(has_a_player_won?, state)
 
     {:noreply, state}
   end
@@ -173,18 +207,18 @@ defmodule DarkWorldsServer.Engine.Runner do
     Enum.count(players_alive) == 1
   end
 
-  defp maybe_broadcast_game_finished_message(true, state) do
+  @doc """
+  Broadcast the current game state to
+  each connected player.
+  """
+  defp broadcast_game_update(_has_finished? = true, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
-
-    Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
-  defp maybe_broadcast_game_finished_message(_false, state) do
+  defp broadcast_game_update(_has_finished? = false, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
-
-    Process.send_after(self(), :update_state, @update_time)
   end
 
   defp broadcast_players_ping(player, ping) do
