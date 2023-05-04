@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.github-glitchenzo.nugetforunity": {
+      "version": "https://github.com/GlitchEnzo/NuGetForUnity.git?path=/src/NuGetForUnity",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7be7e8f28977852939dc2e016b271163a0db9eca"
+    },
     "com.unity.2d.pixel-perfect": {
       "version": "5.0.3",
       "depth": 0,
