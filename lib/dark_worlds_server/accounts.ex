@@ -350,4 +350,11 @@ defmodule DarkWorldsServer.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def get_player_info(user) do
+    %{
+      id: user.id,
+      email: user.email
+    }
+  end
 end
