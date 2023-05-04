@@ -13,13 +13,16 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
         player_id = "player_id_#{:rand.uniform(1000)}"
         Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, Matchmaking.session_topic(session_id))
         session_pid = Communication.external_id_to_pid(session_id)
-        Matchmaking.add_player(player_id, session_pid)
+
+        player_info = get_player_info(socket.assigns.current_user)
+
+        Matchmaking.add_player(player_info, session_pid)
 
         {:ok,
          assign(socket,
            session_id: session_id,
            player_id: player_id,
-           player_count: 1,
+           player_count: Matchmaking.fetch_amount_of_players(session_pid),
            session_pid: session_pid
          )}
     end
@@ -50,5 +53,12 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   def terminate(_reason, socket) do
     Matchmaking.remove_player(socket.assigns[:player_id], socket.assigns[:session_pid])
     :ignored
+  end
+
+  defp get_player_info(user) do
+    %{
+      id: user.id,
+      email: user.email
+    }
   end
 end
