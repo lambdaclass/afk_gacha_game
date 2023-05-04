@@ -84,21 +84,20 @@ GenServer.cast(runner_pid, {:play, player_id, action})
 The `Runner`'s appropriate handler eventually picks up this message, which in this case looks like this:
 
 ```elixir
-def handle_cast(
+  def handle_cast(
         {:play, player, %ActionOk{action: :move, value: value}},
-        %{game: game} = state
+        %{next_state: %{game: game} = next_state} = state
       ) do
     game =
       game
       |> Game.move_player(player, value)
 
-    state = Map.put(state, :game, game)
+    next_state = Map.put(next_state, :game, game)
 
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:move, state})
+    state = Map.put(state, :next_state, next_state)
 
     {:noreply, state}
-end
+  end
 ```
 
 Every action handler essentially does those two things: update the game state accordingly, then broadcast a message with the newly updated state. 
