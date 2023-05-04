@@ -160,7 +160,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_info(:session_timeout, state) do
-
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
@@ -188,6 +187,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     cond do
       has_a_player_won? ->
         Process.send_after(self(), :session_timeout, @session_timeout)
+
       not has_a_player_won? ->
         Process.send_after(self(), :update_state, @update_time)
     end
