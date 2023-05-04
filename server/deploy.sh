@@ -8,7 +8,7 @@ fi
 
 cd /tmp
 git clone git@github.com:lambdaclass/dark_worlds_server.git --branch main
-cd dark_worlds_server
+cd dark_worlds_server/server
 
 mix local.hex --force && mix local.rebar --force
 mix deps.get --only $MIX_ENV
@@ -29,9 +29,9 @@ After=network-online.target
 
 [Service]
 User=root
-WorkingDirectory=/root/dark_worlds_server
+WorkingDirectory=/root/dark_worlds_server/server
 Restart=on-failure
-ExecStart=/root/dark_worlds_server/entrypoint.sh
+ExecStart=/root/dark_worlds_server/server/entrypoint.sh
 ExecReload=/bin/kill -HUP
 KillSignal=SIGTERM
 EnvironmentFile=/root/.env
@@ -51,7 +51,7 @@ EOF
 
 systemctl stop dark_worlds_server
 
-/root/dark_worlds_server/_build/prod/rel/dark_worlds_server/bin/migrate
+/root/dark_worlds_server/server/_build/prod/rel/dark_worlds_server/bin/migrate
 
 systemctl daemon-reload
 systemctl start dark_worlds_server
