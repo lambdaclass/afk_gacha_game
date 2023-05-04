@@ -101,6 +101,8 @@ The `Runner`'s appropriate handler eventually picks up this message, which in th
 ```
 
 Every action handler essentially does those two things: update the game state accordingly, then broadcast a message with the newly updated state. 
+We're managing game updates through a tick rate. Updates are being sent
+every 30ms.
 
 You'll notice the `init` function on the `PlayWebSocket` process does (among other things) the following:
 
