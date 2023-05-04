@@ -13,6 +13,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     runner_pid = Communication.external_id_to_pid(game_id)
     %Board{grid: grid} = Runner.get_board(runner_pid)
     players = Runner.get_players(runner_pid)
+    logged_players = Runner.get_logged_players(runner_pid)
 
     {
       :ok,
@@ -21,6 +22,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
         runner_pid: runner_pid,
         grid: grid,
         players: players,
+        logged_players: logged_players,
         game_id: game_id,
         pings: %{},
         count: 0

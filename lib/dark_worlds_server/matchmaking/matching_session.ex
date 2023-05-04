@@ -73,7 +73,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   @impl GenServer
   def handle_cast(:start_game, state) do
-    {:ok, game_pid} = Engine.start_child(state.players)
+    {:ok, game_pid} = Engine.start_child(%{players: state.players})
     Phoenix.PubSub.broadcast!(DarkWorldsServer.PubSub, state[:topic], {:game_started, game_pid})
     {:stop, :normal, state}
   end

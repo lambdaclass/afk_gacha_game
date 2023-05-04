@@ -16,7 +16,6 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
         session_pid = Communication.external_id_to_pid(session_id)
 
         player_info = Accounts.get_player_info(socket.assigns.current_user)
-
         Matchmaking.add_player(player_info, session_pid)
 
         {:ok,

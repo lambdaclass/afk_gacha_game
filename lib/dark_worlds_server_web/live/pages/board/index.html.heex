@@ -32,6 +32,12 @@
             <% end %>
           </div>
         <% end %>
+
+        <%= for player <- @logged_players  do %>
+          <div>
+            <span>User: <%= player.email %> </span>
+          </div>
+        <% end %>
       </div>
     <% end %>
   <% else %>

@@ -5,7 +5,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
 
-  @players 3
+  @amount_of_players 3
   @board {100, 100}
   # The game will be closed five minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -19,7 +19,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def init(opts) do
-    state = Game.new(number_of_players: @players, board: @board, build_walls: false)
+    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: false)
     Process.send_after(self(), :game_timeout, @game_timeout)
 
     initial_state = %{
@@ -33,7 +33,8 @@ defmodule DarkWorldsServer.Engine.Runner do
      %{
        current_state: initial_state,
        next_state: initial_state,
-       max_players: @players,
+       max_players: @amount_of_players,
+       players: opts.players,
        current_players: 0
      }}
   end
@@ -52,6 +53,10 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def get_players(runner_pid) do
     GenServer.call(runner_pid, :get_players)
+  end
+
+  def get_logged_players(runner_pid) do
+    GenServer.call(runner_pid, :get_logged_players)
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
@@ -114,7 +119,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  def handle_call(:join, _, %{max_players: max, current_players: current} = state)
+  def handle_call(
+        :join,
+        _,
+        %{max_players: max, current_players: current} = state
+      )
       when current < max do
     {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
   end
@@ -128,6 +137,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_call(:get_players, _from, %{current_state: %{game: %Game{players: players}}} = state) do
+    {:reply, players, state}
+  end
+
+  def handle_call(:get_logged_players, _from, %{players: players} = state) do
     {:reply, players, state}
   end
 
