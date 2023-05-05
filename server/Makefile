@@ -1,4 +1,4 @@
-.PHONY: setup run elixir-tests rust-tests db docs
+.PHONY: setup run elixir-tests rust-tests db docs shell
 
 setup:
 	mix deps.get
@@ -22,3 +22,12 @@ rust-tests:
 
 docs:
 	cd docs && mdbook serve --open
+
+shell:
+	iex -S mix run --no-start --no-halt
+
+generate-protobuf:
+	protoc \
+		--elixir_out=transform_module=DarkWorldsServer.Communication.ProtoTransform:./lib/dark_worlds_server/communication/ \
+		--elixir_opt=package_prefix=dark_worlds_server.communication.proto \
+		messages.proto
