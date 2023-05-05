@@ -41,6 +41,7 @@ defmodule DarkWorldsServer.Accounts.User do
     |> validate_required(:username)
     |> validate_email(opts)
     |> validate_password(opts)
+    |> maybe_validate_unique_username(opts)
   end
 
   defp validate_email(changeset, opts) do
@@ -84,6 +85,15 @@ defmodule DarkWorldsServer.Accounts.User do
       changeset
       |> unsafe_validate_unique(:email, DarkWorldsServer.Repo)
       |> unique_constraint(:email)
+    else
+      changeset
+    end
+  end
+
+  defp maybe_validate_unique_username(changeset, opts) do
+    if Keyword.get(opts, :validate_username, true) do
+      changeset
+      |> unique_constraint(:username)
     else
       changeset
     end
