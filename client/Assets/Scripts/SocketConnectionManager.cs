@@ -4,10 +4,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine.Networking;
 using System.Net;
 using System;
 using System.Xml.Linq;
+using ProtoBuf;
 
 public class SocketConnectionManager : MonoBehaviour
 {
@@ -34,15 +36,15 @@ public class SocketConnectionManager : MonoBehaviour
 
     public struct PositionUpdate
     {
-        public int x;
-        public int y;
+        public long x;
+        public long y;
         public int player_id;
     }
 
     public class Position
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        public long x { get; set; }
+        public long y { get; set; }
     }
 
     public class Player
@@ -76,35 +78,23 @@ public class SocketConnectionManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            Dictionary<string, string> move = new Dictionary<string, string>();
-            move.Add("action", "move");
-            move.Add("value", "up");
-            string msg = JsonConvert.SerializeObject(move);
-            ws.Send(msg);
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up};
+            SendAction(action);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            Dictionary<string, string> move = new Dictionary<string, string>();
-            move.Add("action", "move");
-            move.Add("value", "left");
-            string msg = JsonConvert.SerializeObject(move);
-            ws.Send(msg);
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left};
+            SendAction(action);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            Dictionary<string, string> move = new Dictionary<string, string>();
-            move.Add("action", "move");
-            move.Add("value", "right");
-            string msg = JsonConvert.SerializeObject(move);
-            ws.Send(msg);
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right};
+            SendAction(action);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            Dictionary<string, string> move = new Dictionary<string, string>();
-            move.Add("action", "move");
-            move.Add("value", "down");
-            string msg = JsonConvert.SerializeObject(move);
-            ws.Send(msg);
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down};
+            SendAction(action);
         }
     }
 
@@ -158,25 +148,35 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
-        //Debug.Log("Message received from: " + ((WebSocket)sender).Url + ", Data: " + e.Data);
+        // Debug.Log("Message received from: " + ((WebSocket)sender).Url + ", Data: " + e.Data);
 
         if (e.Data == "OK" || e.Data.Contains("CONNECTED_TO"))
         {
             //Debug.Log("Nothing to do");
         }
+        else if (e.Data.Contains("ERROR"))
+        {
+            Debug.Log("Error message: " + e.Data);
+        }
         else
         {
-            GameResponse game_response = JsonConvert.DeserializeObject<GameResponse>(e.Data);
-            Debug.Log(game_response);
+            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>) e.RawData);
 
-            for (int i = 0; i < game_response.players.Count; i++)
+            for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
 
-                var new_position = game_response.players[i].position;
-                positionUpdates.Enqueue(new PositionUpdate { x = new_position.y, y = -new_position.x, player_id = i });
-                //Debug.Log("i: " + i.ToString());
+                var new_position = game_update.Players[i].Position;
+                positionUpdates.Enqueue(new PositionUpdate { x = new_position.Y, y = -new_position.X, player_id = i });
             }
+        }
+    }
+
+    private void SendAction(ClientAction action) {
+        using (var stream = new MemoryStream()) {
+            Serializer.Serialize(stream, action);
+            var msg = stream.ToArray();
+            ws.Send(msg);
         }
     }
 }
