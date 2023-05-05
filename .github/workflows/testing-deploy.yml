@@ -32,7 +32,7 @@ jobs:
         SSH_HOST: ${{ secrets.SSH_HOST }}
         SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         SSH_PORT: ${{ secrets.SSH_PORT }}
-        SCRIPT_SRC: "deploy.sh"
+        SCRIPT_SRC: "server/deploy.sh"
         SCRIPT_DEST: "/root/deploy-script/"
       run: |
         set -ex
