@@ -21,8 +21,6 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def init(_opts) do
     state = Game.new(number_of_players: @players, board: @board, build_walls: @build_walls)
-    IO.inspect(state)
-    IO.inspect("To join: #{pid_to_game_id(self())}")
     # Finish the game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
 
