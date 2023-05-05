@@ -55,6 +55,7 @@ defmodule DarkWorldsServer.MixProject do
       {:rustler, "~> 0.27.0"},
       {:exbase58, "~> 1.0.2"},
       {:websockex, "~> 0.4.3"}
+      {:protobuf, "~> 0.10.0"}
     ]
   end
 

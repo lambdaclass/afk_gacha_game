@@ -1,11 +1,9 @@
-use rustler::{NifStruct, NifTaggedEnum};
+use rustler::{NifStruct, NifTaggedEnum, ResourceArc};
+use std::sync::Mutex;
 
-#[derive(Debug, Clone, NifStruct)]
-#[module = "DarkWorldsServer.Engine.Board"]
-pub struct Board {
-    pub width: usize,
-    pub height: usize,
-    pub grid: Vec<Vec<Tile>>,
+#[derive(Debug)]
+pub struct GridResource {
+    pub resource: Mutex<Vec<Vec<Tile>>>,
 }
 
 #[derive(Debug, Clone, NifTaggedEnum, PartialEq)]
@@ -15,9 +13,20 @@ pub enum Tile {
     Wall,
 }
 
+#[derive(NifStruct)]
+#[module = "DarkWorldsServer.Engine.Board"]
+pub struct Board {
+    pub width: usize,
+    pub height: usize,
+    pub grid: ResourceArc<GridResource>,
+}
+
 impl Board {
     pub fn new(width: usize, height: usize) -> Self {
-        let grid = vec![vec![Tile::Empty; height]; width];
+        let resource = GridResource {
+            resource: Mutex::new(vec![vec![Tile::Empty; height]; width]),
+        };
+        let grid = ResourceArc::new(resource);
 
         Self {
             grid,
@@ -26,15 +35,15 @@ impl Board {
         }
     }
 
-    pub fn get_cell(self: &Self, row_idx: usize, col_idx: usize) -> Option<&Tile> {
-        if let Some(row) = self.grid.get(row_idx) {
-            row.get(col_idx)
+    pub fn get_cell(self: &Self, row_idx: usize, col_idx: usize) -> Option<Tile> {
+        if let Some(row) = self.grid.resource.lock().unwrap().get(row_idx) {
+            row.get(col_idx).cloned()
         } else {
             None
         }
     }
 
     pub fn set_cell(self: &mut Self, row_idx: usize, col_idx: usize, value: Tile) {
-        self.grid[row_idx][col_idx] = value;
+        self.grid.resource.lock().unwrap()[row_idx][col_idx] = value;
     }
 }
