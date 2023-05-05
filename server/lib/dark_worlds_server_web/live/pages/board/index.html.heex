@@ -35,7 +35,8 @@
 
         <%= for player <- @logged_players  do %>
           <div>
-            <span>User: <%= player.email %> </span>
+            <span>Username: <%= player.username %> </span>
+            <span>Email: <%= player.email %> </span>
           </div>
         <% end %>
       </div>

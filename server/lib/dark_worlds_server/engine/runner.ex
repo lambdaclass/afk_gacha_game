@@ -28,7 +28,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   update and the final game timeout.
   """
   def init(opts) do
-    state = Game.new(number_of_players: @players, board: @board, build_walls: false)
+    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: false)
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
 
