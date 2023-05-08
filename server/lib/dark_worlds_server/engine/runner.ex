@@ -48,12 +48,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.cast(runner_pid, {:play, player_id, action})
   end
 
-  def get_board(runner_pid) do
-    GenServer.call(runner_pid, :get_board)
-  end
-
-  def get_players(runner_pid) do
-    GenServer.call(runner_pid, :get_players)
+  def get_game_state(runner_pid) do
+    players = GenServer.call(runner_pid, :get_players)
+    {@board, players}
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
