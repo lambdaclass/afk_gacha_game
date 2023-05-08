@@ -28,6 +28,9 @@ public class SocketConnectionManager : MonoBehaviour
 
     WebSocket ws;
 
+    private int totalPlayers;
+    private int playerCount = 0;
+
     public class GameResponse
     {
         public List<Player> players { get; set; }
@@ -57,39 +60,26 @@ public class SocketConnectionManager : MonoBehaviour
         public int health { get; set; }
         public Position position { get; set; }
     }
-    private void ReInstanciatePlayer(int i)
-    {
-        Character newPlayer = Instantiate(levelManager.PlayerPrefabs[i], levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-        newPlayer.name = levelManager.PlayerPrefabs[i].name;
-        print(newPlayer.PlayerID);
-        levelManager.Players.Add(newPlayer);
-        camera.SetTarget(newPlayer);
-        camera.StartFollowing();
-        this.players[i] = (newPlayer.gameObject);
-    }
 
     public void GeneratePlayer()
     {
         Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-        newPlayer.name = "Player" + " " + this.players.Count;
-        newPlayer.PlayerID = "Player" + this.players.Count;
+        newPlayer.name = "Player" + " " + playerCount;
+        newPlayer.PlayerID = "Player" + playerCount;
 
         players.Add(newPlayer.gameObject);
-
-        for (int i = 0; i < players.Count; i++)
-        {
-            levelManager.Players.Add(players[i].GetComponent<Character>());
-        }
+        levelManager.Players.Add(players[playerCount].GetComponent<Character>());
         levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
 
         camera.SetTarget(newPlayer);
         camera.StartFollowing();
+        playerCount++;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        GeneratePlayer();
+        // GeneratePlayer();
         // Send the player's action every 30 ms approximately.
         InvokeRepeating("sendAction", 0.03333333f, 0.03333333f);
 
@@ -134,6 +124,10 @@ public class SocketConnectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (totalPlayers != playerCount)
+        {
+            GeneratePlayer();
+        }
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
             this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
@@ -194,7 +188,7 @@ public class SocketConnectionManager : MonoBehaviour
         else
         {
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
-
+            totalPlayers = game_update.Players.Count;
             for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
