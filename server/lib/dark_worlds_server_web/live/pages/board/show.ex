@@ -9,7 +9,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
     if connected?(socket) do
       mount_connected(params, socket)
     else
-      {:ok, assign(socket, game_id: game_id, mode: :pending)}
+      {:ok, assign(socket, game_id: game_id, game_status: :pending)}
     end
   end
 
@@ -23,7 +23,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
         {:error, :game_full} -> {:spectator, nil}
       end
 
-    new_assigns = %{runner_pid: runner_pid, board_height: board_height, board_width: board_width, players: players_by_position(players), game_id: game_id, pings: %{}, player_id: player_id, player_direction: :up, mode: mode}
+    new_assigns = %{game_status: :ongoing, runner_pid: runner_pid, board_height: board_height, board_width: board_width, players: players_by_position(players), game_id: game_id, pings: %{}, player_id: player_id, player_direction: :up, mode: mode}
     {:ok, assign(socket, new_assigns)}
   end
 
@@ -41,13 +41,9 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
     {:noreply, assign(socket, :players, players_by_position(players))}
   end
 
-  # def handle_info({:game_finished, %{current_state: %{game: game}}}, socket) do
-  #   {
-  #     :noreply,
-  #     socket
-  #     |> assign(:players, game.players)
-  #   }
-  # end
+  def handle_info({:game_finished, %{current_state: %{game: game}}}, socket) do
+    {:noreply, assign(socket, game_status: :finished, players: game.players)}
+  end
 
   # def handle_info({:update_ping, player, ping}, socket) do
   #   pings = socket.assigns.pings
