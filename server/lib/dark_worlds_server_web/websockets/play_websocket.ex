@@ -32,6 +32,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_handle({:binary, message}, state) do
+    IO.inspect("ACA")
     case Communication.decode(message) do
       {:ok, %{action: :ping}} ->
         {:reply, {:text, "pong"}, state}

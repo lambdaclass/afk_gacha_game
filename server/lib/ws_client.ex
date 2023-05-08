@@ -2,6 +2,7 @@ defmodule DarkWorldsServer.WsClient do
   use WebSockex
   require Logger
   alias DarkWorldsServer.Communication
+  alias DarkWorldsServer.Communication.Proto.ClientAction
 
   def start_link(url) do
     WebSockex.start_link(url, __MODULE__, %{}, name: __MODULE__)
@@ -17,15 +18,15 @@ defmodule DarkWorldsServer.WsClient do
     GenServer.call(runner_pid, :get_players)
   end
 
-  def move(player, :up), do: _move(player, "up")
-  def move(player, :down), do: _move(player, "down")
-  def move(player, :left), do: _move(player, "left")
-  def move(player, :right), do: _move(player, "right")
+  def move(player, :up), do: _move(player, :UP)
+  def move(player, :down), do: _move(player, :DOWN)
+  def move(player, :left), do: _move(player, :LEFT)
+  def move(player, :right), do: _move(player, :RIGHT)
 
-  def attack(player, :up), do: _attack(player, "up")
-  def attack(player, :down), do: _attack(player, "down")
-  def attack(player, :left), do: _attack(player, "left")
-  def attack(player, :right), do: _attack(player, "right")
+  def attack(player, :up), do: _attack(player, :UP)
+  def attack(player, :down), do: _attack(player, :DOWN)
+  def attack(player, :left), do: _attack(player, :LEFT)
+  def attack(player, :right), do: _attack(player, :RIGHT)
 
   def attack_aoe(player, position) do
     %{
@@ -37,12 +38,12 @@ defmodule DarkWorldsServer.WsClient do
   end
 
   defp _move(player, direction) do
-    %{"player" => player, "action" => "move", "value" => direction}
+    %ClientAction{action: :MOVE, direction: direction}
     |> send_command()
   end
 
   defp _attack(player, direction) do
-    %{"player" => player, "action" => "attack", "value" => direction}
+    %ClientAction{action: :MOVE, direction: direction}
     |> send_command()
   end
 
@@ -57,6 +58,6 @@ defmodule DarkWorldsServer.WsClient do
 
   defp send_command(command) do
     pid = Process.whereis(__MODULE__)
-    WebSockex.cast(pid, {:send, {:text, Jason.encode!(command)}})
+    WebSockex.cast(pid, {:send, {:binary, ClientAction.encode(command)}})
   end
 end
