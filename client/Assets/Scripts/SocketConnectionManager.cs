@@ -103,7 +103,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
-            this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x - 50.0f, 0.0f, positionUpdate.y + 50.0f);
+            this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
         }
     }
 
