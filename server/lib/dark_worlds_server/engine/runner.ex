@@ -10,7 +10,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
 
-  @players 1
+  @players 3
   @board {1000, 1000}
   # The game will be closed five minute after it starts
   @game_timeout 20 * 60 * 1000
