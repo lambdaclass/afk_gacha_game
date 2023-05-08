@@ -32,7 +32,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_handle({:binary, message}, state) do
-    IO.inspect("ACA")
     case Communication.decode(message) do
       {:ok, %{action: :ping}} ->
         {:reply, {:text, "pong"}, state}
@@ -55,7 +54,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
       players: game_state.current_state.game.players
     }
 
-    {:reply, {:text, Communication.encode!(reply_map)}, state}
+    {:reply, {:binary, Communication.encode!(reply_map)}, state}
   end
 
   def websocket_info({:game_finished, game_state}, state) do
@@ -63,11 +62,11 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
       players: game_state.current_state.game.players
     }
 
-    {:reply, {:text, Communication.encode!(reply_map)}, state}
+    {:reply, {:binary, Communication.encode!(reply_map)}, state}
   end
 
   def websocket_info({:update_ping, player, ping}, state) do
-    {:reply, {:text, Communication.encode!({player, ping})}, state}
+    {:reply, {:binary, Communication.encode!({player, ping})}, state}
   end
 
   def websocket_info(info, state), do: {:reply, {:text, info}, state}
