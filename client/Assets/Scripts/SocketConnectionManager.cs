@@ -10,11 +10,12 @@ using System.Net;
 using System;
 using System.Xml.Linq;
 using ProtoBuf;
+using MoreMountains.TopDownEngine;
 
 public class SocketConnectionManager : MonoBehaviour
 {
     public List<GameObject> players;
-    public Queue<PositionUpdate> positionUpdates = new Queue<PositionUpdate>();
+    public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
@@ -34,11 +35,12 @@ public class SocketConnectionManager : MonoBehaviour
         public string session_id { get; set; }
     }
 
-    public struct PositionUpdate
+    public struct PlayerUpdate
     {
         public long x;
         public long y;
         public int player_id;
+        public long health;
     }
 
     public class Position
@@ -96,14 +98,39 @@ public class SocketConnectionManager : MonoBehaviour
             ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down};
             SendAction(action);
         }
+        if (Input.GetKey(KeyCode.J))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down};
+            SendAction(action);
+        }
+        if (Input.GetKey(KeyCode.U))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up};
+            SendAction(action);
+
+        }
+        if (Input.GetKey(KeyCode.K))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right};
+            SendAction(action);
+        }
+        if (Input.GetKey(KeyCode.H))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left};
+            SendAction(action);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        while (positionUpdates.TryDequeue(out var positionUpdate))
+        while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
+            
+            this.players[playerUpdate.player_id].transform.position = new Vector3(playerUpdate.x / 10f - 50.0f, this.players[playerUpdate.player_id].transform.position.y, playerUpdate.y / 10f + 50.0f);
+            
+            Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
+            healthComponent.SetHealth(playerUpdate.health);
         }
     }
 
@@ -165,9 +192,8 @@ public class SocketConnectionManager : MonoBehaviour
             for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
-
                 var new_position = game_update.Players[i].Position;
-                positionUpdates.Enqueue(new PositionUpdate { x = new_position.Y, y = -new_position.X, player_id = i });
+                playerUpdates.Enqueue(new PlayerUpdate { x = new_position.Y, y = -new_position.X, player_id = i, health = game_update.Players[i].Health});
             }
         }
     }

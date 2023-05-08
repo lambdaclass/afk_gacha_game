@@ -100,6 +100,8 @@ public enum Action
     Ping = 3,
     [global::ProtoBuf.ProtoEnum(Name = @"UPDATE_PING")]
     UpdatePing = 4,
+    [global::ProtoBuf.ProtoEnum(Name = @"ATTACK_AOE")]
+    AttackAoe = 5,
 }
 
 [global::ProtoBuf.ProtoContract()]

@@ -102,6 +102,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
 
+    state.next_state.game.players
+    |> Enum.map(fn player -> IO.inspect(to_string(player.health) <> " - " <> to_string(player.status)) end)
+
     {:noreply, state}
   end
 

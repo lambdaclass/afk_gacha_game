@@ -109,25 +109,41 @@ impl GameState {
         }
         attacking_player.last_melee_attack = now;
 
-        let target_position =
-            compute_adjacent_position(&attack_direction, &attacking_player.position);
-        let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
+        let (top_left, bottom_right) = compute_attack_initial_positions(&(attack_direction), &(attacking_player.position)); 
+        let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
 
-        if maybe_target_cell.is_none() {
-            return;
-        }
-
-        if let Some(target_player) = self.players.iter_mut().find(|player| {
-            let tile = maybe_target_cell.clone().unwrap();
-            match tile {
-                Tile::Player(tile_player_id) if tile_player_id == player.id => true,
-                _ => false,
-            }
-        }) {
-            modify_health(target_player, -10);
-            let player = target_player.clone();
+        for target_player_id in affected_players.iter_mut(){
+            // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
+            let attacked_player = self
+                .players
+                .iter_mut()
+                .find(|player| player.id == *target_player_id)
+                .unwrap();
+            modify_health(attacked_player, -10);
+            let player = attacked_player.clone();
             self.modify_cell_if_player_died(&player);
         }
+    }
+
+    // Return all player_id inside an area
+    pub fn players_in_range(self: &mut Self, top_left: Position, bottom_right: Position) -> Vec<u64>{
+
+        let mut players: Vec<u64> = vec![];
+        for fil in top_left.x..=bottom_right.x {
+            for col in top_left.y..=bottom_right.y {
+                let cell = self.board.get_cell(fil, col);
+                if cell.is_none() {
+                    continue;
+                }
+                match cell.unwrap() {
+                    Tile::Player(player_id) => {
+                        players.push(player_id);
+                    }
+                    _ => continue,
+                }
+            }
+        }
+        players
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -182,6 +198,18 @@ fn compute_adjacent_position(direction: &Direction, position: &Position) -> Posi
         Direction::DOWN => Position::new(x + 3, y),
         Direction::LEFT => Position::new(x, y.wrapping_sub(3)),
         Direction::RIGHT => Position::new(x, y + 3),
+    }
+}
+
+fn compute_attack_initial_positions(direction: &Direction, position: &Position) -> (Position, Position) {
+    let x = position.x;
+    let y = position.y;
+
+    match direction {
+        Direction::UP => (Position::new(x.wrapping_sub(20), y.wrapping_sub(20)), Position::new(x.wrapping_sub(1), y + 20)),
+        Direction::DOWN => (Position::new(x + 1, y.wrapping_sub(20)), Position::new(x + 20, y + 20)),
+        Direction::LEFT => (Position::new(x.wrapping_sub(20), y.wrapping_sub(20)), Position::new(x + 20, y.wrapping_sub(1))),
+        Direction::RIGHT => (Position::new(x.wrapping_sub(20), y + 1), Position::new(x + 20, y + 20)),
     }
 }
 
