@@ -60,7 +60,12 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
   end
 
   defp players_by_position(players) do
-    Enum.reduce(players, %{}, fn (%{position: %{x: x, y: y}} = player, acc) -> Map.put(acc, {x, y}, player) end)
+    Enum.reduce(players, %{}, fn (player, acc) ->
+      case player do
+        %{health: health, position: %{x: x, y: y}} when health > 0 -> Map.put(acc, {x, y}, player)
+        _ -> acc
+      end
+    end)
   end
 
   def maybe_send_action(socket, key) do
