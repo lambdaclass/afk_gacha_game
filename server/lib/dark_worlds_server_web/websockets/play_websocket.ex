@@ -2,7 +2,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine.{ActionRaw, ActionOk, Runner}
+  alias DarkWorldsServer.Engine.Runner
   alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Communication
 
@@ -31,26 +31,22 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     end
   end
 
-  def websocket_handle({:text, message}, state) do
-    case ActionRaw.from_json(message) do
+  def websocket_handle({:binary, message}, state) do
+    case Communication.decode(message) do
+      {:ok, %{action: :ping}} ->
+        {:reply, {:text, "pong"}, state}
+
       {:ok, action} ->
-        IO.inspect(action)
+        Runner.play(state[:runner_pid], state[:player_id], action)
+        {:reply, {:text, "OK"}, state}
 
-        case ActionOk.from_action_raw(action) do
-          {:ok, %{action: :ping}} ->
-            {:reply, {:text, "pong"}, state}
-
-          {:ok, action} ->
-            Runner.play(state[:runner_pid], state[:player_id], action)
-            {:reply, {:text, "OK"}, state}
-
-          {:error, msg} ->
-            {:reply, {:text, "ERROR: #{msg}"}, state}
-        end
-
-      {:error, _error} ->
-        {:reply, {:text, "ERROR: Invalid json"}, state}
+      {:error, msg} ->
+        {:reply, {:text, "ERROR: #{msg}"}, state}
     end
+  end
+
+  def websocket_handle(_, state) do
+    {:reply, {:text, "ERROR unsupported message"}, state}
   end
 
   def websocket_info({:game_update, game_state}, state) do
@@ -70,7 +66,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_info({:update_ping, player, ping}, state) do
-    {:reply, {:text, Communication.encode!(%{player => ping})}, state}
+    {:reply, {:text, Communication.encode!({player, ping})}, state}
   end
 
   def websocket_info(info, state), do: {:reply, {:text, info}, state}
