@@ -60,6 +60,7 @@ jobs:
             -i id_ed25519_testing \
             -p ${SSH_PORT} \
             ${SSH_USERNAME}@${SSH_HOST} \
+              GITHUB_REF_NAME=${GITHUB_REF_NAME} \
               MIX_ENV=${MIX_ENV} \
               PHX_SERVER=${PHX_SERVER} \
               PHX_HOST=${PHX_HOST} \
