@@ -17,13 +17,26 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
     Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}")
     runner_pid = Communication.external_id_to_pid(game_id)
     {{board_width, board_height}, players} = Runner.get_game_state(runner_pid)
+
     {mode, player_id} =
       case Runner.join(runner_pid) do
         {:ok, player_id} -> {:player, player_id}
         {:error, :game_full} -> {:spectator, nil}
       end
 
-    new_assigns = %{game_status: :ongoing, runner_pid: runner_pid, board_height: board_height, board_width: board_width, players: players_by_position(players), game_id: game_id, pings: %{}, player_id: player_id, player_direction: :up, mode: mode}
+    new_assigns = %{
+      game_status: :ongoing,
+      runner_pid: runner_pid,
+      board_height: board_height,
+      board_width: board_width,
+      players: players_by_position(players),
+      game_id: game_id,
+      pings: %{},
+      player_id: player_id,
+      player_direction: :up,
+      mode: mode
+    }
+
     {:ok, assign(socket, new_assigns)}
   end
 
@@ -60,7 +73,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
   end
 
   defp players_by_position(players) do
-    Enum.reduce(players, %{}, fn (player, acc) ->
+    Enum.reduce(players, %{}, fn player, acc ->
       case player do
         %{health: health, position: %{x: x, y: y}} when health > 0 -> Map.put(acc, {x, y}, player)
         _ -> acc
@@ -72,6 +85,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
     case get_action(key, socket.assigns.player_direction) do
       :no_action ->
         socket
+
       %ActionOk{} = action ->
         Runner.play(socket.assigns.runner_pid, socket.assigns.player_id, action)
         assign(socket, :player_direction, action.value)
