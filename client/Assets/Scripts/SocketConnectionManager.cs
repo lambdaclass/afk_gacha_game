@@ -58,7 +58,8 @@ public class SocketConnectionManager : MonoBehaviour
     void Start()
     {
         // Send the player's action every 30 ms approximately.
-        InvokeRepeating("sendAction", 0.03333333f, 0.03333333f);
+        float tickRate = 1f / 30f;
+        InvokeRepeating("sendAction", tickRate, tickRate);
 
         if (this.session_id.IsNullOrEmpty())
         {

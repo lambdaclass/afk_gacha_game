@@ -3735,7 +3735,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1787465996332106803, guid: 94e572dc010a245f8a7fac3c1c846b1a,
         type: 3}
+      propertyPath: WalkSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787465996332106803, guid: 94e572dc010a245f8a7fac3c1c846b1a,
+        type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787465996332106803, guid: 94e572dc010a245f8a7fac3c1c846b1a,
+        type: 3}
+      propertyPath: IdleThreshold
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787465996332106803, guid: 94e572dc010a245f8a7fac3c1c846b1a,
+        type: 3}
+      propertyPath: ShouldSetMovement
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1787465996332106805, guid: 94e572dc010a245f8a7fac3c1c846b1a,
@@ -10228,7 +10243,7 @@ MonoBehaviour:
   - {fileID: 1212605331}
   - {fileID: 803925138}
   session_id: 
-  server_ip: 10.150.20.186
+  server_ip: localhost
 --- !u!1001 &1865725793
 PrefabInstance:
   m_ObjectHideFlags: 0
