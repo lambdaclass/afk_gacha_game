@@ -5,17 +5,25 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Runner
 
-  def mount(%{"game_id" => game_id}, _session, socket) do
+  def mount(%{"game_id" => game_id} = params, _session, socket) do
     if connected?(socket) do
-      DarkWorldsServer.PubSub
-      |> Phoenix.PubSub.subscribe("game_play_#{game_id}")
+      mount_connected(params, socket)
+    else
+      {:ok, assign(socket, game_id: game_id, mode: :pending)}
     end
+  end
 
+  defp mount_connected(%{"game_id" => game_id}, socket) do
+    Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}")
     runner_pid = Communication.external_id_to_pid(game_id)
-    {:ok, player_id} = Runner.join(runner_pid)
     {{board_width, board_height}, players} = Runner.get_game_state(runner_pid)
+    {mode, player_id} =
+      case Runner.join(runner_pid) do
+        {:ok, player_id} -> {:player, player_id}
+        {:error, :game_full} -> {:spectator, nil}
+      end
 
-    new_assigns = %{runner_pid: runner_pid, board_height: board_height, board_width: board_width, players: players_by_position(players), game_id: game_id, pings: %{}, player_id: player_id, player_direction: :up}
+    new_assigns = %{runner_pid: runner_pid, board_height: board_height, board_width: board_width, players: players_by_position(players), game_id: game_id, pings: %{}, player_id: player_id, player_direction: :up, mode: mode}
     {:ok, assign(socket, new_assigns)}
   end
 
