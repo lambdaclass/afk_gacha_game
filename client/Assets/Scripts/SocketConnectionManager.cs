@@ -71,7 +71,7 @@ public class SocketConnectionManager : MonoBehaviour
         levelManager.Players.Add(players[playerCount].GetComponent<Character>());
         levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
 
-        camera.SetTarget(newPlayer);
+        camera.SetTarget(players[0].GetComponent<Character>());
         camera.StartFollowing();
         playerCount++;
     }
