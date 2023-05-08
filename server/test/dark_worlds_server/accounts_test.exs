@@ -151,7 +151,7 @@ defmodule DarkWorldsServer.AccountsTest do
     end
 
     test "validates email uniqueness", %{user: user} do
-      %{email: email} = user_fixture() |> Map.put(:username, "another username")
+      %{email: email} = user_fixture(%{username: "another username"})
       password = valid_user_password()
 
       {:error, changeset} = Accounts.apply_user_email(user, password, %{email: email})
