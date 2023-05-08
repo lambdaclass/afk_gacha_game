@@ -1,6 +1,5 @@
 name: Deploy to LambdaClass local machine
 on:
-  workflow_dispatch:
   workflow_run:
     workflows: 
       - Deploy to testing
@@ -20,6 +19,8 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v3.5.0
+      with:
+        ref: ${{ github.event.workflow_run.head_branch }}
 
     - name: Create ssh private key file from env var
       env:
@@ -55,12 +56,14 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         NEWRELIC_APP_NAME: ${{ vars.NEWRELIC_APP_NAME_LOCAL }}
         NEWRELIC_KEY: ${{ secrets.NEWRELIC_KEY }}
+        GITHUB_REF_NAME: ${{ github.event.workflow_run.head_branch }}
       run: |
         set -ex
         ssh -o StrictHostKeyChecking=no \
             -i id_ed25519_testing \
             -p ${SSH_PORT} \
             ${SSH_USERNAME}@${SSH_HOST} \
+              GITHUB_REF_NAME=${GITHUB_REF_NAME} \
               MIX_ENV=${MIX_ENV} \
               PHX_SERVER=${PHX_SERVER} \
               SECRET_KEY_BASE=${SECRET_KEY_BASE} \
