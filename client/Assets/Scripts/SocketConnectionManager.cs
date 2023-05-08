@@ -10,9 +10,13 @@ using System.Net;
 using System;
 using System.Xml.Linq;
 using ProtoBuf;
+using MoreMountains.TopDownEngine;
 
 public class SocketConnectionManager : MonoBehaviour
 {
+    public LevelManager levelManager;
+    public CinemachineCameraController camera;
+    public Character prefab;
     public List<GameObject> players;
     public Queue<PositionUpdate> positionUpdates = new Queue<PositionUpdate>();
 
@@ -53,10 +57,39 @@ public class SocketConnectionManager : MonoBehaviour
         public int health { get; set; }
         public Position position { get; set; }
     }
+    private void ReInstanciatePlayer(int i)
+    {
+        Character newPlayer = Instantiate(levelManager.PlayerPrefabs[i], levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
+        newPlayer.name = levelManager.PlayerPrefabs[i].name;
+        print(newPlayer.PlayerID);
+        levelManager.Players.Add(newPlayer);
+        camera.SetTarget(newPlayer);
+        camera.StartFollowing();
+        this.players[i] = (newPlayer.gameObject);
+    }
+
+    public void GeneratePlayer()
+    {
+        Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
+        newPlayer.name = "Player" + " " + this.players.Count;
+        newPlayer.PlayerID = "Player" + this.players.Count;
+
+        players.Add(newPlayer.gameObject);
+
+        for (int i = 0; i < players.Count; i++)
+        {
+            levelManager.Players.Add(players[i].GetComponent<Character>());
+        }
+        levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
+
+        camera.SetTarget(newPlayer);
+        camera.StartFollowing();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        GeneratePlayer();
         // Send the player's action every 30 ms approximately.
         InvokeRepeating("sendAction", 0.03333333f, 0.03333333f);
 
@@ -78,22 +111,22 @@ public class SocketConnectionManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down };
             SendAction(action);
         }
     }
@@ -160,7 +193,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else
         {
-            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>) e.RawData);
+            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
 
             for (int i = 0; i < game_update.Players.Count; i++)
             {
@@ -172,8 +205,10 @@ public class SocketConnectionManager : MonoBehaviour
         }
     }
 
-    private void SendAction(ClientAction action) {
-        using (var stream = new MemoryStream()) {
+    private void SendAction(ClientAction action)
+    {
+        using (var stream = new MemoryStream())
+        {
             Serializer.Serialize(stream, action);
             var msg = stream.ToArray();
             ws.Send(msg);
