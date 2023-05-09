@@ -52,15 +52,20 @@ jobs:
         PHX_HOST: ${{ vars.PHX_HOST }}
         SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        NEWRELIC_APP_NAME: ${{ vars.NEWRELIC_APP_NAME }}
+        NEWRELIC_KEY: ${{ secrets.NEWRELIC_KEY }}
       run: |
         set -ex
         ssh -o StrictHostKeyChecking=no \
             -i id_ed25519_testing \
             -p ${SSH_PORT} \
             ${SSH_USERNAME}@${SSH_HOST} \
+              GITHUB_REF_NAME=${GITHUB_REF_NAME} \
               MIX_ENV=${MIX_ENV} \
               PHX_SERVER=${PHX_SERVER} \
               PHX_HOST=${PHX_HOST} \
               SECRET_KEY_BASE=${SECRET_KEY_BASE} \
               DATABASE_URL=${DATABASE_URL} \
+              NEWRELIC_APP_NAME=${NEWRELIC_APP_NAME} \
+              NEWRELIC_KEY=${NEWRELIC_KEY} \
               /root/deploy-script/deploy.sh
