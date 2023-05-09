@@ -54,7 +54,8 @@ defmodule DarkWorldsServer.MixProject do
       {:nx, "~> 0.5"},
       {:rustler, "~> 0.27.0"},
       {:exbase58, "~> 1.0.2"},
-      {:protobuf, "~> 0.10.0"}
+      {:protobuf, "~> 0.10.0"},
+      {:new_relic_agent, "~> 1.0", only: :prod}
     ]
   end
 
