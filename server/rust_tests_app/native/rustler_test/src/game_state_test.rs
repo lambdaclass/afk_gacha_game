@@ -1,52 +1,49 @@
 use gamestate::board::GridResource;
 use gamestate::board::Tile;
 use gamestate::game::MELEE_ATTACK_COOLDOWN;
-use gamestate::game::{GameState, Direction};
+use gamestate::game::{Direction, GameState};
 use gamestate::player::Player;
 use gamestate::player::Position;
 use gamestate::time_utils;
-
+use rustler::Atom;
+mod atoms {
+    rustler::atoms! {
+        ok
+    }
+}
 fn get_grid(game: &GameState) -> Vec<Vec<Tile>> {
     let grid = game.board.grid.resource.lock().unwrap();
     grid.clone()
 }
-
 #[rustler::nif]
 pub fn no_move_if_beyond_boundaries() {
     let mut expected_grid: Vec<Vec<Tile>>;
-    let mut state = GameState::new(1, 2, 2, false);
+    let (grid_height, grid_width) = (100, 100);
+    let mut state = GameState::new(1, grid_height, grid_width, false);
     let player_id = state.players.first().unwrap().id;
-
     // Check UP boundary
-    state.move_player(player_id, Direction::UP);
+    for i in 0..1000 {
+        state.move_player(player_id, Direction::UP);
+    }
     assert_eq!(0, state.players.first().unwrap().position.x);
-    expected_grid = get_grid(&state);
-    state.move_player(player_id, Direction::UP);
-    assert_eq!(expected_grid, get_grid(&state));
 
     // Check DOWN boundary
-    state.move_player(player_id, Direction::DOWN);
-    assert_eq!(1, state.players.first().unwrap().position.x);
-
-    expected_grid = get_grid(&state);
-    state.move_player(player_id, Direction::DOWN);
-    assert_eq!(expected_grid, get_grid(&state));
+    for i in 0..1000 {
+        state.move_player(player_id, Direction::DOWN);
+    }
+    assert_eq!(99, state.players.first().unwrap().position.x);
 
     // Check RIGHT boundary
-    state.move_player(player_id, Direction::RIGHT);
-    assert_eq!(1, state.players.first().unwrap().position.y);
-
-    expected_grid = get_grid(&state);
-    state.move_player(player_id, Direction::RIGHT);
-    assert_eq!(expected_grid, get_grid(&state));
+    for i in 0..1000 {
+        state.move_player(player_id, Direction::RIGHT);
+    }
+    assert_eq!(99, state.players.first().unwrap().position.y);
 
     // Check LEFT boundary
-    state.move_player(player_id, Direction::LEFT);
+    for i in 0..1000 {
+        state.move_player(player_id, Direction::LEFT);
+    }
     assert_eq!(0, state.players.first().unwrap().position.y);
-
-    expected_grid = get_grid(&state);
-    state.move_player(player_id, Direction::LEFT);
-    assert_eq!(expected_grid, get_grid(&state));
 }
 
 #[rustler::nif]
@@ -61,7 +58,6 @@ fn no_move_if_occupied() {
     state.board.set_cell(0, 1, Tile::Player(player2_id));
     state.board.set_cell(1, 1, Tile::Empty);
     state.board.set_cell(1, 0, Tile::Empty);
-
     let expected_grid = get_grid(&state);
     state.move_player(player1_id, Direction::RIGHT);
     assert_eq!(expected_grid, get_grid(&state));

@@ -6,7 +6,7 @@ use crate::board::{Board, Tile};
 use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
 
-const MELEE_ATTACK_COOLDOWN: u64 = 1;
+pub const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -64,7 +64,7 @@ impl GameState {
     }
 
     pub fn move_player(self: &mut Self, player_id: u64, direction: Direction) {
-        let player = self
+        let player: &mut Player = self
             .players
             .iter_mut()
             .find(|player| player.id == player_id)
@@ -97,7 +97,6 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
-
         if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
@@ -111,9 +110,12 @@ impl GameState {
 
         let target_position =
             compute_adjacent_position(&attack_direction, &attacking_player.position);
+
         let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
 
-        if maybe_target_cell.is_none() {
+        // If the cell is not on range, or the attacking player is on the receiving end
+        // of the attack, do nothing.
+        if maybe_target_cell.is_none() || attacking_player.position == target_position {
             return;
         }
 
@@ -171,17 +173,20 @@ fn modify_health(player: &mut Player, hp_points: i64) {
         }
     }
 }
+/// Edit: This comment is actually not true,
+/// this function its due a refactor.
 /// Given a position and a direction, returns the position adjacent to it in that direction.
 /// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
 fn compute_adjacent_position(direction: &Direction, position: &Position) -> Position {
     let x = position.x;
     let y = position.y;
 
+    // Avoid overflow with saturated ops.
     match direction {
-        Direction::UP => Position::new(x.wrapping_sub(3), y),
-        Direction::DOWN => Position::new(x + 3, y),
-        Direction::LEFT => Position::new(x, y.wrapping_sub(3)),
-        Direction::RIGHT => Position::new(x, y + 3),
+        Direction::UP => Position::new(x.saturating_sub(1), y),
+        Direction::DOWN => Position::new(x.saturating_add(1), y),
+        Direction::LEFT => Position::new(x, y.saturating_sub(1)),
+        Direction::RIGHT => Position::new(x, y.saturating_add(1)),
     }
 }
 
