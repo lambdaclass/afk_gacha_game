@@ -78,3 +78,11 @@ defmodule DarkWorldsServer.Communication.Proto.ClientAction do
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
+
+defmodule DarkWorldsServer.Communication.Proto.PlayerJoined do
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:player_id, 1, type: :uint32, json_name: "playerId")
+
+  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
+end
