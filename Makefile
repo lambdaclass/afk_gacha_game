@@ -16,6 +16,5 @@ tests: elixir-tests rust-tests
 
 elixir-tests:
 	mix test
-
 rust-tests:
-	cargo test --manifest-path native/gamestate/Cargo.toml
+	mix rust_tests

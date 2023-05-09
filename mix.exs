@@ -9,7 +9,10 @@ defmodule DarkWorldsServer.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      preferred_cli_env: [
+        rust_tests: :rust_test
+      ]
     ]
   end
 
@@ -24,7 +27,7 @@ defmodule DarkWorldsServer.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(env) when env in [:test, :rust_test], do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -53,7 +56,8 @@ defmodule DarkWorldsServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:nx, "~> 0.5"},
       {:rustler, "~> 0.27.0"},
-      {:exbase58, "~> 1.0.2"}
+      {:exbase58, "~> 1.0.2"},
+      {:rust_tests, path: "./rust_tests_app", runtime: Mix.env() == :rust_tests}
     ]
   end
 
@@ -69,6 +73,7 @@ defmodule DarkWorldsServer.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      rust_tests: ["cmd mix test ./rust_tests_app/test --color"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]

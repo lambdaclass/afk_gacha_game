@@ -1,5 +1,9 @@
 defmodule DarkWorldsServer.Engine.Game do
-  use Rustler, otp_app: :dark_worlds_server, crate: "gamestate"
+  case Mix.env() do
+    :rust_tests -> nil
+    _ ->
+      use Rustler, otp_app: :dark_worlds_server, crate: "gamestate", default_features: true
+  end
   use DarkWorldsServer.Communication.Encoder
 
   @enforce_keys [:players, :board]
@@ -15,4 +19,5 @@ defmodule DarkWorldsServer.Engine.Game do
   def attack_aoe(_a, _b, _c), do: :erlang.nif_error(:nif_not_loaded)
   def get_grid(_a), do: :erlang.nif_error(:nif_not_loaded)
   def get_non_empty(_a), do: :erlang.nif_error(:nif_not_loaded)
+  def call_test(test), do: :erlang.nif_error(:nif_not_loaded)
 end
