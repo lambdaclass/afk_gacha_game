@@ -45,6 +45,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
     %ProtoAction{action: :UPDATE_PING, latency: latency}
   end
 
+  def encode(%EngineAction{action: :attack_aoe, value: :aoe}, ProtoAction) do
+    %ProtoAction{action: :attack_aoe}
+  end
+
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position
@@ -78,6 +82,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   def decode(%ProtoAction{action: :UPDATE_PING, latency: latency}, ProtoAction) do
     %EngineAction{action: :update_ping, value: latency}
+  end
+
+  def decode(%ProtoAction{action: :ATTACK_AOE}, ProtoAction) do
+    %EngineAction{action: :attack_aoe, value: :aoe}
   end
 
   ###############################
