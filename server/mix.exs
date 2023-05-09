@@ -27,8 +27,7 @@ defmodule DarkWorldsServer.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:rust_test), do: ["rust_tests_app/lib"]
-  defp elixirc_paths(env) when env in [:test, :rust_test], do: ["lib", "test/support"]
+  defp elixirc_paths(env) when env in [:test], do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -60,7 +59,7 @@ defmodule DarkWorldsServer.MixProject do
       {:exbase58, "~> 1.0.2"},
       {:protobuf, "~> 0.10.0"},
       {:new_relic_agent, "~> 1.0", only: :prod},
-      {:rust_tests, path: "rust_tests_app", only: :rust_tests}
+      {:rust_tests, path: "rust_tests_app", runtime: Mix.env() == :rust_test}
     ]
   end
 
