@@ -29,6 +29,7 @@ defmodule DarkWorldsServerWeb.Router do
 
     get "/", PageController, :home
     get "/new_session", SessionController, :new
+    get "/new_lobby", LobbyController, :new
   end
 
   scope "/", DarkWorldsServerWeb do
