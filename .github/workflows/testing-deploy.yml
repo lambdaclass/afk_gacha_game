@@ -54,13 +54,14 @@ jobs:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         NEWRELIC_APP_NAME: ${{ vars.NEWRELIC_APP_NAME }}
         NEWRELIC_KEY: ${{ secrets.NEWRELIC_KEY }}
+        BRANCH: ${{ env.GITHUB_REF_NAME }}
       run: |
         set -ex
         ssh -o StrictHostKeyChecking=no \
             -i id_ed25519_testing \
             -p ${SSH_PORT} \
             ${SSH_USERNAME}@${SSH_HOST} \
-              GITHUB_REF_NAME=${GITHUB_REF_NAME} \
+              BRANCH=${BRANCH} \
               MIX_ENV=${MIX_ENV} \
               PHX_SERVER=${PHX_SERVER} \
               PHX_HOST=${PHX_HOST} \

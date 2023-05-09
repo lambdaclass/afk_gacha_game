@@ -7,7 +7,7 @@ if [ -d "/tmp/dark_worlds_server" ]; then
 fi
 
 cd /tmp
-git clone git@github.com:lambdaclass/dark_worlds_server.git --branch $GITHUB_REF_NAME
+git clone git@github.com:lambdaclass/dark_worlds_server.git --branch ${BRANCH}
 cd dark_worlds_server/server
 
 mix local.hex --force && mix local.rebar --force

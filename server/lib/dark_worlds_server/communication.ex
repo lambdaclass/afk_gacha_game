@@ -2,6 +2,7 @@ defmodule DarkWorldsServer.Communication do
   alias DarkWorldsServer.Communication.Proto.UpdatePing
   alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.ClientAction
+  alias DarkWorldsServer.Communication.Proto.PlayerJoined
 
   @doc """
   The Communication context
@@ -15,6 +16,11 @@ defmodule DarkWorldsServer.Communication do
   def encode!({player_id, latency}) do
     %UpdatePing{player_id: player_id, latency: latency}
     |> UpdatePing.encode()
+  end
+
+  def encode!(%{player_id: player_id}) do
+    %PlayerJoined{player_id: player_id}
+    |> PlayerJoined.encode()
   end
 
   def decode(value) do
