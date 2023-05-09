@@ -141,7 +141,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:player_joined, state}
+      {:player_joined, current + 1, state}
     )
 
     {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
