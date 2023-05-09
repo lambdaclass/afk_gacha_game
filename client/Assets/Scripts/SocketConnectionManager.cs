@@ -73,7 +73,6 @@ public class SocketConnectionManager : MonoBehaviour
         levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
 
         camera.SetTarget(players[0].GetComponent<Character>());
-        camera.StartFollowing();
         playerCount++;
     }
 
@@ -125,11 +124,14 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void setCameraToPlayer(int playerID)
     {
+        print(levelManager.PlayerPrefabs.Length);
+        print(players.Count);
         foreach (Character player in levelManager.PlayerPrefabs)
         {
             if (Int32.Parse(player.PlayerID) == playerID)
             {
                 this.camera.SetTarget(player);
+                this.camera.StartFollowing();
             }
         }
     }
@@ -140,8 +142,8 @@ public class SocketConnectionManager : MonoBehaviour
         if (totalPlayers != playerCount)
         {
             GeneratePlayer();
-            setCameraToPlayer(playerId);
         }
+        setCameraToPlayer(playerId);
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
             this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
