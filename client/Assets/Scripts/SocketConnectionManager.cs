@@ -30,6 +30,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
+    private int playerId;
 
     public class GameResponse
     {
@@ -65,7 +66,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
         newPlayer.name = "Player" + " " + playerCount;
-        newPlayer.PlayerID = "Player" + playerCount;
+        newPlayer.PlayerID = (playerCount + 1).ToString();
 
         players.Add(newPlayer.gameObject);
         levelManager.Players.Add(players[playerCount].GetComponent<Character>());
@@ -122,12 +123,24 @@ public class SocketConnectionManager : MonoBehaviour
         }
     }
 
+    private void setCameraToPlayer(int playerID)
+    {
+        foreach (Character player in levelManager.PlayerPrefabs)
+        {
+            if (Int32.Parse(player.PlayerID) == playerID)
+            {
+                this.camera.SetTarget(player);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (totalPlayers != playerCount)
         {
             GeneratePlayer();
+            setCameraToPlayer(playerId);
         }
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
@@ -188,7 +201,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else if (e.Data.Contains("PLAYER_JOINED"))
         {
-            print(e.Data);
+            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
         }
         else
         {
