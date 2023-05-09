@@ -19,6 +19,10 @@ defmodule DarkWorldsServer.Matchmaking do
     MatchingSession.remove_player(player_id, session_pid)
   end
 
+  def list_players(session_id) do
+    MatchingSession.list_players(session_id)
+  end
+
   def fetch_sessions() do
     MatchingSupervisor.children_pids()
   end

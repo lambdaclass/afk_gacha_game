@@ -54,7 +54,6 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     end
   end
 
-
   def handle_call({:remove_player, player_id}, _from, state) do
     players = state[:players]
 
