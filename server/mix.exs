@@ -27,6 +27,7 @@ defmodule DarkWorldsServer.MixProject do
   end
 
   # Specifies which paths to compile per environment.
+  defp elixirc_paths(:rust_test), do: ["rust_tests_app/lib"]
   defp elixirc_paths(env) when env in [:test, :rust_test], do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
@@ -58,7 +59,8 @@ defmodule DarkWorldsServer.MixProject do
       {:rustler, "~> 0.27.0"},
       {:exbase58, "~> 1.0.2"},
       {:protobuf, "~> 0.10.0"},
-      {:new_relic_agent, "~> 1.0", only: :prod}
+      {:new_relic_agent, "~> 1.0", only: :prod},
+      {:rust_tests, path: "rust_tests_app", only: :rust_tests}
     ]
   end
 
@@ -74,7 +76,7 @@ defmodule DarkWorldsServer.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      rust_tests: ["cmd mix test ./rust_tests_app/test --color"],
+      rust_tests: ["cmd mix test ./rust_tests_app/test --color --force"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
