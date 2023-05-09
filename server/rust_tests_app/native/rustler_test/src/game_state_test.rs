@@ -5,18 +5,41 @@ use gamestate::game::{Direction, GameState};
 use gamestate::player::Player;
 use gamestate::player::Position;
 use gamestate::time_utils;
-use rustler::Atom;
-mod atoms {
-    rustler::atoms! {
-        ok
-    }
-}
 fn get_grid(game: &GameState) -> Vec<Vec<Tile>> {
     let grid = game.board.grid.resource.lock().unwrap();
     grid.clone()
 }
+type TestResult = Result<String, String>;
+macro_rules! assert_result {
+    ($expected:expr, $actual:expr) => {
+        if $expected != $actual {
+            let line = line!();
+            let file = file!();
+            let msg = format!(
+                "Assert failed, expected: {:?}, but got: {:?} on line: {:?}, file: {:?}",
+                $expected, $actual, line, file
+            );
+            Err(msg)
+        } else {
+            Ok("".to_string())
+        }
+    };
+    ($expected:expr, $actual:expr, $optional_ok_value:expr) => {
+        if $expected != $actual {
+            let line = line!();
+            let file = file!();
+            let msg = format!(
+                "Assert failed, expected: {:?}, but got: {:?} on line: {:?}, file: {:?}",
+                $expected, $actual, line, file
+            );
+            Err(msg)
+        } else {
+            Ok(expr)
+        }
+    };
+}
 #[rustler::nif]
-pub fn no_move_if_beyond_boundaries() {
+pub fn no_move_if_beyond_boundaries() -> TestResult {
     let mut expected_grid: Vec<Vec<Tile>>;
     let (grid_height, grid_width) = (100, 100);
     let mut state = GameState::new(1, grid_height, grid_width, false);
@@ -25,29 +48,29 @@ pub fn no_move_if_beyond_boundaries() {
     for i in 0..1000 {
         state.move_player(player_id, Direction::UP);
     }
-    assert_eq!(0, state.players.first().unwrap().position.x);
+    assert_result!(0, state.players.first().unwrap().position.x)?;
 
     // Check DOWN boundary
     for i in 0..1000 {
         state.move_player(player_id, Direction::DOWN);
     }
-    assert_eq!(99, state.players.first().unwrap().position.x);
+    assert_result!(99, state.players.first().unwrap().position.x)?;
 
     // Check RIGHT boundary
     for i in 0..1000 {
         state.move_player(player_id, Direction::RIGHT);
     }
-    assert_eq!(99, state.players.first().unwrap().position.y);
+    assert_result!(99, state.players.first().unwrap().position.y)?;
 
     // Check LEFT boundary
     for i in 0..1000 {
         state.move_player(player_id, Direction::LEFT);
     }
-    assert_eq!(0, state.players.first().unwrap().position.y);
+    assert_result!(0, state.players.first().unwrap().position.y)
 }
 
 #[rustler::nif]
-fn no_move_if_occupied() {
+fn no_move_if_occupied() -> TestResult {
     let mut state = GameState::new(2, 2, 2, false);
     let player1_id = 1;
     let player2_id = 2;
@@ -60,11 +83,11 @@ fn no_move_if_occupied() {
     state.board.set_cell(1, 0, Tile::Empty);
     let expected_grid = get_grid(&state);
     state.move_player(player1_id, Direction::RIGHT);
-    assert_eq!(expected_grid, get_grid(&state));
+    assert_result!(expected_grid, get_grid(&state))
 }
 
 #[rustler::nif]
-fn no_move_if_wall() {
+fn no_move_if_wall() -> TestResult {
     let mut state = GameState::new(1, 2, 2, false);
     let player1_id = 1;
     let player1 = Player::new(player1_id, 100, Position::new(0, 0));
@@ -74,11 +97,11 @@ fn no_move_if_wall() {
 
     let expected_grid = get_grid(&state);
     state.move_player(player1_id, Direction::RIGHT);
-    assert_eq!(expected_grid, get_grid(&state));
+    assert_result!(expected_grid, get_grid(&state))
 }
 
 #[rustler::nif]
-fn movement() {
+fn movement() -> TestResult{
     let mut state = GameState::new(0, 2, 2, false);
     let player_id = 1;
     let player1 = Player::new(player_id, 100, Position::new(0, 0));
@@ -86,44 +109,44 @@ fn movement() {
     state.board.set_cell(0, 0, Tile::Player(player_id));
 
     state.move_player(player_id, Direction::RIGHT);
-    assert_eq!(
+    assert_result!(
         vec![
             vec![Tile::Empty, Tile::Player(player_id)],
             vec![Tile::Empty, Tile::Empty]
         ],
         get_grid(&state)
-    );
+    )?;
 
     state.move_player(player_id, Direction::DOWN);
-    assert_eq!(
+    assert_result!(
         vec![
             vec![Tile::Empty, Tile::Empty],
             vec![Tile::Empty, Tile::Player(player_id)]
         ],
         get_grid(&state)
-    );
+    )?;
 
     state.move_player(player_id, Direction::LEFT);
-    assert_eq!(
+    assert_result!(
         vec![
             vec![Tile::Empty, Tile::Empty],
             vec![Tile::Player(player_id), Tile::Empty]
         ],
         get_grid(&state)
-    );
+    )?;
 
     state.move_player(player_id, Direction::UP);
-    assert_eq!(
+    assert_result!(
         vec![
             vec![Tile::Player(player_id), Tile::Empty],
             vec![Tile::Empty, Tile::Empty]
         ],
         get_grid(&state)
-    );
+    )
 }
 
 #[rustler::nif]
-fn attacking() {
+fn attacking() -> TestResult{
     let mut state = GameState::new(0, 2, 2, false);
     let player_1_id = 1;
     let player_2_id = 2;
@@ -137,20 +160,20 @@ fn attacking() {
 
     // Attack lands and damages player
     state.attack_player(player_1_id, Direction::RIGHT);
-    assert_eq!(100, state.players[0].health);
-    assert_eq!(90, state.players[1].health);
+    assert_result!(100, state.players[0].health)?;
+    assert_result!(90, state.players[1].health)?;
 
     // Attack does nothing because of cooldown
     state.attack_player(player_1_id, Direction::RIGHT);
-    assert_eq!(100, state.players[0].health);
-    assert_eq!(90, state.players[1].health);
+    assert_result!(100, state.players[0].health)?;
+    assert_result!(90, state.players[1].health)?;
 
     time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 
     // Attack misses and does nothing
     state.attack_player(player_1_id, Direction::DOWN);
-    assert_eq!(100, state.players[0].health);
-    assert_eq!(90, state.players[1].health);
+    assert_result!(100, state.players[0].health)?;
+    assert_result!(90, state.players[1].health)?;
 
     time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 
@@ -158,13 +181,13 @@ fn attacking() {
 
     // Attacking to the right now does nothing since the player moved down.
     state.attack_player(player_1_id, Direction::RIGHT);
-    assert_eq!(100, state.players[0].health);
-    assert_eq!(90, state.players[1].health);
+    assert_result!(100, state.players[0].health)?;
+    assert_result!(90, state.players[1].health)?;
 
     time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 
     // Attacking to a non-existent position on the board does nothing.
     state.attack_player(player_1_id, Direction::LEFT);
-    assert_eq!(100, state.players[0].health);
-    assert_eq!(90, state.players[1].health);
+    assert_result!(100, state.players[0].health)?;
+    assert_result!(90, state.players[1].health)
 }
