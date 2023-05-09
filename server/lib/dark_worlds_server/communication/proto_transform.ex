@@ -44,6 +44,7 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   def encode(%EngineAction{action: :update_ping, value: latency}, ProtoAction) do
     %ProtoAction{action: :UPDATE_PING, latency: latency}
   end
+
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position

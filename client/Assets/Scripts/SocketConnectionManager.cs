@@ -124,8 +124,8 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void setCameraToPlayer(int playerID)
     {
-        print(levelManager.PlayerPrefabs.Length);
-        print(players.Count);
+        //print(levelManager.PlayerPrefabs.Length);
+        //print(players.Count);
         foreach (Character player in levelManager.PlayerPrefabs)
         {
             if (Int32.Parse(player.PlayerID) == playerID)
