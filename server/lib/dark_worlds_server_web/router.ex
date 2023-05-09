@@ -34,8 +34,7 @@ defmodule DarkWorldsServerWeb.Router do
   scope "/", DarkWorldsServerWeb do
     pipe_through [:browser, :game]
 
-    live "/board", BoardLive.Index
-    live "/board/:game_id", BoardLive.Index
+    live "/board/:game_id", BoardLive.Show
 
     live_session :authenticated, on_mount: [{DarkWorldsServerWeb.UserAuth, :ensure_authenticated}] do
       live "/matchmaking", MatchmakingLive.Index

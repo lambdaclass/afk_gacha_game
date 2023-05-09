@@ -49,6 +49,11 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:text, "ERROR unsupported message"}, state}
   end
 
+  def websocket_info({:player_joined, player_id, _game_state}, state) do
+
+    {:reply, {:text, "PLAYER_JOINED: #{player_id}"}, state}
+  end
+
   def websocket_info({:game_update, game_state}, state) do
     reply_map = %{
       players: game_state.current_state.game.players

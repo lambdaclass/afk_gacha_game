@@ -59,6 +59,14 @@ defmodule DarkWorldsServerWeb.BoardLive.Index do
     }
   end
 
+  def handle_info({:player_joined, %{current_state: %{game: game}}}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:players, game.players)
+    }
+  end
+
   def handle_info({:update_ping, player, ping}, socket) do
     pings = socket.assigns.pings
 

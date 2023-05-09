@@ -10,7 +10,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
 
-  @players 5
+  @players 3
   @board {1000, 1000}
   # The game will be closed five minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -56,12 +56,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.cast(runner_pid, {:play, player_id, action})
   end
 
-  def get_board(runner_pid) do
-    GenServer.call(runner_pid, :get_board)
-  end
-
-  def get_players(runner_pid) do
-    GenServer.call(runner_pid, :get_players)
+  def get_game_state(runner_pid) do
+    players = GenServer.call(runner_pid, :get_players)
+    {@board, players}
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
@@ -138,6 +135,12 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_call(:join, _, %{max_players: max, current_players: current} = state)
       when current < max do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(
+      Communication.pubsub_game_topic(self()),
+      {:player_joined, current + 1, state}
+    )
+
     {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
   end
 
@@ -163,7 +166,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:game_finished, state.game}
+      {:game_finished, state}
     )
 
     {:stop, :normal, state}
