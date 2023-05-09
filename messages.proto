@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+/* Main message sent by the server to clients
+    - players: List of players to update in client
+ */
+message GameStateUpdate {
+  repeated Player players = 1;
+}
+
+
+/* Information about a player
+    - id: ID of the player, this ID is the identifier in the game session, the game object tied to it
+    - health: Current health of the player
+    - position: Position of the player in the server game grid (see Position for more info)
+    - power: [Amin 2023-05-05:  not sure what this is, was copied from struct like this]
+ */
+message Player {
+    uint32 id = 1;
+    uint32 health = 2;
+    Position position = 3;
+    uint32 power = 4;
+}
+
+/* A position in the server game grid, the grid is a NxN square with (0,0) in the top left corner
+    - x: X coordinate in the grid
+    - y: Y coordinate in the grid
+ */
+message Position {
+    uint32 x = 1;
+    uint32 y = 2;
+}
+
+/* Message to update a player's ping latency information
+    - player_id: ID of the player game object refering to
+    - latency: ping latency for that player
+ */
+message UpdatePing {
+    uint32 player_id = 1;
+    uint32 latency = 2;
+}
+
+/* Represents any action that a client/player can make
+    - action: the action taken by the player
+    - direction: direction of the action (see Direction), used on actions MOVE, ATTACK
+    - latency: ping latency value to send on UPDATE_PING action
+ */
+message ClientAction {
+    Action action = 1;
+    Direction direction = 2;
+    uint32 latency = 3;
+}
+
+/* Actions a client/player performs
+    - MOVE: the player moves
+    - ATTACK: player attacks
+    - PING: client sends ping
+    - UPDATE_PING: client sends ping information for update
+ */
+enum Action {
+    ACTION_UNSPECIFIED = 0;
+    MOVE = 1;
+    ATTACK = 2;
+    PING = 3;
+    UPDATE_PING = 4;
+}
+
+/* Directions an action can happen in
+ */
+enum Direction {
+    DIRECTION_UNSPECIFIED = 0;
+    UP = 1;
+    DOWN = 2;
+    LEFT = 3;
+    RIGHT = 4;
+}
