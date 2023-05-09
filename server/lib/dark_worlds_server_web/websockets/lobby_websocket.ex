@@ -1,5 +1,6 @@
 defmodule DarkWorldsServerWeb.LobbyWebsocket do
   alias DarkWorldsServer.Matchmaking
+  alias DarkWorldsServer.Matchmaking.MatchingSession
   alias DarkWorldsServer.Communication
 
   @behaviour :cowboy_websocket
@@ -14,19 +15,13 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
   end
 
   def websocket_init(%{lobby_id: lobby_id}) do
-    matchmaking_session_id = Matchmaking.create_session()
 
-    {:reply, {:text, "CONNECTED_TO: #{Communication.pid_to_external_id(matchmaking_session_id)}"},
-     %{runner_pid: matchmaking_session_id}}
-  end
+    matchmaking_session_pid = Communication.external_id_to_pid(lobby_id)
+    players = MatchingSession.list_players(matchmaking_session_pid)
+    player_id = (Enum.count(players) + 1)
+    MatchingSession.add_player(player_id, matchmaking_session_pid)
 
-  def websocket_handle(message, action) do
-    IO.inspect(message, label: :mensaje)
-    IO.inspect(action, label: :action)
-  end
-
-  def websocket_info(message, state) do
-    IO.inspect(message, label: :mensaje)
-    IO.inspect(state, label: :state)
+    {:reply, {:text, "CONNECTED_TO: #{lobby_id} YOU'RE PLAYER #{player_id}"},
+     %{runner_pid: matchmaking_session_pid}}
   end
 end

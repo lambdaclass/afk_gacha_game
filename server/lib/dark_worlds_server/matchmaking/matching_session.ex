@@ -21,6 +21,10 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     GenServer.call(session_pid, {:remove_player, player_id})
   end
 
+  def list_players(session_pid) do
+    GenServer.call(session_pid, :list_players)
+  end
+
   def start_game(session_pid) do
     GenServer.cast(session_pid, :start_game)
   end
@@ -50,6 +54,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     end
   end
 
+
   def handle_call({:remove_player, player_id}, _from, state) do
     players = state[:players]
 
@@ -61,6 +66,10 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
         send(self(), :player_removed)
         {:reply, :ok, %{state | :players => remaining_players}}
     end
+  end
+
+  def handle_call(:list_players, _from, state) do
+    {:reply, state[:players], state}
   end
 
   @impl GenServer
