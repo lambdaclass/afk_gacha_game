@@ -7,7 +7,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.ClientAction, as: ProtoAction
   alias DarkWorldsServer.Communication.Proto.UpdatePing
-  alias DarkWorldsServer.Communication.Proto.PlayerJoined
 
   @behaviour Protobuf.TransformModule
 
@@ -45,11 +44,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   def encode(%EngineAction{action: :update_ping, value: latency}, ProtoAction) do
     %ProtoAction{action: :UPDATE_PING, latency: latency}
   end
-
-  def encode(%{player_id: player_id}, PlayerJoined) do
-    %PlayerJoined{player_id: player_id}
-  end
-
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position

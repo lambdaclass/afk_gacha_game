@@ -186,6 +186,10 @@ public class SocketConnectionManager : MonoBehaviour
         {
             Debug.Log("Error message: " + e.Data);
         }
+        else if (e.Data.Contains("PLAYER_JOINED"))
+        {
+            print(e.Data);
+        }
         else
         {
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
