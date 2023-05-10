@@ -1,6 +1,7 @@
 #[allow(dead_code, unused)]
 #[deny(unused_must_use)]
 pub mod game_state_test;
+pub mod utils;
 rustler::init!(
     "Elixir.TestNIFs",
     [
