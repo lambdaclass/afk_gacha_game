@@ -1,5 +1,4 @@
 use rustler::{NifStruct, NifTaggedEnum, ResourceArc};
-use std::fmt;
 use std::sync::Mutex;
 
 #[derive(Debug)]
@@ -20,18 +19,6 @@ pub struct Board {
     pub width: usize,
     pub height: usize,
     pub grid: ResourceArc<GridResource>,
-}
-impl fmt::Debug for Board {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let grid = self.grid.resource.lock().unwrap();
-        write!(
-            f,
-            "Width: {}, Height: {}, Grid: {:?}",
-            self.width,
-            self.height,
-            grid.clone()
-        )
-    }
 }
 impl Board {
     pub fn new(width: usize, height: usize) -> Self {
