@@ -26,19 +26,23 @@ of calling rust tests and manage them. [This is is also what the rustler team do
   from the gamestate crate, you shouldn't have problems accessing NIF
   resources, if you do, please report it.
   You can check more complex test cases on this file: `native/rustler_test/src/game_state_test.rs`
+
 2. Add your declared NIF under `rustler::init!`
+
 3. Next, you'll need to add your function to `lib/test_nifs.ex`:
   ```elixir
   defmodule TestNIFs do
     def math_works(), do: :erlang.nif_error(:nif_not_loaded)
   end
   ``` 
+
 4. Finally, use it as a test under `test/test_file.exs`:
   ```elixir
   defmodule MyTestingModule do
     def math_works(), do: :erlang.nif_error(:nif_not_loaded)
   end
   ``` 
+
 5. Run mix test
 
 ### About asserts
