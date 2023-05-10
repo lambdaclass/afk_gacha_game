@@ -63,7 +63,7 @@ impl GameState {
         Self { players, board }
     }
 
-    pub fn move_player(self: &mut Self, player_id: u64, direction: Direction) {
+    pub fn move_player(self: &mut Self, player_id: u64, direction: Direction, speed: usize) {
         let player = self
             .players
             .iter_mut()
@@ -74,7 +74,7 @@ impl GameState {
             return;
         }
 
-        let new_position = compute_adjacent_position(&direction, &player.position);
+        let new_position = compute_adjacent_position_n_tiles(&direction, &player.position, speed);
         if !is_valid_movement(&self.board, &new_position) {
             return;
         }
@@ -110,7 +110,7 @@ impl GameState {
         attacking_player.last_melee_attack = now;
 
         let target_position =
-            compute_adjacent_position(&attack_direction, &attacking_player.position);
+            compute_adjacent_position_n_tiles(&attack_direction, &attacking_player.position, 1);
         let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
 
         if maybe_target_cell.is_none() {
@@ -171,17 +171,18 @@ fn modify_health(player: &mut Player, hp_points: i64) {
         }
     }
 }
-/// Given a position and a direction, returns the position adjacent to it in that direction.
-/// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
-fn compute_adjacent_position(direction: &Direction, position: &Position) -> Position {
+/// Given a position and a direction, returns the position adjacent to it `n` tiles
+/// in that direction
+/// Example: If the arguments are Direction::RIGHT, (0, 0) and 2, returns (0, 2).
+fn compute_adjacent_position_n_tiles(direction: &Direction, position: &Position, n: usize) -> Position {
     let x = position.x;
     let y = position.y;
 
     match direction {
-        Direction::UP => Position::new(x.wrapping_sub(3), y),
-        Direction::DOWN => Position::new(x + 3, y),
-        Direction::LEFT => Position::new(x, y.wrapping_sub(3)),
-        Direction::RIGHT => Position::new(x, y + 3),
+        Direction::UP => Position::new(x.wrapping_sub(n), y),
+        Direction::DOWN => Position::new(x + n, y),
+        Direction::LEFT => Position::new(x, y.wrapping_sub(n)),
+        Direction::RIGHT => Position::new(x, y + n),
     }
 }
 

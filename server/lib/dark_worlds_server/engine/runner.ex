@@ -14,6 +14,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   @session_timeout 60 * 1000
   # This is the amount of time between updates (30ms)
   @update_time 30
+  # This is the number of tiles characters move per :move command
+  @character_speed 3
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
@@ -63,7 +65,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       ) do
     game =
       game
-      |> Game.move_player(player, value)
+      |> Game.move_player(player, value, @character_speed)
 
     next_state = Map.put(next_state, :game, game)
 
@@ -128,6 +130,14 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_call(:get_players, _from, %{current_state: %{game: %Game{players: players}}} = state) do
     {:reply, players, state}
+  end
+
+  def handle_call(:get_game_state, _from, %{current_state: %{game: game}} = state) do
+    {:reply, game, state}
+  end
+
+  def handle_call(:get_character_speed, _from, state) do
+    {:reply, @character_speed, state}
   end
 
   def handle_info(:game_timeout, state) do

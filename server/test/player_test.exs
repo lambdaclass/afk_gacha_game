@@ -9,10 +9,12 @@ defmodule DarkWorldsServer.PlayerTest do
     test "Move up", %{conn: conn} do
       session_id = create_session(conn)
       {:ok, _ws_pid} = ws_connect(session_id)
-      board = WsClient.get_board(session_id)
+      grid = WsClient.get_grid(session_id)
+      character_speed = WsClient.get_character_speed(session_id)
 
       first_player_before_moving = WsClient.get_players(session_id) |> List.first()
       WsClient.move(1, :up)
+
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
@@ -20,17 +22,20 @@ defmodule DarkWorldsServer.PlayerTest do
         first_player_before_moving.position.x == first_player_after_moving.position.x
 
       contiguous_position_is_wall_or_player =
-        (Enum.at(board.grid, first_player_before_moving.position.x - 1)
-         |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
+        Enum.at(grid, first_player_before_moving.position.x - character_speed)
+        |> Enum.at(first_player_before_moving.position.y)
+        |> is_wall_or_player?()
 
-      movement = first_player_after_moving.position.x == first_player_before_moving.position.x - 1
+      movement =
+        first_player_after_moving.position.x ==
+          first_player_before_moving.position.x - character_speed
 
       # first condition checks if player moved as expected
       # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
       success =
         case x_before_eq_after do
           true when contiguous_position_is_wall_or_player -> true
-          true when first_player_before_moving.position.x == 0 -> true
+          true when first_player_before_moving.position.x < character_speed -> true
           true -> false
           false -> movement
         end
@@ -53,8 +58,9 @@ defmodule DarkWorldsServer.PlayerTest do
         first_player_before_moving.position.x == first_player_after_moving.position.x
 
       contiguous_position_is_wall_or_player =
-        (Enum.at(board.grid, first_player_before_moving.position.x + 1)
-         |> Enum.at(first_player_before_moving.position.y)) in [:wall, :player]
+        Enum.at(board.grid, first_player_before_moving.position.x + 1)
+        |> Enum.at(first_player_before_moving.position.y)
+        |> is_wall_or_player?()
 
       movement = first_player_after_moving.position.x == first_player_before_moving.position.x + 1
 
@@ -157,6 +163,10 @@ defmodule DarkWorldsServer.PlayerTest do
       |> Enum.map(fn {_, y} -> {x, y} end)
     end)
   end
+
+  defp is_wall_or_player?({:player, _}), do: true
+  defp is_wall_or_player?(:wall), do: true
+  defp is_wall_or_player?(_), do: false
 
   defp create_session(conn) do
     conn = Conn.put_req_header(conn, "content-type", "application/json")
