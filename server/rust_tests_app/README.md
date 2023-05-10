@@ -14,11 +14,12 @@ of calling rust tests and manage them. [This is is also what the rustler team do
 1. Define your test under the crate rustler_test as a plain rust function
    with a NIF macro decorator, like in this example:
   ```rust
-  use crate::utils::TestResult
+  use crate::assert_result;
+  use crate::utils::TestResult;
   #[rustler::nif]
   pub fn math_works() -> TestResult {
      let x = 1;
-     assert_result!(x-1, 0)? // Note the question sign, as we return result.
+     assert_result!(x-1, 0)?; // Note the question sign, as we return result.
      assert_result!(x+1, 2)
   }
   ``` 
