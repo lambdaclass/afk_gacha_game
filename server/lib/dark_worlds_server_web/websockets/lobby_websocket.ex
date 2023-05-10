@@ -21,7 +21,8 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
     player_id = Enum.count(players) + 1
     Matchmaking.add_player(player_id, matchmaking_session_pid)
 
-    {:reply, {:text, "CONNECTED_TO: #{lobby_id} YOU'RE PLAYER #{player_id}"}, %{runner_pid: matchmaking_session_pid}}
+    {:reply, {:text, "CONNECTED_TO: #{lobby_id} YOU'RE PLAYER #{player_id}"},
+     %{runner_pid: matchmaking_session_pid}}
   end
 
   def websocket_handle(message, state) do
@@ -37,6 +38,6 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
   end
 
   def websocket_info({:game_started, game_pid}, state) do
-    {:reply, {:text, "GAME STARTED - GAME_ID: #{game_pid}"}, state}
+    {:reply, {:text, "GAME_ID: #{Communication.pid_to_external_id(game_pid)}"}, state}
   end
 end
