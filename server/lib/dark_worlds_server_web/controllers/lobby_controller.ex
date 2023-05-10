@@ -19,7 +19,7 @@ defmodule DarkWorldsServerWeb.LobbyController do
   end
 
   def current_lobbies(conn, _params) do
-    headers = Enum.into(conn.req_headers, %{}) |> IO.inspect()
+    headers = Enum.into(conn.req_headers, %{})
     matchmaking_pids = MatchingSupervisor.children_pids()
     lobbies = Enum.map(matchmaking_pids, fn pid -> Communication.pid_to_external_id(pid) end)
 

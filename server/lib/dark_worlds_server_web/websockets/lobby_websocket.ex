@@ -22,18 +22,17 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
     Matchmaking.add_player(player_id, matchmaking_session_pid)
 
     {:reply, {:text, "CONNECTED_TO: #{lobby_id} YOU'RE PLAYER #{player_id}"},
-     %{runner_pid: matchmaking_session_pid}}
+     %{lobby_pid: matchmaking_session_pid}}
   end
 
-  def websocket_handle(message, state) do
-    IO.inspect(message, label: :message)
-    IO.inspect(state, label: :state)
-    {:reply, {:text, "OK"}, state}
+  def websocket_handle({:text, "START_GAME"}, state) do
+    Matchmaking.start_game(state[:lobby_pid])
+    {:reply, {:text, "STARTING_GAME..."}, state}
   end
 
   def websocket_info({:player_added, id}, state) do
     {:reply,
-     {:text, "PLAYER #{id} JOINED TO: #{Communication.pid_to_external_id(state[:runner_pid])}"},
+     {:text, "PLAYER #{id} JOINED TO: #{Communication.pid_to_external_id(state[:lobby_pid])}"},
      state}
   end
 
