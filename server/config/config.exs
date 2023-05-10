@@ -73,6 +73,6 @@ case Mix.env() do
   :rust_test ->
     nil
 
-  _ ->
+  env when env in [:dev, :prod, :test] ->
     import_config "#{config_env()}.exs"
 end
