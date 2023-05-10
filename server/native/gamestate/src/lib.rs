@@ -70,7 +70,7 @@ pub fn load(env: rustler::Env, _: rustler::Term) -> bool {
     true
 }
 
-#[cfg(feature="init_engine")]
+#[cfg(feature = "init_engine")]
 rustler::init!(
     "Elixir.DarkWorldsServer.Engine.Game",
     [
