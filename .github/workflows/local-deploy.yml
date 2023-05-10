@@ -17,10 +17,11 @@ jobs:
 
     steps:
 
-    - name: Checkout
-      uses: actions/checkout@v3.5.0
+    - name: Checkout deploy script
+      uses: Bhacaz/checkout-files@v2
       with:
-        ref: ${{ github.event.workflow_run.head_branch }}
+        branch: ${{ github.event.workflow_run.head_branch }}
+        files: server/deploy.sh
 
     - name: Create ssh private key file from env var
       env:
