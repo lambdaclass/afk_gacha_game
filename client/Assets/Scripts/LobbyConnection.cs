@@ -34,7 +34,6 @@ public class LobbyConnection : MonoBehaviour
 
     public void CreateLobby()
     {
-        print(this.matchmaking_id.IsNullOrEmpty());
         if (this.matchmaking_id.IsNullOrEmpty())
         {
             StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
@@ -48,7 +47,7 @@ public class LobbyConnection : MonoBehaviour
     public void Init()
     {
         CreateLobby();
-        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+        // StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
     }
 
     void Start()
@@ -76,7 +75,6 @@ public class LobbyConnection : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
                     Debug.Log("Creating and joining lobby ID: " + session.lobby_id);
-                    ConnectToSession(session.lobby_id);
                     break;
             }
         }
@@ -136,12 +134,17 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void StartLobby()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            ws.Send("START_GAME");
-        }
+        ws.Send("START_GAME");
     }
+
+    // private void Update()
+    // {
+    //     if (Input.GetKey(KeyCode.Space))
+    //     {
+    //         ws.Send("START_GAME");
+    //     }
+    // }
 
 }

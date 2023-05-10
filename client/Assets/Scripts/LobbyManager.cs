@@ -11,6 +11,5 @@ public class LobbyManager : LevelSelector
         base.GoToLevel();
         // lobbyConnection.CreateLobby();
         lobbyConnection.Init();
-        print("LOBBy" + lobbyConnection.lobbiesList.Count);
     }
 }
