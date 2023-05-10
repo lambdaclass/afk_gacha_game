@@ -113,14 +113,23 @@ public class LobbyConnection : MonoBehaviour
 
     private void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
-        Debug.Log("The message is: " + e.Data);
+        if (e.Data.Contains("GAME_ID"))
+        {
+            string game_id = e.Data.Split(": ")[1];
+            print("The game id is: " + game_id);
+        }
+        else
+        {
+            Debug.Log("Message received is: " + e.Data);
+        }
     }
 
     private void Update()
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            ws.Send("un mensajito");
+            ws.Send("START_GAME");
         }   
     }
+
 }
