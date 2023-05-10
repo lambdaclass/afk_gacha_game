@@ -1,9 +1,5 @@
 defmodule DarkWorldsServer.Engine.Game do
-  case Mix.env() do
-    :rust_tests -> nil
-    _ ->
-      use Rustler, otp_app: :dark_worlds_server, crate: "gamestate", default_features: true
-  end
+  use Rustler, otp_app: :dark_worlds_server, crate: "gamestate", default_features: true
   use DarkWorldsServer.Communication.Encoder
 
   @enforce_keys [:players, :board]
