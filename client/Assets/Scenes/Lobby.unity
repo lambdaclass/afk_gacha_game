@@ -762,8 +762,8 @@ MonoBehaviour:
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 655887127}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 655887133}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
         m_MethodName: GoToLevel
         m_Mode: 1
         m_Arguments:
@@ -890,6 +890,7 @@ MonoBehaviour:
   DoNotUseLevelManager: 0
   DestroyPersistentCharacter: 0
   lobbyConnection: {fileID: 0}
+  gameStart: {fileID: 0}
 --- !u!1 &711933318
 GameObject:
   m_ObjectHideFlags: 0

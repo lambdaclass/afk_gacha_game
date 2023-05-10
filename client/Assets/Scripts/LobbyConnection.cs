@@ -18,6 +18,9 @@ public class LobbyConnection : MonoBehaviour
     public string server_ip = "localhost";
     public List<string> lobbiesList;
 
+    public static LobbyConnection Instance;
+    public string GameSession;
+
     WebSocket ws;
 
     public class Session
@@ -44,14 +47,16 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Init()
     {
         CreateLobby();
         // StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
-    }
-
-    void Start()
-    {
     }
 
     IEnumerator GetRequest(string uri)
@@ -75,6 +80,7 @@ public class LobbyConnection : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
                     Debug.Log("Creating and joining lobby ID: " + session.lobby_id);
+                    ConnectToSession(session.lobby_id);
                     break;
             }
         }
@@ -127,6 +133,7 @@ public class LobbyConnection : MonoBehaviour
         {
             string game_id = e.Data.Split(": ")[1];
             print("The game id is: " + game_id);
+            GameSession = game_id;
         }
         else
         {
@@ -134,7 +141,7 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
-    public void StartLobby()
+    public void StartGame()
     {
         ws.Send("START_GAME");
     }

@@ -62,6 +62,10 @@ public class SocketConnectionManager : MonoBehaviour
         public Position position { get; set; }
     }
 
+    public void Awake()
+    {
+        this.session_id = LobbyConnection.Instance.GameSession;
+    }
     public void GeneratePlayer()
     {
         Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
