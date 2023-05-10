@@ -49,7 +49,7 @@ of calling rust tests and manage them. [This is is also what the rustler team do
  You can actually use any assert-like macro, but this will only be
  reported as nif panic and won't give too much information about the failing
  test. That's why assert_result! is used. Were the test to fail, you'll get
- a message detailing how and where the test has failed
+ a message detailing how and where the test has failed.
 
  
   
