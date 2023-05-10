@@ -11,35 +11,6 @@ fn get_grid(game: &GameState) -> Vec<Vec<Tile>> {
     let grid = game.board.grid.resource.lock().unwrap();
     grid.clone()
 }
-type TestResult = Result<String, String>;
-macro_rules! assert_result {
-    ($expected:expr, $actual:expr) => {
-        if $expected != $actual {
-            let line = line!();
-            let file = file!();
-            let msg = format!(
-                "Assert failed, expected: {:?}, but got: {:?} on line: {:?}, file: {:?}",
-                $expected, $actual, line, file
-            );
-            Err(msg)
-        } else {
-            Ok("".to_string())
-        }
-    };
-    ($expected:expr, $actual:expr, $optional_ok_value:expr) => {
-        if $expected != $actual {
-            let line = line!();
-            let file = file!();
-            let msg = format!(
-                "Assert failed, expected: {:?}, but got: {:?} on line: {:?}, file: {:?}",
-                $expected, $actual, line, file
-            );
-            Err(msg)
-        } else {
-            Ok(expr)
-        }
-    };
-}
 #[rustler::nif]
 pub fn no_move_if_beyond_boundaries() -> TestResult {
     let mut expected_grid: Vec<Vec<Tile>>;
@@ -103,7 +74,7 @@ fn no_move_if_wall() -> TestResult {
 }
 
 #[rustler::nif]
-fn movement() -> TestResult{
+fn movement() -> TestResult {
     let mut state = GameState::new(0, 2, 2, false);
     let player_id = 1;
     let player1 = Player::new(player_id, 100, Position::new(0, 0));
@@ -148,7 +119,7 @@ fn movement() -> TestResult{
 }
 
 #[rustler::nif]
-fn attacking() -> TestResult{
+fn attacking() -> TestResult {
     let mut state = GameState::new(0, 2, 2, false);
     let player_1_id = 1;
     let player_2_id = 2;
@@ -192,4 +163,10 @@ fn attacking() -> TestResult{
     state.attack_player(player_1_id, Direction::LEFT);
     assert_result!(100, state.players[0].health)?;
     assert_result!(90, state.players[1].health)
+}
+
+#[rustler::nif]
+pub fn math_works() -> TestResult {
+    let x = 1;
+    assert_result!(x + 1, 3)
 }
