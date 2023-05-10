@@ -24,9 +24,16 @@ public class LobbyConnection : MonoBehaviour
         public string lobby_id { get; set; }
     }
 
+    public class LobbiesResponse
+    {
+        public List<string> lobbies { get; set; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+
         if (this.matchmaking_id.IsNullOrEmpty())
         {
             StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
@@ -64,6 +71,35 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
+    IEnumerator GetLobbies(string uri)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            yield return webRequest.SendWebRequest();
+            string[] pages = uri.Split('/');
+            int page = pages.Length - 1;
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    //Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(webRequest.downloadHandler.text);
+                    response.lobbies.ForEach((lobby) =>
+                    {
+                        Debug.Log("A lobby id: " + lobby);
+                    });
+                    break;
+            }
+        }
+    }
+
     private void ConnectToSession(string session_id)
     {
         ws = new WebSocket("ws://" + server_ip + ":4000/matchmaking/" + session_id);
@@ -78,5 +114,13 @@ public class LobbyConnection : MonoBehaviour
     private void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
         Debug.Log("The message is: " + e.Data);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            ws.Send("un mensajito");
+        }   
     }
 }
