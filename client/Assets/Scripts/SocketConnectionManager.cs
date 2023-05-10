@@ -10,9 +10,13 @@ using System.Net;
 using System;
 using System.Xml.Linq;
 using ProtoBuf;
+using MoreMountains.TopDownEngine;
 
 public class SocketConnectionManager : MonoBehaviour
 {
+    public LevelManager levelManager;
+    public CinemachineCameraController camera;
+    public Character prefab;
     public List<GameObject> players;
     public Queue<PositionUpdate> positionUpdates = new Queue<PositionUpdate>();
 
@@ -23,6 +27,10 @@ public class SocketConnectionManager : MonoBehaviour
     public string server_ip = "localhost";
 
     WebSocket ws;
+
+    private int totalPlayers;
+    private int playerCount = 0;
+    private int playerId;
 
     public class GameResponse
     {
@@ -54,11 +62,27 @@ public class SocketConnectionManager : MonoBehaviour
         public Position position { get; set; }
     }
 
+    public void GeneratePlayer()
+    {
+        Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
+        newPlayer.name = "Player" + " " + playerCount;
+        newPlayer.PlayerID = (playerCount + 1).ToString();
+
+        players.Add(newPlayer.gameObject);
+        levelManager.Players.Add(players[playerCount].GetComponent<Character>());
+        levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
+
+        camera.SetTarget(players[0].GetComponent<Character>());
+        playerCount++;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        // GeneratePlayer();
         // Send the player's action every 30 ms approximately.
-        InvokeRepeating("sendAction", 0.03333333f, 0.03333333f);
+        float tickRate = 1f / 30f;
+        InvokeRepeating("sendAction", tickRate, tickRate);
 
         if (this.session_id.IsNullOrEmpty())
         {
@@ -78,29 +102,48 @@ public class SocketConnectionManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down};
+            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down };
             SendAction(action);
+        }
+    }
+
+    private void setCameraToPlayer(int playerID)
+    {
+        print(levelManager.PlayerPrefabs.Length);
+        print(players.Count);
+        foreach (Character player in levelManager.PlayerPrefabs)
+        {
+            if (Int32.Parse(player.PlayerID) == playerID)
+            {
+                this.camera.SetTarget(player);
+                this.camera.StartFollowing();
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (totalPlayers != playerCount)
+        {
+            GeneratePlayer();
+        }
+        setCameraToPlayer(playerId);
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
             this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
@@ -158,10 +201,14 @@ public class SocketConnectionManager : MonoBehaviour
         {
             Debug.Log("Error message: " + e.Data);
         }
+        else if (e.Data.Contains("PLAYER_JOINED"))
+        {
+            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+        }
         else
         {
-            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>) e.RawData);
-
+            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
+            totalPlayers = game_update.Players.Count;
             for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
@@ -172,8 +219,10 @@ public class SocketConnectionManager : MonoBehaviour
         }
     }
 
-    private void SendAction(ClientAction action) {
-        using (var stream = new MemoryStream()) {
+    private void SendAction(ClientAction action)
+    {
+        using (var stream = new MemoryStream())
+        {
             Serializer.Serialize(stream, action);
             var msg = stream.ToArray();
             ws.Send(msg);

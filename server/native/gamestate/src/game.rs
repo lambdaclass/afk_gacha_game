@@ -178,10 +178,10 @@ fn compute_adjacent_position(direction: &Direction, position: &Position) -> Posi
     let y = position.y;
 
     match direction {
-        Direction::UP => Position::new(x.wrapping_sub(3), y),
-        Direction::DOWN => Position::new(x + 3, y),
-        Direction::LEFT => Position::new(x, y.wrapping_sub(3)),
-        Direction::RIGHT => Position::new(x, y + 3),
+        Direction::UP => Position::new(x.wrapping_sub(2), y),
+        Direction::DOWN => Position::new(x + 2, y),
+        Direction::LEFT => Position::new(x, y.wrapping_sub(2)),
+        Direction::RIGHT => Position::new(x, y + 2),
     }
 }
 
