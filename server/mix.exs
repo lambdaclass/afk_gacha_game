@@ -59,6 +59,9 @@ defmodule DarkWorldsServer.MixProject do
       {:exbase58, "~> 1.0.2"},
       {:protobuf, "~> 0.10.0"},
       {:new_relic_agent, "~> 1.0", only: :prod},
+      {:etop, "~> 0.7"},
+      {:rexbug, ">= 1.0.0"},
+      {:eep, github: "virtan/eep"},
       {:rust_tests, path: "rust_tests_app", runtime: Mix.env() == :rust_test}
     ]
   end

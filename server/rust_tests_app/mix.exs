@@ -1,5 +1,6 @@
 defmodule RustTests.MixProject do
   use Mix.Project
+
   def project do
     [
       app: :rust_tests,
