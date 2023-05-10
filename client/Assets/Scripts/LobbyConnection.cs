@@ -16,6 +16,7 @@ public class LobbyConnection : MonoBehaviour
 
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
+    public List<string> lobbiesList;
 
     WebSocket ws;
 
@@ -30,10 +31,10 @@ public class LobbyConnection : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
 
+    public void CreateLobby()
+    {
+        print(this.matchmaking_id.IsNullOrEmpty());
         if (this.matchmaking_id.IsNullOrEmpty())
         {
             StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
@@ -42,6 +43,16 @@ public class LobbyConnection : MonoBehaviour
         {
             ConnectToSession(this.matchmaking_id);
         }
+    }
+
+    public void Init()
+    {
+        CreateLobby();
+        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+    }
+
+    void Start()
+    {
     }
 
     IEnumerator GetRequest(string uri)
@@ -91,6 +102,7 @@ public class LobbyConnection : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(webRequest.downloadHandler.text);
+                    lobbiesList = response.lobbies;
                     response.lobbies.ForEach((lobby) =>
                     {
                         Debug.Log("A lobby id: " + lobby);
@@ -129,7 +141,7 @@ public class LobbyConnection : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             ws.Send("START_GAME");
-        }   
+        }
     }
 
 }
