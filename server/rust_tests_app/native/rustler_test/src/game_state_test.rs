@@ -164,9 +164,3 @@ fn attacking() -> TestResult {
     assert_result!(100, state.players[0].health)?;
     assert_result!(90, state.players[1].health)
 }
-
-#[rustler::nif]
-pub fn math_works() -> TestResult {
-    let x = 1;
-    assert_result!(x + 1, 3)
-}
