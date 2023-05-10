@@ -50,7 +50,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_info({:player_joined, player_id, _game_state}, state) do
-
     {:reply, {:text, "PLAYER_JOINED: #{player_id}"}, state}
   end
 
