@@ -36,14 +36,14 @@ of calling rust tests and manage them. [This is is also what the rustler team do
   end
   ``` 
 
-4. Finally, use it as a test under `test/test_file.exs`:
+4. Use it as a test under `test/test_file.exs`:
   ```elixir
   defmodule MyTestingModule do
     def math_works(), do: :erlang.nif_error(:nif_not_loaded)
   end
   ``` 
 
-5. Run mix test
+5. Finally, run mix test.
 
 ### About asserts
  You can actually use any assert-like macro instead of `assert_result`, but this will only be
