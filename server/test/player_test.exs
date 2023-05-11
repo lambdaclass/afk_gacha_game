@@ -14,14 +14,13 @@ defmodule DarkWorldsServer.PlayerTest do
 
       first_player_before_moving = WsClient.get_players(session_id) |> List.first()
       WsClient.move(1, :up)
-
       :timer.sleep(1_000)
       first_player_after_moving = WsClient.get_players(session_id) |> List.first()
 
       x_before_eq_after =
         first_player_before_moving.position.x == first_player_after_moving.position.x
 
-      contiguous_position_is_wall_or_player =
+      end_position_is_occupied_by_wall_or_player =
         Enum.at(grid, first_player_before_moving.position.x - character_speed)
         |> Enum.at(first_player_before_moving.position.y)
         |> is_wall_or_player?()
@@ -30,11 +29,12 @@ defmodule DarkWorldsServer.PlayerTest do
         first_player_after_moving.position.x ==
           first_player_before_moving.position.x - character_speed
 
-      # first condition checks if player moved as expected
-      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
+      # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true
+      # In the fourth case, we check if the player has moved as expected
       success =
         case x_before_eq_after do
-          true when contiguous_position_is_wall_or_player -> true
+          true when end_position_is_occupied_by_wall_or_player -> true
           true when first_player_before_moving.position.x < character_speed -> true
           true -> false
           false -> movement
@@ -47,7 +47,9 @@ defmodule DarkWorldsServer.PlayerTest do
     test "Move down", %{conn: conn} do
       session_id = create_session(conn)
       {:ok, _ws_pid} = ws_connect(session_id)
-      board = WsClient.get_board(session_id)
+      grid = WsClient.get_grid(session_id)
+      grid_height = length(grid)
+      character_speed = WsClient.get_character_speed(session_id)
 
       first_player_before_moving = WsClient.get_players(session_id) |> List.first()
       WsClient.move(1, :down)
@@ -57,19 +59,20 @@ defmodule DarkWorldsServer.PlayerTest do
       x_before_eq_after =
         first_player_before_moving.position.x == first_player_after_moving.position.x
 
-      contiguous_position_is_wall_or_player =
-        Enum.at(board.grid, first_player_before_moving.position.x + 1)
+      end_position_is_occupied_by_wall_or_player =
+        Enum.at(grid, first_player_before_moving.position.x + character_speed)
         |> Enum.at(first_player_before_moving.position.y)
         |> is_wall_or_player?()
 
-      movement = first_player_after_moving.position.x == first_player_before_moving.position.x + 1
+      movement = first_player_after_moving.position.x == first_player_before_moving.position.x + character_speed
 
-      # first condition checks if player moved as expected
-      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
+      # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true
+      # In the fourth case, we check if the player has moved as expected
       success =
         case x_before_eq_after do
-          true when contiguous_position_is_wall_or_player -> true
-          true when first_player_before_moving.position.x == 0 -> true
+          true when end_position_is_occupied_by_wall_or_player -> true
+          true when first_player_before_moving.position.x + character_speed > grid_height -> true
           true -> false
           false -> movement
         end
@@ -81,7 +84,8 @@ defmodule DarkWorldsServer.PlayerTest do
     test "Move left", %{conn: conn} do
       session_id = create_session(conn)
       {:ok, _ws_pid} = ws_connect(session_id)
-      board = WsClient.get_board(session_id)
+      grid = WsClient.get_grid(session_id)
+      character_speed = WsClient.get_character_speed(session_id)
 
       first_player_before_moving = WsClient.get_players(session_id) |> List.first()
       WsClient.move(1, :left)
@@ -91,37 +95,35 @@ defmodule DarkWorldsServer.PlayerTest do
       y_before_eq_after =
         first_player_before_moving.position.y == first_player_after_moving.position.y
 
-      contiguous_position =
-        Enum.at(board.grid, first_player_before_moving.position.x)
-        |> Enum.at(first_player_before_moving.position.y - 1)
+      end_position_is_occupied_by_wall_or_player =
+        Enum.at(grid, first_player_before_moving.position.y - character_speed)
+        |> Enum.at(first_player_before_moving.position.x)
+        |> is_wall_or_player?()
 
-      contiguous_position_is_wall_or_player = contiguous_position in [:wall, :player]
+      movement = first_player_after_moving.position.y == first_player_before_moving.position.y - character_speed
 
-      # first condition checks if player moved as expected
-      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
-      player_moves_unless_theres_an_obstacle =
+      # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
+      # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true
+      # In the fourth case, we check if the player has moved as expected
+      success =
         case y_before_eq_after do
-          true when contiguous_position_is_wall_or_player ->
-            true
-
-          true when first_player_before_moving.position.x == 0 ->
-            true
-
-          true ->
-            false
-
-          false ->
-            first_player_after_moving.position.y == first_player_before_moving.position.y - 1
+          true when end_position_is_occupied_by_wall_or_player -> true
+          true when first_player_before_moving.position.y < character_speed -> true
+          true -> false
+          false -> movement
         end
 
-      assert player_moves_unless_theres_an_obstacle
+      assert success
+
     end
 
     @tag :move_right
     test "Move right", %{conn: conn} do
       session_id = create_session(conn)
       {:ok, _ws_pid} = ws_connect(session_id)
-      board = WsClient.get_board(session_id)
+      grid = WsClient.get_grid(session_id)
+      grid_width = length(hd(grid))
+      character_speed = WsClient.get_character_speed(session_id)
 
       first_player_before_moving = WsClient.get_players(session_id) |> List.first()
       WsClient.move(1, :right)
@@ -131,18 +133,20 @@ defmodule DarkWorldsServer.PlayerTest do
       y_before_eq_after =
         first_player_before_moving.position.y == first_player_after_moving.position.y
 
-      contiguous_position_is_wall_or_player =
-        (Enum.at(board.grid, first_player_before_moving.position.x)
-         |> Enum.at(first_player_before_moving.position.y + 1)) in [:wall, :player]
+      end_position_is_occupied_by_wall_or_player =
+        Enum.at(grid, first_player_before_moving.position.y + character_speed)
+        |> Enum.at(first_player_before_moving.position.x)
+        |> is_wall_or_player?()
 
-      movement = first_player_after_moving.position.y == first_player_before_moving.position.y + 1
+      movement = first_player_after_moving.position.y == first_player_before_moving.position.y + character_speed
 
-      # first condition checks if player moved as expected
-      # if player didn't move as expected, the next conditions check for cases where this output is valid (presence of a wall, player or end of the board)
+      # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
+      # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true
+      # In the fourth case, we check if the player has moved as expected
       success =
         case y_before_eq_after do
-          true when contiguous_position_is_wall_or_player -> true
-          true when first_player_before_moving.position.x == 0 -> true
+          true when end_position_is_occupied_by_wall_or_player -> true
+          true when first_player_before_moving.position.y + character_speed > grid_width -> true
           true -> false
           false -> movement
         end
