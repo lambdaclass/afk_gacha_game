@@ -15,10 +15,7 @@ public class LobbyManager : LevelSelector
         }
         else
         {
-            if (LobbyConnection.Instance.playerId == 1)
-            {
-                LobbyConnection.Instance.StartGame();
-            }
+            LobbyConnection.Instance.StartGame();
         }
     }
 }
