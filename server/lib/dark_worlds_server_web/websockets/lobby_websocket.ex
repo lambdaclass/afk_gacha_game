@@ -32,7 +32,7 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
 
   def websocket_info({:player_added, id}, state) do
     {:reply,
-     {:text, "PLAYER #{id} JOINED TO: #{Communication.pid_to_external_id(state[:lobby_pid])}"},
+     {:text, "JOINED PLAYER: #{id}"},
      state}
   end
 

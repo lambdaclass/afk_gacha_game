@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : LevelSelector
 {
-    public LobbyConnection lobbyConnection;
     public override void GoToLevel()
     {
         base.GoToLevel();
-        // lobbyConnection.CreateLobby();
-        lobbyConnection.Init();
+        if (SceneManager.GetActiveScene().name == "Lobbies")
+        {
+            LobbyConnection.Instance.Init();
+        }
+        else
+        {
+            print(LobbyConnection.Instance);
+            LobbyConnection.Instance.StartGame();
+        }
     }
 }

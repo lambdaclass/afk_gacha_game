@@ -23,6 +23,12 @@ public class LobbyConnection : MonoBehaviour
     [SerializeField] Transform lobbyListContainer;
     public List<GameObject> lobbiesList;
 
+    public static LobbyConnection Instance;
+    public string GameSession;
+    public string LobbySession;
+    public int playerId;
+    public int playerCount;
+
     WebSocket ws;
 
     public class Session
@@ -47,6 +53,12 @@ public class LobbyConnection : MonoBehaviour
         {
             ConnectToSession(this.matchmaking_id);
         }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Init()
@@ -80,6 +92,8 @@ public class LobbyConnection : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
                     Debug.Log("Creating and joining lobby ID: " + session.lobby_id);
+                    LobbySession = session.lobby_id;
+                    ConnectToSession(session.lobby_id);
                     break;
             }
         }
@@ -135,6 +149,12 @@ public class LobbyConnection : MonoBehaviour
         {
             string game_id = e.Data.Split(": ")[1];
             print("The game id is: " + game_id);
+            GameSession = game_id;
+        }
+        else if (e.Data.Contains("JOINED PLAYER"))
+        {
+            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            playerCount++;
         }
         else
         {
@@ -142,7 +162,7 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
-    public void StartLobby()
+    public void StartGame()
     {
         ws.Send("START_GAME");
     }

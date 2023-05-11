@@ -62,25 +62,33 @@ public class SocketConnectionManager : MonoBehaviour
         public Position position { get; set; }
     }
 
+    public void Awake()
+    {
+        this.session_id = LobbyConnection.Instance.GameSession;
+        this.totalPlayers = LobbyConnection.Instance.playerCount;
+    }
     public void GeneratePlayer()
     {
-        Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-        newPlayer.name = "Player" + " " + playerCount;
-        newPlayer.PlayerID = (playerCount + 1).ToString();
+        for (int i = 0; i < totalPlayers; i++)
+        {
+            Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
+            newPlayer.name = "Player" + " " + playerCount;
+            newPlayer.PlayerID = (playerCount + 1).ToString();
 
-        players.Add(newPlayer.gameObject);
-        levelManager.Players.Add(players[playerCount].GetComponent<Character>());
-        levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
+            players.Add(newPlayer.gameObject);
+            levelManager.Players.Add(players[playerCount].GetComponent<Character>());
+            levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
 
-        camera.SetTarget(players[0].GetComponent<Character>());
-        playerCount++;
+            camera.SetTarget(players[i].GetComponent<Character>());
+            camera.StartFollowing();
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // GeneratePlayer();
         // Send the player's action every 30 ms approximately.
+        GeneratePlayer();
         float tickRate = 1f / 30f;
         InvokeRepeating("sendAction", tickRate, tickRate);
 
@@ -139,11 +147,6 @@ public class SocketConnectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (totalPlayers != playerCount)
-        {
-            GeneratePlayer();
-        }
-        setCameraToPlayer(playerId);
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
             this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
@@ -208,7 +211,6 @@ public class SocketConnectionManager : MonoBehaviour
         else
         {
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
-            totalPlayers = game_update.Players.Count;
             for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
