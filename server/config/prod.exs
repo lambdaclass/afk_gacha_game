@@ -20,3 +20,8 @@ config :logger, level: :info
 
 # Runtime production configuration, including reading
 # of environment variables, is done on config/runtime.exs.
+
+# Newrelic agent
+config :new_relic_agent,
+  app_name: System.get_env("NEWRELIC_APP_NAME"),
+  license_key: System.get_env("NEWRELIC_KEY")

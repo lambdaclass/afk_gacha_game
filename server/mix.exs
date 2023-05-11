@@ -55,7 +55,11 @@ defmodule DarkWorldsServer.MixProject do
       {:rustler, "~> 0.27.0"},
       {:exbase58, "~> 1.0.2"},
       {:websockex, "~> 0.4.3"},
-      {:protobuf, "~> 0.10.0"}
+      {:protobuf, "~> 0.10.0"},
+      {:new_relic_agent, "~> 1.0", only: :prod},
+      {:etop, "~> 0.7"},
+      {:rexbug, ">= 1.0.0"},
+      {:eep, github: "virtan/eep"}
     ]
   end
 

@@ -179,10 +179,17 @@ fn compute_adjacent_position_n_tiles(direction: &Direction, position: &Position,
     let y = position.y;
 
     match direction {
+<<<<<<< HEAD
         Direction::UP => Position::new(x.wrapping_sub(n), y),
         Direction::DOWN => Position::new(x + n, y),
         Direction::LEFT => Position::new(x, y.wrapping_sub(n)),
         Direction::RIGHT => Position::new(x, y + n),
+=======
+        Direction::UP => Position::new(x.wrapping_sub(2), y),
+        Direction::DOWN => Position::new(x + 2, y),
+        Direction::LEFT => Position::new(x, y.wrapping_sub(2)),
+        Direction::RIGHT => Position::new(x, y + 2),
+>>>>>>> main
     }
 }
 
