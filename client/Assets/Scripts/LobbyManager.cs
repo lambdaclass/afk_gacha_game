@@ -15,8 +15,7 @@ public class LobbyManager : LevelSelector
         }
         else
         {
-            // print("lobby" + lobbyConnection.matchmaking_id);
-            // lobbyConnection.StartLobby();
+            print(LobbyConnection.Instance);
             LobbyConnection.Instance.StartGame();
         }
     }

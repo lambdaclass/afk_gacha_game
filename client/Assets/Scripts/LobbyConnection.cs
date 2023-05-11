@@ -20,6 +20,8 @@ public class LobbyConnection : MonoBehaviour
 
     public static LobbyConnection Instance;
     public string GameSession;
+    public int playerId;
+    public int playerCount;
 
     WebSocket ws;
 
@@ -134,6 +136,11 @@ public class LobbyConnection : MonoBehaviour
             string game_id = e.Data.Split(": ")[1];
             print("The game id is: " + game_id);
             GameSession = game_id;
+        }
+        else if (e.Data.Contains("JOINED PLAYER"))
+        {
+            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            playerCount++;
         }
         else
         {
