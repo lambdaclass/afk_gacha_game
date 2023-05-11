@@ -9,7 +9,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
-  require Logger
 
   @players 3
   @board {1000, 1000}
