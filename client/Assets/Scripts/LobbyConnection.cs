@@ -119,11 +119,9 @@ public class LobbyConnection : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(webRequest.downloadHandler.text);
-                    Debug.Log("Lobbies response: " + response.lobbies);
                     lobbiesList = response.lobbies.Select(l => {
-                        Debug.Log("A lobby id: " + l);
                         GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
-                        lobbyItem.GetComponent<LobbyItem>().setId(l); // TODO: check this
+                        lobbyItem.GetComponent<LobbyItem>().setId(l);
                         return lobbyItem;
                     }).ToList();
 
