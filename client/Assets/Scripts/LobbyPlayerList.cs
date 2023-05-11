@@ -17,6 +17,10 @@ public class LobbyPlayerList : MonoBehaviour
         {
             playerI.playerText.text += " " + (LobbyConnection.Instance.playerId).ToString() + " " + "HOST";
         }
+        else
+        {
+            playerI.playerText.text += " " + (LobbyConnection.Instance.playerId).ToString();
+        }
     }
     void Start()
     {

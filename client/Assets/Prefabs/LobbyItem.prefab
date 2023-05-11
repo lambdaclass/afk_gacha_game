@@ -279,7 +279,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3351608820173294155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cca91e83afb543d3a23d534b39e0ad9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4558a8ec694a448b186fd397c86a8adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobby
@@ -455,7 +455,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idContainer: {fileID: 6431237632104201231}
-  button: {fileID: 0}
 --- !u!1 &6431237631616119774
 GameObject:
   m_ObjectHideFlags: 0
