@@ -47,6 +47,7 @@ public class LobbyConnection : MonoBehaviour
     public void ConnectToLobby(string matchmaking_id)
     {
         ConnectToSession(matchmaking_id);
+        LobbySession = matchmaking_id;
     }
 
     private void Awake()

@@ -5,6 +5,7 @@ using UnityEngine;
 public class LobbyPlayerList : MonoBehaviour
 {
     [SerializeField] GameObject playerItemPrefab;
+    [SerializeField] GameObject playButton;
     int totalPlayersBefore = 1;
 
     // Start is called before the first frame update
@@ -25,6 +26,10 @@ public class LobbyPlayerList : MonoBehaviour
     void Start()
     {
         CreatePlayerItem();
+        if (LobbyConnection.Instance.playerId == 1)
+        {
+            playButton.SetActive(true);
+        }
     }
 
     // Update is called once per frame
