@@ -5,7 +5,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   # 2 minutes
   @timeout_ms 2 * 60 * 1000
-
+  @players_amount_update 30
   #######
   # API #
   #######
@@ -38,6 +38,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
   #######################
   @impl GenServer
   def init(_args) do
+    Process.send_after(self(), :amount_of_players, @players_amount_update)
     Process.send_after(self(), :check_timeout, @timeout_ms * 2)
     session_id = :erlang.term_to_binary(self()) |> Base58.encode()
     topic = Matchmaking.session_topic(session_id)
@@ -104,6 +105,17 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
       {:player_removed, length(state[:players])}
     )
 
+    {:noreply, state}
+  end
+
+  def handle_info(:amount_of_players, state) do
+    Phoenix.PubSub.broadcast!(
+      DarkWorldsServer.PubSub,
+      state[:topic],
+      {:amount_of_players, length(state[:players])}
+    )
+
+    Process.send_after(self(), :amount_of_players, @players_amount_update)
     {:noreply, state}
   end
 

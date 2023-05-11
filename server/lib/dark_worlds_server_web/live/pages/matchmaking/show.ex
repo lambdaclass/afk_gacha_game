@@ -50,6 +50,10 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
     {:noreply, socket}
   end
 
+  def handle_info({:amount_of_players, players}, socket) do
+    {:noreply, socket}
+  end
+
   def terminate(_reason, socket) do
     Matchmaking.remove_player(socket.assigns[:player_id], socket.assigns[:session_pid])
     :ignored
