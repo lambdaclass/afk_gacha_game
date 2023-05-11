@@ -8,6 +8,7 @@ defmodule DarkWorldsServer.Communication.Proto.Action do
   field(:ATTACK, 2)
   field(:PING, 3)
   field(:UPDATE_PING, 4)
+  field(:ATTACK_AOE, 5)
 end
 
 defmodule DarkWorldsServer.Communication.Proto.Direction do

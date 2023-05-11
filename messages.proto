@@ -62,6 +62,7 @@ enum Action {
     ATTACK = 2;
     PING = 3;
     UPDATE_PING = 4;
+    ATTACK_AOE = 5;
 }
 
 /* Directions an action can happen in
