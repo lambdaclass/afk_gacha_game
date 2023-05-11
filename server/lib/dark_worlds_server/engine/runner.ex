@@ -7,8 +7,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine.Game
-  alias DarkWorldsServer.Engine.{ActionOk}
+  alias DarkWorldsServer.Engine.{ActionOk, Game, Player}
 
   @amount_of_players 3
   @board {1000, 1000}
@@ -111,12 +110,11 @@ defmodule DarkWorldsServer.Engine.Runner do
   Update game state based on the received action.
   """
   def handle_cast(
-        {:play, player, %ActionOk{action: :attack_aoe, value: value}},
+        {:play, player_id, %ActionOk{action: :attack_aoe}},
         %{next_state: %{game: game} = next_state} = state
       ) do
-    game =
-      game
-      |> Game.attack_aoe(player, value)
+    %Player{position: position} = get_player(game.players, player_id)
+    game = Game.attack_aoe(game, player_id, position)
 
     has_a_player_won? = has_a_player_won?(game.players)
 
@@ -243,5 +241,9 @@ defmodule DarkWorldsServer.Engine.Runner do
       Communication.pubsub_game_topic(self()),
       {:update_ping, player, ping}
     )
+  end
+
+  defp get_player(players, player_id) do
+    Enum.find(players, fn p -> p.id == player_id end)
   end
 end
