@@ -151,7 +151,7 @@ impl GameState {
             player.status = Status::DISCONNECTED;
             Ok(())
         } else {
-            Err("Player not found with id: {player_id}".into())
+            Err(format!("Player not found with id: {}", player_id))
         }
     }
 

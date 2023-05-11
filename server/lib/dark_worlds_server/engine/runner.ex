@@ -19,8 +19,16 @@ defmodule DarkWorldsServer.Engine.Runner do
   @session_timeout 60 * 1000
   # This is the amount of time between updates (30ms)
   @update_time 30
-  # Check player count every 10 seconds
-  @player_check 10 * 1000
+  case Mix.env() do
+    :test ->
+      # Check player count every 3 seconds in testing
+      @player_check 3 * 1000
+
+    _ ->
+      # Check player count every minute.
+      @player_check 1 * 60 * 1000
+  end
+
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
   end
@@ -162,7 +170,7 @@ defmodule DarkWorldsServer.Engine.Runner do
         state = %{current_state: game_state = %{game: game}, current_players: current}
       ) do
     current = current - 1
-    game = Game.disconnect(game, player_id)
+    {:ok, game} = Game.disconnect(game, player_id)
     {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
   end
 
@@ -188,8 +196,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_info(:session_timeout, state = %{current_state: %{game: game}}) do
-    Logger.debug("Closing session... ")
-
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
