@@ -24,6 +24,8 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
         {:error, :game_full} -> {:spectator, nil}
       end
 
+    logged_players = Runner.get_logged_players(runner_pid)
+
     new_assigns = %{
       game_status: :ongoing,
       runner_pid: runner_pid,
@@ -34,7 +36,8 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
       pings: %{},
       player_id: player_id,
       player_direction: :up,
-      mode: mode
+      mode: mode,
+      logged_players: logged_players
     }
 
     {:ok, assign(socket, new_assigns)}
