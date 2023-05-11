@@ -18,6 +18,7 @@ public class LobbyInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(Int32.Parse(((playersAmount.text).Split(": ")[1])));
         if (Int32.Parse(((playersAmount.text).Split(": ")[1])) < LobbyConnection.Instance.playerCount)
         {
             playersAmount.text += " " + (LobbyConnection.Instance.playerCount).ToString();

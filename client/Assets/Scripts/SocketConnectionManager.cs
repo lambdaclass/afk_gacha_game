@@ -72,11 +72,11 @@ public class SocketConnectionManager : MonoBehaviour
         for (int i = 0; i < totalPlayers; i++)
         {
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-            newPlayer.name = "Player" + " " + playerCount;
-            newPlayer.PlayerID = (playerCount + 1).ToString();
+            newPlayer.name = "Player" + " " + i;
+            newPlayer.PlayerID = (i + 1).ToString();
 
             players.Add(newPlayer.gameObject);
-            levelManager.Players.Add(players[playerCount].GetComponent<Character>());
+            levelManager.Players.Add(players[i].GetComponent<Character>());
             levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
 
             camera.SetTarget(players[i].GetComponent<Character>());

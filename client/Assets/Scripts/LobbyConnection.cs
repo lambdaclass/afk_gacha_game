@@ -159,7 +159,7 @@ public class LobbyConnection : MonoBehaviour
         else if (e.Data.Contains("JOINED PLAYER"))
         {
             playerId = Int32.Parse(((e.Data).Split(": ")[1]));
-            playerCount++;
+            playerCount = playerId;
         }
         else
         {
