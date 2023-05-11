@@ -20,7 +20,7 @@ public class LobbyInfo : MonoBehaviour
     {
         if (Int32.Parse(((playersAmount.text).Split(": ")[1])) < LobbyConnection.Instance.playerCount)
         {
-            playersAmount.text = (LobbyConnection.Instance.playerCount).ToString();
+            playersAmount.text += " " + (LobbyConnection.Instance.playerCount).ToString();
         }
     }
 }
