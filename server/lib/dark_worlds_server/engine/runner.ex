@@ -9,16 +9,18 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Game
   alias DarkWorldsServer.Engine.{ActionOk}
+  require Logger
 
   @players 3
   @board {1000, 1000}
-  # The game will be closed five minute after it starts
+  # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
   # This is the amount of time between updates (30ms)
   @update_time 30
-
+  # Check player count every 10 seconds
+  @player_check 10 * 1000
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
   end
@@ -31,6 +33,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     state = Game.new(number_of_players: @players, board: @board, build_walls: false)
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
+    Process.send_after(self(), :check_player_amount, @player_check)
 
     initial_state = %{
       game: state,
@@ -54,6 +57,10 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def play(runner_pid, player_id, %ActionOk{} = action) do
     GenServer.cast(runner_pid, {:play, player_id, action})
+  end
+
+  def disconnect(runner_pid, player_id) do
+    GenServer.cast(runner_pid, {:disconnect, player_id})
   end
 
   def get_game_state(runner_pid) do
@@ -150,17 +157,43 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, players, state}
   end
 
+  def handle_cast(
+        {:disconnect, player_id},
+        state = %{current_state: game_state = %{game: game}, current_players: current}
+      ) do
+    current = current - 1
+    game = Game.disconnect(game, player_id)
+    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
+  end
+
+  def handle_info(
+        :check_player_amount,
+        state = %{current_players: current}
+      )
+      when current > 0 do
+    Process.send_after(self(), :check_player_amount, @player_check)
+    {:noreply, state}
+  end
+
+  def handle_info(:check_player_amount, state = %{current_players: current})
+      when current == 0 do
+    Process.send_after(self(), :session_timeout, 500)
+    {:noreply, Map.put(state, :has_finished?, true)}
+  end
+
   def handle_info(:game_timeout, state) do
     Process.send_after(self(), :session_timeout, @session_timeout)
 
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_info(:session_timeout, state) do
+  def handle_info(:session_timeout, state = %{current_state: %{game: game}}) do
+    Logger.debug("Closing session... ")
+
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:game_finished, state.game}
+      {:game_finished, game}
     )
 
     {:stop, :normal, state}
