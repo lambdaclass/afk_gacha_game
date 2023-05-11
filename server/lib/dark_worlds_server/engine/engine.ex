@@ -10,8 +10,8 @@ defmodule DarkWorldsServer.Engine do
     DynamicSupervisor.start_link(__MODULE__, args, name: __MODULE__)
   end
 
-  def start_child() do
-    DynamicSupervisor.start_child(__MODULE__, Runner)
+  def start_child(args) do
+    DynamicSupervisor.start_child(__MODULE__, {Runner, args})
   end
 
   @impl true

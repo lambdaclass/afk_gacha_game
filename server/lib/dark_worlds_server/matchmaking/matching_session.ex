@@ -25,6 +25,10 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     GenServer.call(session_pid, :list_players)
   end
 
+  def fetch_amount_of_players(session_pid) do
+    GenServer.call(session_pid, :fetch_amount_of_players)
+  end
+
   def start_game(session_pid) do
     GenServer.cast(session_pid, :start_game)
   end
@@ -41,23 +45,23 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
   end
 
   @impl GenServer
-  def handle_call({:add_player, player_id}, _from, state) do
+  def handle_call({:add_player, player}, _from, state) do
     players = state[:players]
 
-    case Enum.member?(players, player_id) do
+    case Enum.member?(players, player) do
       true ->
         {:reply, :ok, state}
 
       false ->
         send(self(), :player_added)
-        {:reply, :ok, %{state | :players => [player_id | players]}}
+        {:reply, :ok, %{state | :players => [player | players]}}
     end
   end
 
-  def handle_call({:remove_player, player_id}, _from, state) do
+  def handle_call({:remove_player, player}, _from, state) do
     players = state[:players]
 
-    case List.delete(players, player_id) do
+    case List.delete(players, player) do
       ^players ->
         {:reply, :ok, state}
 
@@ -71,9 +75,13 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     {:reply, state[:players], state}
   end
 
+  def handle_call(:fetch_amount_of_players, _from, state) do
+    {:reply, length(state[:players]), state}
+  end
+
   @impl GenServer
   def handle_cast(:start_game, state) do
-    {:ok, game_pid} = Engine.start_child()
+    {:ok, game_pid} = Engine.start_child(%{players: state.players})
     Phoenix.PubSub.broadcast!(DarkWorldsServer.PubSub, state[:topic], {:game_started, game_pid})
     {:stop, :normal, state}
   end
