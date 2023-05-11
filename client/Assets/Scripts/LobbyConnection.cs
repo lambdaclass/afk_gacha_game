@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using WebSocketSharp;
+using System.Linq;
 using Newtonsoft.Json;
-using UnityEngine;
-using static SocketConnectionManager;
-using UnityEngine.Networking;
 using ProtoBuf;
-using System;
+using UnityEngine;
+using UnityEngine.Networking;
+using WebSocketSharp;
+using static SocketConnectionManager;
 
 public class LobbyConnection : MonoBehaviour
 {
@@ -16,7 +17,11 @@ public class LobbyConnection : MonoBehaviour
 
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
-    public List<string> lobbiesList;
+    
+    [SerializeField] GameObject lobbyItemPrefab;
+
+    [SerializeField] Transform lobbyListContainer;
+    public List<GameObject> lobbiesList;
 
     WebSocket ws;
 
@@ -47,11 +52,11 @@ public class LobbyConnection : MonoBehaviour
     public void Init()
     {
         CreateLobby();
-        // StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
     }
 
     void Start()
     {
+        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
     }
 
     IEnumerator GetRequest(string uri)
@@ -100,11 +105,14 @@ public class LobbyConnection : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(webRequest.downloadHandler.text);
-                    lobbiesList = response.lobbies;
-                    response.lobbies.ForEach((lobby) =>
-                    {
-                        Debug.Log("A lobby id: " + lobby);
-                    });
+                    Debug.Log("Lobbies response: " + response.lobbies);
+                    lobbiesList = response.lobbies.Select(l => {
+                        Debug.Log("A lobby id: " + l);
+                        GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
+                        lobbyItem.GetComponent<LobbyItem>().setId(l); // TODO: check this
+                        return lobbyItem;
+                    }).ToList();
+
                     break;
             }
         }

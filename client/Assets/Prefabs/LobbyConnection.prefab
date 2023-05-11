@@ -46,3 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchmaking_id: 
   server_ip: localhost
+  lobbyItemPrefab: {fileID: 6431237631302165411, guid: 13e64695dc3a44037a7a7568727079c6,
+    type: 3}
+  lobbyListContainer: {fileID: 0}
+  lobbiesList: []
