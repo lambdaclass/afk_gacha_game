@@ -11,16 +11,14 @@ using static SocketConnectionManager;
 
 public class LobbyConnection : MonoBehaviour
 {
-
-    [Tooltip("Matchmaking session ID to connect to. If empty, a new lobby will be created")]
-    public string matchmaking_id = "";
-
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
-    
-    [SerializeField] GameObject lobbyItemPrefab;
 
-    [SerializeField] Transform lobbyListContainer;
+    [SerializeField]
+    GameObject lobbyItemPrefab;
+
+    [SerializeField]
+    Transform lobbyListContainer;
     public List<GameObject> lobbiesList;
 
     public static LobbyConnection Instance;
@@ -41,18 +39,14 @@ public class LobbyConnection : MonoBehaviour
         public List<string> lobbies { get; set; }
     }
 
-    // Start is called before the first frame update
-
     public void CreateLobby()
     {
-        if (this.matchmaking_id.IsNullOrEmpty())
-        {
-            StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
-        }
-        else
-        {
-            ConnectToSession(this.matchmaking_id);
-        }
+        StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
+    }
+
+    public void ConnectToLobby(string matchmaking_id)
+    {
+        ConnectToSession(matchmaking_id);
     }
 
     private void Awake()
@@ -90,7 +84,9 @@ public class LobbyConnection : MonoBehaviour
                     //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
+                    Session session = JsonConvert.DeserializeObject<Session>(
+                        webRequest.downloadHandler.text
+                    );
                     Debug.Log("Creating and joining lobby ID: " + session.lobby_id);
                     LobbySession = session.lobby_id;
                     ConnectToSession(session.lobby_id);
@@ -118,12 +114,17 @@ public class LobbyConnection : MonoBehaviour
                     //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(webRequest.downloadHandler.text);
-                    lobbiesList = response.lobbies.Select(l => {
-                        GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
-                        lobbyItem.GetComponent<LobbyItem>().setId(l);
-                        return lobbyItem;
-                    }).ToList();
+                    LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(
+                        webRequest.downloadHandler.text
+                    );
+                    lobbiesList = response.lobbies
+                        .Select(l =>
+                        {
+                            GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
+                            lobbyItem.GetComponent<LobbyItem>().setId(l);
+                            return lobbyItem;
+                        })
+                        .ToList();
 
                     break;
             }
@@ -136,7 +137,9 @@ public class LobbyConnection : MonoBehaviour
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
-            Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
+            Debug.Log(
+                "Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message
+            );
         };
         ws.Connect();
     }
@@ -172,5 +175,4 @@ public class LobbyConnection : MonoBehaviour
     //         ws.Send("START_GAME");
     //     }
     // }
-
 }
