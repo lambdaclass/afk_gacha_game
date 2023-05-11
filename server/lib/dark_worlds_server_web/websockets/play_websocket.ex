@@ -2,7 +2,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine.Runner
+  alias DarkWorldsServer.Engine.{Runner, RequestTracker}
   alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Communication
 
@@ -37,6 +37,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
         {:reply, {:text, "pong"}, state}
 
       {:ok, action} ->
+        RequestTracker.add_counter(state[:runner_pid], state[:player_id])
         Runner.play(state[:runner_pid], state[:player_id], action)
         {:reply, {:text, "OK"}, state}
 
