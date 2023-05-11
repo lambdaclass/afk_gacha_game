@@ -5,19 +5,14 @@ using UnityEngine.UI;
 
 public class LobbyItem : MonoBehaviour
 {
-    [SerializeField] GameObject idContainer;
+    [SerializeField]
+    GameObject idContainer;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void Start() { }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 
     public void setId(string id)
     {
