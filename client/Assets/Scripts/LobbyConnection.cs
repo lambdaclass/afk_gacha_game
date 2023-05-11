@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using MoreMountains.Tools;
 using Newtonsoft.Json;
 using ProtoBuf;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebSocketSharp;
 using static SocketConnectionManager;
+
 
 public class LobbyConnection : MonoBehaviour
 {
@@ -26,6 +28,7 @@ public class LobbyConnection : MonoBehaviour
     public string LobbySession;
     public int playerId;
     public int playerCount;
+    private bool gameStarted = false;
 
     WebSocket ws;
 
@@ -163,17 +166,18 @@ public class LobbyConnection : MonoBehaviour
             Debug.Log("Message received is: " + e.Data);
         }
     }
-
     public void StartGame()
     {
         ws.Send("START_GAME");
+        gameStarted = true;
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetKey(KeyCode.Space))
-    //     {
-    //         ws.Send("START_GAME");
-    //     }
-    // }
+    private void Update()
+    {
+        if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
+        {
+            StartGame();
+            MMSceneLoadingManager.LoadScene("BackendPlayground");
+        }
+    }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.TopDownEngine;
@@ -16,6 +17,15 @@ public class LobbyManager : LevelSelector
         else
         {
             LobbyConnection.Instance.StartGame();
+        }
+    }
+
+    void update()
+    {
+        print(LobbyConnection.Instance.GameSession);
+        if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
+        {
+            GoToLevel();
         }
     }
 }
