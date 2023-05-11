@@ -20,6 +20,7 @@ public class LobbyConnection : MonoBehaviour
 
     public static LobbyConnection Instance;
     public string GameSession;
+    public string LobbySession;
     public int playerId;
     public int playerCount;
 
@@ -58,7 +59,7 @@ public class LobbyConnection : MonoBehaviour
     public void Init()
     {
         CreateLobby();
-        // StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
     }
 
     IEnumerator GetRequest(string uri)
@@ -82,6 +83,7 @@ public class LobbyConnection : MonoBehaviour
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
                     Debug.Log("Creating and joining lobby ID: " + session.lobby_id);
+                    LobbySession = session.lobby_id;
                     ConnectToSession(session.lobby_id);
                     break;
             }
