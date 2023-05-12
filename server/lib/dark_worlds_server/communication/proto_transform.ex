@@ -52,8 +52,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def decode(%ProtoPlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position} = player
-    %EnginePlayer{id: id, health: health, position: position}
+    %{id: id, health: health, position: position, action: action} = player
+    %EnginePlayer{id: id, health: health, position: position, action: action}
   end
 
   def decode(%GameStateUpdate{players: players}, GameStateUpdate) do

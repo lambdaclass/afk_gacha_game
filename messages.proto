@@ -13,12 +13,14 @@ message GameStateUpdate {
     - health: Current health of the player
     - position: Position of the player in the server game grid (see Position for more info)
     - power: [Amin 2023-05-05:  not sure what this is, was copied from struct like this]
+    - action: [Manu 2023-05-12: accion to renderize on client side]
  */
 message Player {
     uint32 id = 1;
     uint32 health = 2;
     Position position = 3;
     uint32 power = 4;
+    PlayerAction action = 5;
 }
 
 /* A position in the server game grid, the grid is a NxN square with (0,0) in the top left corner
@@ -73,4 +75,13 @@ enum Direction {
     DOWN = 2;
     LEFT = 3;
     RIGHT = 4;
+}
+
+/* Actions a player performs
+    - NOTHING: nothing
+    - ATTACKING: player is attacking
+ */
+enum PlayerAction {
+    NOTHING = 0;
+    ATTACKING = 1;
 }

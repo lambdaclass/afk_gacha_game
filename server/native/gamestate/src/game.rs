@@ -3,7 +3,7 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
-use crate::player::{Player, Position, Status};
+use crate::player::{Player, Position, Status, PlayerAction};
 use crate::time_utils::time_now;
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
@@ -97,6 +97,8 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
+        
+        attacking_player.action = PlayerAction::ATTACKING;
 
         if matches!(attacking_player.status, Status::DEAD) {
             return;

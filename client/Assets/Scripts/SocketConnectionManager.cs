@@ -41,6 +41,7 @@ public class SocketConnectionManager : MonoBehaviour
         public long y;
         public int player_id;
         public long health;
+        public long action;
     }
 
     public class Position
@@ -54,6 +55,7 @@ public class SocketConnectionManager : MonoBehaviour
         public int id { get; set; }
         public int health { get; set; }
         public Position position { get; set; }
+        public int action { get; set; }
     }
 
     // Start is called before the first frame update
@@ -154,7 +156,7 @@ public class SocketConnectionManager : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
-                    Debug.Log("Creating and joining Session ID: " + session.session_id);
+                    Debug.Log("Creating and joi ning Session ID: " + session.session_id);
                     ConnectToSession(session.session_id);
                     break;
 
@@ -168,7 +170,7 @@ public class SocketConnectionManager : MonoBehaviour
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
-            Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
+            //Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
         };
         ws.Connect();
     }
@@ -183,7 +185,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else if (e.Data.Contains("ERROR"))
         {
-            Debug.Log("Error message: " + e.Data);
+            //Debug.Log("Error message: " + e.Data);
         }
         else
         {
@@ -193,6 +195,10 @@ public class SocketConnectionManager : MonoBehaviour
             {
                 var player = this.players[i];
                 var new_position = game_update.Players[i].Position;
+                if (game_update.Players[i].Action != 0) {
+                    print("Attacking?: " + game_update.Players[i].Action);
+                }
+                
                 playerUpdates.Enqueue(new PlayerUpdate { x = new_position.Y, y = -new_position.X, player_id = i, health = game_update.Players[i].Health});
             }
         }
