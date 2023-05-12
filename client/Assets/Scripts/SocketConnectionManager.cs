@@ -72,15 +72,12 @@ public class SocketConnectionManager : MonoBehaviour
         for (int i = 0; i < totalPlayers; i++)
         {
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-            newPlayer.name = "Player" + " " + i;
+            newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
 
             players.Add(newPlayer.gameObject);
             levelManager.Players.Add(players[i].GetComponent<Character>());
             levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
-
-            camera.SetTarget(players[i].GetComponent<Character>());
-            camera.StartFollowing();
         }
     }
 
@@ -89,6 +86,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         // Send the player's action every 30 ms approximately.
         GeneratePlayer();
+        setCameraToPlayer(LobbyConnection.Instance.playerId);
         float tickRate = 1f / 30f;
         InvokeRepeating("sendAction", tickRate, tickRate);
 
@@ -133,11 +131,13 @@ public class SocketConnectionManager : MonoBehaviour
     private void setCameraToPlayer(int playerID)
     {
         //print(levelManager.PlayerPrefabs.Length);
-        //print(players.Count);
         foreach (Character player in levelManager.PlayerPrefabs)
         {
+            print("PLAYERID IN PREFAB: " + player.PlayerID);
+            print(playerID);
             if (Int32.Parse(player.PlayerID) == playerID)
             {
+                print(player.name);
                 this.camera.SetTarget(player);
                 this.camera.StartFollowing();
             }

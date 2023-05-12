@@ -22,7 +22,6 @@ public class LobbyManager : LevelSelector
 
     void update()
     {
-        print(LobbyConnection.Instance.GameSession);
         if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
         {
             GoToLevel();

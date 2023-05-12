@@ -67,7 +67,13 @@ public class LobbyConnection : MonoBehaviour
 
     private void Awake()
     {
+        // if (Instance != null)
+        // {
+        //     Destroy(gameObject);
+        //     return;
+        // }
         Instance = this;
+        this.playerId = -1;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -207,7 +213,10 @@ public class LobbyConnection : MonoBehaviour
         }
         else if (e.Data.Contains("JOINED PLAYER"))
         {
-            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            if (playerId == -1)
+            {
+                playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            }
         }
         else if (e.Data.Contains("AMOUNT_OF_PLAYERS"))
         {
