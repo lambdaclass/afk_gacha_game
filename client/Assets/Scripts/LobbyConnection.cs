@@ -18,10 +18,17 @@ public class LobbyConnection : MonoBehaviour
 
     [SerializeField]
     GameObject lobbyItemPrefab;
+    
+    [SerializeField]
+    GameObject gameItemPrefab;
 
     [SerializeField]
     Transform lobbyListContainer;
     public List<GameObject> lobbiesList;
+
+    [SerializeField]
+    Transform gameListContainer;
+    public List<GameObject> gamesList;
 
     public static LobbyConnection Instance;
     public string GameSession;
@@ -40,6 +47,11 @@ public class LobbyConnection : MonoBehaviour
     public class LobbiesResponse
     {
         public List<string> lobbies { get; set; }
+    }
+
+    public class GamesResponse
+    {
+        public List<string> games { get; set; }
     }
 
     public void CreateLobby()
@@ -67,6 +79,7 @@ public class LobbyConnection : MonoBehaviour
     void Start()
     {
         StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+        StartCoroutine(GetGames("http://" + server_ip + ":4000/current_games"));
     }
 
     IEnumerator GetRequest(string uri)
@@ -127,6 +140,42 @@ public class LobbyConnection : MonoBehaviour
                             GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
                             lobbyItem.GetComponent<LobbyItem>().setId(l);
                             return lobbyItem;
+                        })
+                        .ToList();
+
+                    break;
+            }
+        }
+    }
+
+    IEnumerator GetGames(string uri)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            yield return webRequest.SendWebRequest();
+            string[] pages = uri.Split('/');
+            int page = pages.Length - 1;
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    //Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    GamesResponse response = JsonConvert.DeserializeObject<GamesResponse>(
+                        webRequest.downloadHandler.text
+                    );
+                    gamesList = response.games
+                        .Select(l =>
+                        {
+                            GameObject gameItem = Instantiate(gameItemPrefab, gameListContainer);
+                            gameItem.GetComponent<GameItem>().setId(l);
+                            return gameItem;
                         })
                         .ToList();
 
