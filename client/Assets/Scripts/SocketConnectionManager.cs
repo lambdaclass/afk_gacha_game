@@ -76,9 +76,9 @@ public class SocketConnectionManager : MonoBehaviour
             newPlayer.PlayerID = (i + 1).ToString();
 
             players.Add(newPlayer.gameObject);
-            levelManager.Players.Add(players[i].GetComponent<Character>());
-            levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
+            levelManager.Players.Add(newPlayer);
         }
+        levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
     }
 
     // Start is called before the first frame update
@@ -133,11 +133,8 @@ public class SocketConnectionManager : MonoBehaviour
         //print(levelManager.PlayerPrefabs.Length);
         foreach (Character player in levelManager.PlayerPrefabs)
         {
-            print("PLAYERID IN PREFAB: " + player.PlayerID);
-            print(playerID);
             if (Int32.Parse(player.PlayerID) == playerID)
             {
-                print(player.name);
                 this.camera.SetTarget(player);
                 this.camera.StartFollowing();
             }
@@ -214,8 +211,8 @@ public class SocketConnectionManager : MonoBehaviour
             for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
-
                 var new_position = game_update.Players[i].Position;
+                print(game_update.Players[i]);
                 positionUpdates.Enqueue(new PositionUpdate { x = new_position.Y, y = -new_position.X, player_id = i });
             }
         }
