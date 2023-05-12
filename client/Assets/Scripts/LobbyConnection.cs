@@ -51,7 +51,7 @@ public class LobbyConnection : MonoBehaviour
 
     public class GamesResponse
     {
-        public List<string> games { get; set; }
+        public List<string> current_games { get; set; }
     }
 
     public void CreateLobby()
@@ -170,7 +170,7 @@ public class LobbyConnection : MonoBehaviour
                     GamesResponse response = JsonConvert.DeserializeObject<GamesResponse>(
                         webRequest.downloadHandler.text
                     );
-                    gamesList = response.games
+                    gamesList = response.current_games
                         .Select(l =>
                         {
                             GameObject gameItem = Instantiate(gameItemPrefab, gameListContainer);
