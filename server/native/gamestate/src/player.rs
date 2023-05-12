@@ -23,6 +23,7 @@ pub struct Player {
 pub enum Status {
     ALIVE,
     DEAD,
+    DISCONNECTED,
 }
 
 #[derive(Debug, Clone, NifStruct)]

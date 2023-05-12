@@ -146,6 +146,15 @@ impl GameState {
         }
     }
 
+    pub fn disconnect(self: &mut Self, player_id: u64) -> Result<(), String> {
+        if let Some(player) = self.players.get_mut((player_id - 1) as usize) {
+            player.status = Status::DISCONNECTED;
+            Ok(())
+        } else {
+            Err(format!("Player not found with id: {}", player_id))
+        }
+    }
+
     fn remove_dead_players(self: &mut Self) {
         self.players.iter_mut().for_each(|player| {
             if matches!(player.status, Status::DEAD) {
