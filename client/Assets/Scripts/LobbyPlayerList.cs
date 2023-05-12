@@ -38,8 +38,6 @@ public class LobbyPlayerList : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(totalPlayersBefore != LobbyConnection.Instance.playerCount);
-        print(LobbyConnection.Instance.playerCount);
         for (int i = 0; i < LobbyConnection.Instance.playerCount; i++)
         {
             if (totalPlayersBefore != LobbyConnection.Instance.playerCount)
