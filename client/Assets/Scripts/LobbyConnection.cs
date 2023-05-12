@@ -165,13 +165,6 @@ public class LobbyConnection : MonoBehaviour
             int page = pages.Length - 1;
             switch (webRequest.result)
             {
-                case UnityWebRequest.Result.ConnectionError:
-                case UnityWebRequest.Result.DataProcessingError:
-                    //Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-                    break;
                 case UnityWebRequest.Result.Success:
                     GamesResponse response = JsonConvert.DeserializeObject<GamesResponse>(
                         webRequest.downloadHandler.text
@@ -185,6 +178,8 @@ public class LobbyConnection : MonoBehaviour
                         })
                         .ToList();
 
+                    break;
+                default:
                     break;
             }
         }
