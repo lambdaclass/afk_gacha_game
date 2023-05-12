@@ -31,6 +31,7 @@ defmodule DarkWorldsServerWeb.Router do
     get "/new_session", SessionController, :new
     get "/new_lobby", LobbyController, :new
     get "/current_lobbies", LobbyController, :current_lobbies
+    get "/current_games", GameController, :current_games
   end
 
   scope "/", DarkWorldsServerWeb do
