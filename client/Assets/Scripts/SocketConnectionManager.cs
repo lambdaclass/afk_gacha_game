@@ -73,7 +73,7 @@ public class SocketConnectionManager : MonoBehaviour
         {
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
-            newPlayer.PlayerID = (i).ToString();
+            newPlayer.PlayerID = (i + 1).ToString();
 
             players.Add(newPlayer.gameObject);
             levelManager.Players.Add(players[i].GetComponent<Character>());

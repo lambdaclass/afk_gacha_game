@@ -26,7 +26,7 @@ public class LobbyConnection : MonoBehaviour
     public static LobbyConnection Instance;
     public string GameSession;
     public string LobbySession;
-    public int playerId = -1;
+    public int playerId;
     public int playerCount;
     private bool gameStarted = false;
 
@@ -55,12 +55,13 @@ public class LobbyConnection : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        // if (Instance != null)
+        // {
+        //     Destroy(gameObject);
+        //     return;
+        // }
         Instance = this;
+        this.playerId = -1;
         DontDestroyOnLoad(gameObject);
     }
 
