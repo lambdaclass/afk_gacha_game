@@ -6,40 +6,40 @@ public class LobbyPlayerList : MonoBehaviour
 {
     [SerializeField] GameObject playerItemPrefab;
     [SerializeField] GameObject playButton;
-    int totalPlayersBefore = 1;
+    int totalPlayersBefore = 0;
 
 
     // Start is called before the first frame update
 
-    private void CreatePlayerItem()
+    private void CreatePlayerItem(int id)
     {
         GameObject newPlayer = Instantiate(playerItemPrefab, gameObject.transform);
         PlayerItem playerI = newPlayer.GetComponent<PlayerItem>();
-        if (LobbyConnection.Instance.playerId == 1)
+
+        if (id == 1)
         {
-            playerI.playerText.text += " " + (LobbyConnection.Instance.playerId).ToString() + " " + "HOST";
+            playerI.playerText.text += " " + (id.ToString() + " " + "HOST");
+            playButton.SetActive(true);
         }
         else
         {
-            playerI.playerText.text += " " + (LobbyConnection.Instance.playerId).ToString();
+            playerI.playerText.text += " " + id.ToString();
         }
     }
-    void Start()
-    {
-        CreatePlayerItem();
-        if (LobbyConnection.Instance.playerId == 1)
-        {
-            playButton.SetActive(true);
-        }
-    }
+
 
     // Update is called once per frame
     void Update()
     {
-        if (totalPlayersBefore != LobbyConnection.Instance.playerCount)
+        print(totalPlayersBefore != LobbyConnection.Instance.playerCount);
+        print(LobbyConnection.Instance.playerCount);
+        for (int i = 0; i < LobbyConnection.Instance.playerCount; i++)
         {
-            CreatePlayerItem();
-            totalPlayersBefore++;
+            if (totalPlayersBefore != LobbyConnection.Instance.playerCount)
+            {
+                totalPlayersBefore++;
+                CreatePlayerItem(totalPlayersBefore);
+            }
         }
     }
 }
