@@ -183,10 +183,10 @@ fn compute_adjacent_position(direction: &Direction, position: &Position) -> Posi
 
     // Avoid overflow with saturated ops.
     match direction {
-        Direction::UP => Position::new(x.saturating_sub(1), y),
-        Direction::DOWN => Position::new(x.saturating_add(1), y),
-        Direction::LEFT => Position::new(x, y.saturating_sub(1)),
-        Direction::RIGHT => Position::new(x, y.saturating_add(1)),
+        Direction::UP => Position::new(x.wrapping_sub(2), y),
+        Direction::DOWN => Position::new(x + 2, y),
+        Direction::LEFT => Position::new(x, y.wrapping_sub(2)),
+        Direction::RIGHT => Position::new(x, y + 2)
     }
 }
 

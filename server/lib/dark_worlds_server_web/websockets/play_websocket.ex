@@ -2,7 +2,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine.Runner
+  alias DarkWorldsServer.Engine.{Runner, RequestTracker}
   alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Communication
 
@@ -37,6 +37,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
         {:reply, {:text, "pong"}, state}
 
       {:ok, action} ->
+        RequestTracker.add_counter(state[:runner_pid], state[:player_id])
         Runner.play(state[:runner_pid], state[:player_id], action)
         {:reply, {:text, "OK"}, state}
 
@@ -49,12 +50,16 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:text, "ERROR unsupported message"}, state}
   end
 
+  def websocket_info({:player_joined, player_id, _game_state}, state) do
+    {:reply, {:text, "PLAYER_JOINED: #{player_id}"}, state}
+  end
+
   def websocket_info({:game_update, game_state}, state) do
     reply_map = %{
       players: game_state.current_state.game.players
     }
 
-    {:reply, {:text, Communication.encode!(reply_map)}, state}
+    {:reply, {:binary, Communication.encode!(reply_map)}, state}
   end
 
   def websocket_info({:game_finished, game_state}, state) do
@@ -62,11 +67,11 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
       players: game_state.current_state.game.players
     }
 
-    {:reply, {:text, Communication.encode!(reply_map)}, state}
+    {:reply, {:binary, Communication.encode!(reply_map)}, state}
   end
 
   def websocket_info({:update_ping, player, ping}, state) do
-    {:reply, {:text, Communication.encode!({player, ping})}, state}
+    {:reply, {:binary, Communication.encode!({player, ping})}, state}
   end
 
   def websocket_info(info, state), do: {:reply, {:text, info}, state}

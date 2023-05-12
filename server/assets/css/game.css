@@ -34,6 +34,16 @@ body{
     background: linear-gradient(lightcoral, lightgreen);;
 }
 
+
+.box-4{
+    background: linear-gradient(#FF00FF, #FA0F0F);;
+}
+
+.box-5{
+    background: linear-gradient(#0ECBFF, #FACF0F);;
+}
+
+
 .box-wall{
     background-color: black;
 }
