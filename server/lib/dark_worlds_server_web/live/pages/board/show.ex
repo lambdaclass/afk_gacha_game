@@ -1,7 +1,7 @@
 defmodule DarkWorldsServerWeb.BoardLive.Show do
   use DarkWorldsServerWeb, :live_view
 
-  alias DarkWorldsServer.Engine.ActionOk
+  alias DarkWorldsServer.Engine.{RequestTracker, ActionOk}
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.Runner
 
@@ -90,6 +90,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
         socket
 
       %ActionOk{} = action ->
+        RequestTracker.add_counter(socket.assigns.runner_pid, socket.assigns.player_id)
         Runner.play(socket.assigns.runner_pid, socket.assigns.player_id, action)
         assign(socket, :player_direction, action.value)
     end
