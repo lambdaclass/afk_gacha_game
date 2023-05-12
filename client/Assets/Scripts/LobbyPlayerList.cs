@@ -23,7 +23,10 @@ public class LobbyPlayerList : MonoBehaviour
         }
         else
         {
-            playerI.playerText.text += " " + id.ToString();
+            if (LobbyConnection.Instance.playerId == id)
+            {
+                playerI.playerText.text += " " + id.ToString() + " " + "YOU";
+            }
         }
     }
 
