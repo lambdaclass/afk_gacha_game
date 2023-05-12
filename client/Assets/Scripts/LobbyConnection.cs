@@ -26,7 +26,7 @@ public class LobbyConnection : MonoBehaviour
     public static LobbyConnection Instance;
     public string GameSession;
     public string LobbySession;
-    public int playerId;
+    public int playerId = -1;
     public int playerCount;
     private bool gameStarted = false;
 
@@ -158,7 +158,10 @@ public class LobbyConnection : MonoBehaviour
         }
         else if (e.Data.Contains("JOINED PLAYER"))
         {
-            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            if (playerId == -1)
+            {
+                playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            }
         }
         else if (e.Data.Contains("AMOUNT_OF_PLAYERS"))
         {
