@@ -8,6 +8,7 @@ public class LobbyPlayerList : MonoBehaviour
     [SerializeField] GameObject playButton;
     int totalPlayersBefore = 1;
 
+
     // Start is called before the first frame update
 
     private void CreatePlayerItem()
