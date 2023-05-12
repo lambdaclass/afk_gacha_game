@@ -5,6 +5,7 @@ use std::collections::HashSet;
 use crate::board::{Board, Tile};
 use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
+use std::cmp::{max, min};
 
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
@@ -74,8 +75,18 @@ impl GameState {
             return;
         }
 
-        let new_position = compute_adjacent_position(&direction, &player.position);
-        if !is_valid_movement(&self.board, &new_position) {
+        let mut new_position = compute_adjacent_position(&direction, &player.position);
+
+        // These changes are done so that if the player is moving into one of the map's borders
+        // but is not already on the edge, they move to the edge. In simpler terms, if the player is
+        // trying to move from (0, 1) to the left, this ensures that new_position is (0, 0) instead of
+        // something invalid like (0, -1).
+        new_position.x = min(new_position.x, self.board.height - 1);
+        new_position.x = max(new_position.x, 0);
+        new_position.y = min(new_position.y, self.board.width - 1);
+        new_position.y = max(new_position.y, 0);
+
+        if !is_valid_movement(&self.board, &player.position, &new_position) {
             return;
         }
 
@@ -178,26 +189,78 @@ fn compute_adjacent_position(direction: &Direction, position: &Position) -> Posi
     let y = position.y;
 
     match direction {
-        Direction::UP => Position::new(x.wrapping_sub(2), y),
+        Direction::UP => Position::new(x.saturating_sub(2), y),
         Direction::DOWN => Position::new(x + 2, y),
-        Direction::LEFT => Position::new(x, y.wrapping_sub(2)),
+        Direction::LEFT => Position::new(x, y.saturating_sub(2)),
         Direction::RIGHT => Position::new(x, y + 2),
     }
 }
 
-fn is_valid_movement(board: &Board, new_position: &Position) -> bool {
-    let cell = board.get_cell(new_position.x, new_position.y);
-    if cell.is_none() {
+/// Checks if the given movement from `old_position` to `new_position` is valid.
+/// The way we do it is separated into cases but the idea is always the same:
+/// First of all check that we are not trying to move away from the board.
+/// Then go through the tiles that are between the new_position and the old_position
+/// and ensure that each one of them is empty. If that's not the case, the movement is
+/// invalid; otherwise it's valid.
+/// The cases that we separate the check into are the following:
+/// - Movement is in the Y direction. This is divided into two other cases:
+///     - Movement increases the Y coordinate (new_position.y > old_position.y).
+///     - Movement decreases the Y coordinate (new_position.y < old_position.y).
+/// - Movement is in the X direction. This is also divided into two cases:
+///     - Movement increases the X coordinate (new_position.x > old_position.x).
+///     - Movement decreases the X coordinate (new_position.x < old_position.x).
+fn is_valid_movement(board: &Board, old_position: &Position, new_position: &Position) -> bool {
+    if new_position.x > (board.height - 1) || new_position.y > (board.width - 1) {
         return false;
     }
 
-    // Check if cell is not-occupied
-    // This unwrap is safe since we checked for None in the line above.
-    if let Tile::Empty = cell.unwrap() {
-        true
+    if new_position.x == old_position.x {
+        if new_position.y > old_position.y {
+            for i in 1..(new_position.y - old_position.y) + 1 {
+                let cell = board.get_cell(old_position.x, old_position.y + i);
+
+                match cell {
+                    Some(Tile::Empty) => continue,
+                    None => continue,
+                    Some(_) => return false,
+                }
+            }
+        } else {
+            for i in 1..(old_position.y - new_position.y) + 1 {
+                let cell = board.get_cell(old_position.x, old_position.y - i);
+
+                match cell {
+                    Some(Tile::Empty) => continue,
+                    None => continue,
+                    Some(_) => return false,
+                }
+            }
+        }
     } else {
-        false
+        if new_position.x > old_position.x {
+            for i in 1..(new_position.x - old_position.x) + 1 {
+                let cell = board.get_cell(old_position.x + i, old_position.y);
+
+                match cell {
+                    Some(Tile::Empty) => continue,
+                    None => continue,
+                    Some(_) => return false,
+                }
+            }
+        } else {
+            for i in 1..(old_position.x - new_position.x) + 1 {
+                let cell = board.get_cell(old_position.x - i, old_position.y);
+
+                match cell {
+                    Some(Tile::Empty) => continue,
+                    None => continue,
+                    Some(_) => return false,
+                }
+            }
+        }
     }
+
+    true
 }
 
 fn distance_to_center(player: &Player, center: &Position) -> f64 {
