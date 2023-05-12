@@ -27,6 +27,10 @@ public class LobbyPlayerList : MonoBehaviour
             {
                 playerI.playerText.text += " " + id.ToString() + " " + "YOU";
             }
+            else
+            {
+                playerI.playerText.text += " " + id.ToString();
+            }
         }
     }
 
