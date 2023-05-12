@@ -180,6 +180,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8041225176264388735, guid: 77aebae5d60de4384a6923f228de8979,
         type: 3}
+      propertyPath: gameItemPrefab
+      value: 
+      objectReference: {fileID: 6291501560866832240, guid: 2f3aa629e9ebe4328a3e05d7de5b649c,
+        type: 3}
+    - target: {fileID: -8041225176264388735, guid: 77aebae5d60de4384a6923f228de8979,
+        type: 3}
+      propertyPath: gameListContainer
+      value: 
+      objectReference: {fileID: 1916068801}
+    - target: {fileID: -8041225176264388735, guid: 77aebae5d60de4384a6923f228de8979,
+        type: 3}
       propertyPath: lobbyListContainer
       value: 
       objectReference: {fileID: 5613304981418273111}
