@@ -2,6 +2,7 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   use DarkWorldsServerWeb, :live_view
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Matchmaking
+  alias DarkWorldsServer.Accounts
 
   def mount(%{"session_id" => session_id}, _session, socket) do
     case connected?(socket) do
@@ -13,13 +14,15 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
         player_id = "player_id_#{:rand.uniform(1000)}"
         Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, Matchmaking.session_topic(session_id))
         session_pid = Communication.external_id_to_pid(session_id)
-        Matchmaking.add_player(player_id, session_pid)
+
+        player_info = socket.assigns.current_user
+        Matchmaking.add_player(player_info, session_pid)
 
         {:ok,
          assign(socket,
            session_id: session_id,
            player_id: player_id,
-           player_count: 1,
+           player_count: Matchmaking.fetch_amount_of_players(session_pid),
            session_pid: session_pid
          )}
     end
@@ -44,6 +47,10 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
 
   def handle_info({:ping, pid}, socket) do
     send(pid, :pong)
+    {:noreply, socket}
+  end
+
+  def handle_info({:amount_of_players, players}, socket) do
     {:noreply, socket}
   end
 

@@ -7,10 +7,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine.Game
-  alias DarkWorldsServer.Engine.{ActionOk}
+  alias DarkWorldsServer.Engine.{ActionOk, Game, Player}
 
-  @players 3
+  @amount_of_players 3
   @board {1000, 1000}
   # The game will be closed five minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -27,8 +26,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   Starts a new game state, triggers the first
   update and the final game timeout.
   """
-  def init(_opts) do
-    state = Game.new(number_of_players: @players, board: @board, build_walls: false)
+  def init(opts) do
+    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: false)
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
 
@@ -43,7 +42,8 @@ defmodule DarkWorldsServer.Engine.Runner do
      %{
        current_state: initial_state,
        next_state: initial_state,
-       max_players: @players,
+       max_players: @amount_of_players,
+       players: opts.players,
        current_players: 0
      }}
   end
@@ -59,6 +59,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   def get_game_state(runner_pid) do
     players = GenServer.call(runner_pid, :get_players)
     {@board, players}
+  end
+
+  def get_logged_players(runner_pid) do
+    GenServer.call(runner_pid, :get_logged_players)
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
@@ -95,7 +99,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-
+    IO.inspect("Player moving is: #{player}")
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
 
@@ -106,12 +110,11 @@ defmodule DarkWorldsServer.Engine.Runner do
   Update game state based on the received action.
   """
   def handle_cast(
-        {:play, player, %ActionOk{action: :attack_aoe, value: value}},
+        {:play, player_id, %ActionOk{action: :attack_aoe}},
         %{next_state: %{game: game} = next_state} = state
       ) do
-    game =
-      game
-      |> Game.attack_aoe(player, value)
+    %Player{position: position} = get_player(game.players, player_id)
+    game = Game.attack_aoe(game, player_id, position)
 
     has_a_player_won? = has_a_player_won?(game.players)
 
@@ -133,7 +136,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  def handle_call(:join, _, %{max_players: max, current_players: current} = state)
+  def handle_call(
+        :join,
+        _,
+        %{max_players: max, current_players: current} = state
+      )
       when current < max do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
@@ -153,6 +160,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_call(:get_players, _from, %{current_state: %{game: %Game{players: players}}} = state) do
+    {:reply, players, state}
+  end
+
+  def handle_call(:get_logged_players, _from, %{players: players} = state) do
     {:reply, players, state}
   end
 
@@ -230,5 +241,9 @@ defmodule DarkWorldsServer.Engine.Runner do
       Communication.pubsub_game_topic(self()),
       {:update_ping, player, ping}
     )
+  end
+
+  defp get_player(players, player_id) do
+    Enum.find(players, fn p -> p.id == player_id end)
   end
 end

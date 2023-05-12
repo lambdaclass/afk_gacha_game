@@ -126,6 +126,11 @@ public class SocketConnectionManager : MonoBehaviour
             ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down };
             SendAction(action);
         }
+        if (Input.GetKey(KeyCode.E))
+        {
+            ClientAction action = new ClientAction { Action = Action.AttackAoe };
+            SendAction(action);
+        }
     }
 
     private void setCameraToPlayer(int playerID)
