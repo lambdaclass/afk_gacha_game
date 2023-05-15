@@ -56,11 +56,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.call(runner_pid, :get_logged_players)
   end
 
-  def game_has_finished?(pid) do
-    %{current_state: %{has_finished?: has_finished?}} = :sys.get_state(pid)
-    has_finished?
-  end
-
   #######################
   # GenServer callbacks #
   #######################
