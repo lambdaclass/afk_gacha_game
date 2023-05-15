@@ -30,7 +30,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
-    private int playerId;
+    private int  playerId;
 
     public class GameResponse
     {
@@ -185,7 +185,8 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void ConnectToSession(string session_id)
     {
-        ws = new WebSocket("ws://" + server_ip + ":4000/play/" + session_id);
+        print("ws://" + server_ip + ":4000/play/" + session_id + "/" + playerId);
+        ws = new WebSocket("ws://" + server_ip + ":4000/play/" + session_id + "/" + playerId);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
@@ -208,7 +209,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else if (e.Data.Contains("PLAYER_JOINED"))
         {
-            playerId = Int32.Parse(((e.Data).Split(": ")[1]));
+            playerId = Int32.Parse(((e.Data).Split(": ")[1])) + 1;
         }
         else
         {

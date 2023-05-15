@@ -5,8 +5,6 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   alias DarkWorldsServer.Accounts
 
   def mount(%{"session_id" => session_id} = params, _session, socket) do
-    IO.inspect(params, label: :Wea)
-
     case connected?(socket) do
       false ->
         {:ok, assign(socket, session_id: session_id, player_count: 1)}

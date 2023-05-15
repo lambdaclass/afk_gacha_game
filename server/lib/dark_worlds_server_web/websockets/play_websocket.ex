@@ -10,7 +10,8 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
 
   def init(req, _opts) do
     game_id = :cowboy_req.binding(:game_id, req)
-    {:cowboy_websocket, req, %{game_id: game_id}}
+    player_id = :cowboy_req.binding(:player_id, req)
+    {:cowboy_websocket, req, %{game_id: game_id, player_id: player_id}}
   end
 
   def websocket_init(%{game_id: :undefined}) do
@@ -26,7 +27,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
 
     with :ok = Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}"),
          true <- runner_pid in Engine.list_runners_pids(),
-         {:ok, player_id} <- Runner.join(runner_pid, player_id) do
+         {:ok, player_id} <- Runner.join(runner_pid, String.to_integer(player_id) + 1) do
       state = %{runner_pid: runner_pid, player_id: player_id}
 
       {:reply,
