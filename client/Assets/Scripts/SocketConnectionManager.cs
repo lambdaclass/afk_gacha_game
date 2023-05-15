@@ -86,6 +86,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         // Send the player's action every 30 ms approximately.
         GeneratePlayer();
+        playerId = LobbyConnection.Instance.playerId;
         setCameraToPlayer(LobbyConnection.Instance.playerId);
         float tickRate = 1f / 30f;
         InvokeRepeating("sendAction", tickRate, tickRate);
