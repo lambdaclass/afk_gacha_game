@@ -126,7 +126,7 @@ impl GameState {
                 _ => false,
             }
         }) {
-            modify_health(target_player, -10);
+            target_player.modify_health(-10);
             let player = target_player.clone();
             self.modify_cell_if_player_died(&player);
         }
@@ -143,8 +143,17 @@ impl GameState {
             let distance = distance_to_center(player, center_of_attack);
             if distance < 3.0 {
                 let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
-                modify_health(player, -damage);
+                player.modify_health(-damage);
             }
+        }
+    }
+
+    pub fn disconnect(self: &mut Self, player_id: u64) -> Result<(), String> {
+        if let Some(player) = self.players.get_mut((player_id - 1) as usize) {
+            player.status = Status::DISCONNECTED;
+            Ok(())
+        } else {
+            Err(format!("Player not found with id: {}", player_id))
         }
     }
 
@@ -164,17 +173,6 @@ impl GameState {
         }
     }
 }
-
-fn modify_health(player: &mut Player, hp_points: i64) {
-    if matches!(player.status, Status::ALIVE) {
-        player.health += hp_points;
-        if player.health <= 0 {
-            player.status = Status::DEAD;
-        }
-    }
-}
-/// Edit: This comment is actually not true,
-/// this function its due a refactor.
 /// Given a position and a direction, returns the position adjacent to it in that direction.
 /// Example: If the arguments are Direction::RIGHT and (0, 0), returns (0, 1).
 fn compute_adjacent_position(direction: &Direction, position: &Position) -> Position {
