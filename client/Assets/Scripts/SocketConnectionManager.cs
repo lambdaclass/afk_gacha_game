@@ -71,16 +71,15 @@ public class SocketConnectionManager : MonoBehaviour
     {
         for (int i = 0; i < totalPlayers; i++)
         {
-            if (LobbyConnection.Instance.playerId != i + 1)
+            if (LobbyConnection.Instance.playerId == i + 1)
             {
-                print(LobbyConnection.Instance.playerId);
-                prefab.PlayerID = "";
+                // Player1 is the ID to match with the client InputManager
+                prefab.PlayerID = "Player1";
             }
             else
             {
-                prefab.PlayerID = "Player1";
+                prefab.PlayerID = "";
             }
-            print(prefab.PlayerID);
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
