@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 6291501560866832243}
   - component: {fileID: 6620274727182273940}
   m_Layer: 5
-  m_Name: FullLobbyItem
+  m_Name: PlayingGameItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

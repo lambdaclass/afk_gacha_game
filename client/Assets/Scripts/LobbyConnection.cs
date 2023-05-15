@@ -18,7 +18,7 @@ public class LobbyConnection : MonoBehaviour
 
     [SerializeField]
     GameObject lobbyItemPrefab;
-    
+
     [SerializeField]
     GameObject gameItemPrefab;
 
