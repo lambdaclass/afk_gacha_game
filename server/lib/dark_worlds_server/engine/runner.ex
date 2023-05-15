@@ -7,7 +7,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   @build_walls true
   @amount_of_players 3
   @board {1000, 1000}
-  # The game will be closed five minute after it starts
+  # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
@@ -15,6 +15,15 @@ defmodule DarkWorldsServer.Engine.Runner do
   @update_time 30
   # This is the number of tiles characters move per :move command
   @character_speed 3
+  case Mix.env() do
+    :test ->
+      # Check player count every 3 seconds in testing
+      @player_check 3 * 1000
+
+    _ ->
+      # Check player count every minute.
+      @player_check 1 * 60 * 1000
+  end
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
@@ -25,9 +34,12 @@ defmodule DarkWorldsServer.Engine.Runner do
   update and the final game timeout.
   """
   def init(opts) do
-    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+    state =
+      Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
+    Process.send_after(self(), :check_player_amount, @player_check)
 
     initial_state = %{
       game: state,
@@ -54,9 +66,12 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.cast(runner_pid, {:play, player_id, action})
   end
 
+  def disconnect(runner_pid, player_id) do
+    GenServer.cast(runner_pid, {:disconnect, player_id})
+  end
+
   def get_game_state(runner_pid) do
-    players = GenServer.call(runner_pid, :get_players)
-    {@board, players}
+    GenServer.call(runner_pid, :get_state)
   end
 
   def get_logged_players(runner_pid) do
@@ -149,8 +164,40 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, players, state}
   end
 
+  def handle_call(:get_state, _from, %{current_state: game_state} = state) do
+    {:reply, game_state.game, state}
+  end
+
+  def handle_cast(
+        {:disconnect, player_id},
+        state = %{current_state: game_state = %{game: game}, current_players: current}
+      ) do
+    current = current - 1
+    {:ok, game} = Game.disconnect(game, player_id)
+    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
+  end
+
+  def handle_info(
+        :check_player_amount,
+        state = %{current_players: current}
+      )
+      when current > 0 do
+    Process.send_after(self(), :check_player_amount, @player_check)
+    {:noreply, state}
+  end
+
+  def handle_info(:check_player_amount, state = %{current_players: current})
+      when current == 0 do
+    Process.send_after(self(), :session_timeout, 500)
+    {:noreply, Map.put(state, :has_finished?, true)}
+  end
+
   def handle_call(:get_logged_players, _from, %{players: players} = state) do
     {:reply, players, state}
+  end
+
+  def handle_call(:get_character_speed, _from, state) do
+    {:reply, @character_speed, state}
   end
 
   def handle_info(:game_timeout, state) do
@@ -159,9 +206,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_info(:session_timeout, state) do
-    # IO.inspect(self(), label: "session timeout")
-
+  def handle_info(:session_timeout, state = %{current_state: %{game: game}}) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),

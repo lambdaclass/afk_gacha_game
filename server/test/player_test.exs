@@ -64,7 +64,9 @@ defmodule DarkWorldsServer.PlayerTest do
         |> Enum.at(first_player_before_moving.position.y)
         |> is_wall_or_player?()
 
-      movement = first_player_after_moving.position.x == first_player_before_moving.position.x + character_speed
+      movement =
+        first_player_after_moving.position.x ==
+          first_player_before_moving.position.x + character_speed
 
       # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
       # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true
@@ -100,7 +102,9 @@ defmodule DarkWorldsServer.PlayerTest do
         |> Enum.at(first_player_before_moving.position.x)
         |> is_wall_or_player?()
 
-      movement = first_player_after_moving.position.y == first_player_before_moving.position.y - character_speed
+      movement =
+        first_player_after_moving.position.y ==
+          first_player_before_moving.position.y - character_speed
 
       # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
       # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true
@@ -114,7 +118,6 @@ defmodule DarkWorldsServer.PlayerTest do
         end
 
       assert success
-
     end
 
     @tag :move_right
@@ -138,7 +141,9 @@ defmodule DarkWorldsServer.PlayerTest do
         |> Enum.at(first_player_before_moving.position.x)
         |> is_wall_or_player?()
 
-      movement = first_player_after_moving.position.y == first_player_before_moving.position.y + character_speed
+      movement =
+        first_player_after_moving.position.y ==
+          first_player_before_moving.position.y + character_speed
 
       # If the player hasn't moved (x position is the same before and after the move command), we check for valid cases where this is the expected outcome: when the target position is already occupied by a wall or another player, or when the limit of the board is reached.
       # In the third case, we make the test fail if player hasn't moved and none of these valid cases are true

@@ -23,6 +23,7 @@ pub struct Player {
 pub enum Status {
     ALIVE,
     DEAD,
+    DISCONNECTED,
 }
 
 #[derive(Debug, Clone, NifStruct)]
@@ -40,6 +41,14 @@ impl Player {
             position,
             last_melee_attack: time_now(),
             status: Status::ALIVE,
+        }
+    }
+    pub fn modify_health(self: &mut Self, hp_points: i64) {
+        if matches!(self.status, Status::ALIVE) {
+            self.health = self.health.saturating_add(hp_points);
+            if self.health.is_negative() {
+                self.status = Status::DEAD;
+            }
         }
     }
 }

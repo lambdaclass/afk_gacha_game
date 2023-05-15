@@ -5,6 +5,7 @@ defmodule DarkWorldsServer.Engine do
   use DynamicSupervisor
 
   alias DarkWorldsServer.Engine.Runner
+  alias DarkWorldsServer.Engine.RequestTracker
 
   def start_link(args) do
     DynamicSupervisor.start_link(__MODULE__, args, name: __MODULE__)
@@ -16,6 +17,7 @@ defmodule DarkWorldsServer.Engine do
 
   @impl true
   def init(_opts) do
+    RequestTracker.create_table()
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 

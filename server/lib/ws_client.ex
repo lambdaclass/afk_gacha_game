@@ -4,6 +4,7 @@ defmodule DarkWorldsServer.WsClient do
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Communication.Proto.ClientAction
   alias DarkWorldsServer.Engine.Game
+  alias DarkWorldsServer.Engine.Runner
 
   def start_link(url) do
     WebSockex.start_link(url, __MODULE__, %{}, name: __MODULE__)
@@ -21,7 +22,7 @@ defmodule DarkWorldsServer.WsClient do
 
   def get_grid(session_id) do
     runner_pid = Communication.external_id_to_pid(session_id)
-    state = GenServer.call(runner_pid, :get_game_state)
+    state = Runner.get_game_state(runner_pid)
     Game.get_grid(state)
   end
 

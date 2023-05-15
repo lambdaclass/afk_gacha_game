@@ -66,6 +66,13 @@ fn attack_aoe(game: GameState, attacking_player_id: u64, center_of_attack: Posit
     game_2
 }
 
+#[rustler::nif(schedule = "DirtyCpu")]
+fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
+    let mut game_2 = game;
+    game_2.disconnect(player_id)?;
+    Ok(game_2)
+}
+
 fn load(env: Env, _: Term) -> bool {
     rustler::resource!(GridResource, env);
     true
@@ -79,7 +86,8 @@ rustler::init!(
         get_grid,
         get_non_empty,
         attack_player,
-        attack_aoe
+        attack_aoe,
+        disconnect
     ],
     load = load
 );
