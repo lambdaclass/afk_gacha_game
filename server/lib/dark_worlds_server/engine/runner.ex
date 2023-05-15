@@ -150,24 +150,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
   end
 
-  def handle_cast(
-        {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
-      ) do
-    current = current - 1
-    {:ok, game} = Game.disconnect(game, player_id)
-    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
-  end
-
-  def handle_cast(
-        {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
-      ) do
-    current = current - 1
-    {:ok, game} = Game.disconnect(game, player_id)
-    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
-  end
-
   def handle_call(
         {:join, player_id},
         _,
@@ -201,10 +183,6 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_call(:get_state, _from, %{current_state: game_state} = state) do
     {:reply, game_state.game, state}
-  end
-
-  def handle_call(:get_logged_players, _from, %{players: players} = state) do
-    {:reply, players, state}
   end
 
   def handle_call(:get_character_speed, _from, state) do
