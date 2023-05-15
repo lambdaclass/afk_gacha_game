@@ -7,10 +7,7 @@ defmodule DarkWorldsServerWeb.LobbyController do
 
   def new(conn, _params) do
     matchmaking_session_pid = Matchmaking.create_session()
-
-    headers = Enum.into(conn.req_headers, %{})
     lobby_id = Communication.pid_to_external_id(matchmaking_session_pid)
-
     json(conn, %{lobby_id: lobby_id})
   end
 
