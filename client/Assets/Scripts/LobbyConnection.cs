@@ -67,19 +67,19 @@ public class LobbyConnection : MonoBehaviour
 
     private void Awake()
     {
-        // if (Instance != null)
-        // {
-        //     Destroy(gameObject);
-        //     return;
-        // }
-        Instance = this;
-        this.playerId = -1;
-        DontDestroyOnLoad(gameObject);
+        this.Init();
     }
 
     public void Init()
     {
-        CreateLobby();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        this.playerId = -1;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

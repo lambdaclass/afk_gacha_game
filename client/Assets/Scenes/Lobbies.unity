@@ -2059,7 +2059,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2432087871287418735}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: BackButton, Assembly-CSharp
         m_MethodName: GoToLevel
         m_Mode: 1
         m_Arguments:
@@ -2213,7 +2213,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2432087871287418733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 316ab92be1a09414daadf97f5d5d2a77, type: 3}
+  m_Script: {fileID: 11500000, guid: 26da99b4c89d04871be4374f8604aa1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobbies
