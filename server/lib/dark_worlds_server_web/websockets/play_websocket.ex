@@ -40,6 +40,12 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     end
   end
 
+  @impl true
+  def terminate(reason, partialreq, state = %{runner_pid: pid, player_id: id}) do
+    Runner.disconnect(pid, id)
+    :ok
+  end
+
   def websocket_handle({:binary, message}, state) do
     case Communication.decode(message) do
       {:ok, %{action: :ping}} ->

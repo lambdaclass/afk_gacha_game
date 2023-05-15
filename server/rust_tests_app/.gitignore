@@ -7,7 +7,7 @@
 # The directory Mix downloads your dependencies sources to.
 /deps/
 
-# Where 3rd-party dependencies like ExDoc output generated docs.
+# Where third-party dependencies like ExDoc output generated docs.
 /doc/
 
 # Ignore .fetch files in case you like to edit your project deps locally.
@@ -19,21 +19,8 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+# Ignore package tarball (built via "mix hex.build").
+rust_tests-*.tar
+
 # Temporary files, for example, from tests.
 /tmp/
-
-# Ignore package tarball (built via "mix hex.build").
-dark_worlds_server-*.tar
-
-# Ignore dynamic library created by rustler
-*.so
-
-# assets
-priv/static/assets
-
-# Remove DS_Store files created by macOS
-*.DS_Store
-
-# Ignore Visual Studio Code configuration
-.vscode
-dark_worlds_server.code-workspace
