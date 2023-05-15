@@ -25,10 +25,45 @@ defmodule DarkWorldsServer.Engine.Runner do
       @player_check 1 * 60 * 1000
   end
 
+  #######
+  # API #
+  #######
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
   end
 
+  def join(runner_pid, player_id) do
+    GenServer.call(runner_pid, {:join, player_id})
+  end
+
+  def play(runner_pid, player_id, %ActionOk{} = action) do
+    GenServer.cast(runner_pid, {:play, player_id, action})
+  end
+
+  def disconnect(runner_pid, player_id) do
+    GenServer.cast(runner_pid, {:disconnect, player_id})
+  end
+
+  def get_game_state(runner_pid) do
+    GenServer.call(runner_pid, :get_state)
+  end
+
+  def get_board(runner_pid) do
+    GenServer.call(runner_pid, :get_board)
+  end
+
+  def get_logged_players(runner_pid) do
+    GenServer.call(runner_pid, :get_logged_players)
+  end
+
+  def game_has_finished?(pid) do
+    %{current_state: %{has_finished?: has_finished?}} = :sys.get_state(pid)
+    has_finished?
+  end
+
+  #######################
+  # GenServer callbacks #
+  #######################
   @doc """
   Starts a new game state, triggers the first
   update and the final game timeout.
@@ -56,30 +91,6 @@ defmodule DarkWorldsServer.Engine.Runner do
        players: opts.players,
        current_players: 0
      }}
-  end
-
-  def join(runner_pid, player_id) do
-    GenServer.call(runner_pid, {:join, player_id})
-  end
-
-  def play(runner_pid, player_id, %ActionOk{} = action) do
-    GenServer.cast(runner_pid, {:play, player_id, action})
-  end
-
-  def disconnect(runner_pid, player_id) do
-    GenServer.cast(runner_pid, {:disconnect, player_id})
-  end
-
-  def get_game_state(runner_pid) do
-    GenServer.call(runner_pid, :get_state)
-  end
-
-  def get_board(runner_pid) do
-    GenServer.call(runner_pid, :get_board)
-  end
-
-  def get_logged_players(runner_pid) do
-    GenServer.call(runner_pid, :get_logged_players)
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
@@ -234,11 +245,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  def game_has_finished?(pid) do
-    %{current_state: %{has_finished?: has_finished?}} = :sys.get_state(pid)
-    has_finished?
-  end
-
+  ####################
+  # Internal helpers #
+  ####################
   defp has_a_player_won?(players) do
     players_alive = Enum.filter(players, fn player -> player.health != 0 end)
     Enum.count(players_alive) == 1
