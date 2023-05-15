@@ -5,7 +5,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   # 2 minutes
   @timeout_ms 2 * 60 * 1000
-  @players_amount_update 30
+  @players_amount_update_ms 30
   #######
   # API #
   #######
