@@ -71,10 +71,10 @@ public class SocketConnectionManager : MonoBehaviour
     {
         for (int i = 0; i < totalPlayers; i++)
         {
-            if (LobbyConnection.Instance.playerId == i + 1)
+            if (LobbyConnection.Instance.playerId != i + 1)
             {
                 print(LobbyConnection.Instance.playerId);
-                prefab.PlayerID = "Player1";
+                prefab.PlayerID = "";
             }
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
