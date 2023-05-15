@@ -30,3 +30,7 @@ dark_worlds_server-*.tar
 
 # assets
 priv/static/assets
+
+# Ignore Visual Studio Code configuration
+.vscode
+dark_worlds_server.code-workspace

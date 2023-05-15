@@ -20,9 +20,9 @@ fn new_game(
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn move_player(game: GameState, player_id: u64, direction: Direction) -> GameState {
+fn move_player(game: GameState, player_id: u64, direction: Direction, speed: usize) -> GameState {
     let mut game_2 = game;
-    game_2.move_player(player_id, direction);
+    game_2.move_player(player_id, direction, speed);
     game_2
 }
 

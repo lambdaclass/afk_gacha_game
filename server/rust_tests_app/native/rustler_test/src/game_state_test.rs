@@ -19,25 +19,25 @@ pub fn no_move_if_beyond_boundaries() -> TestResult {
     let player_id = state.players.first().unwrap().id;
     // Check UP boundary
     for i in 0..1000 {
-        state.move_player(player_id, Direction::UP);
+        state.move_player(player_id, Direction::UP, 1);
     }
     assert_result!(0, state.players.first().unwrap().position.x)?;
 
     // Check DOWN boundary
     for i in 0..1000 {
-        state.move_player(player_id, Direction::DOWN);
+        state.move_player(player_id, Direction::DOWN, 1);
     }
     assert_result!(99, state.players.first().unwrap().position.x)?;
 
     // Check RIGHT boundary
     for i in 0..1000 {
-        state.move_player(player_id, Direction::RIGHT);
+        state.move_player(player_id, Direction::RIGHT, 1);
     }
     assert_result!(99, state.players.first().unwrap().position.y)?;
 
     // Check LEFT boundary
     for i in 0..1000 {
-        state.move_player(player_id, Direction::LEFT);
+        state.move_player(player_id, Direction::LEFT, 1);
     }
     assert_result!(0, state.players.first().unwrap().position.y)
 }
@@ -55,7 +55,7 @@ fn no_move_if_occupied() -> TestResult {
     state.board.set_cell(1, 1, Tile::Empty);
     state.board.set_cell(1, 0, Tile::Empty);
     let expected_grid = get_grid(&state);
-    state.move_player(player1_id, Direction::RIGHT);
+    state.move_player(player1_id, Direction::RIGHT, 1);
     assert_result!(expected_grid, get_grid(&state))
 }
 
@@ -69,7 +69,7 @@ fn no_move_if_wall() -> TestResult {
     state.board.set_cell(0, 1, Tile::Wall);
 
     let expected_grid = get_grid(&state);
-    state.move_player(player1_id, Direction::RIGHT);
+    state.move_player(player1_id, Direction::RIGHT, 1);
     assert_result!(expected_grid, get_grid(&state))
 }
 
@@ -81,7 +81,7 @@ fn movement() -> TestResult {
     state.players = vec![player1];
     state.board.set_cell(0, 0, Tile::Player(player_id));
 
-    state.move_player(player_id, Direction::RIGHT);
+    state.move_player(player_id, Direction::RIGHT, 1);
     assert_result!(
         vec![
             vec![Tile::Empty, Tile::Player(player_id)],
@@ -90,7 +90,7 @@ fn movement() -> TestResult {
         get_grid(&state)
     )?;
 
-    state.move_player(player_id, Direction::DOWN);
+    state.move_player(player_id, Direction::DOWN, 1);
     assert_result!(
         vec![
             vec![Tile::Empty, Tile::Empty],
@@ -99,7 +99,7 @@ fn movement() -> TestResult {
         get_grid(&state)
     )?;
 
-    state.move_player(player_id, Direction::LEFT);
+    state.move_player(player_id, Direction::LEFT, 1);
     assert_result!(
         vec![
             vec![Tile::Empty, Tile::Empty],
@@ -108,7 +108,7 @@ fn movement() -> TestResult {
         get_grid(&state)
     )?;
 
-    state.move_player(player_id, Direction::UP);
+    state.move_player(player_id, Direction::UP, 1);
     assert_result!(
         vec![
             vec![Tile::Player(player_id), Tile::Empty],
@@ -150,7 +150,7 @@ fn attacking() -> TestResult {
 
     time_utils::sleep(MELEE_ATTACK_COOLDOWN);
 
-    state.move_player(player_1_id, Direction::DOWN);
+    state.move_player(player_1_id, Direction::DOWN, 1);
 
     // Attacking to the right now does nothing since the player moved down.
     state.attack_player(player_1_id, Direction::RIGHT);
