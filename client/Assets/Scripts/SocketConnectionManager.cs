@@ -207,10 +207,6 @@ public class SocketConnectionManager : MonoBehaviour
         {
             Debug.Log("Error message: " + e.Data);
         }
-        else if (e.Data.Contains("PLAYER_JOINED"))
-        {
-            playerId = Int32.Parse(((e.Data).Split(": ")[1])) + 1;
-        }
         else
         {
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
