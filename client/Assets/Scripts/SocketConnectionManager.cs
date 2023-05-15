@@ -256,8 +256,8 @@ public class SocketConnectionManager : MonoBehaviour
 
                 playerUpdates.Enqueue(
                     new PlayerUpdate { 
-                        x = new_position.Y,
-                        y = -new_position.X,
+                        x = ((long)new_position.Y),
+                        y = -((long)new_position.X),
                         player_id = i,
                         health = game_update.Players[i].Health,
                         action = (PlayerAction) game_update.Players[i].Action,
