@@ -124,7 +124,7 @@ impl GameState {
                 _ => false,
             }
         }) {
-            modify_health(target_player, -10);
+            target_player.modify_health(-10);
             let player = target_player.clone();
             self.modify_cell_if_player_died(&player);
         }
@@ -141,7 +141,7 @@ impl GameState {
             let distance = distance_to_center(player, center_of_attack);
             if distance < 3.0 {
                 let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
-                modify_health(player, -damage);
+                player.modify_health(-damage);
             }
         }
     }
@@ -168,15 +168,6 @@ impl GameState {
         if matches!(player.status, Status::DEAD) {
             self.board
                 .set_cell(player.position.x, player.position.y, Tile::Empty);
-        }
-    }
-}
-
-fn modify_health(player: &mut Player, hp_points: i64) {
-    if matches!(player.status, Status::ALIVE) {
-        player.health += hp_points;
-        if player.health <= 0 {
-            player.status = Status::DEAD;
         }
     }
 }
