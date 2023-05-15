@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class LobbyPlayerList : MonoBehaviour
 {
-    [SerializeField] GameObject playerItemPrefab;
-    [SerializeField] GameObject playButton;
+    [SerializeField]
+    GameObject playerItemPrefab;
+
+    [SerializeField]
+    GameObject playButton;
     int totalPlayersBefore = 0;
 
-
-    // Start is called before the first frame update
+    // Update is called once per frame
+    void Update()
+    {
+        for (int i = 0; i < LobbyConnection.Instance.playerCount; i++)
+        {
+            if (totalPlayersBefore != LobbyConnection.Instance.playerCount)
+            {
+                totalPlayersBefore++;
+                CreatePlayerItem(totalPlayersBefore);
+            }
+        }
+    }
 
     private void CreatePlayerItem(int id)
     {
@@ -30,20 +43,6 @@ public class LobbyPlayerList : MonoBehaviour
             else
             {
                 playerI.playerText.text += " " + id.ToString();
-            }
-        }
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        for (int i = 0; i < LobbyConnection.Instance.playerCount; i++)
-        {
-            if (totalPlayersBefore != LobbyConnection.Instance.playerCount)
-            {
-                totalPlayersBefore++;
-                CreatePlayerItem(totalPlayersBefore);
             }
         }
     }
