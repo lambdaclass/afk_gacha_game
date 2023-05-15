@@ -139,6 +139,10 @@ public class SocketConnectionManager : MonoBehaviour
             
             Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
+            if (playerUpdate.action == PlayerAction.Attacking)
+            {
+                print(playerUpdate.player_id + " is attacking");
+            }
         }
     }
 
@@ -201,11 +205,18 @@ public class SocketConnectionManager : MonoBehaviour
             {
                 var player = this.players[i];
                 var new_position = game_update.Players[i].Position;
-                //if (game_update.Players[i].Action != 0) {
-                    print("Action?: " + game_update.Players[i].Action);
-                //}
-                
-                playerUpdates.Enqueue(new PlayerUpdate { x = new_position.Y, y = -new_position.X, player_id = i, health = game_update.Players[i].Health});
+
+                var action = (PlayerAction) game_update.Players[i].Action;
+
+                playerUpdates.Enqueue(
+                    new PlayerUpdate { 
+                        x = new_position.Y,
+                        y = -new_position.X,
+                        player_id = i,
+                        health = game_update.Players[i].Health,
+                        action = action,
+                    }
+                );
             }
         }
     }
