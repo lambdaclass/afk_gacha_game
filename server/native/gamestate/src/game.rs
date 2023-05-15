@@ -3,9 +3,9 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
+use crate::character::Character;
 use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
-
 const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
 #[derive(NifStruct)]
@@ -34,7 +34,7 @@ impl GameState {
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
                 let new_position = generate_new_position(&mut positions, board_width, board_height);
-                Player::new(player_id, 100, new_position)
+                Player::new(player_id, 100, new_position, Character::new())
             })
             .collect();
 
@@ -63,7 +63,7 @@ impl GameState {
         Self { players, board }
     }
 
-    pub fn move_player(self: &mut Self, player_id: u64, direction: Direction, speed: usize) {
+    pub fn move_player(self: &mut Self, player_id: u64, direction: Direction) {
         let player = self
             .players
             .iter_mut()
@@ -74,7 +74,11 @@ impl GameState {
             return;
         }
 
-        let new_position = compute_adjacent_position_n_tiles(&direction, &player.position, speed);
+        let new_position = compute_adjacent_position_n_tiles(
+            &direction,
+            &player.position,
+            player.character.speed as usize,
+        );
         if !is_valid_movement(&self.board, &new_position) {
             return;
         }
@@ -97,6 +101,8 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
+
+        let attack_dmg = attacking_player.character.attack_dmg;
 
         if matches!(attacking_player.status, Status::DEAD) {
             return;
@@ -124,7 +130,7 @@ impl GameState {
                 _ => false,
             }
         }) {
-            target_player.modify_health(-10);
+            target_player.modify_health(attack_dmg);
             let player = target_player.clone();
             self.modify_cell_if_player_died(&player);
         }

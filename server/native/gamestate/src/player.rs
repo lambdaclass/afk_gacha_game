@@ -1,3 +1,4 @@
+use crate::character::Character;
 use crate::time_utils::time_now;
 use rustler::NifStruct;
 use rustler::NifUnitEnum;
@@ -17,6 +18,7 @@ pub struct Player {
     /// Time of the last melee attack done by the player, measured in seconds.
     pub last_melee_attack: u64,
     pub status: Status,
+    pub character: Character,
 }
 
 #[derive(Debug, Clone, NifUnitEnum)]
@@ -34,13 +36,14 @@ pub struct Position {
 }
 
 impl Player {
-    pub fn new(id: u64, health: i64, position: Position) -> Self {
+    pub fn new(id: u64, health: i64, position: Position, character: Character) -> Self {
         Self {
             id,
             health,
             position,
             last_melee_attack: time_now(),
             status: Status::ALIVE,
+            character,
         }
     }
     pub fn modify_health(self: &mut Self, hp_points: i64) {
