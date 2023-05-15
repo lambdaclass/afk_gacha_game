@@ -30,3 +30,6 @@ dark_worlds_server-*.tar
 
 # assets
 priv/static/assets
+
+# Remove DS_Store files created by macOS
+*.DS_Store
