@@ -1,5 +1,5 @@
 defmodule DarkWorldsServer.Engine.Game do
-  use Rustler, otp_app: :dark_worlds_server, crate: "gamestate"
+  use Rustler, otp_app: :dark_worlds_server, crate: "gamestate", default_features: true
   use DarkWorldsServer.Communication.Encoder
 
   @enforce_keys [:players, :board]

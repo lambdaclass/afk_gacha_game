@@ -26,7 +26,7 @@ pub enum Status {
     DISCONNECTED,
 }
 
-#[derive(Debug, Clone, NifStruct)]
+#[derive(Debug, Clone, NifStruct, PartialEq)]
 #[module = "DarkWorldsServer.Engine.Position"]
 pub struct Position {
     pub x: usize,
