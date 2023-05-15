@@ -58,8 +58,8 @@ defmodule DarkWorldsServer.Engine.Runner do
      }}
   end
 
-  def join(runner_pid) do
-    GenServer.call(runner_pid, :join)
+  def join(runner_pid, player_id) do
+    GenServer.call(runner_pid, {:join, player_id})
   end
 
   def play(runner_pid, player_id, %ActionOk{} = action) do
@@ -110,7 +110,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-
+    IO.inspect("Player moving is: #{player}")
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
 
@@ -151,7 +151,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_call(
-        :join,
+        {:join, player_id},
         _,
         %{max_players: max, current_players: current} = state
       )
@@ -159,10 +159,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:player_joined, current + 1, state}
+      {:player_joined, player_id, state}
     )
 
-    {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
+    {:reply, {:ok, player_id}, %{state | current_players: current + 1}}
   end
 
   def handle_call(:join, _, %{max_players: max, current_players: max} = state) do

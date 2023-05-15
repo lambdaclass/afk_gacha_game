@@ -8,7 +8,8 @@ defmodule DarkWorldsServer.PlayerTest do
     @tag :move_up
     test "Move up", %{conn: conn} do
       session_id = create_session(conn)
-      {:ok, _ws_pid} = ws_connect(session_id)
+      player_id = 1
+      {:ok, _ws_pid} = ws_connect(session_id, player_id)
       grid = WsClient.get_grid(session_id)
       character_speed = WsClient.get_character_speed(session_id)
 
@@ -46,7 +47,8 @@ defmodule DarkWorldsServer.PlayerTest do
     @tag :move_down
     test "Move down", %{conn: conn} do
       session_id = create_session(conn)
-      {:ok, _ws_pid} = ws_connect(session_id)
+      player_id = 1
+      {:ok, _ws_pid} = ws_connect(session_id, player_id)
       grid = WsClient.get_grid(session_id)
       grid_height = length(grid)
       character_speed = WsClient.get_character_speed(session_id)
@@ -85,7 +87,8 @@ defmodule DarkWorldsServer.PlayerTest do
     @tag :move_left
     test "Move left", %{conn: conn} do
       session_id = create_session(conn)
-      {:ok, _ws_pid} = ws_connect(session_id)
+      player_id = 1
+      {:ok, _ws_pid} = ws_connect(session_id, player_id)
       grid = WsClient.get_grid(session_id)
       character_speed = WsClient.get_character_speed(session_id)
 
@@ -123,7 +126,8 @@ defmodule DarkWorldsServer.PlayerTest do
     @tag :move_right
     test "Move right", %{conn: conn} do
       session_id = create_session(conn)
-      {:ok, _ws_pid} = ws_connect(session_id)
+      player_id = 1
+      {:ok, _ws_pid} = ws_connect(session_id, player_id)
       grid = WsClient.get_grid(session_id)
       grid_width = length(hd(grid))
       character_speed = WsClient.get_character_speed(session_id)
@@ -184,7 +188,7 @@ defmodule DarkWorldsServer.PlayerTest do
     Map.get(new_session, "session_id")
   end
 
-  defp ws_connect(session_id) do
-    WsClient.start_link("ws://localhost:4002/play/#{session_id}")
+  defp ws_connect(session_id, player_id) do
+    WsClient.start_link("ws://localhost:4002/play/#{session_id}/#{player_id}")
   end
 end
