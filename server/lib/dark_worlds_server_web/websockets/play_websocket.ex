@@ -27,7 +27,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
 
     with :ok = Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}"),
          true <- runner_pid in Engine.list_runners_pids(),
-         {:ok, player_id} <- Runner.join(runner_pid, String.to_integer(player_id) + 1) do
+         {:ok, player_id} <- Runner.join(runner_pid, String.to_integer(player_id)) do
       state = %{runner_pid: runner_pid, player_id: player_id}
 
       {:reply,
