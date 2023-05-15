@@ -76,6 +76,11 @@ public class SocketConnectionManager : MonoBehaviour
                 print(LobbyConnection.Instance.playerId);
                 prefab.PlayerID = "";
             }
+            else
+            {
+                prefab.PlayerID = "Player1";
+            }
+            print(prefab.PlayerID);
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
