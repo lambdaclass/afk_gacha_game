@@ -17,8 +17,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EnginePlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position} = player
-    %ProtoPlayer{id: id, health: health, position: position}
+    %{id: id, health: health, position: position, action: action} = player
+    %ProtoPlayer{id: id, health: health, position: position, action: player_action_encode(action)}
   end
 
   def encode(%{players: players}, GameStateUpdate) do
@@ -53,7 +53,7 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   def decode(%ProtoPlayer{} = player, ProtoPlayer) do
     %{id: id, health: health, position: position, action: action} = player
-    %EnginePlayer{id: id, health: health, position: position, action: action}
+    %EnginePlayer{id: id, health: health, position: position, action: player_action_decode(action)}
   end
 
   def decode(%GameStateUpdate{players: players}, GameStateUpdate) do
@@ -92,4 +92,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   defp direction_decode(:DOWN), do: :down
   defp direction_decode(:LEFT), do: :left
   defp direction_decode(:RIGHT), do: :right
+
+  defp player_action_encode(:attacking), do: :ATTACKING
+  defp player_action_encode(:nothing), do: :NOTHING
+
+  defp player_action_decode(:ATTACKING), do: :attacking
+  defp player_action_decode(:NOTHING), do: :nothing
 end

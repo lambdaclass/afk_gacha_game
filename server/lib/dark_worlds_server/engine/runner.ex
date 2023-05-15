@@ -83,6 +83,9 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     state = Map.put(state, :next_state, next_state)
 
+    state.next_state.game.players
+    |> Enum.map(fn player -> IO.inspect(to_string(player.action) <> " - " <> to_string(player.status)) end)
+
     {:noreply, state}
   end
 
@@ -103,7 +106,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     state = Map.put(state, :next_state, next_state)
 
     state.next_state.game.players
-    |> Enum.map(fn player -> IO.inspect(to_string(player.health) <> " - " <> to_string(player.status)) end)
+    |> Enum.map(fn player -> IO.inspect(to_string(player.action) <> " - " <> to_string(player.status)) end)
 
     {:noreply, state}
   end
@@ -183,7 +186,16 @@ defmodule DarkWorldsServer.Engine.Runner do
   Else, trigger another update.
   """
   def handle_info(:update_state, %{next_state: next_state} = state) do
+
     state = Map.put(state, :current_state, next_state)
+
+    game = next_state.game |> Game.clean_players_actions()
+    next_state = next_state |> Map.put(:game, game)
+    state = Map.put(state, :next_state, next_state)
+
+
+
+
 
     has_a_player_won? = has_a_player_won?(next_state.game.players)
 
@@ -196,6 +208,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     end
 
     broadcast_game_update(has_a_player_won?, state)
+
+    #game = next_state.game |> Game.clean_players_actions()
+    #IO.inspect(game.players, label: "Players")
+    #next_state = next_state |> Map.put(:game, game)
+
 
     {:noreply, state}
   end

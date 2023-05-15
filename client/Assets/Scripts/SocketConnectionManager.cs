@@ -41,7 +41,7 @@ public class SocketConnectionManager : MonoBehaviour
         public long y;
         public int player_id;
         public long health;
-        public long action;
+        public PlayerAction action;
     }
 
     public class Position
@@ -50,12 +50,18 @@ public class SocketConnectionManager : MonoBehaviour
         public long y { get; set; }
     }
 
+    public enum PlayerAction
+    {
+        Nothing = 0,
+        Attacking = 1,
+    }
+
     public class Player
     {
         public int id { get; set; }
         public int health { get; set; }
         public Position position { get; set; }
-        public int action { get; set; }
+        public PlayerAction action { get; set; }
     }
 
     // Start is called before the first frame update
@@ -195,9 +201,9 @@ public class SocketConnectionManager : MonoBehaviour
             {
                 var player = this.players[i];
                 var new_position = game_update.Players[i].Position;
-                if (game_update.Players[i].Action != 0) {
-                    print("Attacking?: " + game_update.Players[i].Action);
-                }
+                //if (game_update.Players[i].Action != 0) {
+                    print("Action?: " + game_update.Players[i].Action);
+                //}
                 
                 playerUpdates.Enqueue(new PlayerUpdate { x = new_position.Y, y = -new_position.X, player_id = i, health = game_update.Players[i].Health});
             }

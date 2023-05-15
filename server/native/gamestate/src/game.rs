@@ -173,6 +173,12 @@ impl GameState {
         })
     }
 
+    pub fn clean_players_actions(self: &mut Self) {
+        self.players.iter_mut().for_each(|player| {
+            player.action = PlayerAction::NOTHING;
+        })
+    }
+
     fn modify_cell_if_player_died(self: &mut Self, player: &Player) {
         if matches!(player.status, Status::DEAD) {
             self.board
