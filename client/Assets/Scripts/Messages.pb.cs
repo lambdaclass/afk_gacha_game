@@ -26,18 +26,21 @@ public partial class Player : global::ProtoBuf.IExtensible
         => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
 
     [global::ProtoBuf.ProtoMember(1, Name = @"id")]
-    public uint Id { get; set; }
+    public ulong Id { get; set; }
 
-    [global::ProtoBuf.ProtoMember(2, Name = @"health")]
-    public uint Health { get; set; }
+    [global::ProtoBuf.ProtoMember(2, Name = @"health", DataFormat = global::ProtoBuf.DataFormat.ZigZag)]
+    public long Health { get; set; }
 
     [global::ProtoBuf.ProtoMember(3, Name = @"position")]
     public Position Position { get; set; }
 
-    [global::ProtoBuf.ProtoMember(4, Name = @"power")]
-    public uint Power { get; set; }
+    [global::ProtoBuf.ProtoMember(4, Name = @"last_melee_attack")]
+    public ulong LastMeleeAttack { get; set; }
 
-    [global::ProtoBuf.ProtoMember(5, Name = @"action")]
+    [global::ProtoBuf.ProtoMember(5, Name = @"status")]
+    public Status Status { get; set; }
+
+    [global::ProtoBuf.ProtoMember(6, Name = @"action")]
     public PlayerAction Action { get; set; }
 
 }
@@ -50,10 +53,10 @@ public partial class Position : global::ProtoBuf.IExtensible
         => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
 
     [global::ProtoBuf.ProtoMember(1, Name = @"x")]
-    public uint X { get; set; }
+    public ulong X { get; set; }
 
     [global::ProtoBuf.ProtoMember(2, Name = @"y")]
-    public uint Y { get; set; }
+    public ulong Y { get; set; }
 
 }
 
@@ -88,6 +91,15 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(3, Name = @"latency")]
     public uint Latency { get; set; }
 
+}
+
+[global::ProtoBuf.ProtoContract()]
+public enum Status
+{
+    [global::ProtoBuf.ProtoEnum(Name = @"ALIVE")]
+    Alive = 0,
+    [global::ProtoBuf.ProtoEnum(Name = @"DEAD")]
+    Dead = 1,
 }
 
 [global::ProtoBuf.ProtoContract()]
