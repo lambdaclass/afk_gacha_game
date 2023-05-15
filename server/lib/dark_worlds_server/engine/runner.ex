@@ -74,6 +74,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     GenServer.call(runner_pid, :get_state)
   end
 
+  def get_board(runner_pid) do
+    GenServer.call(runner_pid, :get_board)
+  end
+
   def get_logged_players(runner_pid) do
     GenServer.call(runner_pid, :get_logged_players)
   end
@@ -137,6 +141,15 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  def handle_cast(
+        {:disconnect, player_id},
+        state = %{current_state: game_state = %{game: game}, current_players: current}
+      ) do
+    current = current - 1
+    {:ok, game} = Game.disconnect(game, player_id)
+    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
+  end
+
   def handle_call(
         :join,
         _,
@@ -164,8 +177,21 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, players, state}
   end
 
+  def handle_call(:get_logged_players, _from, %{players: players} = state) do
+    {:reply, players, state}
+  end
+
   def handle_call(:get_state, _from, %{current_state: game_state} = state) do
     {:reply, game_state.game, state}
+  end
+
+  def handle_cast(
+        {:disconnect, player_id},
+        state = %{current_state: game_state = %{game: game}, current_players: current}
+      ) do
+    current = current - 1
+    {:ok, game} = Game.disconnect(game, player_id)
+    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
   end
 
   def handle_cast(
@@ -206,7 +232,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_info(:session_timeout, state = %{current_state: %{game: game}}) do
+  def handle_info(:session_timeout, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
@@ -247,6 +273,8 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
+  # Broadcast the current game state to
+  # each connected player.
   defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
