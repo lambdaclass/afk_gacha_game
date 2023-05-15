@@ -38,7 +38,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
   #######################
   @impl GenServer
   def init(_args) do
-    Process.send_after(self(), :amount_of_players, @players_amount_update)
+    Process.send_after(self(), :amount_of_players, @players_amount_update_ms)
     Process.send_after(self(), :check_timeout, @timeout_ms * 2)
     session_id = :erlang.term_to_binary(self()) |> Base58.encode()
     topic = Matchmaking.session_topic(session_id)
@@ -115,7 +115,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
       {:amount_of_players, length(state[:players])}
     )
 
-    Process.send_after(self(), :amount_of_players, @players_amount_update)
+    Process.send_after(self(), :amount_of_players, @players_amount_update_ms)
     {:noreply, state}
   end
 
