@@ -29,13 +29,15 @@ defmodule DarkWorldsServerWeb.Router do
 
     get "/", PageController, :home
     get "/new_session", SessionController, :new
+    get "/new_lobby", LobbyController, :new
+    get "/current_lobbies", LobbyController, :current_lobbies
+    get "/current_games", GameController, :current_games
   end
 
   scope "/", DarkWorldsServerWeb do
     pipe_through [:browser, :game]
 
-    live "/board", BoardLive.Index
-    live "/board/:game_id", BoardLive.Index
+    live "/board/:game_id/:player_id", BoardLive.Show
 
     live_session :authenticated, on_mount: [{DarkWorldsServerWeb.UserAuth, :ensure_authenticated}] do
       live "/matchmaking", MatchmakingLive.Index

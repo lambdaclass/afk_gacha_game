@@ -1,14 +1,23 @@
+defmodule DarkWorldsServer.Communication.Proto.Status do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:ALIVE, 0)
+  field(:DEAD, 1)
+end
+
 defmodule DarkWorldsServer.Communication.Proto.Action do
   @moduledoc false
 
   use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
 
-  field :ACTION_UNSPECIFIED, 0
-  field :MOVE, 1
-  field :ATTACK, 2
-  field :PING, 3
-  field :UPDATE_PING, 4
-  field :ATTACK_AOE, 5
+  field(:ACTION_UNSPECIFIED, 0)
+  field(:MOVE, 1)
+  field(:ATTACK, 2)
+  field(:PING, 3)
+  field(:UPDATE_PING, 4)
+  field(:ATTACK_AOE, 5)
 end
 
 defmodule DarkWorldsServer.Communication.Proto.Direction do
@@ -47,11 +56,13 @@ defmodule DarkWorldsServer.Communication.Proto.Player do
 
   use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
 
-  field :id, 1, type: :uint32
-  field :health, 2, type: :uint32
-  field :position, 3, type: DarkWorldsServer.Communication.Proto.Position
-  field :power, 4, type: :uint32
-  field :action, 5, type: DarkWorldsServer.Communication.Proto.PlayerAction, enum: true
+  field(:id, 1, type: :uint64)
+  field(:health, 2, type: :sint64)
+  field(:position, 3, type: DarkWorldsServer.Communication.Proto.Position)
+  field(:last_melee_attack, 4, type: :uint64, json_name: "lastMeleeAttack")
+  field(:status, 5, type: DarkWorldsServer.Communication.Proto.Status, enum: true)
+  field :action, 6, type: DarkWorldsServer.Communication.Proto.PlayerAction, enum: true
+
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
@@ -61,8 +72,8 @@ defmodule DarkWorldsServer.Communication.Proto.Position do
 
   use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
 
-  field :x, 1, type: :uint32
-  field :y, 2, type: :uint32
+  field(:x, 1, type: :uint64)
+  field(:y, 2, type: :uint64)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

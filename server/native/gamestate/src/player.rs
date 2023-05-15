@@ -24,6 +24,7 @@ pub struct Player {
 pub enum Status {
     ALIVE,
     DEAD,
+    DISCONNECTED,
 }
 
 #[derive(Debug, Clone, NifUnitEnum)]
@@ -32,7 +33,7 @@ pub enum PlayerAction {
     ATTACKING,
 }
 
-#[derive(Debug, Clone, NifStruct)]
+#[derive(Debug, Clone, NifStruct, PartialEq)]
 #[module = "DarkWorldsServer.Engine.Position"]
 pub struct Position {
     pub x: usize,
@@ -48,6 +49,14 @@ impl Player {
             last_melee_attack: time_now(),
             status: Status::ALIVE,
             action: PlayerAction::NOTHING,
+        }
+    }
+    pub fn modify_health(self: &mut Self, hp_points: i64) {
+        if matches!(self.status, Status::ALIVE) {
+            self.health = self.health.saturating_add(hp_points);
+            if self.health.is_negative() {
+                self.status = Status::DEAD;
+            }
         }
     }
 }
