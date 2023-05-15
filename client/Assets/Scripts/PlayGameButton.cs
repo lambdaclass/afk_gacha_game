@@ -9,7 +9,6 @@ public class PlayGameButton : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("LobbyConnection.Instance.playerId: " + LobbyConnection.Instance.playerId);
         if (LobbyConnection.Instance.playerId == 1)
         {
             playGameButton = GetComponent<PlayGameButton>();
