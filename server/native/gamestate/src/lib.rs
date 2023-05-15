@@ -4,8 +4,8 @@ pub mod player;
 pub mod time_utils;
 
 use game::GameState;
+use rustler::{Env, Term};
 use std::collections::HashMap;
-// use rustler::{Env, Term};
 
 use crate::{board::GridResource, board::Tile, game::Direction, player::Position};
 
@@ -72,7 +72,7 @@ fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
     Ok(game_2)
 }
 
-fn load(env: Env, _: Term) -> bool {
+pub fn load(env: Env, _: Term) -> bool {
     rustler::resource!(GridResource, env);
     true
 }
