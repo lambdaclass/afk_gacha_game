@@ -48,8 +48,8 @@ defmodule DarkWorldsServer.Engine.Runner do
      }}
   end
 
-  def join(runner_pid) do
-    GenServer.call(runner_pid, :join)
+  def join(runner_pid, player_id) do
+    GenServer.call(runner_pid, {:join, player_id})
   end
 
   def play(runner_pid, player_id, %ActionOk{} = action) do
@@ -137,7 +137,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_call(
-        :join,
+        {:join, player_id},
         _,
         %{max_players: max, current_players: current} = state
       )
@@ -145,10 +145,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:player_joined, current + 1, state}
+      {:player_joined, player_id, state}
     )
 
-    {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
+    {:reply, {:ok, player_id}, %{state | current_players: current + 1}}
   end
 
   def handle_call(:join, _, %{max_players: max, current_players: max} = state) do
