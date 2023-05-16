@@ -105,13 +105,15 @@ impl GameState {
 
         let attack_dmg = attacking_player.character.attack_dmg();
 
+        let cooldown = attacking_player.character.cooldown();
+
         if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
 
         let now = time_now();
 
-        if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
+        if (now - attacking_player.last_melee_attack) < cooldown {
             return;
         }
         attacking_player.last_melee_attack = now;
