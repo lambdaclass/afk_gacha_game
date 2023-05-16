@@ -216,7 +216,7 @@ public class SocketConnectionManager : MonoBehaviour
                 var player = this.players[i];
                 var new_position = game_update.Players[i].Position;
                 print(game_update.Players[i]);
-                positionUpdates.Enqueue(new PositionUpdate { x = new_position.Y, y = -new_position.X, player_id = i });
+                positionUpdates.Enqueue(new PositionUpdate { x = (long) new_position.Y, y = - ((long) new_position.X), player_id = i });
             }
         }
     }
