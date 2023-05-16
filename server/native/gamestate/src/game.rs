@@ -3,10 +3,8 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
-use crate::character::Character;
 use crate::player::{Player, Position, Status};
 use crate::time_utils::time_now;
-const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -103,7 +101,7 @@ impl GameState {
             .find(|player| player.id == attacking_player_id)
             .unwrap();
 
-        let attack_dmg = attacking_player.character.attack_dmg();
+        let attack_dmg = attacking_player.character.attack_dmg() as i64;
 
         let cooldown = attacking_player.character.cooldown();
 
@@ -133,7 +131,7 @@ impl GameState {
                 _ => false,
             }
         }) {
-            target_player.modify_health(attack_dmg);
+            target_player.modify_health(-attack_dmg);
             let player = target_player.clone();
             self.modify_cell_if_player_died(&player);
         }

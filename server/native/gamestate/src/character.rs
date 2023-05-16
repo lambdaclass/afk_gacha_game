@@ -1,5 +1,4 @@
 use crate::skills::*;
-use rustler::{Decoder, Encoder};
 #[derive(Debug, Clone, rustler::NifStruct)]
 #[module = "DarkWorldsServer.Engine.Character"]
 pub struct Character {
@@ -18,11 +17,11 @@ impl Character {
         }
     }
     #[inline]
-    pub fn attack_dmg(&self) -> i64 {
+    pub fn attack_dmg(&self) -> u64 {
         // TODO have a trait for this
         // instead of matching enums.
         match self.basic_skill {
-            BasicSkill::Backstab => -10,
+            BasicSkill::Backstab => 10_u64,
         }
     }
     // Cooldown in miliseconds
@@ -32,18 +31,9 @@ impl Character {
             BasicSkill::Backstab => 5_000,
         }
     }
-    #[inline]
-    pub fn speed(&self) -> u64 {
-        self.speed
-    }
 }
 impl Default for Character {
     fn default() -> Self {
-        Self {
-            class: Class::Assassin,
-            speed: 3,
-            name: "Uma".into(),
-            basic_skill: BasicSkill::Backstab,
-        }
+        Character::new(Class::Assassin, 3, "Uma", BasicSkill::Backstab)
     }
 }
