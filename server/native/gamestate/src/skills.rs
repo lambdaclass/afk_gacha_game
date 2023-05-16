@@ -3,11 +3,13 @@ use rustler::NifTaggedEnum;
 #[derive(NifTaggedEnum, Debug, Clone)]
 pub enum Class {
     Hunter,
+    Guardian,
 }
 // TODO: Add misssing skills
 #[derive(NifTaggedEnum, Debug, Clone)]
 pub enum BasicSkill {
     Slingshot,
+    Bash,
 }
 // TODO have a trait for this
 // instead of matching enums.
