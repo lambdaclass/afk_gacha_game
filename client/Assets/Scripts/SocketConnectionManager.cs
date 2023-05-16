@@ -51,7 +51,7 @@ public class SocketConnectionManager : MonoBehaviour
         public PlayerAction action;
     }
 
-    public class Position
+    public class SocketManagerPosition
     {
         public long x { get; set; }
         public long y { get; set; }
@@ -67,7 +67,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         public int id { get; set; }
         public int health { get; set; }
-        public Position position { get; set; }
+        public SocketManagerPosition position { get; set; }
         public PlayerAction action { get; set; }
     }
 
@@ -138,7 +138,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.E))
         {
-            ClientAction action = new ClientAction { Action = Action.AttackAoe };
+            ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = new Position { X = 0, Y = 100 } };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.J))
