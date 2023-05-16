@@ -98,7 +98,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       ) do
     game =
       game
-      |> Game.move_player(player, value, @character_speed)
+      |> Game.move_player(player, value)
 
     next_state = Map.put(next_state, :game, game)
 
