@@ -32,6 +32,18 @@ defmodule LoadTest.Communication.Proto.Direction do
   field :RIGHT, 4
 end
 
+defmodule LoadTest.Communication.Proto.LobbyEventType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :TYPE_UNSPECIFIED, 0
+  field :CONNECTED, 1
+  field :PLAYER_ADDED, 2
+  field :GAME_STARTED, 3
+  field :PLAYER_COUNT, 4
+end
+
 defmodule LoadTest.Communication.Proto.GameStateUpdate do
   @moduledoc false
 
@@ -78,4 +90,17 @@ defmodule LoadTest.Communication.Proto.ClientAction do
   field :action, 1, type: LoadTest.Communication.Proto.Action, enum: true
   field :direction, 2, type: LoadTest.Communication.Proto.Direction, enum: true
   field :latency, 3, type: :uint32
+end
+
+defmodule LoadTest.Communication.Proto.LobbyEvent do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :type, 1, type: LoadTest.Communication.Proto.LobbyEventType, enum: true
+  field :lobby_id, 2, type: :string, json_name: "lobbyId"
+  field :player_id, 3, type: :uint64, json_name: "playerId"
+  field :added_player_id, 4, type: :uint64, json_name: "addedPlayerId"
+  field :game_id, 5, type: :string, json_name: "gameId"
+  field :player_count, 6, type: :uint64, json_name: "playerCount"
 end
