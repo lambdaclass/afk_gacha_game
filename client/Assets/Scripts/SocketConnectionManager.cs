@@ -160,24 +160,24 @@ public class SocketConnectionManager : MonoBehaviour
             ClientAction action = new ClientAction { Action = Action.AttackAoe };
             SendAction(action);
         }
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J))
         {
             // This sends the action
             ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down };
             SendAction(action);
         }
-        if (Input.GetKey(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up };
             SendAction(action);
 
         }
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right };
             SendAction(action);
         }
-        if (Input.GetKey(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left };
             SendAction(action);
@@ -210,20 +210,14 @@ public class SocketConnectionManager : MonoBehaviour
 
             if (playerUpdate.action == PlayerAction.Attacking)
             {
-                print(playerUpdate.player_id + " is attacking");
+                //print(playerUpdate.player_id + " is attacking");
                 approvedAction = true;
             }
             else
             {
                 approvedAction = false;
             }
-
-            // This validates if the attack is approved or not
-            // however it's not ideal to use GetComponentInChildren since a change in the hierarchy will prevent this from working
-            // I need a way to call directly to DogPBR which has the Animator component
-            // if I call player and with a script that uses its character ability I could handle this information better
-            this.players[playerUpdate.player_id].GetComponentInChildren<Animator>().SetBool("ApprovedAttack", approvedAction);
-
+            this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack();
         }
     }
 
