@@ -39,6 +39,7 @@ defmodule LoadTest.Player do
     ws_url = ws_url(session_id, player_number)
 
     WebSockex.start_link(ws_url, __MODULE__, %{
+      player_number: player_number,
       session_id: session_id
     })
   end
