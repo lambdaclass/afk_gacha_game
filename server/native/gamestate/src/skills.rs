@@ -7,7 +7,7 @@ pub enum Class {
 // TODO: Add misssing skills
 #[derive(NifTaggedEnum, Debug, Clone)]
 pub enum BasicSkill {
-    Backstab,
+    Slingshot,
 }
 // TODO have a trait for this
 // instead of matching enums.

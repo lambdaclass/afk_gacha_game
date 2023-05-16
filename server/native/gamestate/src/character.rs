@@ -21,19 +21,19 @@ impl Character {
         // TODO have a trait for this
         // instead of matching enums.
         match self.basic_skill {
-            BasicSkill::Backstab => 10_u64,
+            BasicSkill::Slingshot => 10_u64,
         }
     }
     // Cooldown in miliseconds
     #[inline]
     pub fn cooldown(&self) -> u64 {
         match self.basic_skill {
-            BasicSkill::Backstab => 5_000,
+            BasicSkill::Slingshot => 5_000,
         }
     }
 }
 impl Default for Character {
     fn default() -> Self {
-        Character::new(Class::Assassin, 3, "Uma", BasicSkill::Backstab)
+        Character::new(Class::Hunter, 3, "H4ck", BasicSkill::Slingshot)
     }
 }
