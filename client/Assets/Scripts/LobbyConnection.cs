@@ -14,21 +14,8 @@ public class LobbyConnection : MonoBehaviour
 {
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
-
-    [SerializeField]
-    GameObject lobbyItemPrefab;
-
-    [SerializeField]
-    GameObject gameItemPrefab;
-
-    [SerializeField]
-    Transform lobbyListContainer;
-    public List<GameObject> lobbiesList;
-
-    [SerializeField]
-    Transform gameListContainer;
-    public List<GameObject> gamesList;
-
+    public List<string> lobbiesList;
+    public List<string> gamesList;
     public static LobbyConnection Instance;
     public string GameSession;
     public string LobbySession;
@@ -139,15 +126,7 @@ public class LobbyConnection : MonoBehaviour
                     LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(
                         webRequest.downloadHandler.text
                     );
-                    lobbiesList = response.lobbies
-                        .Select(l =>
-                        {
-                            GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
-                            lobbyItem.GetComponent<LobbyItem>().setId(l);
-                            return lobbyItem;
-                        })
-                        .ToList();
-
+                    lobbiesList = response.lobbies;
                     break;
             }
         }
@@ -168,15 +147,7 @@ public class LobbyConnection : MonoBehaviour
                     GamesResponse response = JsonConvert.DeserializeObject<GamesResponse>(
                         webRequest.downloadHandler.text
                     );
-                    gamesList = response.current_games
-                        .Select(l =>
-                        {
-                            GameObject gameItem = Instantiate(gameItemPrefab, gameListContainer);
-                            gameItem.GetComponent<GameItem>().setId(l);
-                            return gameItem;
-                        })
-                        .ToList();
-
+                    gamesList = response.current_games;
                     break;
                 default:
                     break;
