@@ -75,7 +75,8 @@ impl GameState {
             return;
         }
 
-        let mut new_position = compute_adjacent_position_n_tiles(&direction, &player.position, speed);
+        let mut new_position =
+            compute_adjacent_position_n_tiles(&direction, &player.position, speed);
 
         // These changes are done so that if the player is moving into one of the map's borders
         // but is not already on the edge, they move to the edge. In simpler terms, if the player is
@@ -86,15 +87,13 @@ impl GameState {
         new_position.y = min(new_position.y, self.board.width - 1);
         new_position.y = max(new_position.y, 0);
 
-        if !is_valid_movement(&self.board, &player.position, &new_position) {
-            return;
-        }
+        let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
 
         // Remove the player from their previous position on the board
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
 
-        player.position = new_position;
+        player.position = tile_to_move_to;
         self.board.set_cell(
             player.position.x,
             player.position.y,
@@ -204,6 +203,7 @@ fn compute_adjacent_position_n_tiles(
     }
 }
 
+/// TODO: update documentation
 /// Checks if the given movement from `old_position` to `new_position` is valid.
 /// The way we do it is separated into cases but the idea is always the same:
 /// First of all check that we are not trying to move away from the board.
@@ -217,10 +217,8 @@ fn compute_adjacent_position_n_tiles(
 /// - Movement is in the X direction. This is also divided into two cases:
 ///     - Movement increases the X coordinate (new_position.x > old_position.x).
 ///     - Movement decreases the X coordinate (new_position.x < old_position.x).
-fn is_valid_movement(board: &Board, old_position: &Position, new_position: &Position) -> bool {
-    if new_position.x > (board.height - 1) || new_position.y > (board.width - 1) {
-        return false;
-    }
+fn tile_to_move_to(board: &Board, old_position: &Position, new_position: &Position) -> Position {
+    let mut number_of_cells_to_move = 0;
 
     if new_position.x == old_position.x {
         if new_position.y > old_position.y {
@@ -228,21 +226,45 @@ fn is_valid_movement(board: &Board, old_position: &Position, new_position: &Posi
                 let cell = board.get_cell(old_position.x, old_position.y + i);
 
                 match cell {
-                    Some(Tile::Empty) => continue,
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
                     None => continue,
-                    Some(_) => return false,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x,
+                            y: old_position.y + number_of_cells_to_move,
+                        };
+                    }
                 }
             }
+            return Position {
+                x: old_position.x,
+                y: old_position.y + number_of_cells_to_move,
+            };
         } else {
             for i in 1..(old_position.y - new_position.y) + 1 {
                 let cell = board.get_cell(old_position.x, old_position.y - i);
 
                 match cell {
-                    Some(Tile::Empty) => continue,
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
                     None => continue,
-                    Some(_) => return false,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x,
+                            y: old_position.y - number_of_cells_to_move,
+                        };
+                    }
                 }
             }
+            return Position {
+                x: old_position.x,
+                y: old_position.y - number_of_cells_to_move,
+            };
         }
     } else {
         if new_position.x > old_position.x {
@@ -250,25 +272,47 @@ fn is_valid_movement(board: &Board, old_position: &Position, new_position: &Posi
                 let cell = board.get_cell(old_position.x + i, old_position.y);
 
                 match cell {
-                    Some(Tile::Empty) => continue,
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
                     None => continue,
-                    Some(_) => return false,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x + number_of_cells_to_move,
+                            y: old_position.y,
+                        }
+                    }
                 }
             }
+            return Position {
+                x: old_position.x + number_of_cells_to_move,
+                y: old_position.y,
+            };
         } else {
             for i in 1..(old_position.x - new_position.x) + 1 {
                 let cell = board.get_cell(old_position.x - i, old_position.y);
 
                 match cell {
-                    Some(Tile::Empty) => continue,
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
                     None => continue,
-                    Some(_) => return false,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x - number_of_cells_to_move,
+                            y: old_position.y,
+                        }
+                    }
                 }
             }
+            return Position {
+                x: old_position.x - number_of_cells_to_move,
+                y: old_position.y,
+            };
         }
     }
-
-    true
 }
 
 fn distance_to_center(player: &Player, center: &Position) -> f64 {
