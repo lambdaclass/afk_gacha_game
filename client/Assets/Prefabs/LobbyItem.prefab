@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6431237631302165410}
   - component: {fileID: 6431237631302165408}
-  - component: {fileID: 9138045012347536078}
+  - component: {fileID: 7158739655978231132}
   m_Layer: 5
   m_Name: LobbyItem
   m_TagString: Untagged
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4c1ca8bc423b748983b24393521cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9138045012347536078
+--- !u!114 &7158739655978231132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6431237631302165411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4557e321d3a8476b91bfb742fa2ae4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 73f03c174e74e4814bc13bb12f990f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   idContainer: {fileID: 6431237632104201231}

@@ -30,12 +30,4 @@ public class LobbiesManager : LevelSelector
         LobbyConnection.Instance.Init();
         GoToLevel();
     }
-
-    // void update()
-    // {
-    //     if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
-    //     {
-    //         GoToLevel();
-    //     }
-    // }
 }

@@ -869,7 +869,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732490967}
-  - component: {fileID: 732490968}
+  - component: {fileID: 732490969}
   m_Layer: 5
   m_Name: LobbyInfo
   m_TagString: Untagged
@@ -898,7 +898,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &732490968
+--- !u!114 &732490969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -907,7 +907,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 732490966}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92d840beb32fd44608451712575b0823, type: 3}
+  m_Script: {fileID: 11500000, guid: 90c9b8e48f05d4344b5b15e5dc690466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyID: {fileID: 6431237630649149230}
@@ -2615,7 +2615,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8121461540056005563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e54a4871ef81409ba45f7cf646431ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 95ac5f3aa7e96480a93b3142a30c847e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerItemPrefab: {fileID: 6311838805071223672, guid: 1153edb2509554a79a5793f534f2bcfa,
