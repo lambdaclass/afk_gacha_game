@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayGameButton : MonoBehaviour
 {
-    // Start is called before the first frame update
     private PlayGameButton playGameButton;
+
+    // Start is called before the first frame update
 
     void Start()
     {
@@ -20,5 +21,4 @@ public class PlayGameButton : MonoBehaviour
             playGameButton.gameObject.SetActive(false);
         }
     }
-    // Update is called once per frame
 }

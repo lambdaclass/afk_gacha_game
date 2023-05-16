@@ -30,7 +30,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
-    private int  playerId;
+    private int playerId;
 
     public class GameResponse
     {
@@ -67,11 +67,16 @@ public class SocketConnectionManager : MonoBehaviour
         this.session_id = LobbyConnection.Instance.GameSession;
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
+
     public void GeneratePlayer()
     {
         for (int i = 0; i < totalPlayers; i++)
         {
-            Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
+            Character newPlayer = Instantiate(
+                prefab,
+                levelManager.InitialSpawnPoint.transform.position,
+                Quaternion.identity
+            );
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
 
@@ -109,22 +114,38 @@ public class SocketConnectionManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.W))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up };
+            ClientAction action = new ClientAction
+            {
+                Action = Action.Move,
+                Direction = Direction.Up
+            };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left };
+            ClientAction action = new ClientAction
+            {
+                Action = Action.Move,
+                Direction = Direction.Left
+            };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right };
+            ClientAction action = new ClientAction
+            {
+                Action = Action.Move,
+                Direction = Direction.Right
+            };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down };
+            ClientAction action = new ClientAction
+            {
+                Action = Action.Move,
+                Direction = Direction.Down
+            };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.E))
@@ -152,7 +173,11 @@ public class SocketConnectionManager : MonoBehaviour
     {
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
-            this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
+            this.players[positionUpdate.player_id].transform.position = new Vector3(
+                positionUpdate.x / 10f - 50.0f,
+                this.players[positionUpdate.player_id].transform.position.y,
+                positionUpdate.y / 10f + 50.0f
+            );
         }
     }
 
@@ -175,11 +200,12 @@ public class SocketConnectionManager : MonoBehaviour
                     //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
+                    Session session = JsonConvert.DeserializeObject<Session>(
+                        webRequest.downloadHandler.text
+                    );
                     Debug.Log("Creating and joining Session ID: " + session.session_id);
                     ConnectToSession(session.session_id);
                     break;
-
             }
         }
     }
@@ -191,7 +217,9 @@ public class SocketConnectionManager : MonoBehaviour
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
-            Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
+            Debug.Log(
+                "Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message
+            );
         };
         ws.Connect();
     }
@@ -210,13 +238,22 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else
         {
-            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
+            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>(
+                (ReadOnlySpan<byte>)e.RawData
+            );
             for (int i = 0; i < game_update.Players.Count; i++)
             {
                 var player = this.players[i];
                 var new_position = game_update.Players[i].Position;
                 print(game_update.Players[i]);
-                positionUpdates.Enqueue(new PositionUpdate { x = new_position.Y, y = -new_position.X, player_id = i });
+                positionUpdates.Enqueue(
+                    new PositionUpdate
+                    {
+                        x = new_position.Y,
+                        y = -new_position.X,
+                        player_id = i
+                    }
+                );
             }
         }
     }

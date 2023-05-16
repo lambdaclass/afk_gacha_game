@@ -10,7 +10,6 @@ using UnityEngine.Networking;
 using WebSocketSharp;
 using static SocketConnectionManager;
 
-
 public class LobbyConnection : MonoBehaviour
 {
     [Tooltip("IP to connect to. If empty, localhost will be used")]
@@ -222,6 +221,7 @@ public class LobbyConnection : MonoBehaviour
             Debug.Log("Message received is: " + e.Data);
         }
     }
+
     public void StartGame()
     {
         ws.Send("START_GAME");
