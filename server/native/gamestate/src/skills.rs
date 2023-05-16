@@ -2,7 +2,7 @@ use rustler::NifTaggedEnum;
 // TODO: Add misssing classes
 #[derive(NifTaggedEnum, Debug, Clone)]
 pub enum Class {
-    Assassin,
+    Hunter,
 }
 // TODO: Add misssing skills
 #[derive(NifTaggedEnum, Debug, Clone)]
