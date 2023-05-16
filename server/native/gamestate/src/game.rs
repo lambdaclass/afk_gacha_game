@@ -34,7 +34,7 @@ impl GameState {
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
                 let new_position = generate_new_position(&mut positions, board_width, board_height);
-                Player::new(player_id, 100, new_position, Character::new())
+                Player::new(player_id, 100, new_position, Default::default())
             })
             .collect();
 
@@ -79,6 +79,7 @@ impl GameState {
             &player.position,
             player.character.speed as usize,
         );
+
         if !is_valid_movement(&self.board, &new_position) {
             return;
         }
@@ -102,7 +103,7 @@ impl GameState {
             .find(|player| player.id == attacking_player_id)
             .unwrap();
 
-        let attack_dmg = attacking_player.character.attack_dmg;
+        let attack_dmg = attacking_player.character.attack_dmg();
 
         if matches!(attacking_player.status, Status::DEAD) {
             return;

@@ -2,6 +2,7 @@ mod board;
 mod character;
 mod game;
 mod player;
+mod skills;
 mod time_utils;
 use std::collections::HashMap;
 
