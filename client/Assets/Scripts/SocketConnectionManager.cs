@@ -73,8 +73,25 @@ public class SocketConnectionManager : MonoBehaviour
         public PlayerAction action { get; set; }
     }
 
+    public static SocketConnectionManager Instance;
+
+    public void Init()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        this.playerId = -1;
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Awake()
     {
+        this.Init();
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         this.session_id = LobbyConnection.Instance.GameSession;
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
@@ -148,10 +165,6 @@ public class SocketConnectionManager : MonoBehaviour
             // This sends the action
             ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down };
             SendAction(action);
-            if (approvedAction)
-            {
-                print("E pressed: " + approvedAction);
-            }
         }
         if (Input.GetKey(KeyCode.U))
         {
@@ -208,6 +221,7 @@ public class SocketConnectionManager : MonoBehaviour
             // This validates if the attack is approved or not
             // however it's not ideal to use GetComponentInChildren since a change in the hierarchy will prevent this from working
             // I need a way to call directly to DogPBR which has the Animator component
+            // if I call player and with a script that uses its character ability I could handle this information better
             this.players[playerUpdate.player_id].GetComponentInChildren<Animator>().SetBool("ApprovedAttack", approvedAction);
 
         }
