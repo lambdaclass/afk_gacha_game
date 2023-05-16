@@ -25,10 +25,40 @@ defmodule DarkWorldsServer.Engine.Runner do
       @player_check 1 * 60 * 1000
   end
 
+  #######
+  # API #
+  #######
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
   end
 
+  def join(runner_pid, player_id) do
+    GenServer.call(runner_pid, {:join, player_id})
+  end
+
+  def play(runner_pid, player_id, %ActionOk{} = action) do
+    GenServer.cast(runner_pid, {:play, player_id, action})
+  end
+
+  def disconnect(runner_pid, player_id) do
+    GenServer.cast(runner_pid, {:disconnect, player_id})
+  end
+
+  def get_game_state(runner_pid) do
+    GenServer.call(runner_pid, :get_state)
+  end
+
+  def get_board(runner_pid) do
+    GenServer.call(runner_pid, :get_board)
+  end
+
+  def get_logged_players(runner_pid) do
+    GenServer.call(runner_pid, :get_logged_players)
+  end
+
+  #######################
+  # GenServer callbacks #
+  #######################
   @doc """
   Starts a new game state, triggers the first
   update and the final game timeout.
@@ -56,26 +86,6 @@ defmodule DarkWorldsServer.Engine.Runner do
        players: opts.players,
        current_players: 0
      }}
-  end
-
-  def join(runner_pid) do
-    GenServer.call(runner_pid, :join)
-  end
-
-  def play(runner_pid, player_id, %ActionOk{} = action) do
-    GenServer.cast(runner_pid, {:play, player_id, action})
-  end
-
-  def disconnect(runner_pid, player_id) do
-    GenServer.cast(runner_pid, {:disconnect, player_id})
-  end
-
-  def get_game_state(runner_pid) do
-    GenServer.call(runner_pid, :get_state)
-  end
-
-  def get_logged_players(runner_pid) do
-    GenServer.call(runner_pid, :get_logged_players)
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
@@ -106,7 +116,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
-
+    IO.inspect("Player moving is: #{player}")
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
 
@@ -137,8 +147,17 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  def handle_cast(
+        {:disconnect, player_id},
+        state = %{current_state: game_state = %{game: game}, current_players: current}
+      ) do
+    current = current - 1
+    {:ok, game} = Game.disconnect(game, player_id)
+    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
+  end
+
   def handle_call(
-        :join,
+        {:join, player_id},
         _,
         %{max_players: max, current_players: current} = state
       )
@@ -146,10 +165,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:player_joined, current + 1, state}
+      {:player_joined, player_id, state}
     )
 
-    {:reply, {:ok, current + 1}, %{state | current_players: current + 1}}
+    {:reply, {:ok, player_id}, %{state | current_players: current + 1}}
   end
 
   def handle_call(:join, _, %{max_players: max, current_players: max} = state) do
@@ -164,17 +183,16 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, players, state}
   end
 
+  def handle_call(:get_logged_players, _from, %{players: players} = state) do
+    {:reply, players, state}
+  end
+
   def handle_call(:get_state, _from, %{current_state: game_state} = state) do
     {:reply, game_state.game, state}
   end
 
-  def handle_cast(
-        {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
-      ) do
-    current = current - 1
-    {:ok, game} = Game.disconnect(game, player_id)
-    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
+  def handle_call(:get_character_speed, _from, state) do
+    {:reply, @character_speed, state}
   end
 
   def handle_info(
@@ -192,21 +210,13 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_call(:get_logged_players, _from, %{players: players} = state) do
-    {:reply, players, state}
-  end
-
-  def handle_call(:get_character_speed, _from, state) do
-    {:reply, @character_speed, state}
-  end
-
   def handle_info(:game_timeout, state) do
     Process.send_after(self(), :session_timeout, @session_timeout)
 
     {:noreply, Map.put(state, :has_finished?, true)}
   end
 
-  def handle_info(:session_timeout, state = %{current_state: %{game: game}}) do
+  def handle_info(:session_timeout, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
@@ -230,11 +240,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  def game_has_finished?(pid) do
-    %{current_state: %{has_finished?: has_finished?}} = :sys.get_state(pid)
-    has_finished?
-  end
-
+  ####################
+  # Internal helpers #
+  ####################
   defp has_a_player_won?(players) do
     players_alive = Enum.filter(players, fn player -> player.health != 0 end)
     Enum.count(players_alive) == 1
@@ -247,6 +255,8 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
+  # Broadcast the current game state to
+  # each connected player.
   defp maybe_broadcast_game_finished_message(_false, state) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})

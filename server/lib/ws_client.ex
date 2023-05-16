@@ -50,12 +50,12 @@ defmodule DarkWorldsServer.WsClient do
     |> send_command()
   end
 
-  defp _move(player, direction) do
+  defp _move(_player, direction) do
     %ClientAction{action: :MOVE, direction: direction}
     |> send_command()
   end
 
-  defp _attack(player, direction) do
+  defp _attack(_player, direction) do
     %ClientAction{action: :MOVE, direction: direction}
     |> send_command()
   end
