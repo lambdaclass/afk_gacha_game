@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3958994567052424065}
   - component: {fileID: 1491302188629220723}
   - component: {fileID: 5272521791666708605}
-  - component: {fileID: 2068750243901734815}
+  - component: {fileID: 1813453874361702781}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -167,9 +167,9 @@ MonoBehaviour:
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2068750243901734815}
-        m_TargetAssemblyTypeName: LobbyManagerStarter, Assembly-CSharp
-        m_MethodName: GoToLevel
+      - m_Target: {fileID: 1813453874361702781}
+        m_TargetAssemblyTypeName: LobbiesManager, Assembly-CSharp
+        m_MethodName: ConnectToLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -270,7 +270,7 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2471999026841298352}
---- !u!114 &2068750243901734815
+--- !u!114 &1813453874361702781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3351608820173294155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4558a8ec694a448b186fd397c86a8adc, type: 3}
+  m_Script: {fileID: 11500000, guid: 610e661a176e54d3793b92ad9640aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobby

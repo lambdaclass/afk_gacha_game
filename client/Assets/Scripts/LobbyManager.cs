@@ -4,27 +4,38 @@ using System.Collections.Generic;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LobbyManager : LevelSelector
 {
+    [SerializeField] GameObject playButton;
+
     public override void GoToLevel()
     {
         base.GoToLevel();
-        if (SceneManager.GetActiveScene().name == "Lobbies")
+    }
+
+    void Start()
+    {
+        if (LobbyConnection.Instance.playerId == 1)
         {
-            LobbyConnection.Instance.CreateLobby();
+            playButton.SetActive(true);
         }
         else
         {
-            LobbyConnection.Instance.StartGame();
+            playButton.SetActive(false);
         }
     }
 
-    void update()
+    public void GameStart()
     {
-        if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
-        {
-            GoToLevel();
-        }
+        LobbyConnection.Instance.StartGame();
+        GoToLevel();
+    }
+
+    public void Back()
+    {
+        LobbyConnection.Instance.Init();
+        GoToLevel();
     }
 }
