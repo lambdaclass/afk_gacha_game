@@ -969,9 +969,9 @@ MonoBehaviour:
   InputAuthorized: 1
   TriggerMode: 0
   DelayBeforeUse: 0
-  DelayBeforeUseReleaseInterruption: 1
-  TimeBetweenUses: 0.7
-  TimeBetweenUsesReleaseInterruption: 1
+  DelayBeforeUseReleaseInterruption: 0
+  TimeBetweenUses: 1
+  TimeBetweenUsesReleaseInterruption: 0
   UseBurstMode: 0
   BurstLength: 3
   BurstTimeBetweenShots: 0.1
@@ -995,7 +995,7 @@ MonoBehaviour:
   ModifyMovementWhileAttacking: 0
   MovementMultiplier: 0
   PreventAllMovementWhileInUse: 1
-  PreventAllAimWhileInUse: 0
+  PreventAllAimWhileInUse: 1
   RecoilForce: 0
   Animators:
   - {fileID: 5450023448000633680}

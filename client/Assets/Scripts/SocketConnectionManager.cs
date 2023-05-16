@@ -20,8 +20,6 @@ public class SocketConnectionManager : MonoBehaviour
     public List<GameObject> players;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
 
-    public bool approvedAction = false;
-
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
 
@@ -208,16 +206,12 @@ public class SocketConnectionManager : MonoBehaviour
             Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
-            if (playerUpdate.action == PlayerAction.Attacking)
+            bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
+            this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack(isAttacking);
+            if (isAttacking)
             {
-                //print(playerUpdate.player_id + " is attacking");
-                approvedAction = true;
+                print("attack");
             }
-            else
-            {
-                approvedAction = false;
-            }
-            this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack();
         }
     }
 

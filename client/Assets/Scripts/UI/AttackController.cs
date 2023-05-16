@@ -42,7 +42,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         /// <summary>
         /// If we're pressing down, we check for a few conditions to see if we can perform our action
         /// </summary>
-        public virtual void SwordAttack()
+        public virtual void SwordAttack(bool approvedAction)
         {
             animator = this.GetComponent<Character>().CharacterModel.GetComponent<Animator>();
             // if the ability is not permitted
@@ -56,7 +56,6 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
                 //print("no");
                 return;
             }
-            bool approvedAction = SocketConnectionManager.Instance.approvedAction;
             animator.SetBool("ApprovedAttack", approvedAction);
 
             //MMDebug.DebugLogTime("animator " + animator);
