@@ -4,8 +4,6 @@ mod game;
 mod player;
 mod skills;
 mod time_utils;
-use std::collections::HashMap;
-
 use game::GameState;
 use rustler::{Env, Term};
 use std::collections::HashMap;
