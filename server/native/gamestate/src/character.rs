@@ -24,11 +24,11 @@ impl Character {
             BasicSkill::Backstab => 10_u64,
         }
     }
-    // Cooldown in miliseconds
+    // Cooldown in seconds
     #[inline]
     pub fn cooldown(&self) -> u64 {
         match self.basic_skill {
-            BasicSkill::Backstab => 5_000,
+            BasicSkill::Backstab => 1,
         }
     }
 }

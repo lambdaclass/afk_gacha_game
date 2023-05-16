@@ -1,9 +1,9 @@
-mod board;
-mod character;
-mod game;
-mod player;
-mod skills;
-mod time_utils;
+pub mod board;
+pub mod character;
+pub mod game;
+pub mod player;
+pub mod skills;
+pub mod time_utils;
 use game::GameState;
 use rustler::{Env, Term};
 use std::collections::HashMap;
