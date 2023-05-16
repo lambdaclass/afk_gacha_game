@@ -20,6 +20,8 @@ public class SocketConnectionManager : MonoBehaviour
     public List<GameObject> players;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
 
+    public bool approvedAction = false;
+
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
 
@@ -30,7 +32,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
-    private int  playerId;
+    private int playerId;
 
     public class GameResponse
     {
@@ -143,23 +145,28 @@ public class SocketConnectionManager : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.J))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down};
+            // This sends the action
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down };
             SendAction(action);
+            if (approvedAction)
+            {
+                print("E pressed: " + approvedAction);
+            }
         }
         if (Input.GetKey(KeyCode.U))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up};
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up };
             SendAction(action);
 
         }
         if (Input.GetKey(KeyCode.K))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right};
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right };
             SendAction(action);
         }
         if (Input.GetKey(KeyCode.H))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left};
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left };
             SendAction(action);
         }
     }
@@ -182,15 +189,27 @@ public class SocketConnectionManager : MonoBehaviour
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            
+
             this.players[playerUpdate.player_id].transform.position = new Vector3(playerUpdate.x / 10f - 50.0f, this.players[playerUpdate.player_id].transform.position.y, playerUpdate.y / 10f + 50.0f);
-            
+
             Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
+
             if (playerUpdate.action == PlayerAction.Attacking)
             {
                 print(playerUpdate.player_id + " is attacking");
+                approvedAction = true;
             }
+            else
+            {
+                approvedAction = false;
+            }
+
+            // This validates if the attack is approved or not
+            // however it's not ideal to use GetComponentInChildren since a change in the hierarchy will prevent this from working
+            // I need a way to call directly to DogPBR which has the Animator component
+            this.players[playerUpdate.player_id].GetComponentInChildren<Animator>().SetBool("ApprovedAttack", approvedAction);
+
         }
     }
 
@@ -255,12 +274,13 @@ public class SocketConnectionManager : MonoBehaviour
                 var new_position = game_update.Players[i].Position;
 
                 playerUpdates.Enqueue(
-                    new PlayerUpdate { 
+                    new PlayerUpdate
+                    {
                         x = ((long)new_position.Y),
                         y = -((long)new_position.X),
                         player_id = i,
                         health = game_update.Players[i].Health,
-                        action = (PlayerAction) game_update.Players[i].Action,
+                        action = (PlayerAction)game_update.Players[i].Action,
                     }
                 );
             }

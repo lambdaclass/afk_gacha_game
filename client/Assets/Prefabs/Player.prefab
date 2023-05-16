@@ -874,6 +874,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DogPBR
       objectReference: {fileID: 0}
+    - target: {fileID: 8422892626600285522, guid: 214e08cd5e5d74c458e2a81b7ec2c84c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
 --- !u!4 &4060671328190178672 stripped
@@ -888,6 +893,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4559471607071226958}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5899138799237474190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5450023447993378974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d7f87c0cd8747018cb755d779048db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5450023447993379100 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8422892626600285522, guid: 214e08cd5e5d74c458e2a81b7ec2c84c,
