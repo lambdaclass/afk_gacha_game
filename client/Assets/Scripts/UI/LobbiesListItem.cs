@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameItem : MonoBehaviour
+public class LobbiesListItem : MonoBehaviour
 {
     [SerializeField]
     GameObject idContainer;

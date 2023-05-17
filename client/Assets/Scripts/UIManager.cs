@@ -20,31 +20,24 @@ public class UIManager : MonoBehaviour
     {
         if (lobbiesEmpty && LobbyConnection.Instance.lobbiesList.Count > 0)
         {
-            GenerateLobbiesList();
+            GenerateList(LobbyConnection.Instance.lobbiesList, lobbyItemPrefab, lobbiesContainer);
             lobbiesEmpty = false;
         }
         if (gamesEmpty && LobbyConnection.Instance.gamesList.Count > 0)
         {
-            GenerateGamesList();
+            GenerateList(LobbyConnection.Instance.gamesList, gameItemPrefab, gamesContainer);
             gamesEmpty = false;
         }
     }
 
-    public void GenerateLobbiesList()
+
+    public void GenerateList(List<string> itemList, Object itemPrefab, Transform container)
     {
-        LobbyConnection.Instance.lobbiesList.ForEach(el =>
+        itemList.ForEach(el =>
         {
-            GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbiesContainer);
-            lobbyItem.GetComponent<LobbyItem>().setId(el);
+            GameObject item = (GameObject)Instantiate(itemPrefab, container);
+            item.GetComponent<LobbiesListItem>().setId(el);
         });
     }
 
-    public void GenerateGamesList()
-    {
-        LobbyConnection.Instance.gamesList.ForEach(el =>
-        {
-            GameObject gameItem = Instantiate(gameItemPrefab, gamesContainer);
-            gameItem.GetComponent<GameItem>().setId(el);
-        });
-    }
 }
