@@ -3,7 +3,7 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
-use crate::player::{Player, Position, Status, PlayerAction};
+use crate::player::{Player, PlayerAction, Position, Status};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
 
@@ -107,7 +107,7 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
-        
+
         attacking_player.action = PlayerAction::ATTACKING;
 
         if matches!(attacking_player.status, Status::DEAD) {
@@ -121,10 +121,11 @@ impl GameState {
         }
         attacking_player.last_melee_attack = now;
 
-        let (top_left, bottom_right) = compute_attack_initial_positions(&(attack_direction), &(attacking_player.position)); 
+        let (top_left, bottom_right) =
+            compute_attack_initial_positions(&(attack_direction), &(attacking_player.position));
         let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
 
-        for target_player_id in affected_players.iter_mut(){
+        for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
             let attacked_player = self
                 .players
@@ -133,32 +134,35 @@ impl GameState {
                 .unwrap();
             attacked_player.modify_health(-10);
             let player = attacked_player.clone();
-        // let target_position =
-        //     compute_adjacent_position_n_tiles(&attack_direction, &attacking_player.position, 1);
-        // let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
+            // let target_position =
+            //     compute_adjacent_position_n_tiles(&attack_direction, &attacking_player.position, 1);
+            // let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
 
-        // // If the cell is not on range, or the attacking player is on the receiving end
-        // // of the attack, do nothing.
-        // if maybe_target_cell.is_none() || attacking_player.position == target_position {
-        //     return;
-        // }
+            // // If the cell is not on range, or the attacking player is on the receiving end
+            // // of the attack, do nothing.
+            // if maybe_target_cell.is_none() || attacking_player.position == target_position {
+            //     return;
+            // }
 
-        // if let Some(target_player) = self.players.iter_mut().find(|player| {
-        //     let tile = maybe_target_cell.clone().unwrap();
-        //     match tile {
-        //         Tile::Player(tile_player_id) if tile_player_id == player.id => true,
-        //         _ => false,
-        //     }
-        // }) {
-        //     target_player.modify_health(-10);
-        //     let player = target_player.clone();
+            // if let Some(target_player) = self.players.iter_mut().find(|player| {
+            //     let tile = maybe_target_cell.clone().unwrap();
+            //     match tile {
+            //         Tile::Player(tile_player_id) if tile_player_id == player.id => true,
+            //         _ => false,
+            //     }
+            // }) {
+            //     target_player.modify_health(-10);
+            //     let player = target_player.clone();
             self.modify_cell_if_player_died(&player);
         }
     }
 
     // Return all player_id inside an area
-    pub fn players_in_range(self: &mut Self, top_left: Position, bottom_right: Position) -> Vec<u64>{
-
+    pub fn players_in_range(
+        self: &mut Self,
+        top_left: Position,
+        bottom_right: Position,
+    ) -> Vec<u64> {
         let mut players: Vec<u64> = vec![];
         for fil in top_left.x..=bottom_right.x {
             for col in top_left.y..=bottom_right.y {
@@ -245,15 +249,30 @@ fn compute_adjacent_position_n_tiles(
     }
 }
 
-fn compute_attack_initial_positions(direction: &Direction, position: &Position) -> (Position, Position) {
+fn compute_attack_initial_positions(
+    direction: &Direction,
+    position: &Position,
+) -> (Position, Position) {
     let x = position.x;
     let y = position.y;
 
     match direction {
-        Direction::UP => (Position::new(x.wrapping_sub(20), y.wrapping_sub(20)), Position::new(x.wrapping_sub(1), y + 20)),
-        Direction::DOWN => (Position::new(x + 1, y.wrapping_sub(20)), Position::new(x + 20, y + 20)),
-        Direction::LEFT => (Position::new(x.wrapping_sub(20), y.wrapping_sub(20)), Position::new(x + 20, y.wrapping_sub(1))),
-        Direction::RIGHT => (Position::new(x.wrapping_sub(20), y + 1), Position::new(x + 20, y + 20)),
+        Direction::UP => (
+            Position::new(x.wrapping_sub(20), y.wrapping_sub(20)),
+            Position::new(x.wrapping_sub(1), y + 20),
+        ),
+        Direction::DOWN => (
+            Position::new(x + 1, y.wrapping_sub(20)),
+            Position::new(x + 20, y + 20),
+        ),
+        Direction::LEFT => (
+            Position::new(x.wrapping_sub(20), y.wrapping_sub(20)),
+            Position::new(x + 20, y.wrapping_sub(1)),
+        ),
+        Direction::RIGHT => (
+            Position::new(x.wrapping_sub(20), y + 1),
+            Position::new(x + 20, y + 20),
+        ),
     }
 }
 
@@ -273,7 +292,6 @@ fn compute_attack_initial_positions(direction: &Direction, position: &Position) 
 ///     - Movement decreases the X coordinate (new_position.x < old_position.x).
 fn tile_to_move_to(board: &Board, old_position: &Position, new_position: &Position) -> Position {
     let mut number_of_cells_to_move = 0;
-
 
     if new_position.x == old_position.x {
         if new_position.y > old_position.y {
