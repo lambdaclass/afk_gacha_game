@@ -211,18 +211,15 @@ public class LobbyConnection : MonoBehaviour
 
             case LobbyEventType.PlayerAdded:
                 if (playerId == -1) {
-                    print("wea");
                     playerId = (int) lobby_event.AddedPlayerId;
                 }
                 break;
 
             case LobbyEventType.PlayerCount:
-                print("wea2");
                 playerCount = (int) lobby_event.PlayerCount;
                 break;
 
             case LobbyEventType.GameStarted:
-                print("llega?");
                 GameSession = lobby_event.GameId;
                 break;
 
