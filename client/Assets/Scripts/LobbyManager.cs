@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 public class LobbyManager : LevelSelector
 {
-    [SerializeField] GameObject playButton;
+    [SerializeField]
+    GameObject playButton;
 
     public override void GoToLevel()
     {
@@ -40,13 +41,12 @@ public class LobbyManager : LevelSelector
         GoToLevel();
     }
 
-    private void Update()
-    {
-        if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession) && LobbyConnection.Instance.gameStarted == false)
-        {
-            LobbyConnection.Instance.StartGame();
-            MMSceneLoadingManager.LoadScene("BackendPlayground");
-        }
-    }
+    // private void Update()
+    // {
+    //     if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession) && LobbyConnection.Instance.gameStarted == false)
+    //     {
+    //         LobbyConnection.Instance.StartGame();
+    //         MMSceneLoadingManager.LoadScene("BackendPlayground");
+    //     }
+    // }
 }
-

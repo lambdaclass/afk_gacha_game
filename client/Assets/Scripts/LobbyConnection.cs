@@ -172,19 +172,26 @@ public class LobbyConnection : MonoBehaviour
     {
         LobbyEvent lobby_event = Serializer.Deserialize<LobbyEvent>((ReadOnlySpan<byte>)e.RawData);
 
-        switch (lobby_event.Type) {
+        switch (lobby_event.Type)
+        {
             case LobbyEventType.Connected:
-                Debug.Log("Connected to lobby " + lobby_event.LobbyId + " as player_id " + lobby_event.PlayerId);
+                Debug.Log(
+                    "Connected to lobby "
+                        + lobby_event.LobbyId
+                        + " as player_id "
+                        + lobby_event.PlayerId
+                );
                 break;
 
             case LobbyEventType.PlayerAdded:
-                if (playerId == -1) {
-                    playerId = (int) lobby_event.AddedPlayerId;
+                if (playerId == -1)
+                {
+                    playerId = (int)lobby_event.AddedPlayerId;
                 }
                 break;
 
             case LobbyEventType.PlayerCount:
-                playerCount = (int) lobby_event.PlayerCount;
+                playerCount = (int)lobby_event.PlayerCount;
                 break;
 
             case LobbyEventType.GameStarted:
@@ -194,12 +201,22 @@ public class LobbyConnection : MonoBehaviour
             default:
                 Debug.Log("Message received is: " + lobby_event.Type);
                 break;
-        };
+        }
+        ;
     }
 
     public void StartGame()
     {
         ws.Send("START_GAME");
         gameStarted = true;
+    }
+
+    private void Update()
+    {
+        if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
+        {
+            StartGame();
+            MMSceneLoadingManager.LoadScene("BackendPlayground");
+        }
     }
 }
