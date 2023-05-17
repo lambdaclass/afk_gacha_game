@@ -1300,7 +1300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1083681582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1316,7 +1316,7 @@ MonoBehaviour:
   LevelName: BackendPlayground
   DoNotUseLevelManager: 0
   DestroyPersistentCharacter: 0
-  playButton: {fileID: 0}
+  playButton: {fileID: 627144958}
 --- !u!4 &1083681583
 Transform:
   m_ObjectHideFlags: 0

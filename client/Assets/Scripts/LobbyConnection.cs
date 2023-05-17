@@ -21,7 +21,7 @@ public class LobbyConnection : MonoBehaviour
     public string LobbySession;
     public int playerId;
     public int playerCount;
-    private bool gameStarted = false;
+    public bool gameStarted = false;
 
     WebSocket ws;
 
@@ -197,14 +197,5 @@ public class LobbyConnection : MonoBehaviour
     {
         ws.Send("START_GAME");
         gameStarted = true;
-    }
-
-    private void Update()
-    {
-        if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
-        {
-            StartGame();
-            MMSceneLoadingManager.LoadScene("BackendPlayground");
-        }
     }
 }
