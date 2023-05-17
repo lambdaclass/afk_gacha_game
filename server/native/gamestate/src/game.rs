@@ -123,37 +123,24 @@ impl GameState {
 
         let (top_left, bottom_right) =
             compute_attack_initial_positions(&(attack_direction), &(attacking_player.position));
+        
         let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
-
+        
         for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
             let attacked_player = self
                 .players
                 .iter_mut()
-                .find(|player| player.id == *target_player_id)
-                .unwrap();
-            attacked_player.modify_health(-10);
-            let player = attacked_player.clone();
-            // let target_position =
-            //     compute_adjacent_position_n_tiles(&attack_direction, &attacking_player.position, 1);
-            // let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
-
-            // // If the cell is not on range, or the attacking player is on the receiving end
-            // // of the attack, do nothing.
-            // if maybe_target_cell.is_none() || attacking_player.position == target_position {
-            //     return;
-            // }
-
-            // if let Some(target_player) = self.players.iter_mut().find(|player| {
-            //     let tile = maybe_target_cell.clone().unwrap();
-            //     match tile {
-            //         Tile::Player(tile_player_id) if tile_player_id == player.id => true,
-            //         _ => false,
-            //     }
-            // }) {
-            //     target_player.modify_health(-10);
-            //     let player = target_player.clone();
-            self.modify_cell_if_player_died(&player);
+                .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
+            
+            match attacked_player {
+                Some(ap) => {
+                    ap.modify_health(-10);
+                    let player = ap.clone();
+                    self.modify_cell_if_player_died(&player);
+                }
+                _ => continue,
+            }
         }
     }
 
@@ -258,19 +245,19 @@ fn compute_attack_initial_positions(
 
     match direction {
         Direction::UP => (
-            Position::new(x.wrapping_sub(20), y.wrapping_sub(20)),
-            Position::new(x.wrapping_sub(1), y + 20),
+            Position::new(x.saturating_sub(20), y.saturating_sub(20)),
+            Position::new(x.saturating_sub(1), y + 20),
         ),
         Direction::DOWN => (
-            Position::new(x + 1, y.wrapping_sub(20)),
+            Position::new(x + 1, y.saturating_sub(20)),
             Position::new(x + 20, y + 20),
         ),
         Direction::LEFT => (
-            Position::new(x.wrapping_sub(20), y.wrapping_sub(20)),
-            Position::new(x + 20, y.wrapping_sub(1)),
+            Position::new(x.saturating_sub(20), y.saturating_sub(20)),
+            Position::new(x + 20, y.saturating_sub(1)),
         ),
         Direction::RIGHT => (
-            Position::new(x.wrapping_sub(20), y + 1),
+            Position::new(x.saturating_sub(20), y + 1),
             Position::new(x + 20, y + 20),
         ),
     }
