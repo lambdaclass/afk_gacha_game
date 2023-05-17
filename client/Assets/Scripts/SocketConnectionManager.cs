@@ -28,8 +28,9 @@ public class SocketConnectionManager : MonoBehaviour
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
 
-    WebSocket ws;
+    public WebSocket ws;
 
+    public static SocketConnectionManager Instance;
     private int playerCount = 0;
     private int playerId;
 
@@ -66,6 +67,7 @@ public class SocketConnectionManager : MonoBehaviour
     public void Awake()
     {
         this.session_id = LobbyConnection.Instance.GameSession;
+        Instance = this;
         playersStatic = this.players;
         sessionStatic_id = this.session_id;
     }
@@ -75,8 +77,6 @@ public class SocketConnectionManager : MonoBehaviour
     {
         // Send the player's action every 30 ms approximately.
         playerId = LobbyConnection.Instance.playerId;
-        float tickRate = 1f / 30f;
-        InvokeRepeating("sendAction", tickRate, tickRate);
 
         if (this.session_id.IsNullOrEmpty())
         {
@@ -85,56 +85,6 @@ public class SocketConnectionManager : MonoBehaviour
         else
         {
             ConnectToSession(this.session_id);
-        }
-    }
-
-    void sendAction()
-    {
-        // Se mueve
-        if (ws == null)
-        {
-            return;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Up
-            };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Left
-            };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Right
-            };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Down
-            };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            ClientAction action = new ClientAction { Action = Action.AttackAoe };
-            SendAction(action);
         }
     }
 
@@ -223,7 +173,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
     }
 
-    private void SendAction(ClientAction action)
+    public void SendAction(ClientAction action)
     {
         using (var stream = new MemoryStream())
         {
