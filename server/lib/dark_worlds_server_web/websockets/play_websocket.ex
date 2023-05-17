@@ -8,12 +8,14 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
 
   @behaviour :cowboy_websocket
 
+  @impl true
   def init(req, _opts) do
     game_id = :cowboy_req.binding(:game_id, req)
     player_id = :cowboy_req.binding(:player_id, req)
     {:cowboy_websocket, req, %{game_id: game_id, player_id: player_id}}
   end
 
+  @impl true
   def websocket_init(%{game_id: :undefined}) do
     {:stop, %{}}
   end
@@ -41,11 +43,12 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   @impl true
-  def terminate(reason, partialreq, state = %{runner_pid: pid, player_id: id}) do
+  def terminate(_reason, _partialreq, %{runner_pid: pid, player_id: id}) do
     Runner.disconnect(pid, id)
     :ok
   end
 
+  @impl true
   def websocket_handle({:binary, message}, state) do
     case Communication.decode(message) do
       {:ok, %{action: :ping}} ->
@@ -65,6 +68,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:text, "ERROR unsupported message"}, state}
   end
 
+  @impl true
   def websocket_info({:player_joined, player_id, _game_state}, state) do
     {:reply, {:text, "PLAYER_JOINED: #{player_id}"}, state}
   end

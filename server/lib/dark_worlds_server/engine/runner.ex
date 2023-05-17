@@ -4,7 +4,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.{ActionOk, Game, Player}
 
-  @build_walls true
+  @build_walls false
   @amount_of_players 3
   @board {1000, 1000}
   # The game will be closed twenty minute after it starts
@@ -25,10 +25,40 @@ defmodule DarkWorldsServer.Engine.Runner do
       @player_check 1 * 60 * 1000
   end
 
+  #######
+  # API #
+  #######
   def start_link(args) do
     GenServer.start_link(__MODULE__, args)
   end
 
+  def join(runner_pid, player_id) do
+    GenServer.call(runner_pid, {:join, player_id})
+  end
+
+  def play(runner_pid, player_id, %ActionOk{} = action) do
+    GenServer.cast(runner_pid, {:play, player_id, action})
+  end
+
+  def disconnect(runner_pid, player_id) do
+    GenServer.cast(runner_pid, {:disconnect, player_id})
+  end
+
+  def get_game_state(runner_pid) do
+    GenServer.call(runner_pid, :get_state)
+  end
+
+  def get_board(runner_pid) do
+    GenServer.call(runner_pid, :get_board)
+  end
+
+  def get_logged_players(runner_pid) do
+    GenServer.call(runner_pid, :get_logged_players)
+  end
+
+  #######################
+  # GenServer callbacks #
+  #######################
   @doc """
   Starts a new game state, triggers the first
   update and the final game timeout.
@@ -56,30 +86,6 @@ defmodule DarkWorldsServer.Engine.Runner do
        players: opts.players,
        current_players: 0
      }}
-  end
-
-  def join(runner_pid, player_id) do
-    GenServer.call(runner_pid, {:join, player_id})
-  end
-
-  def play(runner_pid, player_id, %ActionOk{} = action) do
-    GenServer.cast(runner_pid, {:play, player_id, action})
-  end
-
-  def disconnect(runner_pid, player_id) do
-    GenServer.cast(runner_pid, {:disconnect, player_id})
-  end
-
-  def get_game_state(runner_pid) do
-    GenServer.call(runner_pid, :get_state)
-  end
-
-  def get_board(runner_pid) do
-    GenServer.call(runner_pid, :get_board)
-  end
-
-  def get_logged_players(runner_pid) do
-    GenServer.call(runner_pid, :get_logged_players)
   end
 
   def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
@@ -182,25 +188,11 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_call(:get_state, _from, %{current_state: game_state} = state) do
-    {:reply, game_state.game, state}
+    {:reply, game_state, state}
   end
 
-  def handle_cast(
-        {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
-      ) do
-    current = current - 1
-    {:ok, game} = Game.disconnect(game, player_id)
-    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
-  end
-
-  def handle_cast(
-        {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
-      ) do
-    current = current - 1
-    {:ok, game} = Game.disconnect(game, player_id)
-    {:noreply, %{state | current_state: %{game_state | game: game}, current_players: current}}
+  def handle_call(:get_character_speed, _from, state) do
+    {:reply, @character_speed, state}
   end
 
   def handle_info(
@@ -216,14 +208,6 @@ defmodule DarkWorldsServer.Engine.Runner do
       when current == 0 do
     Process.send_after(self(), :session_timeout, 500)
     {:noreply, Map.put(state, :has_finished?, true)}
-  end
-
-  def handle_call(:get_logged_players, _from, %{players: players} = state) do
-    {:reply, players, state}
-  end
-
-  def handle_call(:get_character_speed, _from, state) do
-    {:reply, @character_speed, state}
   end
 
   def handle_info(:game_timeout, state) do
@@ -261,11 +245,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  def game_has_finished?(pid) do
-    %{current_state: %{has_finished?: has_finished?}} = :sys.get_state(pid)
-    has_finished?
-  end
-
+  ####################
+  # Internal helpers #
+  ####################
   defp has_a_player_won?(players) do
     players_alive = Enum.filter(players, fn player -> player.health != 0 end)
     Enum.count(players_alive) == 1
