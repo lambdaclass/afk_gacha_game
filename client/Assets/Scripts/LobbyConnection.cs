@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using MoreMountains.Tools;
 using Newtonsoft.Json;
 using ProtoBuf;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebSocketSharp;
@@ -209,15 +211,18 @@ public class LobbyConnection : MonoBehaviour
 
             case LobbyEventType.PlayerAdded:
                 if (playerId == -1) {
+                    print("wea");
                     playerId = (int) lobby_event.AddedPlayerId;
                 }
                 break;
 
             case LobbyEventType.PlayerCount:
+                print("wea2");
                 playerCount = (int) lobby_event.PlayerCount;
                 break;
 
             case LobbyEventType.GameStarted:
+                print("llega?");
                 GameSession = lobby_event.GameId;
                 break;
 
@@ -229,7 +234,13 @@ public class LobbyConnection : MonoBehaviour
 
     public void StartGame()
     {
-        ws.Send("START_GAME");
+        LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };
+        using (var stream = new MemoryStream())
+        {
+            Serializer.Serialize(stream, lobbyEvent);
+            var msg = stream.ToArray();
+            ws.Send(msg);
+        }
         gameStarted = true;
     }
 

@@ -22,7 +22,7 @@ public class LobbyManager : LevelSelector
         gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
 
-    void update()
+    void Update()
     {
         if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
         {
