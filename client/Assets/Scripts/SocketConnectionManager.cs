@@ -30,7 +30,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
-    private int  playerId;
+    private int playerId;
 
     public class GameResponse
     {
@@ -71,6 +71,15 @@ public class SocketConnectionManager : MonoBehaviour
     {
         for (int i = 0; i < totalPlayers; i++)
         {
+            if (LobbyConnection.Instance.playerId == i + 1)
+            {
+                // Player1 is the ID to match with the client InputManager
+                prefab.PlayerID = "Player1";
+            }
+            else
+            {
+                prefab.PlayerID = "";
+            }
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
