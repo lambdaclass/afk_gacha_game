@@ -9,9 +9,10 @@ fi
 cd /tmp
 # Only clone `server/` subdirectory
 git clone -n --depth=1 --filter=tree:0 git@github.com:lambdaclass/dark_worlds_server.git --branch ${BRANCH_NAME}
+cd dark_worlds_server/
 git sparse-checkout set --no-cone server
 git checkout
-cd dark_worlds_server/server
+cd server/
 
 mix local.hex --force && mix local.rebar --force
 mix deps.get --only $MIX_ENV
