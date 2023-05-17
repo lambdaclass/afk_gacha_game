@@ -26,7 +26,6 @@ public class LobbyManager : LevelSelector
         {
             playButton.SetActive(false);
         }
-        gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
 
     public void GameStart()
