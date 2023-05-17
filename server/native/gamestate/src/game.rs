@@ -73,7 +73,7 @@ impl GameState {
             return;
         }
 
-        let new_position = compute_adjacent_position_n_tiles(
+        let mut new_position = compute_adjacent_position_n_tiles(
             &direction,
             &player.position,
             player.character.speed as usize,
