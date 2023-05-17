@@ -64,6 +64,12 @@ defmodule DarkWorldsServer.Engine.Runner do
   update and the final game timeout.
   """
   def init(opts) do
+    priority =
+      Application.fetch_env!(:dark_worlds_server, __MODULE__)
+      |> Keyword.fetch!(:process_priority)
+
+    Process.flag(:priority, priority)
+
     state =
       Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
 
