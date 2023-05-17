@@ -18,17 +18,18 @@ public class SocketConnectionManager : MonoBehaviour
     public CinemachineCameraController camera;
     public Character prefab;
     public List<GameObject> players;
+    public static List<GameObject> playersStatic;
     public Queue<PositionUpdate> positionUpdates = new Queue<PositionUpdate>();
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
+    public static string sessionStatic_id = "";
 
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
 
     WebSocket ws;
 
-    private int totalPlayers;
     private int playerCount = 0;
     private int playerId;
 
@@ -65,39 +66,15 @@ public class SocketConnectionManager : MonoBehaviour
     public void Awake()
     {
         this.session_id = LobbyConnection.Instance.GameSession;
-        this.totalPlayers = LobbyConnection.Instance.playerCount;
-    }
-
-    public void GeneratePlayer()
-    {
-        for (int i = 0; i < totalPlayers; i++)
-        {
-            if (LobbyConnection.Instance.playerId == i + 1)
-            {
-                // Player1 is the ID to match with the client InputManager
-                prefab.PlayerID = "Player1";
-            }
-            else
-            {
-                prefab.PlayerID = "";
-            }
-            Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-            newPlayer.name = "Player" + " " + (i + 1);
-            newPlayer.PlayerID = (i + 1).ToString();
-
-            players.Add(newPlayer.gameObject);
-            levelManager.Players.Add(newPlayer);
-        }
-        levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
+        playersStatic = this.players;
+        sessionStatic_id = this.session_id;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         // Send the player's action every 30 ms approximately.
-        GeneratePlayer();
         playerId = LobbyConnection.Instance.playerId;
-        setCameraToPlayer(LobbyConnection.Instance.playerId);
         float tickRate = 1f / 30f;
         InvokeRepeating("sendAction", tickRate, tickRate);
 
@@ -113,6 +90,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     void sendAction()
     {
+        // Se mueve
         if (ws == null)
         {
             return;
@@ -160,22 +138,10 @@ public class SocketConnectionManager : MonoBehaviour
         }
     }
 
-    private void setCameraToPlayer(int playerID)
-    {
-        //print(levelManager.PlayerPrefabs.Length);
-        foreach (Character player in levelManager.PlayerPrefabs)
-        {
-            if (Int32.Parse(player.PlayerID) == playerID)
-            {
-                this.camera.SetTarget(player);
-                this.camera.StartFollowing();
-            }
-        }
-    }
-
     // Update is called once per frame
     void Update()
     {
+        // se mueve
         while (positionUpdates.TryDequeue(out var positionUpdate))
         {
             this.players[positionUpdate.player_id].transform.position = new Vector3(
@@ -243,6 +209,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else
         {
+            // Se mueve
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>(
                 (ReadOnlySpan<byte>)e.RawData
             );

@@ -211,12 +211,12 @@ public class LobbyConnection : MonoBehaviour
         gameStarted = true;
     }
 
-    private void Update()
-    {
-        if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
-        {
-            StartGame();
-            MMSceneLoadingManager.LoadScene("BackendPlayground");
-        }
-    }
+    // private void Update()
+    // {
+    //     if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
+    //     {
+    //         StartGame();
+    //         MMSceneLoadingManager.LoadScene("BackendPlayground");
+    //     }
+    // }
 }
