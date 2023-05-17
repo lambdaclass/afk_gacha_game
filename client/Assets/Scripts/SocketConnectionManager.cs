@@ -28,11 +28,13 @@ public class SocketConnectionManager : MonoBehaviour
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
 
-    public WebSocket ws;
+    WebSocket ws;
 
     public static SocketConnectionManager Instance;
     private int playerCount = 0;
     private int playerId;
+
+    public GameStateUpdate gameUpdate;
 
     public class GameResponse
     {
@@ -92,14 +94,14 @@ public class SocketConnectionManager : MonoBehaviour
     void Update()
     {
         // se mueve
-        while (positionUpdates.TryDequeue(out var positionUpdate))
-        {
-            this.players[positionUpdate.player_id].transform.position = new Vector3(
-                positionUpdate.x / 10f - 50.0f,
-                this.players[positionUpdate.player_id].transform.position.y,
-                positionUpdate.y / 10f + 50.0f
-            );
-        }
+        // while (positionUpdates.TryDequeue(out var positionUpdate))
+        // {
+        //     this.players[positionUpdate.player_id].transform.position = new Vector3(
+        //         positionUpdate.x / 10f - 50.0f,
+        //         this.players[positionUpdate.player_id].transform.position.y,
+        //         positionUpdate.y / 10f + 50.0f
+        //     );
+        // }
     }
 
     IEnumerator GetRequest(string uri)
@@ -163,13 +165,8 @@ public class SocketConnectionManager : MonoBehaviour
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>(
                 (ReadOnlySpan<byte>)e.RawData
             );
-            for (int i = 0; i < game_update.Players.Count; i++)
-            {
-                var player = this.players[i];
-                var new_position = game_update.Players[i].Position;
-                print(game_update.Players[i]);
-                positionUpdates.Enqueue(new PositionUpdate { x = (long)new_position.Y, y = -((long)new_position.X), player_id = i });
-            }
+
+            this.gameUpdate = game_update;
         }
     }
 
