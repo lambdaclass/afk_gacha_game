@@ -59,10 +59,8 @@ public class SocketConnectionManager : MonoBehaviour
         playersStatic = this.players;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Send the player's action every 30 ms approximately.
         playerId = LobbyConnection.Instance.playerId;
 
         if (this.session_id.IsNullOrEmpty())
