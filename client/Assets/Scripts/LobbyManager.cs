@@ -15,6 +15,7 @@ public class LobbyManager : LevelSelector
     public override void GoToLevel()
     {
         base.GoToLevel();
+        gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
 
     void Start()
