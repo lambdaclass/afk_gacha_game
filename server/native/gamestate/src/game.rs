@@ -123,16 +123,16 @@ impl GameState {
 
         let (top_left, bottom_right) =
             compute_attack_initial_positions(&(attack_direction), &(attacking_player.position));
-        
+
         let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
-        
+
         for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
             let attacked_player = self
                 .players
                 .iter_mut()
                 .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
-            
+
             match attacked_player {
                 Some(ap) => {
                     ap.modify_health(-10);
