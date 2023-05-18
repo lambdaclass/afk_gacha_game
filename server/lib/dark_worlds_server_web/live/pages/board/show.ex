@@ -13,9 +13,10 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
     end
   end
 
-  defp mount_connected(%{"game_id" => game_id, "player_id" => player_id}, socket) do
+  defp mount_connected(%{"game_id" => game_id, "player_id" => player_id_str}, socket) do
     Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}")
     runner_pid = Communication.external_id_to_pid(game_id)
+    player_id = String.to_integer(player_id_str)
 
     state = Runner.get_game_state(runner_pid)
     players = state.game.players
