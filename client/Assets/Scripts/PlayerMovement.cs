@@ -15,28 +15,21 @@ public class PlayerMovement : MonoBehaviour
         // Send the player's action every 30 ms approximately.
         float tickRate = 1f / 30f;
         InvokeRepeating("SendAction", tickRate, tickRate);
-        UpdatePlayerPositions();
     }
 
     void Update()
     {
-        while (positionUpdates.TryDequeue(out var positionUpdate))
+        if (SocketConnectionManager.Instance.gameUpdate != null &&
+        SocketConnectionManager.Instance.players.Count > 0 &&
+        SocketConnectionManager.Instance.gameUpdate.Players.Count > 0)
         {
-            SocketConnectionManager.Instance.players[positionUpdate.player_id].transform.position = new Vector3(
-                positionUpdate.x / 10f - 50.0f,
-                SocketConnectionManager.Instance.players[positionUpdate.player_id].transform.position.y,
-                positionUpdate.y / 10f + 50.0f
-            );
+            UpdatePlayerPositions();
+            MakePlayerMove();
         }
     }
 
     void SendAction()
     {
-        // Se mueve
-        // if (ws == null)
-        // {
-        //     return;
-        // }
         if (Input.GetKey(KeyCode.W))
         {
             ClientAction action = new ClientAction
@@ -80,12 +73,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void MakePlayerMove()
+    {
+        while (positionUpdates.TryDequeue(out var positionUpdate))
+        {
+            SocketConnectionManager.Instance.players[positionUpdate.player_id].transform.position = new Vector3(
+                positionUpdate.x / 10f - 50.0f,
+                SocketConnectionManager.Instance.players[positionUpdate.player_id].transform.position.y,
+                positionUpdate.y / 10f + 50.0f
+            );
+        }
+    }
+
     void UpdatePlayerPositions()
     {
         GameStateUpdate game_update = SocketConnectionManager.Instance.gameUpdate;
-        for (int i = 0; i < game_update.Players.Count; i++)
+        for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
         {
-            var player = SocketConnectionManager.Instance.players[i];
             var new_position = game_update.Players[i].Position;
             positionUpdates.Enqueue(new PositionUpdate { x = (long)new_position.Y, y = -((long)new_position.X), player_id = i });
         }

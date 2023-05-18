@@ -211,13 +211,4 @@ public class LobbyConnection : MonoBehaviour
         ws.Send("START_GAME");
         gameStarted = true;
     }
-
-    // private void Update()
-    // {
-    //     if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
-    //     {
-    //         StartGame();
-    //         MMSceneLoadingManager.LoadScene("BackendPlayground");
-    //     }
-    // }
 }

@@ -14,27 +14,19 @@ using MoreMountains.TopDownEngine;
 
 public class SocketConnectionManager : MonoBehaviour
 {
-    public LevelManager levelManager;
-    public CinemachineCameraController camera;
-    public Character prefab;
     public List<GameObject> players;
     public static List<GameObject> playersStatic;
-    public Queue<PositionUpdate> positionUpdates = new Queue<PositionUpdate>();
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
-    public static string sessionStatic_id = "";
 
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
-
-    WebSocket ws;
-
     public static SocketConnectionManager Instance;
-    private int playerCount = 0;
+    public GameStateUpdate gameUpdate;
     private int playerId;
 
-    public GameStateUpdate gameUpdate;
+    WebSocket ws;
 
     public class GameResponse
     {
@@ -44,13 +36,6 @@ public class SocketConnectionManager : MonoBehaviour
     public class Session
     {
         public string session_id { get; set; }
-    }
-
-    public struct PositionUpdate
-    {
-        public long x;
-        public long y;
-        public int player_id;
     }
 
     public class Position
@@ -71,7 +56,6 @@ public class SocketConnectionManager : MonoBehaviour
         this.session_id = LobbyConnection.Instance.GameSession;
         Instance = this;
         playersStatic = this.players;
-        sessionStatic_id = this.session_id;
     }
 
     // Start is called before the first frame update
@@ -88,20 +72,6 @@ public class SocketConnectionManager : MonoBehaviour
         {
             ConnectToSession(this.session_id);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // se mueve
-        // while (positionUpdates.TryDequeue(out var positionUpdate))
-        // {
-        //     this.players[positionUpdate.player_id].transform.position = new Vector3(
-        //         positionUpdate.x / 10f - 50.0f,
-        //         this.players[positionUpdate.player_id].transform.position.y,
-        //         positionUpdate.y / 10f + 50.0f
-        //     );
-        // }
     }
 
     IEnumerator GetRequest(string uri)
@@ -165,7 +135,6 @@ public class SocketConnectionManager : MonoBehaviour
             GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>(
                 (ReadOnlySpan<byte>)e.RawData
             );
-
             this.gameUpdate = game_update;
         }
     }
