@@ -18,7 +18,7 @@ public class SocketConnectionManager : MonoBehaviour
     public CinemachineCameraController camera;
     public Character prefab;
     public List<GameObject> players;
-    public Queue<PositionUpdate> positionUpdates = new Queue<PositionUpdate>();
+    public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
@@ -30,7 +30,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
-    private int  playerId;
+    private int playerId;
 
     public class GameResponse
     {
@@ -42,11 +42,13 @@ public class SocketConnectionManager : MonoBehaviour
         public string session_id { get; set; }
     }
 
-    public struct PositionUpdate
+    public struct PlayerUpdate
     {
         public long x;
         public long y;
         public int player_id;
+        public long health;
+        public PlayerAction action;
     }
 
     public class Position
@@ -55,15 +57,39 @@ public class SocketConnectionManager : MonoBehaviour
         public long y { get; set; }
     }
 
+    public enum PlayerAction
+    {
+        Nothing = 0,
+        Attacking = 1,
+    }
+
     public class Player
     {
         public int id { get; set; }
         public int health { get; set; }
         public Position position { get; set; }
+        public PlayerAction action { get; set; }
+    }
+
+    public static SocketConnectionManager Instance;
+
+    public void Init()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        this.playerId = -1;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Awake()
     {
+        this.Init();
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         this.session_id = LobbyConnection.Instance.GameSession;
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
@@ -71,6 +97,15 @@ public class SocketConnectionManager : MonoBehaviour
     {
         for (int i = 0; i < totalPlayers; i++)
         {
+            if (LobbyConnection.Instance.playerId == i + 1)
+            {
+                // Player1 is the ID to match with the client InputManager
+                prefab.PlayerID = "Player1";
+            }
+            else
+            {
+                prefab.PlayerID = "";
+            }
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
@@ -132,6 +167,28 @@ public class SocketConnectionManager : MonoBehaviour
             ClientAction action = new ClientAction { Action = Action.AttackAoe };
             SendAction(action);
         }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            // This sends the action
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down };
+            SendAction(action);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up };
+            SendAction(action);
+
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right };
+            SendAction(action);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left };
+            SendAction(action);
+        }
     }
 
     private void setCameraToPlayer(int playerID)
@@ -150,9 +207,20 @@ public class SocketConnectionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while (positionUpdates.TryDequeue(out var positionUpdate))
+        while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            this.players[positionUpdate.player_id].transform.position = new Vector3(positionUpdate.x / 10f - 50.0f, this.players[positionUpdate.player_id].transform.position.y, positionUpdate.y / 10f + 50.0f);
+
+            this.players[playerUpdate.player_id].transform.position = new Vector3(playerUpdate.x / 10f - 50.0f, this.players[playerUpdate.player_id].transform.position.y, playerUpdate.y / 10f + 50.0f);
+
+            Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
+            healthComponent.SetHealth(playerUpdate.health);
+
+            bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
+            this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack(isAttacking);
+            if (isAttacking)
+            {
+                print("attack");
+            }
         }
     }
 
@@ -176,7 +244,7 @@ public class SocketConnectionManager : MonoBehaviour
                     break;
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
-                    Debug.Log("Creating and joining Session ID: " + session.session_id);
+                    Debug.Log("Creating and joi ning Session ID: " + session.session_id);
                     ConnectToSession(session.session_id);
                     break;
 
@@ -191,7 +259,7 @@ public class SocketConnectionManager : MonoBehaviour
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
-            Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
+            //Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
         };
         ws.Connect();
     }
@@ -206,7 +274,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else if (e.Data.Contains("ERROR"))
         {
-            Debug.Log("Error message: " + e.Data);
+            //Debug.Log("Error message: " + e.Data);
         }
         else
         {
@@ -215,8 +283,18 @@ public class SocketConnectionManager : MonoBehaviour
             {
                 var player = this.players[i];
                 var new_position = game_update.Players[i].Position;
-                print(game_update.Players[i]);
-                positionUpdates.Enqueue(new PositionUpdate { x = new_position.Y, y = -new_position.X, player_id = i });
+
+                playerUpdates.Enqueue(
+                    new PlayerUpdate
+                    {
+                        x = ((long)new_position.Y),
+                        y = -((long)new_position.X),
+                        player_id = i,
+                        health = game_update.Players[i].Health,
+                        action = (PlayerAction)game_update.Players[i].Action,
+                    }
+                );
+
             }
         }
     }

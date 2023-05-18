@@ -3,8 +3,9 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
-use crate::player::{Player, Position, Status};
+use crate::player::{Player, PlayerAction, Position, Status};
 use crate::time_utils::time_now;
+use std::cmp::{max, min};
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -78,15 +79,22 @@ impl GameState {
             player.character.speed as usize,
         );
 
-        if !is_valid_movement(&self.board, &new_position) {
-            return;
-        }
+        // These changes are done so that if the player is moving into one of the map's borders
+        // but is not already on the edge, they move to the edge. In simpler terms, if the player is
+        // trying to move from (0, 1) to the left, this ensures that new_position is (0, 0) instead of
+        // something invalid like (0, -1).
+        new_position.x = min(new_position.x, self.board.height - 1);
+        new_position.x = max(new_position.x, 0);
+        new_position.y = min(new_position.y, self.board.width - 1);
+        new_position.y = max(new_position.y, 0);
+
+        let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
 
         // Remove the player from their previous position on the board
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
 
-        player.position = new_position;
+        player.position = tile_to_move_to;
         self.board.set_cell(
             player.position.x,
             player.position.y,
@@ -105,6 +113,8 @@ impl GameState {
 
         let cooldown = attacking_player.character.cooldown();
 
+        attacking_player.action = PlayerAction::ATTACKING;
+
         if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
@@ -116,27 +126,51 @@ impl GameState {
         }
         attacking_player.last_melee_attack = now;
 
-        let target_position =
-            compute_adjacent_position_n_tiles(&attack_direction, &attacking_player.position, 1);
-        let maybe_target_cell = self.board.get_cell(target_position.x, target_position.y);
+        let (top_left, bottom_right) =
+            compute_attack_initial_positions(&(attack_direction), &(attacking_player.position));
 
-        // If the cell is not on range, or the attacking player is on the receiving end
-        // of the attack, do nothing.
-        if maybe_target_cell.is_none() || attacking_player.position == target_position {
-            return;
-        }
+        let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
 
-        if let Some(target_player) = self.players.iter_mut().find(|player| {
-            let tile = maybe_target_cell.clone().unwrap();
-            match tile {
-                Tile::Player(tile_player_id) if tile_player_id == player.id => true,
-                _ => false,
+        for target_player_id in affected_players.iter_mut() {
+            // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
+            let attacked_player = self
+                .players
+                .iter_mut()
+                .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
+
+            match attacked_player {
+                Some(ap) => {
+                    ap.modify_health(-attack_dmg);
+                    let player = ap.clone();
+                    self.modify_cell_if_player_died(&player);
+                }
+                _ => continue,
             }
-        }) {
-            target_player.modify_health(-attack_dmg);
-            let player = target_player.clone();
-            self.modify_cell_if_player_died(&player);
         }
+    }
+
+    // Return all player_id inside an area
+    pub fn players_in_range(
+        self: &mut Self,
+        top_left: Position,
+        bottom_right: Position,
+    ) -> Vec<u64> {
+        let mut players: Vec<u64> = vec![];
+        for fil in top_left.x..=bottom_right.x {
+            for col in top_left.y..=bottom_right.y {
+                let cell = self.board.get_cell(fil, col);
+                if cell.is_none() {
+                    continue;
+                }
+                match cell.unwrap() {
+                    Tile::Player(player_id) => {
+                        players.push(player_id);
+                    }
+                    _ => continue,
+                }
+            }
+        }
+        players
     }
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
@@ -173,6 +207,12 @@ impl GameState {
         })
     }
 
+    pub fn clean_players_actions(self: &mut Self) {
+        self.players.iter_mut().for_each(|player| {
+            player.action = PlayerAction::NOTHING;
+        })
+    }
+
     fn modify_cell_if_player_died(self: &mut Self, player: &Player) {
         if matches!(player.status, Status::DEAD) {
             self.board
@@ -194,25 +234,149 @@ fn compute_adjacent_position_n_tiles(
 
     // Avoid overflow with saturated ops.
     match direction {
-        Direction::UP => Position::new(x.wrapping_sub(n), y),
+        Direction::UP => Position::new(x.saturating_sub(n), y),
         Direction::DOWN => Position::new(x + n, y),
-        Direction::LEFT => Position::new(x, y.wrapping_sub(n)),
+        Direction::LEFT => Position::new(x, y.saturating_sub(n)),
         Direction::RIGHT => Position::new(x, y + n),
     }
 }
 
-fn is_valid_movement(board: &Board, new_position: &Position) -> bool {
-    let cell = board.get_cell(new_position.x, new_position.y);
-    if cell.is_none() {
-        return false;
-    }
+fn compute_attack_initial_positions(
+    direction: &Direction,
+    position: &Position,
+) -> (Position, Position) {
+    let x = position.x;
+    let y = position.y;
 
-    // Check if cell is not-occupied
-    // This unwrap is safe since we checked for None in the line above.
-    if let Tile::Empty = cell.unwrap() {
-        true
+    match direction {
+        Direction::UP => (
+            Position::new(x.saturating_sub(20), y.saturating_sub(20)),
+            Position::new(x.saturating_sub(1), y + 20),
+        ),
+        Direction::DOWN => (
+            Position::new(x + 1, y.saturating_sub(20)),
+            Position::new(x + 20, y + 20),
+        ),
+        Direction::LEFT => (
+            Position::new(x.saturating_sub(20), y.saturating_sub(20)),
+            Position::new(x + 20, y.saturating_sub(1)),
+        ),
+        Direction::RIGHT => (
+            Position::new(x.saturating_sub(20), y + 1),
+            Position::new(x + 20, y + 20),
+        ),
+    }
+}
+
+/// TODO: update documentation
+/// Checks if the given movement from `old_position` to `new_position` is valid.
+/// The way we do it is separated into cases but the idea is always the same:
+/// First of all check that we are not trying to move away from the board.
+/// Then go through the tiles that are between the new_position and the old_position
+/// and ensure that each one of them is empty. If that's not the case, the movement is
+/// invalid; otherwise it's valid.
+/// The cases that we separate the check into are the following:
+/// - Movement is in the Y direction. This is divided into two other cases:
+///     - Movement increases the Y coordinate (new_position.y > old_position.y).
+///     - Movement decreases the Y coordinate (new_position.y < old_position.y).
+/// - Movement is in the X direction. This is also divided into two cases:
+///     - Movement increases the X coordinate (new_position.x > old_position.x).
+///     - Movement decreases the X coordinate (new_position.x < old_position.x).
+fn tile_to_move_to(board: &Board, old_position: &Position, new_position: &Position) -> Position {
+    let mut number_of_cells_to_move = 0;
+
+    if new_position.x == old_position.x {
+        if new_position.y > old_position.y {
+            for i in 1..(new_position.y - old_position.y) + 1 {
+                let cell = board.get_cell(old_position.x, old_position.y + i);
+
+                match cell {
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
+                    None => continue,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x,
+                            y: old_position.y + number_of_cells_to_move,
+                        };
+                    }
+                }
+            }
+            return Position {
+                x: old_position.x,
+                y: old_position.y + number_of_cells_to_move,
+            };
+        } else {
+            for i in 1..(old_position.y - new_position.y) + 1 {
+                let cell = board.get_cell(old_position.x, old_position.y - i);
+
+                match cell {
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
+                    None => continue,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x,
+                            y: old_position.y - number_of_cells_to_move,
+                        };
+                    }
+                }
+            }
+            return Position {
+                x: old_position.x,
+                y: old_position.y - number_of_cells_to_move,
+            };
+        }
     } else {
-        false
+        if new_position.x > old_position.x {
+            for i in 1..(new_position.x - old_position.x) + 1 {
+                let cell = board.get_cell(old_position.x + i, old_position.y);
+
+                match cell {
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
+                    None => continue,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x + number_of_cells_to_move,
+                            y: old_position.y,
+                        }
+                    }
+                }
+            }
+            return Position {
+                x: old_position.x + number_of_cells_to_move,
+                y: old_position.y,
+            };
+        } else {
+            for i in 1..(old_position.x - new_position.x) + 1 {
+                let cell = board.get_cell(old_position.x - i, old_position.y);
+
+                match cell {
+                    Some(Tile::Empty) => {
+                        number_of_cells_to_move += 1;
+                        continue;
+                    }
+                    None => continue,
+                    Some(_) => {
+                        return Position {
+                            x: old_position.x - number_of_cells_to_move,
+                            y: old_position.y,
+                        }
+                    }
+                }
+            }
+            return Position {
+                x: old_position.x - number_of_cells_to_move,
+                y: old_position.y,
+            };
+        }
     }
 }
 

@@ -131,7 +131,8 @@ fn movement() -> TestResult {
 
 #[rustler::nif]
 fn attacking() -> TestResult {
-    let mut state = GameState::new(0, 2, 2, false);
+    // FIXME: A 0 in new game is wrong!
+    let mut state = GameState::new(0, 20, 20, false);
     let player_1_id = 1;
     let player_2_id = 2;
     let char: Character = speed1_character();
@@ -167,12 +168,12 @@ fn attacking() -> TestResult {
     // Attacking to the right now does nothing since the player moved down.
     state.attack_player(player_1_id, Direction::RIGHT);
     assert_result!(100, state.players[0].health)?;
-    assert_result!(90, state.players[1].health)?;
+    assert_result!(80, state.players[1].health)?;
 
     time_utils::sleep(cooldown);
 
     // Attacking to a non-existent position on the board does nothing.
     state.attack_player(player_1_id, Direction::LEFT);
     assert_result!(100, state.players[0].health)?;
-    assert_result!(90, state.players[1].health)
+    assert_result!(80, state.players[1].health)
 }
