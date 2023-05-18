@@ -128,10 +128,6 @@ impl GameState {
 
         let cooldown = attacking_player.character.cooldown();
 
-        let attack_dmg = attacking_player.character.attack_dmg() as i64;
-
-        let cooldown = attacking_player.character.cooldown();
-
         attacking_player.action = PlayerAction::ATTACKING;
 
         if matches!(attacking_player.status, Status::DEAD) {
