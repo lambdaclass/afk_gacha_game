@@ -12,6 +12,7 @@ message GameStateUpdate {
     - health: Current health of the player
     - position: Position of the player in the server game grid (see Position for more info)
     - power: [Amin 2023-05-05:  not sure what this is, was copied from struct like this]
+    - action: [Manu 2023-05-12: accion to renderize on client side]
     - last_melee_attack: Time of the last melee attack done by the player in
       seconds since unix epoch.
     - status: currently if alive or dead
@@ -23,6 +24,7 @@ message Player {
     // uint32 power = 4;
     uint64 last_melee_attack  = 4;
     Status status = 5;
+    PlayerAction action = 6;
 }
 
 /*
@@ -85,6 +87,15 @@ enum Direction {
     DOWN = 2;
     LEFT = 3;
     RIGHT = 4;
+}
+
+/* Actions a player performs
+    - NOTHING: nothing
+    - ATTACKING: player is attacking
+ */
+enum PlayerAction {
+    NOTHING = 0;
+    ATTACKING = 1;
 }
 
 /* Represents the events happening in the matchmaking lobby, either from client or server
