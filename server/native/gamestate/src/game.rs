@@ -73,7 +73,7 @@ impl GameState {
             return;
         }
 
-        let new_position = compute_adjacent_position_n_tiles(
+        let mut new_position = compute_adjacent_position_n_tiles(
             &direction,
             &player.position,
             player.character.speed as usize,
@@ -108,6 +108,9 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
+        let attack_dmg = attacking_player.character.attack_dmg() as i64;
+
+        let cooldown = attacking_player.character.cooldown();
 
         let attack_dmg = attacking_player.character.attack_dmg() as i64;
 
@@ -220,7 +223,6 @@ impl GameState {
         }
     }
 }
-
 /// Given a position and a direction, returns the position adjacent to it `n` tiles
 /// in that direction
 /// Example: If the arguments are Direction::RIGHT, (0, 0) and 2, returns (0, 2).
@@ -267,7 +269,6 @@ fn compute_attack_initial_positions(
         ),
     }
 }
-
 /// TODO: update documentation
 /// Checks if the given movement from `old_position` to `new_position` is valid.
 /// The way we do it is separated into cases but the idea is always the same:
