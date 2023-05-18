@@ -51,6 +51,7 @@ impl Player {
             character,
             last_melee_attack: time_now(),
             status: Status::ALIVE,
+            character,
             action: PlayerAction::NOTHING,
         }
     }

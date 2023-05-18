@@ -2,12 +2,14 @@ use rustler::NifTaggedEnum;
 // TODO: Add misssing classes
 #[derive(NifTaggedEnum, Debug, Clone)]
 pub enum Class {
-    Assassin,
+    Hunter,
+    Guardian,
 }
 // TODO: Add misssing skills
 #[derive(NifTaggedEnum, Debug, Clone)]
 pub enum BasicSkill {
-    Backstab,
+    Slingshot,
+    Bash,
 }
 // TODO have a trait for this
 // instead of matching enums.

@@ -112,6 +112,10 @@ impl GameState {
 
         let cooldown = attacking_player.character.cooldown();
 
+        let attack_dmg = attacking_player.character.attack_dmg() as i64;
+
+        let cooldown = attacking_player.character.cooldown();
+
         attacking_player.action = PlayerAction::ATTACKING;
 
         if matches!(attacking_player.status, Status::DEAD) {
@@ -139,7 +143,7 @@ impl GameState {
 
             match attacked_player {
                 Some(ap) => {
-                    ap.modify_health(-10);
+                    ap.modify_health(-attack_dmg);
                     let player = ap.clone();
                     self.modify_cell_if_player_died(&player);
                 }
