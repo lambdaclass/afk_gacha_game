@@ -9653,6 +9653,7 @@ MonoBehaviour:
   camera: {fileID: 1666771299}
   prefab: {fileID: 1787465996332106811, guid: 94e572dc010a245f8a7fac3c1c846b1a, type: 3}
   players: []
+  approvedAction: 0
   session_id: 
   server_ip: localhost
 --- !u!1001 &1865725793

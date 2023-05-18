@@ -17,7 +17,8 @@ defmodule DarkWorldsServer.ProtoBufTest.Player do
         health: -(2 ** 63 - 1),
         position: %Position{x: 1, y: 2},
         last_melee_attack: now,
-        status: status
+        status: status,
+        action: :NOTHING
       }
 
       expected = %Player{
@@ -25,7 +26,8 @@ defmodule DarkWorldsServer.ProtoBufTest.Player do
         health: -(2 ** 63 - 1),
         position: %Position{x: 1, y: 2},
         last_melee_attack: now,
-        status: status
+        status: status,
+        action: :nothing
       }
 
       decoded =

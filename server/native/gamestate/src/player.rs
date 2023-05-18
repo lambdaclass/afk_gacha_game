@@ -19,6 +19,7 @@ pub struct Player {
     pub last_melee_attack: u64,
     pub status: Status,
     pub character: Character,
+    pub action: PlayerAction,
 }
 
 #[derive(Debug, Clone, NifUnitEnum)]
@@ -26,6 +27,12 @@ pub enum Status {
     ALIVE,
     DEAD,
     DISCONNECTED,
+}
+
+#[derive(Debug, Clone, NifUnitEnum)]
+pub enum PlayerAction {
+    NOTHING,
+    ATTACKING,
 }
 
 #[derive(Debug, Clone, NifStruct, PartialEq)]
@@ -41,9 +48,10 @@ impl Player {
             id,
             health,
             position,
+            character,
             last_melee_attack: time_now(),
             status: Status::ALIVE,
-            character,
+            action: PlayerAction::NOTHING,
         }
     }
     pub fn modify_health(self: &mut Self, hp_points: i64) {
