@@ -218,7 +218,6 @@ impl GameState {
                 .set_cell(player.position.x, player.position.y, Tile::Empty);
         }
     }
-
 }
 /// Given a position and a direction, returns the position adjacent to it `n` tiles
 /// in that direction
