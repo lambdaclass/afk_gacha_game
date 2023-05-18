@@ -48,7 +48,6 @@ impl Player {
             id,
             health,
             position,
-            character,
             last_melee_attack: time_now(),
             status: Status::ALIVE,
             character,
