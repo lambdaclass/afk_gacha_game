@@ -49,12 +49,13 @@ public class SocketConnectionManager : MonoBehaviour
         public int id { get; set; }
         public int health { get; set; }
         public Position position { get; set; }
+        public PlayerMovement.PlayerAction action { get; set; }
     }
 
     public void Awake()
     {
-        this.session_id = LobbyConnection.Instance.GameSession;
         Instance = this;
+        this.session_id = LobbyConnection.Instance.GameSession;
         playersStatic = this.players;
     }
 
@@ -127,7 +128,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else if (e.Data.Contains("ERROR"))
         {
-            Debug.Log("Error message: " + e.Data);
+            //Debug.Log("Error message: " + e.Data);
         }
         else
         {

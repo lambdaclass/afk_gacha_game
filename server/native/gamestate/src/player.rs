@@ -17,6 +17,7 @@ pub struct Player {
     /// Time of the last melee attack done by the player, measured in seconds.
     pub last_melee_attack: u64,
     pub status: Status,
+    pub action: PlayerAction,
 }
 
 #[derive(Debug, Clone, NifUnitEnum)]
@@ -24,6 +25,12 @@ pub enum Status {
     ALIVE,
     DEAD,
     DISCONNECTED,
+}
+
+#[derive(Debug, Clone, NifUnitEnum)]
+pub enum PlayerAction {
+    NOTHING,
+    ATTACKING,
 }
 
 #[derive(Debug, Clone, NifStruct, PartialEq)]
@@ -41,6 +48,7 @@ impl Player {
             position,
             last_melee_attack: time_now(),
             status: Status::ALIVE,
+            action: PlayerAction::NOTHING,
         }
     }
     pub fn modify_health(self: &mut Self, hp_points: i64) {

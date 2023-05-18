@@ -43,7 +43,10 @@ public class LobbyManager : LevelSelector
 
     private void Update()
     {
-        if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession) && LobbyConnection.Instance.gameStarted == false)
+        if (
+            !String.IsNullOrEmpty(LobbyConnection.Instance.GameSession)
+            && LobbyConnection.Instance.gameStarted == false
+        )
         {
             LobbyConnection.Instance.StartGame();
             MMSceneLoadingManager.LoadScene("BackendPlayground");

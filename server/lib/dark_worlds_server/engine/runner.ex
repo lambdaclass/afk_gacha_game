@@ -116,6 +116,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Game.attack_player(player, value)
 
     has_a_player_won? = has_a_player_won?(game.players)
+
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
 
@@ -231,6 +232,10 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_info(:update_state, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
+
+    game = next_state.game |> Game.clean_players_actions()
+    next_state = next_state |> Map.put(:game, game)
+    state = Map.put(state, :next_state, next_state)
 
     has_a_player_won? = has_a_player_won?(next_state.game.players)
 

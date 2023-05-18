@@ -40,6 +40,8 @@ public partial class Player : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(5, Name = @"status")]
     public Status Status { get; set; }
 
+    [global::ProtoBuf.ProtoMember(6, Name = @"action")]
+    public PlayerAction Action { get; set; }
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -161,6 +163,14 @@ public enum Direction
 }
 
 [global::ProtoBuf.ProtoContract()]
+public enum PlayerAction
+{
+    [global::ProtoBuf.ProtoEnum(Name = @"NOTHING")]
+    Nothing = 0,
+    [global::ProtoBuf.ProtoEnum(Name = @"ATTACKING")]
+    Attacking = 1,
+}
+
 public enum LobbyEventType
 {
     [global::ProtoBuf.ProtoEnum(Name = @"TYPE_UNSPECIFIED")]
@@ -173,6 +183,8 @@ public enum LobbyEventType
     GameStarted = 3,
     [global::ProtoBuf.ProtoEnum(Name = @"PLAYER_COUNT")]
     PlayerCount = 4,
+    [global::ProtoBuf.ProtoEnum(Name = @"START_GAME")]
+    StartGame = 5,
 }
 
 #pragma warning restore CS0612, CS0618, CS1591, CS3021, IDE0079, IDE1006, RCS1036, RCS1057, RCS1085, RCS1192
