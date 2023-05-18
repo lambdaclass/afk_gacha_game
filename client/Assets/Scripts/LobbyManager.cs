@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using MoreMountains.Tools;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class LobbyManager : LevelSelector
 {
@@ -15,6 +11,7 @@ public class LobbyManager : LevelSelector
     public override void GoToLevel()
     {
         base.GoToLevel();
+        gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
 
     void Start()

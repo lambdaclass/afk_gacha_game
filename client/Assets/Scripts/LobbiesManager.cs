@@ -1,6 +1,6 @@
+using MoreMountains.Tools;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbiesManager : LevelSelector
@@ -11,6 +11,7 @@ public class LobbiesManager : LevelSelector
     public override void GoToLevel()
     {
         base.GoToLevel();
+        gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
 
     public void CreateLobby()
