@@ -48,6 +48,14 @@ defmodule DarkWorldsServer.Communication do
     end
   end
 
+  def lobbyDecode(value) do
+    try do
+      {:ok, LobbyEvent.decode(value)}
+    rescue
+      Protobuf.DecodeError -> {:error, :error_decoding}
+    end
+  end
+
   def pid_to_external_id(pid) when is_pid(pid) do
     pid |> :erlang.term_to_binary() |> Base58.encode()
   end

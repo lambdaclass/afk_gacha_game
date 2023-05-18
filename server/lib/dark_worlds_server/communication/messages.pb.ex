@@ -51,6 +51,7 @@ defmodule DarkWorldsServer.Communication.Proto.LobbyEventType do
   field(:PLAYER_ADDED, 2)
   field(:GAME_STARTED, 3)
   field(:PLAYER_COUNT, 4)
+  field(:START_GAME, 5)
 end
 
 defmodule DarkWorldsServer.Communication.Proto.GameStateUpdate do

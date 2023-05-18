@@ -25,9 +25,15 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
      %{lobby_pid: matchmaking_session_pid}}
   end
 
-  def websocket_handle({:text, "START_GAME"}, state) do
-    Matchmaking.start_game(state[:lobby_pid])
-    {:noreply, state}
+  def websocket_handle({:binary, message}, state) do
+    case Communication.lobbyDecode(message) do
+      {:ok, %{type: :START_GAME}} ->
+        Matchmaking.start_game(state[:lobby_pid])
+        {:reply, {:text, "STARTING GAME..."}, state}
+
+      {:error, msg} ->
+        {:reply, {:text, "ERROR: #{msg}"}, state}
+    end
   end
 
   def websocket_info({:player_added, id}, state) do
