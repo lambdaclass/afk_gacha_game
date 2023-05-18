@@ -8,39 +8,19 @@ public class PlayerControls : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Up
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Move, Direction.Up);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Left
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Move, Direction.Left);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Right
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Move, Direction.Right);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Move,
-                Direction = Direction.Down
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Move, Direction.Down);
         }
         if (Input.GetKey(KeyCode.E))
         {
@@ -49,40 +29,25 @@ public class PlayerControls : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.J))
         {
-            // This sends the action
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Attack,
-                Direction = Direction.Down
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Attack, Direction.Down);
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Attack,
-                Direction = Direction.Up
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Attack, Direction.Up);
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Attack,
-                Direction = Direction.Right
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Attack, Direction.Right);
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            ClientAction action = new ClientAction
-            {
-                Action = Action.Attack,
-                Direction = Direction.Left
-            };
-            SocketConnectionManager.Instance.SendAction(action);
+            SendAction(Action.Attack, Direction.Left);
         }
+    }
+
+    private static void SendAction(Action action, Direction direction)
+    {
+        ClientAction clientAction = new ClientAction { Action = action, Direction = direction };
+        SocketConnectionManager.Instance.SendAction(clientAction);
     }
 }
