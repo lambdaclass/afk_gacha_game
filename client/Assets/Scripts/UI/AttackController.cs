@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using MoreMountains.Tools;
 
 namespace MoreMountains.TopDownEngine // you might want to use your own namespace here
 {
@@ -59,12 +57,6 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             animator.SetBool("ApprovedAttack", approvedAction);
 
             //MMDebug.DebugLogTime("animator " + animator);
-        }
-
-        public virtual void ExecutionAttack()
-        {
-            //Vector2 lastPosition = position;
-            //SocketConnectionManager.Instance.SendAction(AttackAoe, lastPosition);
         }
     }
 }

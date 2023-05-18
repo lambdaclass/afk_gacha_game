@@ -7440,6 +7440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f873a947f374623ad960f283bba9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joystickR: {fileID: 1967243808}
 --- !u!1 &1311184685
 GameObject:
   m_ObjectHideFlags: 0
@@ -10685,6 +10686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
       propertyPath: JoystickValue.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -10695,13 +10701,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
       propertyPath: JoystickValue.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1302669239}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
       propertyPath: OnPointerUpEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateJoystickPosition
       objectReference: {fileID: 0}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
@@ -10712,7 +10738,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnPointerUpEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1836016681}
+      objectReference: {fileID: 1302669239}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
       propertyPath: OnPointerUpEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -10721,12 +10747,22 @@ PrefabInstance:
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
       propertyPath: OnPointerUpEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: JoystickPointerUp
+      value: ExecuteAoeAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerMovement, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
       propertyPath: OnPointerUpEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SocketConnectionManager, Assembly-CSharp
+      value: PlayerMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: OnDragEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 114270737596463260, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}

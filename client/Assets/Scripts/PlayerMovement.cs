@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
+using MoreMountains.Tools;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] MMTouchJoystick joystickR;
+    Vector2 joystickRPosition;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
 
     public struct PlayerUpdate
@@ -39,6 +42,20 @@ public class PlayerMovement : MonoBehaviour
             UpdatePlayerActions();
             ExecutePlayerAction();
         }
+    }
+
+    // This is a temporary function but later on it should be in GenericAoeAttack 
+    public void UpdateJoystickPosition()
+    {
+        joystickRPosition = joystickR.RawValue;
+    }
+
+    // This is a temporary function but later on it should be in GenericAoeAttack 
+    public void ExecuteAoeAttack()
+    {
+        print(joystickRPosition);
+        /* ClientAction action = new ClientAction { Action = Action.(AttackAoe) };
+        SocketConnectionManager.Instance.SendAction(action); */
     }
 
     void SendAction()
