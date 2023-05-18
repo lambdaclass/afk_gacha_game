@@ -21,12 +21,4 @@ public class LobbyManager : LevelSelector
         }
         gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
-
-    void Update()
-    {
-        if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
-        {
-            GoToLevel();
-        }
-    }
 }
