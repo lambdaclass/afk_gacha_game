@@ -56,8 +56,14 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def decode(%ProtoPlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position, last_melee_attack: attack, status: status, action: action} =
-      player
+    %{
+      id: id,
+      health: health,
+      position: position,
+      last_melee_attack: attack,
+      status: status,
+      action: action
+    } = player
 
     %EnginePlayer{
       id: id,
@@ -95,6 +101,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   def decode(%ProtoAction{action: :ATTACK_AOE, position: position}, ProtoAction) do
     %EngineAction{action: :attack_aoe, value: position }
+  end
+
+  def decode(%struct{} = msg, struct) do
+    Map.from_struct(msg)
   end
 
   ###############################

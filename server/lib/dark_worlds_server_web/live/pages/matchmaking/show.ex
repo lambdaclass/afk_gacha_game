@@ -2,9 +2,8 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
   use DarkWorldsServerWeb, :live_view
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Matchmaking
-  alias DarkWorldsServer.Accounts
 
-  def mount(%{"session_id" => session_id} = params, _session, socket) do
+  def mount(%{"session_id" => session_id}, _session, socket) do
     case connected?(socket) do
       false ->
         {:ok, assign(socket, session_id: session_id, player_count: 1)}
@@ -54,7 +53,7 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
     {:noreply, socket}
   end
 
-  def handle_info({:amount_of_players, players}, socket) do
+  def handle_info({:amount_of_players, _players}, socket) do
     {:noreply, socket}
   end
 

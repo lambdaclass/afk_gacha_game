@@ -30,7 +30,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private int totalPlayers;
     private int playerCount = 0;
-    private int  playerId;
+    private int playerId;
 
     public class GameResponse
     {
@@ -71,8 +71,25 @@ public class SocketConnectionManager : MonoBehaviour
         public PlayerAction action { get; set; }
     }
 
+    public static SocketConnectionManager Instance;
+
+    public void Init()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        this.playerId = -1;
+        DontDestroyOnLoad(gameObject);
+    }
+
     public void Awake()
     {
+        this.Init();
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
         this.session_id = LobbyConnection.Instance.GameSession;
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
@@ -80,6 +97,15 @@ public class SocketConnectionManager : MonoBehaviour
     {
         for (int i = 0; i < totalPlayers; i++)
         {
+            if (LobbyConnection.Instance.playerId == i + 1)
+            {
+                // Player1 is the ID to match with the client InputManager
+                prefab.PlayerID = "Player1";
+            }
+            else
+            {
+                prefab.PlayerID = "";
+            }
             Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
@@ -141,25 +167,26 @@ public class SocketConnectionManager : MonoBehaviour
             ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = new Position { X = 0, Y = 100 } };
             SendAction(action);
         }
-        if (Input.GetKey(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down};
+            // This sends the action
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down };
             SendAction(action);
         }
-        if (Input.GetKey(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up};
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up };
             SendAction(action);
 
         }
-        if (Input.GetKey(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right};
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right };
             SendAction(action);
         }
-        if (Input.GetKey(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left};
+            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left };
             SendAction(action);
         }
     }
@@ -182,14 +209,17 @@ public class SocketConnectionManager : MonoBehaviour
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            
+
             this.players[playerUpdate.player_id].transform.position = new Vector3(playerUpdate.x / 10f - 50.0f, this.players[playerUpdate.player_id].transform.position.y, playerUpdate.y / 10f + 50.0f);
-            
+
             Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
-            if (playerUpdate.action == PlayerAction.Attacking)
+
+            bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
+            this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack(isAttacking);
+            if (isAttacking)
             {
-                print(playerUpdate.player_id + " is attacking");
+                print("attack");
             }
         }
     }
@@ -255,14 +285,16 @@ public class SocketConnectionManager : MonoBehaviour
                 var new_position = game_update.Players[i].Position;
 
                 playerUpdates.Enqueue(
-                    new PlayerUpdate { 
+                    new PlayerUpdate
+                    {
                         x = ((long)new_position.Y),
                         y = -((long)new_position.X),
                         player_id = i,
                         health = game_update.Players[i].Health,
-                        action = (PlayerAction) game_update.Players[i].Action,
+                        action = (PlayerAction)game_update.Players[i].Action,
                     }
                 );
+
             }
         }
     }

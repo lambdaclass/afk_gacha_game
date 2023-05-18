@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Tools;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,13 +19,6 @@ public class LobbyManager : LevelSelector
         {
             LobbyConnection.Instance.StartGame();
         }
-    }
-
-    void update()
-    {
-        if (!String.IsNullOrEmpty(LobbyConnection.Instance.GameSession))
-        {
-            GoToLevel();
-        }
+        gameObject.GetComponent<MMTouchButton>().DisableButton();
     }
 }

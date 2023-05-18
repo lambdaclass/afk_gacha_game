@@ -42,7 +42,6 @@ public partial class Player : global::ProtoBuf.IExtensible
 
     [global::ProtoBuf.ProtoMember(6, Name = @"action")]
     public PlayerAction Action { get; set; }
-
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -97,6 +96,35 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
 }
 
 [global::ProtoBuf.ProtoContract()]
+public partial class LobbyEvent : global::ProtoBuf.IExtensible
+{
+    private global::ProtoBuf.IExtension __pbn__extensionData;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    [global::ProtoBuf.ProtoMember(1, Name = @"type")]
+    public LobbyEventType Type { get; set; }
+
+    [global::ProtoBuf.ProtoMember(2, Name = @"lobby_id")]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string LobbyId { get; set; } = "";
+
+    [global::ProtoBuf.ProtoMember(3, Name = @"player_id")]
+    public ulong PlayerId { get; set; }
+
+    [global::ProtoBuf.ProtoMember(4, Name = @"added_player_id")]
+    public ulong AddedPlayerId { get; set; }
+
+    [global::ProtoBuf.ProtoMember(5, Name = @"game_id")]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string GameId { get; set; } = "";
+
+    [global::ProtoBuf.ProtoMember(6, Name = @"player_count")]
+    public ulong PlayerCount { get; set; }
+
+}
+
+[global::ProtoBuf.ProtoContract()]
 public enum Status
 {
     [global::ProtoBuf.ProtoEnum(Name = @"ALIVE")]
@@ -144,6 +172,22 @@ public enum PlayerAction
     Nothing = 0,
     [global::ProtoBuf.ProtoEnum(Name = @"ATTACKING")]
     Attacking = 1,
+}
+
+public enum LobbyEventType
+{
+    [global::ProtoBuf.ProtoEnum(Name = @"TYPE_UNSPECIFIED")]
+    TypeUnspecified = 0,
+    [global::ProtoBuf.ProtoEnum(Name = @"CONNECTED")]
+    Connected = 1,
+    [global::ProtoBuf.ProtoEnum(Name = @"PLAYER_ADDED")]
+    PlayerAdded = 2,
+    [global::ProtoBuf.ProtoEnum(Name = @"GAME_STARTED")]
+    GameStarted = 3,
+    [global::ProtoBuf.ProtoEnum(Name = @"PLAYER_COUNT")]
+    PlayerCount = 4,
+    [global::ProtoBuf.ProtoEnum(Name = @"START_GAME")]
+    StartGame = 5,
 }
 
 #pragma warning restore CS0612, CS0618, CS1591, CS3021, IDE0079, IDE1006, RCS1036, RCS1057, RCS1085, RCS1192

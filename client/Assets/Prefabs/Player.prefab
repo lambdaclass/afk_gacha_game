@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 1787465996332106806}
   - component: {fileID: 665966516443245430}
   - component: {fileID: 2784822964762187919}
+  - component: {fileID: 1826878300138968485}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterDimension: 0
   CharacterType: 0
-  PlayerID: Player1
+  PlayerID: 
   CharacterAnimator: {fileID: 5450023448000633680}
   UseDefaultMecanim: 1
   RunAnimatorSanityChecks: 0
@@ -191,7 +192,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787465996332106805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f2dd01ffdd1cc045a614bd354672723, type: 3}
   m_Name: 
@@ -355,7 +356,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787465996332106805}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69614a4a3cfd06d4e8388acafdb774bd, type: 3}
   m_Name: 
@@ -782,6 +783,27 @@ MonoBehaviour:
   DisplayDurationOnHit: 1
   HideBarAtZero: 1
   HideBarAtZeroDelay: 0
+--- !u!114 &1826878300138968485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1787465996332106805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95dac5aa010e4c82b9722e48259133e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AbilityStartSfx: {fileID: 0}
+  AbilityInProgressSfx: {fileID: 0}
+  AbilityStopSfx: {fileID: 0}
+  AbilityStartFeedbacks: {fileID: 0}
+  AbilityStopFeedbacks: {fileID: 0}
+  AbilityPermitted: 1
+  BlockingMovementStates: 
+  BlockingConditionStates: 
+  BlockingWeaponStates: 
 --- !u!1001 &4559471607071226958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -874,6 +896,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DogPBR
       objectReference: {fileID: 0}
+    - target: {fileID: 8422892626600285522, guid: 214e08cd5e5d74c458e2a81b7ec2c84c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 214e08cd5e5d74c458e2a81b7ec2c84c, type: 3}
 --- !u!4 &4060671328190178672 stripped
@@ -942,9 +969,9 @@ MonoBehaviour:
   InputAuthorized: 1
   TriggerMode: 0
   DelayBeforeUse: 0
-  DelayBeforeUseReleaseInterruption: 1
+  DelayBeforeUseReleaseInterruption: 0
   TimeBetweenUses: 1
-  TimeBetweenUsesReleaseInterruption: 1
+  TimeBetweenUsesReleaseInterruption: 0
   UseBurstMode: 0
   BurstLength: 3
   BurstTimeBetweenShots: 0.1
@@ -968,7 +995,7 @@ MonoBehaviour:
   ModifyMovementWhileAttacking: 0
   MovementMultiplier: 0
   PreventAllMovementWhileInUse: 1
-  PreventAllAimWhileInUse: 0
+  PreventAllAimWhileInUse: 1
   RecoilForce: 0
   Animators:
   - {fileID: 5450023448000633680}
