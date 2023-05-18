@@ -10,7 +10,6 @@ using System.Net;
 using System;
 using System.Xml.Linq;
 using ProtoBuf;
-using MoreMountains.TopDownEngine;
 
 public class SocketConnectionManager : MonoBehaviour
 {

@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MoreMountains.Tools;
 using Newtonsoft.Json;
 using ProtoBuf;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebSocketSharp;
-using static SocketConnectionManager;
 
 public class LobbyConnection : MonoBehaviour
 {
