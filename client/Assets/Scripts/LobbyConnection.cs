@@ -173,8 +173,6 @@ public class LobbyConnection : MonoBehaviour
     private void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
         LobbyEvent lobby_event = Serializer.Deserialize<LobbyEvent>((ReadOnlySpan<byte>)e.RawData);
-        print("Lobby event: " + lobby_event);
-        print(LobbyEventType.GameStarted);
         switch (lobby_event.Type)
         {
             case LobbyEventType.Connected:

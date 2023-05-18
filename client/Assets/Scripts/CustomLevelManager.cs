@@ -6,11 +6,9 @@ using UnityEngine;
 
 public class CustomLevelManager : LevelManager
 {
-    // Start is called before the first frame update
     private int totalPlayers;
     private int playerCount = 0;
     private int playerId;
-    // public LevelManager levelManager;
     public Character prefab;
     public CinemachineCameraController camera;
 
@@ -19,6 +17,7 @@ public class CustomLevelManager : LevelManager
         base.Awake();
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
+
     protected override void Start()
     {
         base.Start();
@@ -40,7 +39,11 @@ public class CustomLevelManager : LevelManager
             {
                 prefab.PlayerID = "";
             }
-            Character newPlayer = Instantiate(prefab, this.InitialSpawnPoint.transform.position, Quaternion.identity);
+            Character newPlayer = Instantiate(
+                prefab,
+                this.InitialSpawnPoint.transform.position,
+                Quaternion.identity
+            );
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
 
@@ -52,7 +55,6 @@ public class CustomLevelManager : LevelManager
 
     private void setCameraToPlayer(int playerID)
     {
-        //print(this.PlayerPrefabs.Length);
         foreach (Character player in this.PlayerPrefabs)
         {
             if (Int32.Parse(player.PlayerID) == playerID)

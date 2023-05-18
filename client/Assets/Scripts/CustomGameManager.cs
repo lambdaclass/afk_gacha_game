@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class CustomGameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     private int totalPlayers;
     private int playerCount = 0;
     private int playerId;
@@ -18,6 +17,7 @@ public class CustomGameManager : MonoBehaviour
     {
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
+
     void Start()
     {
         GeneratePlayer();
@@ -38,7 +38,11 @@ public class CustomGameManager : MonoBehaviour
             {
                 prefab.PlayerID = "";
             }
-            Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
+            Character newPlayer = Instantiate(
+                prefab,
+                levelManager.InitialSpawnPoint.transform.position,
+                Quaternion.identity
+            );
             newPlayer.name = "Player" + " " + (i + 1);
             newPlayer.PlayerID = (i + 1).ToString();
 
@@ -50,7 +54,6 @@ public class CustomGameManager : MonoBehaviour
 
     private void setCameraToPlayer(int playerID)
     {
-        //print(levelManager.PlayerPrefabs.Length);
         foreach (Character player in levelManager.PlayerPrefabs)
         {
             if (Int32.Parse(player.PlayerID) == playerID)

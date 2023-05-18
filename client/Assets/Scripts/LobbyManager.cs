@@ -45,7 +45,7 @@ public class LobbyManager : LevelSelector
     {
         if (
             !String.IsNullOrEmpty(LobbyConnection.Instance.GameSession)
-            && LobbyConnection.Instance.gameStarted == false
+            && !LobbyConnection.Instance.gameStarted
         )
         {
             LobbyConnection.Instance.StartGame();
