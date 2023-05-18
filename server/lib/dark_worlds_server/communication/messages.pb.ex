@@ -32,6 +32,15 @@ defmodule DarkWorldsServer.Communication.Proto.Direction do
   field(:RIGHT, 4)
 end
 
+defmodule DarkWorldsServer.Communication.Proto.PlayerAction do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:NOTHING, 0)
+  field(:ATTACKING, 1)
+end
+
 defmodule DarkWorldsServer.Communication.Proto.LobbyEventType do
   @moduledoc false
 
@@ -65,6 +74,7 @@ defmodule DarkWorldsServer.Communication.Proto.Player do
   field(:position, 3, type: DarkWorldsServer.Communication.Proto.Position)
   field(:last_melee_attack, 4, type: :uint64, json_name: "lastMeleeAttack")
   field(:status, 5, type: DarkWorldsServer.Communication.Proto.Status, enum: true)
+  field(:action, 6, type: DarkWorldsServer.Communication.Proto.PlayerAction, enum: true)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
