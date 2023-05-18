@@ -8,12 +8,15 @@ use crate::time_utils::time_now;
 use std::cmp::{max, min};
 
 pub const MELEE_ATTACK_COOLDOWN: u64 = 1;
+pub const MAX_ROUNDS: u8 = 1;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
 pub struct GameState {
     pub players: Vec<Player>,
     pub board: Board,
+    pub current_round: u64,
+    pub winners: Vec<u64>
 }
 
 #[derive(Debug, NifUnitEnum)]
@@ -38,7 +41,7 @@ impl GameState {
                 Player::new(player_id, 100, new_position)
             })
             .collect();
-
+        
         let mut board = Board::new(board_width, board_height);
 
         for player in players.clone() {
@@ -60,8 +63,36 @@ impl GameState {
                 }
             }
         }
+        let current_round: u64 = 1;
+        let winners: Vec<u64> = Vec::new();
 
-        Self { players, board }
+        Self { players, board, current_round, winners}
+    }
+
+    pub fn next_round(self: &mut Self, number_of_players: u64, winner_player_id: u64) {
+        self.winners.push(winner_player_id);
+
+        let mut positions = HashSet::new();
+        let players: Vec<Player> = (1..number_of_players + 1)
+        .map(|player_id| {
+            let new_position = generate_new_position(&mut positions, self.board.width, self.board.height);
+            Player::new(player_id, 100, new_position)
+        })
+        .collect();
+        
+        let mut board = Board::new(self.board.width, self.board.height);
+        
+        for player in players.clone() {
+            board.set_cell(
+                player.position.x,
+                player.position.y,
+                Tile::Player(player.id),
+            );
+        }
+        
+        self.players = players;
+        self.board = board;
+        self.current_round += 1;
     }
 
     pub fn move_player(self: &mut Self, player_id: u64, direction: Direction, speed: usize) {

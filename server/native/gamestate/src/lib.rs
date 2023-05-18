@@ -79,6 +79,12 @@ fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
     Ok(game_2)
 }
 
+#[rustler::nif(schedule = "DirtyCpu")]
+fn next_round(game: GameState, number_of_players: u64, winner_player_id: u64){
+    let mut game_2 = game;
+    game_2.next_round(number_of_players, winner_player_id);
+    game_2
+}
 pub fn load(env: Env, _: Term) -> bool {
     rustler::resource!(GridResource, env);
     true
