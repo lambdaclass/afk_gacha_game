@@ -10,31 +10,22 @@ using System.Net;
 using System;
 using System.Xml.Linq;
 using ProtoBuf;
-using MoreMountains.TopDownEngine;
-using MoreMountains.Tools;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
 
 public class SocketConnectionManager : MonoBehaviour
 {
-    [SerializeField] MMTouchJoystick joystick;
-    public LevelManager levelManager;
-    public CinemachineCameraController camera;
-    public Character prefab;
     public List<GameObject> players;
-    public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
+    public static List<GameObject> playersStatic;
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
 
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
+    public static SocketConnectionManager Instance;
+    public GameStateUpdate gameUpdate;
+    private int playerId;
 
     WebSocket ws;
-
-    private int totalPlayers;
-    private int playerCount = 0;
-    private int playerId;
 
     public class GameResponse
     {
@@ -46,89 +37,30 @@ public class SocketConnectionManager : MonoBehaviour
         public string session_id { get; set; }
     }
 
-    public struct PlayerUpdate
-    {
-        public long x;
-        public long y;
-        public int player_id;
-        public long health;
-        public PlayerAction action;
-    }
-
-    public class SocketManagerPosition
+    public class Position
     {
         public long x { get; set; }
         public long y { get; set; }
-    }
-
-    public enum PlayerAction
-    {
-        Nothing = 0,
-        Attacking = 1,
     }
 
     public class Player
     {
         public int id { get; set; }
         public int health { get; set; }
-        public SocketManagerPosition position { get; set; }
-        public PlayerAction action { get; set; }
-    }
-
-    public static SocketConnectionManager Instance;
-
-    public void Init()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        this.playerId = -1;
-        DontDestroyOnLoad(gameObject);
+        public Position position { get; set; }
+        public PlayerMovement.PlayerAction action { get; set; }
     }
 
     public void Awake()
     {
-        this.Init();
         Instance = this;
-        DontDestroyOnLoad(gameObject);
         this.session_id = LobbyConnection.Instance.GameSession;
-        this.totalPlayers = LobbyConnection.Instance.playerCount;
-    }
-    public void GeneratePlayer()
-    {
-        for (int i = 0; i < totalPlayers; i++)
-        {
-            if (LobbyConnection.Instance.playerId == i + 1)
-            {
-                // Player1 is the ID to match with the client InputManager
-                prefab.PlayerID = "Player1";
-            }
-            else
-            {
-                prefab.PlayerID = "";
-            }
-            Character newPlayer = Instantiate(prefab, levelManager.InitialSpawnPoint.transform.position, Quaternion.identity);
-            newPlayer.name = "Player" + " " + (i + 1);
-            newPlayer.PlayerID = (i + 1).ToString();
-
-            players.Add(newPlayer.gameObject);
-            levelManager.Players.Add(newPlayer);
-        }
-        levelManager.PlayerPrefabs = (levelManager.Players).ToArray();
+        playersStatic = this.players;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Send the player's action every 30 ms approximately.
-        GeneratePlayer();
         playerId = LobbyConnection.Instance.playerId;
-        setCameraToPlayer(LobbyConnection.Instance.playerId);
-        float tickRate = 1f / 30f;
-        InvokeRepeating("sendAction", tickRate, tickRate);
 
         if (this.session_id.IsNullOrEmpty())
         {
@@ -141,100 +73,6 @@ public class SocketConnectionManager : MonoBehaviour
     }
     Vector2 position = new Vector2(0, 0);
     Vector2 lastPosition = new Vector2(0, 0);
-
-    public void JoystickPointerUp()
-    {
-        lastPosition = new Vector2(position.x, position.y);
-        print("Last position: " + lastPosition);
-    }
-    void Position()
-    {
-        position = new Vector2(joystick.RawValue.x, joystick.RawValue.y);
-        print("Position: " + position);
-    }
-    void sendAction()
-    {
-        if (ws == null)
-        {
-            return;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Up };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Left };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Right };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            ClientAction action = new ClientAction { Action = Action.Move, Direction = Direction.Down };
-            SendAction(action);
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = new Position { X = 0, Y = 100 } };
-            SendAction(action);
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            // This sends the action
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Down };
-            SendAction(action);
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Up };
-            SendAction(action);
-
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Right };
-            SendAction(action);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            ClientAction action = new ClientAction { Action = Action.Attack, Direction = Direction.Left };
-            SendAction(action);
-        }
-    }
-
-    private void setCameraToPlayer(int playerID)
-    {
-        //print(levelManager.PlayerPrefabs.Length);
-        foreach (Character player in levelManager.PlayerPrefabs)
-        {
-            if (Int32.Parse(player.PlayerID) == playerID)
-            {
-                this.camera.SetTarget(player);
-                this.camera.StartFollowing();
-            }
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        while (playerUpdates.TryDequeue(out var playerUpdate))
-        {
-
-            this.players[playerUpdate.player_id].transform.position = new Vector3(playerUpdate.x / 10f - 50.0f, this.players[playerUpdate.player_id].transform.position.y, playerUpdate.y / 10f + 50.0f);
-
-            Health healthComponent = this.players[playerUpdate.player_id].GetComponent<Health>();
-            healthComponent.SetHealth(playerUpdate.health);
-
-            bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
-            this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack(isAttacking);
-        }
-    }
 
     IEnumerator GetRequest(string uri)
     {
@@ -255,11 +93,12 @@ public class SocketConnectionManager : MonoBehaviour
                     //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
-                    Session session = JsonConvert.DeserializeObject<Session>(webRequest.downloadHandler.text);
-                    Debug.Log("Creating and joi ning Session ID: " + session.session_id);
+                    Session session = JsonConvert.DeserializeObject<Session>(
+                        webRequest.downloadHandler.text
+                    );
+                    Debug.Log("Creating and joining Session ID: " + session.session_id);
                     ConnectToSession(session.session_id);
                     break;
-
             }
         }
     }
@@ -271,7 +110,9 @@ public class SocketConnectionManager : MonoBehaviour
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
-            //Debug.Log("Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message);
+            Debug.Log(
+                "Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message
+            );
         };
         ws.Connect();
     }
@@ -290,28 +131,15 @@ public class SocketConnectionManager : MonoBehaviour
         }
         else
         {
-            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>((ReadOnlySpan<byte>)e.RawData);
-            for (int i = 0; i < game_update.Players.Count; i++)
-            {
-                var player = this.players[i];
-                var new_position = game_update.Players[i].Position;
-
-                playerUpdates.Enqueue(
-                    new PlayerUpdate
-                    {
-                        x = ((long)new_position.Y),
-                        y = -((long)new_position.X),
-                        player_id = i,
-                        health = game_update.Players[i].Health,
-                        action = (PlayerAction)game_update.Players[i].Action,
-                    }
-                );
-
-            }
+            // Se mueve
+            GameStateUpdate game_update = Serializer.Deserialize<GameStateUpdate>(
+                (ReadOnlySpan<byte>)e.RawData
+            );
+            this.gameUpdate = game_update;
         }
     }
 
-    private void SendAction(ClientAction action)
+    public void SendAction(ClientAction action)
     {
         using (var stream = new MemoryStream())
         {

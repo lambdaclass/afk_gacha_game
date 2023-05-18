@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 3958994567052424065}
   - component: {fileID: 1491302188629220723}
   - component: {fileID: 5272521791666708605}
-  - component: {fileID: 2068750243901734815}
+  - component: {fileID: 1813453874361702781}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -167,9 +167,9 @@ MonoBehaviour:
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2068750243901734815}
-        m_TargetAssemblyTypeName: LobbyManagerStarter, Assembly-CSharp
-        m_MethodName: GoToLevel
+      - m_Target: {fileID: 1813453874361702781}
+        m_TargetAssemblyTypeName: LobbiesManager, Assembly-CSharp
+        m_MethodName: ConnectToLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -270,7 +270,7 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 2471999026841298352}
---- !u!114 &2068750243901734815
+--- !u!114 &1813453874361702781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3351608820173294155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4558a8ec694a448b186fd397c86a8adc, type: 3}
+  m_Script: {fileID: 11500000, guid: 610e661a176e54d3793b92ad9640aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobby
@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6431237631302165410}
   - component: {fileID: 6431237631302165408}
-  - component: {fileID: 9138045012347536078}
+  - component: {fileID: 7158739655978231132}
   m_Layer: 5
   m_Name: LobbyItem
   m_TagString: Untagged
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4c1ca8bc423b748983b24393521cb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &9138045012347536078
+--- !u!114 &7158739655978231132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6431237631302165411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4557e321d3a8476b91bfb742fa2ae4d, type: 3}
+  m_Script: {fileID: 11500000, guid: 00431d5dbe6ba4b81923597ba44abd1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   idContainer: {fileID: 6431237632104201231}

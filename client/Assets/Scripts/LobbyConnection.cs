@@ -3,41 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MoreMountains.Tools;
 using Newtonsoft.Json;
 using ProtoBuf;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebSocketSharp;
-using static SocketConnectionManager;
-
 
 public class LobbyConnection : MonoBehaviour
 {
     [Tooltip("IP to connect to. If empty, localhost will be used")]
     public string server_ip = "localhost";
-
-    [SerializeField]
-    GameObject lobbyItemPrefab;
-
-    [SerializeField]
-    GameObject gameItemPrefab;
-
-    [SerializeField]
-    Transform lobbyListContainer;
-    public List<GameObject> lobbiesList;
-
-    [SerializeField]
-    Transform gameListContainer;
-    public List<GameObject> gamesList;
-
+    public List<string> lobbiesList;
+    public List<string> gamesList;
     public static LobbyConnection Instance;
     public string GameSession;
     public string LobbySession;
     public int playerId;
     public int playerCount;
-    private bool gameStarted = false;
+    public bool gameStarted = false;
 
     WebSocket ws;
 
@@ -142,15 +126,7 @@ public class LobbyConnection : MonoBehaviour
                     LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(
                         webRequest.downloadHandler.text
                     );
-                    lobbiesList = response.lobbies
-                        .Select(l =>
-                        {
-                            GameObject lobbyItem = Instantiate(lobbyItemPrefab, lobbyListContainer);
-                            lobbyItem.GetComponent<LobbyItem>().setId(l);
-                            return lobbyItem;
-                        })
-                        .ToList();
-
+                    lobbiesList = response.lobbies;
                     break;
             }
         }
@@ -171,15 +147,7 @@ public class LobbyConnection : MonoBehaviour
                     GamesResponse response = JsonConvert.DeserializeObject<GamesResponse>(
                         webRequest.downloadHandler.text
                     );
-                    gamesList = response.current_games
-                        .Select(l =>
-                        {
-                            GameObject gameItem = Instantiate(gameItemPrefab, gameListContainer);
-                            gameItem.GetComponent<GameItem>().setId(l);
-                            return gameItem;
-                        })
-                        .ToList();
-
+                    gamesList = response.current_games;
                     break;
                 default:
                     break;
@@ -203,20 +171,26 @@ public class LobbyConnection : MonoBehaviour
     private void OnWebSocketMessage(object sender, MessageEventArgs e)
     {
         LobbyEvent lobby_event = Serializer.Deserialize<LobbyEvent>((ReadOnlySpan<byte>)e.RawData);
-
-        switch (lobby_event.Type) {
+        switch (lobby_event.Type)
+        {
             case LobbyEventType.Connected:
-                Debug.Log("Connected to lobby " + lobby_event.LobbyId + " as player_id " + lobby_event.PlayerId);
+                Debug.Log(
+                    "Connected to lobby "
+                        + lobby_event.LobbyId
+                        + " as player_id "
+                        + lobby_event.PlayerId
+                );
                 break;
 
             case LobbyEventType.PlayerAdded:
-                if (playerId == -1) {
-                    playerId = (int) lobby_event.AddedPlayerId;
+                if (playerId == -1)
+                {
+                    playerId = (int)lobby_event.AddedPlayerId;
                 }
                 break;
 
             case LobbyEventType.PlayerCount:
-                playerCount = (int) lobby_event.PlayerCount;
+                playerCount = (int)lobby_event.PlayerCount;
                 break;
 
             case LobbyEventType.GameStarted:
@@ -226,7 +200,8 @@ public class LobbyConnection : MonoBehaviour
             default:
                 Debug.Log("Message received is: " + lobby_event.Type);
                 break;
-        };
+        }
+        ;
     }
 
     public void StartGame()
@@ -239,14 +214,5 @@ public class LobbyConnection : MonoBehaviour
             ws.Send(msg);
         }
         gameStarted = true;
-    }
-
-    private void Update()
-    {
-        if (!String.IsNullOrEmpty(GameSession) && gameStarted == false)
-        {
-            StartGame();
-            MMSceneLoadingManager.LoadScene("BackendPlayground");
-        }
     }
 }

@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class LobbyInfo : MonoBehaviour
 {
-    [SerializeField] Text lobbyID;
-    [SerializeField] Text playersAmount;
+    [SerializeField]
+    Text lobbyID;
+
+    [SerializeField]
+    Text playersAmount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +25,8 @@ public class LobbyInfo : MonoBehaviour
         var aux = ((playersAmount.text).Trim().Split(": "));
         if (LobbyConnection.Instance.playerCount > int.Parse((aux[1]).Trim()))
         {
-            playersAmount.text = "Amount of Players: " + (LobbyConnection.Instance.playerCount).ToString();
+            playersAmount.text =
+                "Amount of Players: " + (LobbyConnection.Instance.playerCount).ToString();
         }
     }
 }
