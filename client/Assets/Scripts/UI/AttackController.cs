@@ -60,5 +60,11 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
 
             //MMDebug.DebugLogTime("animator " + animator);
         }
+
+        public virtual void ExecutionAttack()
+        {
+            //Vector2 lastPosition = position;
+            //SocketConnectionManager.Instance.SendAction(AttackAoe, lastPosition);
+        }
     }
 }

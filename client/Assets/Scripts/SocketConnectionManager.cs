@@ -11,9 +11,13 @@ using System;
 using System.Xml.Linq;
 using ProtoBuf;
 using MoreMountains.TopDownEngine;
+using MoreMountains.Tools;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class SocketConnectionManager : MonoBehaviour
 {
+    [SerializeField] MMTouchJoystick joystick;
     public LevelManager levelManager;
     public CinemachineCameraController camera;
     public Character prefab;
@@ -135,7 +139,19 @@ public class SocketConnectionManager : MonoBehaviour
             ConnectToSession(this.session_id);
         }
     }
+    Vector2 position = new Vector2(0, 0);
+    Vector2 lastPosition = new Vector2(0, 0);
 
+    public void JoystickPointerUp()
+    {
+        lastPosition = new Vector2(position.x, position.y);
+        print("Last position: " + lastPosition);
+    }
+    void Position()
+    {
+        position = new Vector2(joystick.RawValue.x, joystick.RawValue.y);
+        print("Position: " + position);
+    }
     void sendAction()
     {
         if (ws == null)
@@ -217,10 +233,6 @@ public class SocketConnectionManager : MonoBehaviour
 
             bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
             this.players[playerUpdate.player_id].GetComponent<AttackController>().SwordAttack(isAttacking);
-            if (isAttacking)
-            {
-                print("attack");
-            }
         }
     }
 
