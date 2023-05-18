@@ -188,12 +188,12 @@ PrefabInstance:
         type: 3}
       propertyPath: gameListContainer
       value: 
-      objectReference: {fileID: 1916068801}
+      objectReference: {fileID: 0}
     - target: {fileID: -8041225176264388735, guid: 77aebae5d60de4384a6923f228de8979,
         type: 3}
       propertyPath: lobbyListContainer
       value: 
-      objectReference: {fileID: 5613304981418273111}
+      objectReference: {fileID: 0}
     - target: {fileID: 1475518446953562392, guid: 77aebae5d60de4384a6923f228de8979,
         type: 3}
       propertyPath: m_RootOrder
@@ -455,7 +455,6 @@ GameObject:
   - component: {fileID: 871897510}
   - component: {fileID: 871897509}
   - component: {fileID: 871897508}
-  - component: {fileID: 871897507}
   - component: {fileID: 871897513}
   m_Layer: 5
   m_Name: Background
@@ -484,21 +483,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &871897507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871897505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 316ab92be1a09414daadf97f5d5d2a77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LevelName: Lobby
-  DoNotUseLevelManager: 0
-  DestroyPersistentCharacter: 0
 --- !u!114 &871897508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,8 +541,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 871897513}
-        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
-        m_MethodName: GoToLevel
+        m_TargetAssemblyTypeName: LobbiesManager, Assembly-CSharp
+        m_MethodName: CreateLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -677,12 +661,63 @@ MonoBehaviour:
   m_GameObject: {fileID: 871897505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d808c9bf14a1458aadf96d5f92b3b12, type: 3}
+  m_Script: {fileID: 11500000, guid: 610e661a176e54d3793b92ad9640aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobby
   DoNotUseLevelManager: 0
   DestroyPersistentCharacter: 0
+  sessionId: {fileID: 0}
+--- !u!1 &931310532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931310534}
+  - component: {fileID: 931310533}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &931310533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931310532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a906a3ed6f6416fbb0d5bd4e2bd1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbiesContainer: {fileID: 5613304981418273111}
+  lobbyItemPrefab: {fileID: 6431237631302165411, guid: 13e64695dc3a44037a7a7568727079c6,
+    type: 3}
+  gameItemPrefab: {fileID: 6291501560866832240, guid: 2f3aa629e9ebe4328a3e05d7de5b649c,
+    type: 3}
+  gamesContainer: {fileID: 1916068801}
+--- !u!4 &931310534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931310532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.9636, y: 2.666348, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &932980361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2059,8 +2094,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2432087871287418735}
-        m_TargetAssemblyTypeName: BackButton, Assembly-CSharp
-        m_MethodName: GoToLevel
+        m_TargetAssemblyTypeName: LobbiesManager, Assembly-CSharp
+        m_MethodName: Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2213,12 +2248,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2432087871287418733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26da99b4c89d04871be4374f8604aa1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 610e661a176e54d3793b92ad9640aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobbies
   DoNotUseLevelManager: 0
   DestroyPersistentCharacter: 0
+  sessionId: {fileID: 0}
 --- !u!114 &3134107353037268762
 MonoBehaviour:
   m_ObjectHideFlags: 0
