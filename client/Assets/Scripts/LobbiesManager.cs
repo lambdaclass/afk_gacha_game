@@ -35,7 +35,7 @@ public class LobbiesManager : LevelSelector
 
     public void Refresh()
     {
-        LobbyConnection.Instance.Init();
+        LobbyConnection.Instance.Refresh();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

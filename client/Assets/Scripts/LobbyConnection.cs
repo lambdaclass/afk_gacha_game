@@ -63,6 +63,11 @@ public class LobbyConnection : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void Refresh()
+    {
+        Start();
+    }
+
     public void CreateLobby()
     {
         StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
