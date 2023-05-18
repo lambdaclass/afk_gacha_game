@@ -3,17 +3,17 @@ use crate::skills::*;
 #[module = "DarkWorldsServer.Engine.Character"]
 pub struct Character {
     pub class: Class,
-    pub speed: u64,
     pub name: String,
+    pub speed: u64,
     pub basic_skill: BasicSkill,
 }
 impl Character {
     pub fn new(class: Class, speed: u64, name: &str, basic_skill: BasicSkill) -> Self {
         Self {
             class,
-            speed,
             name: name.into(),
             basic_skill,
+            speed,
         }
     }
     #[inline]
@@ -22,7 +22,7 @@ impl Character {
         // instead of matching enums.
         match self.basic_skill {
             BasicSkill::Slingshot => 10_u64,
-            BasicSkill::Bash => 20_u64
+            BasicSkill::Bash => 40_u64,
         }
     }
     // Cooldown in seconds
@@ -30,12 +30,12 @@ impl Character {
     pub fn cooldown(&self) -> u64 {
         match self.basic_skill {
             BasicSkill::Slingshot => 1,
-            BasicSkill::Bash => 2
+            BasicSkill::Bash => 5,
         }
     }
 }
 impl Default for Character {
     fn default() -> Self {
-        Character::new(Class::Hunter, 2, "H4ck", BasicSkill::Slingshot)
+        Character::new(Class::Hunter, 6, "H4ck", BasicSkill::Slingshot)
     }
 }

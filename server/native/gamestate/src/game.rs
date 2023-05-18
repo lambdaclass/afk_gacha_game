@@ -3,7 +3,9 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
+use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, Status};
+use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
 
@@ -30,10 +32,24 @@ impl GameState {
         build_walls: bool,
     ) -> Self {
         let mut positions = HashSet::new();
+        let characters = [
+            Default::default(),
+            Character {
+                class: Class::Guardian,
+                basic_skill: BasicSkill::Bash,
+                speed: 3,
+                name: "Guardian".to_string(),
+            },
+        ];
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
                 let new_position = generate_new_position(&mut positions, board_width, board_height);
-                Player::new(player_id, 100, new_position, Default::default())
+                Player::new(
+                    player_id,
+                    100,
+                    new_position,
+                    characters[(player_id % 2) as usize].clone(),
+                )
             })
             .collect();
 
