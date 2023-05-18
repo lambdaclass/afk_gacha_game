@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +19,11 @@ public class SelectServerIP : MonoBehaviour
 
     void Update()
     {
+        SetButtonContent();
+    }
+
+    private void SetButtonContent()
+    {
         if (LobbyConnection.Instance.server_ip == IP.text)
         {
             ButtonText.text = "Connected!";
@@ -31,9 +34,8 @@ public class SelectServerIP : MonoBehaviour
             ButtonText.text = "Connect";
             ButtonImage.color = selectedColor;
         }
-
     }
-
+    //This method is called when the button is pressed
     public void SetServerIp()
     {
         serverIp = IP.text;
