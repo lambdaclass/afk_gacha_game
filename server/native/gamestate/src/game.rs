@@ -3,11 +3,11 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
+use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, Status};
+use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
-
-pub const MELEE_ATTACK_COOLDOWN: u64 = 1;
 
 #[derive(NifStruct)]
 #[module = "DarkWorldsServer.Engine.Game"]
@@ -32,10 +32,24 @@ impl GameState {
         build_walls: bool,
     ) -> Self {
         let mut positions = HashSet::new();
+        let characters = [
+            Default::default(),
+            Character {
+                class: Class::Guardian,
+                basic_skill: BasicSkill::Bash,
+                speed: 3,
+                name: "Guardian".to_string(),
+            },
+        ];
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
                 let new_position = generate_new_position(&mut positions, board_width, board_height);
-                Player::new(player_id, 100, new_position)
+                Player::new(
+                    player_id,
+                    100,
+                    new_position,
+                    characters[(player_id % 2) as usize].clone(),
+                )
             })
             .collect();
 
@@ -64,7 +78,7 @@ impl GameState {
         Self { players, board }
     }
 
-    pub fn move_player(self: &mut Self, player_id: u64, direction: Direction, speed: usize) {
+    pub fn move_player(self: &mut Self, player_id: u64, direction: Direction) {
         let player = self
             .players
             .iter_mut()
@@ -75,8 +89,11 @@ impl GameState {
             return;
         }
 
-        let mut new_position =
-            compute_adjacent_position_n_tiles(&direction, &player.position, speed);
+        let mut new_position = compute_adjacent_position_n_tiles(
+            &direction,
+            &player.position,
+            player.character.speed as usize,
+        );
 
         // These changes are done so that if the player is moving into one of the map's borders
         // but is not already on the edge, they move to the edge. In simpler terms, if the player is
@@ -107,6 +124,9 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
+        let attack_dmg = attacking_player.character.attack_dmg() as i64;
+
+        let cooldown = attacking_player.character.cooldown();
 
         attacking_player.action = PlayerAction::ATTACKING;
 
@@ -116,7 +136,7 @@ impl GameState {
 
         let now = time_now();
 
-        if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
+        if (now - attacking_player.last_melee_attack) < cooldown {
             return;
         }
         attacking_player.last_melee_attack = now;
@@ -135,7 +155,7 @@ impl GameState {
 
             match attacked_player {
                 Some(ap) => {
-                    ap.modify_health(-10);
+                    ap.modify_health(-attack_dmg);
                     let player = ap.clone();
                     self.modify_cell_if_player_died(&player);
                 }
@@ -215,7 +235,6 @@ impl GameState {
         }
     }
 }
-
 /// Given a position and a direction, returns the position adjacent to it `n` tiles
 /// in that direction
 /// Example: If the arguments are Direction::RIGHT, (0, 0) and 2, returns (0, 2).
@@ -262,7 +281,6 @@ fn compute_attack_initial_positions(
         ),
     }
 }
-
 /// TODO: update documentation
 /// Checks if the given movement from `old_position` to `new_position` is valid.
 /// The way we do it is separated into cases but the idea is always the same:
