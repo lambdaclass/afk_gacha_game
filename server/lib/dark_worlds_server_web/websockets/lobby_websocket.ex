@@ -29,7 +29,7 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
     case Communication.lobbyDecode(message) do
       {:ok, %{type: :START_GAME}} ->
         Matchmaking.start_game(state[:lobby_pid])
-        {:reply, {:text, "STARTING GAME..."}, state}
+        {:ok, state}
 
       {:error, msg} ->
         {:reply, {:text, "ERROR: #{msg}"}, state}
