@@ -32,7 +32,8 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
         {:ok, state}
 
       {:error, msg} ->
-        {:reply, {:text, "ERROR: #{msg}"}, state}
+        Logger.error("Received frame with an invalid message: #{msg}")
+        {:ok, state}
     end
   end
 
