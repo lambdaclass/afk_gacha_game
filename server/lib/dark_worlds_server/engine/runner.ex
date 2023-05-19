@@ -80,7 +80,8 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     initial_state = %{
       game: state,
-      has_finished?: false
+      has_finished?: false,
+      is_single_player?: length(opts.players) == 1
     }
 
     Process.send_after(self(), :update_state, @update_time)
@@ -237,15 +238,16 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  def handle_info(:update_state, %{next_state: next_state} = state) do
+  def handle_info(:update_state, %{next_state: %{is_single_player?: is_single_player?} = next_state} = state) do
     state = Map.put(state, :current_state, next_state)
 
     game = next_state.game |> Game.clean_players_actions()
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
 
-    # FIXME if the game starts with only 1 player, the game will immediately terminated
-    has_a_player_won? = has_a_player_won?(next_state.game.players)
+    # FIXME this is a fast solution to avoid an error where you start with 1 player
+    # FIXME and the runner finishes immediately
+    has_a_player_won? = not is_single_player? and has_a_player_won?(next_state.game.players)
 
     maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
