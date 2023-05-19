@@ -8,7 +8,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   @build_walls false
   @amount_of_players 10
-  @board {30, 30}
+  @board {1000, 1000}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished

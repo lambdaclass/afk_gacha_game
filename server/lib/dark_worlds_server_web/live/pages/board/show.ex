@@ -2,7 +2,6 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
   use DarkWorldsServerWeb, :live_view
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Engine.ActionOk
   alias DarkWorldsServer.Engine.RequestTracker
   alias DarkWorldsServer.Engine.Runner
