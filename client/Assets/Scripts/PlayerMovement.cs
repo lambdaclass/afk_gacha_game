@@ -53,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     // This is a temporary function but later on it should be in GenericAoeAttack 
     public void ExecuteAoeAttack()
     {
+        //InputManager.buttonYJoystick.GetComponentMMTOUCH.OnPointerUpEvent = GenericAoeAttack.Execute;
+
         print(joystickRPosition);
         /* ClientAction action = new ClientAction { Action = Action.(AttackAoe) };
         SocketConnectionManager.Instance.SendAction(action); */

@@ -23,6 +23,7 @@ public class CustomGameManager : MonoBehaviour
         GeneratePlayer();
         playerId = LobbyConnection.Instance.playerId;
         setCameraToPlayer(playerId);
+        SetInputsAbilities();
     }
 
     public void GeneratePlayer()
@@ -63,4 +64,9 @@ public class CustomGameManager : MonoBehaviour
             }
         }
     }
+    private void SetInputsAbilities()
+    {
+
+    }
+
 }
