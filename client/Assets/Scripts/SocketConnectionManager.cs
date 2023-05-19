@@ -55,6 +55,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         Instance = this;
         this.session_id = LobbyConnection.Instance.GameSession;
+        this.server_ip = LobbyConnection.Instance.server_ip;
         playersStatic = this.players;
     }
 

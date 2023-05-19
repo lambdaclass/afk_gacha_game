@@ -59,6 +59,7 @@ public class LobbyConnection : MonoBehaviour
             return;
         }
         Instance = this;
+        this.server_ip = SelectServerIP.GetServerIp();
         this.playerId = -1;
         DontDestroyOnLoad(gameObject);
     }
