@@ -1,11 +1,17 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SelectServerIP : MonoBehaviour
 {
-    [SerializeField] Text IP;
-    [SerializeField] GameObject Button;
-    [SerializeField] Text ButtonText;
+    [SerializeField]
+    Text IP;
+
+    [SerializeField]
+    GameObject Button;
+
+    [SerializeField]
+    Text ButtonText;
     public Color selectedColor = Color.white;
 
     Image ButtonImage;
@@ -35,11 +41,13 @@ public class SelectServerIP : MonoBehaviour
             ButtonImage.color = selectedColor;
         }
     }
+
     //This method is called when the button is pressed
     public void SetServerIp()
     {
         serverIp = IP.text;
-        LobbyConnection.Instance.server_ip = serverIp;
+        LobbyConnection.Instance.Refresh();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public static string GetServerIp()
