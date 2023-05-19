@@ -48,7 +48,7 @@ defmodule DarkWorldsServer.Communication do
     end
   end
 
-  def lobbyDecode(value) do
+  def lobby_decode(value) do
     try do
       {:ok, LobbyEvent.decode(value)}
     rescue
