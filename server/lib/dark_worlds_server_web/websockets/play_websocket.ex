@@ -7,6 +7,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   alias DarkWorldsServer.Communication
 
   @behaviour :cowboy_websocket
+  @ping_interval_ms 500
 
   @impl true
   def init(req, _opts) do
@@ -31,6 +32,8 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
          true <- runner_pid in Engine.list_runners_pids(),
          {:ok, player_id} <- Runner.join(runner_pid, String.to_integer(player_id)) do
       state = %{runner_pid: runner_pid, player_id: player_id}
+
+      Process.send_after(self(), :send_ping, @ping_interval_ms)
 
       {:reply,
        {:text,
@@ -64,6 +67,14 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     end
   end
 
+  def websocket_handle(:pong, state) do
+    last_ping_time = state.last_ping_time
+    time_now = Time.utc_now()
+    latency = Time.diff(time_now, last_ping_time, :millisecond)
+    # Send back the player's ping
+    {:reply, {:text, "PING: #{latency}"}, state}
+  end
+
   def websocket_handle(_, state) do
     {:reply, {:text, "ERROR unsupported message"}, state}
   end
@@ -71,6 +82,13 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @impl true
   def websocket_info({:player_joined, player_id, _game_state}, state) do
     {:reply, {:text, "PLAYER_JOINED: #{player_id}"}, state}
+  end
+
+  # Send a ping frame every once in a while
+  def websocket_info(:send_ping, state) do
+    Process.send_after(self(), :send_ping, @ping_interval_ms)
+    time_now = Time.utc_now()
+    {:reply, :ping, Map.put(state, :last_ping_time, time_now)}
   end
 
   def websocket_info({:game_update, game_state}, state) do
