@@ -1,4 +1,5 @@
 defmodule DarkWorldsServerWeb.LobbyWebsocket do
+  require Logger
   alias DarkWorldsServer.Matchmaking
   alias DarkWorldsServer.Communication
 
