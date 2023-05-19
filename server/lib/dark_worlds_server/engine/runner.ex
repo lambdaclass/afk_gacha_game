@@ -2,7 +2,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine.{ActionOk, Game, Player}
+  alias DarkWorldsServer.Engine.ActionOk
+  alias DarkWorldsServer.Engine.Game
+  alias DarkWorldsServer.Engine.Player
 
   @build_walls false
   @amount_of_players 10
@@ -155,7 +157,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_cast(
         {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
+        %{current_state: %{game: game} = game_state, current_players: current} = state
       ) do
     current = current - 1
     {:ok, game} = Game.disconnect(game, player_id)
