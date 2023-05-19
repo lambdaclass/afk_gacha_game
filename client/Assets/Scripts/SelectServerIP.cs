@@ -46,7 +46,6 @@ public class SelectServerIP : MonoBehaviour
     public void SetServerIp()
     {
         serverIp = IP.text;
-        //LobbyConnection.Instance.server_ip = serverIp;
         LobbyConnection.Instance.Refresh();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
