@@ -10,6 +10,7 @@ public class CustomLevelManager : LevelManager
     private int playerCount = 0;
     private int playerId;
     public Character prefab;
+    public Camera UiCamera;
     public CinemachineCameraController camera;
 
     protected override void Awake()
