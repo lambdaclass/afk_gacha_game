@@ -156,7 +156,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_cast(
         {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
+        %{current_state: %{game: game} = game_state, current_players: current} = state
       ) do
     current = current - 1
     {:ok, game} = Game.disconnect(game, player_id)
