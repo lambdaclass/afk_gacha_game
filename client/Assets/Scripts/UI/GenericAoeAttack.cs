@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace MoreMountains.TopDownEngine // you might want to use your own namespace here
 {
     public class GenericAoeAttack : CharacterAbility
@@ -21,9 +20,9 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         }
 
         // This is a temporary function but later on it should be in GenericAoeAttack 
-        public void ExecuteAoeAttack()
+        public void ExecuteAoeAttack(Vector2 aoePosition)
         {
-            print("ability");
+            //print("ability at: " + aoePosition);
         }
     }
 }
