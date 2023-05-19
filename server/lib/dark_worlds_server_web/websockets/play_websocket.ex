@@ -2,9 +2,10 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @moduledoc """
   Play Websocket handler that parses msgs to be send to the runner genserver
   """
-  alias DarkWorldsServer.Engine.{Runner, RequestTracker}
-  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Communication
+  alias DarkWorldsServer.Engine
+  alias DarkWorldsServer.Engine.RequestTracker
+  alias DarkWorldsServer.Engine.Runner
 
   @behaviour :cowboy_websocket
   @ping_interval_ms 500

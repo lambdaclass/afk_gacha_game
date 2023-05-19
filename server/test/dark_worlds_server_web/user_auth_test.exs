@@ -1,10 +1,11 @@
 defmodule DarkWorldsServerWeb.UserAuthTest do
   use DarkWorldsServerWeb.ConnCase, async: true
 
-  alias Phoenix.LiveView
+  import DarkWorldsServer.AccountsFixtures
+
   alias DarkWorldsServer.Accounts
   alias DarkWorldsServerWeb.UserAuth
-  import DarkWorldsServer.AccountsFixtures
+  alias Phoenix.LiveView
 
   @remember_me_cookie "_dark_worlds_server_web_user_remember_me"
 

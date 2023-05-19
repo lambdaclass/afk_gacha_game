@@ -1,6 +1,6 @@
 defmodule DarkWorldsServerWeb.LobbyWebsocket do
-  alias DarkWorldsServer.Matchmaking
   alias DarkWorldsServer.Communication
+  alias DarkWorldsServer.Matchmaking
 
   @behaviour :cowboy_websocket
 

@@ -3,8 +3,8 @@ defmodule DarkWorldsServer.AccountsFixtures do
   This module defines test helpers for creating
   entities via the `DarkWorldsServer.Accounts` context.
   """
-  alias DarkWorldsServer.Repo
   alias DarkWorldsServer.Accounts.User
+  alias DarkWorldsServer.Repo
 
   def unique_user_email(), do: "user#{System.unique_integer()}@example.com"
   def valid_user_password(), do: "hello world!"

@@ -88,7 +88,8 @@ defmodule DarkWorldsServerWeb do
       import DarkWorldsServerWeb.Gettext
       import DarkWorldsServerWeb.Helpers
 
-      alias DarkWorldsServer.{Engine, Runner}
+      alias DarkWorldsServer.Engine
+      alias DarkWorldsServer.Runner
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS

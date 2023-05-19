@@ -2,7 +2,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine.{ActionOk, Game, Player}
+  alias DarkWorldsServer.Engine.ActionOk
+  alias DarkWorldsServer.Engine.Game
+  alias DarkWorldsServer.Engine.Player
 
   @build_walls false
   @amount_of_players 10

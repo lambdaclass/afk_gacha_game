@@ -1,8 +1,8 @@
 defmodule DarkWorldsServerWeb.GameController do
   use DarkWorldsServerWeb, :controller
 
-  alias DarkWorldsServer.Engine
   alias DarkWorldsServer.Communication
+  alias DarkWorldsServer.Engine
 
   def current_games(conn, _params) do
     current_games_pids = Engine.list_runners_pids()

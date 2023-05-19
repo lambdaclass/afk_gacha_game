@@ -1,8 +1,8 @@
 defmodule DarkWorldsServer.Communication do
-  alias DarkWorldsServer.Communication.Proto.UpdatePing
-  alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.ClientAction
+  alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.LobbyEvent
+  alias DarkWorldsServer.Communication.Proto.UpdatePing
 
   @moduledoc """
   The Communication context
