@@ -64,28 +64,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            // guardar attack
             nextAttackDirection = Direction.Down;
             isAttacking = true;
 
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            // guardar attack
             nextAttackDirection = Direction.Up;
             isAttacking = true;
 
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            // guardar attack
             nextAttackDirection = Direction.Right;
             isAttacking = true;
 
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
-            // guardar attack
             nextAttackDirection = Direction.Left;
             isAttacking = true;
 
