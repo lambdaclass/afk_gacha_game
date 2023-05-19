@@ -27,12 +27,10 @@ public class SelectServerIP : MonoBehaviour
         if (LobbyConnection.Instance.server_ip == IP.text)
         {
             ButtonText.text = "Connected!";
-            ButtonImage.color = selectedColor;
         }
         else
         {
             ButtonText.text = "Connect";
-            ButtonImage.color = selectedColor;
         }
     }
     //This method is called when the button is pressed
