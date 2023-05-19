@@ -53,9 +53,13 @@ public class PlayerMovement : MonoBehaviour
     // This is a temporary function but later on it should be in GenericAoeAttack 
     public void ExecuteAoeAttack()
     {
-        print(joystickRPosition);
-        /* ClientAction action = new ClientAction { Action = Action.(AttackAoe) };
-        SocketConnectionManager.Instance.SendAction(action); */
+        RelativePosition relative_position = new RelativePosition{
+            X = (long) (joystickRPosition.x * 100),
+            Y = (long) (joystickRPosition.y * 100)
+        };
+
+        ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = relative_position };
+        SocketConnectionManager.Instance.SendAction(action);
     }
 
     void SendAction()

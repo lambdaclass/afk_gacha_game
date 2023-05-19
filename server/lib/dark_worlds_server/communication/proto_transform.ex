@@ -1,8 +1,10 @@
 defmodule DarkWorldsServer.Communication.ProtoTransform do
   alias DarkWorldsServer.Engine.Position, as: EnginePosition
+  alias DarkWorldsServer.Engine.RelativePosition, as: EngineRelativePosition
   alias DarkWorldsServer.Engine.Player, as: EnginePlayer
   alias DarkWorldsServer.Engine.ActionOk, as: EngineAction
   alias DarkWorldsServer.Communication.Proto.Position, as: ProtoPosition
+  alias DarkWorldsServer.Communication.Proto.RelativePosition, as: ProtoRelativePosition
   alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
   alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.ClientAction, as: ProtoAction
@@ -46,13 +48,19 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EngineAction{action: :attack_aoe, value: position}, ProtoAction) do
-    %ProtoAction{action: :attack_aoe, position: position}
+    %ProtoAction{action: :ATTACK_AOE, position: position}
   end
 
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position
     %EnginePosition{x: x, y: y}
+  end
+
+  @impl Protobuf.TransformModule
+  def decode(%ProtoRelativePosition{} = position, ProtoRelativePosition) do
+    %{x: x, y: y} = position
+    %EngineRelativePosition{x: x, y: y}
   end
 
   def decode(%ProtoPlayer{} = player, ProtoPlayer) do

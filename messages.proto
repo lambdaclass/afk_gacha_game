@@ -44,6 +44,15 @@ message Position {
     uint64 y = 2;
 }
 
+/* A relative positioncorner
+    - x: X coordinate
+    - y: Y coordinate
+ */
+message RelativePosition {
+    int64 x = 1;
+    int64 y = 2;
+}
+
 /* Message to update a player's ping latency information
     - player_id: ID of the player game object refering to
     - latency: ping latency for that player
@@ -63,7 +72,7 @@ message ClientAction {
     Action action = 1;
     Direction direction = 2;
     uint32 latency = 3;
-    Position position = 4;
+    RelativePosition position = 4;
 }
 
 /* Actions a client/player performs

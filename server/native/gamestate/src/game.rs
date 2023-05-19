@@ -3,7 +3,7 @@ use rustler::{NifStruct, NifUnitEnum};
 use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
-use crate::player::{Player, PlayerAction, Position, Status};
+use crate::player::{Player, PlayerAction, Position, Status, RelativePosition};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
 
@@ -184,19 +184,18 @@ impl GameState {
     //     }
     // }
 
-    pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, attack_position: &Position) {
+    pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, attack_position: &RelativePosition) {
         let attacking_player = self
             .players
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
-        
         attacking_player.action = PlayerAction::ATTACKING;
 
         if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
-        println!("Attack AOE");
+ 
         let now = time_now();
 
         if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
@@ -299,13 +298,13 @@ fn compute_attack_initial_positions(
     }
 }
 
-fn compute_attack_aoe_initial_positions(player_position: &Position, attack_position: &Position) -> (Position, Position) {
-    let modifier = 100_f64;
+fn compute_attack_aoe_initial_positions(player_position: &Position, attack_position: &RelativePosition) -> (Position, Position) {
+    let modifier = 200_f64;
     
     let x = (player_position.x as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
     let y = (player_position.y as f64 + modifier * (attack_position.y as f64) / 100_f64) as usize;
     
-    (Position::new(x.wrapping_sub(25), y.wrapping_sub(25)), Position::new(x + 25, y + 25))
+    (Position::new(x.saturating_sub(20), y.saturating_sub(20)), Position::new(x + 20, y + 20))
 }
 
 /// TODO: update documentation
