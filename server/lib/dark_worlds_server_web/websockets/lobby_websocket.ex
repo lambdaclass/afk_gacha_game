@@ -1,6 +1,6 @@
 defmodule DarkWorldsServerWeb.LobbyWebsocket do
-  alias DarkWorldsServer.Matchmaking
   alias DarkWorldsServer.Communication
+  alias DarkWorldsServer.Matchmaking
 
   @behaviour :cowboy_websocket
 
@@ -21,12 +21,11 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
     player_id = Enum.count(players) + 1
     Matchmaking.add_player(player_id, matchmaking_session_pid)
 
-    {:reply, {:binary, Communication.lobby_connected!(lobby_id, player_id)},
-     %{lobby_pid: matchmaking_session_pid}}
+    {:reply, {:binary, Communication.lobby_connected!(lobby_id, player_id)}, %{lobby_pid: matchmaking_session_pid}}
   end
 
   def websocket_handle({:binary, message}, state) do
-    case Communication.lobbyDecode(message) do
+    case Communication.lobby_decode(message) do
       {:ok, %{type: :START_GAME}} ->
         Matchmaking.start_game(state[:lobby_pid])
         {:reply, {:text, "STARTING GAME..."}, state}
