@@ -71,7 +71,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.flag(:priority, priority)
 
     state =
-      Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+      Game.new(number_of_players: length(opts.players), board: @board, build_walls: @build_walls)
 
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
@@ -90,7 +90,7 @@ defmodule DarkWorldsServer.Engine.Runner do
        next_state: initial_state,
        max_players: @amount_of_players,
        players: opts.players,
-       current_players: 0
+       current_players: length(opts.players)
      }}
   end
 
@@ -243,6 +243,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
 
+    # FIXME if the game starts with only 1 player, the game will immediately terminated
     has_a_player_won? = has_a_player_won?(next_state.game.players)
 
     maybe_broadcast_game_finished_message(has_a_player_won?, state)
