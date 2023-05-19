@@ -72,8 +72,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.flag(:priority, priority)
 
-    state =
-      Game.new(number_of_players: length(opts.players), board: @board, build_walls: @build_walls)
+    state = Game.new(number_of_players: length(opts.players), board: @board, build_walls: @build_walls)
 
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
