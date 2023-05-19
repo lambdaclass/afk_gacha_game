@@ -6,7 +6,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   @build_walls false
   @amount_of_players 10
-  @board {1000, 1000}
+  @board {30, 30}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
@@ -70,8 +70,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.flag(:priority, priority)
 
-    state =
-      Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
 
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)

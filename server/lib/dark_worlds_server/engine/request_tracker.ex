@@ -41,8 +41,7 @@ defmodule DarkWorldsServer.Engine.RequestTracker do
       IO.puts("\nDetails per game")
       IO.puts("------------------")
 
-      Enum.each(aggregate.msgs_per_game, fn {game_pid,
-                                             %{total: total, msgs_per_player: msgs_per_player}} ->
+      Enum.each(aggregate.msgs_per_game, fn {game_pid, %{total: total, msgs_per_player: msgs_per_player}} ->
         IO.puts("#{:erlang.pid_to_list(game_pid)} =>")
         IO.puts("   total msgs: #{total}")
         IO.puts("   total players: #{length(Map.keys(msgs_per_player))}")
