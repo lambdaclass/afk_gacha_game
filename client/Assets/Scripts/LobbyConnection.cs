@@ -43,12 +43,7 @@ public class LobbyConnection : MonoBehaviour
     private void Awake()
     {
         this.Init();
-    }
-
-    void Start()
-    {
-        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
-        StartCoroutine(GetGames("http://" + server_ip + ":4000/current_games"));
+        PopulateLists();
     }
 
     public void Init()
@@ -64,9 +59,12 @@ public class LobbyConnection : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Refresh()
+    private void PopulateLists()
     {
-        Start();
+        this.lobbiesList = new List<string>();
+        this.gamesList = new List<string>();
+        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+        StartCoroutine(GetGames("http://" + server_ip + ":4000/current_games"));
     }
 
     public void CreateLobby()
@@ -78,6 +76,12 @@ public class LobbyConnection : MonoBehaviour
     {
         ConnectToSession(matchmaking_id);
         LobbySession = matchmaking_id;
+    }
+
+    public void Refresh()
+    {
+        this.server_ip = SelectServerIP.GetServerIp();
+        PopulateLists();
     }
 
     public void StartGame()
