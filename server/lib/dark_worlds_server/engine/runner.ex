@@ -105,8 +105,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       ) do
     require Logger
     Logger.debug("Entering in handle cast...")
-    # {:ok, game} = Game.move_with_joystick(game, player, x, y)
-    game = Game.move_with_joystick(game, player, x, y)
+    {:ok, game} = Game.move_with_joystick(game, player, x, y)
 
     next_state = Map.put(next_state, :game, game)
 

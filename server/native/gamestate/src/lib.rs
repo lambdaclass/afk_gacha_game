@@ -81,11 +81,15 @@ fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn move_with_joystick(game: GameState, player_id: u64, x: f64, y: f64) -> GameState {
+fn move_with_joystick(
+    game: GameState,
+    player_id: u64,
+    x: f64,
+    y: f64,
+) -> Result<GameState, String> {
     let mut game_2 = game;
-    game_2.move_with_joystick(player_id, x, y).unwrap();
-    game_2
-    // Ok(game_2)
+    game_2.move_with_joystick(player_id, x, y)?;
+    Ok(game_2)
 }
 
 pub fn load(env: Env, _: Term) -> bool {

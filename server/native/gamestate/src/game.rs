@@ -126,11 +126,12 @@ impl GameState {
     ) -> Result<(), String> {
         let player: &mut Player = self
             .players
-            .get_mut(player_id as usize)
+            .get_mut((player_id - 1) as usize)
             .ok_or("Given id is out of bounds")?;
         if matches!(player.status, Status::DEAD) {
             return Ok(());
         }
+        println!("{}", player_id);
         let rounded_x = x.round() as usize;
         let rounded_y = y.round() as usize;
         let Position { x: old_x, y: old_y } = player.position;
