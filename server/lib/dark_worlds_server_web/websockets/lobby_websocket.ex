@@ -1,4 +1,5 @@
 defmodule DarkWorldsServerWeb.LobbyWebsocket do
+  require Logger
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Matchmaking
 
@@ -28,10 +29,11 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
     case Communication.lobby_decode(message) do
       {:ok, %{type: :START_GAME}} ->
         Matchmaking.start_game(state[:lobby_pid])
-        {:reply, {:text, "STARTING GAME..."}, state}
+        {:ok, state}
 
       {:error, msg} ->
-        {:reply, {:text, "ERROR: #{msg}"}, state}
+        Logger.error("Received frame with an invalid message: #{msg}")
+        {:ok, state}
     end
   end
 
