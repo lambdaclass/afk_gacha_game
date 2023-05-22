@@ -118,6 +118,42 @@ impl GameState {
         );
     }
 
+    pub fn move_with_joystick(
+        self: &mut Self,
+        player_id: u64,
+        x: f64,
+        y: f64,
+    ) -> Result<(), String> {
+        let player: &mut Player = self
+            .players
+            .get_mut(player_id as usize)
+            .ok_or("Given id is out of bounds")?;
+        if matches!(player.status, Status::DEAD) {
+            return Ok(());
+        }
+        let rounded_x = x.round() as usize;
+        let rounded_y = y.round() as usize;
+        let Position { x: old_x, y: old_y } = player.position;
+        let new_position = Position {
+            x: old_x + 1,
+            y: old_y + 1,
+        };
+        // let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
+        self.board
+            .set_cell(player.position.x, player.position.y, Tile::Empty);
+
+        player.position = new_position;
+
+        println!("Player New position: {:?}", player.position);
+        self.board.set_cell(
+            player.position.x,
+            player.position.y,
+            Tile::Player(player.id),
+        );
+        assert!(old_x != player.position.x);
+        assert!(old_y != player.position.y);
+        Ok(())
+    }
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
         let attacking_player = self
             .players

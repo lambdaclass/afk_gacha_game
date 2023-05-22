@@ -62,6 +62,7 @@ message ClientAction {
     Action action = 1;
     Direction direction = 2;
     uint32 latency = 3;
+    JoystickValues move_delta = 4;
 }
 
 /* Actions a client/player performs
@@ -77,6 +78,7 @@ enum Action {
     PING = 3;
     UPDATE_PING = 4;
     ATTACK_AOE = 5;
+    MOVE_WITH_JOYSTICK = 6;
 }
 
 /* Directions an action can happen in
@@ -87,6 +89,11 @@ enum Direction {
     DOWN = 2;
     LEFT = 3;
     RIGHT = 4;
+}
+
+message JoystickValues {
+    float x = 1;
+    float y = 2;
 }
 
 /* Actions a player performs

@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
+using MoreMountains.Tools;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] MMTouchJoystick joystickL;
+    Vector2 joystickLPosition;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
     public Direction nextAttackDirection;
     public bool isAttacking = false;
@@ -46,7 +49,14 @@ public class PlayerMovement : MonoBehaviour
 
     void SendAction()
     {
-        PlayerControls.SendAction();
+        if (joystickL is not null && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        {
+            PlayerControls.SendJoystickRawValues(joystickL.RawValue.x, joystickL.RawValue.y);
+        }
+        else
+        {
+            PlayerControls.SendAction();
+        }
         sendAttack();
     }
 
