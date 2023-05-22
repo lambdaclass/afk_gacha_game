@@ -89,7 +89,7 @@ public class LobbyConnection : MonoBehaviour
         StartCoroutine(WaitLobbyCreated());
     }
 
-    IEnumerator WaitLobbyCreated()
+    private IEnumerator WaitLobbyCreated()
     {
         yield return new WaitUntil(() => !string.IsNullOrEmpty(LobbySession));
         StartGame();
