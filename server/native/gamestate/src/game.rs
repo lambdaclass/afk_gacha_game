@@ -299,12 +299,12 @@ fn compute_attack_initial_positions(
 }
 
 fn compute_attack_aoe_initial_positions(player_position: &Position, attack_position: &RelativePosition) -> (Position, Position) {
-    let modifier = 200_f64;
+    let modifier = 120_f64;
     
     let x = (player_position.x as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
     let y = (player_position.y as f64 + modifier * (attack_position.y as f64) / 100_f64) as usize;
     
-    (Position::new(x.saturating_sub(20), y.saturating_sub(20)), Position::new(x + 20, y + 20))
+    (Position::new(x.saturating_sub(25), y.saturating_sub(25)), Position::new(x + 25, y + 25))
 }
 
 /// TODO: update documentation

@@ -54,8 +54,8 @@ public class PlayerMovement : MonoBehaviour
     public void ExecuteAoeAttack()
     {
         RelativePosition relative_position = new RelativePosition{
-            X = (long) (joystickRPosition.x * 100),
-            Y = (long) (joystickRPosition.y * 100)
+            X = (long) (-joystickRPosition.y * 100),
+            Y = (long) (joystickRPosition.x * 100)
         };
 
         ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = relative_position };
