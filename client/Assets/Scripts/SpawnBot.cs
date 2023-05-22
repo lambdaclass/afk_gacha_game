@@ -10,10 +10,10 @@ public class SpawnBot : MonoBehaviour
 
     public void Init()
     {
-        GeneratePlayer();
+        GenerateBotPlayer();
     }
 
-    public void GeneratePlayer()
+    public void GenerateBotPlayer()
     {
         playerPrefab.GetComponent<Character>().PlayerID = "";
 
