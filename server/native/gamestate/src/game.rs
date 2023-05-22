@@ -14,9 +14,7 @@ pub const MAX_ROUNDS: u8 = 1;
 #[module = "DarkWorldsServer.Engine.Game"]
 pub struct GameState {
     pub players: Vec<Player>,
-    pub board: Board,
-    pub current_round: u64,
-    pub winners: Vec<u64>
+    pub board: Board
 }
 
 #[derive(Debug, NifUnitEnum)]
@@ -63,23 +61,20 @@ impl GameState {
                 }
             }
         }
-        let current_round: u64 = 1;
-        let winners: Vec<u64> = Vec::new();
 
-        Self { players, board, current_round, winners}
+        Self { players, board}
     }
 
-    pub fn next_round(self: &mut Self, number_of_players: u64, winner_player_id: u64) {
-        self.winners.push(winner_player_id);
-
+    pub fn new_round(self: &mut Self, players: Vec<Player>) {
         let mut positions = HashSet::new();
-        let players: Vec<Player> = (1..number_of_players + 1)
-        .map(|player_id| {
-            let new_position = generate_new_position(&mut positions, self.board.width, self.board.height);
-            Player::new(player_id, 100, new_position)
-        })
-        .collect();
+        let mut players: Vec<Player> = players;
         
+        for player in players.iter_mut(){
+            let new_position = generate_new_position(&mut positions, self.board.width, self.board.height);
+            player.position.x = new_position.x;
+            player.position.y = new_position.y;
+        }
+
         let mut board = Board::new(self.board.width, self.board.height);
         
         for player in players.clone() {
@@ -92,7 +87,6 @@ impl GameState {
         
         self.players = players;
         self.board = board;
-        self.current_round += 1;
     }
 
     pub fn move_player(self: &mut Self, player_id: u64, direction: Direction, speed: usize) {
