@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobby
-  DoNotUseLevelManager: 0
+  DoNotUseLevelManager: 1
   DestroyPersistentCharacter: 0
   sessionId: {fileID: 0}
 --- !u!1 &879694309
@@ -1113,6 +1113,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!224 &879931215 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2432087871260112788, guid: 6804ba0bd0f4d4d67a0b719f56e9f5bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1045544531}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931310532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3013,7 +3019,7 @@ RectTransform:
   m_Children:
   - {fileID: 2432087869642666575}
   - {fileID: 1374762115}
-  - {fileID: 486738102}
+  - {fileID: 879931215}
   m_Father: {fileID: 1556163871}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
