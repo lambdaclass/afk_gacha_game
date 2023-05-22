@@ -18,11 +18,10 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         {
             base.ProcessAbility();
         }
-
-        // This is a temporary function but later on it should be in GenericAoeAttack 
         public void ExecuteAoeAttack(Vector2 aoePosition)
         {
-            //print("ability at: " + aoePosition);
+            print("ability at: " + aoePosition);
+            //print("Player: " + _character.PlayerID);
         }
     }
 }
