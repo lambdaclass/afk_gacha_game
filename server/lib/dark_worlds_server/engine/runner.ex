@@ -7,7 +7,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Player
 
   @build_walls false
-  @amount_of_players 10
+  @amount_of_players 2
   @board {1000, 1000}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -17,6 +17,12 @@ defmodule DarkWorldsServer.Engine.Runner do
   @update_time 30
   # This is the number of tiles characters move per :move command
   @character_speed 3
+
+  @round_states [
+    :playing,
+    :finished
+  ]
+
   case Mix.env() do
     :test ->
       # Check player count every 3 seconds in testing
@@ -91,7 +97,10 @@ defmodule DarkWorldsServer.Engine.Runner do
        next_state: initial_state,
        max_players: @amount_of_players,
        players: opts.players,
-       current_players: 0
+       current_players: 0,
+       current_round: 1,
+       round_state: :playing,
+       winners: []
      }}
   end
 
@@ -246,7 +255,10 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     has_a_player_won? = has_a_player_won?(next_state.game.players)
 
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
+    decide_next_game_update(state)
+    |> broadcast_game_update(state)
+
+    # maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
     {:noreply, state}
   end
@@ -255,8 +267,67 @@ defmodule DarkWorldsServer.Engine.Runner do
   # Internal helpers #
   ####################
   defp has_a_player_won?(players) do
-    players_alive = Enum.filter(players, fn player -> player.health != 0 end)
+    players_alive = Enum.filter(players, fn player -> player.status == :alive end)
     Enum.count(players_alive) == 1
+  end
+
+  defp decide_next_game_update(state) do
+    %{next_state: next_state, winners: winners, current_round: current_round} = state
+    amount_of_winners = winners |> Enum.uniq() |> Enum.count()
+
+    cond do
+      # current_round == 2 && amount_of_winners == 2 -> # Means we need a last round
+      #   :last_round
+      # current_round == 1 && next_state.has_finished? -> # Means we just finished the first round
+      #   :next_round
+      # A game update because the round did not finished
+      current_round == 1 && not next_state.has_finished? ->
+        :game_update
+
+      (current_round == 2 && amount_of_winners == 1) || (current_round == 3 && next_state.has_finished?) ||
+          next_state.has_finished? ->
+        :game_finished
+    end
+  end
+
+  defp broadcast_game_update(:last_round, state) do
+    # Add logic for last round
+  end
+
+  defp broadcast_game_update(
+         :next_round,
+         %{winners: winners, current_round: current_round, next_state: next_state} = state
+       ) do
+    winner_player = Enum.filter(players, fn player -> player.status == :alive end)
+    winners = [winner_player | winners]
+    game = Game.new_round(next_state.game, next_state.game.players)
+
+    next_state = Map.put(next_state, :game, game)
+
+    state =
+      state
+      |> Map.put(:next_state, next_state)
+      |> Map.put(:current_round, current_round + 1)
+      |> Map.put(:winners, winners)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
+
+    Process.send_after(self(), :update_state, @update_time)
+  end
+
+  defp broadcast_game_update(:game_update, state) do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
+
+    Process.send_after(self(), :update_state, @update_time)
+  end
+
+  defp broadcast_game_update(:game_finished, state) do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
+
+    Process.send_after(self(), :session_timeout, @session_timeout)
   end
 
   defp maybe_broadcast_game_finished_message(true, state) do
