@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] MMTouchJoystick joystickR;
     Vector2 joystickRPosition;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
+    public Direction nextAttackDirection;
+    public bool isAttacking = false;
 
     public struct PlayerUpdate
     {
@@ -40,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
         )
         {
             UpdatePlayerActions();
+            checkForAttacks();
             ExecutePlayerAction();
         }
     }
@@ -65,6 +68,45 @@ public class PlayerMovement : MonoBehaviour
     void SendAction()
     {
         PlayerControls.SendAction();
+        sendAttack();
+    }
+
+    void sendAttack()
+    {
+        if (isAttacking)
+        {
+            ClientAction clientAction = new ClientAction { Action = Action.Attack, Direction = nextAttackDirection };
+            SocketConnectionManager.Instance.SendAction(clientAction);
+            isAttacking = false;
+        }
+    }
+
+    void checkForAttacks()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            nextAttackDirection = Direction.Down;
+            isAttacking = true;
+
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            nextAttackDirection = Direction.Up;
+            isAttacking = true;
+
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            nextAttackDirection = Direction.Right;
+            isAttacking = true;
+
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            nextAttackDirection = Direction.Left;
+            isAttacking = true;
+
+        }
     }
 
     void ExecutePlayerAction()

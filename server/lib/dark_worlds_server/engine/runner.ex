@@ -2,10 +2,12 @@ defmodule DarkWorldsServer.Engine.Runner do
   use GenServer, restart: :transient
 
   alias DarkWorldsServer.Communication
-  alias DarkWorldsServer.Engine.{ActionOk, Game, Player}
+  alias DarkWorldsServer.Engine.ActionOk
+  alias DarkWorldsServer.Engine.Game
+  alias DarkWorldsServer.Engine.Player
 
   @build_walls false
-  @amount_of_players 3
+  @amount_of_players 10
   @board {1000, 1000}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -70,8 +72,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.flag(:priority, priority)
 
-    state =
-      Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
 
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
@@ -104,7 +105,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       ) do
     game =
       game
-      |> Game.move_player(player, value, @character_speed)
+      |> Game.move_player(player, value)
 
     next_state = Map.put(next_state, :game, game)
 
@@ -155,7 +156,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_cast(
         {:disconnect, player_id},
-        state = %{current_state: game_state = %{game: game}, current_players: current}
+        %{current_state: %{game: game} = game_state, current_players: current} = state
       ) do
     current = current - 1
     {:ok, game} = Game.disconnect(game, player_id)
