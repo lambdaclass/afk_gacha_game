@@ -83,6 +83,18 @@ public class LobbyConnection : MonoBehaviour
         PopulateLists();
     }
 
+    public void QuickGame()
+    {
+        StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
+        StartCoroutine(WaitLobbyCreated());
+    }
+
+    IEnumerator WaitLobbyCreated()
+    {
+        yield return new WaitUntil(() => !string.IsNullOrEmpty(LobbySession));
+        StartGame();
+    }
+
     public void StartGame()
     {
         LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };

@@ -42,7 +42,7 @@ public class LobbiesManager : LevelSelector
 
     public void QuickGame()
     {
-        LobbyConnection.Instance.CreateLobby();
+        LobbyConnection.Instance.QuickGame();
         GoToLevel();
     }
 }
