@@ -61,6 +61,7 @@ defmodule LoadTest.Communication.Proto.LobbyEventType do
   field :GAME_STARTED, 3
   field :PLAYER_COUNT, 4
   field :START_GAME, 5
+  field :PLAYER_REMOVED, 6
 end
 
 defmodule LoadTest.Communication.Proto.GameEvent do
@@ -137,4 +138,5 @@ defmodule LoadTest.Communication.Proto.LobbyEvent do
   field :game_id, 5, type: :string, json_name: "gameId"
   field :player_count, 6, type: :uint64, json_name: "playerCount"
   field :players, 7, repeated: true, type: :uint64
+  field :removed_player_id, 8, type: :uint64, json_name: "removedPlayerId"
 end

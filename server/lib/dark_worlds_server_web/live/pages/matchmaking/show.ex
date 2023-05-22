@@ -36,8 +36,8 @@ defmodule DarkWorldsServerWeb.MatchmakingLive.Show do
     {:noreply, assign(socket, :player_count, length(players))}
   end
 
-  def handle_info({:player_removed, player_count}, socket) do
-    {:noreply, assign(socket, :player_count, player_count)}
+  def handle_info({:player_removed, _player_id, players}, socket) do
+    {:noreply, assign(socket, :player_count, length(players))}
   end
 
   def handle_info({:game_started, game_pid}, socket) do

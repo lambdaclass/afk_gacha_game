@@ -17,6 +17,11 @@ defmodule DarkWorldsServer.Communication do
     |> LobbyEvent.encode()
   end
 
+  def lobby_player_removed!(player_id, players) do
+    %LobbyEvent{type: :PLAYER_REMOVED, removed_player_id: player_id, players: players}
+    |> LobbyEvent.encode()
+  end
+
   def lobby_player_count!(count) do
     %LobbyEvent{type: :PLAYER_COUNT, player_count: count}
     |> LobbyEvent.encode()

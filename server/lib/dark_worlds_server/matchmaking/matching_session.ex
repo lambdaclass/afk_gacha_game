@@ -66,7 +66,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
         {:reply, :ok, state}
 
       remaining_players ->
-        send(self(), :player_removed)
+        send(self(), {:player_removed, player})
         {:reply, :ok, %{state | :players => remaining_players}}
     end
   end
@@ -97,11 +97,11 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
     {:noreply, state}
   end
 
-  def handle_info(:player_removed, state) do
+  def handle_info({:player_removed, player}, state) do
     Phoenix.PubSub.broadcast!(
       DarkWorldsServer.PubSub,
       state[:topic],
-      {:player_removed, length(state[:players])}
+      {:player_removed, player, state[:players]}
     )
 
     {:noreply, state}

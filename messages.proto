@@ -125,6 +125,7 @@ enum PlayerAction {
     - game_id: ID of the game session to join, used on GAME_STARTED
     - [DEPRECATED] player_count: Number of players in the matchmaking lobby, used on PLAYER_COUNT
     - players: List of players, used on PLAYER_ADDED
+    - removed_player_id: ID of any player leaving the lobby, used on PLAYER_REMOVED
  */
 message LobbyEvent {
     LobbyEventType type = 1;
@@ -134,6 +135,7 @@ message LobbyEvent {
     string game_id = 5;
     uint64 player_count = 6;
     repeated uint64 players = 7;
+    uint64 removed_player_id = 8;
 }
 
 /* Type of lobby events
@@ -141,6 +143,7 @@ message LobbyEvent {
     - PLAYER_ADDED: A player has joined the matchmaking lobby
     - GAME_STARTED: A game session has started from this lobby
     - PLAYER_COUNT: Current player count in the lobby
+    - PLAYER_REMOVED: A player has left the matchmaking lobby
  */
 enum LobbyEventType {
     TYPE_UNSPECIFIED = 0;
@@ -149,4 +152,5 @@ enum LobbyEventType {
     GAME_STARTED = 3;
     PLAYER_COUNT = 4;
     START_GAME = 5;
+    PLAYER_REMOVED = 6;
 }
