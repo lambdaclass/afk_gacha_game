@@ -5,7 +5,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
 
   # 2 minutes
   @timeout_ms 2 * 60 * 1000
-  @players_amount_update_ms 30
+  @players_amount_update_ms 300000000
   #######
   # API #
   #######
@@ -54,7 +54,7 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
         {:reply, :ok, state}
 
       false ->
-        send(self(), :player_added)
+        send(self(), {:player_added, player})
         {:reply, :ok, %{state | :players => [player | players]}}
     end
   end
@@ -88,11 +88,11 @@ defmodule DarkWorldsServer.Matchmaking.MatchingSession do
   end
 
   @impl GenServer
-  def handle_info(:player_added, state) do
+  def handle_info({:player_added, player}, state) do
     Phoenix.PubSub.broadcast!(
       DarkWorldsServer.PubSub,
       state[:topic],
-      {:player_added, length(state[:players])}
+      {:player_added, player, state[:players]}
     )
 
     {:noreply, state}

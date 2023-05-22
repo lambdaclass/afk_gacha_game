@@ -147,6 +147,9 @@ public partial class LobbyEvent : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(6, Name = @"player_count")]
     public ulong PlayerCount { get; set; }
 
+    [global::ProtoBuf.ProtoMember(7, Name = @"players", IsPacked = true)]
+    public ulong[] Players { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]

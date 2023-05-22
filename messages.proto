@@ -123,7 +123,8 @@ enum PlayerAction {
     - player_id: ID assigned to the player (client) in the matchmaking lobby, used on CONNECTED
     - added_player_id: ID of any new player joining the lobby, used on PLAYER_ADDED
     - game_id: ID of the game session to join, used on GAME_STARTED
-    - player_count: Number of players in the matchmaking lobby, used on PLAYER_COUNT
+    - [DEPRECATED] player_count: Number of players in the matchmaking lobby, used on PLAYER_COUNT
+    - players: List of players, used on PLAYER_ADDED
  */
 message LobbyEvent {
     LobbyEventType type = 1;
@@ -132,6 +133,7 @@ message LobbyEvent {
     uint64 added_player_id = 4;
     string game_id = 5;
     uint64 player_count = 6;
+    repeated uint64 players = 7;
 }
 
 /* Type of lobby events

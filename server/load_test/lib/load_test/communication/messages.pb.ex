@@ -136,4 +136,5 @@ defmodule LoadTest.Communication.Proto.LobbyEvent do
   field :added_player_id, 4, type: :uint64, json_name: "addedPlayerId"
   field :game_id, 5, type: :string, json_name: "gameId"
   field :player_count, 6, type: :uint64, json_name: "playerCount"
+  field :players, 7, repeated: true, type: :uint64
 end
