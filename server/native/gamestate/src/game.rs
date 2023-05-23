@@ -124,36 +124,51 @@ impl GameState {
         x: f64,
         y: f64,
     ) -> Result<(), String> {
-        let player: &mut Player = self
-            .players
-            .get_mut((player_id - 1) as usize)
-            .ok_or("Given id is out of bounds")?;
+        let player = Self::get_player_mut(&mut self.players, player_id)?;
         if matches!(player.status, Status::DEAD) {
             return Ok(());
         }
-        println!("{}", player_id);
-        let rounded_x = x.round() as usize;
-        let rounded_y = y.round() as usize;
         let Position { x: old_x, y: old_y } = player.position;
-        let new_position = Position {
-            x: old_x + 1,
-            y: old_y + 1,
+        let speed = player.character.speed as i64;
+        let (x_base_increment, y_base_increment) = Self::joystick_axis_to_grid_coords(x, y);
+        let mut new_position = Position {
+            x: (old_x as i64 + (x_base_increment * speed)) as usize,
+            y: (old_y as i64 + (y_base_increment * speed)) as usize,
         };
-        // let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
+        // new_position.x = min(new_position.x, self.board.height - 1);
+        // new_position.x = max(new_position.x, 0);
+        // new_position.y = min(new_position.y, self.board.width - 1);
+        // new_position.y = max(new_position.y, 0);
+
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
 
-        player.position = new_position;
+        player.position = tile_to_move_to(&self.board, &player.position, &new_position);
 
-        println!("Player New position: {:?}", player.position);
         self.board.set_cell(
             player.position.x,
             player.position.y,
             Tile::Player(player.id),
         );
-        assert!(old_x != player.position.x);
-        assert!(old_y != player.position.y);
         Ok(())
+    }
+    // Maps joystick axis (which is like a common x-y axis) to
+    // matrix coords.
+    fn joystick_axis_to_grid_coords(joystick_x: f64, joystick_y: f64) -> (i64, i64) {
+        let grid_x = -(joystick_y.round() as i64);
+        let grid_y = (joystick_x.round() as i64);
+        return (grid_x, grid_y);
+    }
+    fn get_player_mut(players: &mut Vec<Player>, player_id: u64) -> Result<&mut Player, String> {
+        players
+            .get_mut((player_id - 1) as usize)
+            .ok_or(format!("Given id is out of bounds"))
+    }
+    fn get_player(self: &Self, player_id: u64) -> Result<Player, String> {
+        self.players
+            .get((player_id - 1) as usize)
+            .ok_or(format!("Given id is out of bounds"))
+            .cloned()
     }
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
         let attacking_player = self
