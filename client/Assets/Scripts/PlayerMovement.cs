@@ -48,7 +48,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void SendAction()
     {
-        GetComponent<PlayerControls>().SendAction();
+        if (joystickL is not null && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        {
+            GetComponent<PlayerControls>().SendJoystickRawValues(joystickL.RawValue.x, joystickL.RawValue.y);
+        }
+        else
+        {
+            GetComponent<PlayerControls>().SendAction();
+        }
         sendAttack();
     }
 

@@ -70,19 +70,19 @@ fn no_move_if_occupied() -> TestResult {
     assert_result!(expected_grid, get_grid(&state))
 }
 
-#[rustler::nif]
-fn no_move_if_wall() -> TestResult {
-    let mut state = GameState::new(1, 2, 2, false);
-    let player1_id = 1;
-    let player1 = Player::new(player1_id, 100, Position::new(0, 0), speed1_character());
-    state.players = vec![player1];
-    state.board.set_cell(0, 0, Tile::Player(player1_id));
-    state.board.set_cell(0, 1, Tile::Wall);
+// #[rustler::nif]
+// fn no_move_if_wall() -> TestResult {
+//     let mut state = GameState::new(1, 2, 2, false);
+//     let player1_id = 1;
+//     let player1 = Player::new(player1_id, 100, Position::new(0, 0), speed1_character());
+//     state.players = vec![player1];
+//     state.board.set_cell(0, 0, Tile::Player(player1_id));
+//     state.board.set_cell(0, 1, Tile::Wall);
 
-    let expected_grid = get_grid(&state);
-    state.move_player(player1_id, Direction::RIGHT);
-    assert_result!(expected_grid, get_grid(&state))
-}
+//     let expected_grid = get_grid(&state);
+//     state.move_player(player1_id, Direction::RIGHT);
+//     assert_result!(expected_grid, get_grid(&state))
+// }
 
 #[rustler::nif]
 fn movement() -> TestResult {

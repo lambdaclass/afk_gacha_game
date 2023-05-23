@@ -25,6 +25,7 @@ defmodule LoadTest.Communication.Proto.Action do
   field :MOVE, 1
   field :ATTACK, 2
   field :ATTACK_AOE, 5
+  field :MOVE_WITH_JOYSTICK, 6
 end
 
 defmodule LoadTest.Communication.Proto.Direction do
@@ -109,6 +110,16 @@ defmodule LoadTest.Communication.Proto.ClientAction do
   field :action, 1, type: LoadTest.Communication.Proto.Action, enum: true
   field :direction, 2, type: LoadTest.Communication.Proto.Direction, enum: true
   field :position, 3, type: LoadTest.Communication.Proto.Position
+  field :move_delta, 5, type: LoadTest.Communication.Proto.JoystickValues, json_name: "moveDelta"
+end
+
+defmodule LoadTest.Communication.Proto.JoystickValues do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :x, 1, type: :float
+  field :y, 2, type: :float
 end
 
 defmodule LoadTest.Communication.Proto.LobbyEvent do

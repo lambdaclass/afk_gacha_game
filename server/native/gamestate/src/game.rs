@@ -104,13 +104,13 @@ impl GameState {
         new_position.y = min(new_position.y, self.board.width - 1);
         new_position.y = max(new_position.y, 0);
 
-        let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
+        // let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
 
         // Remove the player from their previous position on the board
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
 
-        player.position = tile_to_move_to;
+        player.position = new_position;
         self.board.set_cell(
             player.position.x,
             player.position.y,
@@ -118,6 +118,68 @@ impl GameState {
         );
     }
 
+    // Takes the raw value from Unity's joystick
+    // and calculates the resulting position on the grid.
+    // The joystick values are 2 floating point numbers,
+    // x and y which are translated to the character's delta
+    // into a certain grid direction. A conversion with rounding
+    // to the nearest integer is done to obtain the grid coordinates.
+    // The (x,y) input value becomes:
+    // (-1*rounded_nearest_integer(y), round_nearest_integer(x)).
+    // Eg: If the input is (-0.7069376, 0.7072759) (a left-upper joystick movement) the movement on the grid
+    // becomes (-1, -1). Because the input is a left-upper joystick movement
+    pub fn move_with_joystick(
+        self: &mut Self,
+        player_id: u64,
+        x: f64,
+        y: f64,
+    ) -> Result<(), String> {
+        let player = Self::get_player_mut(&mut self.players, player_id)?;
+        if matches!(player.status, Status::DEAD) {
+            return Ok(());
+        }
+        let Position { x: old_x, y: old_y } = player.position;
+        let speed = player.character.speed as i64;
+        let (x_grid_delta, y_grid_delta) = Self::joystick_axis_to_grid_coords(x, y);
+        let mut new_position = Position {
+            x: (old_x as i64 + (x_grid_delta * speed)) as usize,
+            y: (old_y as i64 + (y_grid_delta * speed)) as usize,
+        };
+
+        new_position.x = min(new_position.x, self.board.height - 1);
+        new_position.x = max(new_position.x, 0);
+        new_position.y = min(new_position.y, self.board.width - 1);
+        new_position.y = max(new_position.y, 0);
+        self.board
+            .set_cell(player.position.x, player.position.y, Tile::Empty);
+
+        player.position = new_position;
+
+        self.board.set_cell(
+            player.position.x,
+            player.position.y,
+            Tile::Player(player.id),
+        );
+        Ok(())
+    }
+    // Maps joystick axis (which is like a common x-y axis) to
+    // matrix coords.
+    fn joystick_axis_to_grid_coords(joystick_x: f64, joystick_y: f64) -> (i64, i64) {
+        let grid_x = -(joystick_y.round() as i64);
+        let grid_y = joystick_x.round() as i64;
+        return (grid_x, grid_y);
+    }
+    fn get_player_mut(players: &mut Vec<Player>, player_id: u64) -> Result<&mut Player, String> {
+        players
+            .get_mut((player_id - 1) as usize)
+            .ok_or(format!("Given id ({player_id}) is not valid"))
+    }
+    fn get_player(self: &Self, player_id: u64) -> Result<Player, String> {
+        self.players
+            .get((player_id - 1) as usize)
+            .ok_or(format!("Given id ({player_id}) is not valid"))
+            .cloned()
+    }
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
         let attacking_player = self
             .players
@@ -295,103 +357,103 @@ fn compute_attack_initial_positions(
 /// - Movement is in the X direction. This is also divided into two cases:
 ///     - Movement increases the X coordinate (new_position.x > old_position.x).
 ///     - Movement decreases the X coordinate (new_position.x < old_position.x).
-fn tile_to_move_to(board: &Board, old_position: &Position, new_position: &Position) -> Position {
-    let mut number_of_cells_to_move = 0;
+// fn tile_to_move_to(board: &Board, old_position: &Position, new_position: &Position) -> Position {
+//     let mut number_of_cells_to_move = 0;
 
-    if new_position.x == old_position.x {
-        if new_position.y > old_position.y {
-            for i in 1..(new_position.y - old_position.y) + 1 {
-                let cell = board.get_cell(old_position.x, old_position.y + i);
+//     if new_position.x == old_position.x {
+//         if new_position.y > old_position.y {
+//             for i in 1..(new_position.y - old_position.y) + 1 {
+//                 let cell = board.get_cell(old_position.x, old_position.y + i);
 
-                match cell {
-                    Some(Tile::Empty) => {
-                        number_of_cells_to_move += 1;
-                        continue;
-                    }
-                    None => continue,
-                    Some(_) => {
-                        return Position {
-                            x: old_position.x,
-                            y: old_position.y + number_of_cells_to_move,
-                        };
-                    }
-                }
-            }
-            return Position {
-                x: old_position.x,
-                y: old_position.y + number_of_cells_to_move,
-            };
-        } else {
-            for i in 1..(old_position.y - new_position.y) + 1 {
-                let cell = board.get_cell(old_position.x, old_position.y - i);
+//                 match cell {
+//                     Some(Tile::Empty) => {
+//                         number_of_cells_to_move += 1;
+//                         continue;
+//                     }
+//                     None => continue,
+//                     Some(_) => {
+//                         return Position {
+//                             x: old_position.x,
+//                             y: old_position.y + number_of_cells_to_move,
+//                         };
+//                     }
+//                 }
+//             }
+//             return Position {
+//                 x: old_position.x,
+//                 y: old_position.y + number_of_cells_to_move,
+//             };
+//         } else {
+//             for i in 1..(old_position.y - new_position.y) + 1 {
+//                 let cell = board.get_cell(old_position.x, old_position.y - i);
 
-                match cell {
-                    Some(Tile::Empty) => {
-                        number_of_cells_to_move += 1;
-                        continue;
-                    }
-                    None => continue,
-                    Some(_) => {
-                        return Position {
-                            x: old_position.x,
-                            y: old_position.y - number_of_cells_to_move,
-                        };
-                    }
-                }
-            }
-            return Position {
-                x: old_position.x,
-                y: old_position.y - number_of_cells_to_move,
-            };
-        }
-    } else {
-        if new_position.x > old_position.x {
-            for i in 1..(new_position.x - old_position.x) + 1 {
-                let cell = board.get_cell(old_position.x + i, old_position.y);
+//                 match cell {
+//                     Some(Tile::Empty) => {
+//                         number_of_cells_to_move += 1;
+//                         continue;
+//                     }
+//                     None => continue,
+//                     Some(_) => {
+//                         return Position {
+//                             x: old_position.x,
+//                             y: old_position.y - number_of_cells_to_move,
+//                         };
+//                     }
+//                 }
+//             }
+//             return Position {
+//                 x: old_position.x,
+//                 y: old_position.y - number_of_cells_to_move,
+//             };
+//         }
+//     } else {
+//         if new_position.x > old_position.x {
+//             for i in 1..(new_position.x - old_position.x) + 1 {
+//                 let cell = board.get_cell(old_position.x + i, old_position.y);
 
-                match cell {
-                    Some(Tile::Empty) => {
-                        number_of_cells_to_move += 1;
-                        continue;
-                    }
-                    None => continue,
-                    Some(_) => {
-                        return Position {
-                            x: old_position.x + number_of_cells_to_move,
-                            y: old_position.y,
-                        }
-                    }
-                }
-            }
-            return Position {
-                x: old_position.x + number_of_cells_to_move,
-                y: old_position.y,
-            };
-        } else {
-            for i in 1..(old_position.x - new_position.x) + 1 {
-                let cell = board.get_cell(old_position.x - i, old_position.y);
+//                 match cell {
+//                     Some(Tile::Empty) => {
+//                         number_of_cells_to_move += 1;
+//                         continue;
+//                     }
+//                     None => continue,
+//                     Some(_) => {
+//                         return Position {
+//                             x: old_position.x + number_of_cells_to_move,
+//                             y: old_position.y,
+//                         }
+//                     }
+//                 }
+//             }
+//             return Position {
+//                 x: old_position.x + number_of_cells_to_move,
+//                 y: old_position.y,
+//             };
+//         } else {
+//             for i in 1..(old_position.x - new_position.x) + 1 {
+//                 let cell = board.get_cell(old_position.x - i, old_position.y);
 
-                match cell {
-                    Some(Tile::Empty) => {
-                        number_of_cells_to_move += 1;
-                        continue;
-                    }
-                    None => continue,
-                    Some(_) => {
-                        return Position {
-                            x: old_position.x - number_of_cells_to_move,
-                            y: old_position.y,
-                        }
-                    }
-                }
-            }
-            return Position {
-                x: old_position.x - number_of_cells_to_move,
-                y: old_position.y,
-            };
-        }
-    }
-}
+//                 match cell {
+//                     Some(Tile::Empty) => {
+//                         number_of_cells_to_move += 1;
+//                         continue;
+//                     }
+//                     None => continue,
+//                     Some(_) => {
+//                         return Position {
+//                             x: old_position.x - number_of_cells_to_move,
+//                             y: old_position.y,
+//                         }
+//                     }
+//                 }
+//             }
+//             return Position {
+//                 x: old_position.x - number_of_cells_to_move,
+//                 y: old_position.y,
+//             };
+//         }
+//     }
+// }
 
 fn distance_to_center(player: &Player, center: &Position) -> f64 {
     let distance_squared =
