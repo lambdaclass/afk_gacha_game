@@ -19,8 +19,15 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EnginePlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position, action: action} = player
-    %ProtoPlayer{id: id, health: health, position: position, action: player_action_encode(action)}
+    %{id: id, health: health, position: position, action: action, aoe_position: aoe_position} = player
+
+    %ProtoPlayer{
+      id: id,
+      health: health,
+      position: position,
+      action: player_action_encode(action),
+      aoe_position: aoe_position
+    }
   end
 
   def encode(%{players: players}, GameStateUpdate) do
@@ -70,7 +77,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       position: position,
       last_melee_attack: attack,
       status: status,
-      action: action
+      action: action,
+      aoe_position: aoe_position
     } = player
 
     %EnginePlayer{
@@ -79,7 +87,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       position: position,
       last_melee_attack: attack,
       status: status,
-      action: player_action_decode(action)
+      action: player_action_decode(action),
+      aoe_position: aoe_position
     }
   end
 
@@ -130,7 +139,9 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   defp player_action_encode(:attacking), do: :ATTACKING
   defp player_action_encode(:nothing), do: :NOTHING
+  defp player_action_encode(:attackingaoe), do: :ATTACKING_AOE
 
   defp player_action_decode(:ATTACKING), do: :attacking
   defp player_action_decode(:NOTHING), do: :nothing
+  defp player_action_decode(:ATTACKING_AOE), do: :attackingaoe
 end

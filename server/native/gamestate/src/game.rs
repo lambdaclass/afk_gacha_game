@@ -4,7 +4,7 @@ use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
 use crate::character::Character;
-use crate::player::{Player, PlayerAction, Position, Status, RelativePosition};
+use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
 use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
@@ -188,38 +188,52 @@ impl GameState {
         players
     }
 
-    pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, attack_position: &RelativePosition) {
+    pub fn attack_aoe(
+        self: &mut Self,
+        attacking_player_id: u64,
+        attack_position: &RelativePosition,
+    ) {
         let attacking_player = self
             .players
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
-        attacking_player.action = PlayerAction::ATTACKING;
+        attacking_player.action = PlayerAction::ATTACKINGAOE;
+
+        let cooldown = attacking_player.character.cooldown();
 
         if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
- 
+
         let now = time_now();
 
-        // if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
-        //     return;
-        // }
-        attacking_player.last_melee_attack = now;
+        if (now - attacking_player.last_melee_attack) < cooldown {
+            return;
+        }
 
-        let (top_left, bottom_right) = compute_attack_aoe_initial_positions(&(attacking_player.position), attack_position); 
+        let (center, top_left, bottom_right) =
+            compute_attack_aoe_initial_positions(&(attacking_player.position), attack_position);
+        attacking_player.last_melee_attack = now;
+        attacking_player.aoe_position = center;
+
         let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
 
-        for target_player_id in affected_players.iter_mut(){
+        for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
             let attacked_player = self
                 .players
                 .iter_mut()
-                .find(|player| player.id == *target_player_id)
-                .unwrap();
-            attacked_player.modify_health(-10);
-            let player = attacked_player.clone();
-            self.modify_cell_if_player_died(&player);
+                .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
+
+            match attacked_player {
+                Some(ap) => {
+                    ap.modify_health(-10);
+                    let player = ap.clone();
+                    self.modify_cell_if_player_died(&player);
+                }
+                _ => continue,
+            }
         }
     }
 
@@ -301,13 +315,20 @@ fn compute_attack_initial_positions(
     }
 }
 
-fn compute_attack_aoe_initial_positions(player_position: &Position, attack_position: &RelativePosition) -> (Position, Position) {
+fn compute_attack_aoe_initial_positions(
+    player_position: &Position,
+    attack_position: &RelativePosition,
+) -> (Position, Position, Position) {
     let modifier = 120_f64;
-    
+
     let x = (player_position.x as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
     let y = (player_position.y as f64 + modifier * (attack_position.y as f64) / 100_f64) as usize;
-    
-    (Position::new(x.saturating_sub(25), y.saturating_sub(25)), Position::new(x + 25, y + 25))
+
+    (
+        Position::new(x, y),
+        Position::new(x.saturating_sub(25), y.saturating_sub(25)),
+        Position::new(x + 25, y + 25),
+    )
 }
 
 /// TODO: update documentation

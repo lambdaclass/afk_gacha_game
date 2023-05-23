@@ -42,6 +42,10 @@ public partial class Player : global::ProtoBuf.IExtensible
 
     [global::ProtoBuf.ProtoMember(6, Name = @"action")]
     public PlayerAction Action { get; set; }
+
+    [global::ProtoBuf.ProtoMember(7, Name = @"aoe_position")]
+    public Position AoePosition { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -187,6 +191,8 @@ public enum PlayerAction
     Nothing = 0,
     [global::ProtoBuf.ProtoEnum(Name = @"ATTACKING")]
     Attacking = 1,
+    [global::ProtoBuf.ProtoEnum(Name = @"ATTACKING_AOE")]
+    AttackingAoe = 2,
 }
 
 [global::ProtoBuf.ProtoContract()]

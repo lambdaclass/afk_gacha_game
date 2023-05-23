@@ -67,7 +67,11 @@ fn attack_player(
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn attack_aoe(game: GameState, attacking_player_id: u64, attack_position: RelativePosition) -> GameState {
+fn attack_aoe(
+    game: GameState,
+    attacking_player_id: u64,
+    attack_position: RelativePosition,
+) -> GameState {
     let mut game_2 = game;
     game_2.attack_aoe(attacking_player_id, &attack_position);
     game_2
