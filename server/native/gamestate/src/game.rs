@@ -190,8 +190,6 @@ impl GameState {
 
         let cooldown = attacking_player.character.cooldown();
 
-        attacking_player.action = PlayerAction::ATTACKING;
-
         if matches!(attacking_player.status, Status::DEAD) {
             return;
         }
@@ -201,6 +199,8 @@ impl GameState {
         if (now - attacking_player.last_melee_attack) < cooldown {
             return;
         }
+        attacking_player.action = PlayerAction::ATTACKING;
+
         attacking_player.last_melee_attack = now;
 
         let (top_left, bottom_right) =
