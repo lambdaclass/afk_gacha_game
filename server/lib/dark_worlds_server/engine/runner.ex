@@ -134,7 +134,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     game =
       game
       |> Game.attack_player(player, value)
-
     round_state = if has_a_player_won?(game.players), do: :round_finished, else: :playing
 
     next_state = next_state |> Map.put(:game, game)
@@ -272,9 +271,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     Enum.count(players_alive) == 1
   end
 
-  defp decide_next_game_update(
-         %{game_state: :round_finished, winners: winners, current_round: current_round} = _state
-       ) do
+  defp decide_next_game_update(%{game_state: :round_finished, winners: winners, current_round: current_round} = _state) do
     amount_of_winners = winners |> Enum.uniq() |> Enum.count()
 
     cond do
@@ -299,7 +296,7 @@ defmodule DarkWorldsServer.Engine.Runner do
        ) do
     game = Game.new_round(next_state.game, winners)
 
-    next_state = Map.put(next_state, :game, game) |> Map.put(:has_finished?, false)
+    next_state = Map.put(next_state, :game, game)
 
     state =
       state
@@ -309,8 +306,8 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.send_after(self(), :update_state, @update_time)
 
-    # DarkWorldsServer.PubSub
-    # |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), :last_round)
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, state})
 
     {:noreply, state}
   end
@@ -333,7 +330,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Map.put(:game_state, :playing)
 
     # DarkWorldsServer.PubSub
-    # |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), :next_round)
+    # |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
 
     Process.send_after(self(), :update_state, @update_time)
 
