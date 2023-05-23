@@ -6,7 +6,6 @@ public class PlayerControls : MonoBehaviour
     {
         var valuesToSend = new JoystickValues { X = x, Y = y };
         var clientAction = new ClientAction { Action = Action.MoveWithJoystick, MoveDelta = valuesToSend };
-        Debug.Log($"Sendind raw values...: ({x}, {y})");
         SocketConnectionManager.Instance.SendAction(clientAction);
     }
     public static void SendAction()
