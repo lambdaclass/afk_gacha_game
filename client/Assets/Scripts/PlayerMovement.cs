@@ -48,9 +48,15 @@ public class PlayerMovement : MonoBehaviour
 
     public void SendAction()
     {
-        if (joystickL is not null && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        var vertical_input = Input.GetAxis("Vertical");
+        var horizontal_input = Input.GetAxis("Horizontal");
+        if (joystickL is not null && ((joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0)))
         {
             GetComponent<PlayerControls>().SendJoystickRawValues(joystickL.RawValue.x, joystickL.RawValue.y);
+        }
+        else if (vertical_input != 0 || horizontal_input != 0)
+        {
+            GetComponent<PlayerControls>().SendJoystickRawValues(horizontal_input, -vertical_input);
         }
         else
         {
@@ -94,6 +100,12 @@ public class PlayerMovement : MonoBehaviour
             nextAttackDirection = Direction.Left;
             isAttacking = true;
 
+        }
+        // Hardcoded dual sense square button
+        if (Input.GetKeyDown("joystick 1 button 0"))
+        {
+            nextAttackDirection = Direction.Up;
+            isAttacking = true;
         }
     }
 
