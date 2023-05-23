@@ -2,7 +2,7 @@ using UnityEngine;
 using MoreMountains.Tools;
 public class PlayerControls : MonoBehaviour
 {
-    public void SendJoystickRawValues(float x, float y)
+    public void SendJoystickValues(float x, float y)
     {
         var valuesToSend = new JoystickValues { X = x, Y = y };
         var clientAction = new ClientAction { Action = Action.MoveWithJoystick, MoveDelta = valuesToSend };
