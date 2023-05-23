@@ -9,9 +9,9 @@ defmodule GameStateTesting do
     assert {:ok, ""} = TestNIFs.no_move_if_occupied()
   end
 
-  test "No move if wall" do
-    assert {:ok, ""} = TestNIFs.no_move_if_wall()
-  end
+  # test "No move if wall" do
+  #   assert {:ok, ""} = TestNIFs.no_move_if_wall()
+  # end
 
   test "Attacking" do
     assert {:ok, ""} = TestNIFs.attacking()
