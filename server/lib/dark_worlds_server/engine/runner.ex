@@ -134,10 +134,11 @@ defmodule DarkWorldsServer.Engine.Runner do
     game =
       game
       |> Game.attack_player(player, value)
-    round_state = if has_a_player_won?(game.players), do: :round_finished, else: :playing
+
+    {winners, game_state} = has_a_player_won?(game.players, state.winners)
 
     next_state = next_state |> Map.put(:game, game)
-    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, round_state)
+    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state) |> Map.put(:winners, winners)
 
     {:noreply, state}
   end
@@ -149,10 +150,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     %Player{position: position} = get_player(game.players, player_id)
     game = Game.attack_aoe(game, player_id, position)
 
-    round_state = if has_a_player_won?(game.players), do: :round_finished, else: :playing
+    {winners, game_state} = has_a_player_won?(game.players, state.winners)
 
     next_state = next_state |> Map.put(:game, game)
-    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, round_state)
+    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state) |> Map.put(:winners, winners)
 
     {:noreply, state}
   end
@@ -266,15 +267,21 @@ defmodule DarkWorldsServer.Engine.Runner do
   ####################
   # Internal helpers #
   ####################
-  defp has_a_player_won?(players) do
+  defp has_a_player_won?(players, winners) do
     players_alive = Enum.filter(players, fn player -> player.status == :alive end)
-    Enum.count(players_alive) == 1
+
+    if Enum.count(players_alive) == 1 do
+      {winners ++ players_alive, :round_finished}
+    else
+      {winners, :playing}
+    end
   end
 
   defp decide_next_game_update(%{game_state: :round_finished, winners: winners, current_round: current_round} = _state) do
-    amount_of_winners = (winners |> Enum.uniq() |> Enum.count()) + 1
+    amount_of_winners = (winners |> Enum.uniq_by(fn winner -> winner.id end) |> Enum.count())
+    IO.inspect(winners, label: :ganadores)
     cond do
-      (current_round == 2 && amount_of_winners == 2) ->
+      current_round == 2 and amount_of_winners == 2 ->
         :last_round
 
       (current_round == 2 && amount_of_winners == 1) || current_round == 3 ->
@@ -315,10 +322,8 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp broadcast_game_update(
          :next_round,
-         %{winners: winners, current_round: current_round, next_state: next_state} = state
+         %{current_round: current_round, next_state: next_state} = state
        ) do
-    [winner_player] = Enum.filter(next_state.game.players, fn player -> player.status == :alive end)
-    winners = [winner_player | winners]
     game = Game.new_round(next_state.game, next_state.game.players)
 
     next_state = Map.put(next_state, :game, game)
@@ -327,7 +332,6 @@ defmodule DarkWorldsServer.Engine.Runner do
       state
       |> Map.put(:next_state, next_state)
       |> Map.put(:current_round, current_round + 1)
-      |> Map.put(:winners, winners)
       |> Map.put(:game_state, :playing)
 
     DarkWorldsServer.PubSub
