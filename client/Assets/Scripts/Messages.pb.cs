@@ -112,6 +112,24 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(4, Name = @"position")]
     public RelativePosition Position { get; set; }
 
+    [global::ProtoBuf.ProtoMember(5, Name = @"move_delta")]
+    public JoystickValues MoveDelta { get; set; }
+
+}
+
+[global::ProtoBuf.ProtoContract()]
+public partial class JoystickValues : global::ProtoBuf.IExtensible
+{
+    private global::ProtoBuf.IExtension __pbn__extensionData;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    [global::ProtoBuf.ProtoMember(1, Name = @"x")]
+    public float X { get; set; }
+
+    [global::ProtoBuf.ProtoMember(2, Name = @"y")]
+    public float Y { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -167,6 +185,8 @@ public enum Action
     UpdatePing = 4,
     [global::ProtoBuf.ProtoEnum(Name = @"ATTACK_AOE")]
     AttackAoe = 5,
+    [global::ProtoBuf.ProtoEnum(Name = @"MOVE_WITH_JOYSTICK")]
+    MoveWithJoystick = 6,
 }
 
 [global::ProtoBuf.ProtoContract()]

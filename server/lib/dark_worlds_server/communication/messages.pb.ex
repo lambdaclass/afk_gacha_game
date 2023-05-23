@@ -18,6 +18,7 @@ defmodule DarkWorldsServer.Communication.Proto.Action do
   field(:PING, 3)
   field(:UPDATE_PING, 4)
   field(:ATTACK_AOE, 5)
+  field(:MOVE_WITH_JOYSTICK, 6)
 end
 
 defmodule DarkWorldsServer.Communication.Proto.Direction do
@@ -127,6 +128,22 @@ defmodule DarkWorldsServer.Communication.Proto.ClientAction do
   field(:direction, 2, type: DarkWorldsServer.Communication.Proto.Direction, enum: true)
   field(:latency, 3, type: :uint32)
   field(:position, 4, type: DarkWorldsServer.Communication.Proto.RelativePosition)
+
+  field(:move_delta, 5,
+    type: DarkWorldsServer.Communication.Proto.JoystickValues,
+    json_name: "moveDelta"
+  )
+
+  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
+end
+
+defmodule DarkWorldsServer.Communication.Proto.JoystickValues do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:x, 1, type: :float)
+  field(:y, 2, type: :float)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

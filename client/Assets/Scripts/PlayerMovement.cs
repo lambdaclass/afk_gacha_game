@@ -51,7 +51,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void SendAction()
     {
-        GetComponent<PlayerControls>().SendAction();
+        if (joystickL is not null && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        {
+            GetComponent<PlayerControls>().SendJoystickRawValues(joystickL.RawValue.x, joystickL.RawValue.y);
+        }
+        else
+        {
+            GetComponent<PlayerControls>().SendAction();
+        }
         sendAttack();
     }
 
@@ -143,6 +150,11 @@ public class PlayerMovement : MonoBehaviour
                     aoe_y = -((long)aoe_position.X),
                 }
             );
+            if (game_update.Players[i].Health == 0)
+            {
+                print(SocketConnectionManager.instance.players[i + 1].name);
+                SocketConnectionManager.instance.players[i + 1].SetActive(false);
+            }
         }
     }
 }
