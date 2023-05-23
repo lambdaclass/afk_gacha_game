@@ -10,6 +10,7 @@ using System.Net;
 using System;
 using System.Xml.Linq;
 using ProtoBuf;
+using System.Diagnostics;
 
 public class SocketConnectionManager : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class SocketConnectionManager : MonoBehaviour
     public static SocketConnectionManager Instance;
     public GameStateUpdate gameUpdate;
     private int playerId;
+
+    public static SocketConnectionManager instance;
+    public uint currentPing;
 
     WebSocket ws;
 
@@ -55,6 +59,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         Instance = this;
         this.session_id = LobbyConnection.Instance.GameSession;
+        this.server_ip = LobbyConnection.Instance.server_ip;
         playersStatic = this.players;
     }
 
@@ -96,7 +101,7 @@ public class SocketConnectionManager : MonoBehaviour
                     Session session = JsonConvert.DeserializeObject<Session>(
                         webRequest.downloadHandler.text
                     );
-                    Debug.Log("Creating and joining Session ID: " + session.session_id);
+                    print("Creating and joining Session ID: " + session.session_id);
                     ConnectToSession(session.session_id);
                     break;
             }
@@ -110,7 +115,7 @@ public class SocketConnectionManager : MonoBehaviour
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (sender, e) =>
         {
-            Debug.Log(
+            print(
                 "Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message
             );
         };
@@ -124,6 +129,11 @@ public class SocketConnectionManager : MonoBehaviour
         if (e.Data == "OK" || e.Data.Contains("CONNECTED_TO"))
         {
             //Debug.Log("Nothing to do");
+        }
+        else if (e.Data.Contains("PING:"))
+        {
+            String ping = e.Data[5..];
+            currentPing = UInt32.Parse(ping);
         }
         else if (e.Data.Contains("ERROR"))
         {

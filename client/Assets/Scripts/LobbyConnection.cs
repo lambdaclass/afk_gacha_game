@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProtoBuf;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebSocketSharp;
@@ -40,6 +39,33 @@ public class LobbyConnection : MonoBehaviour
         public List<string> current_games { get; set; }
     }
 
+    private void Awake()
+    {
+        this.Init();
+        PopulateLists();
+    }
+
+    public void Init()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        this.server_ip = SelectServerIP.GetServerIp();
+        this.playerId = -1;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void PopulateLists()
+    {
+        this.lobbiesList = new List<string>();
+        this.gamesList = new List<string>();
+        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
+        StartCoroutine(GetGames("http://" + server_ip + ":4000/current_games"));
+    }
+
     public void CreateLobby()
     {
         StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
@@ -51,27 +77,34 @@ public class LobbyConnection : MonoBehaviour
         LobbySession = matchmaking_id;
     }
 
-    private void Awake()
+    public void Refresh()
     {
-        this.Init();
+        this.server_ip = SelectServerIP.GetServerIp();
+        PopulateLists();
     }
 
-    public void Init()
+    public void QuickGame()
     {
-        if (Instance != null)
+        StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
+        StartCoroutine(WaitLobbyCreated());
+    }
+
+    private IEnumerator WaitLobbyCreated()
+    {
+        yield return new WaitUntil(() => !string.IsNullOrEmpty(LobbySession));
+        StartGame();
+    }
+
+    public void StartGame()
+    {
+        LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };
+        using (var stream = new MemoryStream())
         {
-            Destroy(gameObject);
-            return;
+            Serializer.Serialize(stream, lobbyEvent);
+            var msg = stream.ToArray();
+            ws.Send(msg);
         }
-        Instance = this;
-        this.playerId = -1;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
-        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
-        StartCoroutine(GetGames("http://" + server_ip + ":4000/current_games"));
+        gameStarted = true;
     }
 
     IEnumerator GetRequest(string uri)
@@ -202,17 +235,5 @@ public class LobbyConnection : MonoBehaviour
                 break;
         }
         ;
-    }
-
-    public void StartGame()
-    {
-        LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };
-        using (var stream = new MemoryStream())
-        {
-            Serializer.Serialize(stream, lobbyEvent);
-            var msg = stream.ToArray();
-            ws.Send(msg);
-        }
-        gameStarted = true;
     }
 }
