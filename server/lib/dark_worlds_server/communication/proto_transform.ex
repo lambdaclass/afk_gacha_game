@@ -83,6 +83,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
     {player_id, latency}
   end
 
+  def decode(%ProtoAction{action: :MOVE_WITH_JOYSTICK, move_delta: %{x: x, y: y}}, ProtoAction) do
+    %EngineAction{action: :move_with_joystick, value: %{x: x, y: y}}
+  end
+
   def decode(%ProtoAction{action: :MOVE, direction: direction}, ProtoAction) do
     %EngineAction{action: :move, value: direction_decode(direction)}
   end
