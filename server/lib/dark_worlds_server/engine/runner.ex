@@ -308,6 +308,8 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, state})
 
+    Process.send_after(self(), :update_state, @update_time)
+
     {:noreply, state}
   end
 
@@ -328,8 +330,8 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Map.put(:winners, winners)
       |> Map.put(:game_state, :playing)
 
-    # DarkWorldsServer.PubSub
-    # |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
 
     Process.send_after(self(), :update_state, @update_time)
 
