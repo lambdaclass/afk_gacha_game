@@ -102,7 +102,8 @@ defmodule LoadTest.Communication.Proto.ClientAction do
   field :action, 1, type: LoadTest.Communication.Proto.Action, enum: true
   field :direction, 2, type: LoadTest.Communication.Proto.Direction, enum: true
   field :latency, 3, type: :uint32
-  field :move_delta, 4, type: LoadTest.Communication.Proto.JoystickValues, json_name: "moveDelta"
+  field :position, 4, type: LoadTest.Communication.Proto.Position
+  field :move_delta, 5, type: LoadTest.Communication.Proto.JoystickValues, json_name: "moveDelta"
 end
 
 defmodule LoadTest.Communication.Proto.JoystickValues do

@@ -91,7 +91,10 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(3, Name = @"latency")]
     public uint Latency { get; set; }
 
-    [global::ProtoBuf.ProtoMember(4, Name = @"move_delta")]
+    [global::ProtoBuf.ProtoMember(4, Name = @"position")]
+    public Position Position { get; set; }
+
+    [global::ProtoBuf.ProtoMember(5, Name = @"move_delta")]
     public JoystickValues MoveDelta { get; set; }
 
 }
