@@ -106,10 +106,10 @@ defmodule DarkWorldsServer.Communication.Proto.ClientAction do
 
   use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
 
-  field :action, 1, type: DarkWorldsServer.Communication.Proto.Action, enum: true
-  field :direction, 2, type: DarkWorldsServer.Communication.Proto.Direction, enum: true
-  field :latency, 3, type: :uint32
-  field :position, 4, type: DarkWorldsServer.Communication.Proto.Position
+  field(:action, 1, type: DarkWorldsServer.Communication.Proto.Action, enum: true)
+  field(:direction, 2, type: DarkWorldsServer.Communication.Proto.Direction, enum: true)
+  field(:latency, 3, type: :uint32)
+  field(:position, 4, type: DarkWorldsServer.Communication.Proto.Position)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

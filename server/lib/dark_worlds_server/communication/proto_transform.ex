@@ -100,7 +100,7 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def decode(%ProtoAction{action: :ATTACK_AOE, position: position}, ProtoAction) do
-    %EngineAction{action: :attack_aoe, value: position }
+    %EngineAction{action: :attack_aoe, value: position}
   end
 
   def decode(%struct{} = msg, struct) do
