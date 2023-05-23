@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
+using System.Collections;
+using MoreMountains.Tools;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -92,27 +94,31 @@ public class PlayerMovement : MonoBehaviour
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            SocketConnectionManager.Instance.players[playerUpdate.player_id].transform.position =
+            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.player_id];
+            player.transform.position =
                 new Vector3(
                     playerUpdate.x / 10f - 50.0f,
-                    SocketConnectionManager.Instance.players[playerUpdate.player_id]
+                    player
                         .transform
                         .position
                         .y,
                     playerUpdate.y / 10f + 50.0f
                 );
-            Health healthComponent = SocketConnectionManager.Instance.players[
-                playerUpdate.player_id
-            ].GetComponent<Health>();
+            Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
             bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
-            SocketConnectionManager.Instance.players[playerUpdate.player_id]
+            player
                 .GetComponent<AttackController>()
                 .SwordAttack(isAttacking);
             if (isAttacking)
             {
                 print("attack");
+            }
+            //if dead remove the player from the scene
+            if (healthComponent.CurrentHealth <= 0)
+            {
+                healthComponent.Model.gameObject.SetActive(false);
             }
         }
     }
