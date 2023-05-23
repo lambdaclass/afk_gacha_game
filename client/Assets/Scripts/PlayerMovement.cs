@@ -33,9 +33,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (
-            SocketConnectionManager.Instance.gameUpdate != null
+            SocketConnectionManager.Instance.gamePlayers != null
             && SocketConnectionManager.Instance.players.Count > 0
-            && SocketConnectionManager.Instance.gameUpdate.Players.Count > 0
+            && SocketConnectionManager.Instance.gamePlayers.Count > 0
         )
         {
             UpdatePlayerActions();
@@ -119,18 +119,18 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdatePlayerActions()
     {
-        GameStateUpdate game_update = SocketConnectionManager.Instance.gameUpdate;
+        List<Player> gamePlayers = SocketConnectionManager.Instance.gamePlayers;
         for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
         {
-            var new_position = game_update.Players[i].Position;
+            var new_position = gamePlayers[i].Position;
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
                     x = (long)new_position.Y,
                     y = -((long)new_position.X),
                     player_id = i,
-                    health = game_update.Players[i].Health,
-                    action = (PlayerAction)game_update.Players[i].Action,
+                    health = gamePlayers[i].Health,
+                    action = (PlayerAction)gamePlayers[i].Action,
                 }
             );
         }

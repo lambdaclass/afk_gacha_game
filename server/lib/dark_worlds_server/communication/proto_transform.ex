@@ -3,7 +3,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
   alias DarkWorldsServer.Communication.Proto.Position, as: ProtoPosition
-  alias DarkWorldsServer.Communication.Proto.UpdatePing
+  alias DarkWorldsServer.Communication.Proto.GameEvent, as: ProtoGameEvent
+  alias DarkWorldsServer.Communication.Proto.PingUpdate
   alias DarkWorldsServer.Engine.ActionOk, as: EngineAction
   alias DarkWorldsServer.Engine.Player, as: EnginePlayer
   alias DarkWorldsServer.Engine.Position, as: EnginePosition
@@ -23,10 +24,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   def encode(%{players: players}, GameStateUpdate) do
     %GameStateUpdate{players: players}
-  end
-
-  def encode({player_id, latency}, UpdatePing) do
-    %UpdatePing{player_id: player_id, latency: latency}
   end
 
   def encode(%EngineAction{action: :move, value: direction}, ProtoAction) do
@@ -77,10 +74,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   def decode(%GameStateUpdate{players: players}, GameStateUpdate) do
     %{players: players}
-  end
-
-  def decode(%UpdatePing{player_id: player_id, latency: latency}, UpdatePing) do
-    {player_id, latency}
   end
 
   def decode(%ProtoAction{action: :MOVE, direction: direction}, ProtoAction) do

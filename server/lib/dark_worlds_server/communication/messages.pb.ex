@@ -1,3 +1,12 @@
+defmodule DarkWorldsServer.Communication.Proto.GameEventType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:STATE_UPDATE, 0)
+  field(:PING_UPDATE, 1)
+end
+
 defmodule DarkWorldsServer.Communication.Proto.Status do
   @moduledoc false
 
@@ -64,6 +73,18 @@ defmodule DarkWorldsServer.Communication.Proto.GameStateUpdate do
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
 
+defmodule DarkWorldsServer.Communication.Proto.GameEvent do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:type, 1, type: DarkWorldsServer.Communication.Proto.GameEventType, enum: true)
+  field(:players, 2, repeated: true, type: DarkWorldsServer.Communication.Proto.Player)
+  field(:latency, 3, type: :uint64)
+
+  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
+end
+
 defmodule DarkWorldsServer.Communication.Proto.Player do
   @moduledoc false
 
@@ -86,17 +107,6 @@ defmodule DarkWorldsServer.Communication.Proto.Position do
 
   field(:x, 1, type: :uint64)
   field(:y, 2, type: :uint64)
-
-  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
-end
-
-defmodule DarkWorldsServer.Communication.Proto.UpdatePing do
-  @moduledoc false
-
-  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
-
-  field(:player_id, 1, type: :uint32, json_name: "playerId")
-  field(:latency, 2, type: :uint32)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

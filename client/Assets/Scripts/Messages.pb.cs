@@ -19,6 +19,24 @@ public partial class GameStateUpdate : global::ProtoBuf.IExtensible
 }
 
 [global::ProtoBuf.ProtoContract()]
+public partial class GameEvent : global::ProtoBuf.IExtensible
+{
+    private global::ProtoBuf.IExtension __pbn__extensionData;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    [global::ProtoBuf.ProtoMember(1, Name = @"type")]
+    public GameEventType Type { get; set; }
+
+    [global::ProtoBuf.ProtoMember(2, Name = @"players")]
+    public global::System.Collections.Generic.List<Player> Players { get; } = new global::System.Collections.Generic.List<Player>();
+
+    [global::ProtoBuf.ProtoMember(3, Name = @"latency")]
+    public ulong Latency { get; set; }
+
+}
+
+[global::ProtoBuf.ProtoContract()]
 public partial class Player : global::ProtoBuf.IExtensible
 {
     private global::ProtoBuf.IExtension __pbn__extensionData;
@@ -42,6 +60,7 @@ public partial class Player : global::ProtoBuf.IExtensible
 
     [global::ProtoBuf.ProtoMember(6, Name = @"action")]
     public PlayerAction Action { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -56,21 +75,6 @@ public partial class Position : global::ProtoBuf.IExtensible
 
     [global::ProtoBuf.ProtoMember(2, Name = @"y")]
     public ulong Y { get; set; }
-
-}
-
-[global::ProtoBuf.ProtoContract()]
-public partial class UpdatePing : global::ProtoBuf.IExtensible
-{
-    private global::ProtoBuf.IExtension __pbn__extensionData;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
-
-    [global::ProtoBuf.ProtoMember(1, Name = @"player_id")]
-    public uint PlayerId { get; set; }
-
-    [global::ProtoBuf.ProtoMember(2, Name = @"latency")]
-    public uint Latency { get; set; }
 
 }
 
@@ -119,6 +123,15 @@ public partial class LobbyEvent : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(6, Name = @"player_count")]
     public ulong PlayerCount { get; set; }
 
+}
+
+[global::ProtoBuf.ProtoContract()]
+public enum GameEventType
+{
+    [global::ProtoBuf.ProtoEnum(Name = @"STATE_UPDATE")]
+    StateUpdate = 0,
+    [global::ProtoBuf.ProtoEnum(Name = @"PING_UPDATE")]
+    PingUpdate = 1,
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -171,6 +184,7 @@ public enum PlayerAction
     Attacking = 1,
 }
 
+[global::ProtoBuf.ProtoContract()]
 public enum LobbyEventType
 {
     [global::ProtoBuf.ProtoEnum(Name = @"TYPE_UNSPECIFIED")]

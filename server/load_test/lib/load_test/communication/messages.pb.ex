@@ -1,3 +1,12 @@
+defmodule LoadTest.Communication.Proto.GameEventType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :STATE_UPDATE, 0
+  field :PING_UPDATE, 1
+end
+
 defmodule LoadTest.Communication.Proto.Status do
   @moduledoc false
 
@@ -32,6 +41,15 @@ defmodule LoadTest.Communication.Proto.Direction do
   field :RIGHT, 4
 end
 
+defmodule LoadTest.Communication.Proto.PlayerAction do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :NOTHING, 0
+  field :ATTACKING, 1
+end
+
 defmodule LoadTest.Communication.Proto.LobbyEventType do
   @moduledoc false
 
@@ -42,6 +60,7 @@ defmodule LoadTest.Communication.Proto.LobbyEventType do
   field :PLAYER_ADDED, 2
   field :GAME_STARTED, 3
   field :PLAYER_COUNT, 4
+  field :START_GAME, 5
 end
 
 defmodule LoadTest.Communication.Proto.GameStateUpdate do
@@ -50,6 +69,16 @@ defmodule LoadTest.Communication.Proto.GameStateUpdate do
   use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
 
   field :players, 1, repeated: true, type: LoadTest.Communication.Proto.Player
+end
+
+defmodule LoadTest.Communication.Proto.GameEvent do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :type, 1, type: LoadTest.Communication.Proto.GameEventType, enum: true
+  field :players, 2, repeated: true, type: LoadTest.Communication.Proto.Player
+  field :latency, 3, type: :uint64
 end
 
 defmodule LoadTest.Communication.Proto.Player do
@@ -62,6 +91,7 @@ defmodule LoadTest.Communication.Proto.Player do
   field :position, 3, type: LoadTest.Communication.Proto.Position
   field :last_melee_attack, 4, type: :uint64, json_name: "lastMeleeAttack"
   field :status, 5, type: LoadTest.Communication.Proto.Status, enum: true
+  field :action, 6, type: LoadTest.Communication.Proto.PlayerAction, enum: true
 end
 
 defmodule LoadTest.Communication.Proto.Position do
@@ -71,15 +101,6 @@ defmodule LoadTest.Communication.Proto.Position do
 
   field :x, 1, type: :uint64
   field :y, 2, type: :uint64
-end
-
-defmodule LoadTest.Communication.Proto.UpdatePing do
-  @moduledoc false
-
-  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
-
-  field :player_id, 1, type: :uint32, json_name: "playerId"
-  field :latency, 2, type: :uint32
 end
 
 defmodule LoadTest.Communication.Proto.ClientAction do
