@@ -190,53 +190,17 @@ impl GameState {
 
     // Go over each player, check if they are inside the circle. If they are, damage them according
     // to their distance to the center.
-    // pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, center_of_attack: &Position) {
-    //     for player in self.players.iter_mut() {
-    //         if player.id == attacking_player_id {
-    //             continue;
-    //         }
+    pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, center_of_attack: &Position) {
+        for player in self.players.iter_mut() {
+            if player.id == attacking_player_id {
+                continue;
+            }
 
-    //         let distance = distance_to_center(player, center_of_attack);
-    //         if distance < 3.0 {
-    //             let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
-    //             player.modify_health(-damage);
-    //         }
-    //     }
-    // }
-
-    pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, attack_position: &Position) {
-        let attacking_player = self
-            .players
-            .iter_mut()
-            .find(|player| player.id == attacking_player_id)
-            .unwrap();
-        
-        attacking_player.action = PlayerAction::ATTACKING;
-
-        if matches!(attacking_player.status, Status::DEAD) {
-            return;
-        }
-        println!("Attack AOE");
-        let now = time_now();
-
-        if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
-            return;
-        }
-        attacking_player.last_melee_attack = now;
-
-        let (top_left, bottom_right) = compute_attack_aoe_initial_positions(&(attacking_player.position), attack_position); 
-        let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
-
-        for target_player_id in affected_players.iter_mut(){
-            // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
-            let attacked_player = self
-                .players
-                .iter_mut()
-                .find(|player| player.id == *target_player_id)
-                .unwrap();
-            attacked_player.modify_health(-10);
-            let player = attacked_player.clone();
-            self.modify_cell_if_player_died(&player);
+            let distance = distance_to_center(player, center_of_attack);
+            if distance < 3.0 {
+                let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
+                player.modify_health(-damage);
+            }
         }
     }
 
@@ -317,16 +281,6 @@ fn compute_attack_initial_positions(
         ),
     }
 }
-
-fn compute_attack_aoe_initial_positions(player_position: &Position, attack_position: &Position) -> (Position, Position) {
-    let modifier = 100_f64;
-    
-    let x = (player_position.x as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
-    let y = (player_position.y as f64 + modifier * (attack_position.y as f64) / 100_f64) as usize;
-    
-    (Position::new(x.wrapping_sub(25), y.wrapping_sub(25)), Position::new(x + 25, y + 25))
-}
-
 /// TODO: update documentation
 /// Checks if the given movement from `old_position` to `new_position` is valid.
 /// The way we do it is separated into cases but the idea is always the same:
