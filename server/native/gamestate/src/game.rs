@@ -188,22 +188,6 @@ impl GameState {
         players
     }
 
-    // Go over each player, check if they are inside the circle. If they are, damage them according
-    // to their distance to the center.
-    // pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, center_of_attack: &Position) {
-    //     for player in self.players.iter_mut() {
-    //         if player.id == attacking_player_id {
-    //             continue;
-    //         }
-
-    //         let distance = distance_to_center(player, center_of_attack);
-    //         if distance < 3.0 {
-    //             let damage = (((3.0 - distance) / 3.0) * 10.0) as i64;
-    //             player.modify_health(-damage);
-    //         }
-    //     }
-    // }
-
     pub fn attack_aoe(self: &mut Self, attacking_player_id: u64, attack_position: &RelativePosition) {
         let attacking_player = self
             .players
@@ -218,9 +202,9 @@ impl GameState {
  
         let now = time_now();
 
-        if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
-            return;
-        }
+        // if (now - attacking_player.last_melee_attack) < MELEE_ATTACK_COOLDOWN {
+        //     return;
+        // }
         attacking_player.last_melee_attack = now;
 
         let (top_left, bottom_right) = compute_attack_aoe_initial_positions(&(attacking_player.position), attack_position); 

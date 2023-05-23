@@ -5,8 +5,7 @@ using MoreMountains.Tools;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] MMTouchJoystick joystickR;
-    Vector2 joystickRPosition;
+    [SerializeField] MMTouchJoystick joystickL;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
     public Direction nextAttackDirection;
     public bool isAttacking = false;
@@ -47,27 +46,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // This is a temporary function but later on it should be in GenericAoeAttack 
-    public void UpdateJoystickPosition()
+    public void SendAction()
     {
-        joystickRPosition = joystickR.RawValue;
-    }
-
-    // This is a temporary function but later on it should be in GenericAoeAttack 
-    public void ExecuteAoeAttack()
-    {
-        RelativePosition relative_position = new RelativePosition{
-            X = (long) (-joystickRPosition.y * 100),
-            Y = (long) (joystickRPosition.x * 100)
-        };
-
-        ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = relative_position };
-        SocketConnectionManager.Instance.SendAction(action);
-    }
-
-    void SendAction()
-    {
-        PlayerControls.SendAction();
+        GetComponent<PlayerControls>().SendAction();
         sendAttack();
     }
 
@@ -131,10 +112,6 @@ public class PlayerMovement : MonoBehaviour
             SocketConnectionManager.Instance.players[playerUpdate.player_id]
                 .GetComponent<AttackController>()
                 .SwordAttack(isAttacking);
-            if (isAttacking)
-            {
-                print("attack");
-            }
         }
     }
 

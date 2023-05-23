@@ -36,7 +36,7 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EngineAction{action: :attack, value: direction}, ProtoAction) do
-    %ProtoAction{action: :ATTACK, direction: direction_encode(direction), direction: direction_encode(direction)}
+    %ProtoAction{action: :ATTACK, direction: direction_encode(direction)}
   end
 
   def encode(%EngineAction{action: :ping}, ProtoAction) do
@@ -108,7 +108,7 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def decode(%ProtoAction{action: :ATTACK_AOE, position: position}, ProtoAction) do
-    %EngineAction{action: :attack_aoe, value: position }
+    %EngineAction{action: :attack_aoe, value: position}
   end
 
   def decode(%struct{} = msg, struct) do
