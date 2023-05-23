@@ -253,8 +253,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   def handle_info(:update_state, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
 
-    game = next_state.game
-    |> Game.clean_players_actions()
+    game =
+      next_state.game
+      |> Game.clean_players_actions()
+
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
 

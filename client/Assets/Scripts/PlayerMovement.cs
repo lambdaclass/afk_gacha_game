@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
 using MoreMountains.Tools;
-
+using UnityEngine.InputSystem.DualShock;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] MMTouchJoystick joystickL;
+    [SerializeField] DualSenseGamepadHID dualSense;
     Vector2 joystickLPosition;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
     public Direction nextAttackDirection;
