@@ -86,6 +86,7 @@ impl GameState {
             let new_position = generate_new_position(&mut positions, self.board.width, self.board.height);
             player.position.x = new_position.x;
             player.position.y = new_position.y;
+            player.health = 100;
         }
 
         let mut board = Board::new(self.board.width, self.board.height);
