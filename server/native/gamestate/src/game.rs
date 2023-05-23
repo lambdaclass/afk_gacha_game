@@ -118,7 +118,7 @@ impl GameState {
         );
     }
 
-    pub fn move_player_to_arbitrary_position(self:&mut Self, player_id: u64, new_position:(u16, u16)) {
+    pub fn move_player_to_arbitrary_position(self:&mut Self, player_id: u64, mut new_position: Position) {
         let player = self
             .players
             .iter_mut()
