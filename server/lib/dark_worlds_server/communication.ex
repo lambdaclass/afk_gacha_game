@@ -1,7 +1,7 @@
 defmodule DarkWorldsServer.Communication do
   alias DarkWorldsServer.Communication.Proto.ClientAction
-  alias DarkWorldsServer.Communication.Proto.LobbyEvent
   alias DarkWorldsServer.Communication.Proto.GameEvent
+  alias DarkWorldsServer.Communication.Proto.LobbyEvent
 
   @moduledoc """
   The Communication context
