@@ -133,6 +133,11 @@ public class PlayerMovement : MonoBehaviour
                     action = (PlayerAction)game_update.Players[i].Action,
                 }
             );
+            if (game_update.Players[i].Health == 0)
+            {
+                print(SocketConnectionManager.instance.players[i + 1].name);
+                SocketConnectionManager.instance.players[i + 1].SetActive(false);
+            }
         }
     }
 }
