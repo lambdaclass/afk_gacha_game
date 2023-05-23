@@ -7823,6 +7823,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1302669237}
   - component: {fileID: 1302669239}
+  - component: {fileID: 1302669240}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -7857,7 +7858,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f873a947f374623ad960f283bba9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joystickR: {fileID: 445768271}
+  joystickL: {fileID: 445768271}
+--- !u!114 &1302669240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302669236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58b4c90ce3bd4b69aa3dc17e6fabc9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1311184685
 GameObject:
   m_ObjectHideFlags: 0
@@ -11582,11 +11595,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20bee497d0fd1474e87f3c8722ada53f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JoystickL: {fileID: 445768275}
+  joystickL: {fileID: 445768275}
   mainAttack: {fileID: 445768274}
   specialAttack: {fileID: 120822943}
   dash: {fileID: 445768273}
   ultimate: {fileID: 445768272}
+  playerManager: {fileID: 1302669236}
 --- !u!1001 &2061781725
 PrefabInstance:
   m_ObjectHideFlags: 0

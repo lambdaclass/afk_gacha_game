@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using MoreMountains.TopDownEngine;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CustomInputManager : MonoBehaviour
 {
-    [SerializeField] GameObject JoystickL;
     [SerializeField] GameObject mainAttack;
     [SerializeField] GameObject specialAttack;
     [SerializeField] GameObject dash;
