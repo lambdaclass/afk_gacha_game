@@ -1118,7 +1118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelName: Lobby
-  DoNotUseLevelManager: 0
+  DoNotUseLevelManager: 1
   DestroyPersistentCharacter: 0
   sessionId: {fileID: 0}
 --- !u!1001 &911956854
