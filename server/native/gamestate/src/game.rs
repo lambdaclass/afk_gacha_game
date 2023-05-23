@@ -87,6 +87,7 @@ impl GameState {
             player.position.x = new_position.x;
             player.position.y = new_position.y;
             player.health = 100;
+            player.status = Status::ALIVE;
         }
 
         let mut board = Board::new(self.board.width, self.board.height);
