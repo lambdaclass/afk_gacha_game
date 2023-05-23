@@ -31,29 +31,10 @@ public class SocketConnectionManager : MonoBehaviour
 
     WebSocket ws;
 
-    public class GameResponse
-    {
-        public List<Player> players { get; set; }
-    }
-
     public class Session
     {
         public string session_id { get; set; }
     }
-
-    public class Position
-    {
-        public long x { get; set; }
-        public long y { get; set; }
-    }
-
-    // public class Player
-    // {
-    //     public int id { get; set; }
-    //     public int health { get; set; }
-    //     public Position position { get; set; }
-    //     public PlayerMovement.PlayerAction action { get; set; }
-    // }
 
     public void Awake()
     {

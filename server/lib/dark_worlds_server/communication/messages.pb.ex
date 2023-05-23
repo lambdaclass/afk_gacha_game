@@ -24,8 +24,6 @@ defmodule DarkWorldsServer.Communication.Proto.Action do
   field(:ACTION_UNSPECIFIED, 0)
   field(:MOVE, 1)
   field(:ATTACK, 2)
-  field(:PING, 3)
-  field(:UPDATE_PING, 4)
   field(:ATTACK_AOE, 5)
 end
 
@@ -118,7 +116,6 @@ defmodule DarkWorldsServer.Communication.Proto.ClientAction do
 
   field(:action, 1, type: DarkWorldsServer.Communication.Proto.Action, enum: true)
   field(:direction, 2, type: DarkWorldsServer.Communication.Proto.Direction, enum: true)
-  field(:latency, 3, type: :uint32)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

@@ -52,9 +52,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   @impl true
   def websocket_handle({:binary, message}, state) do
     case Communication.decode(message) do
-      {:ok, %{action: :ping}} ->
-        {:reply, {:text, "pong"}, state}
-
       {:ok, action} ->
         RequestTracker.add_counter(state[:runner_pid], state[:player_id])
         Runner.play(state[:runner_pid], state[:player_id], action)

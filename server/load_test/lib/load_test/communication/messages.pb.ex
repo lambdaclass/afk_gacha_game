@@ -24,8 +24,6 @@ defmodule LoadTest.Communication.Proto.Action do
   field :ACTION_UNSPECIFIED, 0
   field :MOVE, 1
   field :ATTACK, 2
-  field :PING, 3
-  field :UPDATE_PING, 4
   field :ATTACK_AOE, 5
 end
 
@@ -110,7 +108,6 @@ defmodule LoadTest.Communication.Proto.ClientAction do
 
   field :action, 1, type: LoadTest.Communication.Proto.Action, enum: true
   field :direction, 2, type: LoadTest.Communication.Proto.Direction, enum: true
-  field :latency, 3, type: :uint32
 end
 
 defmodule LoadTest.Communication.Proto.LobbyEvent do

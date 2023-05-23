@@ -91,9 +91,6 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(2, Name = @"direction")]
     public Direction Direction { get; set; }
 
-    [global::ProtoBuf.ProtoMember(3, Name = @"latency")]
-    public uint Latency { get; set; }
-
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -152,10 +149,6 @@ public enum Action
     Move = 1,
     [global::ProtoBuf.ProtoEnum(Name = @"ATTACK")]
     Attack = 2,
-    [global::ProtoBuf.ProtoEnum(Name = @"PING")]
-    Ping = 3,
-    [global::ProtoBuf.ProtoEnum(Name = @"UPDATE_PING")]
-    UpdatePing = 4,
     [global::ProtoBuf.ProtoEnum(Name = @"ATTACK_AOE")]
     AttackAoe = 5,
 }
