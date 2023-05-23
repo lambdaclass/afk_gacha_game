@@ -1,8 +1,9 @@
 defmodule DarkWorldsServerWeb.BoardLive.Show do
   use DarkWorldsServerWeb, :live_view
 
-  alias DarkWorldsServer.Engine.ActionOk
   alias DarkWorldsServer.Communication
+  alias DarkWorldsServer.Engine.ActionOk
+  alias DarkWorldsServer.Engine.RequestTracker
   alias DarkWorldsServer.Engine.Runner
 
   def mount(%{"game_id" => game_id} = params, _session, socket) do
@@ -13,16 +14,22 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
     end
   end
 
-  defp mount_connected(%{"game_id" => game_id}, socket) do
+  defp mount_connected(%{"game_id" => game_id, "player_id" => player_id_str}, socket) do
     Phoenix.PubSub.subscribe(DarkWorldsServer.PubSub, "game_play_#{game_id}")
     runner_pid = Communication.external_id_to_pid(game_id)
-    {{board_width, board_height}, players} = Runner.get_game_state(runner_pid)
+    player_id = String.to_integer(player_id_str)
+
+    state = Runner.get_game_state(runner_pid)
+    players = state.game.players
+    {board_width, board_height} = {state.game.board.height, state.game.board.width}
 
     {mode, player_id} =
-      case Runner.join(runner_pid) do
+      case Runner.join(runner_pid, player_id) do
         {:ok, player_id} -> {:player, player_id}
         {:error, :game_full} -> {:spectator, nil}
       end
+
+    logged_players = Runner.get_logged_players(runner_pid)
 
     new_assigns = %{
       game_status: :ongoing,
@@ -34,7 +41,8 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
       pings: %{},
       player_id: player_id,
       player_direction: :up,
-      mode: mode
+      mode: mode,
+      logged_players: logged_players
     }
 
     {:ok, assign(socket, new_assigns)}
@@ -87,6 +95,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
         socket
 
       %ActionOk{} = action ->
+        RequestTracker.add_counter(socket.assigns.runner_pid, socket.assigns.player_id)
         Runner.play(socket.assigns.runner_pid, socket.assigns.player_id, action)
         assign(socket, :player_direction, action.value)
     end
@@ -96,6 +105,7 @@ defmodule DarkWorldsServerWeb.BoardLive.Show do
   def get_action("s", _), do: %ActionOk{action: :move, value: :down}
   def get_action("a", _), do: %ActionOk{action: :move, value: :left}
   def get_action("d", _), do: %ActionOk{action: :move, value: :right}
+  def get_action("e", position), do: %ActionOk{action: :attack_aoe, value: position}
   def get_action(" ", direction), do: %ActionOk{action: :attack, value: direction}
   def get_action(_, _), do: :no_action
 end

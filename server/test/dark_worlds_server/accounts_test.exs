@@ -1,10 +1,11 @@
 defmodule DarkWorldsServer.AccountsTest do
   use DarkWorldsServer.DataCase
 
-  alias DarkWorldsServer.Accounts
-
   import DarkWorldsServer.AccountsFixtures
-  alias DarkWorldsServer.Accounts.{User, UserToken}
+
+  alias DarkWorldsServer.Accounts
+  alias DarkWorldsServer.Accounts.User
+  alias DarkWorldsServer.Accounts.UserToken
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -30,8 +31,7 @@ defmodule DarkWorldsServer.AccountsTest do
     test "returns the user if the email and password are valid" do
       %{id: id} = user = user_fixture()
 
-      assert %User{id: ^id} =
-               Accounts.get_user_by_email_and_password(user.email, valid_user_password())
+      assert %User{id: ^id} = Accounts.get_user_by_email_and_password(user.email, valid_user_password())
     end
   end
 
@@ -97,7 +97,7 @@ defmodule DarkWorldsServer.AccountsTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:password, :email, :username]
     end
 
     test "allows fields to be set" do
@@ -135,8 +135,7 @@ defmodule DarkWorldsServer.AccountsTest do
     end
 
     test "validates email", %{user: user} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: "not valid"})
+      {:error, changeset} = Accounts.apply_user_email(user, valid_user_password(), %{email: "not valid"})
 
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
@@ -144,14 +143,13 @@ defmodule DarkWorldsServer.AccountsTest do
     test "validates maximum value for email for security", %{user: user} do
       too_long = String.duplicate("db", 100)
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: too_long})
+      {:error, changeset} = Accounts.apply_user_email(user, valid_user_password(), %{email: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
 
     test "validates email uniqueness", %{user: user} do
-      %{email: email} = user_fixture()
+      %{email: email} = user_fixture(%{username: "another username"})
       password = valid_user_password()
 
       {:error, changeset} = Accounts.apply_user_email(user, password, %{email: email})
@@ -160,8 +158,7 @@ defmodule DarkWorldsServer.AccountsTest do
     end
 
     test "validates current password", %{user: user} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, "invalid", %{email: unique_user_email()})
+      {:error, changeset} = Accounts.apply_user_email(user, "invalid", %{email: unique_user_email()})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
@@ -275,15 +272,13 @@ defmodule DarkWorldsServer.AccountsTest do
     test "validates maximum values for password for security", %{user: user} do
       too_long = String.duplicate("db", 100)
 
-      {:error, changeset} =
-        Accounts.update_user_password(user, valid_user_password(), %{password: too_long})
+      {:error, changeset} = Accounts.update_user_password(user, valid_user_password(), %{password: too_long})
 
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates current password", %{user: user} do
-      {:error, changeset} =
-        Accounts.update_user_password(user, "invalid", %{password: valid_user_password()})
+      {:error, changeset} = Accounts.update_user_password(user, "invalid", %{password: valid_user_password()})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
@@ -324,7 +319,7 @@ defmodule DarkWorldsServer.AccountsTest do
       assert_raise Ecto.ConstraintError, fn ->
         Repo.insert!(%UserToken{
           token: user_token.token,
-          user_id: user_fixture().id,
+          user_id: user.id,
           context: "session"
         })
       end

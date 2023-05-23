@@ -4,9 +4,11 @@ defmodule DarkWorldsServer.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias DarkWorldsServer.Repo
 
-  alias DarkWorldsServer.Accounts.{User, UserToken, UserNotifier}
+  alias DarkWorldsServer.Accounts.User
+  alias DarkWorldsServer.Accounts.UserNotifier
+  alias DarkWorldsServer.Accounts.UserToken
+  alias DarkWorldsServer.Repo
 
   ## Database getters
 
@@ -90,7 +92,11 @@ defmodule DarkWorldsServer.Accounts do
 
   """
   def change_user_registration(%User{} = user, attrs \\ %{}) do
-    User.registration_changeset(user, attrs, hash_password: false, validate_email: false)
+    User.registration_changeset(user, attrs,
+      hash_password: false,
+      validate_email: false,
+      validate_username: true
+    )
   end
 
   ## Settings

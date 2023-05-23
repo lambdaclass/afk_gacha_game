@@ -1,12 +1,12 @@
-mod board;
-mod game;
-mod player;
-mod time_utils;
-
-use std::collections::HashMap;
-
+pub mod board;
+pub mod character;
+pub mod game;
+pub mod player;
+pub mod skills;
+pub mod time_utils;
 use game::GameState;
 use rustler::{Env, Term};
+use std::collections::HashMap;
 
 use crate::{board::GridResource, board::Tile, game::Direction, player::Position};
 
@@ -24,6 +24,13 @@ fn new_game(
 fn move_player(game: GameState, player_id: u64, direction: Direction) -> GameState {
     let mut game_2 = game;
     game_2.move_player(player_id, direction);
+    game_2
+}
+
+#[rustler::nif(schedule = "DirtyCpu")]
+fn clean_players_actions(game: GameState) -> GameState {
+    let mut game_2 = game;
+    game_2.clean_players_actions();
     game_2
 }
 
@@ -60,17 +67,25 @@ fn attack_player(
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn attack_aoe(game: GameState, attacking_player_id: u64, center_of_attack: Position) -> GameState {
+fn attack_aoe(game: GameState, attacking_player_id: u64, attack_position: Position) -> GameState {
     let mut game_2 = game;
-    game_2.attack_aoe(attacking_player_id, &center_of_attack);
+    game_2.attack_aoe(attacking_player_id, &attack_position);
     game_2
 }
 
-fn load(env: Env, _: Term) -> bool {
+#[rustler::nif(schedule = "DirtyCpu")]
+fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
+    let mut game_2 = game;
+    game_2.disconnect(player_id)?;
+    Ok(game_2)
+}
+
+pub fn load(env: Env, _: Term) -> bool {
     rustler::resource!(GridResource, env);
     true
 }
 
+#[cfg(feature = "init_engine")]
 rustler::init!(
     "Elixir.DarkWorldsServer.Engine.Game",
     [
@@ -79,7 +94,9 @@ rustler::init!(
         get_grid,
         get_non_empty,
         attack_player,
-        attack_aoe
+        attack_aoe,
+        clean_players_actions,
+        disconnect
     ],
     load = load
 );

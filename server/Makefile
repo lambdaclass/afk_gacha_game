@@ -1,4 +1,4 @@
-.PHONY: setup run elixir-tests rust-tests db shell
+.PHONY: setup run tests elixir-tests rust-tests db shell credo
 
 setup:
 	mix deps.get
@@ -18,7 +18,10 @@ elixir-tests:
 	mix test
 
 rust-tests:
-	cargo test --manifest-path native/gamestate/Cargo.toml
+	mix rust_tests
 
 shell:
 	iex -S mix run --no-start --no-halt
+
+credo:
+	mix credo --strict

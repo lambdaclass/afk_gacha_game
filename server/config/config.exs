@@ -13,7 +13,8 @@ config :dark_worlds_server,
 # Configures the endpoint
 dispatch = [
   _: [
-    {"/play/:game_id", DarkWorldsServerWeb.PlayWebSocket, []},
+    {"/play/:game_id/:player_id", DarkWorldsServerWeb.PlayWebSocket, []},
+    {"/matchmaking/:lobby_id", DarkWorldsServerWeb.LobbyWebsocket, []},
     {:_, Plug.Cowboy.Handler, {DarkWorldsServerWeb.Endpoint, []}}
   ]
 ]
@@ -67,6 +68,15 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configures game GenServer
+config :dark_worlds_server, DarkWorldsServer.Engine.Runner, process_priority: :high
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{config_env()}.exs"
+case Mix.env() do
+  :rust_test ->
+    nil
+
+  env when env in [:dev, :prod, :test] ->
+    import_config "#{config_env()}.exs"
+end

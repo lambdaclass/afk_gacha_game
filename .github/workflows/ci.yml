@@ -8,7 +8,7 @@ on:
 
 env:
   MIX_ENV: test
-    
+
 permissions:
   contents: read
 
@@ -55,8 +55,12 @@ jobs:
     - name: Install dependencies
       run: cd server && make setup
     - name: Check Elixir Formatting
+      run: cd server && make credo
+    - name: Check Elixir Formatting
       run: cd server && mix format --check-formatted
     - name: Check Rust Formatting
       run: cd server && cd native/gamestate && cargo fmt --check
+    - name: Compiles without warnings
+      run: cd server && mix compile --all-warnings --warnings-as-errors
     - name: Run tests
       run: cd server && make tests

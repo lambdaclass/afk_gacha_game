@@ -1,12 +1,12 @@
 defmodule DarkWorldsServer.Communication.ProtoTransform do
-  alias DarkWorldsServer.Engine.Position, as: EnginePosition
-  alias DarkWorldsServer.Engine.Player, as: EnginePlayer
-  alias DarkWorldsServer.Engine.ActionOk, as: EngineAction
-  alias DarkWorldsServer.Communication.Proto.Position, as: ProtoPosition
-  alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
-  alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.ClientAction, as: ProtoAction
+  alias DarkWorldsServer.Communication.Proto.GameStateUpdate
+  alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
+  alias DarkWorldsServer.Communication.Proto.Position, as: ProtoPosition
   alias DarkWorldsServer.Communication.Proto.UpdatePing
+  alias DarkWorldsServer.Engine.ActionOk, as: EngineAction
+  alias DarkWorldsServer.Engine.Player, as: EnginePlayer
+  alias DarkWorldsServer.Engine.Position, as: EnginePosition
 
   @behaviour Protobuf.TransformModule
 
@@ -17,8 +17,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EnginePlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position} = player
-    %ProtoPlayer{id: id, health: health, position: position}
+    %{id: id, health: health, position: position, action: action} = player
+    %ProtoPlayer{id: id, health: health, position: position, action: player_action_encode(action)}
   end
 
   def encode(%{players: players}, GameStateUpdate) do
@@ -45,6 +45,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
     %ProtoAction{action: :UPDATE_PING, latency: latency}
   end
 
+  def encode(%EngineAction{action: :attack_aoe, value: position}, ProtoAction) do
+    %ProtoAction{action: :attack_aoe, position: position}
+  end
+
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position
@@ -52,8 +56,23 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def decode(%ProtoPlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position} = player
-    %EnginePlayer{id: id, health: health, position: position}
+    %{
+      id: id,
+      health: health,
+      position: position,
+      last_melee_attack: attack,
+      status: status,
+      action: action
+    } = player
+
+    %EnginePlayer{
+      id: id,
+      health: health,
+      position: position,
+      last_melee_attack: attack,
+      status: status,
+      action: player_action_decode(action)
+    }
   end
 
   def decode(%GameStateUpdate{players: players}, GameStateUpdate) do
@@ -80,6 +99,14 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
     %EngineAction{action: :update_ping, value: latency}
   end
 
+  def decode(%ProtoAction{action: :ATTACK_AOE, position: position}, ProtoAction) do
+    %EngineAction{action: :attack_aoe, value: position}
+  end
+
+  def decode(%struct{} = msg, struct) do
+    Map.from_struct(msg)
+  end
+
   ###############################
   # Helpers for transformations #
   ###############################
@@ -92,4 +119,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   defp direction_decode(:DOWN), do: :down
   defp direction_decode(:LEFT), do: :left
   defp direction_decode(:RIGHT), do: :right
+
+  defp player_action_encode(:attacking), do: :ATTACKING
+  defp player_action_encode(:nothing), do: :NOTHING
+
+  defp player_action_decode(:ATTACKING), do: :attacking
+  defp player_action_decode(:NOTHING), do: :nothing
 end
