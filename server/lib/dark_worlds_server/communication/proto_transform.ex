@@ -1,5 +1,4 @@
 defmodule DarkWorldsServer.Communication.ProtoTransform do
-
   alias DarkWorldsServer.Communication.Proto.ClientAction, as: ProtoAction
   alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
