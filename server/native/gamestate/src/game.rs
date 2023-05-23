@@ -118,6 +118,16 @@ impl GameState {
         );
     }
 
+    // Takes the raw value from Unity's joystick
+    // and calculates the resulting position on the grid.
+    // The joystick values are 2 floating point numbers,
+    // x and y which are translated to the character's delta
+    // into a certain grid direction. A conversion with rounding
+    // to the nearest integer is done to obtain the grid coordinates.
+    // The (x,y) input value becomes:
+    // (-1*rounded_nearest_integer(y), round_nearest_integer(x)).
+    // Eg: If the input is (-0.7069376, 0.7072759) (a left-upper joystick movement) the movement on the grid
+    // becomes (-1, -1). Because the input is a left-upper joystick movement
     pub fn move_with_joystick(
         self: &mut Self,
         player_id: u64,
@@ -130,10 +140,10 @@ impl GameState {
         }
         let Position { x: old_x, y: old_y } = player.position;
         let speed = player.character.speed as i64;
-        let (x_base_increment, y_base_increment) = Self::joystick_axis_to_grid_coords(x, y);
-        let mut new_position = Position {
-            x: (old_x as i64 + (x_base_increment * speed)) as usize,
-            y: (old_y as i64 + (y_base_increment * speed)) as usize,
+        let (x_grid_delta, y_grid_delta) = Self::joystick_axis_to_grid_coords(x, y);
+        let new_position = Position {
+            x: (old_x as i64 + (x_grid_delta * speed)) as usize,
+            y: (old_y as i64 + (y_grid_delta * speed)) as usize,
         };
         // new_position.x = min(new_position.x, self.board.height - 1);
         // new_position.x = max(new_position.x, 0);
@@ -143,7 +153,8 @@ impl GameState {
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
 
-        player.position = tile_to_move_to(&self.board, &player.position, &new_position);
+        player.position = new_position;
+        // tile_to_move_to(&self.board, &player.position, &new_position);
 
         self.board.set_cell(
             player.position.x,
@@ -156,18 +167,18 @@ impl GameState {
     // matrix coords.
     fn joystick_axis_to_grid_coords(joystick_x: f64, joystick_y: f64) -> (i64, i64) {
         let grid_x = -(joystick_y.round() as i64);
-        let grid_y = (joystick_x.round() as i64);
+        let grid_y = joystick_x.round() as i64;
         return (grid_x, grid_y);
     }
     fn get_player_mut(players: &mut Vec<Player>, player_id: u64) -> Result<&mut Player, String> {
         players
             .get_mut((player_id - 1) as usize)
-            .ok_or(format!("Given id is out of bounds"))
+            .ok_or(format!("Given id ({player_id}) is not valid"))
     }
     fn get_player(self: &Self, player_id: u64) -> Result<Player, String> {
         self.players
             .get((player_id - 1) as usize)
-            .ok_or(format!("Given id is out of bounds"))
+            .ok_or(format!("Given id ({player_id}) is not valid"))
             .cloned()
     }
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
