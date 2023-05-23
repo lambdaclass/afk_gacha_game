@@ -108,6 +108,7 @@ defmodule LoadTest.Communication.Proto.ClientAction do
 
   field :action, 1, type: LoadTest.Communication.Proto.Action, enum: true
   field :direction, 2, type: LoadTest.Communication.Proto.Direction, enum: true
+  field :position, 3, type: LoadTest.Communication.Proto.Position
 end
 
 defmodule LoadTest.Communication.Proto.LobbyEvent do

@@ -91,6 +91,9 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(2, Name = @"direction")]
     public Direction Direction { get; set; }
 
+    [global::ProtoBuf.ProtoMember(3, Name = @"position")]
+    public Position Position { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
