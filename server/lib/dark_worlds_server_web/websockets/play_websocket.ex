@@ -106,12 +106,13 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:binary, Communication.encode!(reply_map)}, state}
   end
 
-
+  # TODO: Use protobuf
   def websocket_info({:next_round, _game_state}, state) do
     Logger.info("A NEW ROUND STARTED")
     {:reply, {:text, "NEXT_ROUND"}, state}
   end
 
+  # TODO: Use protobuf
   def websocket_info({:last_round, _game_state}, state) do
     Logger.info("THE LAST ROUND STARTED")
     {:reply, {:text, "LAST_ROUND"}, state}
