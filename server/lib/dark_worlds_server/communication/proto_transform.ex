@@ -3,9 +3,11 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
   alias DarkWorldsServer.Communication.Proto.Position, as: ProtoPosition
+  alias DarkWorldsServer.Communication.Proto.RelativePosition, as: ProtoRelativePosition
   alias DarkWorldsServer.Engine.ActionOk, as: EngineAction
   alias DarkWorldsServer.Engine.Player, as: EnginePlayer
   alias DarkWorldsServer.Engine.Position, as: EnginePosition
+  alias DarkWorldsServer.Engine.RelativePosition, as: EngineRelativePosition
 
   @behaviour Protobuf.TransformModule
 
@@ -16,8 +18,15 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EnginePlayer{} = player, ProtoPlayer) do
-    %{id: id, health: health, position: position, action: action} = player
-    %ProtoPlayer{id: id, health: health, position: position, action: player_action_encode(action)}
+    %{id: id, health: health, position: position, action: action, aoe_position: aoe_position} = player
+
+    %ProtoPlayer{
+      id: id,
+      health: health,
+      position: position,
+      action: player_action_encode(action),
+      aoe_position: aoe_position
+    }
   end
 
   def encode(%{players: players}, GameStateUpdate) do
@@ -33,13 +42,19 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
   end
 
   def encode(%EngineAction{action: :attack_aoe, value: position}, ProtoAction) do
-    %ProtoAction{action: :attack_aoe, position: position}
+    %ProtoAction{action: :ATTACK_AOE, position: position}
   end
 
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position
     %EnginePosition{x: x, y: y}
+  end
+
+  @impl Protobuf.TransformModule
+  def decode(%ProtoRelativePosition{} = position, ProtoRelativePosition) do
+    %{x: x, y: y} = position
+    %EngineRelativePosition{x: x, y: y}
   end
 
   def decode(%ProtoPlayer{} = player, ProtoPlayer) do
@@ -49,7 +64,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       position: position,
       last_melee_attack: attack,
       status: status,
-      action: action
+      action: action,
+      aoe_position: aoe_position
     } = player
 
     %EnginePlayer{
@@ -58,7 +74,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       position: position,
       last_melee_attack: attack,
       status: status,
-      action: player_action_decode(action)
+      action: player_action_decode(action),
+      aoe_position: aoe_position
     }
   end
 
@@ -101,7 +118,9 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   defp player_action_encode(:attacking), do: :ATTACKING
   defp player_action_encode(:nothing), do: :NOTHING
+  defp player_action_encode(:attackingaoe), do: :ATTACKING_AOE
 
   defp player_action_decode(:ATTACKING), do: :attacking
   defp player_action_decode(:NOTHING), do: :nothing
+  defp player_action_decode(:ATTACKING_AOE), do: :attackingaoe
 end

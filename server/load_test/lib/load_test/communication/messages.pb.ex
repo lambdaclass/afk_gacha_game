@@ -47,6 +47,7 @@ defmodule LoadTest.Communication.Proto.PlayerAction do
 
   field :NOTHING, 0
   field :ATTACKING, 1
+  field :ATTACKING_AOE, 2
 end
 
 defmodule LoadTest.Communication.Proto.LobbyEventType do
@@ -91,6 +92,7 @@ defmodule LoadTest.Communication.Proto.Player do
   field :last_melee_attack, 4, type: :uint64, json_name: "lastMeleeAttack"
   field :status, 5, type: LoadTest.Communication.Proto.Status, enum: true
   field :action, 6, type: LoadTest.Communication.Proto.PlayerAction, enum: true
+  field :aoe_position, 7, type: LoadTest.Communication.Proto.Position, json_name: "aoePosition"
 end
 
 defmodule LoadTest.Communication.Proto.Position do
@@ -102,6 +104,15 @@ defmodule LoadTest.Communication.Proto.Position do
   field :y, 2, type: :uint64
 end
 
+defmodule LoadTest.Communication.Proto.RelativePosition do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :x, 1, type: :int64
+  field :y, 2, type: :int64
+end
+
 defmodule LoadTest.Communication.Proto.ClientAction do
   @moduledoc false
 
@@ -109,8 +120,8 @@ defmodule LoadTest.Communication.Proto.ClientAction do
 
   field :action, 1, type: LoadTest.Communication.Proto.Action, enum: true
   field :direction, 2, type: LoadTest.Communication.Proto.Direction, enum: true
-  field :position, 3, type: LoadTest.Communication.Proto.Position
-  field :move_delta, 5, type: LoadTest.Communication.Proto.JoystickValues, json_name: "moveDelta"
+  field :position, 3, type: LoadTest.Communication.Proto.RelativePosition
+  field :move_delta, 4, type: LoadTest.Communication.Proto.JoystickValues, json_name: "moveDelta"
 end
 
 defmodule LoadTest.Communication.Proto.JoystickValues do

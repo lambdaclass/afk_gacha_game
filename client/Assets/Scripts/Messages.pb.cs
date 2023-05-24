@@ -61,6 +61,9 @@ public partial class Player : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(6, Name = @"action")]
     public PlayerAction Action { get; set; }
 
+    [global::ProtoBuf.ProtoMember(7, Name = @"aoe_position")]
+    public Position AoePosition { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -79,6 +82,21 @@ public partial class Position : global::ProtoBuf.IExtensible
 }
 
 [global::ProtoBuf.ProtoContract()]
+public partial class RelativePosition : global::ProtoBuf.IExtensible
+{
+    private global::ProtoBuf.IExtension __pbn__extensionData;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    [global::ProtoBuf.ProtoMember(1, Name = @"x")]
+    public long X { get; set; }
+
+    [global::ProtoBuf.ProtoMember(2, Name = @"y")]
+    public long Y { get; set; }
+
+}
+
+[global::ProtoBuf.ProtoContract()]
 public partial class ClientAction : global::ProtoBuf.IExtensible
 {
     private global::ProtoBuf.IExtension __pbn__extensionData;
@@ -92,9 +110,9 @@ public partial class ClientAction : global::ProtoBuf.IExtensible
     public Direction Direction { get; set; }
 
     [global::ProtoBuf.ProtoMember(3, Name = @"position")]
-    public Position Position { get; set; }
+    public RelativePosition Position { get; set; }
 
-    [global::ProtoBuf.ProtoMember(5, Name = @"move_delta")]
+    [global::ProtoBuf.ProtoMember(4, Name = @"move_delta")]
     public JoystickValues MoveDelta { get; set; }
 
 }
@@ -198,6 +216,8 @@ public enum PlayerAction
     Nothing = 0,
     [global::ProtoBuf.ProtoEnum(Name = @"ATTACKING")]
     Attacking = 1,
+    [global::ProtoBuf.ProtoEnum(Name = @"ATTACKING_AOE")]
+    AttackingAoe = 2,
 }
 
 [global::ProtoBuf.ProtoContract()]

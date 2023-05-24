@@ -36,6 +36,7 @@ enum GameEventType {
     - last_melee_attack: Time of the last melee attack done by the player in
       seconds since unix epoch.
     - status: currently if alive or dead
+    - aoe_position: Position of the aoe attack, only used when action == ATTACKING_AOE
  */
 message Player {
     uint64 id = 1;
@@ -45,6 +46,7 @@ message Player {
     uint64 last_melee_attack  = 4;
     Status status = 5;
     PlayerAction action = 6;
+    Position aoe_position = 7;
 }
 
 /*
@@ -64,6 +66,15 @@ message Position {
     uint64 y = 2;
 }
 
+/* A relative positioncorner
+    - x: X coordinate
+    - y: Y coordinate
+ */
+message RelativePosition {
+    int64 x = 1;
+    int64 y = 2;
+}
+
 /* Represents any action that a client/player can make
     - action: the action taken by the player
     - direction: direction of the action (see Direction), used on actions MOVE, ATTACK
@@ -72,8 +83,8 @@ message Position {
 message ClientAction {
     Action action = 1;
     Direction direction = 2;
-    Position position = 3;
-    JoystickValues move_delta = 5;
+    RelativePosition position = 3;
+    JoystickValues move_delta = 4;
 }
 
 /* Actions a client/player performs
@@ -110,6 +121,7 @@ message JoystickValues {
 enum PlayerAction {
     NOTHING = 0;
     ATTACKING = 1;
+    ATTACKING_AOE = 2;
 }
 
 /* Represents the events happening in the matchmaking lobby, either from client or server
