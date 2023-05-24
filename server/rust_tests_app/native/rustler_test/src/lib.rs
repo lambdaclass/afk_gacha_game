@@ -8,8 +8,9 @@ rustler::init!(
         game_state_test::no_move_if_beyond_boundaries,
         game_state_test::no_move_if_occupied,
         game_state_test::attacking,
-        game_state_test::no_move_if_wall,
+       // game_state_test::no_move_if_wall,
         game_state_test::movement,
+        game_state_test::move_player_to_coordinates
     ],
     load = gamestate::load
 );
