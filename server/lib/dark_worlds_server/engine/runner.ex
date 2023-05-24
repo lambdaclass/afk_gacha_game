@@ -7,7 +7,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Player
 
   @build_walls false
-  @amount_of_players 10
   @board {1000, 1000}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -89,9 +88,9 @@ defmodule DarkWorldsServer.Engine.Runner do
      %{
        current_state: initial_state,
        next_state: initial_state,
-       max_players: @amount_of_players,
+       max_players: length(opts.players),
        players: opts.players,
-       current_players: length(opts.players),
+       current_players: 0,
        is_single_player?: length(opts.players) == 1
      }}
   end
