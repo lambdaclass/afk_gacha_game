@@ -146,7 +146,6 @@ fn move_player_to_coordinates() -> TestResult {
         ],
         get_grid(&state)
     )
-
 }
 
 #[rustler::nif]
