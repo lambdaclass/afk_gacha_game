@@ -1,8 +1,14 @@
 using UnityEngine;
-
+using MoreMountains.Tools;
 public class PlayerControls : MonoBehaviour
 {
-    public static void SendAction()
+    public void SendJoystickRawValues(float x, float y)
+    {
+        var valuesToSend = new JoystickValues { X = x, Y = y };
+        var clientAction = new ClientAction { Action = Action.MoveWithJoystick, MoveDelta = valuesToSend };
+        SocketConnectionManager.Instance.SendAction(clientAction);
+    }
+    public void SendAction()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -24,22 +30,6 @@ public class PlayerControls : MonoBehaviour
         {
             ClientAction action = new ClientAction { Action = Action.AttackAoe };
             SocketConnectionManager.Instance.SendAction(action);
-        }
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            SendAction(Action.Attack, Direction.Down);
-        }
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            SendAction(Action.Attack, Direction.Up);
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SendAction(Action.Attack, Direction.Right);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SendAction(Action.Attack, Direction.Left);
         }
     }
 
