@@ -6,5 +6,4 @@ defmodule TestNIFs do
   def attacking(), do: err()
   def no_move_if_wall(), do: err()
   def movement(), do: err()
-  def move_player_to_coordinates(), do: err()
 end
