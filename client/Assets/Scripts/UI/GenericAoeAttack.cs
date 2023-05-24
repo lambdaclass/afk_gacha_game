@@ -20,7 +20,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         }
         public void ExecuteAoeAttack(Vector2 aoePosition)
         {
-            //print("ability at: " + aoePosition);
+            print("ability at: " + aoePosition);
             //Load the prefab
             GameObject instance = Instantiate(Resources.Load("AoeAttack", typeof(GameObject))) as GameObject;
             //Set the prefav as a player child
@@ -28,7 +28,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             //Set its position to the player position
             instance.transform.position = transform.position;
             //Destroy after showing it
-            //Destroy(instance, 2.1f);
+            Destroy(instance, 2.1f);
             //print("Player: " + _character.PlayerID);
 
             //Get only the game object Target inside the animation component and assign it the joystick values
