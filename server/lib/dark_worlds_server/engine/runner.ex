@@ -28,12 +28,6 @@ defmodule DarkWorldsServer.Engine.Runner do
       @player_check 1 * 60 * 1000
   end
 
-  @game_states [
-    :playing,
-    :round_finished,
-    :game_finished
-  ]
-
   #######
   # API #
   #######

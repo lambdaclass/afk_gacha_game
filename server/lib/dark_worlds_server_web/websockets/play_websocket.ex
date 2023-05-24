@@ -113,12 +113,12 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:binary, Communication.encode!({player, ping})}, state}
   end
 
-  def websocket_info({:next_round, game_state}, state) do
+  def websocket_info({:next_round, _game_state}, state) do
     Logger.info("A NEW ROUND STARTED")
     {:reply, {:text, "NEXT_ROUND"}, state}
   end
 
-  def websocket_info({:last_round, game_state}, state) do
+  def websocket_info({:last_round, _game_state}, state) do
     Logger.info("THE LAST ROUND STARTED")
     {:reply, {:text, "LAST_ROUND"}, state}
   end
