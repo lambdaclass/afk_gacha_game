@@ -48,21 +48,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void SendAction()
     {
-        //TODO
-        // 1-Refactor this
-        // 2-If a physical controller is connected, keyboard
-        //    input feels wrong.
         var inputFromPhysicalJoystick = Input.GetJoystickNames().Length > 0;
         var inputFromVirtualJoystick = joystickL is not null;
-        var hInput = Input.GetAxis("Horizontal");
-        var vInput = Input.GetAxis("Vertical");
-        if (inputFromVirtualJoystick && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        if (inputFromPhysicalJoystick)
+        {
+            var hInput = Input.GetAxis("Horizontal");
+            var vInput = Input.GetAxis("Vertical");
+            GetComponent<PlayerControls>().SendJoystickValues(hInput, -vInput);
+        }
+        else if (inputFromVirtualJoystick)
         {
             GetComponent<PlayerControls>().SendJoystickValues(joystickL.RawValue.x, joystickL.RawValue.y);
-        }
-        else if (inputFromPhysicalJoystick && (vInput != 0 || hInput != 0))
-        {
-            GetComponent<PlayerControls>().SendJoystickValues(hInput, -vInput);
         }
         else
         {
