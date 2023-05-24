@@ -271,9 +271,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   ####################
   # Internal helpers #
   ####################
-  defp has_a_player_won?(_players, _is_single_player? = true), do: false
+  defp has_a_player_won?(_players, true = _is_single_player?), do: false
 
-  defp has_a_player_won?(players, _is_single_player? = false) do
+  defp has_a_player_won?(players, false = _is_single_player?) do
     players_alive = Enum.filter(players, fn player -> player.health != 0 end)
     Enum.count(players_alive) == 1
   end
