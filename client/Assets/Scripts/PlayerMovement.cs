@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
+using MoreMountains.Tools;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] MMTouchJoystick joystickL;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
     public Direction nextAttackDirection;
     public bool isAttacking = false;
@@ -15,12 +17,15 @@ public class PlayerMovement : MonoBehaviour
         public int player_id;
         public long health;
         public PlayerAction action;
+        public long aoe_x;
+        public long aoe_y;
     }
 
     public enum PlayerAction
     {
         Nothing = 0,
         Attacking = 1,
+        AttackingAOE = 2,
     }
 
     void Start()
@@ -44,9 +49,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void SendAction()
+    public void SendAction()
     {
-        PlayerControls.SendAction();
+        if (joystickL is not null && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        {
+            GetComponent<PlayerControls>().SendJoystickRawValues(joystickL.RawValue.x, joystickL.RawValue.y);
+        }
+        else
+        {
+            GetComponent<PlayerControls>().SendAction();
+        }
         sendAttack();
     }
 
@@ -107,13 +119,15 @@ public class PlayerMovement : MonoBehaviour
             healthComponent.SetHealth(playerUpdate.health);
 
             bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
+            bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
+            if (isAttackingAOE){
+                print(playerUpdate.aoe_x  / 10f - 50.0f);
+                print(playerUpdate.aoe_y  / 10f + 50.0f);
+            }
+            
             SocketConnectionManager.Instance.players[playerUpdate.player_id]
                 .GetComponent<AttackController>()
                 .SwordAttack(isAttacking);
-            if (isAttacking)
-            {
-                print("attack");
-            }
         }
     }
 
@@ -123,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
         {
             var new_position = game_update.Players[i].Position;
+            var aoe_position = game_update.Players[i].AoePosition;
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
@@ -131,8 +146,15 @@ public class PlayerMovement : MonoBehaviour
                     player_id = i,
                     health = game_update.Players[i].Health,
                     action = (PlayerAction)game_update.Players[i].Action,
+                    aoe_x = (long)aoe_position.Y,
+                    aoe_y = -((long)aoe_position.X),
                 }
             );
+            if (game_update.Players[i].Health == 0)
+            {
+                print(SocketConnectionManager.instance.players[i + 1].name);
+                SocketConnectionManager.instance.players[i + 1].SetActive(false);
+            }
         }
     }
 }
