@@ -7,7 +7,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Player
 
   @build_walls false
-  @amount_of_players 10
   @board {1000, 1000}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -72,7 +71,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.flag(:priority, priority)
 
-    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+    state = Game.new(number_of_players: length(opts.players), board: @board, build_walls: @build_walls)
 
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
@@ -89,9 +88,10 @@ defmodule DarkWorldsServer.Engine.Runner do
      %{
        current_state: initial_state,
        next_state: initial_state,
-       max_players: @amount_of_players,
+       max_players: length(opts.players),
        players: opts.players,
-       current_players: 0
+       current_players: 0,
+       is_single_player?: length(opts.players) == 1
      }}
   end
 
@@ -135,7 +135,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.attack_player(player, value)
 
-    has_a_player_won? = has_a_player_won?(game.players)
+    has_a_player_won? = has_a_player_won?(game.players, state.is_single_player?)
 
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
@@ -150,7 +150,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     %Player{position: _position} = get_player(game.players, player_id)
     game = Game.attack_aoe(game, player_id, value)
 
-    has_a_player_won? = has_a_player_won?(game.players)
+    has_a_player_won? = has_a_player_won?(game.players, state.is_single_player?)
 
     next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
     state = Map.put(state, :next_state, next_state)
@@ -251,7 +251,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
 
-    has_a_player_won? = has_a_player_won?(next_state.game.players)
+    has_a_player_won? = next_state.has_finished?
 
     maybe_broadcast_game_finished_message(has_a_player_won?, state)
 
@@ -261,7 +261,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   ####################
   # Internal helpers #
   ####################
-  defp has_a_player_won?(players) do
+  defp has_a_player_won?(_players, true = _is_single_player?), do: false
+
+  defp has_a_player_won?(players, false = _is_single_player?) do
     players_alive = Enum.filter(players, fn player -> player.health != 0 end)
     Enum.count(players_alive) == 1
   end
