@@ -104,21 +104,30 @@ public class PlayerMovement : MonoBehaviour
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            SocketConnectionManager.Instance.players[playerUpdate.player_id].transform.position =
+            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.player_id];
+            player.transform.position =
                 new Vector3(
                     playerUpdate.x / 10f - 50.0f,
-                    SocketConnectionManager.Instance.players[playerUpdate.player_id]
+                    player
                         .transform
                         .position
                         .y,
                     playerUpdate.y / 10f + 50.0f
                 );
-            Health healthComponent = SocketConnectionManager.Instance.players[
-                playerUpdate.player_id
-            ].GetComponent<Health>();
+            Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
             bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
+            player.GetComponent<AttackController>().SwordAttack(isAttacking);
+            if (isAttacking)
+            {
+                print("attack");
+            }
+            //if dead remove the player from the scene
+            if (healthComponent.CurrentHealth <= 0)
+            {
+                healthComponent.Model.gameObject.SetActive(false);
+            }
             bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
             if (isAttackingAOE){
                 print(playerUpdate.aoe_x  / 10f - 50.0f);
