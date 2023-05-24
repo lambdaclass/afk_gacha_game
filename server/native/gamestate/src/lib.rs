@@ -86,12 +86,13 @@ fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-<<<<<<< HEAD
 fn new_round(game: GameState, players: Vec<Player>) -> GameState{
     let mut game_2 = game;
     game_2.new_round(players);
     game_2
-=======
+}
+
+#[rustler::nif(schedule = "DirtyCpu")]
 fn move_with_joystick(
     game: GameState,
     player_id: u64,
@@ -101,7 +102,6 @@ fn move_with_joystick(
     let mut game_2 = game;
     game_2.move_with_joystick(player_id, x, y)?;
     Ok(game_2)
->>>>>>> main
 }
 
 pub fn load(env: Env, _: Term) -> bool {
@@ -121,11 +121,7 @@ rustler::init!(
         attack_aoe,
         clean_players_actions,
         disconnect,
-<<<<<<< HEAD
+        move_with_joystick,
         new_round
-=======
-        move_with_joystick
->>>>>>> main
     ],
-    load = load
-);
+    load = load);
