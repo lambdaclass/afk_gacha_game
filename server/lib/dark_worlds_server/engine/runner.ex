@@ -270,7 +270,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   ####################
   defp has_a_player_won?(_players, true = _is_single_player?), do: :playing
 
-  defp has_a_player_won?(players) do
+  defp has_a_player_won?(players, _is_single_player?) do
     players_alive = Enum.filter(players, fn player -> player.status == :alive end)
 
     if Enum.count(players_alive) == 1 do
@@ -330,6 +330,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   defp broadcast_game_update({:next_round, %{current_round: current_round, next_state: next_state} = state}) do
+    # This has to be done in order to apply the last attac
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
+
     game = Game.new_round(next_state.game, next_state.game.players)
 
     next_state = Map.put(next_state, :game, game)
