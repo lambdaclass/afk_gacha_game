@@ -166,15 +166,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_cast(
-        {:play, player, %ActionOk{action: :update_ping, value: value}},
-        state
-      ) do
-    broadcast_players_ping(player, value)
-
-    {:noreply, state}
-  end
-
-  def handle_cast(
         {:disconnect, player_id},
         %{current_state: %{game: game} = game_state, current_players: current} = state
       ) do
@@ -368,14 +359,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.send_after(self(), :session_timeout, @session_timeout)
 
     {:noreply, state}
-  end
-
-  defp broadcast_players_ping(player, ping) do
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(
-      Communication.pubsub_game_topic(self()),
-      {:update_ping, player, ping}
-    )
   end
 
   defp get_player(players, player_id) do

@@ -38,9 +38,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (
-            SocketConnectionManager.Instance.gameUpdate != null
+            SocketConnectionManager.Instance.gamePlayers != null
             && SocketConnectionManager.Instance.players.Count > 0
-            && SocketConnectionManager.Instance.gameUpdate.Players.Count > 0
+            && SocketConnectionManager.Instance.gamePlayers.Count > 0
         )
         {
             UpdatePlayerActions();
@@ -133,24 +133,24 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdatePlayerActions()
     {
-        GameStateUpdate game_update = SocketConnectionManager.Instance.gameUpdate;
+        List<Player> gamePlayers = SocketConnectionManager.Instance.gamePlayers;
         for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
         {
-            var new_position = game_update.Players[i].Position;
-            var aoe_position = game_update.Players[i].AoePosition;
+            var new_position = gamePlayers[i].Position;
+            var aoe_position = gamePlayers[i].AoePosition;
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
                     x = (long)new_position.Y,
                     y = -((long)new_position.X),
                     player_id = i,
-                    health = game_update.Players[i].Health,
-                    action = (PlayerAction)game_update.Players[i].Action,
+                    health = gamePlayers[i].Health,
+                    action = (PlayerAction)gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,
                     aoe_y = -((long)aoe_position.X),
                 }
             );
-            if (game_update.Players[i].Health == 0)
+            if (gamePlayers[i].Health == 0)
             {
                 print(SocketConnectionManager.instance.players[i + 1].name);
                 SocketConnectionManager.instance.players[i + 1].SetActive(false);
