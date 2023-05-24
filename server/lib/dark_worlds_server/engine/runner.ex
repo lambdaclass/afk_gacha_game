@@ -100,6 +100,19 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   def handle_cast(
+        {:play, player, %ActionOk{action: :move_with_joystick, value: %{x: x, y: y}}},
+        %{next_state: %{game: game} = next_state} = state
+      ) do
+    {:ok, game} = Game.move_with_joystick(game, player, x, y)
+
+    next_state = Map.put(next_state, :game, game)
+
+    state = Map.put(state, :next_state, next_state)
+
+    {:noreply, state}
+  end
+
+  def handle_cast(
         {:play, player, %ActionOk{action: :move, value: value}},
         %{next_state: %{game: game} = next_state} = state
       ) do
@@ -240,7 +253,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   def handle_info(:update_state, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
 
-    game = next_state.game |> Game.clean_players_actions()
+    game =
+      next_state.game
+      |> Game.clean_players_actions()
+
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
 
