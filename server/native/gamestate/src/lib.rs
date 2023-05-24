@@ -8,8 +8,8 @@ use game::GameState;
 use rustler::{Env, Term};
 use std::collections::HashMap;
 
-use crate::{board::GridResource, board::Tile, game::Direction, player::RelativePosition};
 use crate::player::Player;
+use crate::{board::GridResource, board::Tile, game::Direction, player::RelativePosition};
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn new_game(
@@ -86,7 +86,7 @@ fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn new_round(game: GameState, players: Vec<Player>) -> GameState{
+fn new_round(game: GameState, players: Vec<Player>) -> GameState {
     let mut game_2 = game;
     game_2.new_round(players);
     game_2
@@ -124,4 +124,5 @@ rustler::init!(
         move_with_joystick,
         new_round
     ],
-    load = load);
+    load = load
+);

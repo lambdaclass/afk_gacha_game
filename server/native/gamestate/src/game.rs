@@ -13,7 +13,7 @@ use std::cmp::{max, min};
 #[module = "DarkWorldsServer.Engine.Game"]
 pub struct GameState {
     pub players: Vec<Player>,
-    pub board: Board
+    pub board: Board,
 }
 
 #[derive(Debug, NifUnitEnum)]
@@ -52,7 +52,7 @@ impl GameState {
                 )
             })
             .collect();
-        
+
         let mut board = Board::new(board_width, board_height);
 
         for player in players.clone() {
@@ -75,15 +75,16 @@ impl GameState {
             }
         }
 
-        Self { players, board}
+        Self { players, board }
     }
 
     pub fn new_round(self: &mut Self, players: Vec<Player>) {
         let mut positions = HashSet::new();
         let mut players: Vec<Player> = players;
-        
-        for player in players.iter_mut(){
-            let new_position = generate_new_position(&mut positions, self.board.width, self.board.height);
+
+        for player in players.iter_mut() {
+            let new_position =
+                generate_new_position(&mut positions, self.board.width, self.board.height);
             player.position.x = new_position.x;
             player.position.y = new_position.y;
             player.health = 100;
@@ -91,7 +92,7 @@ impl GameState {
         }
 
         let mut board = Board::new(self.board.width, self.board.height);
-        
+
         for player in players.clone() {
             board.set_cell(
                 player.position.x,
@@ -99,7 +100,7 @@ impl GameState {
                 Tile::Player(player.id),
             );
         }
-        
+
         self.players = players;
         self.board = board;
     }
