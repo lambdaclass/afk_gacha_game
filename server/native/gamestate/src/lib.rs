@@ -4,10 +4,10 @@ pub mod game;
 pub mod player;
 pub mod skills;
 pub mod time_utils;
+use crate::player::Position;
 use game::GameState;
 use rustler::{Env, Term};
 use std::collections::HashMap;
-use crate::player::Position;
 
 use crate::{board::GridResource, board::Tile, game::Direction, player::RelativePosition};
 
@@ -29,12 +29,15 @@ fn move_player(game: GameState, player_id: u64, direction: Direction) -> GameSta
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn move_player_to_coordinates(game: GameState, player_id: u64, new_position: Position) -> GameState {
+fn move_player_to_coordinates(
+    game: GameState,
+    player_id: u64,
+    new_position: Position,
+) -> GameState {
     let mut game_2 = game;
     game_2.move_player_to_coordinates(player_id, new_position);
     game_2
 }
-
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn clean_players_actions(game: GameState) -> GameState {
