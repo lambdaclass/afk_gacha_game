@@ -28,8 +28,13 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             //Set its position to the player position
             instance.transform.position = transform.position;
             //Destroy after showing it
-            Destroy(instance, 2.1f);
+            //Destroy(instance, 2.1f);
             //print("Player: " + _character.PlayerID);
+
+            //Get only the game object Target inside the animation component and assign it the joystick values
+            GameObject aoeTarget = instance.GetComponent<AoeTarget>().target;
+            //Multiply vector values according to the scale of the animation (in this case 5)
+            aoeTarget.transform.position = transform.position + new Vector3(aoePosition.x * 5, 0f, aoePosition.y * 5);
 
             RelativePosition relative_position = new RelativePosition
             {
