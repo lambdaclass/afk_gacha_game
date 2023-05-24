@@ -281,6 +281,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   defp decide_next_game_update(%{game_state: :round_finished, winners: winners, current_round: current_round} = state) do
+    # This has to be done in order to apply the last attack
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
+
     [winner] = Enum.filter(state.next_state.game.players, fn player -> player.status == :alive end)
     winners = [winner | winners]
     amount_of_winners = winners |> Enum.uniq_by(fn winner -> winner.id end) |> Enum.count()
@@ -330,10 +334,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   defp broadcast_game_update({:next_round, %{current_round: current_round, next_state: next_state} = state}) do
-    # This has to be done in order to apply the last attac
-    DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
-
     game = Game.new_round(next_state.game, next_state.game.players)
 
     next_state = Map.put(next_state, :game, game)
