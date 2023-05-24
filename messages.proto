@@ -1,10 +1,23 @@
 syntax = "proto3";
 
-/* Main message sent by the server to clients
-    - players: List of players to update in client
+/* Represents the events pushed by the server during a game
+    - type: type of the event
+    - players: player list, used on STATE_UPDATE
+    - ping_update: updated player's ping, used on PING_UPDATE
  */
-message GameStateUpdate {
-  repeated Player players = 1;
+message GameEvent {
+    GameEventType type = 1;
+    repeated Player players = 2;
+    uint64 latency = 3;
+}
+
+/* Type of game events
+    - STATE_UPDATE: The game's state has been updated
+    - PING_UPDATE: The player's current ping updated
+ */
+enum GameEventType {
+    STATE_UPDATE = 0;
+    PING_UPDATE = 1;
 }
 
 /* Information about a player
@@ -16,6 +29,7 @@ message GameStateUpdate {
     - last_melee_attack: Time of the last melee attack done by the player in
       seconds since unix epoch.
     - status: currently if alive or dead
+    - aoe_position: Position of the aoe attack, only used when action == ATTACKING_AOE
  */
 message Player {
     uint64 id = 1;
@@ -25,6 +39,7 @@ message Player {
     uint64 last_melee_attack  = 4;
     Status status = 5;
     PlayerAction action = 6;
+    Position aoe_position = 7;
 }
 
 /*
@@ -44,41 +59,37 @@ message Position {
     uint64 y = 2;
 }
 
-/* Message to update a player's ping latency information
-    - player_id: ID of the player game object refering to
-    - latency: ping latency for that player
+/* A relative positioncorner
+    - x: X coordinate
+    - y: Y coordinate
  */
-message UpdatePing {
-    uint32 player_id = 1;
-    uint32 latency = 2;
+message RelativePosition {
+    int64 x = 1;
+    int64 y = 2;
 }
 
 /* Represents any action that a client/player can make
     - action: the action taken by the player
     - direction: direction of the action (see Direction), used on actions MOVE, ATTACK
-    - latency: ping latency value to send on UPDATE_PING action
     - position: to decide aoe attack center
  */
 message ClientAction {
     Action action = 1;
     Direction direction = 2;
-    uint32 latency = 3;
-    Position position = 4;
+    RelativePosition position = 3;
+    JoystickValues move_delta = 4;
 }
 
 /* Actions a client/player performs
     - MOVE: the player moves
     - ATTACK: player attacks
-    - PING: client sends ping
-    - UPDATE_PING: client sends ping information for update
  */
 enum Action {
     ACTION_UNSPECIFIED = 0;
     MOVE = 1;
     ATTACK = 2;
-    PING = 3;
-    UPDATE_PING = 4;
     ATTACK_AOE = 5;
+    MOVE_WITH_JOYSTICK = 6;
 }
 
 /* Directions an action can happen in
@@ -91,6 +102,11 @@ enum Direction {
     RIGHT = 4;
 }
 
+message JoystickValues {
+    float x = 1;
+    float y = 2;
+}
+
 /* Actions a player performs
     - NOTHING: nothing
     - ATTACKING: player is attacking
@@ -98,6 +114,7 @@ enum Direction {
 enum PlayerAction {
     NOTHING = 0;
     ATTACKING = 1;
+    ATTACKING_AOE = 2;
 }
 
 /* Represents the events happening in the matchmaking lobby, either from client or server

@@ -8,7 +8,7 @@ use game::GameState;
 use rustler::{Env, Term};
 use std::collections::HashMap;
 
-use crate::{board::GridResource, board::Tile, game::Direction, player::Position};
+use crate::{board::GridResource, board::Tile, game::Direction, player::RelativePosition};
 
 #[rustler::nif(schedule = "DirtyCpu")]
 fn new_game(
@@ -67,7 +67,11 @@ fn attack_player(
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn attack_aoe(game: GameState, attacking_player_id: u64, attack_position: Position) -> GameState {
+fn attack_aoe(
+    game: GameState,
+    attacking_player_id: u64,
+    attack_position: RelativePosition,
+) -> GameState {
     let mut game_2 = game;
     game_2.attack_aoe(attacking_player_id, &attack_position);
     game_2
@@ -77,6 +81,18 @@ fn attack_aoe(game: GameState, attacking_player_id: u64, attack_position: Positi
 fn disconnect(game: GameState, player_id: u64) -> Result<GameState, String> {
     let mut game_2 = game;
     game_2.disconnect(player_id)?;
+    Ok(game_2)
+}
+
+#[rustler::nif(schedule = "DirtyCpu")]
+fn move_with_joystick(
+    game: GameState,
+    player_id: u64,
+    x: f64,
+    y: f64,
+) -> Result<GameState, String> {
+    let mut game_2 = game;
+    game_2.move_with_joystick(player_id, x, y)?;
     Ok(game_2)
 }
 
@@ -96,7 +112,8 @@ rustler::init!(
         attack_player,
         attack_aoe,
         clean_players_actions,
-        disconnect
+        disconnect,
+        move_with_joystick
     ],
     load = load
 );
