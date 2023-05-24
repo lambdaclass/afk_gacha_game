@@ -7,7 +7,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Engine.Player
 
   @build_walls false
-  @amount_of_players 10
   @board {1000, 1000}
   # The game will be closed twenty minute after it starts
   @game_timeout 20 * 60 * 1000
@@ -73,7 +72,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.flag(:priority, priority)
 
-    state = Game.new(number_of_players: @amount_of_players, board: @board, build_walls: @build_walls)
+    state = Game.new(number_of_players: length(opts.players), board: @board, build_walls: @build_walls)
 
     # Finish game after @game_timeout seconds
     Process.send_after(self(), :game_timeout, @game_timeout)
@@ -89,12 +88,13 @@ defmodule DarkWorldsServer.Engine.Runner do
      %{
        current_state: initial_state,
        next_state: initial_state,
-       max_players: @amount_of_players,
+       max_players: length(opts.players),
        players: opts.players,
        current_players: 0,
        current_round: 1,
        game_state: :playing,
-       winners: []
+       winners: [],
+       is_single_player?: length(opts.players) == 1
      }}
   end
 
@@ -142,7 +142,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.attack_player(player, value)
 
-    game_state = has_a_player_won?(game.players)
+    game_state = has_a_player_won?(game.players, state.is_single_player?)
 
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
@@ -157,7 +157,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     %Player{position: _position} = get_player(game.players, player_id)
     game = Game.attack_aoe(game, player_id, value)
 
-    game_state = has_a_player_won?(game.players)
+    game_state = has_a_player_won?(game.players, state.is_single_player?)
 
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
@@ -268,6 +268,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   ####################
   # Internal helpers #
   ####################
+  defp has_a_player_won?(_players, true = _is_single_player?), do: :playing
+
   defp has_a_player_won?(players) do
     players_alive = Enum.filter(players, fn player -> player.status == :alive end)
 
