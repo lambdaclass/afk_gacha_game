@@ -1,6 +1,5 @@
 defmodule DarkWorldsServer.Communication.ProtoTransform do
   alias DarkWorldsServer.Communication.Proto.ClientAction, as: ProtoAction
-  alias DarkWorldsServer.Communication.Proto.GameStateUpdate
   alias DarkWorldsServer.Communication.Proto.Player, as: ProtoPlayer
   alias DarkWorldsServer.Communication.Proto.Position, as: ProtoPosition
   alias DarkWorldsServer.Communication.Proto.RelativePosition, as: ProtoRelativePosition
@@ -27,10 +26,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       action: player_action_encode(action),
       aoe_position: aoe_position
     }
-  end
-
-  def encode(%{players: players}, GameStateUpdate) do
-    %GameStateUpdate{players: players}
   end
 
   def encode(%EngineAction{action: :move, value: direction}, ProtoAction) do
@@ -77,10 +72,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       action: player_action_decode(action),
       aoe_position: aoe_position
     }
-  end
-
-  def decode(%GameStateUpdate{players: players}, GameStateUpdate) do
-    %{players: players}
   end
 
   def decode(%ProtoAction{action: :MOVE_WITH_JOYSTICK, move_delta: %{x: x, y: y}}, ProtoAction) do

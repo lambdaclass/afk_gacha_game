@@ -63,14 +63,6 @@ defmodule LoadTest.Communication.Proto.LobbyEventType do
   field :START_GAME, 5
 end
 
-defmodule LoadTest.Communication.Proto.GameStateUpdate do
-  @moduledoc false
-
-  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
-
-  field :players, 1, repeated: true, type: LoadTest.Communication.Proto.Player
-end
-
 defmodule LoadTest.Communication.Proto.GameEvent do
   @moduledoc false
 
