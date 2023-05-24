@@ -294,7 +294,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   defp decide_next_game_update(%{game_state: :round_finished, winners: winners, current_round: current_round} = _state) do
-    amount_of_winners = (winners |> Enum.uniq_by(fn winner -> winner.id end) |> Enum.count())
+    amount_of_winners = winners |> Enum.uniq_by(fn winner -> winner.id end) |> Enum.count()
+
     cond do
       current_round == 2 and amount_of_winners == 2 ->
         :last_round
