@@ -82,6 +82,8 @@ impl GameState {
         let mut positions = HashSet::new();
         let mut players: Vec<Player> = players;
 
+        let mut board = Board::new(self.board.width, self.board.height);
+
         for player in players.iter_mut() {
             let new_position =
                 generate_new_position(&mut positions, self.board.width, self.board.height);
@@ -89,11 +91,6 @@ impl GameState {
             player.position.y = new_position.y;
             player.health = 100;
             player.status = Status::ALIVE;
-        }
-
-        let mut board = Board::new(self.board.width, self.board.height);
-
-        for player in players.clone() {
             board.set_cell(
                 player.position.x,
                 player.position.y,
