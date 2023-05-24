@@ -53,6 +53,7 @@ public class SocketConnectionManager : MonoBehaviour
         public int health { get; set; }
         public Position position { get; set; }
         public PlayerMovement.PlayerAction action { get; set; }
+        public Position aoe_position { get; set; }
     }
 
     public void Awake()
@@ -76,6 +77,8 @@ public class SocketConnectionManager : MonoBehaviour
             ConnectToSession(this.session_id);
         }
     }
+    Vector2 position = new Vector2(0, 0);
+    Vector2 lastPosition = new Vector2(0, 0);
 
     IEnumerator GetRequest(string uri)
     {
