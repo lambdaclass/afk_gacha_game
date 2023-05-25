@@ -137,12 +137,11 @@ fn move_player_to_coordinates() -> TestResult {
     state.players = vec![player1];
     state.board.set_cell(0, 0, Tile::Player(player_id)); // adds player 1 to the cell at (0,0)
 
-    println!("Hi!");
     state.move_player_to_coordinates(player_id, Position::new(1, 1));
     assert_result!(
         vec![
             vec![Tile::Empty, Tile::Empty],
-            vec![Tile::Player(player_id), Tile::Empty]
+            vec![Tile::Empty, Tile::Player(player_id)]
         ],
         get_grid(&state)
     )
