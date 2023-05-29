@@ -22,7 +22,8 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
     player_id = Enum.count(players) + 1
     Matchmaking.add_player(player_id, matchmaking_session_pid)
 
-    {:reply, {:binary, Communication.lobby_connected!(lobby_id, player_id)}, %{lobby_pid: matchmaking_session_pid}}
+    {:reply, {:binary, Communication.lobby_connected!(lobby_id, player_id)},
+     %{lobby_pid: matchmaking_session_pid}}
   end
 
   def websocket_handle({:binary, message}, state) do
@@ -35,6 +36,10 @@ defmodule DarkWorldsServerWeb.LobbyWebsocket do
         Logger.error("Received frame with an invalid message: #{msg}")
         {:ok, state}
     end
+  end
+
+  def websocket_handle(_, state) do
+    {:ok, state}
   end
 
   def websocket_info({:player_added, id}, state) do
