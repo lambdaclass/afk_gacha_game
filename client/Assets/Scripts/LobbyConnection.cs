@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.IO;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ProtoBuf;
 using UnityEngine;
 using UnityEngine.Networking;
 using WebSocketSharp;
+
 
 public class LobbyConnection : MonoBehaviour
 {
@@ -24,6 +25,18 @@ public class LobbyConnection : MonoBehaviour
 
     WebSocket ws;
 
+    public class boardSize{
+        public uint width { get; set;}
+        public uint height { get; set;}
+    }
+
+    public class gameConfig {
+        public boardSize boardSize;
+        public uint serverTickRate;
+        public uint gameTimeOut;
+        public uint characterSpeed;
+    }
+    
     public class Session
     {
         public string lobby_id { get; set; }
@@ -91,7 +104,19 @@ public class LobbyConnection : MonoBehaviour
 
     public void StartGame()
     {
-        LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };
+        string text = File.ReadAllText(@"./game_config.json");
+        gameConfig gameConfig = JsonConvert.DeserializeObject<gameConfig>(text);
+
+        BoardSize bSize = new BoardSize {Width = gameConfig.boardSize.width, Height = gameConfig.boardSize.height};
+        GameConfig pGameConfig = new GameConfig {
+            boardSize = bSize,
+            serverTickRate = gameConfig.serverTickRate,
+            gameTimeOut = gameConfig.gameTimeOut,
+            characterSpeed = gameConfig.characterSpeed
+        };
+
+        LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame,  GameConfig = pGameConfig};
+
         using (var stream = new MemoryStream())
         {
             Serializer.Serialize(stream, lobbyEvent);

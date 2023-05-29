@@ -157,5 +157,34 @@ defmodule DarkWorldsServer.Communication.Proto.LobbyEvent do
   field(:game_id, 5, type: :string, json_name: "gameId")
   field(:player_count, 6, type: :uint64, json_name: "playerCount")
 
+  field(:game_config, 7,
+    type: DarkWorldsServer.Communication.Proto.GameConfig,
+    json_name: "gameConfig"
+  )
+
+  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
+end
+
+defmodule DarkWorldsServer.Communication.Proto.BoardSize do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:width, 1, type: :uint64)
+  field(:height, 2, type: :uint64)
+
+  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
+end
+
+defmodule DarkWorldsServer.Communication.Proto.GameConfig do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:boardSize, 1, type: DarkWorldsServer.Communication.Proto.BoardSize)
+  field(:serverTickRate, 2, type: :uint64)
+  field(:gameTimeOut, 3, type: :uint64)
+  field(:characterSpeed, 4, type: :uint64)
+
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

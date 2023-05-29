@@ -132,6 +132,19 @@ message LobbyEvent {
     uint64 added_player_id = 4;
     string game_id = 5;
     uint64 player_count = 6;
+    GameConfig game_config = 7;
+}
+
+message BoardSize {
+    uint64 width = 1;
+    uint64 height = 2;
+}
+
+message GameConfig {
+    BoardSize boardSize = 1;
+    uint64 serverTickRate = 2; 
+    uint64 gameTimeOut = 3;
+    uint64 characterSpeed = 4;
 }
 
 /* Type of lobby events

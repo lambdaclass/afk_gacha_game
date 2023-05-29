@@ -147,6 +147,45 @@ public partial class LobbyEvent : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(6, Name = @"player_count")]
     public ulong PlayerCount { get; set; }
 
+    [global::ProtoBuf.ProtoMember(7, Name = @"game_config")]
+    public GameConfig GameConfig { get; set; }
+
+}
+
+[global::ProtoBuf.ProtoContract()]
+public partial class BoardSize : global::ProtoBuf.IExtensible
+{
+    private global::ProtoBuf.IExtension __pbn__extensionData;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    [global::ProtoBuf.ProtoMember(1, Name = @"width")]
+    public ulong Width { get; set; }
+
+    [global::ProtoBuf.ProtoMember(2, Name = @"height")]
+    public ulong Height { get; set; }
+
+}
+
+[global::ProtoBuf.ProtoContract()]
+public partial class GameConfig : global::ProtoBuf.IExtensible
+{
+    private global::ProtoBuf.IExtension __pbn__extensionData;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+        => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    [global::ProtoBuf.ProtoMember(1)]
+    public BoardSize boardSize { get; set; }
+
+    [global::ProtoBuf.ProtoMember(2)]
+    public ulong serverTickRate { get; set; }
+
+    [global::ProtoBuf.ProtoMember(3)]
+    public ulong gameTimeOut { get; set; }
+
+    [global::ProtoBuf.ProtoMember(4)]
+    public ulong characterSpeed { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
