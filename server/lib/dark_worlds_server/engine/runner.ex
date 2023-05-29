@@ -13,7 +13,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
   # This is the amount of time between updates (30ms)
-  @update_time 30
+  @tick_rate_ms 30
   # This is the number of tiles characters move per :move command
   @character_speed 3
 
@@ -72,17 +72,19 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     Process.flag(:priority, priority)
 
-    state = Game.new(number_of_players: length(opts.players), board: @board, build_walls: @build_walls)
+    state = create_new_game(opts)
+
+    tick_rate = server_tickrate(opts.game_config[:serverTickRate])
 
     # Finish game after @game_timeout seconds
-    Process.send_after(self(), :game_timeout, @game_timeout)
+    Process.send_after(self(), :game_timeout, game_timeout(opts.game_config[:gameTimeOut]))
     Process.send_after(self(), :check_player_amount, @player_check)
 
     initial_state = %{
       game: state
     }
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, tick_rate)
 
     {:ok,
      %{
@@ -94,7 +96,8 @@ defmodule DarkWorldsServer.Engine.Runner do
        current_round: 1,
        game_state: :playing,
        winners: [],
-       is_single_player?: length(opts.players) == 1
+       is_single_player?: length(opts.players) == 1,
+       tick_rate: tick_rate
      }}
   end
 
@@ -323,12 +326,12 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Map.put(:current_round, current_round + 1)
       |> Map.put(:game_state, :playing)
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, state.tick_rate)
 
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, state})
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, state.tick_rate)
 
     {:noreply, state}
   end
@@ -347,7 +350,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, state.tick_rate)
 
     {:noreply, state}
   end
@@ -356,7 +359,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, state.tick_rate)
 
     {:noreply, state}
   end
@@ -373,4 +376,37 @@ defmodule DarkWorldsServer.Engine.Runner do
   defp get_player(players, player_id) do
     Enum.find(players, fn p -> p.id == player_id end)
   end
+
+  defp create_new_game(%{game_config: %{boardSize: board}, players: players}) do
+    board = {board.width, board.height}
+
+    config = %{
+      number_of_players: length(players),
+      board: board,
+      build_walls: @build_walls
+    }
+
+    Game.new(config)
+  end
+
+  defp create_new_game(%{players: players}) do
+    config = %{
+      number_of_players: length(players),
+      board: @board,
+      build_walls: @build_walls
+    }
+
+    Game.new(config)
+  end
+
+  defp game_timeout(nil) do
+    @game_timeout
+  end
+
+  defp game_timeout(timeout_min) do
+    timeout_min * 60 * 1000
+  end
+
+  defp server_tickrate(nil), do: @tick_rate_ms
+  defp server_tickrate(tickrate_ms), do: tickrate_ms
 end
