@@ -1,13 +1,13 @@
-using NativeWebSocket;
-using UnityEngine;
-using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine.Networking;
-using System;
-using Google.Protobuf;
 using System.Linq;
+using Google.Protobuf;
+using NativeWebSocket;
+using Newtonsoft.Json;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class SocketConnectionManager : MonoBehaviour
 {
@@ -111,23 +111,28 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void OnWebSocketMessage(byte[] data)
     {
-        GameEvent game_event = GameEvent.Parser.ParseFrom(data);
-
-        switch (game_event.Type)
+        try
         {
-            case GameEventType.StateUpdate:
-                this.gamePlayers = game_event.Players.ToList();
-                break;
+            GameEvent game_event = GameEvent.Parser.ParseFrom(data);
+            switch (game_event.Type)
+            {
+                case GameEventType.StateUpdate:
+                    this.gamePlayers = game_event.Players.ToList();
+                    break;
 
-            case GameEventType.PingUpdate:
-                UInt64 currentPing = game_event.Latency;
-                break;
+                case GameEventType.PingUpdate:
+                    UInt64 currentPing = game_event.Latency;
+                    break;
 
-            default:
-                print("Message received is: " + game_event.Type);
-                break;
+                default:
+                    print("Message received is: " + game_event.Type);
+                    break;
+            }
         }
-        ;
+        catch (Exception e)
+        {
+            Debug.Log("Received error: " + e);
+        }
     }
 
     public void SendAction(ClientAction action)
