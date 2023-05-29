@@ -21,7 +21,7 @@ defmodule DarkWorldsServerWeb.Endpoint do
     at: "/",
     from: :dark_worlds_server,
     gzip: false,
-    only: DarkWorldsServerWeb.static_paths()
+    only: DarkWorldsServerWeb.static_paths() ++ ["game"]
   )
 
   # Code reloading can be explicitly enabled under the
