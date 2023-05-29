@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
             var vInput = Input.GetAxis("Vertical");
             GetComponent<PlayerControls>().SendJoystickValues(hInput, -vInput);
         }
-        else if (inputFromVirtualJoystick)
+        else if (inputFromVirtualJoystick && joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0)
         {
             GetComponent<PlayerControls>().SendJoystickValues(joystickL.RawValue.x, joystickL.RawValue.y);
         }
