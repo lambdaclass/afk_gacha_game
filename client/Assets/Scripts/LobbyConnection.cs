@@ -56,6 +56,16 @@ public class LobbyConnection : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    void Update()
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        if (ws != null)
+        {
+            ws.DispatchMessageQueue();
+        }
+#endif
+    }
+
     private void PopulateLists()
     {
         this.lobbiesList = new List<string>();
