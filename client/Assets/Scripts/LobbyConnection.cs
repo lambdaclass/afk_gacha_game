@@ -81,7 +81,6 @@ public class LobbyConnection : MonoBehaviour
 
     public void ConnectToLobby(string matchmaking_id)
     {
-        print("Connect to lobby");
         ConnectToSession(matchmaking_id);
         LobbySession = matchmaking_id;
     }
@@ -139,7 +138,6 @@ public class LobbyConnection : MonoBehaviour
                         webRequest.downloadHandler.text
                     );
                     Debug.Log("Creating and joining lobby ID: " + session.lobby_id);
-                    LobbySession = session.lobby_id;
                     ConnectToSession(session.lobby_id);
                     break;
             }
@@ -199,7 +197,6 @@ public class LobbyConnection : MonoBehaviour
 
     private void ConnectToSession(string session_id)
     {
-        print("Connect to session");
         ws = new WebSocket("ws://" + server_ip + ":4000/matchmaking/" + session_id);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (e) =>
@@ -208,14 +205,9 @@ public class LobbyConnection : MonoBehaviour
         };
         ws.OnOpen += () =>
         {
-            Debug.Log("Connection open!");
-        };
-        ws.OnClose += (e) =>
-        {
-            Debug.Log("Connection closed!");
+            LobbySession = session_id;
         };
         ws.Connect();
-        print("Connected to session - Websocket connect");
     }
 
     private void OnWebSocketMessage(byte[] data)
