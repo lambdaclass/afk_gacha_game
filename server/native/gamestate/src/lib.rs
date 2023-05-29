@@ -1,5 +1,6 @@
 pub mod board;
 pub mod character;
+pub mod effect;
 pub mod game;
 pub mod player;
 pub mod skills;
@@ -28,12 +29,17 @@ fn move_player(game: GameState, player_id: u64, direction: Direction) -> GameSta
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn clean_players_actions(game: GameState) -> GameState {
+fn clean_players_actions_and_check_buffs(game: GameState) -> GameState {
     let mut game_2 = game;
-    game_2.clean_players_actions();
+    game_2.clean_players_actions_and_check_buffs();
     game_2
 }
-
+#[rustler::nif(schedule = "DirtyCpu")]
+fn update_tick_rate(game: GameState) -> GameState {
+    let mut game_2 = game;
+    game_2.current_tick += 1;
+    game_2
+}
 #[rustler::nif(schedule = "DirtyCpu")]
 fn get_grid(game: GameState) -> Vec<Vec<Tile>> {
     let grid = game.board.grid.resource.lock().unwrap();
@@ -111,7 +117,7 @@ rustler::init!(
         get_non_empty,
         attack_player,
         attack_aoe,
-        clean_players_actions,
+        clean_players_actions_and_check_buffs,
         disconnect,
         move_with_joystick
     ],
