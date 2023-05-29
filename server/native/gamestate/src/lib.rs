@@ -1,6 +1,5 @@
 pub mod board;
 pub mod character;
-pub mod effect;
 pub mod game;
 pub mod player;
 pub mod skills;
