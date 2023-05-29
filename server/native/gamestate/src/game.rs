@@ -328,7 +328,7 @@ impl GameState {
             // a non-zero amount of ticks left.
             player.character.status_effects.retain(|_, ticks_left| {
                 *ticks_left = ticks_left.saturating_sub(1);
-                *ticks_left == 0
+                *ticks_left != 0
             });
         })
     }
