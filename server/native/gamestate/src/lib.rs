@@ -35,12 +35,6 @@ fn clean_players_actions_and_update_buffs(game: GameState) -> GameState {
     game_2
 }
 #[rustler::nif(schedule = "DirtyCpu")]
-fn update_tick_rate(game: GameState) -> GameState {
-    let mut game_2 = game;
-    game_2.current_tick += 1;
-    game_2
-}
-#[rustler::nif(schedule = "DirtyCpu")]
 fn get_grid(game: GameState) -> Vec<Vec<Tile>> {
     let grid = game.board.grid.resource.lock().unwrap();
     grid.clone()

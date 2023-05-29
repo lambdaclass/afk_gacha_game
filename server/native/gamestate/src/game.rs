@@ -14,7 +14,6 @@ use std::cmp::{max, min};
 pub struct GameState {
     pub players: Vec<Player>,
     pub board: Board,
-    pub current_tick: u64,
 }
 
 #[derive(Debug, NifUnitEnum)]
@@ -77,11 +76,7 @@ impl GameState {
             }
         }
 
-        Self {
-            players,
-            board,
-            current_tick: 0,
-        }
+        Self { players, board }
     }
 
     pub fn move_player(self: &mut Self, player_id: u64, direction: Direction) {

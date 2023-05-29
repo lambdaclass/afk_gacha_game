@@ -22,9 +22,7 @@ impl Character {
             name: name.into(),
             basic_skill,
             base_speed: speed,
-            status_effects: HashMap::from([
-                (crate::character::Effect::Petrified, 0), // Petrify for 10 seconds.
-            ]),
+            status_effects: HashMap::from([(crate::character::Effect::Petrified, 0)]),
         }
     }
     #[inline]
