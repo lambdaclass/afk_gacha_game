@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
-using ProtoBuf;
+using Google.Protobuf;
 using UnityEngine;
 using UnityEngine.Networking;
-using WebSocketSharp;
+using NativeWebSocket;
 
 public class LobbyConnection : MonoBehaviour
 {
@@ -94,12 +92,13 @@ public class LobbyConnection : MonoBehaviour
         LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };
         using (var stream = new MemoryStream())
         {
-            Serializer.Serialize(stream, lobbyEvent);
+            lobbyEvent.WriteTo(stream);
             var msg = stream.ToArray();
             ws.Send(msg);
         }
         gameStarted = true;
     }
+
     private IEnumerator WaitLobbyCreated()
     {
         yield return new WaitUntil(() => !string.IsNullOrEmpty(LobbySession));
@@ -191,18 +190,16 @@ public class LobbyConnection : MonoBehaviour
     {
         ws = new WebSocket("ws://" + server_ip + ":4000/matchmaking/" + session_id);
         ws.OnMessage += OnWebSocketMessage;
-        ws.OnError += (sender, e) =>
+        ws.OnError += (e) =>
         {
-            Debug.Log(
-                "Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message
-            );
+            Debug.Log("Error received: " + e);
         };
         ws.Connect();
     }
 
-    private void OnWebSocketMessage(object sender, MessageEventArgs e)
+    private void OnWebSocketMessage(byte[] data)
     {
-        LobbyEvent lobby_event = Serializer.Deserialize<LobbyEvent>((ReadOnlySpan<byte>)e.RawData);
+        LobbyEvent lobby_event = LobbyEvent.Parser.ParseFrom(data);
         switch (lobby_event.Type)
         {
             case LobbyEventType.Connected:

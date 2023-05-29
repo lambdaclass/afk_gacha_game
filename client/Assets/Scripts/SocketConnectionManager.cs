@@ -1,16 +1,13 @@
-using WebSocketSharp;
+using NativeWebSocket;
 using UnityEngine;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine.Networking;
-using System.Net;
 using System;
-using System.Xml.Linq;
-using ProtoBuf;
-using System.Diagnostics;
+using Google.Protobuf;
+using System.Linq;
 
 public class SocketConnectionManager : MonoBehaviour
 {
@@ -48,7 +45,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         playerId = LobbyConnection.Instance.playerId;
 
-        if (this.session_id.IsNullOrEmpty())
+        if (string.IsNullOrEmpty(this.session_id))
         {
             StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_session"));
         }
@@ -57,6 +54,17 @@ public class SocketConnectionManager : MonoBehaviour
             ConnectToSession(this.session_id);
         }
     }
+
+    void Update()
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        if (ws != null)
+        {
+            ws.DispatchMessageQueue();
+        }
+#endif
+    }
+
     Vector2 position = new Vector2(0, 0);
     Vector2 lastPosition = new Vector2(0, 0);
 
@@ -94,22 +102,21 @@ public class SocketConnectionManager : MonoBehaviour
         print("ws://" + server_ip + ":4000/play/" + session_id + "/" + playerId);
         ws = new WebSocket("ws://" + server_ip + ":4000/play/" + session_id + "/" + playerId);
         ws.OnMessage += OnWebSocketMessage;
-        ws.OnError += (sender, e) =>
+        ws.OnError += (e) =>
         {
-            print(
-                "Error received from: " + ((WebSocket)sender).Url + ", Data: " + e.Exception.Message
-            );
+            Debug.Log("Received error: " + e);
         };
         ws.Connect();
     }
 
-    private void OnWebSocketMessage(object sender, MessageEventArgs e)
+    private void OnWebSocketMessage(byte[] data)
     {
-        GameEvent game_event = Serializer.Deserialize<GameEvent>((ReadOnlySpan<byte>)e.RawData);
+        GameEvent game_event = GameEvent.Parser.ParseFrom(data);
+
         switch (game_event.Type)
         {
             case GameEventType.StateUpdate:
-                this.gamePlayers = game_event.Players;
+                this.gamePlayers = game_event.Players.ToList();
                 break;
 
             case GameEventType.PingUpdate:
@@ -127,7 +134,7 @@ public class SocketConnectionManager : MonoBehaviour
     {
         using (var stream = new MemoryStream())
         {
-            Serializer.Serialize(stream, action);
+            action.WriteTo(stream);
             var msg = stream.ToArray();
             ws.Send(msg);
         }
