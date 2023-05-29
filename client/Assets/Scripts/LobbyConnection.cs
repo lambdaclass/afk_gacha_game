@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -212,37 +213,44 @@ public class LobbyConnection : MonoBehaviour
 
     private void OnWebSocketMessage(byte[] data)
     {
-        LobbyEvent lobby_event = LobbyEvent.Parser.ParseFrom(data);
-        switch (lobby_event.Type)
+        try
         {
-            case LobbyEventType.Connected:
-                Debug.Log(
-                    "Connected to lobby "
-                        + lobby_event.LobbyId
-                        + " as player_id "
-                        + lobby_event.PlayerId
-                );
-                break;
+            LobbyEvent lobby_event = LobbyEvent.Parser.ParseFrom(data);
+            switch (lobby_event.Type)
+            {
+                case LobbyEventType.Connected:
+                    Debug.Log(
+                        "Connected to lobby "
+                            + lobby_event.LobbyId
+                            + " as player_id "
+                            + lobby_event.PlayerId
+                    );
+                    break;
 
-            case LobbyEventType.PlayerAdded:
-                if (playerId == -1)
-                {
-                    playerId = (int)lobby_event.AddedPlayerId;
-                }
-                break;
+                case LobbyEventType.PlayerAdded:
+                    if (playerId == -1)
+                    {
+                        playerId = (int)lobby_event.AddedPlayerId;
+                    }
+                    break;
 
-            case LobbyEventType.PlayerCount:
-                playerCount = (int)lobby_event.PlayerCount;
-                break;
+                case LobbyEventType.PlayerCount:
+                    playerCount = (int)lobby_event.PlayerCount;
+                    break;
 
-            case LobbyEventType.GameStarted:
-                GameSession = lobby_event.GameId;
-                break;
+                case LobbyEventType.GameStarted:
+                    GameSession = lobby_event.GameId;
+                    break;
 
-            default:
-                Debug.Log("Message received is: " + lobby_event.Type);
-                break;
+                default:
+                    Debug.Log("Message received is: " + lobby_event.Type);
+                    break;
+            }
+            ;
         }
-        ;
+        catch (Exception e)
+        {
+            Debug.Log("InvalidProtocolBufferException: " + e);
+        }
     }
 }

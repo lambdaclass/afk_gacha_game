@@ -131,7 +131,7 @@ public class SocketConnectionManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Received error: " + e);
+            Debug.Log("InvalidProtocolBufferException: " + e);
         }
     }
 
