@@ -326,7 +326,7 @@ impl GameState {
         })
     }
 
-    pub fn clean_players_actions_and_check_buffs(self: &mut Self) {
+    pub fn clean_players_actions_and_update_buffs(self: &mut Self) {
         self.players.iter_mut().for_each(|player| {
             player.action = PlayerAction::NOTHING;
             player

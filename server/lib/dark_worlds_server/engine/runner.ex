@@ -246,7 +246,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     game =
       next_state.game
-      |> Game.clean_players_actions_and_check_buffs()
+      |> Game.clean_players_actions_and_update_buffs()
 
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
