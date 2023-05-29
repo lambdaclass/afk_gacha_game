@@ -3,7 +3,7 @@ use std::collections::HashMap;
 pub type TicksLeft = u64;
 #[derive(rustler::NifTaggedEnum, Debug, Hash, Clone, PartialEq, Eq)]
 pub enum Effect {
-    Petrified = 0,
+    Petrified,
 }
 #[derive(Debug, Clone, rustler::NifStruct)]
 #[module = "DarkWorldsServer.Engine.Character"]
@@ -22,7 +22,7 @@ impl Character {
             name: name.into(),
             basic_skill,
             base_speed: speed,
-            status_effects: HashMap::from([(crate::character::Effect::Petrified, 0)]),
+            status_effects: HashMap::new(),
         }
     }
     #[inline]
