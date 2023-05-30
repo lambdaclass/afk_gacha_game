@@ -91,18 +91,13 @@ public class LobbyConnection : MonoBehaviour
     }
 
     public void StartGame()
-    {
-        string text = File.ReadAllText(@"./game_settings.json");
-        gameConfig game_config = JsonConvert.DeserializeObject<gameConfig>(text);
+    {   
+        GameSettings gameSettings = new GameSettings{ path = @"./game_settings.json" };
 
-        BoardSize bSize = new BoardSize {Width = game_config.board_size.width, Height = game_config.board_size.height};
-        GameConfig pGameConfig = new GameConfig {
-            BoardSize = bSize,
-            ServerTickrate = game_config.server_tickrate,
-            GameTimeout = game_config.game_timeout
+        LobbyEvent lobbyEvent = new LobbyEvent { 
+            Type = LobbyEventType.StartGame,  
+            GameConfig = gameSettings.parseSettings()
         };
-
-        LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame,  GameConfig = pGameConfig};
 
         using (var stream = new MemoryStream())
         {
