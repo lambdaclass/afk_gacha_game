@@ -70,12 +70,18 @@ jobs:
   buildWebGL:
     name: Build for WebGL
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - ./client
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           lfs: true
-      - uses: actions/cache@v2
+      - name: Cache Library
+        uses: actions/cache@v2
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
