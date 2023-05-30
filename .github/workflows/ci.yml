@@ -71,13 +71,23 @@ jobs:
     name: Check for the Unity license ☑️
     runs-on: ubuntu-latest
     steps:
-      - name: Fail - No license ☠️
+      - name: Check for Unity License
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
         run: exit 1
   testRunner:
     needs: checkLicense
     name: Test all modes 📝
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - ./
+        # unityVersion:
+        #   - 2019.3.8f1
+        # targetPlatform:
+        #   - StandaloneWindows64
+        #   - Android
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
