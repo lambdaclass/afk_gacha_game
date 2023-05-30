@@ -15,8 +15,8 @@ gen-server-protobuf:
 	mix format "./server/lib/dark_worlds_server/communication/messages.pb.ex"
 
 gen-client-protobuf:
-	protogen --csharp_out=./  messages.proto
-	mv messages.cs client/Assets/Scripts/Messages.pb.cs
+	protoc --csharp_out=./  messages.proto
+	mv Messages.cs client/Assets/Scripts/Messages.pb.cs
 
 gen-load-test-protobuf:
 	protoc \
