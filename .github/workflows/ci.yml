@@ -2,12 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   MIX_ENV: test
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
 permissions:
   contents: read
@@ -34,33 +35,152 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Elixir
-      uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
-      with:
-        elixir-version: ${{ matrix.elixir }} # Define the elixir version [required]
-        otp-version: ${{ matrix.otp }} # Define the OTP version [required]
-      env:
-        ImageOS: ubuntu20
-    - name: Setup Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-    - name: Restore dependencies cache
-      uses: actions/cache@v3
-      with:
-        path: server/deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
-    - name: Install dependencies
-      run: cd server && make setup
-    - name: Check Elixir Formatting
-      run: cd server && make credo
-    - name: Check Elixir Formatting
-      run: cd server && mix format --check-formatted
-    - name: Check Rust Formatting
-      run: cd server && cd native/gamestate && cargo fmt --check
-    - name: Compiles without warnings
-      run: cd server && mix compile --all-warnings --warnings-as-errors
-    - name: Run tests
-      run: cd server && make tests
+      - uses: actions/checkout@v3
+      - name: Set up Elixir
+        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
+        with:
+          elixir-version: ${{ matrix.elixir }} # Define the elixir version [required]
+          otp-version: ${{ matrix.otp }} # Define the OTP version [required]
+        env:
+          ImageOS: ubuntu20
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: Restore dependencies cache
+        uses: actions/cache@v3
+        with:
+          path: server/deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        run: cd server && make setup
+      - name: Check Elixir Formatting
+        run: cd server && make credo
+      - name: Check Elixir Formatting
+        run: cd server && mix format --check-formatted
+      - name: Check Rust Formatting
+        run: cd server && cd native/gamestate && cargo fmt --check
+      - name: Compiles without warnings
+        run: cd server && mix compile --all-warnings --warnings-as-errors
+  checkLicense:
+    name: Check for the Unity license ☑️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail - No license ☠️
+        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+        run: exit 1
+#  testRunner:
+#    needs: checkLicense
+#    name: Test all modes 📝
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Create LFS file list
+#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+#
+#      - name: Restore LFS cache
+#        uses: actions/cache@v2
+#        id: lfs-cache
+#        with:
+#          path: .git/lfs
+#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+#
+#      - name: Git LFS Pull
+#        run: |
+#          git lfs pull
+#          git add .
+#          git reset --hard
+#
+#      - name: Restore Library cache
+#        uses: actions/cache@v2
+#        with:
+#          path: Library
+#          key: Library-test-project
+#          restore-keys: |
+#            Library-test-project-
+#            Library-
+#
+#      - uses: webbertakken/unity-test-runner@v2
+#        id: testRunner
+#        with:
+#          testMode: all
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: Test results (all modes)
+#          path: ${{ steps.testRunner.outputs.artifactsPath }}
+#
+#  buildWebGL:
+#    needs: testRunner
+#    name: Build for WebGL 🖥️
+#    runs-on: ubuntu-latest
+#    strategy:
+#      fail-fast: false
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Create LFS file list
+#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+#
+#      - name: Restore LFS cache
+#        uses: actions/cache@v2
+#        id: lfs-cache
+#        with:
+#          path: .git/lfs
+#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+#
+#      - name: Git LFS Pull
+#        run: |
+#          git lfs pull
+#          git add .
+#          git reset --hard
+#
+#      - name: Restore Library cache
+#        uses: actions/cache@v2
+#        with:
+#          path: Library
+#          key: Library-build-WebGL
+#          restore-keys: |
+#            Library-build-
+#            Library-
+#
+#      - uses: webbertakken/unity-builder@v2
+#        with:
+#          targetPlatform: WebGL
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: build-WebGL
+#          path: build/WebGL
+####################################################################################################
+#   - name: Run tests
+#   run: cd server && make tests
+# - name: Check for the Unity license
+#   if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+#   run: exit 1
+# - name: Run Unity tests
+#   uses: game-ci/unity-test-runner@v2
+#   env:
+#     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+#   with:
+#     githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+# # Build
+# - name: Build project
+#   uses: game-ci/unity-builder@v2
+#   env:
+#     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+#     UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+#     UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+#   with:
+#     targetPlatform: WebGL
+
+# # Output
+# - uses: actions/upload-artifact@v2
+#   with:
+#     name: Build
+#     path: build
