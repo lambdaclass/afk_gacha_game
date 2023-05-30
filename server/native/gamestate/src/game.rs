@@ -1,9 +1,9 @@
 use rand::{thread_rng, Rng};
 use rustler::{NifStruct, NifUnitEnum};
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 use crate::board::{Board, Tile};
-use crate::character::{Character, Effect, TicksLeft};
+use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
 use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
@@ -321,8 +321,9 @@ impl GameState {
         })
     }
 
-    pub fn clean_players_actions_and_update_buffs(self: &mut Self) {
+    pub fn world_tick(self: &mut Self) {
         self.players.iter_mut().for_each(|player| {
+            // Clean each player actions
             player.action = PlayerAction::NOTHING;
             // Keep only (de)buffs that have
             // a non-zero amount of ticks left.

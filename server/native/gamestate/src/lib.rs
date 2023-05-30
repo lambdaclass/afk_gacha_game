@@ -28,9 +28,9 @@ fn move_player(game: GameState, player_id: u64, direction: Direction) -> GameSta
 }
 
 #[rustler::nif(schedule = "DirtyCpu")]
-fn clean_players_actions_and_update_buffs(game: GameState) -> GameState {
+fn world_tick(game: GameState) -> GameState {
     let mut game_2 = game;
-    game_2.clean_players_actions_and_update_buffs();
+    game_2.world_tick();
     game_2
 }
 #[rustler::nif(schedule = "DirtyCpu")]
@@ -110,7 +110,7 @@ rustler::init!(
         get_non_empty,
         attack_player,
         attack_aoe,
-        clean_players_actions_and_update_buffs,
+        world_tick,
         disconnect,
         move_with_joystick
     ],
