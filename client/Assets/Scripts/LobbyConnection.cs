@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Google.Protobuf;
 using NativeWebSocket;
 using Newtonsoft.Json;
@@ -232,10 +233,13 @@ public class LobbyConnection : MonoBehaviour
                     {
                         playerId = (int)lobby_event.AddedPlayerId;
                     }
+                    // playerCount = lobby_event.Players.Length;
+                    playerCount = lobby_event.Players.Count();
                     break;
 
-                case LobbyEventType.PlayerCount:
-                    playerCount = (int)lobby_event.PlayerCount;
+                case LobbyEventType.PlayerRemoved:
+                    // playerCount = lobby_event.Players.Length;
+                    playerCount = lobby_event.Players.Count();
                     break;
 
                 case LobbyEventType.GameStarted:

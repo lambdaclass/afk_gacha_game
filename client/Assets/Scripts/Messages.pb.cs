@@ -34,20 +34,21 @@ public static partial class MessagesReflection {
           "HQoJZGlyZWN0aW9uGAIgASgOMgouRGlyZWN0aW9uEiMKCHBvc2l0aW9uGAMg",
           "ASgLMhEuUmVsYXRpdmVQb3NpdGlvbhIjCgptb3ZlX2RlbHRhGAQgASgLMg8u",
           "Sm95c3RpY2tWYWx1ZXMiJgoOSm95c3RpY2tWYWx1ZXMSCQoBeBgBIAEoAhIJ",
-          "CgF5GAIgASgCIpABCgpMb2JieUV2ZW50Eh0KBHR5cGUYASABKA4yDy5Mb2Ji",
+          "CgF5GAIgASgCIrwBCgpMb2JieUV2ZW50Eh0KBHR5cGUYASABKA4yDy5Mb2Ji",
           "eUV2ZW50VHlwZRIQCghsb2JieV9pZBgCIAEoCRIRCglwbGF5ZXJfaWQYAyAB",
           "KAQSFwoPYWRkZWRfcGxheWVyX2lkGAQgASgEEg8KB2dhbWVfaWQYBSABKAkS",
-          "FAoMcGxheWVyX2NvdW50GAYgASgEKjIKDUdhbWVFdmVudFR5cGUSEAoMU1RB",
-          "VEVfVVBEQVRFEAASDwoLUElOR19VUERBVEUQASodCgZTdGF0dXMSCQoFQUxJ",
-          "VkUQABIICgRERUFEEAEqXgoGQWN0aW9uEhYKEkFDVElPTl9VTlNQRUNJRklF",
-          "RBAAEggKBE1PVkUQARIKCgZBVFRBQ0sQAhIOCgpBVFRBQ0tfQU9FEAUSFgoS",
-          "TU9WRV9XSVRIX0pPWVNUSUNLEAYqTQoJRGlyZWN0aW9uEhkKFURJUkVDVElP",
-          "Tl9VTlNQRUNJRklFRBAAEgYKAlVQEAESCAoERE9XThACEggKBExFRlQQAxIJ",
-          "CgVSSUdIVBAEKj0KDFBsYXllckFjdGlvbhILCgdOT1RISU5HEAASDQoJQVRU",
-          "QUNLSU5HEAESEQoNQVRUQUNLSU5HX0FPRRACKnsKDkxvYmJ5RXZlbnRUeXBl",
+          "FAoMcGxheWVyX2NvdW50GAYgASgEEg8KB3BsYXllcnMYByADKAQSGQoRcmVt",
+          "b3ZlZF9wbGF5ZXJfaWQYCCABKAQqMgoNR2FtZUV2ZW50VHlwZRIQCgxTVEFU",
+          "RV9VUERBVEUQABIPCgtQSU5HX1VQREFURRABKh0KBlN0YXR1cxIJCgVBTElW",
+          "RRAAEggKBERFQUQQASpeCgZBY3Rpb24SFgoSQUNUSU9OX1VOU1BFQ0lGSUVE",
+          "EAASCAoETU9WRRABEgoKBkFUVEFDSxACEg4KCkFUVEFDS19BT0UQBRIWChJN",
+          "T1ZFX1dJVEhfSk9ZU1RJQ0sQBipNCglEaXJlY3Rpb24SGQoVRElSRUNUSU9O",
+          "X1VOU1BFQ0lGSUVEEAASBgoCVVAQARIICgRET1dOEAISCAoETEVGVBADEgkK",
+          "BVJJR0hUEAQqPQoMUGxheWVyQWN0aW9uEgsKB05PVEhJTkcQABINCglBVFRB",
+          "Q0tJTkcQARIRCg1BVFRBQ0tJTkdfQU9FEAIqjwEKDkxvYmJ5RXZlbnRUeXBl",
           "EhQKEFRZUEVfVU5TUEVDSUZJRUQQABINCglDT05ORUNURUQQARIQCgxQTEFZ",
           "RVJfQURERUQQAhIQCgxHQU1FX1NUQVJURUQQAxIQCgxQTEFZRVJfQ09VTlQQ",
-          "BBIOCgpTVEFSVF9HQU1FEAViBnByb3RvMw=="));
+          "BBIOCgpTVEFSVF9HQU1FEAUSEgoOUExBWUVSX1JFTU9WRUQQBmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -57,7 +58,7 @@ public static partial class MessagesReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::RelativePosition), global::RelativePosition.Parser, new[]{ "X", "Y" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::ClientAction), global::ClientAction.Parser, new[]{ "Action", "Direction", "Position", "MoveDelta" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::JoystickValues), global::JoystickValues.Parser, new[]{ "X", "Y" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::LobbyEvent), global::LobbyEvent.Parser, new[]{ "Type", "LobbyId", "PlayerId", "AddedPlayerId", "GameId", "PlayerCount" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::LobbyEvent), global::LobbyEvent.Parser, new[]{ "Type", "LobbyId", "PlayerId", "AddedPlayerId", "GameId", "PlayerCount", "Players", "RemovedPlayerId" }, null, null, null, null)
         }));
   }
   #endregion
@@ -120,6 +121,7 @@ public enum PlayerAction {
 ///- PLAYER_ADDED: A player has joined the matchmaking lobby
 ///- GAME_STARTED: A game session has started from this lobby
 ///- PLAYER_COUNT: Current player count in the lobby
+///- PLAYER_REMOVED: A player has left the matchmaking lobby
 /// </summary>
 public enum LobbyEventType {
   [pbr::OriginalName("TYPE_UNSPECIFIED")] TypeUnspecified = 0,
@@ -128,6 +130,7 @@ public enum LobbyEventType {
   [pbr::OriginalName("GAME_STARTED")] GameStarted = 3,
   [pbr::OriginalName("PLAYER_COUNT")] PlayerCount = 4,
   [pbr::OriginalName("START_GAME")] StartGame = 5,
+  [pbr::OriginalName("PLAYER_REMOVED")] PlayerRemoved = 6,
 }
 
 #endregion
@@ -1854,7 +1857,9 @@ public sealed partial class JoystickValues : pb::IMessage<JoystickValues>
 ///- player_id: ID assigned to the player (client) in the matchmaking lobby, used on CONNECTED
 ///- added_player_id: ID of any new player joining the lobby, used on PLAYER_ADDED
 ///- game_id: ID of the game session to join, used on GAME_STARTED
-///- player_count: Number of players in the matchmaking lobby, used on PLAYER_COUNT
+///- [DEPRECATED] player_count: Number of players in the matchmaking lobby, used on PLAYER_COUNT
+///- players: List of players, used on PLAYER_ADDED
+///- removed_player_id: ID of any player leaving the lobby, used on PLAYER_REMOVED
 /// </summary>
 public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
 #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -1896,6 +1901,8 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
     addedPlayerId_ = other.addedPlayerId_;
     gameId_ = other.gameId_;
     playerCount_ = other.playerCount_;
+    players_ = other.players_.Clone();
+    removedPlayerId_ = other.removedPlayerId_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -1977,6 +1984,29 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
     }
   }
 
+  /// <summary>Field number for the "players" field.</summary>
+  public const int PlayersFieldNumber = 7;
+  private static readonly pb::FieldCodec<ulong> _repeated_players_codec
+      = pb::FieldCodec.ForUInt64(58);
+  private readonly pbc::RepeatedField<ulong> players_ = new pbc::RepeatedField<ulong>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public pbc::RepeatedField<ulong> Players {
+    get { return players_; }
+  }
+
+  /// <summary>Field number for the "removed_player_id" field.</summary>
+  public const int RemovedPlayerIdFieldNumber = 8;
+  private ulong removedPlayerId_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ulong RemovedPlayerId {
+    get { return removedPlayerId_; }
+    set {
+      removedPlayerId_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
@@ -1998,6 +2028,8 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
     if (AddedPlayerId != other.AddedPlayerId) return false;
     if (GameId != other.GameId) return false;
     if (PlayerCount != other.PlayerCount) return false;
+    if(!players_.Equals(other.players_)) return false;
+    if (RemovedPlayerId != other.RemovedPlayerId) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -2011,6 +2043,8 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
     if (AddedPlayerId != 0UL) hash ^= AddedPlayerId.GetHashCode();
     if (GameId.Length != 0) hash ^= GameId.GetHashCode();
     if (PlayerCount != 0UL) hash ^= PlayerCount.GetHashCode();
+    hash ^= players_.GetHashCode();
+    if (RemovedPlayerId != 0UL) hash ^= RemovedPlayerId.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -2053,6 +2087,11 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
       output.WriteRawTag(48);
       output.WriteUInt64(PlayerCount);
     }
+    players_.WriteTo(output, _repeated_players_codec);
+    if (RemovedPlayerId != 0UL) {
+      output.WriteRawTag(64);
+      output.WriteUInt64(RemovedPlayerId);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -2087,6 +2126,11 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
       output.WriteRawTag(48);
       output.WriteUInt64(PlayerCount);
     }
+    players_.WriteTo(ref output, _repeated_players_codec);
+    if (RemovedPlayerId != 0UL) {
+      output.WriteRawTag(64);
+      output.WriteUInt64(RemovedPlayerId);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -2114,6 +2158,10 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
     }
     if (PlayerCount != 0UL) {
       size += 1 + pb::CodedOutputStream.ComputeUInt64Size(PlayerCount);
+    }
+    size += players_.CalculateSize(_repeated_players_codec);
+    if (RemovedPlayerId != 0UL) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt64Size(RemovedPlayerId);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -2144,6 +2192,10 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
     }
     if (other.PlayerCount != 0UL) {
       PlayerCount = other.PlayerCount;
+    }
+    players_.Add(other.players_);
+    if (other.RemovedPlayerId != 0UL) {
+      RemovedPlayerId = other.RemovedPlayerId;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -2184,6 +2236,15 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
           PlayerCount = input.ReadUInt64();
           break;
         }
+        case 58:
+        case 56: {
+          players_.AddEntriesFrom(input, _repeated_players_codec);
+          break;
+        }
+        case 64: {
+          RemovedPlayerId = input.ReadUInt64();
+          break;
+        }
       }
     }
   #endif
@@ -2221,6 +2282,15 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
         }
         case 48: {
           PlayerCount = input.ReadUInt64();
+          break;
+        }
+        case 58:
+        case 56: {
+          players_.AddEntriesFrom(ref input, _repeated_players_codec);
+          break;
+        }
+        case 64: {
+          RemovedPlayerId = input.ReadUInt64();
           break;
         }
       }
