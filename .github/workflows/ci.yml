@@ -63,11 +63,7 @@ jobs:
         run: cd server && cd native/gamestate && cargo fmt --check
       - name: Compiles without warnings
         run: cd server && mix compile --all-warnings --warnings-as-errors
-  checkLicense:
-    name: Check for the Unity license ☑️
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fail - No license ☠️
+      - name: Check for Unity license ☠️
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
         run: exit 1
 #  testRunner:
