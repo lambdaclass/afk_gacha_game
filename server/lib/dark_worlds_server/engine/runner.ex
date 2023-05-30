@@ -201,10 +201,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, game_state, state}
   end
 
-  def handle_call(:get_character_speed, _from, state) do
-    {:reply, @character_speed, state}
-  end
-
   def handle_info(
         :check_player_amount,
         state = %{current_players: current}

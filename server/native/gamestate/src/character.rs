@@ -44,10 +44,7 @@ impl Character {
     }
     #[inline]
     pub fn speed(&self) -> u64 {
-        match self
-            .status_effects
-            .get(&crate::character::Effect::Petrified)
-        {
+        match self.status_effects.get(&Effect::Petrified) {
             Some((1_u64..=u64::MAX)) => 0,
             None | Some(0) => self.base_speed,
         }
