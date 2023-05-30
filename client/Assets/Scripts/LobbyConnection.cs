@@ -233,12 +233,10 @@ public class LobbyConnection : MonoBehaviour
                     {
                         playerId = (int)lobby_event.AddedPlayerId;
                     }
-                    // playerCount = lobby_event.Players.Length;
                     playerCount = lobby_event.Players.Count();
                     break;
 
                 case LobbyEventType.PlayerRemoved:
-                    // playerCount = lobby_event.Players.Length;
                     playerCount = lobby_event.Players.Count();
                     break;
 
