@@ -13,7 +13,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
   # This is the amount of time between updates (30ms)
-  @update_time 30
+  @update_time 10
   # This is the number of tiles characters move per :move command
   @character_speed 3
 
