@@ -51,9 +51,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void SendAction()
     {
-        if (joystickL is not null && (joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0))
+        var inputFromPhysicalJoystick = Input.GetJoystickNames().Length > 0;
+        var inputFromVirtualJoystick = joystickL is not null;
+        if (inputFromPhysicalJoystick)
         {
-            GetComponent<PlayerControls>().SendJoystickRawValues(joystickL.RawValue.x, joystickL.RawValue.y);
+            var hInput = Input.GetAxis("Horizontal");
+            var vInput = Input.GetAxis("Vertical");
+            GetComponent<PlayerControls>().SendJoystickValues(hInput, -vInput);
+        }
+        else if (inputFromVirtualJoystick && joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0)
+        {
+            GetComponent<PlayerControls>().SendJoystickValues(joystickL.RawValue.x, joystickL.RawValue.y);
         }
         else
         {
@@ -98,27 +106,42 @@ public class PlayerMovement : MonoBehaviour
             isAttacking = true;
 
         }
+        // Hardcoded dual sense square button
+        if (Input.GetKeyDown("joystick 1 button 0"))
+        {
+            nextAttackDirection = Direction.Up;
+            isAttacking = true;
+        }
     }
 
     void ExecutePlayerAction()
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            SocketConnectionManager.Instance.players[playerUpdate.player_id].transform.position =
+            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.player_id];
+            player.transform.position =
                 new Vector3(
                     playerUpdate.x / 10f - 50.0f,
-                    SocketConnectionManager.Instance.players[playerUpdate.player_id]
+                    player
                         .transform
                         .position
                         .y,
                     playerUpdate.y / 10f + 50.0f
                 );
-            Health healthComponent = SocketConnectionManager.Instance.players[
-                playerUpdate.player_id
-            ].GetComponent<Health>();
+            Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
             bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
+            player.GetComponent<AttackController>().SwordAttack(isAttacking);
+            if (isAttacking)
+            {
+                print("attack");
+            }
+            //if dead remove the player from the scene
+            if (healthComponent.CurrentHealth <= 0)
+            {
+                healthComponent.Model.gameObject.SetActive(false);
+            }
             bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
             if (isAttackingAOE){
                 print(playerUpdate.aoe_x  / 10f - 50.0f);

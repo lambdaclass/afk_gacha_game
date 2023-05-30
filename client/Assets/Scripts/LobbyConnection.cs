@@ -89,12 +89,6 @@ public class LobbyConnection : MonoBehaviour
         StartCoroutine(WaitLobbyCreated());
     }
 
-    private IEnumerator WaitLobbyCreated()
-    {
-        yield return new WaitUntil(() => !string.IsNullOrEmpty(LobbySession));
-        StartGame();
-    }
-
     public void StartGame()
     {
         LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame };
@@ -105,6 +99,11 @@ public class LobbyConnection : MonoBehaviour
             ws.Send(msg);
         }
         gameStarted = true;
+    }
+    private IEnumerator WaitLobbyCreated()
+    {
+        yield return new WaitUntil(() => !string.IsNullOrEmpty(LobbySession));
+        StartGame();
     }
 
     IEnumerator GetRequest(string uri)
@@ -220,10 +219,11 @@ public class LobbyConnection : MonoBehaviour
                 {
                     playerId = (int)lobby_event.AddedPlayerId;
                 }
+                playerCount = lobby_event.Players.Length;
                 break;
 
-            case LobbyEventType.PlayerCount:
-                playerCount = (int)lobby_event.PlayerCount;
+            case LobbyEventType.PlayerRemoved:
+                playerCount = lobby_event.Players.Length;
                 break;
 
             case LobbyEventType.GameStarted:
