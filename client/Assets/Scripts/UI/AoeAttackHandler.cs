@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AoeTarget : MonoBehaviour
+public class AoeAttackHandler : MonoBehaviour
 {
-    [SerializeField] public GameObject target;
+    [SerializeField] public GameObject attack;
+    [SerializeField] public GameObject area;
+    [SerializeField] public GameObject indicator;
     // Start is called before the first frame update
     void Start()
     {
