@@ -47,7 +47,7 @@ public class SocketConnectionManager : MonoBehaviour
 
         if (string.IsNullOrEmpty(this.session_id))
         {
-            StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_session"));
+            StartCoroutine(GetRequest());
         }
         else
         {
@@ -68,23 +68,18 @@ public class SocketConnectionManager : MonoBehaviour
     Vector2 position = new Vector2(0, 0);
     Vector2 lastPosition = new Vector2(0, 0);
 
-    IEnumerator GetRequest(string uri)
+    IEnumerator GetRequest()
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(makeUrl("/new_session")))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             yield return webRequest.SendWebRequest();
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
-                    //Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
                 case UnityWebRequest.Result.ProtocolError:
-                    //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(
@@ -99,8 +94,9 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void ConnectToSession(string session_id)
     {
-        print("ws://" + server_ip + ":4000/play/" + session_id + "/" + playerId);
-        ws = new WebSocket("ws://" + server_ip + ":4000/play/" + session_id + "/" + playerId);
+        string url = makeWebsocketUrl("/play/" + session_id + "/" + playerId);
+        print(url);
+        ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (e) =>
         {
@@ -142,6 +138,28 @@ public class SocketConnectionManager : MonoBehaviour
             action.WriteTo(stream);
             var msg = stream.ToArray();
             ws.Send(msg);
+        }
+    }
+
+    private string makeUrl(string path)
+    {
+        if (server_ip.Contains("localhost"))
+        {
+            return "http://" + server_ip + ":4000" + path;
+        } else
+        {
+            return "https://" + server_ip + path;
+        }
+    }
+
+    private string makeWebsocketUrl(string path)
+    {
+        if (server_ip.Contains("localhost"))
+        {
+            return "ws://" + server_ip + ":4000" + path;
+        } else
+        {
+            return "wss://" + server_ip + path;
         }
     }
 }

@@ -39,6 +39,14 @@ public class LobbyConnection : MonoBehaviour
         public List<string> current_games { get; set; }
     }
 
+    class AcceptAllCertificates : CertificateHandler
+{
+    protected override bool ValidateCertificate(byte[] certificateData)
+    {
+        return true;
+    }
+}
+
     private void Awake()
     {
         this.Init();
@@ -72,13 +80,13 @@ public class LobbyConnection : MonoBehaviour
     {
         this.lobbiesList = new List<string>();
         this.gamesList = new List<string>();
-        StartCoroutine(GetLobbies("http://" + server_ip + ":4000/current_lobbies"));
-        StartCoroutine(GetGames("http://" + server_ip + ":4000/current_games"));
+        StartCoroutine(GetLobbies());
+        StartCoroutine(GetGames());
     }
 
     public void CreateLobby()
     {
-        StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
+        StartCoroutine(GetRequest(makeUrl("/new_lobby")));
     }
 
     public void ConnectToLobby(string matchmaking_id)
@@ -95,7 +103,7 @@ public class LobbyConnection : MonoBehaviour
 
     public void QuickGame()
     {
-        StartCoroutine(GetRequest("http://" + server_ip + ":4000/new_lobby"));
+        StartCoroutine(GetRequest(makeUrl("/new_lobby")));
         StartCoroutine(WaitLobbyCreated());
     }
 
@@ -121,19 +129,15 @@ public class LobbyConnection : MonoBehaviour
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
+            webRequest.certificateHandler = new AcceptAllCertificates();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             yield return webRequest.SendWebRequest();
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
-                    //Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
                 case UnityWebRequest.Result.ProtocolError:
-                    //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
                     Session session = JsonConvert.DeserializeObject<Session>(
@@ -146,23 +150,20 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
-    IEnumerator GetLobbies(string uri)
+    IEnumerator GetLobbies()
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        string url = makeUrl("/current_lobbies");
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
+            webRequest.certificateHandler = new AcceptAllCertificates();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             yield return webRequest.SendWebRequest();
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.ConnectionError:
                 case UnityWebRequest.Result.DataProcessingError:
-                    //Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
                 case UnityWebRequest.Result.ProtocolError:
-                    //Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
                     break;
                 case UnityWebRequest.Result.Success:
                     LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(
@@ -174,15 +175,16 @@ public class LobbyConnection : MonoBehaviour
         }
     }
 
-    IEnumerator GetGames(string uri)
+    IEnumerator GetGames()
     {
-        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        string url = makeUrl("/current_games");
+        Debug.Log(url);
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
+            webRequest.certificateHandler = new AcceptAllCertificates();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             yield return webRequest.SendWebRequest();
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.Success:
@@ -199,7 +201,8 @@ public class LobbyConnection : MonoBehaviour
 
     private void ConnectToSession(string session_id)
     {
-        ws = new WebSocket("ws://" + server_ip + ":4000/matchmaking/" + session_id);
+        string url = makeWebsocketUrl("/matchmaking/" + session_id);
+        ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnError += (e) =>
         {
@@ -253,6 +256,28 @@ public class LobbyConnection : MonoBehaviour
         catch (Exception e)
         {
             Debug.Log("InvalidProtocolBufferException: " + e);
+        }
+    }
+
+    private string makeUrl(string path)
+    {
+        if (server_ip.Contains("localhost"))
+        {
+            return "http://" + server_ip + ":4000" + path;
+        } else
+        {
+            return "https://" + server_ip + path;
+        }
+    }
+
+    private string makeWebsocketUrl(string path)
+    {
+        if (server_ip.Contains("localhost"))
+        {
+            return "ws://" + server_ip + ":4000" + path;
+        } else
+        {
+            return "wss://" + server_ip + path;
         }
     }
 }
