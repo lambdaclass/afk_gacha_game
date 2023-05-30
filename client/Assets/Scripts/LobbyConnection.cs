@@ -24,17 +24,6 @@ public class LobbyConnection : MonoBehaviour
     public bool gameStarted = false;
 
     WebSocket ws;
-
-    public class boardSize{
-        public uint width { get; set;}
-        public uint height { get; set;}
-    }
-
-    public class gameConfig {
-        public boardSize board_size;
-        public uint server_tickrate;
-        public uint game_timeout;
-    }
     
     public class Session
     {
