@@ -76,7 +76,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     tick_rate = server_tickrate(opts.game_config[:server_tickrate])
 
-    # Finish game after @game_timeout seconds
+    # Finish game after @game_timeout seconds or the specified in the game_settings file
     Process.send_after(self(), :game_timeout, game_timeout(opts.game_config[:game_timeout]))
     Process.send_after(self(), :check_player_amount, @player_check)
 
