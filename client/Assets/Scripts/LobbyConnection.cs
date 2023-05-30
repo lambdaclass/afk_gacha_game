@@ -104,7 +104,7 @@ public class LobbyConnection : MonoBehaviour
 
     public void StartGame()
     {
-        string text = File.ReadAllText(@"./game_config.json");
+        string text = File.ReadAllText(@"./game_settings.json");
         gameConfig game_config = JsonConvert.DeserializeObject<gameConfig>(text);
 
         BoardSize bSize = new BoardSize {Width = game_config.board_size.width, Height = game_config.board_size.height};
