@@ -11,9 +11,8 @@ gen-server-protobuf:
 		--elixir_opt=package_prefix=dark_worlds_server.communication.proto \
 		messages.proto
 # Elixir's protobuf lib does not add a new line nor formats the output file
-# so we do it here:
+# so we do it here with a format:
 	mix format "./server/lib/dark_worlds_server/communication/messages.pb.ex"
-	echo "" >> ./server/lib/dark_worlds_server/communication/messages.pb.ex
 
 gen-client-protobuf:
 	protogen --csharp_out=./  messages.proto
@@ -25,6 +24,5 @@ gen-load-test-protobuf:
 		--elixir_opt=package_prefix=load_test.communication.proto \
 		messages.proto
 # Elixir's protobuf lib does not add a new line nor formats the output file
-# so we do it here:
+# so we do it here with a format:
 	mix format "./server/load_test/**/*.{ex,exs}"
-	echo "" >> ./server/lib/dark_worlds_server/communication/messages.pb.ex

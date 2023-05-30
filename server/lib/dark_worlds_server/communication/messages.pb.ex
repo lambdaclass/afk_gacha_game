@@ -162,5 +162,3 @@ defmodule DarkWorldsServer.Communication.Proto.LobbyEvent do
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
-
-
