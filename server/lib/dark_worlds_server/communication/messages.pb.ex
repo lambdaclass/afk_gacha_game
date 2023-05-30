@@ -184,10 +184,14 @@ defmodule DarkWorldsServer.Communication.Proto.GameConfig do
 
   use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
 
-  field(:boardSize, 1, type: DarkWorldsServer.Communication.Proto.BoardSize)
-  field(:serverTickRate, 2, type: :uint64)
-  field(:gameTimeOut, 3, type: :uint64)
-  field(:characterSpeed, 4, type: :uint64)
+  field(:board_size, 1,
+    type: DarkWorldsServer.Communication.Proto.BoardSize,
+    json_name: "boardSize"
+  )
+
+  field(:server_tickrate, 2, type: :uint64, json_name: "serverTickrate")
+  field(:game_timeout, 3, type: :uint64, json_name: "gameTimeout")
+  field(:character_speed, 4, type: :uint64, json_name: "characterSpeed")
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

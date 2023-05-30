@@ -74,10 +74,10 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     state = create_new_game(opts)
 
-    tick_rate = server_tickrate(opts.game_config[:serverTickRate])
+    tick_rate = server_tickrate(opts.game_config[:server_tickrate])
 
     # Finish game after @game_timeout seconds
-    Process.send_after(self(), :game_timeout, game_timeout(opts.game_config[:gameTimeOut]))
+    Process.send_after(self(), :game_timeout, game_timeout(opts.game_config[:game_timmeout]))
     Process.send_after(self(), :check_player_amount, @player_check)
 
     initial_state = %{
@@ -377,7 +377,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     Enum.find(players, fn p -> p.id == player_id end)
   end
 
-  defp create_new_game(%{game_config: %{boardSize: board}, players: players}) do
+  defp create_new_game(%{game_config: %{board_size: board}, players: players}) do
     board = {board.width, board.height}
 
     config = %{

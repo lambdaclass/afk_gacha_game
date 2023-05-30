@@ -1,6 +1,6 @@
 {
-  "boardSize": {"width": 1000, "height": 1000},
-  "serverTickRate": 30,
-  "gameTimeOut": 20,
-  "characterSpeed": 3
+  "board_size": {"width": 1000, "height": 1000},
+  "server_tickrate": 30,
+  "game_timeout": 20,
+  "character_speed": 3
 }

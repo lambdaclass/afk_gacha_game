@@ -180,17 +180,17 @@ public partial class GameConfig : global::ProtoBuf.IExtensible
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
         => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
 
-    [global::ProtoBuf.ProtoMember(1)]
-    public BoardSize boardSize { get; set; }
+    [global::ProtoBuf.ProtoMember(1, Name = @"board_size")]
+    public BoardSize BoardSize { get; set; }
 
-    [global::ProtoBuf.ProtoMember(2)]
-    public ulong serverTickRate { get; set; }
+    [global::ProtoBuf.ProtoMember(2, Name = @"server_tickrate")]
+    public ulong ServerTickrate { get; set; }
 
-    [global::ProtoBuf.ProtoMember(3)]
-    public ulong gameTimeOut { get; set; }
+    [global::ProtoBuf.ProtoMember(3, Name = @"game_timeout")]
+    public ulong GameTimeout { get; set; }
 
-    [global::ProtoBuf.ProtoMember(4)]
-    public ulong characterSpeed { get; set; }
+    [global::ProtoBuf.ProtoMember(4, Name = @"character_speed")]
+    public ulong CharacterSpeed { get; set; }
 
 }
 

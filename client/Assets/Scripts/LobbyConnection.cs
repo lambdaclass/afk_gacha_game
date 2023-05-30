@@ -31,10 +31,10 @@ public class LobbyConnection : MonoBehaviour
     }
 
     public class gameConfig {
-        public boardSize boardSize;
-        public uint serverTickRate;
-        public uint gameTimeOut;
-        public uint characterSpeed;
+        public boardSize board_size;
+        public uint server_tickrate;
+        public uint game_timeout;
+        public uint character_speed;
     }
     
     public class Session
@@ -105,14 +105,14 @@ public class LobbyConnection : MonoBehaviour
     public void StartGame()
     {
         string text = File.ReadAllText(@"./game_config.json");
-        gameConfig gameConfig = JsonConvert.DeserializeObject<gameConfig>(text);
+        gameConfig game_config = JsonConvert.DeserializeObject<gameConfig>(text);
 
-        BoardSize bSize = new BoardSize {Width = gameConfig.boardSize.width, Height = gameConfig.boardSize.height};
+        BoardSize bSize = new BoardSize {Width = game_config.board_size.width, Height = game_config.board_size.height};
         GameConfig pGameConfig = new GameConfig {
-            boardSize = bSize,
-            serverTickRate = gameConfig.serverTickRate,
-            gameTimeOut = gameConfig.gameTimeOut,
-            characterSpeed = gameConfig.characterSpeed
+            BoardSize = bSize,
+            ServerTickrate = game_config.server_tickrate,
+            GameTimeout = game_config.game_timeout,
+            CharacterSpeed = game_config.character_speed
         };
 
         LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame,  GameConfig = pGameConfig};
