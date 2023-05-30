@@ -148,7 +148,6 @@ message GameConfig {
     BoardSize board_size = 1;
     uint64 server_tickrate = 2; 
     uint64 game_timeout = 3;
-    uint64 character_speed = 4;
 }
 
 /* Type of lobby events

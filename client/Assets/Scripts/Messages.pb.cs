@@ -189,9 +189,6 @@ public partial class GameConfig : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(3, Name = @"game_timeout")]
     public ulong GameTimeout { get; set; }
 
-    [global::ProtoBuf.ProtoMember(4, Name = @"character_speed")]
-    public ulong CharacterSpeed { get; set; }
-
 }
 
 [global::ProtoBuf.ProtoContract()]

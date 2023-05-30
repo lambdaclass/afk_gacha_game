@@ -34,7 +34,6 @@ public class LobbyConnection : MonoBehaviour
         public boardSize board_size;
         public uint server_tickrate;
         public uint game_timeout;
-        public uint character_speed;
     }
     
     public class Session
@@ -111,8 +110,7 @@ public class LobbyConnection : MonoBehaviour
         GameConfig pGameConfig = new GameConfig {
             BoardSize = bSize,
             ServerTickrate = game_config.server_tickrate,
-            GameTimeout = game_config.game_timeout,
-            CharacterSpeed = game_config.character_speed
+            GameTimeout = game_config.game_timeout
         };
 
         LobbyEvent lobbyEvent = new LobbyEvent { Type = LobbyEventType.StartGame,  GameConfig = pGameConfig};
