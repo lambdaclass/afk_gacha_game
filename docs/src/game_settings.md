@@ -20,5 +20,5 @@ In case you want to add a new parameter, there a few things to do:
 - Add the new parameter in the `game_settings.json` file
 - Go to the `GameSettings.cs` file and add the new attribute to the `Settings` class and if its a composed attribute, do something like the board_size attribute
 - Add the attribute to the `GameConfig` struct in `messages.proto`.
-- Run the `gen-client-protobuf` and `gen-server-protobuf` commands (makefile phonies)
+- Run the `gen-protobuf` command (makefile phony)
 - Add the needed logic in the server
