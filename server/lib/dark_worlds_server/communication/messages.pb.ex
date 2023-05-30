@@ -189,8 +189,8 @@ defmodule DarkWorldsServer.Communication.Proto.GameConfig do
     json_name: "boardSize"
   )
 
-  field(:server_tickrate, 2, type: :uint64, json_name: "serverTickrate")
-  field(:game_timeout, 3, type: :uint64, json_name: "gameTimeout")
+  field(:server_tickrate_ms, 2, type: :uint64, json_name: "serverTickrateMs")
+  field(:game_timeout_ms, 3, type: :uint64, json_name: "gameTimeoutMs")
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

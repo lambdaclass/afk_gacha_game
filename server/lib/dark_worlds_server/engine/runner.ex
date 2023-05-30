@@ -74,7 +74,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     state = create_new_game(opts)
 
-    tick_rate = Map.get(opts.game_config, :server_tickrate, @tick_rate_ms)
+    tick_rate = Map.get(opts.game_config, :server_tickrate_ms, @tick_rate_ms)
 
     # Finish game after @game_timeout seconds or the specified in the game_settings file
     Process.send_after(self(), :game_timeout, Map.get(opts.game_config, :game_timeout, @game_timeout))

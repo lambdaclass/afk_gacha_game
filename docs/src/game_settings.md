@@ -9,8 +9,8 @@ We're currently supporting the following options:
 ```
 {
   "board_size": {"width": 1000, "height": 1000}, # The size of the board
-  "server_tickrate": 30, # Measured in miliseconds, it represents how often the server is sending the updates to the client
-  "game_timeout": 20, # Measured in miliseconds, it represents how much time the game session lasts
+  "server_tickrate_ms": 30, # Measured in miliseconds, it represents how often the server is sending the updates to the client
+  "game_timeout_ms": 20, # Measured in miliseconds, it represents how much time the game session lasts
 }
 ```
 

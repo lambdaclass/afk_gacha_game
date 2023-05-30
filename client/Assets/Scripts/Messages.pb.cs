@@ -183,11 +183,11 @@ public partial class GameConfig : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(1, Name = @"board_size")]
     public BoardSize BoardSize { get; set; }
 
-    [global::ProtoBuf.ProtoMember(2, Name = @"server_tickrate")]
-    public ulong ServerTickrate { get; set; }
+    [global::ProtoBuf.ProtoMember(2, Name = @"server_tickrate_ms")]
+    public ulong ServerTickrateMs { get; set; }
 
-    [global::ProtoBuf.ProtoMember(3, Name = @"game_timeout")]
-    public ulong GameTimeout { get; set; }
+    [global::ProtoBuf.ProtoMember(3, Name = @"game_timeout_ms")]
+    public ulong GameTimeoutMs { get; set; }
 
 }
 

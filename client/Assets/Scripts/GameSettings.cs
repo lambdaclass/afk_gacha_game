@@ -19,8 +19,8 @@ public class GameSettings
 
     private class Settings {
         public boardSize board_size;
-        public uint server_tickrate;
-        public uint game_timeout;
+        public uint server_tickrate_ms;
+        public uint game_timeout_ms;
     }
 
     public GameConfig parseSettings(){
@@ -30,8 +30,8 @@ public class GameSettings
 
         GameConfig gameConfig = new GameConfig {
             BoardSize = bSize,
-            ServerTickrate = settings.server_tickrate,
-            GameTimeout = settings.game_timeout
+            ServerTickrateMs = settings.server_tickrate_ms,
+            GameTimeoutMs = settings.game_timeout_ms
         };
 
         return gameConfig;

@@ -146,8 +146,8 @@ message BoardSize {
 
 message GameConfig {
     BoardSize board_size = 1;
-    uint64 server_tickrate = 2; 
-    uint64 game_timeout = 3;
+    uint64 server_tickrate_ms = 2; 
+    uint64 game_timeout_ms = 3;
 }
 
 /* Type of lobby events
