@@ -50,6 +50,7 @@ enum Status {
     ALIVE = 0;
     DEAD = 1;
 }
+
 /* A position in the server game grid, the grid is a NxN square with (0,0) in the top left corner
     - x: X coordinate in the grid
     - y: Y coordinate in the grid

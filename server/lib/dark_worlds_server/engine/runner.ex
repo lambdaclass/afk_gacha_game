@@ -12,9 +12,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
-  # This is the amount of time between updates (30ms)
-  @tick_rate_ms 30
-  # This is the number of tiles characters move per :move command
+  # This is the amount of time between state updates in milliseconds
+  @tick_rate_ms 20
   case Mix.env() do
     :test ->
       # Check player count every 3 seconds in testing
