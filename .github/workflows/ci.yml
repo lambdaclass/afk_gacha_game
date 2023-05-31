@@ -78,7 +78,7 @@ jobs:
       - name: Cache Library
         uses: actions/cache@v3
         with:
-          path: client
+          path: client/Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
@@ -87,6 +87,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
+          projectPath: client
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Build project
         uses: game-ci/unity-builder@v2
