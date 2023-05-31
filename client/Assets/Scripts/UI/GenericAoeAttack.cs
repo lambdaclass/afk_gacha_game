@@ -39,7 +39,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         public void AimAoeAttack(Vector2 aoePosition)
         {
             //print("drag: " + aoePosition);
-            //Multiply vector values according to the scale of the animation (in this case 5)
+            //Multiply vector values according to the scale of the animation (in this case 12)
             indicator.transform.position = transform.position + new Vector3(aoePosition.x * 12, 0f, aoePosition.y * 12);
         }
         public void ExecuteAoeAttack(Vector2 aoePosition)
