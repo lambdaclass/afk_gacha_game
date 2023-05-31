@@ -161,6 +161,7 @@ public class PlayerMovement : MonoBehaviour
         {
             var new_position = gamePlayers[i].Position;
             var aoe_position = gamePlayers[i].AoePosition;
+
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
@@ -179,5 +180,23 @@ public class PlayerMovement : MonoBehaviour
                 SocketConnectionManager.instance.players[i + 1].SetActive(false);
             }
         }
+    }
+
+    void UpdateProyectileActions()
+    {
+        List<Projectile> gameProjectiles = SocketConnectionManager.Instance.gameProjectiles;
+
+        // for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
+        // {
+            
+        // }
+        // recorrer gameProjectiles
+        //     si no existe en la lista de proyectiles
+        //         crear el proyectil
+
+        // for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
+        // {
+            
+        // }
     }
 }

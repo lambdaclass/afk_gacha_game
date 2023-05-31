@@ -22,43 +22,51 @@ public static partial class MessagesReflection {
   static MessagesReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "Cg5tZXNzYWdlcy5wcm90byJUCglHYW1lRXZlbnQSHAoEdHlwZRgBIAEoDjIO",
+          "Cg5tZXNzYWdlcy5wcm90byJ2CglHYW1lRXZlbnQSHAoEdHlwZRgBIAEoDjIO",
           "LkdhbWVFdmVudFR5cGUSGAoHcGxheWVycxgCIAMoCzIHLlBsYXllchIPCgds",
-          "YXRlbmN5GAMgASgEIrUBCgZQbGF5ZXISCgoCaWQYASABKAQSDgoGaGVhbHRo",
-          "GAIgASgSEhsKCHBvc2l0aW9uGAMgASgLMgkuUG9zaXRpb24SGQoRbGFzdF9t",
-          "ZWxlZV9hdHRhY2sYBCABKAQSFwoGc3RhdHVzGAUgASgOMgcuU3RhdHVzEh0K",
-          "BmFjdGlvbhgGIAEoDjINLlBsYXllckFjdGlvbhIfCgxhb2VfcG9zaXRpb24Y",
-          "ByABKAsyCS5Qb3NpdGlvbiIgCghQb3NpdGlvbhIJCgF4GAEgASgEEgkKAXkY",
-          "AiABKAQiKAoQUmVsYXRpdmVQb3NpdGlvbhIJCgF4GAEgASgDEgkKAXkYAiAB",
-          "KAMikAEKDENsaWVudEFjdGlvbhIXCgZhY3Rpb24YASABKA4yBy5BY3Rpb24S",
-          "HQoJZGlyZWN0aW9uGAIgASgOMgouRGlyZWN0aW9uEiMKCHBvc2l0aW9uGAMg",
-          "ASgLMhEuUmVsYXRpdmVQb3NpdGlvbhIjCgptb3ZlX2RlbHRhGAQgASgLMg8u",
-          "Sm95c3RpY2tWYWx1ZXMiJgoOSm95c3RpY2tWYWx1ZXMSCQoBeBgBIAEoAhIJ",
-          "CgF5GAIgASgCIrwBCgpMb2JieUV2ZW50Eh0KBHR5cGUYASABKA4yDy5Mb2Ji",
-          "eUV2ZW50VHlwZRIQCghsb2JieV9pZBgCIAEoCRIRCglwbGF5ZXJfaWQYAyAB",
-          "KAQSFwoPYWRkZWRfcGxheWVyX2lkGAQgASgEEg8KB2dhbWVfaWQYBSABKAkS",
-          "FAoMcGxheWVyX2NvdW50GAYgASgEEg8KB3BsYXllcnMYByADKAQSGQoRcmVt",
-          "b3ZlZF9wbGF5ZXJfaWQYCCABKAQqMgoNR2FtZUV2ZW50VHlwZRIQCgxTVEFU",
-          "RV9VUERBVEUQABIPCgtQSU5HX1VQREFURRABKh0KBlN0YXR1cxIJCgVBTElW",
-          "RRAAEggKBERFQUQQASpeCgZBY3Rpb24SFgoSQUNUSU9OX1VOU1BFQ0lGSUVE",
-          "EAASCAoETU9WRRABEgoKBkFUVEFDSxACEg4KCkFUVEFDS19BT0UQBRIWChJN",
-          "T1ZFX1dJVEhfSk9ZU1RJQ0sQBipNCglEaXJlY3Rpb24SGQoVRElSRUNUSU9O",
-          "X1VOU1BFQ0lGSUVEEAASBgoCVVAQARIICgRET1dOEAISCAoETEVGVBADEgkK",
-          "BVJJR0hUEAQqPQoMUGxheWVyQWN0aW9uEgsKB05PVEhJTkcQABINCglBVFRB",
-          "Q0tJTkcQARIRCg1BVFRBQ0tJTkdfQU9FEAIqjwEKDkxvYmJ5RXZlbnRUeXBl",
-          "EhQKEFRZUEVfVU5TUEVDSUZJRUQQABINCglDT05ORUNURUQQARIQCgxQTEFZ",
-          "RVJfQURERUQQAhIQCgxHQU1FX1NUQVJURUQQAxIQCgxQTEFZRVJfQ09VTlQQ",
-          "BBIOCgpTVEFSVF9HQU1FEAUSEgoOUExBWUVSX1JFTU9WRUQQBmIGcHJvdG8z"));
+          "YXRlbmN5GAMgASgEEiAKC3Byb2plY3RpbGVzGAQgAygLMgsuUHJvamVjdGls",
+          "ZSK1AQoGUGxheWVyEgoKAmlkGAEgASgEEg4KBmhlYWx0aBgCIAEoEhIbCghw",
+          "b3NpdGlvbhgDIAEoCzIJLlBvc2l0aW9uEhkKEWxhc3RfbWVsZWVfYXR0YWNr",
+          "GAQgASgEEhcKBnN0YXR1cxgFIAEoDjIHLlN0YXR1cxIdCgZhY3Rpb24YBiAB",
+          "KA4yDS5QbGF5ZXJBY3Rpb24SHwoMYW9lX3Bvc2l0aW9uGAcgASgLMgkuUG9z",
+          "aXRpb24iIAoIUG9zaXRpb24SCQoBeBgBIAEoBBIJCgF5GAIgASgEIigKEFJl",
+          "bGF0aXZlUG9zaXRpb24SCQoBeBgBIAEoAxIJCgF5GAIgASgDIpABCgxDbGll",
+          "bnRBY3Rpb24SFwoGYWN0aW9uGAEgASgOMgcuQWN0aW9uEh0KCWRpcmVjdGlv",
+          "bhgCIAEoDjIKLkRpcmVjdGlvbhIjCghwb3NpdGlvbhgDIAEoCzIRLlJlbGF0",
+          "aXZlUG9zaXRpb24SIwoKbW92ZV9kZWx0YRgEIAEoCzIPLkpveXN0aWNrVmFs",
+          "dWVzIiYKDkpveXN0aWNrVmFsdWVzEgkKAXgYASABKAISCQoBeRgCIAEoAiK8",
+          "AQoKTG9iYnlFdmVudBIdCgR0eXBlGAEgASgOMg8uTG9iYnlFdmVudFR5cGUS",
+          "EAoIbG9iYnlfaWQYAiABKAkSEQoJcGxheWVyX2lkGAMgASgEEhcKD2FkZGVk",
+          "X3BsYXllcl9pZBgEIAEoBBIPCgdnYW1lX2lkGAUgASgJEhQKDHBsYXllcl9j",
+          "b3VudBgGIAEoBBIPCgdwbGF5ZXJzGAcgAygEEhkKEXJlbW92ZWRfcGxheWVy",
+          "X2lkGAggASgEIt0BCgpQcm9qZWN0aWxlEgoKAmlkGAEgASgEEhsKCHBvc2l0",
+          "aW9uGAIgASgLMgkuUG9zaXRpb24SIgoJZGlyZWN0aW9uGAMgASgLMg8uSm95",
+          "c3RpY2tWYWx1ZXMSDQoFc3BlZWQYBCABKA0SDQoFcmFuZ2UYBSABKA0SEQoJ",
+          "cGxheWVyX2lkGAYgASgEEg4KBmRhbWFnZRgHIAEoDRIXCg9yZW1haW5pbmdf",
+          "dGlja3MYCCABKA0SKAoPcHJvamVjdGlsZV90eXBlGAkgASgOMg8uUHJvamVj",
+          "dGlsZVR5cGUqMgoNR2FtZUV2ZW50VHlwZRIQCgxTVEFURV9VUERBVEUQABIP",
+          "CgtQSU5HX1VQREFURRABKh0KBlN0YXR1cxIJCgVBTElWRRAAEggKBERFQUQQ",
+          "ASpeCgZBY3Rpb24SFgoSQUNUSU9OX1VOU1BFQ0lGSUVEEAASCAoETU9WRRAB",
+          "EgoKBkFUVEFDSxACEg4KCkFUVEFDS19BT0UQBRIWChJNT1ZFX1dJVEhfSk9Z",
+          "U1RJQ0sQBipNCglEaXJlY3Rpb24SGQoVRElSRUNUSU9OX1VOU1BFQ0lGSUVE",
+          "EAASBgoCVVAQARIICgRET1dOEAISCAoETEVGVBADEgkKBVJJR0hUEAQqPQoM",
+          "UGxheWVyQWN0aW9uEgsKB05PVEhJTkcQABINCglBVFRBQ0tJTkcQARIRCg1B",
+          "VFRBQ0tJTkdfQU9FEAIqjwEKDkxvYmJ5RXZlbnRUeXBlEhQKEFRZUEVfVU5T",
+          "UEVDSUZJRUQQABINCglDT05ORUNURUQQARIQCgxQTEFZRVJfQURERUQQAhIQ",
+          "CgxHQU1FX1NUQVJURUQQAxIQCgxQTEFZRVJfQ09VTlQQBBIOCgpTVEFSVF9H",
+          "QU1FEAUSEgoOUExBWUVSX1JFTU9WRUQQBiocCg5Qcm9qZWN0aWxlVHlwZRIK",
+          "CgZCVUxMRVQQAGIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), }, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::GameEvent), global::GameEvent.Parser, new[]{ "Type", "Players", "Latency" }, null, null, null, null),
+        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), typeof(global::ProjectileType), }, null, new pbr::GeneratedClrTypeInfo[] {
+          new pbr::GeneratedClrTypeInfo(typeof(global::GameEvent), global::GameEvent.Parser, new[]{ "Type", "Players", "Latency", "Projectiles" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Player), global::Player.Parser, new[]{ "Id", "Health", "Position", "LastMeleeAttack", "Status", "Action", "AoePosition" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Position), global::Position.Parser, new[]{ "X", "Y" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::RelativePosition), global::RelativePosition.Parser, new[]{ "X", "Y" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::ClientAction), global::ClientAction.Parser, new[]{ "Action", "Direction", "Position", "MoveDelta" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::JoystickValues), global::JoystickValues.Parser, new[]{ "X", "Y" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::LobbyEvent), global::LobbyEvent.Parser, new[]{ "Type", "LobbyId", "PlayerId", "AddedPlayerId", "GameId", "PlayerCount", "Players", "RemovedPlayerId" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::LobbyEvent), global::LobbyEvent.Parser, new[]{ "Type", "LobbyId", "PlayerId", "AddedPlayerId", "GameId", "PlayerCount", "Players", "RemovedPlayerId" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::Projectile), global::Projectile.Parser, new[]{ "Id", "Position", "Direction", "Speed", "Range", "PlayerId", "Damage", "RemainingTicks", "ProjectileType" }, null, null, null, null)
         }));
   }
   #endregion
@@ -133,6 +141,14 @@ public enum LobbyEventType {
   [pbr::OriginalName("PLAYER_REMOVED")] PlayerRemoved = 6,
 }
 
+/// <summary>
+/// Type of game events
+///- BULLET: Single little bullet
+/// </summary>
+public enum ProjectileType {
+  [pbr::OriginalName("BULLET")] Bullet = 0,
+}
+
 #endregion
 
 #region Messages
@@ -141,6 +157,7 @@ public enum LobbyEventType {
 ///- type: type of the event
 ///- players: player list, used on STATE_UPDATE
 ///- ping_update: updated player's ping, used on PING_UPDATE
+///- projectiles: projectile list, used on STATE_UPDATE
 /// </summary>
 public sealed partial class GameEvent : pb::IMessage<GameEvent>
 #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
@@ -179,6 +196,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
     type_ = other.type_;
     players_ = other.players_.Clone();
     latency_ = other.latency_;
+    projectiles_ = other.projectiles_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -223,6 +241,17 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
     }
   }
 
+  /// <summary>Field number for the "projectiles" field.</summary>
+  public const int ProjectilesFieldNumber = 4;
+  private static readonly pb::FieldCodec<global::Projectile> _repeated_projectiles_codec
+      = pb::FieldCodec.ForMessage(34, global::Projectile.Parser);
+  private readonly pbc::RepeatedField<global::Projectile> projectiles_ = new pbc::RepeatedField<global::Projectile>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public pbc::RepeatedField<global::Projectile> Projectiles {
+    get { return projectiles_; }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
@@ -241,6 +270,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
     if (Type != other.Type) return false;
     if(!players_.Equals(other.players_)) return false;
     if (Latency != other.Latency) return false;
+    if(!projectiles_.Equals(other.projectiles_)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -251,6 +281,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
     if (Type != global::GameEventType.StateUpdate) hash ^= Type.GetHashCode();
     hash ^= players_.GetHashCode();
     if (Latency != 0UL) hash ^= Latency.GetHashCode();
+    hash ^= projectiles_.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -278,6 +309,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
       output.WriteRawTag(24);
       output.WriteUInt64(Latency);
     }
+    projectiles_.WriteTo(output, _repeated_projectiles_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -297,6 +329,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
       output.WriteRawTag(24);
       output.WriteUInt64(Latency);
     }
+    projectiles_.WriteTo(ref output, _repeated_projectiles_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -314,6 +347,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
     if (Latency != 0UL) {
       size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Latency);
     }
+    size += projectiles_.CalculateSize(_repeated_projectiles_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -333,6 +367,7 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
     if (other.Latency != 0UL) {
       Latency = other.Latency;
     }
+    projectiles_.Add(other.projectiles_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -360,6 +395,10 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
           Latency = input.ReadUInt64();
           break;
         }
+        case 34: {
+          projectiles_.AddEntriesFrom(input, _repeated_projectiles_codec);
+          break;
+        }
       }
     }
   #endif
@@ -385,6 +424,10 @@ public sealed partial class GameEvent : pb::IMessage<GameEvent>
         }
         case 24: {
           Latency = input.ReadUInt64();
+          break;
+        }
+        case 34: {
+          projectiles_.AddEntriesFrom(ref input, _repeated_projectiles_codec);
           break;
         }
       }
@@ -2291,6 +2334,520 @@ public sealed partial class LobbyEvent : pb::IMessage<LobbyEvent>
         }
         case 64: {
           RemovedPlayerId = input.ReadUInt64();
+          break;
+        }
+      }
+    }
+  }
+  #endif
+
+}
+
+/// <summary>
+///
+///- position: Current projectile prosition
+///- direction: Projectile direction
+///- speed: Projectile speed
+///- range: Attack range, with center in position
+///- player_id: Player id who attacked
+///- damage: Damage dealt on opponents when hit
+///- remaining_ticks: Projectile remaining lifetime
+///- type: Projectile type depending on the attack
+/// </summary>
+public sealed partial class Projectile : pb::IMessage<Projectile>
+#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    , pb::IBufferMessage
+#endif
+{
+  private static readonly pb::MessageParser<Projectile> _parser = new pb::MessageParser<Projectile>(() => new Projectile());
+  private pb::UnknownFieldSet _unknownFields;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pb::MessageParser<Projectile> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::MessagesReflection.Descriptor.MessageTypes[7]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public Projectile() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public Projectile(Projectile other) : this() {
+    id_ = other.id_;
+    position_ = other.position_ != null ? other.position_.Clone() : null;
+    direction_ = other.direction_ != null ? other.direction_.Clone() : null;
+    speed_ = other.speed_;
+    range_ = other.range_;
+    playerId_ = other.playerId_;
+    damage_ = other.damage_;
+    remainingTicks_ = other.remainingTicks_;
+    projectileType_ = other.projectileType_;
+    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public Projectile Clone() {
+    return new Projectile(this);
+  }
+
+  /// <summary>Field number for the "id" field.</summary>
+  public const int IdFieldNumber = 1;
+  private ulong id_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ulong Id {
+    get { return id_; }
+    set {
+      id_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "position" field.</summary>
+  public const int PositionFieldNumber = 2;
+  private global::Position position_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::Position Position {
+    get { return position_; }
+    set {
+      position_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "direction" field.</summary>
+  public const int DirectionFieldNumber = 3;
+  private global::JoystickValues direction_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::JoystickValues Direction {
+    get { return direction_; }
+    set {
+      direction_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "speed" field.</summary>
+  public const int SpeedFieldNumber = 4;
+  private uint speed_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public uint Speed {
+    get { return speed_; }
+    set {
+      speed_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "range" field.</summary>
+  public const int RangeFieldNumber = 5;
+  private uint range_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public uint Range {
+    get { return range_; }
+    set {
+      range_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "player_id" field.</summary>
+  public const int PlayerIdFieldNumber = 6;
+  private ulong playerId_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ulong PlayerId {
+    get { return playerId_; }
+    set {
+      playerId_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "damage" field.</summary>
+  public const int DamageFieldNumber = 7;
+  private uint damage_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public uint Damage {
+    get { return damage_; }
+    set {
+      damage_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "remaining_ticks" field.</summary>
+  public const int RemainingTicksFieldNumber = 8;
+  private uint remainingTicks_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public uint RemainingTicks {
+    get { return remainingTicks_; }
+    set {
+      remainingTicks_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "projectile_type" field.</summary>
+  public const int ProjectileTypeFieldNumber = 9;
+  private global::ProjectileType projectileType_ = global::ProjectileType.Bullet;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::ProjectileType ProjectileType {
+    get { return projectileType_; }
+    set {
+      projectileType_ = value;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override bool Equals(object other) {
+    return Equals(other as Projectile);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public bool Equals(Projectile other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (Id != other.Id) return false;
+    if (!object.Equals(Position, other.Position)) return false;
+    if (!object.Equals(Direction, other.Direction)) return false;
+    if (Speed != other.Speed) return false;
+    if (Range != other.Range) return false;
+    if (PlayerId != other.PlayerId) return false;
+    if (Damage != other.Damage) return false;
+    if (RemainingTicks != other.RemainingTicks) return false;
+    if (ProjectileType != other.ProjectileType) return false;
+    return Equals(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (Id != 0UL) hash ^= Id.GetHashCode();
+    if (position_ != null) hash ^= Position.GetHashCode();
+    if (direction_ != null) hash ^= Direction.GetHashCode();
+    if (Speed != 0) hash ^= Speed.GetHashCode();
+    if (Range != 0) hash ^= Range.GetHashCode();
+    if (PlayerId != 0UL) hash ^= PlayerId.GetHashCode();
+    if (Damage != 0) hash ^= Damage.GetHashCode();
+    if (RemainingTicks != 0) hash ^= RemainingTicks.GetHashCode();
+    if (ProjectileType != global::ProjectileType.Bullet) hash ^= ProjectileType.GetHashCode();
+    if (_unknownFields != null) {
+      hash ^= _unknownFields.GetHashCode();
+    }
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void WriteTo(pb::CodedOutputStream output) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    output.WriteRawMessage(this);
+  #else
+    if (Id != 0UL) {
+      output.WriteRawTag(8);
+      output.WriteUInt64(Id);
+    }
+    if (position_ != null) {
+      output.WriteRawTag(18);
+      output.WriteMessage(Position);
+    }
+    if (direction_ != null) {
+      output.WriteRawTag(26);
+      output.WriteMessage(Direction);
+    }
+    if (Speed != 0) {
+      output.WriteRawTag(32);
+      output.WriteUInt32(Speed);
+    }
+    if (Range != 0) {
+      output.WriteRawTag(40);
+      output.WriteUInt32(Range);
+    }
+    if (PlayerId != 0UL) {
+      output.WriteRawTag(48);
+      output.WriteUInt64(PlayerId);
+    }
+    if (Damage != 0) {
+      output.WriteRawTag(56);
+      output.WriteUInt32(Damage);
+    }
+    if (RemainingTicks != 0) {
+      output.WriteRawTag(64);
+      output.WriteUInt32(RemainingTicks);
+    }
+    if (ProjectileType != global::ProjectileType.Bullet) {
+      output.WriteRawTag(72);
+      output.WriteEnum((int) ProjectileType);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(output);
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+    if (Id != 0UL) {
+      output.WriteRawTag(8);
+      output.WriteUInt64(Id);
+    }
+    if (position_ != null) {
+      output.WriteRawTag(18);
+      output.WriteMessage(Position);
+    }
+    if (direction_ != null) {
+      output.WriteRawTag(26);
+      output.WriteMessage(Direction);
+    }
+    if (Speed != 0) {
+      output.WriteRawTag(32);
+      output.WriteUInt32(Speed);
+    }
+    if (Range != 0) {
+      output.WriteRawTag(40);
+      output.WriteUInt32(Range);
+    }
+    if (PlayerId != 0UL) {
+      output.WriteRawTag(48);
+      output.WriteUInt64(PlayerId);
+    }
+    if (Damage != 0) {
+      output.WriteRawTag(56);
+      output.WriteUInt32(Damage);
+    }
+    if (RemainingTicks != 0) {
+      output.WriteRawTag(64);
+      output.WriteUInt32(RemainingTicks);
+    }
+    if (ProjectileType != global::ProjectileType.Bullet) {
+      output.WriteRawTag(72);
+      output.WriteEnum((int) ProjectileType);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(ref output);
+    }
+  }
+  #endif
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int CalculateSize() {
+    int size = 0;
+    if (Id != 0UL) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Id);
+    }
+    if (position_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Position);
+    }
+    if (direction_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Direction);
+    }
+    if (Speed != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Speed);
+    }
+    if (Range != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Range);
+    }
+    if (PlayerId != 0UL) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt64Size(PlayerId);
+    }
+    if (Damage != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Damage);
+    }
+    if (RemainingTicks != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RemainingTicks);
+    }
+    if (ProjectileType != global::ProjectileType.Bullet) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ProjectileType);
+    }
+    if (_unknownFields != null) {
+      size += _unknownFields.CalculateSize();
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(Projectile other) {
+    if (other == null) {
+      return;
+    }
+    if (other.Id != 0UL) {
+      Id = other.Id;
+    }
+    if (other.position_ != null) {
+      if (position_ == null) {
+        Position = new global::Position();
+      }
+      Position.MergeFrom(other.Position);
+    }
+    if (other.direction_ != null) {
+      if (direction_ == null) {
+        Direction = new global::JoystickValues();
+      }
+      Direction.MergeFrom(other.Direction);
+    }
+    if (other.Speed != 0) {
+      Speed = other.Speed;
+    }
+    if (other.Range != 0) {
+      Range = other.Range;
+    }
+    if (other.PlayerId != 0UL) {
+      PlayerId = other.PlayerId;
+    }
+    if (other.Damage != 0) {
+      Damage = other.Damage;
+    }
+    if (other.RemainingTicks != 0) {
+      RemainingTicks = other.RemainingTicks;
+    }
+    if (other.ProjectileType != global::ProjectileType.Bullet) {
+      ProjectileType = other.ProjectileType;
+    }
+    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(pb::CodedInputStream input) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    input.ReadRawMessage(this);
+  #else
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+          break;
+        case 8: {
+          Id = input.ReadUInt64();
+          break;
+        }
+        case 18: {
+          if (position_ == null) {
+            Position = new global::Position();
+          }
+          input.ReadMessage(Position);
+          break;
+        }
+        case 26: {
+          if (direction_ == null) {
+            Direction = new global::JoystickValues();
+          }
+          input.ReadMessage(Direction);
+          break;
+        }
+        case 32: {
+          Speed = input.ReadUInt32();
+          break;
+        }
+        case 40: {
+          Range = input.ReadUInt32();
+          break;
+        }
+        case 48: {
+          PlayerId = input.ReadUInt64();
+          break;
+        }
+        case 56: {
+          Damage = input.ReadUInt32();
+          break;
+        }
+        case 64: {
+          RemainingTicks = input.ReadUInt32();
+          break;
+        }
+        case 72: {
+          ProjectileType = (global::ProjectileType) input.ReadEnum();
+          break;
+        }
+      }
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+          break;
+        case 8: {
+          Id = input.ReadUInt64();
+          break;
+        }
+        case 18: {
+          if (position_ == null) {
+            Position = new global::Position();
+          }
+          input.ReadMessage(Position);
+          break;
+        }
+        case 26: {
+          if (direction_ == null) {
+            Direction = new global::JoystickValues();
+          }
+          input.ReadMessage(Direction);
+          break;
+        }
+        case 32: {
+          Speed = input.ReadUInt32();
+          break;
+        }
+        case 40: {
+          Range = input.ReadUInt32();
+          break;
+        }
+        case 48: {
+          PlayerId = input.ReadUInt64();
+          break;
+        }
+        case 56: {
+          Damage = input.ReadUInt32();
+          break;
+        }
+        case 64: {
+          RemainingTicks = input.ReadUInt32();
+          break;
+        }
+        case 72: {
+          ProjectileType = (global::ProjectileType) input.ReadEnum();
           break;
         }
       }
