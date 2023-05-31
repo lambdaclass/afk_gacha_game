@@ -50,6 +50,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
 
             indicator.transform.position = transform.position + new Vector3(aoePosition.x * 12, 0f, aoePosition.y * 12);
             Destroy(indicator, 0.01f);
+            Destroy(area, 0.01f);
 
             attack = aoeAttack.GetComponent<AoeAttackHandler>().attack;
             attack.transform.position = transform.position + new Vector3(aoePosition.x * 12, 0f, aoePosition.y * 12);
