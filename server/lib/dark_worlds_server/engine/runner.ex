@@ -153,7 +153,7 @@ defmodule DarkWorldsServer.Engine.Runner do
         %{next_state: %{game: game} = next_state} = state
       ) do
     %Player{position: _position} = get_player(game.players, player_id)
-    game = Game.attack_aoe(game, player_id, value)
+    {:ok, game} = Game.attack_aoe(game, player_id, value)
 
     game_state = has_a_player_won?(game.players, state.is_single_player?)
 
