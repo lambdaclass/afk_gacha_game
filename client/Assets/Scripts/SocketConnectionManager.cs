@@ -44,7 +44,6 @@ public class SocketConnectionManager : MonoBehaviour
     void Start()
     {
         playerId = LobbyConnection.Instance.playerId;
-
         if (string.IsNullOrEmpty(this.session_id))
         {
             StartCoroutine(GetRequest());
@@ -146,7 +145,8 @@ public class SocketConnectionManager : MonoBehaviour
         if (server_ip.Contains("localhost"))
         {
             return "http://" + server_ip + ":4000" + path;
-        } else
+        }
+        else
         {
             return "https://" + server_ip + path;
         }
@@ -157,7 +157,8 @@ public class SocketConnectionManager : MonoBehaviour
         if (server_ip.Contains("localhost"))
         {
             return "ws://" + server_ip + ":4000" + path;
-        } else
+        }
+        else
         {
             return "wss://" + server_ip + path;
         }
