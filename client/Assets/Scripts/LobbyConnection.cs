@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.IO;
 using System.Linq;
 using Google.Protobuf;
@@ -111,11 +110,15 @@ public class LobbyConnection : MonoBehaviour
 
     public void StartGame()
     {   
-        GameSettings gameSettings = new GameSettings{ path = @"./game_settings.json" };
-
+        #if !UNITY_WEBGL
+            GameConfig gameSettings = new GameSettings{ path = @"./game_settings.json" }.parseSettings();
+        #else
+            GameConfig gameSettings = GameSettings.defaultSettings();
+        #endif
+    
         LobbyEvent lobbyEvent = new LobbyEvent { 
             Type = LobbyEventType.StartGame,  
-            GameConfig = gameSettings.parseSettings()
+            GameConfig = gameSettings
         };
 
         using (var stream = new MemoryStream())

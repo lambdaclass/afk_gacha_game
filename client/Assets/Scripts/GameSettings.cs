@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
-using UnityEngine;
 
 /*
 These clases are used to parse the game_settings.json data 
@@ -32,6 +29,18 @@ public class GameSettings
             BoardSize = bSize,
             ServerTickrateMs = settings.server_tickrate_ms,
             GameTimeoutMs = settings.game_timeout_ms
+        };
+
+        return gameConfig;
+    }
+
+    public static GameConfig defaultSettings(){
+        BoardSize bSize = new BoardSize{Width = 1000, Height = 1000};
+
+        GameConfig gameConfig = new GameConfig{
+            BoardSize = bSize,
+            ServerTickrateMs = 30,
+            GameTimeoutMs = 1_200_000
         };
 
         return gameConfig;
