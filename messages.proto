@@ -40,7 +40,6 @@ message Player {
     Status status = 5;
     PlayerAction action = 6;
     Position aoe_position = 7;
-    PlayerClass player_class = 8;
 }
 
 /*
@@ -50,15 +49,6 @@ Status of a player
 enum Status {
     ALIVE = 0;
     DEAD = 1;
-}
-
-/*
-    A player's class. This is right now used to determine the stats of the player like velocity,
-    so the client can properly render the movement.
-*/
-enum PlayerClass {
-    HUNTER = 0;
-    GUARDIAN = 1;
 }
 
 /* A position in the server game grid, the grid is a NxN square with (0,0) in the top left corner

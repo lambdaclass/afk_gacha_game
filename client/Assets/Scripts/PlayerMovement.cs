@@ -19,7 +19,6 @@ public class PlayerMovement : MonoBehaviour
         public PlayerAction action;
         public long aoe_x;
         public long aoe_y;
-        public PlayerClass playerClass;
     }
 
     public enum PlayerAction
@@ -133,14 +132,22 @@ public class PlayerMovement : MonoBehaviour
                 is the direction of deltaX, which we can calculate (assumming we haven't lost socket
                 frames, but that's fine).
             */
-            PlayerClass playerClass = playerUpdate.playerClass;
+            // PlayerClass playerClass = playerUpdate.playerClass;
             float character_speed = 0;
 
-            if (playerClass == PlayerClass.Hunter) {
+            if (playerUpdate.player_id % 2 == 0) {
+                // Muflus
                 character_speed = 0.3f;
-            } else if (playerClass == PlayerClass.Guardian) {
+            } else {
+                // Hack
                 character_speed = 0.6f;
             }
+
+            // if (playerClass == PlayerClass.Hunter) {
+            //     character_speed = 0.6f;
+            // } else if (playerClass == PlayerClass.Guardian) {
+            //     character_speed = 0.3f;
+            // }
 
             // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
             // it'll be changed.
@@ -209,7 +216,6 @@ public class PlayerMovement : MonoBehaviour
                     action = (PlayerAction)gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,
                     aoe_y = -((long)aoe_position.X),
-                    playerClass = gamePlayers[i].PlayerClass,
                 }
             );
             if (gamePlayers[i].Health == 0)
