@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         public PlayerAction action;
         public long aoe_x;
         public long aoe_y;
+        public PlayerClass playerClass;
     }
 
     public enum PlayerAction
@@ -132,13 +133,25 @@ public class PlayerMovement : MonoBehaviour
                 is the direction of deltaX, which we can calculate (assumming we haven't lost socket
                 frames, but that's fine).
             */
+            PlayerClass playerClass = playerUpdate.playerClass;
+            float character_speed = 0;
 
-            float velocity = 50.0f * 0.3f;
+            if (playerClass == PlayerClass.Hunter) {
+                character_speed = 0.3f;
+            } else if (playerClass == PlayerClass.Guardian) {
+                character_speed = 0.6f;
+            }
+
+            // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
+            // it'll be changed.
+            float velocity = 50.0f * character_speed;
 
             float xChange = (playerUpdate.x / 10f - 50.0f) - player.transform.position.x;
             float yChange = (playerUpdate.y / 10f + 50.0f) - player.transform.position.z;
 
             Animator m_Animator = player.GetComponent<Character>().CharacterModel.GetComponent<Animator>();
+            CharacterOrientation3D characterOrientation = player.GetComponent<CharacterOrientation3D>();
+            characterOrientation.ForcedRotation = true;
 
             if (Mathf.Abs(xChange) >= 0.2f || Mathf.Abs(yChange) >= 0.2f) {
                 Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
@@ -146,6 +159,7 @@ public class PlayerMovement : MonoBehaviour
 
                 Vector3 newPosition = player.transform.position + movementDirection * velocity * Time.deltaTime;
                 player.transform.position = newPosition;
+                characterOrientation.ForcedRotationDirection = movementDirection;
 
                 m_Animator.SetBool("Walking", true);
             } else {
@@ -195,6 +209,7 @@ public class PlayerMovement : MonoBehaviour
                     action = (PlayerAction)gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,
                     aoe_y = -((long)aoe_position.X),
+                    playerClass = gamePlayers[i].PlayerClass,
                 }
             );
             if (gamePlayers[i].Health == 0)

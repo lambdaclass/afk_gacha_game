@@ -52,6 +52,9 @@ public partial class Player : global::ProtoBuf.IExtensible
     [global::ProtoBuf.ProtoMember(7, Name = @"aoe_position")]
     public Position AoePosition { get; set; }
 
+    [global::ProtoBuf.ProtoMember(8, Name = @"player_class")]
+    public PlayerClass PlayerClass { get; set; }
+
 }
 
 [global::ProtoBuf.ProtoContract()]
@@ -171,6 +174,15 @@ public enum Status
     Alive = 0,
     [global::ProtoBuf.ProtoEnum(Name = @"DEAD")]
     Dead = 1,
+}
+
+[global::ProtoBuf.ProtoContract()]
+public enum PlayerClass
+{
+    [global::ProtoBuf.ProtoEnum(Name = @"HUNTER")]
+    Hunter = 0,
+    [global::ProtoBuf.ProtoEnum(Name = @"GUARDIAN")]
+    Guardian = 1,
 }
 
 [global::ProtoBuf.ProtoContract()]

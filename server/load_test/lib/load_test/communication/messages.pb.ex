@@ -16,6 +16,15 @@ defmodule LoadTest.Communication.Proto.Status do
   field :DEAD, 1
 end
 
+defmodule LoadTest.Communication.Proto.PlayerClass do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field :HUNTER, 0
+  field :GUARDIAN, 1
+end
+
 defmodule LoadTest.Communication.Proto.Action do
   @moduledoc false
 
@@ -86,6 +95,11 @@ defmodule LoadTest.Communication.Proto.Player do
   field :status, 5, type: LoadTest.Communication.Proto.Status, enum: true
   field :action, 6, type: LoadTest.Communication.Proto.PlayerAction, enum: true
   field :aoe_position, 7, type: LoadTest.Communication.Proto.Position, json_name: "aoePosition"
+
+  field :player_class, 8,
+    type: LoadTest.Communication.Proto.PlayerClass,
+    json_name: "playerClass",
+    enum: true
 end
 
 defmodule LoadTest.Communication.Proto.Position do
