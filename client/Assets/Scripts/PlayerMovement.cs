@@ -132,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
                 is the direction of deltaX, which we can calculate (assumming we haven't lost socket
                 frames, but that's fine).
             */
-            // PlayerClass playerClass = playerUpdate.playerClass;
             float character_speed = 0;
 
             if (playerUpdate.player_id % 2 == 0) {
@@ -142,12 +141,6 @@ public class PlayerMovement : MonoBehaviour
                 // Hack
                 character_speed = 0.5f;
             }
-
-            // if (playerClass == PlayerClass.Hunter) {
-            //     character_speed = 0.6f;
-            // } else if (playerClass == PlayerClass.Guardian) {
-            //     character_speed = 0.3f;
-            // }
 
             // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
             // it'll be changed.
@@ -160,6 +153,7 @@ public class PlayerMovement : MonoBehaviour
             CharacterOrientation3D characterOrientation = player.GetComponent<CharacterOrientation3D>();
             characterOrientation.ForcedRotation = true;
 
+            bool walking = false;
             if (Mathf.Abs(xChange) >= 0.2f || Mathf.Abs(yChange) >= 0.2f) {
                 Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
                 movementDirection.Normalize();
@@ -168,10 +162,9 @@ public class PlayerMovement : MonoBehaviour
                 player.transform.position = newPosition;
                 characterOrientation.ForcedRotationDirection = movementDirection;
 
-                m_Animator.SetBool("Walking", true);
-            } else {
-                m_Animator.SetBool("Walking", false);
-            }
+                walking = true;
+            } 
+            m_Animator.SetBool("Walking", walking);
 
             Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
