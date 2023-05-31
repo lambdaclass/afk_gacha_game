@@ -4,11 +4,11 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
 {
     public class GenericAoeAttack : CharacterAbility
     {
-        GameObject aoeAttack;
+        GameObject areaWithAim;
         GameObject area;
         GameObject indicator;
+        GameObject sword;
         GameObject swordArea;
-        GameObject attack;
         protected override void Initialization()
         {
             base.Initialization();
@@ -25,19 +25,17 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         {
             //print("down");
             //Load the prefab
-            aoeAttack = Instantiate(Resources.Load("AoeAttack", typeof(GameObject))) as GameObject;
+            areaWithAim = Instantiate(Resources.Load("AreaAim", typeof(GameObject))) as GameObject;
             //Set the prefav as a player child
-            aoeAttack.transform.parent = transform;
+            areaWithAim.transform.parent = transform;
             //Set its position to the player position
-            aoeAttack.transform.position = transform.position;
+            areaWithAim.transform.position = transform.position;
 
             //Set scales
-            area = aoeAttack.GetComponent<AoeAttackHandler>().area;
+            area = areaWithAim.GetComponent<AimHandler>().area;
             area.transform.localScale = area.transform.localScale * 30;
-            indicator = aoeAttack.GetComponent<AoeAttackHandler>().indicator;
+            indicator = areaWithAim.GetComponent<AimHandler>().indicator;
             indicator.transform.localScale = indicator.transform.localScale * 5;
-            swordArea = aoeAttack.GetComponent<AoeAttackHandler>().swordArea;
-            swordArea.transform.localScale = swordArea.transform.localScale * 5;
         }
         public void AimAoeAttack(Vector2 aoePosition)
         {
@@ -49,15 +47,18 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         {
             //print("ability at: " + aoePosition);
             //Destroy attack animation after showing it
-            Destroy(aoeAttack, 2.1f);
+            Destroy(areaWithAim, 2.1f);
 
             indicator.transform.position = transform.position + new Vector3(aoePosition.x * 12, 0f, aoePosition.y * 12);
             Destroy(indicator, 0.01f);
             Destroy(area, 0.01f);
 
-            attack = aoeAttack.GetComponent<AoeAttackHandler>().attack;
-            attack.transform.position = transform.position + new Vector3(aoePosition.x * 12, 0f, aoePosition.y * 12);
-            attack.SetActive(true);
+            sword = Instantiate(Resources.Load("Sword", typeof(GameObject))) as GameObject;
+            sword.transform.position = transform.position + new Vector3(aoePosition.x * 12, 0f, aoePosition.y * 12);
+
+            swordArea = sword.GetComponent<SwordHandler>().area;
+            Destroy(swordArea, 2.1f);
+            swordArea.transform.localScale = swordArea.transform.localScale * 5;
 
             RelativePosition relative_position = new RelativePosition
             {
