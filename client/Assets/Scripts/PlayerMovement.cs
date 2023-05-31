@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
                 character_speed = 0.3f;
             } else {
                 // Hack
-                character_speed = 0.6f;
+                character_speed = 0.5f;
             }
 
             // if (playerClass == PlayerClass.Hunter) {
