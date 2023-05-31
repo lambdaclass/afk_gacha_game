@@ -2384,6 +2384,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 299088398}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &300587977 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 5082067212610491591, guid: c2607203b179b4f508743c9dfa24edff,
+    type: 3}
+  m_PrefabInstance: {fileID: 620904634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &364321140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6518,6 +6524,12 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!225 &1010784808 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 7707799678853569956, guid: c2607203b179b4f508743c9dfa24edff,
+    type: 3}
+  m_PrefabInstance: {fileID: 620904634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1015704714
 GameObject:
   m_ObjectHideFlags: 0
@@ -10175,7 +10187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   session_id: 
-  server_ip: localhost
+  server_ip: 5.75.237.197
   currentPing: 0
 --- !u!1001 &1865725793
 PrefabInstance:
@@ -11289,12 +11301,12 @@ PrefabInstance:
         type: 3}
       propertyPath: Buttons
       value: 
-      objectReference: {fileID: 2064859431}
+      objectReference: {fileID: 1010784808}
     - target: {fileID: 114905645026365078, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
       propertyPath: Joystick
       value: 
-      objectReference: {fileID: 2064859430}
+      objectReference: {fileID: 300587977}
     - target: {fileID: 224429692818469760, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
       propertyPath: m_AnchoredPosition.y

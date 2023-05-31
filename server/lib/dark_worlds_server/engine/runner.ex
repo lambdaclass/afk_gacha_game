@@ -15,7 +15,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   # This is the amount of time between updates (30ms)
   @update_time 30
   # This is the number of tiles characters move per :move command
-  @character_speed 3
   case Mix.env() do
     :test ->
       # Check player count every 3 seconds in testing
@@ -78,8 +77,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.send_after(self(), :check_player_amount, @player_check)
 
     initial_state = %{
-      game: state,
-      has_finished?: false
+      game: state
     }
 
     Process.send_after(self(), :update_state, @update_time)
@@ -91,11 +89,18 @@ defmodule DarkWorldsServer.Engine.Runner do
        max_players: length(opts.players),
        players: opts.players,
        current_players: 0,
+       current_round: 1,
+       game_state: :playing,
+       winners: [],
        is_single_player?: length(opts.players) == 1
      }}
   end
 
-  def handle_cast(_actions, %{current_state: %{has_finished?: true}} = state) do
+  def handle_cast(_actions, %{game_state: :game_finished} = state) do
+    {:noreply, state}
+  end
+
+  def handle_cast(_actions, %{game_state: :round_finished} = state) do
     {:noreply, state}
   end
 
@@ -135,10 +140,10 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.attack_player(player, value)
 
-    has_a_player_won? = has_a_player_won?(game.players, state.is_single_player?)
+    game_state = has_a_player_won?(game.players, state.is_single_player?)
 
-    next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
-    state = Map.put(state, :next_state, next_state)
+    next_state = next_state |> Map.put(:game, game)
+    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
 
     {:noreply, state}
   end
@@ -150,10 +155,10 @@ defmodule DarkWorldsServer.Engine.Runner do
     %Player{position: _position} = get_player(game.players, player_id)
     game = Game.attack_aoe(game, player_id, value)
 
-    has_a_player_won? = has_a_player_won?(game.players, state.is_single_player?)
+    game_state = has_a_player_won?(game.players, state.is_single_player?)
 
-    next_state = next_state |> Map.put(:game, game) |> Map.put(:has_finished?, has_a_player_won?)
-    state = Map.put(state, :next_state, next_state)
+    next_state = next_state |> Map.put(:game, game)
+    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
 
     {:noreply, state}
   end
@@ -202,10 +207,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:reply, game_state, state}
   end
 
-  def handle_call(:get_character_speed, _from, state) do
-    {:reply, @character_speed, state}
-  end
-
   def handle_info(
         :check_player_amount,
         state = %{current_players: current}
@@ -237,51 +238,130 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:stop, :normal, state}
   end
 
-  def handle_info(:update_state, %{current_state: %{has_finished?: true}} = state) do
-    {:noreply, state}
-  end
-
   def handle_info(:update_state, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
 
     game =
       next_state.game
-      |> Game.clean_players_actions()
+      |> Game.world_tick()
 
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
 
-    has_a_player_won? = next_state.has_finished?
+    decide_next_game_update(state)
+    |> broadcast_game_update()
+  end
 
-    maybe_broadcast_game_finished_message(has_a_player_won?, state)
+  def handle_info(:next_round, %{next_state: next_state} = state) do
+    state = Map.put(state, :current_state, next_state)
 
-    {:noreply, state}
+    decide_next_game_update(state)
+    |> broadcast_game_update()
   end
 
   ####################
   # Internal helpers #
   ####################
-  defp has_a_player_won?(_players, true = _is_single_player?), do: false
+  defp has_a_player_won?(_players, true = _is_single_player?), do: :playing
 
-  defp has_a_player_won?(players, false = _is_single_player?) do
-    players_alive = Enum.filter(players, fn player -> player.health != 0 end)
-    Enum.count(players_alive) == 1
+  defp has_a_player_won?(players, _is_single_player?) do
+    players_alive = Enum.filter(players, fn player -> player.status == :alive end)
+
+    if Enum.count(players_alive) == 1 do
+      :round_finished
+    else
+      :playing
+    end
   end
 
-  defp maybe_broadcast_game_finished_message(true, state) do
+  defp decide_next_game_update(%{game_state: :round_finished, winners: winners, current_round: current_round} = state) do
+    # This has to be done in order to apply the last attack
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
 
-    Process.send_after(self(), :session_timeout, @session_timeout)
+    [winner] = Enum.filter(state.next_state.game.players, fn player -> player.status == :alive end)
+    winners = [winner | winners]
+    amount_of_winners = winners |> Enum.uniq_by(fn winner -> winner.id end) |> Enum.count()
+
+    state = Map.put(state, :winners, winners)
+
+    next_game_update =
+      cond do
+        current_round == 2 and amount_of_winners == 2 ->
+          :last_round
+
+        (current_round == 2 && amount_of_winners == 1) || current_round == 3 ->
+          :game_finished
+
+        true ->
+          :next_round
+      end
+
+    {next_game_update, state}
   end
 
-  # Broadcast the current game state to
-  # each connected player.
-  defp maybe_broadcast_game_finished_message(_false, state) do
+  defp decide_next_game_update(%{game_state: :playing} = state) do
+    {:game_update, state}
+  end
+
+  defp broadcast_game_update(
+         {:last_round, %{winners: winners, current_round: current_round, next_state: next_state} = state}
+       ) do
+    game = Game.new_round(next_state.game, winners)
+
+    next_state = Map.put(next_state, :game, game)
+
+    state =
+      state
+      |> Map.put(:next_state, next_state)
+      |> Map.put(:current_round, current_round + 1)
+      |> Map.put(:game_state, :playing)
+
+    Process.send_after(self(), :update_state, @update_time)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, state})
+
+    Process.send_after(self(), :update_state, @update_time)
+
+    {:noreply, state}
+  end
+
+  defp broadcast_game_update({:next_round, %{current_round: current_round, next_state: next_state} = state}) do
+    game = Game.new_round(next_state.game, next_state.game.players)
+
+    next_state = Map.put(next_state, :game, game)
+
+    state =
+      state
+      |> Map.put(:next_state, next_state)
+      |> Map.put(:current_round, current_round + 1)
+      |> Map.put(:game_state, :playing)
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
+
+    Process.send_after(self(), :update_state, @update_time)
+
+    {:noreply, state}
+  end
+
+  defp broadcast_game_update({:game_update, state}) do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
 
     Process.send_after(self(), :update_state, @update_time)
+
+    {:noreply, state}
+  end
+
+  defp broadcast_game_update({:game_finished, state}) do
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
+
+    Process.send_after(self(), :session_timeout, @session_timeout)
+
+    {:noreply, state}
   end
 
   defp get_player(players, player_id) do

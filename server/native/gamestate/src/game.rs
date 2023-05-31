@@ -37,8 +37,9 @@ impl GameState {
             Character {
                 class: Class::Guardian,
                 basic_skill: BasicSkill::Bash,
-                speed: 3,
+                base_speed: 3,
                 name: "Guardian".to_string(),
+                ..Default::default()
             },
         ];
         let players: Vec<Player> = (1..number_of_players + 1)
@@ -78,6 +79,30 @@ impl GameState {
         Self { players, board }
     }
 
+    pub fn new_round(self: &mut Self, players: Vec<Player>) {
+        let mut positions = HashSet::new();
+        let mut players: Vec<Player> = players;
+
+        let mut board = Board::new(self.board.width, self.board.height);
+
+        for player in players.iter_mut() {
+            let new_position =
+                generate_new_position(&mut positions, self.board.width, self.board.height);
+            player.position.x = new_position.x;
+            player.position.y = new_position.y;
+            player.health = 100;
+            player.status = Status::ALIVE;
+            board.set_cell(
+                player.position.x,
+                player.position.y,
+                Tile::Player(player.id),
+            );
+        }
+
+        self.players = players;
+        self.board = board;
+    }
+
     pub fn move_player(self: &mut Self, player_id: u64, direction: Direction) {
         let player = self
             .players
@@ -92,7 +117,7 @@ impl GameState {
         let mut new_position = compute_adjacent_position_n_tiles(
             &direction,
             &player.position,
-            player.character.speed as usize,
+            player.character.speed() as usize,
         );
 
         // These changes are done so that if the player is moving into one of the map's borders
@@ -105,6 +130,38 @@ impl GameState {
         new_position.y = max(new_position.y, 0);
 
         // let tile_to_move_to = tile_to_move_to(&self.board, &player.position, &new_position);
+
+        // Remove the player from their previous position on the board
+        self.board
+            .set_cell(player.position.x, player.position.y, Tile::Empty);
+
+        player.position = new_position;
+        self.board.set_cell(
+            player.position.x,
+            player.position.y,
+            Tile::Player(player.id),
+        );
+    }
+
+    pub fn move_player_to_coordinates(self: &mut Self, player_id: u64, mut new_position: Position) {
+        let player = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == player_id)
+            .unwrap();
+
+        if matches!(player.status, Status::DEAD) {
+            return;
+        }
+
+        // These changes are done so that if the player is moving into one of the map's borders
+        // but is not already on the edge, they move to the edge. In simpler terms, if the player is
+        // trying to move from (0, 1) to the left, this ensures that new_position is (0, 0) instead of
+        // something invalid like (0, -1).
+        new_position.x = min(new_position.x, self.board.height - 1);
+        new_position.x = max(new_position.x, 0);
+        new_position.y = min(new_position.y, self.board.width - 1);
+        new_position.y = max(new_position.y, 0);
 
         // Remove the player from their previous position on the board
         self.board
@@ -139,7 +196,7 @@ impl GameState {
             return Ok(());
         }
         let Position { x: old_x, y: old_y } = player.position;
-        let speed = player.character.speed as i64;
+        let speed = player.character.speed() as i64;
         let (x_grid_delta, y_grid_delta) = Self::joystick_axis_to_grid_coords(x, y);
         let mut new_position = Position {
             x: (old_x as i64 + (x_grid_delta * speed)) as usize,
@@ -154,7 +211,6 @@ impl GameState {
             .set_cell(player.position.x, player.position.y, Tile::Empty);
 
         player.position = new_position;
-
         self.board.set_cell(
             player.position.x,
             player.position.y,
@@ -169,17 +225,22 @@ impl GameState {
         let grid_y = joystick_x.round() as i64;
         return (grid_x, grid_y);
     }
-    fn get_player_mut(players: &mut Vec<Player>, player_id: u64) -> Result<&mut Player, String> {
+    pub fn get_player_mut(
+        players: &mut Vec<Player>,
+        player_id: u64,
+    ) -> Result<&mut Player, String> {
         players
             .get_mut((player_id - 1) as usize)
             .ok_or(format!("Given id ({player_id}) is not valid"))
     }
-    fn get_player(self: &Self, player_id: u64) -> Result<Player, String> {
+
+    pub fn get_player(self: &Self, player_id: u64) -> Result<Player, String> {
         self.players
             .get((player_id - 1) as usize)
             .ok_or(format!("Given id ({player_id}) is not valid"))
             .cloned()
     }
+
     pub fn attack_player(self: &mut Self, attacking_player_id: u64, attack_direction: Direction) {
         let attacking_player = self
             .players
@@ -317,9 +378,16 @@ impl GameState {
         })
     }
 
-    pub fn clean_players_actions(self: &mut Self) {
+    pub fn world_tick(self: &mut Self) {
         self.players.iter_mut().for_each(|player| {
+            // Clean each player actions
             player.action = PlayerAction::NOTHING;
+            // Keep only (de)buffs that have
+            // a non-zero amount of ticks left.
+            player.character.status_effects.retain(|_, ticks_left| {
+                *ticks_left = ticks_left.saturating_sub(1);
+                *ticks_left != 0
+            });
         })
     }
 
