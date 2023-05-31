@@ -12,9 +12,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   @game_timeout 20 * 60 * 1000
   # The session will be closed one minute after the game has finished
   @session_timeout 60 * 1000
-  # This is the amount of time between updates (30ms)
-  @update_time 20
-
+  # This is the amount of time between state updates in milliseconds
+  @tick_rate_ms 20
   case Mix.env() do
     :test ->
       # Check player count every 3 seconds in testing
@@ -80,7 +79,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       game: state
     }
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, @tick_rate_ms)
 
     {:ok,
      %{
@@ -243,7 +242,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
     game =
       next_state.game
-      |> Game.clean_players_actions()
+      |> Game.world_tick()
 
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state)
@@ -317,12 +316,12 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Map.put(:current_round, current_round + 1)
       |> Map.put(:game_state, :playing)
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, @tick_rate_ms)
 
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, state})
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, @tick_rate_ms)
 
     {:noreply, state}
   end
@@ -341,7 +340,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, @tick_rate_ms)
 
     {:noreply, state}
   end
@@ -350,7 +349,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
 
-    Process.send_after(self(), :update_state, @update_time)
+    Process.send_after(self(), :update_state, @tick_rate_ms)
 
     {:noreply, state}
   end
