@@ -69,6 +69,7 @@ jobs:
         run: cd server && make tests
   buildWebGL:
     name: Build for WebGL
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
