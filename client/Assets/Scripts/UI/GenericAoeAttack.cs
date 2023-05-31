@@ -7,6 +7,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
         GameObject aoeAttack;
         GameObject area;
         GameObject indicator;
+        GameObject swordArea;
         GameObject attack;
         protected override void Initialization()
         {
@@ -35,6 +36,8 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             area.transform.localScale = area.transform.localScale * 30;
             indicator = aoeAttack.GetComponent<AoeAttackHandler>().indicator;
             indicator.transform.localScale = indicator.transform.localScale * 5;
+            swordArea = aoeAttack.GetComponent<AoeAttackHandler>().swordArea;
+            swordArea.transform.localScale = swordArea.transform.localScale * 5;
         }
         public void AimAoeAttack(Vector2 aoePosition)
         {
