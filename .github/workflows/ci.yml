@@ -97,6 +97,7 @@ jobs:
           UNITY_EMAIL: ${{ vars.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
+          projectPath: client
           targetPlatform: WebGL
       - uses: actions/upload-artifact@v2
         with:
