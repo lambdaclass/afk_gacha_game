@@ -5,6 +5,7 @@ use std::collections::HashSet;
 use crate::board::{Board, Tile};
 use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
+use crate::projectile::Projectile;
 use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
@@ -14,6 +15,7 @@ use std::cmp::{max, min};
 pub struct GameState {
     pub players: Vec<Player>,
     pub board: Board,
+    pub projectiles: Vec<Projectile>,
 }
 
 #[derive(Debug, NifUnitEnum)]
@@ -76,7 +78,9 @@ impl GameState {
             }
         }
 
-        Self { players, board }
+        let mut projectiles = Vec::new();
+
+        Self { players, board, projectiles }
     }
 
     pub fn new_round(self: &mut Self, players: Vec<Player>) {
@@ -268,6 +272,8 @@ impl GameState {
             compute_attack_initial_positions(&(attack_direction), &(attacking_player.position));
 
         let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
+
+        self.projectiles.push(Projectile::new((self.projectiles.len()+1).try_into().unwrap()));
 
         for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant

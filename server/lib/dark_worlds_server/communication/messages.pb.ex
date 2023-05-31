@@ -64,6 +64,14 @@ defmodule DarkWorldsServer.Communication.Proto.LobbyEventType do
   field(:PLAYER_REMOVED, 6)
 end
 
+defmodule DarkWorldsServer.Communication.Proto.ProjectileType do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:BULLET, 0)
+end
+
 defmodule DarkWorldsServer.Communication.Proto.GameEvent do
   @moduledoc false
 
@@ -72,6 +80,7 @@ defmodule DarkWorldsServer.Communication.Proto.GameEvent do
   field(:type, 1, type: DarkWorldsServer.Communication.Proto.GameEventType, enum: true)
   field(:players, 2, repeated: true, type: DarkWorldsServer.Communication.Proto.Player)
   field(:latency, 3, type: :uint64)
+  field(:projectiles, 4, repeated: true, type: DarkWorldsServer.Communication.Proto.Projectile)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
@@ -159,6 +168,29 @@ defmodule DarkWorldsServer.Communication.Proto.LobbyEvent do
   field(:player_count, 6, type: :uint64, json_name: "playerCount")
   field(:players, 7, repeated: true, type: :uint64)
   field(:removed_player_id, 8, type: :uint64, json_name: "removedPlayerId")
+
+  def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
+end
+
+defmodule DarkWorldsServer.Communication.Proto.Projectile do
+  @moduledoc false
+
+  use Protobuf, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:id, 1, type: :uint64)
+  field(:position, 2, type: DarkWorldsServer.Communication.Proto.Position)
+  field(:direction, 3, type: DarkWorldsServer.Communication.Proto.JoystickValues)
+  field(:speed, 4, type: :uint32)
+  field(:range, 5, type: :uint32)
+  field(:player_id, 6, type: :uint64, json_name: "playerId")
+  field(:damage, 7, type: :uint32)
+  field(:remaining_ticks, 8, type: :uint32, json_name: "remainingTicks")
+
+  field(:projectile_type, 9,
+    type: DarkWorldsServer.Communication.Proto.ProjectileType,
+    json_name: "projectileType",
+    enum: true
+  )
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
