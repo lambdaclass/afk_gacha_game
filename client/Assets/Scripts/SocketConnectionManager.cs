@@ -112,6 +112,12 @@ public class SocketConnectionManager : MonoBehaviour
             switch (game_event.Type)
             {
                 case GameEventType.StateUpdate:
+                    if (this.gamePlayers != null && this.gamePlayers.Count < game_event.Players.Count)
+                    {
+                        game_event.Players.ToList()
+                        .FindAll((player) => !this.gamePlayers.Contains(player))
+                        .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
+                    }
                     this.gamePlayers = game_event.Players.ToList();
                     break;
 
@@ -138,6 +144,12 @@ public class SocketConnectionManager : MonoBehaviour
             var msg = stream.ToArray();
             ws.Send(msg);
         }
+    }
+
+    public void CallSpawnBot()
+    {
+        ClientAction clientAction = new ClientAction { Action = Action.AddBot };
+        SendAction(clientAction);
     }
 
     private string makeUrl(string path)

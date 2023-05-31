@@ -163,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
                 characterOrientation.ForcedRotationDirection = movementDirection;
 
                 walking = true;
-            } 
+            }
             m_Animator.SetBool("Walking", walking);
 
             Health healthComponent = player.GetComponent<Health>();
@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
                 print(playerUpdate.aoe_x  / 10f - 50.0f);
                 print(playerUpdate.aoe_y  / 10f + 50.0f);
             }
-            
+
             SocketConnectionManager.Instance.players[playerUpdate.player_id]
                 .GetComponent<AttackController>()
                 .SwordAttack(isAttacking);
@@ -213,8 +213,8 @@ public class PlayerMovement : MonoBehaviour
             );
             if (gamePlayers[i].Health == 0)
             {
-                print(SocketConnectionManager.instance.players[i + 1].name);
-                SocketConnectionManager.instance.players[i + 1].SetActive(false);
+                print(SocketConnectionManager.instance.players[i].name);
+                SocketConnectionManager.instance.players[i].SetActive(false);
             }
         }
     }
