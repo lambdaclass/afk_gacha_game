@@ -36,7 +36,7 @@ impl GameState {
         build_walls: bool,
     ) -> Self {
         let mut positions = HashSet::new();
-        let characters = [Default::default(), Character::muflus()];
+        let characters = [Default::default(), Character::muflus(), Character::uma()];
         let players: Vec<Player> = (1..number_of_players + 1)
             .map(|player_id| {
                 let new_position = generate_new_position(&mut positions, board_width, board_height);
@@ -44,7 +44,7 @@ impl GameState {
                     player_id,
                     100,
                     new_position,
-                    characters[(player_id % 2) as usize].clone(),
+                    characters[(player_id as usize % characters.len())].clone(),
                 )
             })
             .collect();
