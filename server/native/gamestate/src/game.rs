@@ -397,6 +397,24 @@ impl GameState {
                 .set_cell(player.position.x, player.position.y, Tile::Empty);
         }
     }
+
+    pub fn spawn_player(self: &mut Self, player_id: u64) {
+        let mut tried_positions = HashSet::new();
+        let mut position: Position;
+
+        loop {
+            position =
+                generate_new_position(&mut tried_positions, self.board.width, self.board.height);
+            if let Some(Tile::Empty) = self.board.get_cell(position.x, position.y) {
+                break;
+            }
+        }
+
+        self.board
+            .set_cell(position.x, position.y, Tile::Player(player_id));
+        self.players
+            .push(Player::new(player_id, 100, position, Default::default()));
+    }
 }
 /// Given a position and a direction, returns the position adjacent to it `n` tiles
 /// in that direction

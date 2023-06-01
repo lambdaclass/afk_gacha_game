@@ -5,6 +5,7 @@ defmodule DarkWorldsServer.Communication.Proto.GameEventType do
 
   field(:STATE_UPDATE, 0)
   field(:PING_UPDATE, 1)
+  field(:PLAYER_JOINED, 2)
 end
 
 defmodule DarkWorldsServer.Communication.Proto.Status do
@@ -26,6 +27,7 @@ defmodule DarkWorldsServer.Communication.Proto.Action do
   field(:ATTACK, 2)
   field(:ATTACK_AOE, 5)
   field(:MOVE_WITH_JOYSTICK, 6)
+  field(:ADD_BOT, 7)
 end
 
 defmodule DarkWorldsServer.Communication.Proto.Direction do
@@ -72,6 +74,7 @@ defmodule DarkWorldsServer.Communication.Proto.GameEvent do
   field(:type, 1, type: DarkWorldsServer.Communication.Proto.GameEventType, enum: true)
   field(:players, 2, repeated: true, type: DarkWorldsServer.Communication.Proto.Player)
   field(:latency, 3, type: :uint64)
+  field(:player_joined_id, 4, type: :uint64, json_name: "playerJoinedId")
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end
