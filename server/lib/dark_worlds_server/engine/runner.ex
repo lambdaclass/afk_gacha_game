@@ -14,6 +14,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   @session_timeout 60 * 1000
   # This is the amount of time between state updates in milliseconds
   @tick_rate_ms 20
+
   case Mix.env() do
     :test ->
       # Check player count every 3 seconds in testing
@@ -165,6 +166,20 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
+  def handle_cast({:play, _, %ActionOk{action: :add_bot}}, state) do
+    %{next_state: %{game: game} = game_state, current_players: current} = state
+    player_id = current + 1
+    new_game = Game.spawn_player(game, player_id)
+
+    Phoenix.PubSub.broadcast(
+      DarkWorldsServer.PubSub,
+      Communication.pubsub_game_topic(self()),
+      {:player_joined, player_id}
+    )
+
+    {:noreply, %{state | next_state: %{game_state | game: new_game}, current_players: current + 1}}
+  end
+
   def handle_cast(
         {:disconnect, player_id},
         %{current_state: %{game: game} = game_state, current_players: current} = state
@@ -183,7 +198,7 @@ defmodule DarkWorldsServer.Engine.Runner do
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
-      {:player_joined, player_id, state}
+      {:player_joined, player_id}
     )
 
     {:reply, {:ok, player_id}, %{state | current_players: current + 1}}

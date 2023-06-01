@@ -5,6 +5,7 @@ defmodule LoadTest.Communication.Proto.GameEventType do
 
   field(:STATE_UPDATE, 0)
   field(:PING_UPDATE, 1)
+  field(:PLAYER_JOINED, 2)
 end
 
 defmodule LoadTest.Communication.Proto.Status do
@@ -26,6 +27,7 @@ defmodule LoadTest.Communication.Proto.Action do
   field(:ATTACK, 2)
   field(:ATTACK_AOE, 5)
   field(:MOVE_WITH_JOYSTICK, 6)
+  field(:ADD_BOT, 7)
 end
 
 defmodule LoadTest.Communication.Proto.Direction do
@@ -72,6 +74,7 @@ defmodule LoadTest.Communication.Proto.GameEvent do
   field(:type, 1, type: LoadTest.Communication.Proto.GameEventType, enum: true)
   field(:players, 2, repeated: true, type: LoadTest.Communication.Proto.Player)
   field(:latency, 3, type: :uint64)
+  field(:player_joined_id, 4, type: :uint64, json_name: "playerJoinedId")
 end
 
 defmodule LoadTest.Communication.Proto.Player do
