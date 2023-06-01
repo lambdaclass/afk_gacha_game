@@ -8,6 +8,7 @@ defmodule LoadTest.Communication.Proto.GameEventType do
   field(:PLAYER_JOINED, 2)
   field(:NEXT_ROUND, 3)
   field(:LAST_ROUND, 4)
+  field(:GAME_FINISHED, 5)
 end
 
 defmodule LoadTest.Communication.Proto.Status do

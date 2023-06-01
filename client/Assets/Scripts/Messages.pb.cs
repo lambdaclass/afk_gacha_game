@@ -44,19 +44,19 @@ public static partial class MessagesReflection {
           "ZyIqCglCb2FyZFNpemUSDQoFd2lkdGgYASABKAQSDgoGaGVpZ2h0GAIgASgE",
           "ImEKCkdhbWVDb25maWcSHgoKYm9hcmRfc2l6ZRgBIAEoCzIKLkJvYXJkU2l6",
           "ZRIaChJzZXJ2ZXJfdGlja3JhdGVfbXMYAiABKAQSFwoPZ2FtZV90aW1lb3V0",
-          "X21zGAMgASgEKmUKDUdhbWVFdmVudFR5cGUSEAoMU1RBVEVfVVBEQVRFEAAS",
+          "X21zGAMgASgEKngKDUdhbWVFdmVudFR5cGUSEAoMU1RBVEVfVVBEQVRFEAAS",
           "DwoLUElOR19VUERBVEUQARIRCg1QTEFZRVJfSk9JTkVEEAISDgoKTkVYVF9S",
-          "T1VORBADEg4KCkxBU1RfUk9VTkQQBCodCgZTdGF0dXMSCQoFQUxJVkUQABII",
-          "CgRERUFEEAEqawoGQWN0aW9uEhYKEkFDVElPTl9VTlNQRUNJRklFRBAAEggK",
-          "BE1PVkUQARIKCgZBVFRBQ0sQAhIOCgpBVFRBQ0tfQU9FEAUSFgoSTU9WRV9X",
-          "SVRIX0pPWVNUSUNLEAYSCwoHQUREX0JPVBAHKk0KCURpcmVjdGlvbhIZChVE",
-          "SVJFQ1RJT05fVU5TUEVDSUZJRUQQABIGCgJVUBABEggKBERPV04QAhIICgRM",
-          "RUZUEAMSCQoFUklHSFQQBCo9CgxQbGF5ZXJBY3Rpb24SCwoHTk9USElORxAA",
-          "Eg0KCUFUVEFDS0lORxABEhEKDUFUVEFDS0lOR19BT0UQAiqPAQoOTG9iYnlF",
-          "dmVudFR5cGUSFAoQVFlQRV9VTlNQRUNJRklFRBAAEg0KCUNPTk5FQ1RFRBAB",
-          "EhAKDFBMQVlFUl9BRERFRBACEhAKDEdBTUVfU1RBUlRFRBADEhAKDFBMQVlF",
-          "Ul9DT1VOVBAEEg4KClNUQVJUX0dBTUUQBRISCg5QTEFZRVJfUkVNT1ZFRBAG",
-          "YgZwcm90bzM="));
+          "T1VORBADEg4KCkxBU1RfUk9VTkQQBBIRCg1HQU1FX0ZJTklTSEVEEAUqHQoG",
+          "U3RhdHVzEgkKBUFMSVZFEAASCAoEREVBRBABKmsKBkFjdGlvbhIWChJBQ1RJ",
+          "T05fVU5TUEVDSUZJRUQQABIICgRNT1ZFEAESCgoGQVRUQUNLEAISDgoKQVRU",
+          "QUNLX0FPRRAFEhYKEk1PVkVfV0lUSF9KT1lTVElDSxAGEgsKB0FERF9CT1QQ",
+          "BypNCglEaXJlY3Rpb24SGQoVRElSRUNUSU9OX1VOU1BFQ0lGSUVEEAASBgoC",
+          "VVAQARIICgRET1dOEAISCAoETEVGVBADEgkKBVJJR0hUEAQqPQoMUGxheWVy",
+          "QWN0aW9uEgsKB05PVEhJTkcQABINCglBVFRBQ0tJTkcQARIRCg1BVFRBQ0tJ",
+          "TkdfQU9FEAIqjwEKDkxvYmJ5RXZlbnRUeXBlEhQKEFRZUEVfVU5TUEVDSUZJ",
+          "RUQQABINCglDT05ORUNURUQQARIQCgxQTEFZRVJfQURERUQQAhIQCgxHQU1F",
+          "X1NUQVJURUQQAxIQCgxQTEFZRVJfQ09VTlQQBBIOCgpTVEFSVF9HQU1FEAUS",
+          "EgoOUExBWUVSX1JFTU9WRUQQBmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -87,6 +87,7 @@ public enum GameEventType {
   [pbr::OriginalName("PLAYER_JOINED")] PlayerJoined = 2,
   [pbr::OriginalName("NEXT_ROUND")] NextRound = 3,
   [pbr::OriginalName("LAST_ROUND")] LastRound = 4,
+  [pbr::OriginalName("GAME_FINISHED")] GameFinished = 5,
 }
 
 public enum Status {

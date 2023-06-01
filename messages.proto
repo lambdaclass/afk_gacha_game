@@ -26,6 +26,7 @@ enum GameEventType {
     PLAYER_JOINED = 2;
     NEXT_ROUND = 3;
     LAST_ROUND = 4;
+    GAME_FINISHED = 5;
 }
 
 /* Information about a player
