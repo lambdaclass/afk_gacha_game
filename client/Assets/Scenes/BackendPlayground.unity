@@ -3564,6 +3564,7 @@ MonoBehaviour:
   playerId: 0
   playerCount: 0
   gameStarted: 0
+  serverTickRate_ms: 0
 --- !u!1 &598334956
 GameObject:
   m_ObjectHideFlags: 0
@@ -10187,8 +10188,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   session_id: 
-  server_ip: 5.75.237.197
+  server_ip: localhost
   currentPing: 0
+  serverTickRate_ms: 0
 --- !u!1001 &1865725793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11918,18 +11920,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 0421f36065fef684aa62e74148c138de,
     type: 3}
   m_PrefabInstance: {fileID: 2064838009}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &2064859430 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 5082067212610491591, guid: c2607203b179b4f508743c9dfa24edff,
-    type: 3}
-  m_PrefabInstance: {fileID: 620904634}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &2064859431 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 7707799678853569956, guid: c2607203b179b4f508743c9dfa24edff,
-    type: 3}
-  m_PrefabInstance: {fileID: 620904634}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2077004931
 PrefabInstance:
