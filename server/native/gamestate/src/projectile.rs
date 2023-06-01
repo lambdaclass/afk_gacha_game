@@ -1,3 +1,4 @@
+use crate::player::Position;
 use rustler::NifStruct;
 use rustler::NifUnitEnum;
 
@@ -21,19 +22,6 @@ pub enum ProjectileType {
 }
 
 #[derive(Debug, Clone, NifStruct, PartialEq)]
-#[module = "DarkWorldsServer.Engine.Position"]
-pub struct Position {
-    pub x: usize,
-    pub y: usize,
-}
-
-impl Position {
-    pub fn new(x: usize, y: usize) -> Self {
-        Self { x, y }
-    }
-}
-
-#[derive(Debug, Clone, NifStruct, PartialEq)]
 #[module = "DarkWorldsServer.Engine.JoystickValues"]
 pub struct JoystickValues {
     pub x: i64,
@@ -47,17 +35,27 @@ impl JoystickValues {
 }
 
 impl Projectile {
-    pub fn new(id: u64) -> Self {
+    pub fn new( 
+        id: u64, 
+        position: Position, 
+        direction: JoystickValues, 
+        speed: u32, 
+        range: u32, 
+        player_id: u64, 
+        damage: u32, 
+        remaining_ticks: u32, 
+        projectile_type: ProjectileType
+    ) -> Self {
         Self {
             id,
-            position: Position::new(50, 50),
-            direction: JoystickValues::new(1, 0),
-            speed: 1,
-            range: 1,
-            player_id: 1,
-            damage: 10,
-            remaining_ticks: 10,
-            projectile_type: ProjectileType::BULLET,
+            position,
+            direction,
+            speed,
+            range,
+            player_id,
+            damage,
+            remaining_ticks,
+            projectile_type
         }
     }
 }

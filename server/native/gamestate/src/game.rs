@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use crate::board::{Board, Tile};
 use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
-use crate::projectile::Projectile;
+use crate::projectile::{Projectile, ProjectileType, JoystickValues};
 use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
@@ -78,7 +78,7 @@ impl GameState {
             }
         }
 
-        let mut projectiles = Vec::new();
+        let projectiles = Vec::new();
 
         Self { players, board, projectiles }
     }
@@ -273,8 +273,6 @@ impl GameState {
 
         let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
 
-        self.projectiles.push(Projectile::new((self.projectiles.len()+1).try_into().unwrap()));
-
         for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
             let attacked_player = self
@@ -327,43 +325,61 @@ impl GameState {
             .iter_mut()
             .find(|player| player.id == attacking_player_id)
             .unwrap();
-        attacking_player.action = PlayerAction::ATTACKINGAOE;
 
-        let cooldown = attacking_player.character.cooldown();
+        if attacking_player_id % 2 == 0 {
+            attacking_player.action = PlayerAction::ATTACKINGAOE;
 
-        if matches!(attacking_player.status, Status::DEAD) {
-            return;
-        }
+            let cooldown = attacking_player.character.cooldown();
 
-        let now = time_now();
-
-        if (now - attacking_player.last_melee_attack) < cooldown {
-            return;
-        }
-
-        let (center, top_left, bottom_right) =
-            compute_attack_aoe_initial_positions(&(attacking_player.position), attack_position);
-        attacking_player.last_melee_attack = now;
-        attacking_player.aoe_position = center;
-
-        let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
-
-        for target_player_id in affected_players.iter_mut() {
-            // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
-            let attacked_player = self
-                .players
-                .iter_mut()
-                .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
-
-            match attacked_player {
-                Some(ap) => {
-                    ap.modify_health(-10);
-                    let player = ap.clone();
-                    self.modify_cell_if_player_died(&player);
-                }
-                _ => continue,
+            if matches!(attacking_player.status, Status::DEAD) {
+                return;
             }
+
+            let now = time_now();
+
+            if (now - attacking_player.last_melee_attack) < cooldown {
+                return;
+            }
+
+            let (center, top_left, bottom_right) =
+                compute_attack_aoe_initial_positions(&(attacking_player.position), attack_position);
+            attacking_player.last_melee_attack = now;
+            attacking_player.aoe_position = center;
+
+            let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
+
+            for target_player_id in affected_players.iter_mut() {
+                // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
+                let attacked_player = self
+                    .players
+                    .iter_mut()
+                    .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
+
+                match attacked_player {
+                    Some(ap) => {
+                        ap.modify_health(-10);
+                        let player = ap.clone();
+                        self.modify_cell_if_player_died(&player);
+                    }
+                    _ => continue,
+                }
+            }
+        } else {
+            let attacking_player = self.get_player(attacking_player_id).unwrap();
+            let projectile = Projectile::new(
+                (self.projectiles.len()+1).try_into().unwrap(),
+                attacking_player.position,
+                JoystickValues::new(attack_position.x, attack_position.y),
+                1,
+                20,
+                attacking_player.id,
+                2,
+                100,
+                ProjectileType::BULLET
+            );
+            self.projectiles.push(projectile);
         }
+        
     }
 
     pub fn disconnect(self: &mut Self, player_id: u64) -> Result<(), String> {
@@ -394,6 +410,39 @@ impl GameState {
                 *ticks_left = ticks_left.saturating_sub(1);
                 *ticks_left != 0
             });
+        });
+
+        self.projectiles.iter_mut().for_each(|projectile| {
+            if projectile.remaining_ticks > 0 {
+                projectile.position = Position::new(projectile.position.x, projectile.position.y - 1);
+                projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
+            }
+        });
+
+        self.projectiles.clone().iter().for_each(|projectile| {
+            if projectile.remaining_ticks > 0 {
+                let top_left = Position::new(projectile.position.x.saturating_sub(projectile.range as usize), projectile.position.y.saturating_sub(projectile.range as usize));
+                let bottom_right = Position::new(projectile.position.x + projectile.range as usize, projectile.position.y + projectile.range as usize);
+                let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
+                println!("Affected players: {:?}", affected_players);
+
+                for target_player_id in affected_players.iter_mut() {
+                    // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
+                    let attacked_player = self
+                        .players
+                        .iter_mut()
+                        .find(|player| player.id == *target_player_id && player.id != projectile.player_id);
+
+                    match attacked_player {
+                        Some(ap) => {
+                            ap.modify_health(-(projectile.damage as i64));
+                            let player = ap.clone();
+                            self.modify_cell_if_player_died(&player);
+                        }
+                        _ => continue,
+                    }
+                }
+            }
         })
     }
 

@@ -14,8 +14,8 @@ public class SocketConnectionManager : MonoBehaviour
     public List<GameObject> players;
     public static List<GameObject> playersStatic;
 
-    public List<GameObject> projectiles;
-    public static List<GameObject> projectilesStatic;
+    public Dictionary<int,GameObject> projectiles = new Dictionary<int, GameObject>();
+    public static Dictionary<int,GameObject> projectilesStatic;
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
