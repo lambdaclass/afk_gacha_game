@@ -30,9 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // Send the player's action every 30 ms approximately.
-        // float tickRate = 1f / 30f;
-        float clientActionRate = 0.02f;
+        float clientActionRate = SocketConnectionManager.Instance.serverTickRate_ms / 1000f;
         InvokeRepeating("SendAction", clientActionRate, clientActionRate);
     }
 
