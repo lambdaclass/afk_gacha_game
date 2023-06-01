@@ -44,7 +44,7 @@ impl Character {
         Character {
             class: Class::Assassin,
             name: Name::Uma,
-            base_speed: 6,
+            base_speed: 4,
             basic_skill: BasicSkill::BackStab,
             ..Default::default()
         }
