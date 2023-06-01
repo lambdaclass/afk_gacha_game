@@ -263,7 +263,10 @@ impl GameState {
             compute_attack_initial_positions(&(attack_direction), &(attacking_player.position));
 
         let mut affected_players: Vec<u64> =
-            GameState::players_in_range(&self.board, top_left, bottom_right);
+            GameState::players_in_range(&self.board, top_left, bottom_right)
+                .into_iter()
+                .filter(|&id| id != attacking_player_id)
+                .collect();
 
         for target_player_id in affected_players.iter_mut() {
             // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
