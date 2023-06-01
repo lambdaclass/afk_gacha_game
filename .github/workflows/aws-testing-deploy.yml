@@ -24,6 +24,7 @@ jobs:
       uses: Bhacaz/checkout-files@v2
       with:
        files: server/deploy.sh
+       branch: ${{ github.head_ref || github.ref_name }}
 
     - name: Create ssh private key file from env var
       env:
