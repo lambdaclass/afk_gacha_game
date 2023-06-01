@@ -22,6 +22,7 @@ public class LobbyConnection : MonoBehaviour
     public int playerId;
     public int playerCount;
     public bool gameStarted = false;
+    public uint serverTickRate_ms;
 
     WebSocket ws;
     
@@ -120,6 +121,8 @@ public class LobbyConnection : MonoBehaviour
             Type = LobbyEventType.StartGame,  
             GameConfig = gameSettings
         };
+
+        serverTickRate_ms = (uint) gameSettings.ServerTickrateMs;
 
         using (var stream = new MemoryStream())
         {

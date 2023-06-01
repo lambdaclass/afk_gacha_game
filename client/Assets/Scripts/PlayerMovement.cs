@@ -144,7 +144,8 @@ public class PlayerMovement : MonoBehaviour
 
             // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
             // it'll be changed.
-            float velocity = 50.0f * character_speed;
+            float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
+            float velocity = tickRate * character_speed;
 
             float xChange = (playerUpdate.x / 10f - 50.0f) - player.transform.position.x;
             float yChange = (playerUpdate.y / 10f + 50.0f) - player.transform.position.z;
