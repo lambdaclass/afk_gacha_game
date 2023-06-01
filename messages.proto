@@ -11,6 +11,8 @@ message GameEvent {
     repeated Player players = 2;
     uint64 latency = 3;
     uint64 player_joined_id = 4;
+    Player winner_player = 5;
+    uint64 current_round = 6;
 }
 
 /* Type of game events
@@ -22,6 +24,8 @@ enum GameEventType {
     STATE_UPDATE = 0;
     PING_UPDATE = 1;
     PLAYER_JOINED = 2;
+    NEXT_ROUND = 3;
+    LAST_ROUND = 4;
 }
 
 /* Information about a player

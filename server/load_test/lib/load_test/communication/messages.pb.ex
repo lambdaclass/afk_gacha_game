@@ -6,6 +6,8 @@ defmodule LoadTest.Communication.Proto.GameEventType do
   field(:STATE_UPDATE, 0)
   field(:PING_UPDATE, 1)
   field(:PLAYER_JOINED, 2)
+  field(:NEXT_ROUND, 3)
+  field(:LAST_ROUND, 4)
 end
 
 defmodule LoadTest.Communication.Proto.Status do
@@ -75,6 +77,8 @@ defmodule LoadTest.Communication.Proto.GameEvent do
   field(:players, 2, repeated: true, type: LoadTest.Communication.Proto.Player)
   field(:latency, 3, type: :uint64)
   field(:player_joined_id, 4, type: :uint64, json_name: "playerJoinedId")
+  field(:winner_player, 5, type: LoadTest.Communication.Proto.Player, json_name: "winnerPlayer")
+  field(:current_round, 6, type: :uint64, json_name: "currentRound")
 end
 
 defmodule LoadTest.Communication.Proto.Player do
