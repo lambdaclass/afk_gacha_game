@@ -47,6 +47,9 @@ jobs:
             -P ${SSH_PORT} \
             ${SCRIPT_SRC} \
             ${SSH_USERNAME}@${SSH_HOST}:${SCRIPT_DEST}
+        ssh -i id_ed25519_testing \
+            ${SSH_USERNAME}@${SSH_HOST} \
+            chmod +x /root/deploy-script/deploy.sh
 
     - name: Execute deploy script
       env:
