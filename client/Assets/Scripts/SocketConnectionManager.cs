@@ -25,6 +25,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     public static SocketConnectionManager instance;
     public uint currentPing;
+    public uint serverTickRate_ms;
 
     WebSocket ws;
 
@@ -38,6 +39,8 @@ public class SocketConnectionManager : MonoBehaviour
         Instance = this;
         this.session_id = LobbyConnection.Instance.GameSession;
         this.server_ip = LobbyConnection.Instance.server_ip;
+        this.serverTickRate_ms = LobbyConnection.Instance.serverTickRate_ms;
+        
         playersStatic = this.players;
     }
 
@@ -112,6 +115,12 @@ public class SocketConnectionManager : MonoBehaviour
             switch (game_event.Type)
             {
                 case GameEventType.StateUpdate:
+                    if (this.gamePlayers != null && this.gamePlayers.Count < game_event.Players.Count)
+                    {
+                        game_event.Players.ToList()
+                        .FindAll((player) => !this.gamePlayers.Contains(player))
+                        .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
+                    }
                     this.gamePlayers = game_event.Players.ToList();
                     break;
 
@@ -138,6 +147,12 @@ public class SocketConnectionManager : MonoBehaviour
             var msg = stream.ToArray();
             ws.Send(msg);
         }
+    }
+
+    public void CallSpawnBot()
+    {
+        ClientAction clientAction = new ClientAction { Action = Action.AddBot };
+        SendAction(clientAction);
     }
 
     private string makeUrl(string path)

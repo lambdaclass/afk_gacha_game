@@ -93,6 +93,6 @@ impl Character {
 }
 impl Default for Character {
     fn default() -> Self {
-        Character::new(Class::Hunter, 6, &Name::H4ck, BasicSkill::Slingshot)
+        Character::new(Class::Hunter, 5, &Name::H4ck, BasicSkill::Slingshot)
     }
 }
