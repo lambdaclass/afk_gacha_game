@@ -167,6 +167,10 @@ public class SocketConnectionManager : MonoBehaviour
         {
             return "http://" + server_ip + ":4000" + path;
         }
+        else if (server_ip.Contains("10.150.20.186"))
+        {
+            return "http://" + server_ip + ":4000" + path;
+        }
         else
         {
             return "https://" + server_ip + path;
@@ -176,6 +180,10 @@ public class SocketConnectionManager : MonoBehaviour
     private string makeWebsocketUrl(string path)
     {
         if (server_ip.Contains("localhost"))
+        {
+            return "ws://" + server_ip + ":4000" + path;
+        }
+        else if (server_ip.Contains("10.150.20.186"))
         {
             return "ws://" + server_ip + ":4000" + path;
         }
