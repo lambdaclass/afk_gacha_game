@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
             UpdatePlayerActions();
             checkForAttacks();
             ExecutePlayerAction();
+            UpdateProyectileActions();
         }
     }
 
@@ -198,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
         {
             var new_position = gamePlayers[i].Position;
             var aoe_position = gamePlayers[i].AoePosition;
+
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
@@ -210,10 +213,46 @@ public class PlayerMovement : MonoBehaviour
                     aoe_y = -((long)aoe_position.X),
                 }
             );
-            if (gamePlayers[i].Health == 0)
+            // if (gamePlayers[i].Health == 0)
+            // {
+            //     SocketConnectionManager.instance.players[i].SetActive(false);
+            // }
+        }
+    }
+
+    void UpdateProyectileActions()
+    {
+        Dictionary<int,GameObject> projectiles = SocketConnectionManager.Instance.projectiles;
+        List<Projectile> gameProjectiles = SocketConnectionManager.Instance.gameProjectiles;
+        GameObject projectile;
+        for (int i = 0; i < gameProjectiles.Count; i++) {
+            if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
             {
-                print(SocketConnectionManager.instance.players[i].name);
-                SocketConnectionManager.instance.players[i].SetActive(false);
+                float projectile_speed = gameProjectiles[i].Speed / 10f;
+
+                float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
+                float velocity = tickRate * projectile_speed;
+
+                float xChange = ((long)gameProjectiles[i].Position.Y / 10f - 50.0f) - projectile.transform.position.x;
+                float yChange = (-(long)gameProjectiles[i].Position.X / 10f + 50.0f) - projectile.transform.position.z;
+
+                Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
+                movementDirection.Normalize();
+
+                Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
+                projectile.transform.position = new Vector3(newPosition[0], 0f, newPosition[2]);
+            }
+            else
+            {
+                projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                Destroy(projectile.GetComponent<BoxCollider>());
+                projectile.transform.localScale = new Vector3(2f, 2f, 2f);
+                projectile.transform.position = new Vector3(
+                    ((long)gameProjectiles[i].Position.Y) / 10f - 50.0f,
+                    0f,
+                    -(((long)gameProjectiles[i].Position.X) / 10f - 50.0f)
+                );
+                projectiles.Add((int)gameProjectiles[i].Id, projectile);
             }
         }
     }

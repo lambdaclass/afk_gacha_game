@@ -2,6 +2,7 @@ pub mod board;
 pub mod character;
 pub mod game;
 pub mod player;
+pub mod projectile;
 pub mod skills;
 pub mod time_utils;
 use crate::player::Position;
