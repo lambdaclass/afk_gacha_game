@@ -112,7 +112,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:binary, Communication.encode_game_finished!(reply_map)}, state}
   end
 
-  # TODO: Use protobuf
   def websocket_info({:next_round, winner, game_state}, state) do
     reply_map = %{
       winner: winner,
@@ -123,7 +122,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
     {:reply, {:binary, Communication.encode!(reply_map)}, state}
   end
 
-  # TODO: Use protobuf
   def websocket_info({:last_round, winner, game_state}, state) do
     reply_map = %{
       winner: winner,
