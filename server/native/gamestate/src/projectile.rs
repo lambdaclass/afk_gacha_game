@@ -35,16 +35,16 @@ impl JoystickValues {
 }
 
 impl Projectile {
-    pub fn new( 
-        id: u64, 
-        position: Position, 
-        direction: JoystickValues, 
-        speed: u32, 
-        range: u32, 
-        player_id: u64, 
-        damage: u32, 
-        remaining_ticks: u32, 
-        projectile_type: ProjectileType
+    pub fn new(
+        id: u64,
+        position: Position,
+        direction: JoystickValues,
+        speed: u32,
+        range: u32,
+        player_id: u64,
+        damage: u32,
+        remaining_ticks: u32,
+        projectile_type: ProjectileType,
     ) -> Self {
         Self {
             id,
@@ -55,7 +55,7 @@ impl Projectile {
             player_id,
             damage,
             remaining_ticks,
-            projectile_type
+            projectile_type,
         }
     }
 }

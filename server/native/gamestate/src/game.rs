@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use crate::board::{Board, Tile};
 use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
-use crate::projectile::{Projectile, ProjectileType, JoystickValues};
+use crate::projectile::{JoystickValues, Projectile, ProjectileType};
 use crate::skills::{BasicSkill, Class};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
@@ -81,7 +81,12 @@ impl GameState {
 
         let projectiles = Vec::new();
 
-        Self { players, board, projectiles, next_projectile_id: 0 }
+        Self {
+            players,
+            board,
+            projectiles,
+            next_projectile_id: 0,
+        }
     }
 
     pub fn new_round(self: &mut Self, players: Vec<Player>) {
@@ -357,10 +362,9 @@ impl GameState {
 
             for target_player_id in affected_players.iter_mut() {
                 // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
-                let attacked_player = self
-                    .players
-                    .iter_mut()
-                    .find(|player| player.id == *target_player_id && player.id != attacking_player_id);
+                let attacked_player = self.players.iter_mut().find(|player| {
+                    player.id == *target_player_id && player.id != attacking_player_id
+                });
 
                 match attacked_player {
                     Some(ap) => {
@@ -373,8 +377,9 @@ impl GameState {
             }
         } else {
             let attacking_player = self.get_player(attacking_player_id).unwrap();
-            let (direction_x, direction_y) = normalize_vector(attack_position.x as f64, attack_position.y as f64);
-            if (attack_position.x != 0 || attack_position.y != 0){ 
+            let (direction_x, direction_y) =
+                normalize_vector(attack_position.x as f64, attack_position.y as f64);
+            if (attack_position.x != 0 || attack_position.y != 0) {
                 let projectile = Projectile::new(
                     self.next_projectile_id,
                     attacking_player.position,
@@ -384,13 +389,12 @@ impl GameState {
                     attacking_player.id,
                     2,
                     80,
-                    ProjectileType::BULLET
+                    ProjectileType::BULLET,
                 );
                 self.projectiles.push(projectile);
                 self.next_projectile_id += 1;
             }
         }
-        
     }
 
     pub fn disconnect(self: &mut Self, player_id: u64) -> Result<(), String> {
@@ -425,7 +429,6 @@ impl GameState {
 
         self.projectiles.iter_mut().for_each(|projectile| {
             if projectile.remaining_ticks > 0 {
-
                 let Position { x: old_x, y: old_y } = projectile.position;
                 let speed = projectile.speed as i64;
 
@@ -435,7 +438,7 @@ impl GameState {
                 */
                 let movement_vector_x = projectile.direction.x * (speed as f64);
                 let movement_vector_y = projectile.direction.y * (speed as f64);
-                
+
                 let mut new_position_x = old_x as i64 + (movement_vector_x.round() as i64);
                 let mut new_position_y = old_y as i64 + (movement_vector_y.round() as i64);
 
@@ -454,22 +457,32 @@ impl GameState {
             }
         });
 
-        self.projectiles.retain(|projectile| {
-            projectile.remaining_ticks > 0
-        });
+        self.projectiles
+            .retain(|projectile| projectile.remaining_ticks > 0);
 
         self.projectiles.clone().iter().for_each(|projectile| {
             if projectile.remaining_ticks > 0 {
-                let top_left = Position::new(projectile.position.x.saturating_sub(projectile.range as usize), projectile.position.y.saturating_sub(projectile.range as usize));
-                let bottom_right = Position::new(projectile.position.x + projectile.range as usize, projectile.position.y + projectile.range as usize);
+                let top_left = Position::new(
+                    projectile
+                        .position
+                        .x
+                        .saturating_sub(projectile.range as usize),
+                    projectile
+                        .position
+                        .y
+                        .saturating_sub(projectile.range as usize),
+                );
+                let bottom_right = Position::new(
+                    projectile.position.x + projectile.range as usize,
+                    projectile.position.y + projectile.range as usize,
+                );
                 let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
 
                 for target_player_id in affected_players.iter_mut() {
                     // FIXME: This is not ok, we should save referencies to the Game Players this is redundant
-                    let attacked_player = self
-                        .players
-                        .iter_mut()
-                        .find(|player| player.id == *target_player_id && player.id != projectile.player_id);
+                    let attacked_player = self.players.iter_mut().find(|player| {
+                        player.id == *target_player_id && player.id != projectile.player_id
+                    });
 
                     match attacked_player {
                         Some(ap) => {
