@@ -381,7 +381,7 @@ impl GameState {
                 20,
                 attacking_player.id,
                 2,
-                100,
+                80,
                 ProjectileType::BULLET
             );
             self.projectiles.push(projectile);
@@ -448,6 +448,10 @@ impl GameState {
                 projectile.position = new_position;
                 projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
             }
+        });
+
+        self.projectiles.retain(|projectile| {
+            projectile.remaining_ticks > 0
         });
 
         self.projectiles.clone().iter().for_each(|projectile| {

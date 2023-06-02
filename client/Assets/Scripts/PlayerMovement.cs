@@ -225,6 +225,15 @@ public class PlayerMovement : MonoBehaviour
         Dictionary<int,GameObject> projectiles = SocketConnectionManager.Instance.projectiles;
         List<Projectile> gameProjectiles = SocketConnectionManager.Instance.gameProjectiles;
         GameObject projectile;
+
+        foreach (var pr in projectiles) {
+            if (!gameProjectiles.Exists(x => (int)x.Id == pr.Key))
+            {
+                Destroy(pr.Value);
+                projectiles.Remove(pr.Key);
+            }
+        }
+
         for (int i = 0; i < gameProjectiles.Count; i++) {
             if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
             {
