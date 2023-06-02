@@ -314,7 +314,7 @@ defmodule DarkWorldsServer.Engine.Runner do
           :next_round
       end
 
-    {next_game_update, state}
+    {next_game_update, state, winner}
   end
 
   defp decide_next_game_update(%{game_state: :playing} = state) do
@@ -322,7 +322,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   defp broadcast_game_update(
-         {:last_round, %{winners: winners, current_round: current_round, next_state: next_state} = state}
+         {:last_round, %{winners: winners, current_round: current_round, next_state: next_state} = state, winner}
        ) do
     game = Game.new_round(next_state.game, winners)
 
@@ -337,14 +337,14 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.send_after(self(), :update_state, state.tick_rate)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:last_round, winner, state})
 
     Process.send_after(self(), :update_state, state.tick_rate)
 
     {:noreply, state}
   end
 
-  defp broadcast_game_update({:next_round, %{current_round: current_round, next_state: next_state} = state}) do
+  defp broadcast_game_update({:next_round, %{current_round: current_round, next_state: next_state} = state, winner}) do
     game = Game.new_round(next_state.game, next_state.game.players)
 
     next_state = Map.put(next_state, :game, game)
@@ -356,7 +356,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       |> Map.put(:game_state, :playing)
 
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:next_round, winner, state})
 
     Process.send_after(self(), :update_state, state.tick_rate)
 
@@ -372,9 +372,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  defp broadcast_game_update({:game_finished, state}) do
+  defp broadcast_game_update({:game_finished, state, winner}) do
     DarkWorldsServer.PubSub
-    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, state})
+    |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_finished, winner, state})
 
     Process.send_after(self(), :session_timeout, @session_timeout)
 

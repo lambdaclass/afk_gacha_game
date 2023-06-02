@@ -44,6 +44,21 @@ defmodule DarkWorldsServer.Communication do
     |> GameEvent.encode()
   end
 
+  def encode!(%{winner: winner, current_round: current_round, type: :last_round}) do
+    %GameEvent{type: :LAST_ROUND, winner_player: winner, current_round: current_round}
+    |> GameEvent.encode()
+  end
+
+  def encode!(%{winner: winner, current_round: current_round, type: :next_round}) do
+    %GameEvent{type: :NEXT_ROUND, winner_player: winner, current_round: current_round}
+    |> GameEvent.encode()
+  end
+
+  def encode_game_finished!(%{winner: winner, players: players, type: :game_finished}) do
+    %GameEvent{winner_player: winner, type: :GAME_FINISHED, players: players}
+    |> GameEvent.encode()
+  end
+
   def game_player_joined(player_id) do
     %GameEvent{type: :PLAYER_JOINED, player_joined_id: player_id}
     |> GameEvent.encode()
