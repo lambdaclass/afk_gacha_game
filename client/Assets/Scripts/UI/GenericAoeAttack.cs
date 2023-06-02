@@ -68,5 +68,15 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = relative_position };
             SocketConnectionManager.Instance.SendAction(action);
         }
+
+        public void ShowAoeAttack(Vector2 aoePosition)
+        {
+            sword = Instantiate(Resources.Load("Sword", typeof(GameObject))) as GameObject;
+            sword.transform.position = new Vector3(aoePosition.x, 0.8f, aoePosition.y);
+
+            swordArea = sword.GetComponent<SwordHandler>().area;
+            Destroy(swordArea, 2.1f);
+            swordArea.transform.localScale = swordArea.transform.localScale * 5;
+        }
     }
 }
