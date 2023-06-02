@@ -67,6 +67,7 @@ namespace MoreMountains.TopDownEngine // you might want to use your own namespac
             };
             ClientAction action = new ClientAction { Action = Action.AttackAoe, Position = relative_position };
             SocketConnectionManager.Instance.SendAction(action);
+            Destroy(sword, 2.2f);
         }
 
         public void ShowAoeAttack(Vector2 aoePosition)
