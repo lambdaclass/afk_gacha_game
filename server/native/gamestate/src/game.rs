@@ -16,6 +16,7 @@ pub struct GameState {
     pub players: Vec<Player>,
     pub board: Board,
     pub projectiles: Vec<Projectile>,
+    pub next_projectile_id: u64,
 }
 
 #[derive(Debug, NifUnitEnum)]
@@ -80,7 +81,7 @@ impl GameState {
 
         let projectiles = Vec::new();
 
-        Self { players, board, projectiles }
+        Self { players, board, projectiles, next_projectile_id: 0 }
     }
 
     pub fn new_round(self: &mut Self, players: Vec<Player>) {
@@ -374,7 +375,7 @@ impl GameState {
             let attacking_player = self.get_player(attacking_player_id).unwrap();
             let (direction_x, direction_y) = normalize_vector(attack_position.x as f64, attack_position.y as f64);
             let projectile = Projectile::new(
-                (self.projectiles.len()+1).try_into().unwrap(),
+                self.next_projectile_id,
                 attacking_player.position,
                 JoystickValues::new(direction_x as f64, direction_y as f64),
                 3,
@@ -385,6 +386,7 @@ impl GameState {
                 ProjectileType::BULLET
             );
             self.projectiles.push(projectile);
+            self.next_projectile_id += 1;
         }
         
     }
