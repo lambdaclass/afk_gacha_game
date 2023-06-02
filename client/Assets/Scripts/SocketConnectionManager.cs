@@ -27,6 +27,8 @@ public class SocketConnectionManager : MonoBehaviour
     public uint currentPing;
     public uint serverTickRate_ms;
 
+    List<Player> winners;
+
     WebSocket ws;
 
     public class Session
@@ -40,7 +42,7 @@ public class SocketConnectionManager : MonoBehaviour
         this.session_id = LobbyConnection.Instance.GameSession;
         this.server_ip = LobbyConnection.Instance.server_ip;
         this.serverTickRate_ms = LobbyConnection.Instance.serverTickRate_ms;
-        
+
         playersStatic = this.players;
     }
 
@@ -109,6 +111,7 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void OnWebSocketMessage(byte[] data)
     {
+        Player totalWinner = null;
         try
         {
             GameEvent game_event = GameEvent.Parser.ParseFrom(data);
@@ -134,6 +137,9 @@ public class SocketConnectionManager : MonoBehaviour
                         1. Show the player that won the round
                         2. Respawn the players
                     */
+                    Player winner = game_event.WinnerPlayer;
+                    winners.Add(winner);
+                    print("The winner of the round is " + winner);
                     break;
                 case GameEventType.LastRound:
                     /*
@@ -141,12 +147,18 @@ public class SocketConnectionManager : MonoBehaviour
                         1. Show the player that won the round and the players that are going to dispute the last round
                         2. Respawn the players
                     */
+                    winners.ForEach(el =>
+                    {
+                        print("The winners of the others rounds are: " + el.Id);
+                    });
+                    totalWinner = game_event.WinnerPlayer;
                     break;
                 case GameEventType.GameFinished:
                     /*
                         Here we should:
                         1. Display the victory screen
                     */
+                    print("totalwinner is " + totalWinner);
                     break;
                 default:
                     print("Message received is: " + game_event.Type);
