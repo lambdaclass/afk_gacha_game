@@ -174,15 +174,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 print("attack");
             }
+
             //if dead remove the player from the scene
             if (healthComponent.CurrentHealth <= 0)
             {
                 healthComponent.Model.gameObject.SetActive(false);
             }
             bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
-            if (isAttackingAOE){
-                print(playerUpdate.aoe_x  / 10f - 50.0f);
-                print(playerUpdate.aoe_y  / 10f + 50.0f);
+            if (isAttackingAOE && (LobbyConnection.Instance.playerId != (playerUpdate.player_id + 1))){
+                player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoe_x / 10f - 50.0f, playerUpdate.aoe_y / 10f + 50.0f));
             }
 
             SocketConnectionManager.Instance.players[playerUpdate.player_id]
