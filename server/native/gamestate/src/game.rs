@@ -372,11 +372,12 @@ impl GameState {
             }
         } else {
             let attacking_player = self.get_player(attacking_player_id).unwrap();
+            let (direction_x, direction_y) = normalize_vector(attack_position.x as f64, attack_position.y as f64);
             let projectile = Projectile::new(
                 (self.projectiles.len()+1).try_into().unwrap(),
                 attacking_player.position,
-                JoystickValues::new(attack_position.x, attack_position.y),
-                1,
+                JoystickValues::new(direction_x as f64, direction_y as f64),
+                3,
                 20,
                 attacking_player.id,
                 2,
@@ -420,7 +421,31 @@ impl GameState {
 
         self.projectiles.iter_mut().for_each(|projectile| {
             if projectile.remaining_ticks > 0 {
-                projectile.position = Position::new(projectile.position.x, projectile.position.y - 1);
+
+                let Position { x: old_x, y: old_y } = projectile.position;
+                let speed = projectile.speed as i64;
+
+                /*
+                    We take the joystick coordinates, normalize the vector, then multiply by speed,
+                    then round the values.
+                */
+                let movement_vector_x = projectile.direction.x * (speed as f64);
+                let movement_vector_y = projectile.direction.y * (speed as f64);
+                
+                let mut new_position_x = old_x as i64 + (movement_vector_x.round() as i64);
+                let mut new_position_y = old_y as i64 + (movement_vector_y.round() as i64);
+
+                new_position_x = min(new_position_x, (self.board.height - 1) as i64);
+                new_position_x = max(new_position_x, 0);
+                new_position_y = min(new_position_y, (self.board.width - 1) as i64);
+                new_position_y = max(new_position_y, 0);
+
+                let new_position = Position {
+                    x: new_position_x as usize,
+                    y: new_position_y as usize,
+                };
+
+                projectile.position = new_position;
                 projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
             }
         });
@@ -430,7 +455,6 @@ impl GameState {
                 let top_left = Position::new(projectile.position.x.saturating_sub(projectile.range as usize), projectile.position.y.saturating_sub(projectile.range as usize));
                 let bottom_right = Position::new(projectile.position.x + projectile.range as usize, projectile.position.y + projectile.range as usize);
                 let mut affected_players: Vec<u64> = self.players_in_range(top_left, bottom_right);
-                println!("Affected players: {:?}", affected_players);
 
                 for target_player_id in affected_players.iter_mut() {
                     // FIXME: This is not ok, we should save referencies to the Game Players this is redundant

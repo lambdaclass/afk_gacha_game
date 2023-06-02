@@ -24,12 +24,12 @@ pub enum ProjectileType {
 #[derive(Debug, Clone, NifStruct, PartialEq)]
 #[module = "DarkWorldsServer.Engine.JoystickValues"]
 pub struct JoystickValues {
-    pub x: i64,
-    pub y: i64,
+    pub x: f64,
+    pub y: f64,
 }
 
 impl JoystickValues {
-    pub fn new(x: i64, y: i64) -> Self {
+    pub fn new(x: f64, y: f64) -> Self {
         Self { x, y }
     }
 }

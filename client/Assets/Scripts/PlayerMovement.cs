@@ -228,28 +228,25 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < gameProjectiles.Count; i++) {
             if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
             {
-                print(gameProjectiles[i].RemainingTicks);
-                float projectile_speed = 0.1f;
+                float projectile_speed = gameProjectiles[i].Speed / 10f;
 
                 float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
                 float velocity = tickRate * projectile_speed;
 
                 float xChange = ((long)gameProjectiles[i].Position.Y / 10f - 50.0f) - projectile.transform.position.x;
-                float yChange = ((long)gameProjectiles[i].Position.X / 10f + 50.0f) - projectile.transform.position.z;
+                float yChange = (-(long)gameProjectiles[i].Position.X / 10f + 50.0f) - projectile.transform.position.z;
 
                 Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
                 movementDirection.Normalize();
 
                 Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
-                projectile.transform.position = newPosition;
+                projectile.transform.position = new Vector3(newPosition[0], 0f, newPosition[2]);
             }
             else
             {
                 projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(projectile.GetComponent<BoxCollider>());
                 projectile.transform.localScale = new Vector3(2f, 2f, 2f);
-                print(((long)gameProjectiles[i].Position.Y) / 10f - 50.0f);
-                print((-(long)gameProjectiles[i].Position.X) / 10f - 50.0f);
                 projectile.transform.position = new Vector3(
                     ((long)gameProjectiles[i].Position.Y) / 10f - 50.0f,
                     0f,
