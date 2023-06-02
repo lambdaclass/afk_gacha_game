@@ -103,8 +103,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   def websocket_info({:game_finished, winner, game_state}, state) do
     reply_map = %{
       players: game_state.current_state.game.players,
-      winner: winner,
-      type: :game_finished
+      winner: winner
     }
 
     Logger.info("THE GAME HAS FINISHED")
@@ -115,8 +114,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   def websocket_info({:next_round, winner, game_state}, state) do
     reply_map = %{
       winner: winner,
-      current_round: game_state.current_round,
-      type: :next_round
+      current_round: game_state.current_round
     }
 
     {:reply, {:binary, Communication.next_round!(reply_map)}, state}
@@ -125,8 +123,7 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   def websocket_info({:last_round, winner, game_state}, state) do
     reply_map = %{
       winner: winner,
-      current_round: game_state.current_round,
-      type: :last_round
+      current_round: game_state.current_round
     }
 
     {:reply, {:binary, Communication.last_round!(reply_map)}, state}
