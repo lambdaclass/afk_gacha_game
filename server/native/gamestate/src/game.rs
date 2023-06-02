@@ -374,19 +374,21 @@ impl GameState {
         } else {
             let attacking_player = self.get_player(attacking_player_id).unwrap();
             let (direction_x, direction_y) = normalize_vector(attack_position.x as f64, attack_position.y as f64);
-            let projectile = Projectile::new(
-                self.next_projectile_id,
-                attacking_player.position,
-                JoystickValues::new(direction_x as f64, direction_y as f64),
-                3,
-                20,
-                attacking_player.id,
-                2,
-                80,
-                ProjectileType::BULLET
-            );
-            self.projectiles.push(projectile);
-            self.next_projectile_id += 1;
+            if (attack_position.x != 0 || attack_position.y != 0){ 
+                let projectile = Projectile::new(
+                    self.next_projectile_id,
+                    attacking_player.position,
+                    JoystickValues::new(direction_x as f64, direction_y as f64),
+                    3,
+                    20,
+                    attacking_player.id,
+                    2,
+                    80,
+                    ProjectileType::BULLET
+                );
+                self.projectiles.push(projectile);
+                self.next_projectile_id += 1;
+            }
         }
         
     }
