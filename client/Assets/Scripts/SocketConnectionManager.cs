@@ -128,6 +128,26 @@ public class SocketConnectionManager : MonoBehaviour
                     UInt64 currentPing = game_event.Latency;
                     break;
 
+                case GameEventType.NextRound:
+                    /*
+                        Here we should:
+                        1. Show the player that won the round
+                        2. Respawn the players
+                    */
+                    break;
+                case GameEventType.LastRound:
+                    /*
+                        Here we should:
+                        1. Show the player that won the round and the players that are going to dispute the last round
+                        2. Respawn the players
+                    */
+                    break;
+                case GameEventType.GameFinished:
+                    /*
+                        Here we should:
+                        1. Display the victory screen
+                    */
+                    break;
                 default:
                     print("Message received is: " + game_event.Type);
                     break;
