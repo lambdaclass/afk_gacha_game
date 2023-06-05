@@ -212,7 +212,8 @@ impl GameState {
             x,
             y,
             player.position,
-            player.character.speed() as i64);
+            player.character.speed() as i64,
+        );
 
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
@@ -418,7 +419,8 @@ impl GameState {
                     projectile.direction.x,
                     projectile.direction.y,
                     projectile.position,
-                    projectile.speed as i64);
+                    projectile.speed as i64,
+                );
                 projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
             }
         });
@@ -541,7 +543,8 @@ fn compute_attack_aoe_initial_positions(
 ) -> (Position, Position, Position) {
     let modifier = 120_f64;
 
-    let x = (player_position.x as f64 + modifier * (-(attack_position.y) as f64) / 100_f64) as usize;
+    let x =
+        (player_position.x as f64 + modifier * (-(attack_position.y) as f64) / 100_f64) as usize;
     let y = (player_position.y as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
 
     (
