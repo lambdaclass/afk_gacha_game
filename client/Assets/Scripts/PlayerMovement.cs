@@ -132,15 +132,15 @@ public class PlayerMovement : MonoBehaviour
             */
             float character_speed = 0;
 
-            if (playerUpdate.player_id % 2 == 0)
-            {
+            if (playerUpdate.player_id % 3 == 0) {
                 // Muflus
                 character_speed = 0.3f;
-            }
-            else
-            {
+            } else if (playerUpdate.player_id % 3 == 1) {
                 // Hack
                 character_speed = 0.5f;
+            } else {
+                // Uma
+                character_speed = 0.4f;
             }
 
             // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
