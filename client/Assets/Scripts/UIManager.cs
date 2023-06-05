@@ -6,11 +6,17 @@ public class UIManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    [SerializeField] Transform lobbiesContainer;
-    [SerializeField] GameObject lobbyItemPrefab;
-    [SerializeField] GameObject gameItemPrefab;
-    [SerializeField] Transform gamesContainer;
+    [SerializeField]
+    Transform lobbiesContainer;
 
+    [SerializeField]
+    GameObject lobbyItemPrefab;
+
+    [SerializeField]
+    GameObject gameItemPrefab;
+
+    [SerializeField]
+    Transform gamesContainer;
 
     bool lobbiesEmpty = true;
     bool gamesEmpty = true;
@@ -18,6 +24,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(LobbyConnection.Instance.lobbiesList);
         if (lobbiesEmpty && LobbyConnection.Instance.lobbiesList.Count > 0)
         {
             GenerateList(LobbyConnection.Instance.lobbiesList, lobbyItemPrefab, lobbiesContainer);
@@ -30,7 +37,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
     public void GenerateList(List<string> itemList, Object itemPrefab, Transform container)
     {
         itemList.ForEach(el =>
@@ -39,5 +45,4 @@ public class UIManager : MonoBehaviour
             item.GetComponent<LobbiesListItem>().setId(el);
         });
     }
-
 }
