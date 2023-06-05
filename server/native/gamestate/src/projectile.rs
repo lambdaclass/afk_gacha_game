@@ -1,3 +1,4 @@
+use crate::character::TicksLeft;
 use crate::player::Position;
 use rustler::NifStruct;
 use rustler::NifUnitEnum;
@@ -12,7 +13,7 @@ pub struct Projectile {
     pub range: u32,
     pub player_id: u64,
     pub damage: u32,
-    pub remaining_ticks: u32,
+    pub remaining_ticks: TicksLeft,
     pub projectile_type: ProjectileType,
 }
 
@@ -43,7 +44,7 @@ impl Projectile {
         range: u32,
         player_id: u64,
         damage: u32,
-        remaining_ticks: u32,
+        remaining_ticks: TicksLeft,
         projectile_type: ProjectileType,
     ) -> Self {
         Self {

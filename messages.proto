@@ -204,6 +204,6 @@ message Projectile {
     uint32 range = 5;
     uint64 player_id = 6;
     uint32 damage = 7;
-    uint32 remaining_ticks = 8;
+    sint64 remaining_ticks = 8;
     ProjectileType projectile_type = 9;
 }

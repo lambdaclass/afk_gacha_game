@@ -47,7 +47,7 @@ public static partial class MessagesReflection {
           "aWxlEgoKAmlkGAEgASgEEhsKCHBvc2l0aW9uGAIgASgLMgkuUG9zaXRpb24S",
           "IgoJZGlyZWN0aW9uGAMgASgLMg8uSm95c3RpY2tWYWx1ZXMSDQoFc3BlZWQY",
           "BCABKA0SDQoFcmFuZ2UYBSABKA0SEQoJcGxheWVyX2lkGAYgASgEEg4KBmRh",
-          "bWFnZRgHIAEoDRIXCg9yZW1haW5pbmdfdGlja3MYCCABKA0SKAoPcHJvamVj",
+          "bWFnZRgHIAEoDRIXCg9yZW1haW5pbmdfdGlja3MYCCABKBISKAoPcHJvamVj",
           "dGlsZV90eXBlGAkgASgOMg8uUHJvamVjdGlsZVR5cGUqRQoNR2FtZUV2ZW50",
           "VHlwZRIQCgxTVEFURV9VUERBVEUQABIPCgtQSU5HX1VQREFURRABEhEKDVBM",
           "QVlFUl9KT0lORUQQAiodCgZTdGF0dXMSCQoFQUxJVkUQABIICgRERUFEEAEq",
@@ -3087,10 +3087,10 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
 
   /// <summary>Field number for the "remaining_ticks" field.</summary>
   public const int RemainingTicksFieldNumber = 8;
-  private uint remainingTicks_;
+  private long remainingTicks_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public uint RemainingTicks {
+  public long RemainingTicks {
     get { return remainingTicks_; }
     set {
       remainingTicks_ = value;
@@ -3147,7 +3147,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     if (Range != 0) hash ^= Range.GetHashCode();
     if (PlayerId != 0UL) hash ^= PlayerId.GetHashCode();
     if (Damage != 0) hash ^= Damage.GetHashCode();
-    if (RemainingTicks != 0) hash ^= RemainingTicks.GetHashCode();
+    if (RemainingTicks != 0L) hash ^= RemainingTicks.GetHashCode();
     if (ProjectileType != global::ProjectileType.Bullet) hash ^= ProjectileType.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
@@ -3195,9 +3195,9 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
       output.WriteRawTag(56);
       output.WriteUInt32(Damage);
     }
-    if (RemainingTicks != 0) {
+    if (RemainingTicks != 0L) {
       output.WriteRawTag(64);
-      output.WriteUInt32(RemainingTicks);
+      output.WriteSInt64(RemainingTicks);
     }
     if (ProjectileType != global::ProjectileType.Bullet) {
       output.WriteRawTag(72);
@@ -3241,9 +3241,9 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
       output.WriteRawTag(56);
       output.WriteUInt32(Damage);
     }
-    if (RemainingTicks != 0) {
+    if (RemainingTicks != 0L) {
       output.WriteRawTag(64);
-      output.WriteUInt32(RemainingTicks);
+      output.WriteSInt64(RemainingTicks);
     }
     if (ProjectileType != global::ProjectileType.Bullet) {
       output.WriteRawTag(72);
@@ -3280,8 +3280,8 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     if (Damage != 0) {
       size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Damage);
     }
-    if (RemainingTicks != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeUInt32Size(RemainingTicks);
+    if (RemainingTicks != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeSInt64Size(RemainingTicks);
     }
     if (ProjectileType != global::ProjectileType.Bullet) {
       size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ProjectileType);
@@ -3325,7 +3325,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     if (other.Damage != 0) {
       Damage = other.Damage;
     }
-    if (other.RemainingTicks != 0) {
+    if (other.RemainingTicks != 0L) {
       RemainingTicks = other.RemainingTicks;
     }
     if (other.ProjectileType != global::ProjectileType.Bullet) {
@@ -3381,7 +3381,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
           break;
         }
         case 64: {
-          RemainingTicks = input.ReadUInt32();
+          RemainingTicks = input.ReadSInt64();
           break;
         }
         case 72: {
@@ -3438,7 +3438,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
           break;
         }
         case 64: {
-          RemainingTicks = input.ReadUInt32();
+          RemainingTicks = input.ReadSInt64();
           break;
         }
         case 72: {

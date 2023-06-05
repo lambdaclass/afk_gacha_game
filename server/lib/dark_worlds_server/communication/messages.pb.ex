@@ -219,7 +219,7 @@ defmodule DarkWorldsServer.Communication.Proto.Projectile do
   field(:range, 5, type: :uint32)
   field(:player_id, 6, type: :uint64, json_name: "playerId")
   field(:damage, 7, type: :uint32)
-  field(:remaining_ticks, 8, type: :uint32, json_name: "remainingTicks")
+  field(:remaining_ticks, 8, type: :sint64, json_name: "remainingTicks")
 
   field(:projectile_type, 9,
     type: DarkWorldsServer.Communication.Proto.ProjectileType,

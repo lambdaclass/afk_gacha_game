@@ -134,15 +134,15 @@ public class PlayerMovement : MonoBehaviour
             */
             float character_speed = 0;
 
-            if (playerUpdate.player_id % 2 == 0)
-            {
+            if (playerUpdate.player_id % 3 == 0) {
                 // Muflus
                 character_speed = 0.3f;
-            }
-            else
-            {
+            } else if (playerUpdate.player_id % 3 == 1) {
                 // Hack
                 character_speed = 0.5f;
+            } else {
+                // Uma
+                character_speed = 0.4f;
             }
 
             // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
@@ -235,13 +235,17 @@ public class PlayerMovement : MonoBehaviour
         List<Projectile> gameProjectiles = SocketConnectionManager.Instance.gameProjectiles;
         GameObject projectile;
 
-        foreach (var pr in projectiles)
-        {
+        var toDelete = new List<int>();
+        foreach (var pr in projectiles) {
             if (!gameProjectiles.Exists(x => (int)x.Id == pr.Key))
             {
-                Destroy(pr.Value);
-                projectiles.Remove(pr.Key);
+                toDelete.Add(pr.Key);
             }
+        }
+
+        foreach (var key in toDelete) {
+            Destroy(projectiles[key]);
+            projectiles.Remove(key);
         }
 
         for (int i = 0; i < gameProjectiles.Count; i++)
