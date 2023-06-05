@@ -260,16 +260,16 @@ public class PlayerMovement : MonoBehaviour
                 movementDirection.Normalize();
 
                 Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
-                projectile.transform.position = new Vector3(newPosition[0], 0f, newPosition[2]);
+                projectile.transform.position = new Vector3(newPosition[0], 1f, newPosition[2]);
             }
             else
             {
                 projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(projectile.GetComponent<BoxCollider>());
-                projectile.transform.localScale = new Vector3(2f, 2f, 2f);
+                projectile.transform.localScale = new Vector3(.5f, .5f, .5f);
                 projectile.transform.position = new Vector3(
                     ((long)gameProjectiles[i].Position.Y) / 10f - 50.0f,
-                    0f,
+                    1f,
                     -(((long)gameProjectiles[i].Position.X) / 10f - 50.0f)
                 );
                 projectiles.Add((int)gameProjectiles[i].Id, projectile);

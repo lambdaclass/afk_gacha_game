@@ -205,29 +205,14 @@ impl GameState {
         if matches!(player.status, Status::DEAD) {
             return Ok(());
         }
-        let Position { x: old_x, y: old_y } = player.position;
-        let speed = player.character.speed() as i64;
 
-        /*
-            We take the joystick coordinates, normalize the vector, then multiply by speed,
-            then round the values.
-        */
-        let (movement_direction_x, movement_direction_y) = normalize_vector(-y, x);
-        let movement_vector_x = movement_direction_x * (speed as f64);
-        let movement_vector_y = movement_direction_y * (speed as f64);
-
-        let mut new_position_x = old_x as i64 + (movement_vector_x.round() as i64);
-        let mut new_position_y = old_y as i64 + (movement_vector_y.round() as i64);
-
-        new_position_x = min(new_position_x, (self.board.height - 1) as i64);
-        new_position_x = max(new_position_x, 0);
-        new_position_y = min(new_position_y, (self.board.width - 1) as i64);
-        new_position_y = max(new_position_y, 0);
-
-        let new_position = Position {
-            x: new_position_x as usize,
-            y: new_position_y as usize,
-        };
+        let new_position = new_entity_position(
+            self.board.height,
+            self.board.width,
+            x,
+            y,
+            player.position,
+            player.character.speed() as i64);
 
         self.board
             .set_cell(player.position.x, player.position.y, Tile::Empty);
@@ -377,18 +362,16 @@ impl GameState {
             }
         } else {
             let attacking_player = self.get_player(attacking_player_id).unwrap();
-            let (direction_x, direction_y) =
-                normalize_vector(attack_position.x as f64, attack_position.y as f64);
             if (attack_position.x != 0 || attack_position.y != 0) {
                 let projectile = Projectile::new(
                     self.next_projectile_id,
                     attacking_player.position,
-                    JoystickValues::new(direction_x as f64, direction_y as f64),
-                    3,
-                    20,
+                    JoystickValues::new(attack_position.x as f64, attack_position.y as f64),
+                    5,
+                    10,
                     attacking_player.id,
-                    2,
-                    80,
+                    20,
+                    30,
                     ProjectileType::BULLET,
                 );
                 self.projectiles.push(projectile);
@@ -429,30 +412,13 @@ impl GameState {
 
         self.projectiles.iter_mut().for_each(|projectile| {
             if projectile.remaining_ticks > 0 {
-                let Position { x: old_x, y: old_y } = projectile.position;
-                let speed = projectile.speed as i64;
-
-                /*
-                    We take the joystick coordinates, normalize the vector, then multiply by speed,
-                    then round the values.
-                */
-                let movement_vector_x = projectile.direction.x * (speed as f64);
-                let movement_vector_y = projectile.direction.y * (speed as f64);
-
-                let mut new_position_x = old_x as i64 + (movement_vector_x.round() as i64);
-                let mut new_position_y = old_y as i64 + (movement_vector_y.round() as i64);
-
-                new_position_x = min(new_position_x, (self.board.height - 1) as i64);
-                new_position_x = max(new_position_x, 0);
-                new_position_y = min(new_position_y, (self.board.width - 1) as i64);
-                new_position_y = max(new_position_y, 0);
-
-                let new_position = Position {
-                    x: new_position_x as usize,
-                    y: new_position_y as usize,
-                };
-
-                projectile.position = new_position;
+                projectile.position = new_entity_position(
+                    self.board.height,
+                    self.board.width,
+                    projectile.direction.x,
+                    projectile.direction.y,
+                    projectile.position,
+                    projectile.speed as i64);
                 projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
             }
         });
@@ -575,8 +541,8 @@ fn compute_attack_aoe_initial_positions(
 ) -> (Position, Position, Position) {
     let modifier = 120_f64;
 
-    let x = (player_position.x as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
-    let y = (player_position.y as f64 + modifier * (attack_position.y as f64) / 100_f64) as usize;
+    let x = (player_position.x as f64 + modifier * (-(attack_position.y) as f64) / 100_f64) as usize;
+    let y = (player_position.y as f64 + modifier * (attack_position.x as f64) / 100_f64) as usize;
 
     (
         Position::new(x, y),
@@ -725,4 +691,38 @@ fn generate_new_position(
 
     positions.insert((x_coordinate, y_coordinate));
     Position::new(x_coordinate, y_coordinate)
+}
+
+pub fn new_entity_position(
+    height: usize,
+    width: usize,
+    direction_x: f64,
+    direction_y: f64,
+    entity_position: Position,
+    entity_speed: i64,
+) -> Position {
+    let Position { x: old_x, y: old_y } = entity_position;
+    let speed = entity_speed as i64;
+
+    /*
+        We take the joystick coordinates, normalize the vector, then multiply by speed,
+        then round the values.
+    */
+    let (movement_direction_x, movement_direction_y) = normalize_vector(-direction_y, direction_x);
+    let movement_vector_x = movement_direction_x * (speed as f64);
+    let movement_vector_y = movement_direction_y * (speed as f64);
+
+    let mut new_position_x = old_x as i64 + (movement_vector_x.round() as i64);
+    let mut new_position_y = old_y as i64 + (movement_vector_y.round() as i64);
+
+    new_position_x = min(new_position_x, (height - 1) as i64);
+    new_position_x = max(new_position_x, 0);
+    new_position_y = min(new_position_y, (width - 1) as i64);
+    new_position_y = max(new_position_y, 0);
+
+    let new_position = Position {
+        x: new_position_x as usize,
+        y: new_position_y as usize,
+    };
+    new_position
 }
