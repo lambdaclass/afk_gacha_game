@@ -13,6 +13,8 @@ public class CustomLevelManager : LevelManager
     public Camera UiCamera;
     public CinemachineCameraController camera;
 
+    bool paused = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -26,6 +28,15 @@ public class CustomLevelManager : LevelManager
         playerId = LobbyConnection.Instance.playerId;
         setCameraToPlayer(playerId);
         SetInputsAbilities(playerId);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GUIManager.Instance.SetPauseScreen(paused == false ? true : false);
+            paused = !paused;
+        }
     }
 
     public void GeneratePlayer()
