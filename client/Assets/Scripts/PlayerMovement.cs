@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.player_id - 1];
+            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.player_id];
 
             /*
                 Player has a speed of 3 tiles per tick. A tile in unity is 0.3f a distance of 0.3f.
@@ -199,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
                 player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoe_x / 10f - 50.0f, playerUpdate.aoe_y / 10f + 50.0f));
             }
 
-            SocketConnectionManager.Instance.players[playerUpdate.player_id - 1]
+            SocketConnectionManager.Instance.players[playerUpdate.player_id]
                 .GetComponent<AttackController>()
                 .SwordAttack(isAttacking);
         }
@@ -207,6 +207,8 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdatePlayerActions()
     {
+        List<Player> winners = SocketConnectionManager.Instance.winners;
+        print(winners.Count);
         List<Player> gamePlayers = SocketConnectionManager.Instance.gamePlayers;
         for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
@@ -217,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     x = (long)new_position.Y,
                     y = -((long)new_position.X),
-                    player_id = (int)gamePlayers[i].Id,
+                    player_id = winners.Count > 1 ? (int)gamePlayers[i].Id - 1 : i,
                     health = gamePlayers[i].Health,
                     action = (PlayerAction)gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,
