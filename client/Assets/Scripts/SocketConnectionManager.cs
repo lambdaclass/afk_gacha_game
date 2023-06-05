@@ -27,7 +27,7 @@ public class SocketConnectionManager : MonoBehaviour
     public uint currentPing;
     public uint serverTickRate_ms;
 
-    List<Player> winners;
+    List<Player> winners = new List<Player>();
 
     WebSocket ws;
 
@@ -111,7 +111,6 @@ public class SocketConnectionManager : MonoBehaviour
 
     private void OnWebSocketMessage(byte[] data)
     {
-        Player totalWinner = null;
         try
         {
             GameEvent game_event = GameEvent.Parser.ParseFrom(data);
@@ -137,9 +136,8 @@ public class SocketConnectionManager : MonoBehaviour
                         1. Show the player that won the round
                         2. Respawn the players
                     */
-                    Player winner = game_event.WinnerPlayer;
-                    winners.Add(winner);
-                    print("The winner of the round is " + winner);
+                    print("The winner of the round is " + game_event.WinnerPlayer);
+                    winners.Add(game_event.WinnerPlayer);
                     break;
                 case GameEventType.LastRound:
                     /*
@@ -147,18 +145,19 @@ public class SocketConnectionManager : MonoBehaviour
                         1. Show the player that won the round and the players that are going to dispute the last round
                         2. Respawn the players
                     */
-                    winners.ForEach(el =>
-                    {
-                        print("The winners of the others rounds are: " + el.Id);
-                    });
-                    totalWinner = game_event.WinnerPlayer;
-                    break;
+
+                    game_event.Players.ToList()
+                    .FindAll(player => player.Equals(winners[0]) || player.Equals(winners[1]))
+                    .ForEach(player => players[(int)player.Id - 1].gameObject.SetActive(false));
+                    print("Only winners");
+                    ; break;
                 case GameEventType.GameFinished:
                     /*
                         Here we should:
                         1. Display the victory screen
                     */
-                    print("totalwinner is " + totalWinner);
+                    print("totalwinner is " + game_event.WinnerPlayer);
+                    print("winners count" + winners.Count);
                     break;
                 default:
                     print("Message received is: " + game_event.Type);

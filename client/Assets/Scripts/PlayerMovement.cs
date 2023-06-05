@@ -219,11 +219,11 @@ public class PlayerMovement : MonoBehaviour
                     aoe_y = -((long)aoe_position.X),
                 }
             );
-            if (gamePlayers[i].Health == 0)
-            {
-                print(SocketConnectionManager.instance.players[i].name);
-                SocketConnectionManager.instance.players[i].SetActive(false);
-            }
+            // if (gamePlayers[i].Health == 0)
+            // {
+            //     print(SocketConnectionManager.instance.players[i].name);
+            //     SocketConnectionManager.instance.players[i].SetActive(false);
+            // }
         }
     }
 }
