@@ -31,6 +31,16 @@ public class CustomLevelManager : LevelManager
         SetInputsAbilities(playerId);
     }
 
+    public void Init()
+    {
+        // base.Start();
+        this.totalPlayers = SocketConnectionManager.instance.winners.Count;
+        GeneratePlayer();
+        playerId = LobbyConnection.Instance.playerId;
+        setCameraToPlayer(playerId);
+        SetInputsAbilities(playerId);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

@@ -27,7 +27,7 @@ public class SocketConnectionManager : MonoBehaviour
     public uint currentPing;
     public uint serverTickRate_ms;
 
-    List<Player> winners = new List<Player>();
+    public List<Player> winners = new List<Player>();
 
     WebSocket ws;
 
@@ -145,9 +145,13 @@ public class SocketConnectionManager : MonoBehaviour
                         1. Show the player that won the round and the players that are going to dispute the last round
                         2. Respawn the players
                     */
+                    game_event.Players.ToList()
+                  .FindAll(player => player.Equals(winners[0]) || player.Equals(winners[1]))
+                  .ForEach(player => players[(int)player.Id - 1].gameObject.SetActive(false));
                     winners.Add(game_event.WinnerPlayer);
                     this.gamePlayers = winners;
                     print("Only winners" + winners.Count());
+                    print("Only winnersPla" + gamePlayers.Count());
                     ; break;
                 case GameEventType.GameFinished:
                     /*

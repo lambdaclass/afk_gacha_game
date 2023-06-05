@@ -217,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     x = (long)new_position.Y,
                     y = -((long)new_position.X),
-                    player_id = i,
+                    player_id = (int)gamePlayers[i].Id,
                     health = gamePlayers[i].Health,
                     action = (PlayerAction)gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,
