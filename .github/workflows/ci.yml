@@ -101,6 +101,8 @@ jobs:
         with:
           projectPath: client
           targetPlatform: WebGL
+          unityVersion: 2021.3.26f1
+          allowDirtyBuild: true
       - uses: actions/upload-artifact@v2
         with:
           name: Build
