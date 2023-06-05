@@ -145,11 +145,9 @@ public class SocketConnectionManager : MonoBehaviour
                         1. Show the player that won the round and the players that are going to dispute the last round
                         2. Respawn the players
                     */
-
-                    game_event.Players.ToList()
-                    .FindAll(player => player.Equals(winners[0]) || player.Equals(winners[1]))
-                    .ForEach(player => players[(int)player.Id - 1].gameObject.SetActive(false));
-                    print("Only winners");
+                    winners.Add(game_event.WinnerPlayer);
+                    this.gamePlayers = winners;
+                    print("Only winners" + winners.Count());
                     ; break;
                 case GameEventType.GameFinished:
                     /*

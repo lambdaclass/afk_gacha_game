@@ -132,13 +132,18 @@ public class PlayerMovement : MonoBehaviour
             */
             float character_speed = 0;
 
-            if (playerUpdate.player_id % 3 == 0) {
+            if (playerUpdate.player_id % 3 == 0)
+            {
                 // Muflus
                 character_speed = 0.3f;
-            } else if (playerUpdate.player_id % 3 == 1) {
+            }
+            else if (playerUpdate.player_id % 3 == 1)
+            {
                 // Hack
                 character_speed = 0.5f;
-            } else {
+            }
+            else
+            {
                 // Uma
                 character_speed = 0.4f;
             }
@@ -203,7 +208,7 @@ public class PlayerMovement : MonoBehaviour
     void UpdatePlayerActions()
     {
         List<Player> gamePlayers = SocketConnectionManager.Instance.gamePlayers;
-        for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
+        for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
             var new_position = gamePlayers[i].Position;
             var aoe_position = gamePlayers[i].AoePosition;
