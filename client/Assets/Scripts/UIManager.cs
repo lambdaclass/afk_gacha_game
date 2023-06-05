@@ -24,7 +24,6 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(LobbyConnection.Instance.lobbiesList);
         if (lobbiesEmpty && LobbyConnection.Instance.lobbiesList.Count > 0)
         {
             GenerateList(LobbyConnection.Instance.lobbiesList, lobbyItemPrefab, lobbiesContainer);

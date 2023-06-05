@@ -158,9 +158,6 @@ public class LobbyConnection : MonoBehaviour
                 case UnityWebRequest.Result.ProtocolError:
                     break;
                 case UnityWebRequest.Result.Success:
-                    // Session session = JsonConvert.DeserializeObject<Session>(
-                    //     webRequest.downloadHandler.text
-                    // );
                     Session session = JsonUtility.FromJson<Session>(
                         webRequest.downloadHandler.text
                     );
@@ -187,9 +184,6 @@ public class LobbyConnection : MonoBehaviour
                 case UnityWebRequest.Result.ProtocolError:
                     break;
                 case UnityWebRequest.Result.Success:
-                    // LobbiesResponse response = JsonConvert.DeserializeObject<LobbiesResponse>(
-                    //     webRequest.downloadHandler.text
-                    // );
                     var response = JsonUtility.FromJson<LobbiesResponse>(
                         webRequest.downloadHandler.text
                     );
@@ -212,9 +206,6 @@ public class LobbyConnection : MonoBehaviour
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.Success:
-                    // GamesResponse response = JsonConvert.DeserializeObject<GamesResponse>(
-                    //     webRequest.downloadHandler.text
-                    // );
                     GamesResponse response = JsonUtility.FromJson<GamesResponse>(
                         webRequest.downloadHandler.text
                     );
