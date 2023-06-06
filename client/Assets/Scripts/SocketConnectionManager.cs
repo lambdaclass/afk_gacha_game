@@ -83,9 +83,6 @@ public class SocketConnectionManager : MonoBehaviour
                 case UnityWebRequest.Result.ProtocolError:
                     break;
                 case UnityWebRequest.Result.Success:
-                    // Session session = JsonConvert.DeserializeObject<Session>(
-                    //     webRequest.downloadHandler.text
-                    // );
                     Session session = JsonUtility.FromJson<Session>(
                         webRequest.downloadHandler.text
                     );
