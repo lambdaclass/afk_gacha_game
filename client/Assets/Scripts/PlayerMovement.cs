@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
@@ -28,6 +29,12 @@ public class PlayerMovement : MonoBehaviour
         AttackingAOE = 2,
     }
 
+    public enum ProyectileStatus
+    {
+        Active = 0,
+        Exploded = 1,
+    }
+
     void Start()
     {
         float clientActionRate = SocketConnectionManager.Instance.serverTickRate_ms / 1000f;
@@ -45,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
             UpdatePlayerActions();
             checkForAttacks();
             ExecutePlayerAction();
+            UpdateProyectileActions();
         }
     }
 
@@ -207,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
         {
             var new_position = gamePlayers[i].Position;
             var aoe_position = gamePlayers[i].AoePosition;
+
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
@@ -219,10 +228,74 @@ public class PlayerMovement : MonoBehaviour
                     aoe_y = -((long)aoe_position.X),
                 }
             );
-            if (gamePlayers[i].Health == 0)
+            // if (gamePlayers[i].Health == 0)
+            // {
+            //     SocketConnectionManager.instance.players[i].SetActive(false);
+            // }
+        }
+    }
+
+    void UpdateProyectileActions()
+    {
+        Dictionary<int, GameObject> projectiles = SocketConnectionManager.Instance.projectiles;
+        List<Projectile> gameProjectiles = SocketConnectionManager.Instance.gameProjectiles;
+        GameObject projectile;
+
+        var toDelete = new List<int>();
+        foreach (var pr in projectiles) {
+            if (!gameProjectiles.Exists(x => (int)x.Id == pr.Key))
             {
-                print(SocketConnectionManager.instance.players[i].name);
-                SocketConnectionManager.instance.players[i].SetActive(false);
+                toDelete.Add(pr.Key);
+            }
+        }
+
+        foreach (var key in toDelete) {
+            Destroy(projectiles[key]);
+            projectiles.Remove(key);
+        }
+
+        var toExplode = new List<int>();
+        foreach (var pr in projectiles) {
+            if (gameProjectiles.Find(x => (int)x.Id == pr.Key).Status == ProjectileStatus.Exploded)
+            {
+                toExplode.Add(pr.Key);
+            }
+        }
+
+        foreach (var key in toExplode) {
+            Destroy(projectiles[key]);
+            projectiles.Remove(key);
+        }
+
+        for (int i = 0; i < gameProjectiles.Count; i++)
+        {
+            if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
+            {
+                float projectile_speed = gameProjectiles[i].Speed / 10f;
+
+                float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
+                float velocity = tickRate * projectile_speed;
+
+                float xChange = ((long)gameProjectiles[i].Position.Y / 10f - 50.0f) - projectile.transform.position.x;
+                float yChange = (-(long)gameProjectiles[i].Position.X / 10f + 50.0f) - projectile.transform.position.z;
+
+                Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
+                movementDirection.Normalize();
+
+                Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
+                projectile.transform.position = new Vector3(newPosition[0], 1f, newPosition[2]);
+            }
+            else if (gameProjectiles[i].Status == ProjectileStatus.Active)
+            {
+                projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                Destroy(projectile.GetComponent<BoxCollider>());
+                projectile.transform.localScale = new Vector3(.5f, .5f, .5f);
+                projectile.transform.position = new Vector3(
+                    ((long)gameProjectiles[i].Position.Y) / 10f - 50.0f,
+                    1f,
+                    -(((long)gameProjectiles[i].Position.X) / 10f - 50.0f)
+                );
+                projectiles.Add((int)gameProjectiles[i].Id, projectile);
             }
         }
     }
