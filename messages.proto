@@ -179,11 +179,20 @@ enum LobbyEventType {
 }
 
 
-/* Type of game events
+/* Type of projectiles
     - BULLET: Single little bullet
  */
 enum ProjectileType {
     BULLET = 0;
+}
+
+/* Status of projectiles
+    - ACTIVE: Active projectile
+    - EXPLODED: Exploded projectile
+ */
+enum ProjectileStatus {
+    ACTIVE = 0;
+    EXPLODED = 1;
 }
 
 /*
@@ -206,4 +215,5 @@ message Projectile {
     uint32 damage = 7;
     sint64 remaining_ticks = 8;
     ProjectileType projectile_type = 9;
+    ProjectileStatus status = 10;
 }

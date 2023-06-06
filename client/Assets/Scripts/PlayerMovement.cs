@@ -29,6 +29,12 @@ public class PlayerMovement : MonoBehaviour
         AttackingAOE = 2,
     }
 
+    public enum ProyectileStatus
+    {
+        Active = 0,
+        Exploded = 1,
+    }
+
     void Start()
     {
         float clientActionRate = SocketConnectionManager.Instance.serverTickRate_ms / 1000f;
@@ -255,6 +261,19 @@ public class PlayerMovement : MonoBehaviour
             projectiles.Remove(key);
         }
 
+        var toExplode = new List<int>();
+        foreach (var pr in projectiles) {
+            if (gameProjectiles.Find(x => (int)x.Id == pr.Key).Status == ProjectileStatus.Exploded)
+            {
+                toExplode.Add(pr.Key);
+            }
+        }
+
+        foreach (var key in toExplode) {
+            Destroy(projectiles[key]);
+            projectiles.Remove(key);
+        }
+
         for (int i = 0; i < gameProjectiles.Count; i++)
         {
             if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
@@ -280,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
                 player.GetComponent<MainAttack>().ShootLaser(angle, projectile.transform.position);
 
             }
-            else
+            else if (gameProjectiles[i].Status == ProjectileStatus.Active)
             {
                 projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(projectile.GetComponent<BoxCollider>());

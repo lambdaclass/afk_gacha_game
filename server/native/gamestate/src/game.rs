@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use crate::board::{Board, Tile};
 use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
-use crate::projectile::{JoystickValues, Projectile, ProjectileType};
+use crate::projectile::{JoystickValues, Projectile, ProjectileStatus, ProjectileType};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
 
@@ -365,6 +365,7 @@ impl GameState {
                     20,
                     30,
                     ProjectileType::BULLET,
+                    ProjectileStatus::ACTIVE,
                 );
                 self.projectiles.push(projectile);
                 self.next_projectile_id += 1;
@@ -396,61 +397,60 @@ impl GameState {
         });
 
         self.projectiles.iter_mut().for_each(|projectile| {
-            if projectile.remaining_ticks > 0 {
-                projectile.position = new_entity_position(
-                    self.board.height,
-                    self.board.width,
-                    projectile.direction.x,
-                    projectile.direction.y,
-                    projectile.position,
-                    projectile.speed as i64,
-                );
-                projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
-            }
+            projectile.position = new_entity_position(
+                self.board.height,
+                self.board.width,
+                projectile.direction.x,
+                projectile.direction.y,
+                projectile.position,
+                projectile.speed as i64,
+            );
+            projectile.remaining_ticks = projectile.remaining_ticks.saturating_sub(1);
         });
 
         self.projectiles
             .retain(|projectile| projectile.remaining_ticks > 0);
 
-        self.projectiles
-            .clone()
-            .iter()
-            .for_each(|projectile: &Projectile| {
-                if projectile.remaining_ticks > 0 {
-                    let top_left = Position::new(
-                        projectile
-                            .position
-                            .x
-                            .saturating_sub(projectile.range as usize),
-                        projectile
-                            .position
-                            .y
-                            .saturating_sub(projectile.range as usize),
-                    );
-                    let bottom_right = Position::new(
-                        projectile.position.x + projectile.range as usize,
-                        projectile.position.y + projectile.range as usize,
-                    );
+        self.projectiles.iter_mut().for_each(|projectile| {
+            if projectile.status == ProjectileStatus::ACTIVE {
+                let top_left = Position::new(
+                    projectile
+                        .position
+                        .x
+                        .saturating_sub(projectile.range as usize),
+                    projectile
+                        .position
+                        .y
+                        .saturating_sub(projectile.range as usize),
+                );
+                let bottom_right = Position::new(
+                    projectile.position.x + projectile.range as usize,
+                    projectile.position.y + projectile.range as usize,
+                );
 
-                    let affected_players: Vec<u64> =
-                        GameState::players_in_range(&self.board, top_left, bottom_right)
-                            .into_iter()
-                            .filter(|&id| id != projectile.player_id)
-                            .collect();
+                let affected_players: Vec<u64> =
+                    GameState::players_in_range(&self.board, top_left, bottom_right)
+                        .into_iter()
+                        .filter(|&id| id != projectile.player_id)
+                        .collect();
 
-                    for target_player_id in affected_players {
-                        let attacked_player =
-                            GameState::get_player_mut(&mut self.players, target_player_id);
-                        match attacked_player {
-                            Ok(ap) => {
-                                ap.modify_health(-(projectile.damage as i64));
-                                GameState::modify_cell_if_player_died(&mut self.board, ap);
-                            }
-                            _ => continue,
+                if affected_players.len() > 0 {
+                    projectile.status = ProjectileStatus::EXPLODED;
+                }
+
+                for target_player_id in affected_players {
+                    let attacked_player =
+                        GameState::get_player_mut(&mut self.players, target_player_id);
+                    match attacked_player {
+                        Ok(ap) => {
+                            ap.modify_health(-(projectile.damage as i64));
+                            GameState::modify_cell_if_player_died(&mut self.board, ap);
                         }
+                        _ => continue,
                     }
                 }
-            });
+            }
+        });
 
         Ok(())
     }
