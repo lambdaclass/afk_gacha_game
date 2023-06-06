@@ -43,27 +43,29 @@ public static partial class MessagesReflection {
           "Y29uZmlnGAkgASgLMgsuR2FtZUNvbmZpZyIqCglCb2FyZFNpemUSDQoFd2lk",
           "dGgYASABKAQSDgoGaGVpZ2h0GAIgASgEImEKCkdhbWVDb25maWcSHgoKYm9h",
           "cmRfc2l6ZRgBIAEoCzIKLkJvYXJkU2l6ZRIaChJzZXJ2ZXJfdGlja3JhdGVf",
-          "bXMYAiABKAQSFwoPZ2FtZV90aW1lb3V0X21zGAMgASgEIt0BCgpQcm9qZWN0",
+          "bXMYAiABKAQSFwoPZ2FtZV90aW1lb3V0X21zGAMgASgEIoACCgpQcm9qZWN0",
           "aWxlEgoKAmlkGAEgASgEEhsKCHBvc2l0aW9uGAIgASgLMgkuUG9zaXRpb24S",
           "IgoJZGlyZWN0aW9uGAMgASgLMg8uSm95c3RpY2tWYWx1ZXMSDQoFc3BlZWQY",
           "BCABKA0SDQoFcmFuZ2UYBSABKA0SEQoJcGxheWVyX2lkGAYgASgEEg4KBmRh",
           "bWFnZRgHIAEoDRIXCg9yZW1haW5pbmdfdGlja3MYCCABKBISKAoPcHJvamVj",
-          "dGlsZV90eXBlGAkgASgOMg8uUHJvamVjdGlsZVR5cGUqRQoNR2FtZUV2ZW50",
-          "VHlwZRIQCgxTVEFURV9VUERBVEUQABIPCgtQSU5HX1VQREFURRABEhEKDVBM",
-          "QVlFUl9KT0lORUQQAiodCgZTdGF0dXMSCQoFQUxJVkUQABIICgRERUFEEAEq",
-          "awoGQWN0aW9uEhYKEkFDVElPTl9VTlNQRUNJRklFRBAAEggKBE1PVkUQARIK",
-          "CgZBVFRBQ0sQAhIOCgpBVFRBQ0tfQU9FEAUSFgoSTU9WRV9XSVRIX0pPWVNU",
-          "SUNLEAYSCwoHQUREX0JPVBAHKk0KCURpcmVjdGlvbhIZChVESVJFQ1RJT05f",
-          "VU5TUEVDSUZJRUQQABIGCgJVUBABEggKBERPV04QAhIICgRMRUZUEAMSCQoF",
-          "UklHSFQQBCo9CgxQbGF5ZXJBY3Rpb24SCwoHTk9USElORxAAEg0KCUFUVEFD",
-          "S0lORxABEhEKDUFUVEFDS0lOR19BT0UQAiqPAQoOTG9iYnlFdmVudFR5cGUS",
-          "FAoQVFlQRV9VTlNQRUNJRklFRBAAEg0KCUNPTk5FQ1RFRBABEhAKDFBMQVlF",
-          "Ul9BRERFRBACEhAKDEdBTUVfU1RBUlRFRBADEhAKDFBMQVlFUl9DT1VOVBAE",
-          "Eg4KClNUQVJUX0dBTUUQBRISCg5QTEFZRVJfUkVNT1ZFRBAGKhwKDlByb2pl",
-          "Y3RpbGVUeXBlEgoKBkJVTExFVBAAYgZwcm90bzM="));
+          "dGlsZV90eXBlGAkgASgOMg8uUHJvamVjdGlsZVR5cGUSIQoGc3RhdHVzGAog",
+          "ASgOMhEuUHJvamVjdGlsZVN0YXR1cypFCg1HYW1lRXZlbnRUeXBlEhAKDFNU",
+          "QVRFX1VQREFURRAAEg8KC1BJTkdfVVBEQVRFEAESEQoNUExBWUVSX0pPSU5F",
+          "RBACKh0KBlN0YXR1cxIJCgVBTElWRRAAEggKBERFQUQQASprCgZBY3Rpb24S",
+          "FgoSQUNUSU9OX1VOU1BFQ0lGSUVEEAASCAoETU9WRRABEgoKBkFUVEFDSxAC",
+          "Eg4KCkFUVEFDS19BT0UQBRIWChJNT1ZFX1dJVEhfSk9ZU1RJQ0sQBhILCgdB",
+          "RERfQk9UEAcqTQoJRGlyZWN0aW9uEhkKFURJUkVDVElPTl9VTlNQRUNJRklF",
+          "RBAAEgYKAlVQEAESCAoERE9XThACEggKBExFRlQQAxIJCgVSSUdIVBAEKj0K",
+          "DFBsYXllckFjdGlvbhILCgdOT1RISU5HEAASDQoJQVRUQUNLSU5HEAESEQoN",
+          "QVRUQUNLSU5HX0FPRRACKo8BCg5Mb2JieUV2ZW50VHlwZRIUChBUWVBFX1VO",
+          "U1BFQ0lGSUVEEAASDQoJQ09OTkVDVEVEEAESEAoMUExBWUVSX0FEREVEEAIS",
+          "EAoMR0FNRV9TVEFSVEVEEAMSEAoMUExBWUVSX0NPVU5UEAQSDgoKU1RBUlRf",
+          "R0FNRRAFEhIKDlBMQVlFUl9SRU1PVkVEEAYqHAoOUHJvamVjdGlsZVR5cGUS",
+          "CgoGQlVMTEVUEAAqLAoQUHJvamVjdGlsZVN0YXR1cxIKCgZBQ1RJVkUQABIM",
+          "CghFWFBMT0RFRBABYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
-        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), typeof(global::ProjectileType), }, null, new pbr::GeneratedClrTypeInfo[] {
+        new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), typeof(global::ProjectileType), typeof(global::ProjectileStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::GameEvent), global::GameEvent.Parser, new[]{ "Type", "Players", "Latency", "Projectiles", "PlayerJoinedId" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Player), global::Player.Parser, new[]{ "Id", "Health", "Position", "LastMeleeAttack", "Status", "Action", "AoePosition" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::Position), global::Position.Parser, new[]{ "X", "Y" }, null, null, null, null),
@@ -73,7 +75,7 @@ public static partial class MessagesReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::LobbyEvent), global::LobbyEvent.Parser, new[]{ "Type", "LobbyId", "PlayerId", "AddedPlayerId", "GameId", "PlayerCount", "Players", "RemovedPlayerId", "GameConfig" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::BoardSize), global::BoardSize.Parser, new[]{ "Width", "Height" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::GameConfig), global::GameConfig.Parser, new[]{ "BoardSize", "ServerTickrateMs", "GameTimeoutMs" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::Projectile), global::Projectile.Parser, new[]{ "Id", "Position", "Direction", "Speed", "Range", "PlayerId", "Damage", "RemainingTicks", "ProjectileType" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::Projectile), global::Projectile.Parser, new[]{ "Id", "Position", "Direction", "Speed", "Range", "PlayerId", "Damage", "RemainingTicks", "ProjectileType", "Status" }, null, null, null, null)
         }));
   }
   #endregion
@@ -155,11 +157,21 @@ public enum LobbyEventType {
 }
 
 /// <summary>
-/// Type of game events
+/// Type of projectiles
 ///- BULLET: Single little bullet
 /// </summary>
 public enum ProjectileType {
   [pbr::OriginalName("BULLET")] Bullet = 0,
+}
+
+/// <summary>
+/// Status of projectiles
+///- ACTIVE: Active projectile
+///- EXPLODED: Exploded projectile
+/// </summary>
+public enum ProjectileStatus {
+  [pbr::OriginalName("ACTIVE")] Active = 0,
+  [pbr::OriginalName("EXPLODED")] Exploded = 1,
 }
 
 #endregion
@@ -2992,6 +3004,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     damage_ = other.damage_;
     remainingTicks_ = other.remainingTicks_;
     projectileType_ = other.projectileType_;
+    status_ = other.status_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -3109,6 +3122,18 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     }
   }
 
+  /// <summary>Field number for the "status" field.</summary>
+  public const int StatusFieldNumber = 10;
+  private global::ProjectileStatus status_ = global::ProjectileStatus.Active;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::ProjectileStatus Status {
+    get { return status_; }
+    set {
+      status_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
@@ -3133,6 +3158,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     if (Damage != other.Damage) return false;
     if (RemainingTicks != other.RemainingTicks) return false;
     if (ProjectileType != other.ProjectileType) return false;
+    if (Status != other.Status) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -3149,6 +3175,7 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     if (Damage != 0) hash ^= Damage.GetHashCode();
     if (RemainingTicks != 0L) hash ^= RemainingTicks.GetHashCode();
     if (ProjectileType != global::ProjectileType.Bullet) hash ^= ProjectileType.GetHashCode();
+    if (Status != global::ProjectileStatus.Active) hash ^= Status.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -3203,6 +3230,10 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
       output.WriteRawTag(72);
       output.WriteEnum((int) ProjectileType);
     }
+    if (Status != global::ProjectileStatus.Active) {
+      output.WriteRawTag(80);
+      output.WriteEnum((int) Status);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -3249,6 +3280,10 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
       output.WriteRawTag(72);
       output.WriteEnum((int) ProjectileType);
     }
+    if (Status != global::ProjectileStatus.Active) {
+      output.WriteRawTag(80);
+      output.WriteEnum((int) Status);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -3285,6 +3320,9 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     }
     if (ProjectileType != global::ProjectileType.Bullet) {
       size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ProjectileType);
+    }
+    if (Status != global::ProjectileStatus.Active) {
+      size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -3330,6 +3368,9 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
     }
     if (other.ProjectileType != global::ProjectileType.Bullet) {
       ProjectileType = other.ProjectileType;
+    }
+    if (other.Status != global::ProjectileStatus.Active) {
+      Status = other.Status;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -3388,6 +3429,10 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
           ProjectileType = (global::ProjectileType) input.ReadEnum();
           break;
         }
+        case 80: {
+          Status = (global::ProjectileStatus) input.ReadEnum();
+          break;
+        }
       }
     }
   #endif
@@ -3443,6 +3488,10 @@ public sealed partial class Projectile : pb::IMessage<Projectile>
         }
         case 72: {
           ProjectileType = (global::ProjectileType) input.ReadEnum();
+          break;
+        }
+        case 80: {
+          Status = (global::ProjectileStatus) input.ReadEnum();
           break;
         }
       }

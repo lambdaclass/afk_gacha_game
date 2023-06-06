@@ -74,6 +74,15 @@ defmodule DarkWorldsServer.Communication.Proto.ProjectileType do
   field(:BULLET, 0)
 end
 
+defmodule DarkWorldsServer.Communication.Proto.ProjectileStatus do
+  @moduledoc false
+
+  use Protobuf, enum: true, protoc_gen_elixir_version: "0.12.0", syntax: :proto3
+
+  field(:ACTIVE, 0)
+  field(:EXPLODED, 1)
+end
+
 defmodule DarkWorldsServer.Communication.Proto.GameEvent do
   @moduledoc false
 
@@ -226,6 +235,8 @@ defmodule DarkWorldsServer.Communication.Proto.Projectile do
     json_name: "projectileType",
     enum: true
   )
+
+  field(:status, 10, type: DarkWorldsServer.Communication.Proto.ProjectileStatus, enum: true)
 
   def transform_module(), do: DarkWorldsServer.Communication.ProtoTransform
 end

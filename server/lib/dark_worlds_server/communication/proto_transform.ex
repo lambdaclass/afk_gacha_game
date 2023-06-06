@@ -47,7 +47,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       player_id: player_id,
       damage: damage,
       remaining_ticks: remaining_ticks,
-      projectile_type: projectile_type
+      projectile_type: projectile_type,
+      status: status
     } = projectile
 
     %ProtoProjectile{
@@ -59,8 +60,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       player_id: player_id,
       damage: damage,
       remaining_ticks: remaining_ticks,
-      projectile_type: projectile_encode(projectile_type)
+      projectile_type: projectile_encode(projectile_type),
+      status: projectile_status_encode(status)
     }
+    |> IO.inspect()
   end
 
   def encode(%EngineAction{action: :move, value: direction}, ProtoAction) do
@@ -125,7 +128,8 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       player_id: player_id,
       damage: damage,
       remaining_ticks: remaining_ticks,
-      projectile_type: projectile_type
+      projectile_type: projectile_type,
+      status: status
     } = projectile
 
     %EngineProjectile{
@@ -137,8 +141,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       player_id: player_id,
       damage: damage,
       remaining_ticks: remaining_ticks,
-      projectile_type: projectile_decode(projectile_type)
+      projectile_type: projectile_decode(projectile_type),
+      status: projectile_status_decode(status)
     }
+    |> IO.inspect()
   end
 
   def decode(%ProtoAction{action: :MOVE_WITH_JOYSTICK, move_delta: %{x: x, y: y}}, ProtoAction) do
@@ -188,4 +194,11 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   defp projectile_encode(:bullet), do: :BULLET
   defp projectile_decode(:BULLET), do: :bullet
+
+  defp projectile_status_encode(:active), do: :ACTIVE
+  defp projectile_status_encode(:exploded), do: :EXPLODED
+
+  defp projectile_status_decode(:ACTIVE), do: :active
+  defp projectile_status_decode(:EXPLODED), do: :exploded
+
 end

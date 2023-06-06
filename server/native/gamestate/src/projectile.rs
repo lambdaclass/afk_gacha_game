@@ -15,11 +15,18 @@ pub struct Projectile {
     pub damage: u32,
     pub remaining_ticks: TicksLeft,
     pub projectile_type: ProjectileType,
+    pub status: ProjectileStatus,
 }
 
 #[derive(Debug, Clone, NifUnitEnum)]
 pub enum ProjectileType {
     BULLET,
+}
+
+#[derive(Debug, Clone, NifUnitEnum, PartialEq)]
+pub enum ProjectileStatus {
+    ACTIVE,
+    EXPLODED,
 }
 
 #[derive(Debug, Clone, NifStruct, PartialEq)]
@@ -46,6 +53,7 @@ impl Projectile {
         damage: u32,
         remaining_ticks: TicksLeft,
         projectile_type: ProjectileType,
+        status: ProjectileStatus,
     ) -> Self {
         Self {
             id,
@@ -57,6 +65,7 @@ impl Projectile {
             damage,
             remaining_ticks,
             projectile_type,
+            status,
         }
     }
 }
