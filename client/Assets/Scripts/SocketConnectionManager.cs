@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using Google.Protobuf;
 using NativeWebSocket;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -44,7 +43,7 @@ public class SocketConnectionManager : MonoBehaviour
         this.session_id = LobbyConnection.Instance.GameSession;
         this.server_ip = LobbyConnection.Instance.server_ip;
         this.serverTickRate_ms = LobbyConnection.Instance.serverTickRate_ms;
-        
+
         playersStatic = this.players;
         projectilesStatic = this.projectiles;
     }
@@ -89,7 +88,7 @@ public class SocketConnectionManager : MonoBehaviour
                 case UnityWebRequest.Result.ProtocolError:
                     break;
                 case UnityWebRequest.Result.Success:
-                    Session session = JsonConvert.DeserializeObject<Session>(
+                    Session session = JsonUtility.FromJson<Session>(
                         webRequest.downloadHandler.text
                     );
                     print("Creating and joining Session ID: " + session.session_id);
@@ -120,11 +119,15 @@ public class SocketConnectionManager : MonoBehaviour
             switch (game_event.Type)
             {
                 case GameEventType.StateUpdate:
-                    if (this.gamePlayers != null && this.gamePlayers.Count < game_event.Players.Count)
+                    if (
+                        this.gamePlayers != null
+                        && this.gamePlayers.Count < game_event.Players.Count
+                    )
                     {
-                        game_event.Players.ToList()
-                        .FindAll((player) => !this.gamePlayers.Contains(player))
-                        .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
+                        game_event.Players
+                            .ToList()
+                            .FindAll((player) => !this.gamePlayers.Contains(player))
+                            .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
                     }
                     this.gamePlayers = game_event.Players.ToList();
                     this.gameProjectiles = game_event.Projectiles.ToList();
