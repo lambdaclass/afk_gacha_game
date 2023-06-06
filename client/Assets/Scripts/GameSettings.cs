@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using System;
 
 /*
 These clases are used to parse the game_settings.json data
@@ -9,12 +10,14 @@ public class GameSettings
 {
     public string path { get; set; }
 
+    [Serializable]
     private class boardSize
     {
-        public uint width { get; set; }
-        public uint height { get; set; }
+        public uint width;
+        public uint height;
     }
 
+    [Serializable]
     private class Settings
     {
         public boardSize board_size;
@@ -25,7 +28,6 @@ public class GameSettings
     public GameConfig parseSettings()
     {
         string jsonText = File.ReadAllText(this.path);
-        // Settings settings = JsonConvert.DeserializeObject<Settings>(jsonText);
         Settings settings = JsonUtility.FromJson<Settings>(jsonText);
         BoardSize bSize = new BoardSize
         {
