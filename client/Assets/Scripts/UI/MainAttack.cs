@@ -16,8 +16,9 @@ public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
     public void HackShootExecute()
     {
         ShowDirectionIndicator(transform.position);
+        LaserCollision(transform.position);
     }
-    public void ShowDirectionIndicator(Vector3 direction)
+    public void ShowDirectionIndicator(Vector3 position)
     {
         directionIndicator = Instantiate(Resources.Load("AttackDirection", typeof(GameObject))) as GameObject;
         directionIndicator.transform.parent = transform;
@@ -25,16 +26,16 @@ public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
 
         HackShoot = Instantiate(Resources.Load("HackShoot", typeof(GameObject))) as GameObject;
         HackShoot.transform.parent = transform;
-        HackShoot.transform.position = direction;
+        HackShoot.transform.position = position;
     }
-    public void LaserCollision(Vector3 direction)
+    public void LaserCollision(Vector3 position)
     {
         Destroy(directionIndicator, 0.1f);
         Destroy(HackShoot, 0.1f);
         HackShootFeedback = Instantiate(Resources.Load("HackShootFeedback", typeof(GameObject))) as GameObject;
         Destroy(HackShootFeedback, 1f);
         HackShootFeedback.transform.parent = transform;
-        HackShootFeedback.transform.position = transform.position + direction;
+        HackShootFeedback.transform.position = position;
     }
     public void LaserDisappear()
     {
