@@ -63,7 +63,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       projectile_type: projectile_encode(projectile_type),
       status: projectile_status_encode(status)
     }
-    |> IO.inspect()
   end
 
   def encode(%EngineAction{action: :move, value: direction}, ProtoAction) do
@@ -144,7 +143,6 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
       projectile_type: projectile_decode(projectile_type),
       status: projectile_status_decode(status)
     }
-    |> IO.inspect()
   end
 
   def decode(%ProtoAction{action: :MOVE_WITH_JOYSTICK, move_delta: %{x: x, y: y}}, ProtoAction) do
