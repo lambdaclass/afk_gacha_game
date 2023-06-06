@@ -200,5 +200,4 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   defp projectile_status_decode(:ACTIVE), do: :active
   defp projectile_status_decode(:EXPLODED), do: :exploded
-
 end

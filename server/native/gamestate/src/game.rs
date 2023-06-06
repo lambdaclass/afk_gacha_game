@@ -5,7 +5,7 @@ use std::collections::HashSet;
 use crate::board::{Board, Tile};
 use crate::character::Character;
 use crate::player::{Player, PlayerAction, Position, RelativePosition, Status};
-use crate::projectile::{JoystickValues, Projectile, ProjectileType, ProjectileStatus};
+use crate::projectile::{JoystickValues, Projectile, ProjectileStatus, ProjectileType};
 use crate::time_utils::time_now;
 use std::cmp::{max, min};
 
@@ -365,7 +365,7 @@ impl GameState {
                     20,
                     30,
                     ProjectileType::BULLET,
-                    ProjectileStatus::ACTIVE
+                    ProjectileStatus::ACTIVE,
                 );
                 self.projectiles.push(projectile);
                 self.next_projectile_id += 1;
