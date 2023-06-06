@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
 using MoreMountains.Tools;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -113,11 +114,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    GameObject GetPlayer(int id)
+    {
+        return SocketConnectionManager.Instance.players.Find(el => el.GetComponent<Character>().PlayerID == id.ToString());
+    }
+
     void ExecutePlayerAction()
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.player_id];
+            GameObject player = GetPlayer(playerUpdate.player_id);
+
+            print(player.GetComponent<Character>().PlayerID == LobbyConnection.Instance.playerId.ToString());
 
             /*
                 Player has a speed of 3 tiles per tick. A tile in unity is 0.3f a distance of 0.3f.
@@ -177,11 +185,13 @@ public class PlayerMovement : MonoBehaviour
             Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
+            print(playerUpdate.action);
+
             bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
             player.GetComponent<AttackController>().SwordAttack(isAttacking);
             if (isAttacking)
             {
-                print("attack");
+                print(player.name + "attack");
             }
 
             //if dead remove the player from the scene
@@ -199,9 +209,9 @@ public class PlayerMovement : MonoBehaviour
                 player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoe_x / 10f - 50.0f, playerUpdate.aoe_y / 10f + 50.0f));
             }
 
-            SocketConnectionManager.Instance.players[playerUpdate.player_id]
-                .GetComponent<AttackController>()
-                .SwordAttack(isAttacking);
+            player
+          .GetComponent<AttackController>()
+          .SwordAttack(isAttacking);
         }
     }
 
@@ -219,7 +229,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     x = (long)new_position.Y,
                     y = -((long)new_position.X),
-                    player_id = winners.Count > 1 ? (int)gamePlayers[i].Id - 1 : i,
+                    player_id = (int)gamePlayers[i].Id,
                     health = gamePlayers[i].Health,
                     action = (PlayerAction)gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,

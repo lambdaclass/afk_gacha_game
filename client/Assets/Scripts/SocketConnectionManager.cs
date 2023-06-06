@@ -148,8 +148,15 @@ public class SocketConnectionManager : MonoBehaviour
                     game_event.Players.ToList()
                   .FindAll(player => player.Equals(winners[0]) || player.Equals(winners[1]))
                   .ForEach(player => players[(int)player.Id - 1].gameObject.SetActive(false));
+
                     winners.Add(game_event.WinnerPlayer);
-                    this.gamePlayers = winners;
+                    for (int i = 0; i < winners.Count; i++)
+                    {
+                        print(winners[i]);
+                    }
+
+                    // this.gamePlayers = winners.OrderBy(el => el.Id).ToList();
+
                     print("Only winners" + winners.Count());
                     print("Only winnersPla" + gamePlayers.Count());
                     ; break;
