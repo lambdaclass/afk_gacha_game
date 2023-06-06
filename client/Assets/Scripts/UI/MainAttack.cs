@@ -13,19 +13,20 @@ public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
     {
         base.ProcessAbility();
     }
-    public void HackShootExecute()
-    {
-        ShowDirectionIndicator(transform.position);
-        LaserCollision(transform.position);
-    }
-    public void ShowDirectionIndicator(Vector3 position)
+    public void InstanceShoot(float direction)
     {
         directionIndicator = Instantiate(Resources.Load("AttackDirection", typeof(GameObject))) as GameObject;
+        HackShoot = Instantiate(Resources.Load("HackShoot", typeof(GameObject))) as GameObject;
+        directionIndicator.transform.rotation = Quaternion.Euler(0, 0, direction);
+        HackShoot.transform.rotation = Quaternion.Euler(0, direction, 0);
+    }
+    public void ShowDirectionIndicator(float direction)
+    {
         directionIndicator.transform.parent = transform;
         directionIndicator.transform.position = transform.position;
-
-        HackShoot = Instantiate(Resources.Load("HackShoot", typeof(GameObject))) as GameObject;
-        HackShoot.transform.parent = transform;
+    }
+    public void ShootLaser(float angle, Vector3 position)
+    {
         HackShoot.transform.position = position;
     }
     public void LaserCollision(Vector3 position)

@@ -95,10 +95,6 @@ public class CustomLevelManager : LevelManager
                 UnityEvent<Vector2> attackEvent = new UnityEvent<Vector2>();
                 attackEvent.AddListener(player.GetComponent<GenericAoeAttack>().ExecuteAoeAttack);
                 UiCamera.GetComponent<CustomInputManager>().AssignInputToAbilityExecution("y", "joystick", attackEvent);
-
-                UnityEvent mainAttackDownEvent = new UnityEvent();
-                mainAttackDownEvent.AddListener(player.GetComponent<MainAttack>().HackShootExecute);
-                UiCamera.GetComponent<CustomInputManager>().AssignInputToAbilityPosition("mainAttack", "button", mainAttackDownEvent);
             }
         }
     }
