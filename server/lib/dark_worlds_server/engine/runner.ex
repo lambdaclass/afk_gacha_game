@@ -207,8 +207,6 @@ defmodule DarkWorldsServer.Engine.Runner do
       {:player_joined, player_id}
     )
 
-    IO.inspect("Broadcasting initial state")
-
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),

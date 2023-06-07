@@ -86,8 +86,6 @@ defmodule DarkWorldsServerWeb.PlayWebSocket do
   end
 
   def websocket_info({:initial_positions, players}, state) do
-    IO.inspect("Websocket_info initial_positions")
-
     {:reply, {:binary, Communication.initial_positions(players)}, state}
   end
 

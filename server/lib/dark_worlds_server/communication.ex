@@ -50,8 +50,6 @@ defmodule DarkWorldsServer.Communication do
   end
 
   def initial_positions(players) do
-    IO.inspect("Communication initial_positions")
-
     %GameEvent{type: :INITIAL_POSITIONS, players: players}
     |> GameEvent.encode()
   end

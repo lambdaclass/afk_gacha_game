@@ -118,15 +118,14 @@ public class SocketConnectionManager : MonoBehaviour
                     }
                     this.gamePlayers = game_event.Players.ToList();
                     break;
-
                 case GameEventType.PingUpdate:
                     UInt64 currentPing = game_event.Latency;
                     break;
                 case GameEventType.InitialPositions:
                     print("Initial positions received");
                     print("Initial positions" + game_event.Players);
+                    this.gamePlayers = game_event.Players.ToList();
                     break;
-
                 default:
                     print("Message received is: " + game_event.Type);
                     break;

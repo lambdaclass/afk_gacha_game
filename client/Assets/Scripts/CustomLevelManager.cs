@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CustomLevelManager : LevelManager
 {
+    private List<Player> gamePlayers;
     private int totalPlayers;
     private int playerId;
     public Character prefab;
@@ -15,13 +18,24 @@ public class CustomLevelManager : LevelManager
 
     protected override void Awake()
     {
+        print("CLM AWAKE");
         base.Awake();
         this.totalPlayers = LobbyConnection.Instance.playerCount;
     }
 
     protected override void Start()
     {
+        print("CLM START");
         base.Start();
+        StartCoroutine(WaitForPlayerPositions());
+    }
+
+    private IEnumerator WaitForPlayerPositions()
+    {
+        print("CLM WAIT FOR PLAYER POSITIONS");
+        yield return new WaitUntil(() => SocketConnectionManager.Instance.gamePlayers != null);
+        this.gamePlayers = SocketConnectionManager.Instance.gamePlayers;
+        print(this.gamePlayers);
         GeneratePlayer();
         playerId = LobbyConnection.Instance.playerId;
         setCameraToPlayer(playerId);
@@ -39,6 +53,11 @@ public class CustomLevelManager : LevelManager
 
     public void GeneratePlayer()
     {
+        print("CLM GENERATE PLAYERS");
+
+        print("GAME PLAYERS: " + this.gamePlayers);
+
+        print(SocketConnectionManager.Instance.gamePlayers == null);
         for (int i = 0; i < totalPlayers; i++)
         {
             if (LobbyConnection.Instance.playerId == i + 1)
@@ -52,7 +71,7 @@ public class CustomLevelManager : LevelManager
             }
             Character newPlayer = Instantiate(
                 prefab,
-                this.InitialSpawnPoint.transform.position,
+                new Vector3(gamePlayers[i].Position.X, gamePlayers[i].Position.Y, 0),
                 Quaternion.identity
             );
             newPlayer.name = "Player" + " " + (i + 1);
