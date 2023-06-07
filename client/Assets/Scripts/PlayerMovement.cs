@@ -5,7 +5,8 @@ using MoreMountains.Tools;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] MMTouchJoystick joystickL;
+    [SerializeField]
+    MMTouchJoystick joystickL;
     public Queue<PlayerUpdate> playerUpdates = new Queue<PlayerUpdate>();
     public Direction nextAttackDirection;
     public bool isAttacking = false;
@@ -60,7 +61,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (inputFromVirtualJoystick && joystickL.RawValue.x != 0 || joystickL.RawValue.y != 0)
         {
-            GetComponent<PlayerControls>().SendJoystickValues(joystickL.RawValue.x, joystickL.RawValue.y);
+            GetComponent<PlayerControls>()
+                .SendJoystickValues(joystickL.RawValue.x, joystickL.RawValue.y);
         }
         else
         {
@@ -73,7 +75,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isAttacking)
         {
-            ClientAction clientAction = new ClientAction { Action = Action.Attack, Direction = nextAttackDirection };
+            ClientAction clientAction = new ClientAction
+            {
+                Action = Action.Attack,
+                Direction = nextAttackDirection
+            };
             SocketConnectionManager.Instance.SendAction(clientAction);
             isAttacking = false;
         }
@@ -85,25 +91,21 @@ public class PlayerMovement : MonoBehaviour
         {
             nextAttackDirection = Direction.Down;
             isAttacking = true;
-
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
             nextAttackDirection = Direction.Up;
             isAttacking = true;
-
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
             nextAttackDirection = Direction.Right;
             isAttacking = true;
-
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
             nextAttackDirection = Direction.Left;
             isAttacking = true;
-
         }
         // Hardcoded dual sense square button
         if (Input.GetKeyDown("joystick 1 button 0"))
@@ -132,13 +134,18 @@ public class PlayerMovement : MonoBehaviour
             */
             float character_speed = 0;
 
-            if (playerUpdate.player_id % 3 == 0) {
+            if (playerUpdate.player_id % 3 == 0)
+            {
                 // Muflus
                 character_speed = 0.3f;
-            } else if (playerUpdate.player_id % 3 == 1) {
+            }
+            else if (playerUpdate.player_id % 3 == 1)
+            {
                 // Hack
                 character_speed = 0.5f;
-            } else {
+            }
+            else
+            {
                 // Uma
                 character_speed = 0.4f;
             }
@@ -151,8 +158,11 @@ public class PlayerMovement : MonoBehaviour
             float xChange = (playerUpdate.x / 10f - 50.0f) - player.transform.position.x;
             float yChange = (playerUpdate.y / 10f + 50.0f) - player.transform.position.z;
 
-            Animator m_Animator = player.GetComponent<Character>().CharacterModel.GetComponent<Animator>();
-            CharacterOrientation3D characterOrientation = player.GetComponent<CharacterOrientation3D>();
+            Animator m_Animator = player
+                .GetComponent<Character>()
+                .CharacterModel.GetComponent<Animator>();
+            CharacterOrientation3D characterOrientation =
+                player.GetComponent<CharacterOrientation3D>();
             characterOrientation.ForcedRotation = true;
 
             bool walking = false;
@@ -161,7 +171,8 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
                 movementDirection.Normalize();
 
-                Vector3 newPosition = player.transform.position + movementDirection * velocity * Time.deltaTime;
+                Vector3 newPosition =
+                    player.transform.position + movementDirection * velocity * Time.deltaTime;
                 player.transform.position = newPosition;
                 characterOrientation.ForcedRotationDirection = movementDirection;
 
@@ -189,9 +200,19 @@ public class PlayerMovement : MonoBehaviour
                 healthComponent.Model.gameObject.SetActive(true);
             }
             bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
-            if (isAttackingAOE && (LobbyConnection.Instance.playerId != (playerUpdate.player_id + 1)))
+            if (
+                isAttackingAOE
+                && (LobbyConnection.Instance.playerId != (playerUpdate.player_id + 1))
+            )
             {
-                player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoe_x / 10f - 50.0f, playerUpdate.aoe_y / 10f + 50.0f));
+                player
+                    .GetComponent<GenericAoeAttack>()
+                    .ShowAoeAttack(
+                        new Vector2(
+                            playerUpdate.aoe_x / 10f - 50.0f,
+                            playerUpdate.aoe_y / 10f + 50.0f
+                        )
+                    );
             }
 
             SocketConnectionManager.Instance.players[playerUpdate.player_id]
@@ -219,11 +240,6 @@ public class PlayerMovement : MonoBehaviour
                     aoe_y = -((long)aoe_position.X),
                 }
             );
-            if (gamePlayers[i].Health == 0)
-            {
-                print(SocketConnectionManager.instance.players[i].name);
-                SocketConnectionManager.instance.players[i].SetActive(false);
-            }
         }
     }
 }

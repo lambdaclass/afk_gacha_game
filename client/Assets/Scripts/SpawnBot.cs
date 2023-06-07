@@ -6,8 +6,11 @@ using UnityEngine;
 
 public class SpawnBot : MonoBehaviour
 {
-    [SerializeField] GameObject playerPrefab;
-    [SerializeField] SocketConnectionManager manager;
+    [SerializeField]
+    GameObject playerPrefab;
+
+    [SerializeField]
+    SocketConnectionManager manager;
 
     private bool pendingSpawn = false;
     private bool botId;
@@ -16,7 +19,8 @@ public class SpawnBot : MonoBehaviour
 
     public void Init()
     {
-        if (manager.players.Count == 9) GetComponent<MMTouchButton>().DisableButton();
+        if (manager.players.Count == 9)
+            GetComponent<MMTouchButton>().DisableButton();
         Instance = this;
         GenerateBotPlayer();
     }

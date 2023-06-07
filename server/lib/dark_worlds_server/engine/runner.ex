@@ -75,7 +75,12 @@ defmodule DarkWorldsServer.Engine.Runner do
     tick_rate = Map.get(opts.game_config, :server_tickrate_ms, @tick_rate_ms)
 
     # Finish game after @game_timeout seconds or the specified in the game_settings file
-    Process.send_after(self(), :game_timeout, Map.get(opts.game_config, :game_timeout, @game_timeout))
+    Process.send_after(
+      self(),
+      :game_timeout,
+      Map.get(opts.game_config, :game_timeout, @game_timeout)
+    )
+
     Process.send_after(self(), :check_player_amount, @player_check)
 
     initial_state = %{
@@ -177,7 +182,8 @@ defmodule DarkWorldsServer.Engine.Runner do
       {:player_joined, player_id}
     )
 
-    {:noreply, %{state | next_state: %{game_state | game: new_game}, current_players: current + 1}}
+    {:noreply,
+     %{state | next_state: %{game_state | game: new_game}, current_players: current + 1}}
   end
 
   def handle_cast(
@@ -199,6 +205,14 @@ defmodule DarkWorldsServer.Engine.Runner do
     |> Phoenix.PubSub.broadcast(
       Communication.pubsub_game_topic(self()),
       {:player_joined, player_id}
+    )
+
+    IO.inspect("Broadcasting initial state")
+
+    DarkWorldsServer.PubSub
+    |> Phoenix.PubSub.broadcast(
+      Communication.pubsub_game_topic(self()),
+      {:initial_positions, state.current_state.game.players}
     )
 
     {:reply, {:ok, player_id}, %{state | current_players: current + 1}}
@@ -291,12 +305,15 @@ defmodule DarkWorldsServer.Engine.Runner do
     end
   end
 
-  defp decide_next_game_update(%{game_state: :round_finished, winners: winners, current_round: current_round} = state) do
+  defp decide_next_game_update(
+         %{game_state: :round_finished, winners: winners, current_round: current_round} = state
+       ) do
     # This has to be done in order to apply the last attack
     DarkWorldsServer.PubSub
     |> Phoenix.PubSub.broadcast(Communication.pubsub_game_topic(self()), {:game_update, state})
 
-    [winner] = Enum.filter(state.next_state.game.players, fn player -> player.status == :alive end)
+    [winner] =
+      Enum.filter(state.next_state.game.players, fn player -> player.status == :alive end)
 
     winners = [winner | winners]
     amount_of_winners = winners |> Enum.uniq_by(fn winner -> winner.id end) |> Enum.count()
@@ -323,7 +340,8 @@ defmodule DarkWorldsServer.Engine.Runner do
   end
 
   defp broadcast_game_update(
-         {:last_round, %{winners: winners, current_round: current_round, next_state: next_state} = state}
+         {:last_round,
+          %{winners: winners, current_round: current_round, next_state: next_state} = state}
        ) do
     game = Game.new_round(next_state.game, winners)
 
@@ -345,7 +363,9 @@ defmodule DarkWorldsServer.Engine.Runner do
     {:noreply, state}
   end
 
-  defp broadcast_game_update({:next_round, %{current_round: current_round, next_state: next_state} = state}) do
+  defp broadcast_game_update(
+         {:next_round, %{current_round: current_round, next_state: next_state} = state}
+       ) do
     game = Game.new_round(next_state.game, next_state.game.players)
 
     next_state = Map.put(next_state, :game, game)

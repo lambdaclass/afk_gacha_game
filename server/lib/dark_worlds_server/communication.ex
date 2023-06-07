@@ -49,6 +49,13 @@ defmodule DarkWorldsServer.Communication do
     |> GameEvent.encode()
   end
 
+  def initial_positions(players) do
+    IO.inspect("Communication initial_positions")
+
+    %GameEvent{type: :INITIAL_POSITIONS, players: players}
+    |> GameEvent.encode()
+  end
+
   def decode(value) do
     try do
       {:ok, ClientAction.decode(value)}

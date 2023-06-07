@@ -11,7 +11,6 @@ using UnityEngine.Networking;
 public class SocketConnectionManager : MonoBehaviour
 {
     public List<GameObject> players;
-    public static List<GameObject> playersStatic;
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
@@ -21,8 +20,6 @@ public class SocketConnectionManager : MonoBehaviour
     public static SocketConnectionManager Instance;
     public List<Player> gamePlayers;
     private int playerId;
-
-    public static SocketConnectionManager instance;
     public uint currentPing;
     public uint serverTickRate_ms;
 
@@ -39,8 +36,6 @@ public class SocketConnectionManager : MonoBehaviour
         this.session_id = LobbyConnection.Instance.GameSession;
         this.server_ip = LobbyConnection.Instance.server_ip;
         this.serverTickRate_ms = LobbyConnection.Instance.serverTickRate_ms;
-
-        playersStatic = this.players;
     }
 
     void Start()
@@ -65,9 +60,6 @@ public class SocketConnectionManager : MonoBehaviour
         }
 #endif
     }
-
-    Vector2 position = new Vector2(0, 0);
-    Vector2 lastPosition = new Vector2(0, 0);
 
     IEnumerator GetRequest()
     {
@@ -129,6 +121,10 @@ public class SocketConnectionManager : MonoBehaviour
 
                 case GameEventType.PingUpdate:
                     UInt64 currentPing = game_event.Latency;
+                    break;
+                case GameEventType.InitialPositions:
+                    print("Initial positions received");
+                    print("Initial positions" + game_event.Players);
                     break;
 
                 default:

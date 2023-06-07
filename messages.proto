@@ -17,11 +17,13 @@ message GameEvent {
     - STATE_UPDATE: The game's state has been updated
     - PING_UPDATE: The player's current ping updated
     - PLAYER_JOINED: A player has joined the game
+    - INITIAL_POSITIONS: The initial positions of each player
  */
 enum GameEventType {
     STATE_UPDATE = 0;
     PING_UPDATE = 1;
     PLAYER_JOINED = 2;
+    INITIAL_POSITIONS = 3;
 }
 
 /* Information about a player

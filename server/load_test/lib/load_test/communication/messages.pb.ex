@@ -6,6 +6,7 @@ defmodule LoadTest.Communication.Proto.GameEventType do
   field(:STATE_UPDATE, 0)
   field(:PING_UPDATE, 1)
   field(:PLAYER_JOINED, 2)
+  field(:INITIAL_POSITIONS, 3)
 end
 
 defmodule LoadTest.Communication.Proto.Status do
