@@ -138,12 +138,12 @@ public class PlayerMovement : MonoBehaviour
             */
             float character_speed = 0;
 
-            if (playerUpdate.player_id == 1)
+            if (playerUpdate.player_id % 3 == 1)
             {
                 // Muflus
                 character_speed = 0.3f;
             }
-            else if (playerUpdate.player_id == 2)
+            else if (playerUpdate.player_id % 3 == 2)
             {
                 // Hack
                 character_speed = 0.5f;
@@ -215,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
         for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
             print("totalplayers" + SocketConnectionManager.Instance.gamePlayers.Count);
+            print("in pos " + i + " player " + SocketConnectionManager.Instance.gamePlayers[i]);
 
             var new_position = SocketConnectionManager.Instance.gamePlayers[i].Position;
             var aoe_position = SocketConnectionManager.Instance.gamePlayers[i].AoePosition;
