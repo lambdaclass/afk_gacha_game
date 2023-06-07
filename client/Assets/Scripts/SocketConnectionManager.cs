@@ -124,6 +124,7 @@ public class SocketConnectionManager : MonoBehaviour
                         .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
                     }
                     this.gamePlayers = game_event.Players.ToList();
+                    gamePlayers.ForEach(el => print("socketupdate" + el));
                     break;
 
                 case GameEventType.PingUpdate:
@@ -140,23 +141,8 @@ public class SocketConnectionManager : MonoBehaviour
                     winners.Add(game_event.WinnerPlayer);
                     break;
                 case GameEventType.LastRound:
-                    /*
-                        Here we should:
-                        1. Show the player that won the round and the players that are going to dispute the last round
-                        2. Respawn the players
-                    */
-                    game_event.Players.ToList()
-                  .FindAll(player => player.Equals(winners[0]) || player.Equals(winners[1]))
-                  .ForEach(player => players[(int)player.Id - 1].gameObject.SetActive(false));
-
                     winners.Add(game_event.WinnerPlayer);
-                    for (int i = 0; i < winners.Count; i++)
-                    {
-                        print(winners[i]);
-                    }
-
                     // this.gamePlayers = winners.OrderBy(el => el.Id).ToList();
-
                     print("Only winners" + winners.Count());
                     print("Only winnersPla" + gamePlayers.Count());
                     ; break;

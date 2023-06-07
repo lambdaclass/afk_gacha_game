@@ -121,12 +121,10 @@ public class PlayerMovement : MonoBehaviour
 
     void ExecutePlayerAction()
     {
+        print("playeryodate count" + playerUpdates.Count);
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
             GameObject player = GetPlayer(playerUpdate.player_id);
-
-            print(player.GetComponent<Character>().PlayerID == LobbyConnection.Instance.playerId.ToString());
-
             /*
                 Player has a speed of 3 tiles per tick. A tile in unity is 0.3f a distance of 0.3f.
                 There are 50 ticks per second. A player's velocity is 50 * 0.3f
@@ -140,12 +138,12 @@ public class PlayerMovement : MonoBehaviour
             */
             float character_speed = 0;
 
-            if (playerUpdate.player_id % 3 == 0)
+            if (playerUpdate.player_id == 1)
             {
                 // Muflus
                 character_speed = 0.3f;
             }
-            else if (playerUpdate.player_id % 3 == 1)
+            else if (playerUpdate.player_id == 2)
             {
                 // Hack
                 character_speed = 0.5f;
@@ -185,11 +183,9 @@ public class PlayerMovement : MonoBehaviour
             Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
-            print(playerUpdate.action);
-
-            bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
-            player.GetComponent<AttackController>().SwordAttack(isAttacking);
-            if (isAttacking)
+            bool isAttackingAttack = playerUpdate.action == PlayerAction.Attacking;
+            player.GetComponent<AttackController>().SwordAttack(isAttackingAttack);
+            if (isAttackingAttack)
             {
                 print(player.name + "attack");
             }
@@ -208,30 +204,28 @@ public class PlayerMovement : MonoBehaviour
             {
                 player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoe_x / 10f - 50.0f, playerUpdate.aoe_y / 10f + 50.0f));
             }
-
-            player
-          .GetComponent<AttackController>()
-          .SwordAttack(isAttacking);
         }
     }
 
     void UpdatePlayerActions()
     {
-        List<Player> winners = SocketConnectionManager.Instance.winners;
-        print(winners.Count);
-        List<Player> gamePlayers = SocketConnectionManager.Instance.gamePlayers;
+        // if(SocketConnectionManager.Instance.winners.Count == 2){
+        //     SocketConnectionManager.Instance.
+        // }
         for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
-            var new_position = gamePlayers[i].Position;
-            var aoe_position = gamePlayers[i].AoePosition;
+            print("totalplayers" + SocketConnectionManager.Instance.gamePlayers.Count);
+
+            var new_position = SocketConnectionManager.Instance.gamePlayers[i].Position;
+            var aoe_position = SocketConnectionManager.Instance.gamePlayers[i].AoePosition;
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
                     x = (long)new_position.Y,
                     y = -((long)new_position.X),
-                    player_id = (int)gamePlayers[i].Id,
-                    health = gamePlayers[i].Health,
-                    action = (PlayerAction)gamePlayers[i].Action,
+                    player_id = (int)SocketConnectionManager.Instance.gamePlayers[i].Id,
+                    health = SocketConnectionManager.Instance.gamePlayers[i].Health,
+                    action = (PlayerAction)SocketConnectionManager.Instance.gamePlayers[i].Action,
                     aoe_x = (long)aoe_position.Y,
                     aoe_y = -((long)aoe_position.X),
                 }
