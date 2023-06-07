@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
 {
-    private ParticleSystem particleSystem;
     protected override void Initialization()
     {
         base.Initialization();
@@ -13,20 +12,11 @@ public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
     }
     public GameObject InstanceShoot(float direction)
     {
-        //GameObject directionIndicator = Instantiate(Resources.Load("AttackDirection", typeof(GameObject))) as GameObject;
-        //directionIndicator.transform.position = transform.position;
-        //directionIndicator.transform.rotation = Quaternion.Euler(0, 0, direction);
-
         GameObject HackShoot = Instantiate(Resources.Load("HackShoot", typeof(GameObject))) as GameObject;
         HackShoot.transform.position = transform.position;
         HackShoot.transform.rotation = Quaternion.Euler(0, direction, 0);
 
         return HackShoot;
-    }
-    public void ShowDirectionIndicator(float direction)
-    {
-        /* directionIndicator.transform.parent = transform;
-        directionIndicator.transform.position = transform.position; */
     }
     public void ShootLaser(GameObject projectile, Vector3 position)
     {

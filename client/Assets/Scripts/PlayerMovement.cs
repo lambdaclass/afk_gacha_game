@@ -301,7 +301,6 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
 
                 GameObject player = SocketConnectionManager.Instance.players[(int)gameProjectiles[i].PlayerId - 1];
-                //player.GetComponent<MainAttack>().ShowDirectionIndicator(angle);
                 player.GetComponent<MainAttack>().ShootLaser(projectile, new Vector3(newPosition[0], 1f, newPosition[2]));
 
             }
