@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
 {
-    GameObject directionIndicator;
-    GameObject HackShoot;
-    GameObject HackShootFeedback;
+    private ParticleSystem particleSystem;
     protected override void Initialization()
     {
         base.Initialization();
@@ -13,34 +11,37 @@ public class MainAttack : MoreMountains.TopDownEngine.CharacterAbility
     {
         base.ProcessAbility();
     }
-    public void InstanceShoot(float direction)
+    public GameObject InstanceShoot(float direction)
     {
-        directionIndicator = Instantiate(Resources.Load("AttackDirection", typeof(GameObject))) as GameObject;
-        HackShoot = Instantiate(Resources.Load("HackShoot", typeof(GameObject))) as GameObject;
-        directionIndicator.transform.rotation = Quaternion.Euler(0, 0, direction);
+        //GameObject directionIndicator = Instantiate(Resources.Load("AttackDirection", typeof(GameObject))) as GameObject;
+        //directionIndicator.transform.position = transform.position;
+        //directionIndicator.transform.rotation = Quaternion.Euler(0, 0, direction);
+
+        GameObject HackShoot = Instantiate(Resources.Load("HackShoot", typeof(GameObject))) as GameObject;
+        HackShoot.transform.position = transform.position;
         HackShoot.transform.rotation = Quaternion.Euler(0, direction, 0);
+
+        return HackShoot;
     }
     public void ShowDirectionIndicator(float direction)
     {
-        directionIndicator.transform.parent = transform;
-        directionIndicator.transform.position = transform.position;
+        /* directionIndicator.transform.parent = transform;
+        directionIndicator.transform.position = transform.position; */
     }
-    public void ShootLaser(float angle, Vector3 position)
+    public void ShootLaser(GameObject projectile, Vector3 position)
     {
-        HackShoot.transform.position = position;
+        projectile.transform.position = position;
     }
-    public void LaserCollision(Vector3 position)
+    public void LaserCollision(GameObject projectileToDestroy)
     {
-        Destroy(directionIndicator, 0.1f);
-        Destroy(HackShoot, 0.1f);
-        HackShootFeedback = Instantiate(Resources.Load("HackShootFeedback", typeof(GameObject))) as GameObject;
+        Destroy(projectileToDestroy);
+        GameObject HackShootFeedback = Instantiate(Resources.Load("HackShootFeedback", typeof(GameObject))) as GameObject;
         Destroy(HackShootFeedback, 1f);
-        HackShootFeedback.transform.parent = transform;
-        HackShootFeedback.transform.position = position;
+        HackShootFeedback.transform.position = projectileToDestroy.transform.position;
     }
-    public void LaserDisappear()
+    public void LaserDisappear(GameObject projectileToDestroy)
     {
-        Destroy(directionIndicator, 0.1f);
-        Destroy(HackShoot, 0.1f);
+        Destroy(projectileToDestroy.GetComponent<ShootHandler>().element);
+        Destroy(projectileToDestroy, 0.1f);
     }
 }

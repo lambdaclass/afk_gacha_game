@@ -257,20 +257,27 @@ public class PlayerMovement : MonoBehaviour
 
         foreach (var key in toDelete)
         {
-            Destroy(projectiles[key]);
+            // TODO unbind projectile destroy from player
+            GameObject player = SocketConnectionManager.Instance.players[0];
+            player.GetComponent<MainAttack>().LaserDisappear(projectiles[key]);
             projectiles.Remove(key);
+
         }
 
         var toExplode = new List<int>();
-        foreach (var pr in projectiles) {
+        foreach (var pr in projectiles)
+        {
             if (gameProjectiles.Find(x => (int)x.Id == pr.Key).Status == ProjectileStatus.Exploded)
             {
                 toExplode.Add(pr.Key);
             }
         }
 
-        foreach (var key in toExplode) {
-            Destroy(projectiles[key]);
+        foreach (var key in toExplode)
+        {
+            // TODO unbind projectile destroy from player
+            GameObject player = SocketConnectionManager.Instance.players[0];
+            player.GetComponent<MainAttack>().LaserCollision(projectiles[key]);
             projectiles.Remove(key);
         }
 
@@ -292,30 +299,21 @@ public class PlayerMovement : MonoBehaviour
                 float angle = Vector3.SignedAngle(new Vector3(1f, 0, 0), new Vector3(yChange, 0f, -xChange), Vector3.up);
 
                 Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
-                projectile.transform.position = new Vector3(newPosition[0], 1f, newPosition[2]);
 
                 GameObject player = SocketConnectionManager.Instance.players[(int)gameProjectiles[i].PlayerId - 1];
-                player.GetComponent<MainAttack>().ShowDirectionIndicator(angle);
-                player.GetComponent<MainAttack>().ShootLaser(angle, projectile.transform.position);
+                //player.GetComponent<MainAttack>().ShowDirectionIndicator(angle);
+                player.GetComponent<MainAttack>().ShootLaser(projectile, new Vector3(newPosition[0], 1f, newPosition[2]));
 
             }
             else if (gameProjectiles[i].Status == ProjectileStatus.Active)
             {
-                projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                Destroy(projectile.GetComponent<BoxCollider>());
-                projectile.transform.localScale = new Vector3(0, 0, 0);
-                projectile.transform.position = new Vector3(
-                    ((long)gameProjectiles[i].Position.Y) / 10f - 50.0f,
-                    1f,
-                    -(((long)gameProjectiles[i].Position.X) / 10f - 50.0f)
-                );
-                projectiles.Add((int)gameProjectiles[i].Id, projectile);
-
                 float angle = Vector3.SignedAngle(new Vector3(1f, 0, 0),
                 new Vector3((long)gameProjectiles[i].Direction.Y, 0f, -(long)gameProjectiles[i].Direction.X),
                 Vector3.up);
                 GameObject player = SocketConnectionManager.Instance.players[(int)gameProjectiles[i].PlayerId - 1];
-                player.GetComponent<MainAttack>().InstanceShoot(angle);
+                GameObject newProjectile = player.GetComponent<MainAttack>().InstanceShoot(angle);
+
+                projectiles.Add((int)gameProjectiles[i].Id, newProjectile);
             }
         }
     }

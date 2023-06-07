@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2942767243917270441}
   - component: {fileID: 6889477903202159558}
   m_Layer: 0
-  m_Name: HackShoot
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3448428655516807027}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5269552939558784491}
@@ -41,7 +41,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3448428655516807027}
   serializedVersion: 8
-  lengthInSec: 1
+  lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -56,7 +56,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0.2
+    scalar: 0
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1095,21 +1095,30 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.584618
-          inSlope: 2.3479314
-          outSlope: 2.3479314
+          value: 0
+          inSlope: 4.115384
+          outSlope: 4.115384
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0.11794228
+          outWeight: 0.104672894
+        - serializedVersion: 3
+          time: 0.06661226
+          value: 0.5691145
+          inSlope: 0.64707154
+          outSlope: 0.64707154
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.17680985
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0.41538203
-          outSlope: 0.41538203
-          tangentMode: 34
+          inSlope: -0.07838796
+          outSlope: -0.07838796
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.1962617
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -4919,6 +4928,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5269552939558784491}
   - component: {fileID: 8534788552228133769}
+  - component: {fileID: 1164831827556292231}
   m_Layer: 0
   m_Name: HackShoot
   m_TagString: Untagged
@@ -4995,6 +5005,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1164831827556292231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5269552939558784490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f05f52a9e9a24b95a8e2635f46db5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: {fileID: 6909292754525633119}
+  effect: {fileID: 3448428655516807027}
 --- !u!1 &6909292754525633119
 GameObject:
   m_ObjectHideFlags: 0
@@ -5008,7 +5032,7 @@ GameObject:
   - component: {fileID: 4976245065049845796}
   - component: {fileID: 216344170897650550}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5021,10 +5045,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6909292754525633119}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.0050001144}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5269552939558784491}
   m_RootOrder: 1
@@ -5057,7 +5081,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100002, guid: 9ec1c543deb02264c8278b99aa0dc90b, type: 3}
+  - {fileID: 2100000, guid: 396b428b568fe4dc7b80de8e2c52d1dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
