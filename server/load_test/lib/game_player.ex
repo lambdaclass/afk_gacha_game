@@ -19,8 +19,6 @@ defmodule LoadTest.GamePlayer do
   def attack(player, :left), do: _attack(player, :LEFT)
   def attack(player, :right), do: _attack(player, :RIGHT)
 
-  ## Player should do nothing until it gets redirected from the lobby to the game.
-
   def attack_aoe(player, position) do
     %{
       "player" => player,
