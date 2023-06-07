@@ -12,7 +12,7 @@ defmodule LoadTest.LobbyPlayer do
   alias LoadTest.PlayerSupervisor
 
   def start_link({player_number, lobby_id}) do
-    ws_url = ws_url(lobby_id, player_number)
+    ws_url = ws_url(lobby_id)
 
     WebSockex.start_link(ws_url, __MODULE__, %{
       player_number: player_number,
@@ -21,7 +21,7 @@ defmodule LoadTest.LobbyPlayer do
   end
 
 
-  def handle_frame({type, msg}, state) do
+  def handle_frame({_type, msg}, state) do
     case LobbyEvent.decode(msg) do
       %LobbyEvent{type: :GAME_STARTED, game_id: game_id} ->
         {:ok, pid} = PlayerSupervisor.spawn_game_player(state.player_number, game_id)
@@ -33,7 +33,7 @@ defmodule LoadTest.LobbyPlayer do
     {:ok, state}
   end
 
-  def handle_cast({:send, {type, msg} = frame}, state) do
+  def handle_cast({:send, {_type, _msg} = frame}, state) do
     # Logger.info("Sending frame with payload: #{msg}")
     {:reply, frame, state}
   end
@@ -53,7 +53,7 @@ defmodule LoadTest.LobbyPlayer do
     WebSockex.cast(player_pid, {:send, {:binary, LobbyEvent.encode(start_game_command)}})
   end
 
-  defp ws_url(lobby_id, player_id) do
+  defp ws_url(lobby_id) do
     host = PlayerSupervisor.server_host()
 
     case System.get_env("SSL_ENABLED") do
