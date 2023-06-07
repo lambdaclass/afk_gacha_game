@@ -1,8 +1,11 @@
-defmodule LoadTest.Player do
+defmodule LoadTest.GamePlayer do
   use WebSockex
   require Logger
   use Tesla
 
+  alias LoadTest.Communication.Proto.LobbyEvent
+  alias LoadTest.Communication.Proto.GameConfig
+  alias LoadTest.Communication.Proto.BoardSize
   alias LoadTest.Communication.Proto.ClientAction
   alias LoadTest.PlayerSupervisor
 
@@ -15,6 +18,8 @@ defmodule LoadTest.Player do
   def attack(player, :down), do: _attack(player, :DOWN)
   def attack(player, :left), do: _attack(player, :LEFT)
   def attack(player, :right), do: _attack(player, :RIGHT)
+
+  ## Player should do nothing until it gets redirected from the lobby to the game.
 
   def attack_aoe(player, position) do
     %{
