@@ -191,7 +191,12 @@ impl GameState {
         x: f64,
         y: f64,
     ) -> Result<(), String> {
-        let player = Self::get_player_mut(&mut self.players, player_id)?;
+        // let player = Self::get_player_mut(&mut self.players, player_id)?;
+        let player = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == player_id)
+            .unwrap();
         if matches!(player.status, Status::DEAD) {
             return Ok(());
         }
