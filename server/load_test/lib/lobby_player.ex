@@ -20,12 +20,12 @@ defmodule LoadTest.LobbyPlayer do
     })
   end
 
-
   def handle_frame({_type, msg}, state) do
     case LobbyEvent.decode(msg) do
       %LobbyEvent{type: :GAME_STARTED, game_id: game_id} ->
         {:ok, pid} = PlayerSupervisor.spawn_game_player(state.player_number, game_id)
         Process.send(pid, :play, [])
+
       _ ->
         :nothing
     end
@@ -50,6 +50,7 @@ defmodule LoadTest.LobbyPlayer do
         game_timeout_ms: 1_000 * 60 * 20
       }
     }
+
     WebSockex.cast(player_pid, {:send, {:binary, LobbyEvent.encode(start_game_command)}})
   end
 
