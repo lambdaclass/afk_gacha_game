@@ -224,9 +224,6 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdatePlayerActions()
     {
-        // if(SocketConnectionManager.Instance.winners.Count == 2){
-        //     SocketConnectionManager.Instance.
-        // }
         for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
             playerUpdates.Enqueue(
@@ -239,11 +236,6 @@ public class PlayerMovement : MonoBehaviour
                     aoeCenterPosition = backPositionToFrontPosition(SocketConnectionManager.Instance.gamePlayers[i].AoePosition),
                 }
             );
-            // if (gamePlayers[i].Health == 0)
-            // {
-            //     print(SocketConnectionManager.instance.players[i].name);
-            //     SocketConnectionManager.instance.players[i].SetActive(false);
-            // }
         }
     }
 
