@@ -129,7 +129,6 @@ public class PlayerMovement : MonoBehaviour
 
     void ExecutePlayerAction()
     {
-        print("playeryodate count" + playerUpdates.Count);
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
             GameObject player = GetPlayer(playerUpdate.player_id);
@@ -222,9 +221,6 @@ public class PlayerMovement : MonoBehaviour
         // }
         for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
-            print("totalplayers" + SocketConnectionManager.Instance.gamePlayers.Count);
-            print("in pos " + i + " player " + SocketConnectionManager.Instance.gamePlayers[i]);
-
             var new_position = SocketConnectionManager.Instance.gamePlayers[i].Position;
             var aoe_position = SocketConnectionManager.Instance.gamePlayers[i].AoePosition;
             playerUpdates.Enqueue(
@@ -239,11 +235,6 @@ public class PlayerMovement : MonoBehaviour
                     aoe_y = -((long)aoe_position.X),
                 }
             );
-            // if (gamePlayers[i].Health == 0)
-            // {
-            //     print(SocketConnectionManager.instance.players[i].name);
-            //     SocketConnectionManager.instance.players[i].SetActive(false);
-            // }
         }
     }
 
@@ -254,27 +245,31 @@ public class PlayerMovement : MonoBehaviour
         GameObject projectile;
 
         var toDelete = new List<int>();
-        foreach (var pr in projectiles) {
+        foreach (var pr in projectiles)
+        {
             if (!gameProjectiles.Exists(x => (int)x.Id == pr.Key))
             {
                 toDelete.Add(pr.Key);
             }
         }
 
-        foreach (var key in toDelete) {
+        foreach (var key in toDelete)
+        {
             Destroy(projectiles[key]);
             projectiles.Remove(key);
         }
 
         var toExplode = new List<int>();
-        foreach (var pr in projectiles) {
+        foreach (var pr in projectiles)
+        {
             if (gameProjectiles.Find(x => (int)x.Id == pr.Key).Status == ProjectileStatus.Exploded)
             {
                 toExplode.Add(pr.Key);
             }
         }
 
-        foreach (var key in toExplode) {
+        foreach (var key in toExplode)
+        {
             Destroy(projectiles[key]);
             projectiles.Remove(key);
         }

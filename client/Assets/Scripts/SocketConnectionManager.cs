@@ -13,8 +13,8 @@ public class SocketConnectionManager : MonoBehaviour
     public List<GameObject> players;
     public static List<GameObject> playersStatic;
 
-    public Dictionary<int,GameObject> projectiles = new Dictionary<int, GameObject>();
-    public static Dictionary<int,GameObject> projectilesStatic;
+    public Dictionary<int, GameObject> projectiles = new Dictionary<int, GameObject>();
+    public static Dictionary<int, GameObject> projectilesStatic;
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
@@ -29,6 +29,7 @@ public class SocketConnectionManager : MonoBehaviour
     public static SocketConnectionManager instance;
     public uint currentPing;
     public uint serverTickRate_ms;
+    public Player winnerPlayer = null;
 
     public List<Player> winners = new List<Player>();
 
@@ -132,7 +133,6 @@ public class SocketConnectionManager : MonoBehaviour
                             .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
                     }
                     this.gamePlayers = game_event.Players.ToList();
-                    gamePlayers.ForEach(el => print("socketupdate" + el));
                     this.gameProjectiles = game_event.Projectiles.ToList();
                     break;
 
@@ -141,27 +141,15 @@ public class SocketConnectionManager : MonoBehaviour
                     break;
 
                 case GameEventType.NextRound:
-                    /*
-                        Here we should:
-                        1. Show the player that won the round
-                        2. Respawn the players
-                    */
                     print("The winner of the round is " + game_event.WinnerPlayer);
                     winners.Add(game_event.WinnerPlayer);
                     break;
                 case GameEventType.LastRound:
                     winners.Add(game_event.WinnerPlayer);
-                    // this.gamePlayers = winners.OrderBy(el => el.Id).ToList();
-                    print("Only winners" + winners.Count());
-                    print("Only winnersPla" + gamePlayers.Count());
+                    print("The winner of the round is " + game_event.WinnerPlayer);
                     ; break;
                 case GameEventType.GameFinished:
-                    /*
-                        Here we should:
-                        1. Display the victory screen
-                    */
-                    print("totalwinner is " + game_event.WinnerPlayer);
-                    print("winners count" + winners.Count);
+                    winnerPlayer = game_event.WinnerPlayer;
                     break;
                 default:
                     print("Message received is: " + game_event.Type);
