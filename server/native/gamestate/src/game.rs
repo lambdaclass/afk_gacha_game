@@ -353,7 +353,7 @@ impl GameState {
                     GameState::modify_cell_if_player_died(&mut self.board, attacked_player);
                 }
             }
-        } else {
+        } else { 
             let attacking_player =
                 GameState::get_player_mut(&mut self.players, attacking_player_id)?;
             if attack_position.x != 0 || attack_position.y != 0 {

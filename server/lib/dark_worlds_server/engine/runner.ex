@@ -143,11 +143,8 @@ defmodule DarkWorldsServer.Engine.Runner do
       game
       |> Game.attack_player(player, value)
 
-    game_state = has_a_player_won?(game.players, state.is_single_player?)
-
     next_state = next_state |> Map.put(:game, game)
-    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
-
+    state = Map.put(state, :next_state, next_state)
     {:noreply, state}
   end
 
@@ -155,13 +152,10 @@ defmodule DarkWorldsServer.Engine.Runner do
         {:play, player_id, %ActionOk{action: :attack_aoe, value: value}},
         %{next_state: %{game: game} = next_state} = state
       ) do
-    %Player{position: _position} = get_player(game.players, player_id)
     {:ok, game} = Game.attack_aoe(game, player_id, value)
 
-    game_state = has_a_player_won?(game.players, state.is_single_player?)
-
     next_state = next_state |> Map.put(:game, game)
-    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
+    state = Map.put(state, :next_state, next_state)
 
     {:noreply, state}
   end
@@ -262,8 +256,10 @@ defmodule DarkWorldsServer.Engine.Runner do
       next_state.game
       |> Game.world_tick()
 
+    game_state = has_a_player_won?(game.players, state.is_single_player?) |> IO.inspect(label: :game_state)
+
     next_state = next_state |> Map.put(:game, game)
-    state = Map.put(state, :next_state, next_state)
+    state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
 
     decide_next_game_update(state)
     |> broadcast_game_update()
@@ -271,7 +267,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   def handle_info(:next_round, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
-
+    IO.puts("llega aca?")
     decide_next_game_update(state)
     |> broadcast_game_update()
   end
@@ -282,7 +278,9 @@ defmodule DarkWorldsServer.Engine.Runner do
   defp has_a_player_won?(_players, true = _is_single_player?), do: :playing
 
   defp has_a_player_won?(players, _is_single_player?) do
-    players_alive = Enum.filter(players, fn player -> player.status == :alive end)
+    players_alive = Enum.filter(players, fn player ->
+      player.status == :alive
+    end)
 
     if Enum.count(players_alive) == 1 do
       :round_finished
