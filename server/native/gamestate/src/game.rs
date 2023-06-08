@@ -313,7 +313,12 @@ impl GameState {
         attacking_player_id: u64,
         attack_position: &RelativePosition,
     ) -> Result<(), String> {
-        let attacking_player = GameState::get_player_mut(&mut self.players, attacking_player_id)?;
+        // let attacking_player = GameState::get_player_mut(&mut self.players, attacking_player_id)?;
+        let attacking_player = self
+            .players
+            .iter_mut()
+            .find(|player| player.id == attacking_player_id)
+            .unwrap();
 
         if attacking_player_id % 2 == 0 {
             attacking_player.action = PlayerAction::ATTACKINGAOE;
