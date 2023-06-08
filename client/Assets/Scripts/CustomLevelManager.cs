@@ -63,7 +63,12 @@ public class CustomLevelManager : LevelManager
             }
             Character newPlayer = Instantiate(
                 prefab,
-                new Vector3(gamePlayers[i].Position.X, 3f, gamePlayers[i].Position.Y),
+                // The following is a transformation from the back-end's coordinate system to the front-end's.
+                new Vector3(
+                    ((((float)gamePlayers[i].Position.Y - 500) / 10)),
+                    1.04f,
+                    ((float)(((float)gamePlayers[i].Position.X - 500) / 10)) * (-1)
+                ),
                 Quaternion.identity
             );
             newPlayer.name = "Player" + " " + (i + 1);
