@@ -191,12 +191,7 @@ impl GameState {
         x: f64,
         y: f64,
     ) -> Result<(), String> {
-        // let player = Self::get_player_mut(&mut self.players, player_id)?;
-        let player = self
-            .players
-            .iter_mut()
-            .find(|player| player.id == player_id)
-            .unwrap();
+        let player = Self::get_player_mut(&mut self.players, player_id)?;
         if matches!(player.status, Status::DEAD) {
             return Ok(());
         }
@@ -226,8 +221,9 @@ impl GameState {
         players: &mut Vec<Player>,
         player_id: u64,
     ) -> Result<&mut Player, String> {
-        players
-            .get_mut((player_id - 1) as usize)
+            players
+            .iter_mut()
+            .find(|player| player.id == player_id)
             .ok_or(format!("Given id ({player_id}) is not valid"))
     }
 
@@ -313,12 +309,7 @@ impl GameState {
         attacking_player_id: u64,
         attack_position: &RelativePosition,
     ) -> Result<(), String> {
-        // let attacking_player = GameState::get_player_mut(&mut self.players, attacking_player_id)?;
-        let attacking_player = self
-            .players
-            .iter_mut()
-            .find(|player| player.id == attacking_player_id)
-            .unwrap();
+        let attacking_player = GameState::get_player_mut(&mut self.players, attacking_player_id)?;
 
         if attacking_player_id % 2 == 0 {
             attacking_player.action = PlayerAction::ATTACKINGAOE;
