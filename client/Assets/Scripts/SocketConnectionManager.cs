@@ -12,6 +12,9 @@ public class SocketConnectionManager : MonoBehaviour
 {
     public List<GameObject> players;
 
+    public Dictionary<int, GameObject> projectiles = new Dictionary<int, GameObject>();
+    public static Dictionary<int, GameObject> projectilesStatic;
+
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
 
@@ -19,6 +22,7 @@ public class SocketConnectionManager : MonoBehaviour
     public string server_ip = "localhost";
     public static SocketConnectionManager Instance;
     public List<Player> gamePlayers;
+    public List<Projectile> gameProjectiles;
     private int playerId;
     public uint currentPing;
     public uint serverTickRate_ms;
@@ -36,6 +40,7 @@ public class SocketConnectionManager : MonoBehaviour
         this.session_id = LobbyConnection.Instance.GameSession;
         this.server_ip = LobbyConnection.Instance.server_ip;
         this.serverTickRate_ms = LobbyConnection.Instance.serverTickRate_ms;
+        projectilesStatic = this.projectiles;
     }
 
     void Start()
@@ -117,9 +122,10 @@ public class SocketConnectionManager : MonoBehaviour
                             .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
                     }
                     this.gamePlayers = game_event.Players.ToList();
+                    this.gameProjectiles = game_event.Projectiles.ToList();
                     break;
                 case GameEventType.PingUpdate:
-                    UInt64 currentPing = game_event.Latency;
+                    currentPing = (uint)game_event.Latency;
                     break;
                 case GameEventType.InitialPositions:
                     this.gamePlayers = game_event.Players.ToList();
