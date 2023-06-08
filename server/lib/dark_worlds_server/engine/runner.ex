@@ -268,6 +268,7 @@ defmodule DarkWorldsServer.Engine.Runner do
   def handle_info(:next_round, %{next_state: next_state} = state) do
     state = Map.put(state, :current_state, next_state)
     IO.puts("llega aca?")
+
     decide_next_game_update(state)
     |> broadcast_game_update()
   end
@@ -278,9 +279,10 @@ defmodule DarkWorldsServer.Engine.Runner do
   defp has_a_player_won?(_players, true = _is_single_player?), do: :playing
 
   defp has_a_player_won?(players, _is_single_player?) do
-    players_alive = Enum.filter(players, fn player ->
-      player.status == :alive
-    end)
+    players_alive =
+      Enum.filter(players, fn player ->
+        player.status == :alive
+      end)
 
     if Enum.count(players_alive) == 1 do
       :round_finished
