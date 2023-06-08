@@ -1,5 +1,5 @@
 defmodule LoadTest.GamePlayer do
-  use WebSockex
+  use WebSockex, restart: :transient
   require Logger
   use Tesla
 

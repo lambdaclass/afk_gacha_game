@@ -2,7 +2,7 @@ defmodule LoadTest.LobbyPlayer do
   @doc """
   A socket representing a player inside a lobby
   """
-  use WebSockex
+  use WebSockex, restart: :transient
   require Logger
   use Tesla
 
@@ -25,12 +25,11 @@ defmodule LoadTest.LobbyPlayer do
       %LobbyEvent{type: :GAME_STARTED, game_id: game_id} ->
         {:ok, pid} = PlayerSupervisor.spawn_game_player(state.player_number, game_id)
         Process.send(pid, :play, [])
+        {:close, {1000, ""}, state}
 
       _ ->
-        :nothing
+        {:ok, state}
     end
-
-    {:ok, state}
   end
 
   def handle_cast({:send, {_type, _msg} = frame}, state) do
