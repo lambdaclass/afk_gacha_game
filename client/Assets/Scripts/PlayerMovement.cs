@@ -216,9 +216,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoeCenterPosition.x, playerUpdate.aoeCenterPosition.z));
             }
-            player
-            .GetComponent<AttackController>()
-            .SwordAttack(isAttacking);
+            // player
+            // .GetComponent<AttackController>()
+            // .SwordAttack(isAttacking);
         }
     }
 
