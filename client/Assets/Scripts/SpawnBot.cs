@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using MoreMountains.Tools;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
@@ -13,7 +11,8 @@ public class SpawnBot : MonoBehaviour
     SocketConnectionManager manager;
 
     private bool pendingSpawn = false;
-    private bool botId;
+    private Vector3 spawnPosition = new Vector3(0, 0, 0);
+    private string botId;
 
     public static SpawnBot Instance;
 
@@ -30,10 +29,15 @@ public class SpawnBot : MonoBehaviour
         manager.CallSpawnBot();
     }
 
-    public void Spawn(string botId)
+    public void Spawn(Player player)
     {
         pendingSpawn = true;
-        botId = botId;
+        spawnPosition = new Vector3(
+            ((((float)player.Position.Y - 500) / 10)),
+            1.04f,
+            ((float)(((float)player.Position.X - 500) / 10)) * (-1)
+        );
+        botId = player.Id.ToString();
     }
 
     public void Update()
@@ -44,7 +48,7 @@ public class SpawnBot : MonoBehaviour
 
             Character newPlayer = Instantiate(
                 playerPrefab.GetComponent<Character>(),
-                new Vector3(0, 0, 0),
+                spawnPosition,
                 Quaternion.identity
             );
             newPlayer.PlayerID = "BOT" + " " + botId;

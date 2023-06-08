@@ -119,7 +119,7 @@ public class SocketConnectionManager : MonoBehaviour
                         game_event.Players
                             .ToList()
                             .FindAll((player) => !this.gamePlayers.Contains(player))
-                            .ForEach((player) => SpawnBot.Instance.Spawn(player.Id.ToString()));
+                            .ForEach((player) => SpawnBot.Instance.Spawn(player));
                     }
                     this.gamePlayers = game_event.Players.ToList();
                     this.gameProjectiles = game_event.Projectiles.ToList();
