@@ -28,7 +28,6 @@ public class CustomLevelManager : LevelManager
         StartCoroutine(InitializeLevel());
     }
 
-    // TODO: rename this method
     private IEnumerator InitializeLevel()
     {
         yield return new WaitUntil(() => SocketConnectionManager.Instance.gamePlayers != null);
