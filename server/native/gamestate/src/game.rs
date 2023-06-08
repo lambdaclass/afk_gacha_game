@@ -354,7 +354,7 @@ impl GameState {
                 }
             }
         } else {
-            let attacking_player = self.get_player(attacking_player_id).unwrap();
+            let attacking_player = GameState::get_player_mut(&mut self.players, attacking_player_id)?;
             if attack_position.x != 0 || attack_position.y != 0 {
                 let projectile = Projectile::new(
                     self.next_projectile_id,
