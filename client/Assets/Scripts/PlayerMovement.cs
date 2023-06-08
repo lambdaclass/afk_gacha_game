@@ -14,13 +14,11 @@ public class PlayerMovement : MonoBehaviour
 
     public struct PlayerUpdate
     {
-        public long x;
-        public long y;
-        public int player_id;
+        public Vector3 playerPosition;
+        public int playerId;
         public long health;
         public PlayerAction action;
-        public long aoe_x;
-        public long aoe_y;
+        public Vector3 aoeCenterPosition;
     }
 
     public enum PlayerAction
@@ -34,6 +32,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Active = 0,
         Exploded = 1,
+    }
+
+    Vector3 backPositionToFrontPosition(Position position)
+    {
+        var x = (long)position.Y / 10f - 50.0f;
+        var y = (-((long)position.X)) / 10f + 50.0f;
+        return new Vector3(x, 1f, y);
     }
 
     void Start()
@@ -131,45 +136,45 @@ public class PlayerMovement : MonoBehaviour
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            GameObject player = GetPlayer(playerUpdate.player_id);
+            GameObject player = GetPlayer(playerUpdate.playerId);
             /*
                 Player has a speed of 3 tiles per tick. A tile in unity is 0.3f a distance of 0.3f.
                 There are 50 ticks per second. A player's velocity is 50 * 0.3f
 
-                In general, if a player's velocity is n tiles per tick, their unity velocity
-                is 50 * (n / 10f)
+          In general, if a player's velocity is n tiles per tick, their unity velocity
+          is 50 * (n / 10f)
 
-                The above is the player's velocity's magnitude. Their velocity's direction
-                is the direction of deltaX, which we can calculate (assumming we haven't lost socket
-                frames, but that's fine).
-            */
-            float character_speed = 0;
+          The above is the player's velocity's magnitude. Their velocity's direction
+          is the direction of deltaX, which we can calculate (assumming we haven't lost socket
+          frames, but that's fine).
+      */
+            float characterSpeed = 0;
 
-            if (playerUpdate.player_id % 3 == 1)
+            if (playerUpdate.playerId % 3 == 0)
             {
                 // Muflus
-                character_speed = 0.3f;
+                characterSpeed = 0.3f;
             }
-            else if (playerUpdate.player_id % 3 == 2)
+            else if (playerUpdate.playerId % 3 == 1)
             {
                 // Hack
-                character_speed = 0.5f;
+                characterSpeed = 0.5f;
             }
             else
             {
                 // Uma
-                character_speed = 0.4f;
+                characterSpeed = 0.4f;
             }
 
-            // This is tick_rate * character_speed. Once we decouple tick_rate from speed on the backend
+            // This is tickRate * characterSpeed. Once we decouple tickRate from speed on the backend
             // it'll be changed.
             float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
-            float velocity = tickRate * character_speed;
+            float velocity = tickRate * characterSpeed;
 
-            float xChange = (playerUpdate.x / 10f - 50.0f) - player.transform.position.x;
-            float yChange = (playerUpdate.y / 10f + 50.0f) - player.transform.position.z;
+            float xChange = playerUpdate.playerPosition.x - player.transform.position.x;
+            float yChange = playerUpdate.playerPosition.z - player.transform.position.z;
 
-            Animator m_Animator = player.GetComponent<Character>().CharacterModel.GetComponent<Animator>();
+            Animator mAnimator = player.GetComponent<Character>().CharacterModel.GetComponent<Animator>();
             CharacterOrientation3D characterOrientation = player.GetComponent<CharacterOrientation3D>();
             characterOrientation.ForcedRotation = true;
 
@@ -185,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
 
                 walking = true;
             }
-            m_Animator.SetBool("Walking", walking);
+            mAnimator.SetBool("Walking", walking);
 
             Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
@@ -207,10 +212,13 @@ public class PlayerMovement : MonoBehaviour
                 healthComponent.Model.gameObject.SetActive(true);
             }
             bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
-            if (isAttackingAOE && (LobbyConnection.Instance.playerId != (playerUpdate.player_id + 1)))
+            if (isAttackingAOE && (LobbyConnection.Instance.playerId != (playerUpdate.playerId + 1)))
             {
-                player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoe_x / 10f - 50.0f, playerUpdate.aoe_y / 10f + 50.0f));
+                player.GetComponent<GenericAoeAttack>().ShowAoeAttack(new Vector2(playerUpdate.aoeCenterPosition.x, playerUpdate.aoeCenterPosition.z));
             }
+            player
+            .GetComponent<AttackController>()
+            .SwordAttack(isAttacking);
         }
     }
 
@@ -221,20 +229,21 @@ public class PlayerMovement : MonoBehaviour
         // }
         for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
-            var new_position = SocketConnectionManager.Instance.gamePlayers[i].Position;
-            var aoe_position = SocketConnectionManager.Instance.gamePlayers[i].AoePosition;
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
-                    x = (long)new_position.Y,
-                    y = -((long)new_position.X),
-                    player_id = (int)SocketConnectionManager.Instance.gamePlayers[i].Id,
+                    playerPosition = backPositionToFrontPosition(SocketConnectionManager.Instance.gamePlayers[i].Position),
+                    playerId = (int)SocketConnectionManager.Instance.gamePlayers[i].Id,
                     health = SocketConnectionManager.Instance.gamePlayers[i].Health,
                     action = (PlayerAction)SocketConnectionManager.Instance.gamePlayers[i].Action,
-                    aoe_x = (long)aoe_position.Y,
-                    aoe_y = -((long)aoe_position.X),
+                    aoeCenterPosition = backPositionToFrontPosition(SocketConnectionManager.Instance.gamePlayers[i].AoePosition),
                 }
             );
+            // if (gamePlayers[i].Health == 0)
+            // {
+            //     print(SocketConnectionManager.instance.players[i].name);
+            //     SocketConnectionManager.instance.players[i].SetActive(false);
+            // }
         }
     }
 
@@ -278,13 +287,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
             {
-                float projectile_speed = gameProjectiles[i].Speed / 10f;
+                float projectileSpeed = gameProjectiles[i].Speed / 10f;
 
                 float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
-                float velocity = tickRate * projectile_speed;
+                float velocity = tickRate * projectileSpeed;
 
-                float xChange = ((long)gameProjectiles[i].Position.Y / 10f - 50.0f) - projectile.transform.position.x;
-                float yChange = (-(long)gameProjectiles[i].Position.X / 10f + 50.0f) - projectile.transform.position.z;
+                Vector3 backToFrontPosition = backPositionToFrontPosition(gameProjectiles[i].Position);
+                float xChange = backToFrontPosition.x - projectile.transform.position.x;
+                float yChange = backToFrontPosition.z - projectile.transform.position.z;
 
                 Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
                 movementDirection.Normalize();
@@ -297,11 +307,7 @@ public class PlayerMovement : MonoBehaviour
                 projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(projectile.GetComponent<BoxCollider>());
                 projectile.transform.localScale = new Vector3(.5f, .5f, .5f);
-                projectile.transform.position = new Vector3(
-                    ((long)gameProjectiles[i].Position.Y) / 10f - 50.0f,
-                    1f,
-                    -(((long)gameProjectiles[i].Position.X) / 10f - 50.0f)
-                );
+                projectile.transform.position = backPositionToFrontPosition(gameProjectiles[i].Position);
                 projectiles.Add((int)gameProjectiles[i].Id, projectile);
             }
         }
