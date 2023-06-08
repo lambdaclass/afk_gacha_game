@@ -27,8 +27,7 @@ defmodule LoadTest.PlayerSupervisor do
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
-  # Spawns a game lobby, populates it with players and starts moving them randomly
-  # Create a lobby, join all players to it, then send a :game_started message to it.
+  # Creates a lobby, joins a bunch of players to it, then starts the game
   def spawn_session() do
     {:ok, response} = get(server_url())
     %{"lobby_id" => lobby_id} = response.body

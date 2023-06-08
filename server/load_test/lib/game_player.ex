@@ -7,6 +7,7 @@ defmodule LoadTest.GamePlayer do
   alias LoadTest.Communication.Proto.GameConfig
   alias LoadTest.Communication.Proto.BoardSize
   alias LoadTest.Communication.Proto.ClientAction
+  alias LoadTest.Communication.Proto.RelativePosition
   alias LoadTest.PlayerSupervisor
 
   def move(player, :up), do: _move(player, :UP)
@@ -38,6 +39,17 @@ defmodule LoadTest.GamePlayer do
     |> send_command()
   end
 
+  defp attack_aoe(%{x: x, y: y}) do
+    %ClientAction{
+      action: :ATTACK_AOE,
+      position: %RelativePosition{
+        x: x,
+        y: y
+      }
+    }
+    |> send_command()
+  end
+
   def start_link({player_number, session_id}) do
     ws_url = ws_url(session_id, player_number)
 
@@ -59,7 +71,7 @@ defmodule LoadTest.GamePlayer do
 
   def handle_info(:play, state) do
     direction = Enum.random([:up, :down, :left, :right])
-    action = Enum.random([:move, :attack])
+    action = Enum.random([:move, :attack, :attack_aoe])
 
     # Melee attacks pretty much never ever land, but in general we have to rework how
     # both melee and aoe attacks work in general, so w/e
@@ -69,6 +81,11 @@ defmodule LoadTest.GamePlayer do
 
       :attack ->
         attack(state.player_number, direction)
+
+      :attack_aoe ->
+        random_x = Enum.random(0..100)
+        random_y = Enum.random(0..100)
+        attack_aoe(%{x: random_x, y: random_y})
     end
 
     Process.send_after(self(), :play, 30, [])
