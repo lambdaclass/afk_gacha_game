@@ -122,8 +122,6 @@ public class SocketConnectionManager : MonoBehaviour
                     UInt64 currentPing = game_event.Latency;
                     break;
                 case GameEventType.InitialPositions:
-                    print("Initial positions received");
-                    print("Initial positions" + game_event.Players);
                     this.gamePlayers = game_event.Players.ToList();
                     break;
                 default:
