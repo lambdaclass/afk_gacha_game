@@ -134,7 +134,7 @@ public class SocketConnectionManager : MonoBehaviour
                     break;
 
                 case GameEventType.PingUpdate:
-                    UInt64 currentPing = game_event.Latency;
+                    currentPing = (uint)game_event.Latency;
                     break;
 
                 default:
