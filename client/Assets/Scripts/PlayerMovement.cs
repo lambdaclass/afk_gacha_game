@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
             */
             float characterSpeed = 0;
 
-            if (playerUpdate.player_id % 3 == 0)
+            if (playerUpdate.playerId % 3 == 0)
             {
                 // Muflus
                 characterSpeed = 0.3f;
@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
             float xChange = playerUpdate.playerPosition.x - player.transform.position.x;
             float yChange = playerUpdate.playerPosition.z - player.transform.position.z;
 
-            Animator m_Animator = player
+            Animator mAnimator = player
                 .GetComponent<Character>()
                 .CharacterModel.GetComponent<Animator>();
             CharacterOrientation3D characterOrientation =
@@ -214,16 +214,15 @@ public class PlayerMovement : MonoBehaviour
             }
             bool isAttackingAOE = playerUpdate.action == PlayerAction.AttackingAOE;
             if (
-                isAttackingAOE
-                && (LobbyConnection.Instance.playerId != (playerUpdate.player_id + 1))
+                isAttackingAOE && (LobbyConnection.Instance.playerId != (playerUpdate.playerId + 1))
             )
             {
                 player
                     .GetComponent<GenericAoeAttack>()
                     .ShowAoeAttack(
                         new Vector2(
-                            playerUpdate.aoe_x / 10f - 50.0f,
-                            playerUpdate.aoe_y / 10f + 50.0f
+                            playerUpdate.aoeCenterPosition.x / 10f - 50.0f,
+                            playerUpdate.aoeCenterPosition.z / 10f + 50.0f
                         )
                     );
             }
