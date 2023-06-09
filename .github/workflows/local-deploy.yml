@@ -1,10 +1,9 @@
 name: Deploy to LambdaClass local machine
 on:
-  workflow_run:
-    workflows:
-      - Deploy to testing
-    types:
-      - requested
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build-deploy:
