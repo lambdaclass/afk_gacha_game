@@ -32,9 +32,7 @@ public class SpawnBot : MonoBehaviour
     public void Spawn(Player player)
     {
         pendingSpawn = true;
-        spawnPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
-            player.Position
-        );
+        spawnPosition = Utils.transformBackendPositionToFrontendPosition(player.Position);
         botId = player.Id.ToString();
     }
 

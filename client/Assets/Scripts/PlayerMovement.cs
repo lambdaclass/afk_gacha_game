@@ -239,13 +239,13 @@ public class PlayerMovement : MonoBehaviour
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
-                    playerPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                    playerPosition = Utils.transformBackendPositionToFrontendPosition(
                         SocketConnectionManager.Instance.gamePlayers[i].Position
                     ),
                     playerId = (int)SocketConnectionManager.Instance.gamePlayers[i].Id,
                     health = SocketConnectionManager.Instance.gamePlayers[i].Health,
                     action = (PlayerAction)SocketConnectionManager.Instance.gamePlayers[i].Action,
-                    aoeCenterPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                    aoeCenterPosition = Utils.transformBackendPositionToFrontendPosition(
                         SocketConnectionManager.Instance.gamePlayers[i].AoePosition
                     ),
                 }
@@ -298,10 +298,9 @@ public class PlayerMovement : MonoBehaviour
                 float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
                 float velocity = tickRate * projectileSpeed;
 
-                Vector3 backToFrontPosition =
-                    CoordinatesUtils.transformBackendPositionToFrontendPosition(
-                        gameProjectiles[i].Position
-                    );
+                Vector3 backToFrontPosition = Utils.transformBackendPositionToFrontendPosition(
+                    gameProjectiles[i].Position
+                );
                 float xChange = backToFrontPosition.x - projectile.transform.position.x;
                 float yChange = backToFrontPosition.z - projectile.transform.position.z;
 
@@ -317,10 +316,9 @@ public class PlayerMovement : MonoBehaviour
                 projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(projectile.GetComponent<BoxCollider>());
                 projectile.transform.localScale = new Vector3(.5f, .5f, .5f);
-                projectile.transform.position =
-                    CoordinatesUtils.transformBackendPositionToFrontendPosition(
-                        gameProjectiles[i].Position
-                    );
+                projectile.transform.position = Utils.transformBackendPositionToFrontendPosition(
+                    gameProjectiles[i].Position
+                );
                 projectiles.Add((int)gameProjectiles[i].Id, projectile);
             }
         }
