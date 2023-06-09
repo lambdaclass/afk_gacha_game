@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class ConnectionUtils
+public class Utils
 {
     public static IEnumerator WaitForGameCreation()
     {

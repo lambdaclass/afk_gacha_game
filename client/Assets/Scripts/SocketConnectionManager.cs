@@ -13,8 +13,8 @@ public class SocketConnectionManager : MonoBehaviour
     public List<GameObject> players;
     public static List<GameObject> playersStatic;
 
-    public Dictionary<int,GameObject> projectiles = new Dictionary<int, GameObject>();
-    public static Dictionary<int,GameObject> projectilesStatic;
+    public Dictionary<int, GameObject> projectiles = new Dictionary<int, GameObject>();
+    public static Dictionary<int, GameObject> projectilesStatic;
 
     [Tooltip("Session ID to connect to. If empty, a new session will be created")]
     public string session_id = "";
@@ -29,6 +29,9 @@ public class SocketConnectionManager : MonoBehaviour
     public static SocketConnectionManager instance;
     public uint currentPing;
     public uint serverTickRate_ms;
+    public Player winnerPlayer = null;
+
+    public List<Player> winners = new List<Player>();
 
     WebSocket ws;
 
@@ -137,6 +140,17 @@ public class SocketConnectionManager : MonoBehaviour
                     currentPing = (uint)game_event.Latency;
                     break;
 
+                case GameEventType.NextRound:
+                    print("The winner of the round is " + game_event.WinnerPlayer);
+                    winners.Add(game_event.WinnerPlayer);
+                    break;
+                case GameEventType.LastRound:
+                    winners.Add(game_event.WinnerPlayer);
+                    print("The winner of the round is " + game_event.WinnerPlayer);
+                    ; break;
+                case GameEventType.GameFinished:
+                    winnerPlayer = game_event.WinnerPlayer;
+                    break;
                 default:
                     print("Message received is: " + game_event.Type);
                     break;
