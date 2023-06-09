@@ -4,7 +4,6 @@ defmodule DarkWorldsServer.Engine.Runner do
   alias DarkWorldsServer.Communication
   alias DarkWorldsServer.Engine.ActionOk
   alias DarkWorldsServer.Engine.Game
-  alias DarkWorldsServer.Engine.Player
 
   @build_walls false
   @board {1000, 1000}
@@ -379,10 +378,6 @@ defmodule DarkWorldsServer.Engine.Runner do
     Process.send_after(self(), :session_timeout, @session_timeout)
 
     {:noreply, state}
-  end
-
-  defp get_player(players, player_id) do
-    Enum.find(players, fn p -> p.id == player_id end)
   end
 
   defp create_new_game(%{game_config: %{board_size: board}, players: players}) do
