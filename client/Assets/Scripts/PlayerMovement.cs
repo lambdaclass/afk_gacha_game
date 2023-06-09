@@ -34,13 +34,6 @@ public class PlayerMovement : MonoBehaviour
         Exploded = 1,
     }
 
-    Vector3 backPositionToFrontPosition(Position position)
-    {
-        var x = (long)position.Y / 10f - 50.0f;
-        var y = (-((long)position.X)) / 10f + 50.0f;
-        return new Vector3(x, 1f, y);
-    }
-
     void Start()
     {
         float clientActionRate = SocketConnectionManager.Instance.serverTickRate_ms / 1000f;
@@ -241,11 +234,15 @@ public class PlayerMovement : MonoBehaviour
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
-                    playerPosition = backPositionToFrontPosition(gamePlayers[i].Position),
+                    playerPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                        gamePlayers[i].Position
+                    ),
                     playerId = i,
                     health = gamePlayers[i].Health,
                     action = (PlayerAction)gamePlayers[i].Action,
-                    aoeCenterPosition = backPositionToFrontPosition(gamePlayers[i].AoePosition),
+                    aoeCenterPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                        gamePlayers[i].AoePosition
+                    ),
                 }
             );
             // if (gamePlayers[i].Health == 0)
@@ -300,9 +297,10 @@ public class PlayerMovement : MonoBehaviour
                 float tickRate = 1000f / SocketConnectionManager.Instance.serverTickRate_ms;
                 float velocity = tickRate * projectileSpeed;
 
-                Vector3 backToFrontPosition = backPositionToFrontPosition(
-                    gameProjectiles[i].Position
-                );
+                Vector3 backToFrontPosition =
+                    CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                        gameProjectiles[i].Position
+                    );
                 float xChange = backToFrontPosition.x - projectile.transform.position.x;
                 float yChange = backToFrontPosition.z - projectile.transform.position.z;
 
@@ -318,9 +316,10 @@ public class PlayerMovement : MonoBehaviour
                 projectile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 Destroy(projectile.GetComponent<BoxCollider>());
                 projectile.transform.localScale = new Vector3(.5f, .5f, .5f);
-                projectile.transform.position = backPositionToFrontPosition(
-                    gameProjectiles[i].Position
-                );
+                projectile.transform.position =
+                    CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                        gameProjectiles[i].Position
+                    );
                 projectiles.Add((int)gameProjectiles[i].Id, projectile);
             }
         }

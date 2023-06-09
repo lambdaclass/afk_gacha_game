@@ -62,11 +62,8 @@ public class CustomLevelManager : LevelManager
             }
             Character newPlayer = Instantiate(
                 prefab,
-                // The following is a transformation from the back-end's coordinate system to the front-end's.
-                new Vector3(
-                    ((((float)gamePlayers[i].Position.Y - 500) / 10)),
-                    1.04f,
-                    ((float)(((float)gamePlayers[i].Position.X - 500) / 10)) * (-1)
+                CoordinatesUtils.transformBackendPositionToFrontendPosition(
+                    gamePlayers[i].Position
                 ),
                 Quaternion.identity
             );

@@ -32,10 +32,8 @@ public class SpawnBot : MonoBehaviour
     public void Spawn(Player player)
     {
         pendingSpawn = true;
-        spawnPosition = new Vector3(
-            ((((float)player.Position.Y - 500) / 10)),
-            1.04f,
-            ((float)(((float)player.Position.X - 500) / 10)) * (-1)
+        spawnPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
+            player.Position
         );
         botId = player.Id.ToString();
     }
