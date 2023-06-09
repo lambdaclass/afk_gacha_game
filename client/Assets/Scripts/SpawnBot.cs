@@ -10,7 +10,7 @@ public class SpawnBot : MonoBehaviour
     [SerializeField] SocketConnectionManager manager;
 
     private bool pendingSpawn = false;
-    private bool botId;
+    private string botId;
 
     public static SpawnBot Instance;
 
@@ -26,14 +26,15 @@ public class SpawnBot : MonoBehaviour
         manager.CallSpawnBot();
     }
 
-    public void Spawn(string botId)
+    public void Spawn(string Id)
     {
         pendingSpawn = true;
-        botId = botId;
+        botId = Id;
     }
 
     public void Update()
     {
+        print(botId);
         if (pendingSpawn)
         {
             playerPrefab.GetComponent<Character>().PlayerID = "";
@@ -43,7 +44,7 @@ public class SpawnBot : MonoBehaviour
                 new Vector3(0, 0, 0),
                 Quaternion.identity
             );
-            newPlayer.PlayerID = "BOT" + " " + botId;
+            newPlayer.PlayerID = botId.ToString();
             newPlayer.name = "BOT" + botId;
             manager.players.Add(newPlayer.gameObject);
             print("SPAWNED");
