@@ -256,7 +256,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       next_state.game
       |> Game.world_tick()
 
-    game_state = has_a_player_won?(game.players, state.is_single_player?) |> IO.inspect(label: :game_state)
+    game_state = has_a_player_won?(game.players, state.is_single_player?)
 
     next_state = next_state |> Map.put(:game, game)
     state = Map.put(state, :next_state, next_state) |> Map.put(:game_state, game_state)
