@@ -26,6 +26,9 @@ public class SocketConnectionManager : MonoBehaviour
     private int playerId;
     public uint currentPing;
     public uint serverTickRate_ms;
+    public Player winnerPlayer = null;
+
+    public List<Player> winners = new List<Player>();
 
     WebSocket ws;
 
@@ -126,6 +129,18 @@ public class SocketConnectionManager : MonoBehaviour
                     break;
                 case GameEventType.PingUpdate:
                     currentPing = (uint)game_event.Latency;
+                    break;
+                case GameEventType.NextRound:
+                    print("The winner of the round is " + game_event.WinnerPlayer);
+                    winners.Add(game_event.WinnerPlayer);
+                    break;
+                case GameEventType.LastRound:
+                    winners.Add(game_event.WinnerPlayer);
+                    print("The winner of the round is " + game_event.WinnerPlayer);
+                    ;
+                    break;
+                case GameEventType.GameFinished:
+                    winnerPlayer = game_event.WinnerPlayer;
                     break;
                 case GameEventType.InitialPositions:
                     this.gamePlayers = game_event.Players.ToList();

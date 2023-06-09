@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoreMountains.TopDownEngine;
 using MoreMountains.Tools;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -121,34 +122,40 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    GameObject GetPlayer(int id)
+    {
+        return SocketConnectionManager.Instance.players.Find(
+            el => el.GetComponent<Character>().PlayerID == id.ToString()
+        );
+    }
+
     void ExecutePlayerAction()
     {
         while (playerUpdates.TryDequeue(out var playerUpdate))
         {
-            GameObject player = SocketConnectionManager.Instance.players[playerUpdate.playerId];
-
+            GameObject player = GetPlayer(playerUpdate.playerId);
             /*
                 Player has a speed of 3 tiles per tick. A tile in unity is 0.3f a distance of 0.3f.
                 There are 50 ticks per second. A player's velocity is 50 * 0.3f
-
-                In general, if a player's velocity is n tiles per tick, their unity velocity
-                is 50 * (n / 10f)
-
-                The above is the player's velocity's magnitude. Their velocity's direction
-                is the direction of deltaX, which we can calculate (assumming we haven't lost socket
-                frames, but that's fine).
-            */
+      
+          In general, if a player's velocity is n tiles per tick, their unity velocity
+          is 50 * (n / 10f)
+      
+          The above is the player's velocity's magnitude. Their velocity's direction
+          is the direction of deltaX, which we can calculate (assumming we haven't lost socket
+          frames, but that's fine).
+      */
             float characterSpeed = 0;
 
             if (playerUpdate.playerId % 3 == 0)
             {
-                // Muflus
-                characterSpeed = 0.3f;
+                // Uma
+                characterSpeed = 0.5f;
             }
             else if (playerUpdate.playerId % 3 == 1)
             {
-                // Hack
-                characterSpeed = 0.5f;
+                // Muflus
+                characterSpeed = 0.3f;
             }
             else
             {
@@ -189,11 +196,11 @@ public class PlayerMovement : MonoBehaviour
             Health healthComponent = player.GetComponent<Health>();
             healthComponent.SetHealth(playerUpdate.health);
 
-            bool isAttacking = playerUpdate.action == PlayerAction.Attacking;
-            player.GetComponent<AttackController>().SwordAttack(isAttacking);
-            if (isAttacking)
+            bool isAttackingAttack = playerUpdate.action == PlayerAction.Attacking;
+            player.GetComponent<AttackController>().SwordAttack(isAttackingAttack);
+            if (isAttackingAttack)
             {
-                print("attack");
+                print(player.name + "attack");
             }
 
             //if dead remove the player from the scene
@@ -214,41 +221,35 @@ public class PlayerMovement : MonoBehaviour
                     .GetComponent<GenericAoeAttack>()
                     .ShowAoeAttack(
                         new Vector2(
-                            playerUpdate.aoeCenterPosition.x / 10f - 50.0f,
-                            playerUpdate.aoeCenterPosition.z / 10f + 50.0f
+                            playerUpdate.aoeCenterPosition.x,
+                            playerUpdate.aoeCenterPosition.z
                         )
                     );
             }
-
-            SocketConnectionManager.Instance.players[playerUpdate.playerId]
-                .GetComponent<AttackController>()
-                .SwordAttack(isAttacking);
+            // player
+            // .GetComponent<AttackController>()
+            // .SwordAttack(isAttacking);
         }
     }
 
     void UpdatePlayerActions()
     {
-        List<Player> gamePlayers = SocketConnectionManager.Instance.gamePlayers;
-        for (int i = 0; i < SocketConnectionManager.Instance.players.Count; i++)
+        for (int i = 0; i < SocketConnectionManager.Instance.gamePlayers.Count; i++)
         {
             playerUpdates.Enqueue(
                 new PlayerUpdate
                 {
                     playerPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
-                        gamePlayers[i].Position
+                        SocketConnectionManager.Instance.gamePlayers[i].Position
                     ),
-                    playerId = i,
-                    health = gamePlayers[i].Health,
-                    action = (PlayerAction)gamePlayers[i].Action,
+                    playerId = (int)SocketConnectionManager.Instance.gamePlayers[i].Id,
+                    health = SocketConnectionManager.Instance.gamePlayers[i].Health,
+                    action = (PlayerAction)SocketConnectionManager.Instance.gamePlayers[i].Action,
                     aoeCenterPosition = CoordinatesUtils.transformBackendPositionToFrontendPosition(
-                        gamePlayers[i].AoePosition
+                        SocketConnectionManager.Instance.gamePlayers[i].AoePosition
                     ),
                 }
             );
-            // if (gamePlayers[i].Health == 0)
-            // {
-            //     SocketConnectionManager.instance.players[i].SetActive(false);
-            // }
         }
     }
 

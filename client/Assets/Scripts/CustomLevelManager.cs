@@ -4,15 +4,26 @@ using System.Collections.Generic;
 using MoreMountains.TopDownEngine;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class CustomLevelManager : LevelManager
 {
+    [SerializeField]
+    GameObject roundSplash;
+
+    [SerializeField]
+    Text roundText;
+
+    [SerializeField]
+    GameObject backToLobbyButton;
     private List<Player> gamePlayers;
     private int totalPlayers;
     private int playerId;
     public Character prefab;
     public Camera UiCamera;
     public CinemachineCameraController camera;
+
+    int winnersCount = 0;
 
     bool paused = false;
 
@@ -40,10 +51,15 @@ public class CustomLevelManager : LevelManager
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (
+            (
+                SocketConnectionManager.Instance.winners.Count >= 1
+                && winnersCount != SocketConnectionManager.Instance.winners.Count
+            )
+            || SocketConnectionManager.Instance.winnerPlayer != null
+        )
         {
-            GUIManager.Instance.SetPauseScreen(paused == false ? true : false);
-            paused = !paused;
+            ShowRoundTransition(SocketConnectionManager.Instance.winners.Count);
         }
     }
 
@@ -113,5 +129,25 @@ public class CustomLevelManager : LevelManager
                     .AssignInputToAbilityExecution("y", "joystick", attackEvent);
             }
         }
+    }
+
+    private void ShowRoundTransition(int roundNumber)
+    {
+        bool animate = true;
+        if (SocketConnectionManager.Instance.winners.Count == 2)
+        {
+            roundText.text = "Last Round!";
+        }
+        if (SocketConnectionManager.Instance.winnerPlayer != null)
+        {
+            roundText.text =
+                "Player " + SocketConnectionManager.Instance.winnerPlayer.Id + " Wins!";
+            backToLobbyButton.SetActive(true);
+            animate = false;
+        }
+
+        roundSplash.SetActive(true);
+        roundSplash.GetComponent<Animator>().SetBool("NewRound", animate);
+        winnersCount = roundNumber;
     }
 }
