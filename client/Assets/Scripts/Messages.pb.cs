@@ -50,21 +50,22 @@ public static partial class MessagesReflection {
           "Eg0KBXNwZWVkGAQgASgNEg0KBXJhbmdlGAUgASgNEhEKCXBsYXllcl9pZBgG",
           "IAEoBBIOCgZkYW1hZ2UYByABKA0SFwoPcmVtYWluaW5nX3RpY2tzGAggASgS",
           "EigKD3Byb2plY3RpbGVfdHlwZRgJIAEoDjIPLlByb2plY3RpbGVUeXBlEiEK",
-          "BnN0YXR1cxgKIAEoDjIRLlByb2plY3RpbGVTdGF0dXMqeAoNR2FtZUV2ZW50",
-          "VHlwZRIQCgxTVEFURV9VUERBVEUQABIPCgtQSU5HX1VQREFURRABEhEKDVBM",
-          "QVlFUl9KT0lORUQQAhIOCgpORVhUX1JPVU5EEAMSDgoKTEFTVF9ST1VORBAE",
-          "EhEKDUdBTUVfRklOSVNIRUQQBSodCgZTdGF0dXMSCQoFQUxJVkUQABIICgRE",
-          "RUFEEAEqawoGQWN0aW9uEhYKEkFDVElPTl9VTlNQRUNJRklFRBAAEggKBE1P",
-          "VkUQARIKCgZBVFRBQ0sQAhIOCgpBVFRBQ0tfQU9FEAUSFgoSTU9WRV9XSVRI",
-          "X0pPWVNUSUNLEAYSCwoHQUREX0JPVBAHKk0KCURpcmVjdGlvbhIZChVESVJF",
-          "Q1RJT05fVU5TUEVDSUZJRUQQABIGCgJVUBABEggKBERPV04QAhIICgRMRUZU",
-          "EAMSCQoFUklHSFQQBCo9CgxQbGF5ZXJBY3Rpb24SCwoHTk9USElORxAAEg0K",
-          "CUFUVEFDS0lORxABEhEKDUFUVEFDS0lOR19BT0UQAiqPAQoOTG9iYnlFdmVu",
-          "dFR5cGUSFAoQVFlQRV9VTlNQRUNJRklFRBAAEg0KCUNPTk5FQ1RFRBABEhAK",
-          "DFBMQVlFUl9BRERFRBACEhAKDEdBTUVfU1RBUlRFRBADEhAKDFBMQVlFUl9D",
-          "T1VOVBAEEg4KClNUQVJUX0dBTUUQBRISCg5QTEFZRVJfUkVNT1ZFRBAGKhwK",
-          "DlByb2plY3RpbGVUeXBlEgoKBkJVTExFVBAAKiwKEFByb2plY3RpbGVTdGF0",
-          "dXMSCgoGQUNUSVZFEAASDAoIRVhQTE9ERUQQAWIGcHJvdG8z"));
+          "BnN0YXR1cxgKIAEoDjIRLlByb2plY3RpbGVTdGF0dXMqjwEKDUdhbWVFdmVu",
+          "dFR5cGUSEAoMU1RBVEVfVVBEQVRFEAASDwoLUElOR19VUERBVEUQARIRCg1Q",
+          "TEFZRVJfSk9JTkVEEAISDgoKTkVYVF9ST1VORBADEg4KCkxBU1RfUk9VTkQQ",
+          "BBIRCg1HQU1FX0ZJTklTSEVEEAUSFQoRSU5JVElBTF9QT1NJVElPTlMQBiod",
+          "CgZTdGF0dXMSCQoFQUxJVkUQABIICgRERUFEEAEqawoGQWN0aW9uEhYKEkFD",
+          "VElPTl9VTlNQRUNJRklFRBAAEggKBE1PVkUQARIKCgZBVFRBQ0sQAhIOCgpB",
+          "VFRBQ0tfQU9FEAUSFgoSTU9WRV9XSVRIX0pPWVNUSUNLEAYSCwoHQUREX0JP",
+          "VBAHKk0KCURpcmVjdGlvbhIZChVESVJFQ1RJT05fVU5TUEVDSUZJRUQQABIG",
+          "CgJVUBABEggKBERPV04QAhIICgRMRUZUEAMSCQoFUklHSFQQBCo9CgxQbGF5",
+          "ZXJBY3Rpb24SCwoHTk9USElORxAAEg0KCUFUVEFDS0lORxABEhEKDUFUVEFD",
+          "S0lOR19BT0UQAiqPAQoOTG9iYnlFdmVudFR5cGUSFAoQVFlQRV9VTlNQRUNJ",
+          "RklFRBAAEg0KCUNPTk5FQ1RFRBABEhAKDFBMQVlFUl9BRERFRBACEhAKDEdB",
+          "TUVfU1RBUlRFRBADEhAKDFBMQVlFUl9DT1VOVBAEEg4KClNUQVJUX0dBTUUQ",
+          "BRISCg5QTEFZRVJfUkVNT1ZFRBAGKhwKDlByb2plY3RpbGVUeXBlEgoKBkJV",
+          "TExFVBAAKiwKEFByb2plY3RpbGVTdGF0dXMSCgoGQUNUSVZFEAASDAoIRVhQ",
+          "TE9ERUQQAWIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(new[] {typeof(global::GameEventType), typeof(global::Status), typeof(global::Action), typeof(global::Direction), typeof(global::PlayerAction), typeof(global::LobbyEventType), typeof(global::ProjectileType), typeof(global::ProjectileStatus), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -89,6 +90,7 @@ public static partial class MessagesReflection {
 ///- STATE_UPDATE: The game's state has been updated
 ///- PING_UPDATE: The player's current ping updated
 ///- PLAYER_JOINED: A player has joined the game
+///- INITIAL_POSITIONS: The initial positions of each player
 /// </summary>
 public enum GameEventType {
   [pbr::OriginalName("STATE_UPDATE")] StateUpdate = 0,
@@ -97,6 +99,7 @@ public enum GameEventType {
   [pbr::OriginalName("NEXT_ROUND")] NextRound = 3,
   [pbr::OriginalName("LAST_ROUND")] LastRound = 4,
   [pbr::OriginalName("GAME_FINISHED")] GameFinished = 5,
+  [pbr::OriginalName("INITIAL_POSITIONS")] InitialPositions = 6,
 }
 
 public enum Status {
