@@ -87,6 +87,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
     %ProtoAction{action: :ATTACK_AOE, position: position}
   end
 
+  def encode(%EngineAction{action: :basic_attack, value: position}, ProtoAction) do
+    %ProtoAction{action: :BASIC_ATTACK, position: position}
+  end
+
   @impl Protobuf.TransformModule
   def decode(%ProtoPosition{} = position, ProtoPosition) do
     %{x: x, y: y} = position
@@ -131,6 +135,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
     }
   end
 
+  def decode(%ProtoAction{action: :AUTO_ATTACK, target: target}, ProtoAction) do
+    %EngineAction{action: :auto_attack, value: target}
+  end
+
   def decode(%ProtoProjectile{} = projectile, ProtoProjectile) do
     %{
       id: id,
@@ -173,6 +181,10 @@ defmodule DarkWorldsServer.Communication.ProtoTransform do
 
   def decode(%ProtoAction{action: :ATTACK_AOE, position: position}, ProtoAction) do
     %EngineAction{action: :attack_aoe, value: position}
+  end
+
+  def decode(%ProtoAction{action: :BASIC_ATTACK, position: position}, ProtoAction) do
+    %EngineAction{action: :basic_attack, value: position}
   end
 
   def decode(%ProtoAction{action: :ADD_BOT}, ProtoAction) do
