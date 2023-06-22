@@ -327,6 +327,15 @@ impl GameState {
         next_projectile_id: &mut u64,
     ) -> Result<(), String> {
         if direction.x != 0 || direction.y != 0 {
+            let piercing = match attacking_player
+                .character
+                .status_effects
+                .get(&Effect::Piercing)
+            {
+                Some((1_u64..=u64::MAX)) => true,
+                None | Some(0) => false,
+            };
+
             let projectile = Projectile::new(
                 *next_projectile_id,
                 attacking_player.position,
@@ -338,6 +347,8 @@ impl GameState {
                 30,
                 ProjectileType::BULLET,
                 ProjectileStatus::ACTIVE,
+                attacking_player.id,
+                piercing,
             );
             projectiles.push(projectile);
             (*next_projectile_id) += 1;
@@ -491,6 +502,8 @@ impl GameState {
                     10,
                     ProjectileType::BULLET,
                     ProjectileStatus::ACTIVE,
+                    attacking_player.id,
+                    false,
                 );
                 projectiles.push(projectile);
                 (*next_projectile_id) += 1;
@@ -606,11 +619,50 @@ impl GameState {
                 30,
                 ProjectileType::DISARMINGBULLET,
                 ProjectileStatus::ACTIVE,
+                attacking_player.id,
+                false,
             );
             projectiles.push(projectile);
             (*next_projectile_id) += 1;
         }
         Ok(())
+    }
+
+    pub fn skill_3(
+        self: &mut Self,
+        _attacking_player_id: u64,
+        _direction: &RelativePosition,
+    ) -> Result<(), String> {
+        return Ok(());
+    }
+
+    pub fn skill_4(
+        self: &mut Self,
+        attacking_player_id: u64,
+        _direction: &RelativePosition,
+    ) -> Result<(), String> {
+        let attacking_player = GameState::get_player_mut(&mut self.players, attacking_player_id)?;
+
+        if !attacking_player.can_attack(attacking_player.fourth_skill_cooldown_left) {
+            return Ok(());
+        }
+
+        let now = time_now();
+        attacking_player.last_melee_attack = now;
+        attacking_player.action = PlayerAction::EXECUTINGSKILL4;
+        attacking_player.fourth_skill_start = now;
+        attacking_player.fourth_skill_cooldown_left =
+            attacking_player.character.cooldown_fourth_skill();
+
+        match attacking_player.character.name {
+            Name::H4ck => {
+                attacking_player
+                    .character
+                    .add_effect(Effect::Piercing.clone(), 300);
+                Ok(())
+            }
+            _ => Ok(()),
+        }
     }
 
     pub fn disconnect(self: &mut Self, player_id: u64) -> Result<(), String> {
@@ -663,10 +715,12 @@ impl GameState {
                 let affected_players: Vec<u64> =
                     GameState::players_in_range(&self.board, top_left, bottom_right)
                         .into_iter()
-                        .filter(|&id| id != projectile.player_id)
+                        .filter(|&id| {
+                            id != projectile.player_id && id != projectile.last_attacked_player_id
+                        })
                         .collect();
 
-                if affected_players.len() > 0 {
+                if affected_players.len() > 0 && !projectile.pierce {
                     projectile.status = ProjectileStatus::EXPLODED;
                 }
 
@@ -686,6 +740,7 @@ impl GameState {
                                 kill_count += 1;
                             }
                             GameState::modify_cell_if_player_died(&mut self.board, attacked_player);
+                            projectile.last_attacked_player_id = attacked_player.id;
                         }
                     }
                 }
