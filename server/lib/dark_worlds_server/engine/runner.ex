@@ -74,6 +74,7 @@ defmodule DarkWorldsServer.Engine.Runner do
       Application.fetch_env!(:dark_worlds_server, __MODULE__)
       |> Keyword.fetch!(:process_priority)
 
+    Logger.info("Starting game with priority: #{priority}")
     Process.flag(:priority, priority)
 
     Process.send_after(self(), :all_characters_set?, @character_selection_check_ms)
@@ -457,7 +458,7 @@ defmodule DarkWorldsServer.Engine.Runner do
 
   defp all_characters_set?(state) do
     cond do
-      state[:game_status] == :playing ->
+      Map.get(state, :game_status) == :playing ->
         nil
 
       Map.get(state, :selected_characters, %{}) |> map_size() == state[:max_players] ->
@@ -478,7 +479,7 @@ defmodule DarkWorldsServer.Engine.Runner do
         state[:game_status] == :playing ->
           state
 
-        selected_characters and map_size(selected_characters) < state[:max_players] ->
+        not is_nil(selected_characters) and map_size(selected_characters) < state[:max_players] ->
           players_with_character = Enum.map(selected_characters, fn selected_char -> selected_char.player_id end)
 
           players_without_character =
