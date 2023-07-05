@@ -186,6 +186,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void executeSkillFeedback(GameObject actualPlayer, PlayerAction playerAction)
     {
+        if (actualPlayer.name.Contains("BOT"))
+        {
+            return;
+        }
+
         // TODO: Refactor
         switch (playerAction)
         {
