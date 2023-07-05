@@ -230,23 +230,6 @@ public class PlayerMovement : MonoBehaviour
             projectiles.Remove(key);
         }
 
-        var toExplode = new List<int>();
-        foreach (var pr in projectiles)
-        {
-            if (gameProjectiles.Find(x => (int)x.Id == pr.Key).Status == ProjectileStatus.Exploded)
-            {
-                toExplode.Add(pr.Key);
-            }
-        }
-
-        foreach (var key in toExplode)
-        {
-            // TODO unbind projectile destroy from player
-            GameObject player = SocketConnectionManager.Instance.players[0];
-            player.GetComponent<MainAttack>().LaserCollision(projectiles[key]);
-            projectiles.Remove(key);
-        }
-
         for (int i = 0; i < gameProjectiles.Count; i++)
         {
             if (projectiles.TryGetValue((int)gameProjectiles[i].Id, out projectile))
@@ -259,21 +242,35 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 backToFrontPosition = Utils.transformBackendPositionToFrontendPosition(
                     gameProjectiles[i].Position
                 );
-                float xChange = backToFrontPosition.x - projectile.transform.position.x;
-                float yChange = backToFrontPosition.z - projectile.transform.position.z;
 
-                Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
-                movementDirection.Normalize();
+                // TODO: We need to figure out how to use this. To make the movemete more fluid.
+                // float xChange = backToFrontPosition.x - projectile.transform.position.x;
+                // float yChange = backToFrontPosition.z - projectile.transform.position.z;
 
-                Vector3 newPosition =
-                    projectile.transform.position + movementDirection * velocity * Time.deltaTime;
+                // Vector3 movementDirection = new Vector3(xChange, 0f, yChange);
+                // movementDirection.Normalize();
 
-                GameObject player = SocketConnectionManager.Instance.players[
-                    (int)gameProjectiles[i].PlayerId - 1
-                ];
-                player
-                    .GetComponent<MainAttack>()
-                    .ShootLaser(projectile, new Vector3(newPosition[0], 1f, newPosition[2]));
+                // Vector3 newPosition = projectile.transform.position + movementDirection * velocity * Time.deltaTime;
+                // if (movementDirection.x > 0)
+                // {
+                //     newPosition.x = Math.Min(backToFrontPosition.x, newPosition.x);
+                // }
+                // else
+                // {
+                //     newPosition.x = Math.Max(backToFrontPosition.x, newPosition.x);
+                // }
+
+                // if (movementDirection.z > 0)
+                // {
+                //     newPosition.z = Math.Min(backToFrontPosition.z, newPosition.z);
+                // }
+                // else
+                // {
+                //     newPosition.z = Math.Max(backToFrontPosition.z, newPosition.z);
+                // }
+                
+                GameObject player = SocketConnectionManager.Instance.players[(int)gameProjectiles[i].PlayerId - 1];
+                player.GetComponent<MainAttack>().ShootLaser(projectile, new Vector3(backToFrontPosition[0], 1f, backToFrontPosition[2]));
             }
             else if (gameProjectiles[i].Status == ProjectileStatus.Active)
             {
@@ -294,6 +291,24 @@ public class PlayerMovement : MonoBehaviour
                 projectiles.Add((int)gameProjectiles[i].Id, newProjectile);
             }
         }
+        
+        var toExplode = new List<int>();
+        foreach (var pr in projectiles)
+        {
+            if (gameProjectiles.Find(x => (int)x.Id == pr.Key).Status == ProjectileStatus.Exploded)
+            {
+                toExplode.Add(pr.Key);
+            }
+        }
+
+        foreach (var key in toExplode)
+        {
+            // TODO unbind projectile destroy from player
+            GameObject player = SocketConnectionManager.Instance.players[0];
+            player.GetComponent<MainAttack>().LaserCollision(projectiles[key]);
+            projectiles.Remove(key);
+        }
+
     }
 
     private void movePlayer(GameObject player, Player playerUpdate)
