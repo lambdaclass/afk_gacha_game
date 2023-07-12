@@ -4272,6 +4272,9 @@ MonoBehaviour:
   Joystick: {fileID: 5082067212023141501}
   PointsText: {fileID: 0}
   PointsTextPattern: 000000
+  KillFeedContainer: {fileID: 2374372053566511616, guid: 92b03542ba4f1406eb2515fd17bd1355,
+    type: 3}
+  Canvas: {fileID: 1182068805014700}
 --- !u!114 &2053005125
 MonoBehaviour:
   m_ObjectHideFlags: 0
