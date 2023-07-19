@@ -110,3 +110,6 @@ $RECYCLE.BIN/
 .LSOverride
 
 monocrash*.blob
+
+## This file is created at build time
+/Assets/Resources/GitHash*
