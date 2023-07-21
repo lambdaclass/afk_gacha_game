@@ -432,11 +432,11 @@ impl GameState {
         let mut lowest_hp = 100;
 
         for player in players {
-            if player.id != attacking_player_id && matches!(player.status, Status::ALIVE){
+            if player.id != attacking_player_id && matches!(player.status, Status::ALIVE) {
                 let distance = distance_to_center(player, position);
                 if distance < nearest_distance && player.health <= lowest_hp {
                     lowest_hp = player.health;
-                    nearest_player_position = Some(player.position);    
+                    nearest_player_position = Some(player.position);
                     nearest_distance = distance;
                 }
             }
@@ -683,13 +683,12 @@ impl GameState {
         }
 
         let now = time_now();
-
+        attacking_player.action = PlayerAction::EXECUTINGSKILL3;
         attacking_player.skill_3_started_at = now;
         attacking_player.skill_3_cooldown_left = attacking_player.character.cooldown_skill_3();
 
         let attacked_player_ids = match attacking_player.character.name {
             Name::H4ck => {
-                attacking_player.action = PlayerAction::EXECUTINGSKILL3;
                 attacking_player.add_effect(
                     Effect::NeonCrashing.clone(),
                     EffectData {
@@ -710,8 +709,9 @@ impl GameState {
                     self.board.width,
                 );
                 let distance = distance_between_positions(&attacking_player.position, &position);
-                let time = distance * attacking_player.speed() as f64 / 48.;
+                let time = distance * attacking_player.character.base_speed as f64 / 48.;
 
+                attacking_player.action = PlayerAction::STARTINGSKILL3;
                 attacking_player.add_effect(
                     Effect::Leaping.clone(),
                     EffectData {
