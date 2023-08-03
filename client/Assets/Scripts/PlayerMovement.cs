@@ -225,6 +225,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 SetPlayerAlive(playerCharacter);
             }
+
+            if (serverPlayerUpdate.Id != SocketConnectionManager.Instance.playerId)
+            {
+                // TODO: Refactor: create a script/reference.
+                actualPlayer.transform.Find("Position").GetComponent<Renderer>().material.color =
+                    new Color(1, 0, 0, .5f);
+            }
+
+            Transform hitbox = actualPlayer.transform.Find("Hitbox");
+
+            float hitboxSize = serverPlayerUpdate.BodySize / 50f;
+            hitbox.localScale = new Vector3(hitboxSize, hitbox.localScale.y, hitboxSize);
         }
     }
 
@@ -662,6 +674,8 @@ public class PlayerMovement : MonoBehaviour
     {
         playerCharacter.CharacterModel.SetActive(false);
         playerCharacter.ConditionState.ChangeState(CharacterStates.CharacterConditions.Dead);
+        playerCharacter.transform.Find("Hitbox").gameObject.SetActive(false);
+        playerCharacter.transform.Find("Position").gameObject.SetActive(false);
     }
 
     public void SetPlayerAlive(Character playerCharacter)
