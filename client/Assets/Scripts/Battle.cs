@@ -785,6 +785,11 @@ public class Battle : MonoBehaviour
         ManagePoisonedFeedback(player, playerUpdate);
         ManageSlowedFeedback(player, playerUpdate);
 
+        if (playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Scherzo))
+        {
+            characterSpeed *= 0.5f;
+        }
+
         if (playerUpdate.CharacterName == "Muflus")
         {
             if (playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Raged))
