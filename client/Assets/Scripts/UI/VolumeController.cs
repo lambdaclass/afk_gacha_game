@@ -9,6 +9,7 @@ public class VolumeController : MonoBehaviour
     TextMeshProUGUI uiValue;
     private MMSoundManager soundManager;
     private Slider volumeSlider;
+    private float unmutedVolume;
 
     void Start()
     {
@@ -19,12 +20,23 @@ public class VolumeController : MonoBehaviour
             MMSoundManager.MMSoundManagerTracks.Master,
             false
         );
+
+        unmutedVolume = volumeSlider.value;
         uiValue.text = uiValue.text = Mathf.FloorToInt(volumeSlider.value * 100).ToString();
     }
 
     public void ChangeMusicVolume()
     {
-        soundManager.SetVolumeMaster(volumeSlider.value);
+        if (IsMuted(MMSoundManager.MMSoundManagerTracks.Master))
+        {
+            MMSoundManager.Instance.UnmuteMaster();
+        }
+
+        MMSoundManagerTrackEvent.Trigger(
+            MMSoundManagerTrackEventTypes.SetVolumeTrack,
+            MMSoundManager.MMSoundManagerTracks.Master,
+            volumeSlider.value
+        );
         uiValue.text = Mathf.FloorToInt(volumeSlider.value * 100).ToString();
     }
 
@@ -34,5 +46,10 @@ public class VolumeController : MonoBehaviour
             MMSoundManager.MMSoundManagerTracks.Master,
             false
         );
+    }
+
+    private bool IsMuted(MMSoundManager.MMSoundManagerTracks track)
+    {
+        return !soundManager.IsMuted(track) || soundManager.GetTrackVolume(track, false) <= 0.0001f;
     }
 }
