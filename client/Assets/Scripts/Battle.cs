@@ -195,7 +195,15 @@ public class Battle : MonoBehaviour
 
             if (actualPlayer.activeSelf)
             {
-                updatePlayer(actualPlayer, serverPlayerUpdate, pastTime);
+                if (serverPlayerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Paralyzed))
+                {
+                    updatePlayer(actualPlayer, buffer.lastEvent().Players[i], pastTime);
+                }
+                else
+                {
+                    updatePlayer(actualPlayer, serverPlayerUpdate, pastTime);
+                }
+
                 if (
                     !buffer.timestampAlreadySeen(
                         SocketConnectionManager.Instance.gamePlayers[i].Id,
@@ -520,9 +528,21 @@ public class Battle : MonoBehaviour
             .GetComponent<Character>()
             .CharacterModel.GetComponent<Animator>();
 
-        // var inputFromVirtualJoystick = joystickL is not null;
-
         bool walking = false;
+
+        if (playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Paralyzed))
+        {
+            if (player.transform.position != frontendPosition)
+            {
+                player.transform.position = new Vector3(
+                    frontendPosition.x,
+                    player.transform.position.y,
+                    frontendPosition.z
+                );
+            }
+            mAnimator.SetBool("Walking", walking);
+            return;
+        }
 
         if (useClientPrediction)
         {
@@ -596,7 +616,6 @@ public class Battle : MonoBehaviour
                 {
                     newPosition.z = Math.Max(frontendPosition.z, newPosition.z);
                 }
-
                 player.transform.position = newPosition;
 
                 // FIXME: This is a temporary solution to solve unwanted player rotation until we handle movement blocking on backend
@@ -610,6 +629,7 @@ public class Battle : MonoBehaviour
             }
             walking = true;
         }
+
         mAnimator.SetBool("Walking", walking);
     }
 
@@ -851,6 +871,11 @@ public class Battle : MonoBehaviour
         )
         {
             characterSpeed *= 4f;
+        }
+
+        if (playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Paralyzed))
+        {
+            characterSpeed = 0f;
         }
 
         return characterSpeed;
