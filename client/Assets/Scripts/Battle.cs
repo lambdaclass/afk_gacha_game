@@ -25,6 +25,13 @@ public class Battle : MonoBehaviour
     public long accumulatedTime;
     public long firstTimestamp;
 
+    // We do this to only have the state effects in the enum instead of all the effects
+    private enum StateEffects
+    {
+        Poisoned = PlayerEffect.Poisoned,
+        Slowed = PlayerEffect.Slowed,
+    }
+
     void Start()
     {
         InitBlockingStates();
@@ -800,8 +807,7 @@ public class Battle : MonoBehaviour
         float characterSpeed
     )
     {
-        ManagePoisonedFeedback(player, playerUpdate);
-        ManageSlowedFeedback(player, playerUpdate);
+        ManageFeedbacks(player, playerUpdate);
 
         if (playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Scherzo))
         {
@@ -881,33 +887,21 @@ public class Battle : MonoBehaviour
         return characterSpeed;
     }
 
-    private void ManagePoisonedFeedback(GameObject player, Player playerUpdate)
+    private void ManageFeedbacks(GameObject player, Player playerUpdate)
     {
-        if (
-            PlayerIsAlive(playerUpdate)
-            && playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Poisoned)
-        )
+        if (playerUpdate.Effects.Keys.Count == 0)
         {
-            GetComponent<PlayerFeedbacks>().SetActivePoisonedFeedback(player, true);
+            GetComponent<PlayerFeedbacks>().ClearAllFeedbacks(player);
         }
-        else
-        {
-            GetComponent<PlayerFeedbacks>().SetActivePoisonedFeedback(player, false);
-        }
-    }
 
-    private void ManageSlowedFeedback(GameObject player, Player playerUpdate)
-    {
-        if (
-            PlayerIsAlive(playerUpdate)
-            && playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Slowed)
-        )
+        foreach (ulong key in playerUpdate.Effects.Keys)
         {
-            GetComponent<PlayerFeedbacks>().SetActiveSlowedFeedback(player, true);
-        }
-        else
-        {
-            GetComponent<PlayerFeedbacks>().SetActiveSlowedFeedback(player, false);
+            foreach (int effect in Enum.GetValues(typeof(StateEffects)))
+            {
+                string name = Enum.GetName(typeof(StateEffects), effect);
+                bool isActive = key == (ulong)effect && PlayerIsAlive(playerUpdate);
+                GetComponent<PlayerFeedbacks>().SetActiveFeedback(player, name, isActive);
+            }
         }
     }
 
