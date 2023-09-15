@@ -28,6 +28,8 @@ public class Battle : MonoBehaviour
     public long firstTimestamp;
 
     private Loot loot;
+    private bool playerMaterialColorChanged;
+    private bool healthBarColorChanged;
 
     // We do this to only have the state effects in the enum instead of all the effects
     private enum StateEffects
@@ -43,6 +45,8 @@ public class Battle : MonoBehaviour
         SetupInitialState();
         StartCoroutine(InitializeProjectiles());
         loot = GetComponent<Loot>();
+        playerMaterialColorChanged = false;
+        healthBarColorChanged = false;
     }
 
     private void InitBlockingStates()
@@ -838,31 +842,18 @@ public class Battle : MonoBehaviour
         }
 
         // TODO: Temporary out of area feedback. Refactor!
-        if (playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.OutOfArea))
+        if (
+            playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.OutOfArea)
+            && !playerMaterialColorChanged
+        )
         {
-            for (int i = 0; i < character.CharacterModel.transform.childCount; i++)
-            {
-                Renderer renderer = character.CharacterModel.transform
-                    .GetChild(i)
-                    .GetComponent<Renderer>();
-                if (renderer)
-                {
-                    renderer.material.color = Color.magenta;
-                }
-            }
+            Utils.ChangeCharacterMaterialColor(character, Color.magenta);
+            playerMaterialColorChanged = true;
         }
         else
         {
-            for (int i = 0; i < character.CharacterModel.transform.childCount; i++)
-            {
-                Renderer renderer = character.CharacterModel.transform
-                    .GetChild(i)
-                    .GetComponent<Renderer>();
-                if (renderer)
-                {
-                    renderer.material.color = Color.white;
-                }
-            }
+            Utils.ChangeCharacterMaterialColor(character, Color.white);
+            playerMaterialColorChanged = false;
         }
 
         if (playerUpdate.Id == SocketConnectionManager.Instance.playerId)
@@ -891,10 +882,18 @@ public class Battle : MonoBehaviour
         }
 
         MMHealthBar healthBar = player.GetComponent<MMHealthBar>();
-
-        healthBar.ForegroundColor = playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Poisoned)
-            ? Utils.GetHealthBarGradient(MMColors.Green)
-            : Utils.GetHealthBarGradient(MMColors.BestRed);
+        if (
+            playerUpdate.Effects.ContainsKey((ulong)PlayerEffect.Poisoned) && !healthBarColorChanged
+        )
+        {
+            healthBar.ForegroundColor = Utils.GetHealthBarGradient(MMColors.Green);
+            healthBarColorChanged = true;
+        }
+        else
+        {
+            healthBar.ForegroundColor = Utils.GetHealthBarGradient(MMColors.BestRed);
+            healthBarColorChanged = false;
+        }
 
         return characterSpeed;
     }

@@ -1,12 +1,11 @@
-using MoreMountains.Tools;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using MoreMountains.TopDownEngine;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using MoreMountains.TopDownEngine;
-using System;
-using System.Collections.Generic;
-using TMPro;
-using System.Collections;
 
 public enum UIControls
 {
@@ -129,12 +128,6 @@ public class CustomInputManager : InputManager
         directionIndicator = _player.GetComponentInChildren<AimDirection>();
     }
 
-    // void Update()
-    // {
-    //     activeJoystickStatus = activeJoystick != null ? true : false;
-    //     cancelButton.SetActive(activeJoystickStatus);
-    // }
-
     public void ActivateDisarmEffect(bool isDisarmed)
     {
         if (disarmed != isDisarmed)
@@ -175,10 +168,8 @@ public class CustomInputManager : InputManager
 
     public void AssignSkillToInput(UIControls trigger, UIType triggerType, Skill skill)
     {
-        CustomMMTouchJoystick joystick = mobileButtons[
-            trigger
-        ].GetComponent<CustomMMTouchJoystick>();
-        CustomMMTouchButton button = mobileButtons[trigger].GetComponent<CustomMMTouchButton>();
+        CustomMMTouchButton button = mobileButtons[trigger];
+        CustomMMTouchJoystick joystick = button.GetComponent<CustomMMTouchJoystick>();
 
         switch (triggerType)
         {
@@ -204,7 +195,7 @@ public class CustomInputManager : InputManager
                 {
                     joystick.enabled = true;
                 }
-                MapDirectionInputEvents(joystick, skill);
+                MapDirectionInputEvents(button, skill);
                 break;
         }
     }
@@ -242,6 +233,7 @@ public class CustomInputManager : InputManager
     public void ShowTapSkill(Skill skill)
     {
         ShowSkillRange(skill);
+        ShowTargetsInSkillRange(skill);
         directionIndicator.InitIndicator(skill, characterSkillColor);
     }
 
@@ -295,8 +287,9 @@ public class CustomInputManager : InputManager
         HideSkillRange();
     }
 
-    private void MapDirectionInputEvents(CustomMMTouchJoystick joystick, Skill skill)
+    private void MapDirectionInputEvents(CustomMMTouchButton button, Skill skill)
     {
+        CustomMMTouchJoystick joystick = button.GetComponent<CustomMMTouchJoystick>();
         UnityEvent<CustomMMTouchJoystick> directionEvent = new UnityEvent<CustomMMTouchJoystick>();
         directionEvent.AddListener(ShowAimDirectionSkill);
         joystick.newPointerDownEvent = directionEvent;
@@ -310,6 +303,12 @@ public class CustomInputManager : InputManager
         directionRelease.AddListener(ExecuteDirectionSkill);
         joystick.skill = skill;
         joystick.newPointerUpEvent = directionRelease;
+
+        button.skill = skill;
+
+        UnityEvent<Skill> aoeEvent = new UnityEvent<Skill>();
+        aoeEvent.AddListener(ShowAimDirectionTargetsSkill);
+        button.newPointerTapDown = aoeEvent;
     }
 
     private void ShowAimDirectionSkill(CustomMMTouchJoystick joystick)
@@ -330,8 +329,14 @@ public class CustomInputManager : InputManager
             directionIndicator.ActivateIndicator(joystick.skill.GetIndicatorType());
         }
 
-        ShowSkillRange(joystick.skill);
         activeJoystick = joystick;
+    }
+
+    private void ShowAimDirectionTargetsSkill(Skill skill)
+    {
+        ShowSkillRange(skill);
+        ShowTargetsInSkillRange(skill);
+        directionIndicator.InitIndicator(skill, characterSkillColor);
     }
 
     private void AimDirectionSkill(Vector2 direction, CustomMMTouchJoystick joystick)
@@ -425,6 +430,18 @@ public class CustomInputManager : InputManager
         }
     }
 
+    private void ShowTargetsInSkillRange(Skill skill)
+    {
+        if (ShouldShowTargetsInSkillRange(skill))
+        {
+            var targetsInRange = GetTargetsInSkillRange(skill);
+            targetsInRange.ForEach(p =>
+            {
+                Utils.ChangeCharacterMaterialColor(p.GetComponent<CustomCharacter>(), Color.red);
+            });
+        }
+    }
+
     public void HideSkillRange()
     {
         Transform skillRange = _player
@@ -475,5 +492,60 @@ public class CustomInputManager : InputManager
     public void ToggleCanceled(bool value)
     {
         cancelButton.SetActive(value);
+    }
+
+    private List<GameObject> GetTargetsInSkillRange(Skill skill)
+    {
+        List<GameObject> inRangeTargets = new List<GameObject>();
+
+        SocketConnectionManager.Instance.players.ForEach(p =>
+        {
+            if (PlayerIsInSkillRange(p, skill))
+            {
+                inRangeTargets.Add(p);
+            }
+        });
+        return inRangeTargets;
+    }
+
+    private bool PlayerIsInSkillRange(GameObject player, Skill skill)
+    {
+        switch (skill.GetSkillName())
+        {
+            case "MULTISHOT":
+                return PlayerIsInSkillDirectionConeRange(player, skill);
+            case "DISARM":
+                return PlayerIsInSkillDirectionArrowRange(player, skill);
+            default:
+                return PlayerIsInSkillProximityRange(player, skill);
+        }
+    }
+
+    private bool PlayerIsInSkillProximityRange(GameObject player, Skill skill)
+    {
+        return !IsSamePlayer(player) && directionIndicator.IsInProximityRange(player);
+    }
+
+    private bool PlayerIsInSkillDirectionConeRange(GameObject player, Skill skill)
+    {
+        return !IsSamePlayer(player) && directionIndicator.IsInsideCone(player);
+    }
+
+    private bool PlayerIsInSkillDirectionArrowRange(GameObject player, Skill skill)
+    {
+        return !IsSamePlayer(player) && directionIndicator.IsInArrowLine(player);
+    }
+
+    private bool IsSamePlayer(GameObject player)
+    {
+        return player.name == _player.name;
+    }
+
+    private bool ShouldShowTargetsInSkillRange(Skill skill)
+    {
+        return skill.GetType() == typeof(SkillBasic)
+            || skill.GetSkillName() == "BARREL ROLL"
+            || skill.GetSkillName() == "MULTISHOT"
+            || skill.GetSkillName() == "DISARM";
     }
 }
