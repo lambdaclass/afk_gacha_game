@@ -3139,7 +3139,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8277606117158758534}
         m_TargetAssemblyTypeName: SpawnBot, Assembly-CSharp
-        m_MethodName: Init
+        m_MethodName: GenerateBotPlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
