@@ -42,6 +42,7 @@ public class Battle : MonoBehaviour
         Slowed = PlayerEffect.Slowed,
         Paralyzed = PlayerEffect.Paralyzed,
         Poisoned = PlayerEffect.Poisoned,
+        OutOfArea = PlayerEffect.OutOfArea
     }
 
     void Start()
@@ -624,7 +625,9 @@ public class Battle : MonoBehaviour
 
     public void SetPlayerDead(CustomCharacter playerCharacter)
     {
-        playerCharacter.GetComponent<CharacterFeedbacks>().PlayDeathFeedback();
+        CharacterFeedbacks playerFeedback = playerCharacter.GetComponent<CharacterFeedbacks>();
+        playerFeedback.PlayDeathFeedback();
+        playerFeedback.ClearAllFeedbacks(playerCharacter.gameObject);
         playerCharacter.CharacterModel.SetActive(false);
         playerCharacter.ConditionState.ChangeState(CharacterStates.CharacterConditions.Dead);
         playerCharacter.characterBase.Hitbox.SetActive(false);
@@ -862,7 +865,6 @@ public class Battle : MonoBehaviour
         {
             string name = Enum.GetName(typeof(StateEffects), effect);
             bool hasEffect = playerUpdate.Effects.ContainsKey((ulong)effect);
-
             CustomGUIManager.stateManagerUI.ToggleState(name, playerUpdate.Id, hasEffect);
             player.GetComponent<CharacterFeedbacks>().SetActiveFeedback(player, name, hasEffect);
         }
