@@ -267,11 +267,15 @@ public class Battle : MonoBehaviour
                         )
                     )
                     {
-                        executeSkillFeedback(
-                            currentPlayer,
-                            serverPlayerUpdate.Action,
-                            serverPlayerUpdate.Direction
-                        );
+                        foreach (PlayerAction action in serverPlayerUpdate.Action)
+                        {
+                            executeSkillFeedback(
+                                currentPlayer,
+                                action,
+                                serverPlayerUpdate.Direction,
+                                serverPlayerUpdate.ActionDurationMs
+                            );
+                        }
                         buffer.setLastTimestampSeen(
                             SocketConnectionManager.Instance.gamePlayers[i].Id,
                             gameEvent.ServerTimestamp
@@ -300,7 +304,8 @@ public class Battle : MonoBehaviour
     private void executeSkillFeedback(
         GameObject currentPlayer,
         PlayerAction playerAction,
-        RelativePosition direction
+        RelativePosition direction,
+        ulong actionDurationMs
     )
     {
         // TODO: Refactor
@@ -569,7 +574,7 @@ public class Battle : MonoBehaviour
             // FIXME: Remove harcoded validation once is fixed on the backend.
             if (
                 playerUpdate.CharacterName == "Muflus"
-                && playerUpdate.Action == PlayerAction.ExecutingSkill3
+                && playerUpdate.Action.Contains(PlayerAction.ExecutingSkill3)
             )
             {
                 player.transform.position = frontendPosition;
