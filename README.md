@@ -1,6 +1,4 @@
-# Curse of Myrra
-
-<img src="docs/src/images/Curse_of_Myrra_logo.png" alt="Curse of Myrra logo">
+# Myrra Autobattler
 
 ## Table of Contents
 
@@ -16,30 +14,13 @@
 
 ## About
 
-Welcome to the realm of Curse of Myrra, crafted by LambdaClass.
+Welcome Myrra autobattler, by LambdaClass.
 
-Curse of Myrra is the inaugural game built on our groundbreaking [Game Backend](https://github.com/lambdaclass/game_backend). This open source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
-
-Step into a universe where the destinies of heroes from four planets collide in an epic struggle for the favor of Myrra, a capricious deity known for manipulating entire societies by exploiting their deepest desires. Brace yourself for an immersive journey where every decision matters, and the pursuit of victory comes with the ever-present thrill of unpredictability.
-
-Curse of Myrra is more than a game; it's an adventure into a world where strategy, skill, and a dash of chaos converge. Join the battle and confront the challenges that lie ahead in this captivating and dynamic gaming experience. The stage is set, and the Curse of Myrra awaits—embrace the challenge and become a legend!
-
-<div>
-  <div float="center">
-    <img src="docs/src/images/Curse_of_Myrra_3D_Assets_Muflus.png" alt="Muflus 3D model" width=300px>  
-    <img src="docs/src/images/Curse_of_Myrra_3D_Assets_Uma.jpeg" alt="Uma 3D model" width=300px> 
-  </div>
-  <div float="center">
-    <img src="docs/src/images/Curse_of_Myrra_concept_art_Shinko.png" alt="Shinko hero concept art" width=300px>
-    <img src="docs/src/images/Curse_of_Myrra_concept_art_Otobi_dog.png" alt="Concept art for a gang member dog in the planet of Otobi" width=300px>
-  </div>
-<div>
+Built with our [Game Backend](https://github.com/lambdaclass/game_backend). This open source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
 
 ## Licensing
 
 The code is licensed under the Apache 2 license, while the music and graphics are licensed under a CC attribution and share-alike license.
-
-Find our open source 3D models, concept art, music, lore and more in our [Curse of Myrra Open Game Assets](https://github.com/lambdaclass/curse_of_myrra_assets) repository.
 
 ## Requirements
 
@@ -78,7 +59,6 @@ make setup
 
 - In Unity Hub, click on the add project button and select the `client` folder.
 - Choose the correct editor version and download the [Top Down Engine](https://assetstore.unity.com/packages/templates/systems/topdown-engine-89636) by [More Mountains](https://moremountains.com). Include it in the `Assets/ThirdParty` folder after purchasing the license.
-- To test the game, select the scene in `Assets/Scenes/TitleScreen` and run it by clicking the play button.
 
 ## Running the Backend
 
@@ -116,37 +96,8 @@ Will format your code and run Credo check and tests.
 
 ## Documentation
 
-Explore our documentation [here](https://docs.curseofmyrra.com/) or run it locally. To run locally, install:
-
-```
-cargo install mdbook
-cargo install mdbook-mermaid
-```
-
-Then run:
-
-```
-make docs
-```
-
-Open: [http://localhost:3000/](http://localhost:3000/ios_builds.html)
-
-Some key documentation pages:
-
-- [Backend architecture](https://docs.curseofmyrra.com/backend_architecture.html)
-- [Message protocol](https://docs.curseofmyrra.com/message_protocol.html)
-- [Android build](https://docs.curseofmyrra.com/android_builds.html)
-- [IOs builds](https://docs.curseofmyrra.com/ios_builds.html)
-
 ## Contact and Socials
 
 If you have any questions, feedback, or comments:
 
 - **Email:** gamedev@lambdaclass.com
-
-We share our development and creative process in the open, follow us for frequent updates on our game:
-
-- **Twitter:** [@CurseOfMyrra](https://twitter.com/curseofmyrra)
-- **Reddit:** [r/curseofmyrra](https://www.reddit.com/r/curseofmyrra/)
-- **Discord:** [join link](https://discord.gg/hxDRsbCpzC)
-- **Telegram:** [t.me/curseofmyrra](https://t.me/curseofmyrra)
