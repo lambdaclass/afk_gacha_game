@@ -463,6 +463,29 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8300635901488261403, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: characterModels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8300635901488261403, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: characterModels.Array.data[0]
+      value: 
+      objectReference: {fileID: 680528562126163880, guid: 15b66cc26325d4624aa55f5dbede2d7d,
+        type: 3}
+    - target: {fileID: 8300635901488261403, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: characterModels.Array.data[1]
+      value: 
+      objectReference: {fileID: 6484203954245076451, guid: 6ab80e0330e104468bb83c97f67ae1c9,
+        type: 3}
+    - target: {fileID: 8300635901488261403, guid: 9edcf7e494cf3e640b18cb7495fb179a,
+        type: 3}
+      propertyPath: characterModels.Array.data[2]
+      value: 
+      objectReference: {fileID: 6228012723187808227, guid: 6ab80e0330e104468bb83c97f67ae1c9,
+        type: 3}
     - target: {fileID: 8790577661160254371, guid: 9edcf7e494cf3e640b18cb7495fb179a,
         type: 3}
       propertyPath: ButtonReleased.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
