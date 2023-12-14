@@ -8,13 +8,13 @@ public class CharacterList : MonoBehaviour
     GameObject CharacterItemUIPrefab;
 
     [NonSerialized]
-    public UnityEvent<string> OnCharacterSelected;
+    public UnityEvent<Character> OnCharacterSelected;
 
     void Start() {
-        OnCharacterSelected = new UnityEvent<string>();
+        OnCharacterSelected = new UnityEvent<Character>();
     }
 
-    public void SelectCharacter(string character)
+    public void SelectCharacter(Character character)
     {
         OnCharacterSelected.Invoke(character);
     }

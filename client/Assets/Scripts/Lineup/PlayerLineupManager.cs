@@ -14,9 +14,9 @@ public class PlayerLineupManager : MonoBehaviour
         characterList.OnCharacterSelected.AddListener(AddCharacterToLineup);
     }
 
-    private void AddCharacterToLineup(string character)
+    private void AddCharacterToLineup(Character character)
     {
-        print($"selected character: {character}");
+        print($"selected character: {character.name}");
         UnitPosition up = unitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
         if(up)
         {
