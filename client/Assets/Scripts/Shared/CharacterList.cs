@@ -16,11 +16,10 @@ public class CharacterList : MonoBehaviour
     List<Character> characters;
 
     [NonSerialized]
-    public UnityEvent<Character> OnCharacterSelected;
+    public UnityEvent<Character> OnCharacterSelected = new UnityEvent<Character>();
 
     void Start()
     {
-        OnCharacterSelected = new UnityEvent<Character>();
         PopulateList();
     }
 

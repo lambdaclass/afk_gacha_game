@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerLineupManager : MonoBehaviour
 {
@@ -16,7 +17,6 @@ public class PlayerLineupManager : MonoBehaviour
 
     private void AddCharacterToLineup(Character character)
     {
-        print($"selected character: {character.name}");
         UnitPosition up = unitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
         if(up)
         {
