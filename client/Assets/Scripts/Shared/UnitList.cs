@@ -15,6 +15,7 @@ public class UnitList : MonoBehaviour
     [SerializeField]
     List<Unit> unit;
 
+    [NonSerialized]
     public UnityEvent<Unit> OnUnitSelected = new UnityEvent<Unit>();
 
     void Start()
