@@ -6,21 +6,21 @@ using UnityEngine.Events;
 public class PlayerLineupManager : MonoBehaviour
 {
     [SerializeField]
-    CharacterList characterList;
+    UnitList unitList;
 
     [SerializeField]
     List<UnitPosition> unitPositions;
 
     void Start() {
-        characterList.OnCharacterSelected.AddListener(AddCharacterToLineup);
+        unitList.OnUnitSelected.AddListener(AddUnitToLineup);
     }
 
-    private void AddCharacterToLineup(Character character)
+    private void AddUnitToLineup(Unit unit)
     {
         UnitPosition up = unitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
         if(up)
         {
-            up.SetCharacter(character);
+            up.SetUnit(unit);
         }
     }
 }
