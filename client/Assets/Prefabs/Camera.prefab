@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 5341647535329109188}
   - component: {fileID: 5341647535329109243}
   m_Layer: 0
-  m_Name: OverworldCamera
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
