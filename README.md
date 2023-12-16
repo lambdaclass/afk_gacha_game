@@ -1,4 +1,4 @@
-# Myrra Autobattler
+# Champions of Mirra
 
 ## Table of Contents
 
@@ -14,9 +14,9 @@
 
 ## About
 
-Welcome Myrra autobattler, by LambdaClass.
+Welcome to Champions of Mirra, a mobile autobattler by LambdaClass.
 
-Built with our [Game Backend](https://github.com/lambdaclass/game_backend). This open source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
+The game runs on our [Game Backend](https://github.com/lambdaclass/game_backend). This open source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
 
 ## Licensing
 
@@ -26,6 +26,9 @@ The code is licensed under the Apache 2 license, while the music and graphics ar
 
 Ensure you have the following dependencies installed:
 
+- **Docker and Docker Compose**
+  - [Install Docker](https://docs.docker.com/get-docker/)
+  - [Get Docker Compose](https://docs.docker.com/compose/install/)
 - **Rust:**
   - [Install Rust](https://www.rust-lang.org/tools/install)
 - **Elixir and Erlang:**
@@ -34,7 +37,8 @@ Ensure you have the following dependencies installed:
   - Elixir 1.15.4
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
-- **Docker**
+- **Lambda Game Backend** 
+  - [Clone the repository](https://github.com/lambdaclass/game_backend)
 
 ## Suggested Development Environment
 
