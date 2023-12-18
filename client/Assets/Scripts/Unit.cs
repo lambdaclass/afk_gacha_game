@@ -6,6 +6,7 @@ using UnityEngine;
 public class Unit : ScriptableObject
 {
     public new string name;
-    public Sprite unitSprite;
+    public Sprite iconSprite;
+    public Sprite backgroundSprite;
     public GameObject prefab;
 }

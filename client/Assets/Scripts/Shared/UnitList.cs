@@ -28,7 +28,7 @@ public class UnitList : MonoBehaviour
         unit.ForEach(unit =>
         {
             GameObject unitItem = Instantiate(UnitItemUIPrefab, UnitListContainer.transform);
-            unitItem.GetComponent<Image>().sprite = unit.unitSprite;
+            unitItem.GetComponent<Image>().sprite = unit.iconSprite;
             unitItem.GetComponent<Button>().onClick.AddListener(() => SelectCharacter(unit));
         });
     }
