@@ -30,6 +30,7 @@ public class UnitList : MonoBehaviour
             GameObject unitItem = Instantiate(UnitItemUIPrefab, UnitListContainer.transform);
             unitItem.GetComponent<Image>().sprite = unit.iconSprite;
             unitItem.GetComponent<Button>().onClick.AddListener(() => SelectCharacter(unit));
+
         });
     }
 
