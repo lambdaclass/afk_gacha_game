@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,11 +14,11 @@ public class UnitDetail : MonoBehaviour
     TMP_Text unitName;
 
     [SerializeField]
-    Image background;
+    Image backgroundImage;
 
     void Start() {
         unitName.text = selectedUnit.name;
-        background.sprite = selectedUnit.backgroundSprite;
+        backgroundImage.sprite = selectedUnit.backgroundSprite;
     }
 
     public static void SelectUnit(Unit unit) {
