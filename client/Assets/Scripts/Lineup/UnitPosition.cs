@@ -8,7 +8,7 @@ public class UnitPosition : MonoBehaviour
     TMP_Text unitName;
 
     [SerializeField]
-    GameObject modelContainer;
+    UIModelManager UIModelManager;
 
     private bool isOccupied;
     public bool IsOccupied => isOccupied;
@@ -17,7 +17,8 @@ public class UnitPosition : MonoBehaviour
         unitName.text = character.name;
         isOccupied = true;
         unitName.gameObject.SetActive(true);
-        GameObject newUnit = Instantiate(character.prefab, modelContainer.transform);
-        modelContainer.SetActive(true);
+        // GameObject newUnit = Instantiate(character.prefab, modelContainer.transform);
+        // modelContainer.SetActive(true);
+        UIModelManager.SetModel(character.prefab);
     }
 }
