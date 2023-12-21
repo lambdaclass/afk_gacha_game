@@ -188,12 +188,12 @@ PrefabInstance:
     - target: {fileID: 8610322166391184610, guid: 5db8c2f8d25284f3d901292ba31f9692,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8610322166391184612, guid: 5db8c2f8d25284f3d901292ba31f9692,
         type: 3}
       propertyPath: m_text
-      value: Dragon
+      value: muflus
       objectReference: {fileID: 0}
     - target: {fileID: 8610322166662081404, guid: 5db8c2f8d25284f3d901292ba31f9692,
         type: 3}
@@ -3696,6 +3696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -3500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610322166391184610, guid: 5db8c2f8d25284f3d901292ba31f9692,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8610322166662081404, guid: 5db8c2f8d25284f3d901292ba31f9692,
         type: 3}
