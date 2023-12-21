@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 4408297863206454}
   - component: {fileID: 95380085654935804}
   m_Layer: 0
-  m_Name: PBR_Golem
+  m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

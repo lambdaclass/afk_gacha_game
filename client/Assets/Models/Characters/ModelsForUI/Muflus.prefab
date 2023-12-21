@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 479893229475555797}
   - component: {fileID: 4981282016005510552}
   m_Layer: 0
-  m_Name: MuflusUI
+  m_Name: Muflus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
