@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Muflus
   characterSprite: {fileID: 21300000, guid: 06dbb91af72c34e7c85ad2f236c0cc9a, type: 3}
-  prefab: {fileID: 1015427814037559702, guid: 060f7fdbbdf974508b1d92b4661925a9, type: 3}
+  prefab: {fileID: 1000710565635634031, guid: f29de91e4383147cbaf446466adcf5ca, type: 3}
