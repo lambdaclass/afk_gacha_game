@@ -13,7 +13,7 @@ public class UnitPosition : MonoBehaviour
     private bool isOccupied;
     public bool IsOccupied => isOccupied;
 
-    public void SetCharacter(Character character) {
+    public void SetUnit(Unit character) {
         unitName.text = character.name;
         isOccupied = true;
         unitName.gameObject.SetActive(true);
