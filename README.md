@@ -1,4 +1,4 @@
-# Mirra Autobattler
+# Curse of Myrra
 
 <img src="docs/src/images/Curse_of_Myrra_logo.png" alt="Curse of Myrra logo">
 
@@ -146,7 +146,7 @@ If you have any questions, feedback, or comments:
 
 We share our development and creative process in the open, follow us for frequent updates on our game:
 
-- **Twitter:** [@CurseOfMirra](https://twitter.com/curseofmirra)
-- **Reddit:** [r/curseofmirra](https://www.reddit.com/r/curseofmirra/)
+- **Twitter:** [@CurseOfMyrra](https://twitter.com/curseofmyrra)
+- **Reddit:** [r/curseofmyrra](https://www.reddit.com/r/curseofmyrra/)
 - **Discord:** [join link](https://discord.gg/hxDRsbCpzC)
-- **Telegram:** [t.me/curseofmirra](https://t.me/curseofmirra)
+- **Telegram:** [t.me/curseofmyrra](https://t.me/curseofmyrra)
