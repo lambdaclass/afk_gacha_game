@@ -53,6 +53,7 @@ Ensure you have the following dependencies installed:
   - Elixir 1.15.4
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
+    - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
 - **Docker**
 
 ## Suggested Development Environment
