@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b248f9794ab45d583fabc03d621f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterList: {fileID: 520723314}
+  unitList: {fileID: 520723314}
   unitPositions:
   - {fileID: 1497209609}
   - {fileID: 1465639268}
@@ -872,7 +872,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e08dfe02971444109507a2c1096cc45, type: 3}
+  m_Script: {fileID: 11500000, guid: 8165a8a6813eb4bb8814c837ffe79f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &607110678
@@ -3594,6 +3594,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: unit.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: unit.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 177e6e40c48484d7e87288e5ccefed65,
+        type: 2}
+    - target: {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: unit.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa57cccb28a1d4e9c9832ae5566b73a5,
+        type: 2}
+    - target: {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: unit.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: df0b8cef1f5624f51885e3abc62cdd51,
+        type: 2}
+    - target: {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: unit.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 06c1a7bfc01244f368637b515c6be449,
+        type: 2}
     - target: {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
       propertyPath: characters.Array.size
