@@ -19,6 +19,7 @@ public class CharacterList : MonoBehaviour
     {
         units.ForEach(unit =>
         {
+            print($"{unit.character.name}, {unit.unit_id}");
             GameObject characterItem = Instantiate(CharacterItemUIPrefab, CharacterListContainer.transform);
             characterItem.GetComponent<Image>().sprite = unit.character.characterSprite;
             characterItem.GetComponent<Button>().onClick.AddListener(() => SelectCharacter(unit));

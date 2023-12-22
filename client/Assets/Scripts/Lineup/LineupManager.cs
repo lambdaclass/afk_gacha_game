@@ -22,7 +22,7 @@ public class LineupManager : MonoBehaviour
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {
-                        unit_id = unit.unit_id,
+                        unit_id = unit.id,
                         level = unit.level,
                         character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
                         slot = unit.slot,
@@ -42,7 +42,6 @@ public class LineupManager : MonoBehaviour
         foreach(Unit unit in units.Where(unit => unit.selected)) {
             UnitPosition unitPosition;
             if(unit.slot.HasValue) {
-                print($"unit position: {unit.slot.Value}");
                 unitPosition = playerUnitPositions[unit.slot.Value];
             } else {
                 unitPosition = playerUnitPositions.First(position => !position.IsOccupied);
@@ -57,6 +56,11 @@ public class LineupManager : MonoBehaviour
 
         if(unitPosition)
         {
+            int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
+
+            StartCoroutine(
+                BackendConnection.SelectUnit(unit, slot)
+            );
             unitPosition.SetUnit(unit);
         }
     }

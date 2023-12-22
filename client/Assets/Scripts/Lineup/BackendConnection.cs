@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -52,12 +53,52 @@ static class BackendConnection
             }
         }
     }
+
+    public static IEnumerator SelectUnit(
+        Unit unit,
+        int slot
+    )
+    {
+        string url = $"http://localhost:4000/users-characters/faker_device/select_unit/{unit.unit_id}";
+        string parametersJson = "{\"slot\":\"" + slot + "\"}";
+        byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
+        {
+            // webRequest.certificateHandler = new AcceptAllCertificates();
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            yield return webRequest.SendWebRequest();
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.Success:
+                    if (webRequest.downloadHandler.text.Contains("INEXISTENT_USER"))
+                    {
+                        // errorCallback?.Invoke(webRequest.downloadHandler.text);
+                    }
+                    else
+                    {
+                        // UserCharacterResponse response =
+                        //     JsonUtility.FromJson<UserCharacterResponse>(
+                        //         webRequest.downloadHandler.text
+                        //     );
+                        // successCallback?.Invoke(response);
+                        Debug.Log(webRequest.downloadHandler.text);
+                    }
+                    break;
+                default:
+                    // errorCallback?.Invoke(webRequest.downloadHandler.error);
+                    Debug.LogError(webRequest.downloadHandler.error);
+                    break;
+            }
+        }
+
+    }
 }
 
 [Serializable]
 public class UnitDTO
 {
-    public string unit_id { get; set; }
+    public string id { get; set; }
     public int? slot { get; set; }
     public int level { get; set; }
     public bool selected { get; set; }
