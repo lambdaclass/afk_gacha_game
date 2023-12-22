@@ -468,7 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: {fileID: 8610322166391184612}
-  UIModelManager: {fileID: 5825584228062470782}
+  modelContainer: {fileID: 1298774226396644717}
 --- !u!114 &5825584228062470782
 MonoBehaviour:
   m_ObjectHideFlags: 0
