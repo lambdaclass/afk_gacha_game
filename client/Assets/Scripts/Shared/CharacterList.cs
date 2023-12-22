@@ -27,7 +27,6 @@ public class CharacterList : MonoBehaviour
     {
         userUnits.ForEach(unit =>
         {
-            print($"availableCharacter: {unit.character}");
             Character character = characters.Find(character => character.name.ToLower() == unit.character.ToLower());
             GameObject characterItem = Instantiate(CharacterItemUIPrefab, CharacterListContainer.transform);
             characterItem.GetComponent<Image>().sprite = character.characterSprite;

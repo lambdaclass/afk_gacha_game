@@ -491,7 +491,6 @@ GameObject:
   - component: {fileID: 248239988}
   - component: {fileID: 248239990}
   - component: {fileID: 248239989}
-  - component: {fileID: 248239991}
   m_Layer: 5
   m_Name: PlayerUnits
   m_TagString: Untagged
@@ -562,25 +561,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248239987}
   m_CullTransparentMesh: 1
---- !u!114 &248239991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248239987}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78b248f9794ab45d583fabc03d621f0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterList: {fileID: 520723314}
-  unitPositions:
-  - {fileID: 1497209609}
-  - {fileID: 1465639268}
-  - {fileID: 1681149557}
-  - {fileID: 246826428}
-  - {fileID: 973009576}
 --- !u!1 &248698612
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,7 +1138,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 25, y: 150, z: 0}
 --- !u!1 &825779711
 GameObject:
@@ -1834,7 +1814,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 25, y: 150, z: 0}
 --- !u!114 &1205818249
 MonoBehaviour:
@@ -2545,7 +2525,7 @@ Transform:
   m_Children:
   - {fileID: 825779712}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1606196170
 GameObject:
@@ -2577,6 +2557,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterList: {fileID: 520723314}
+  playerUnitPositions:
+  - {fileID: 1497209609}
+  - {fileID: 1465639268}
+  - {fileID: 1681149557}
+  - {fileID: 246826428}
+  - {fileID: 973009576}
 --- !u!4 &1606196172
 Transform:
   m_ObjectHideFlags: 0
@@ -2590,7 +2576,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1606413888
 GameObject:
@@ -2814,7 +2800,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1681149555
 PrefabInstance:

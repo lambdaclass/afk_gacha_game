@@ -12,7 +12,6 @@ static class BackendConnection
     )
     {
         string url = "http://localhost:4000/users-characters/theo_device/get_units";
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
