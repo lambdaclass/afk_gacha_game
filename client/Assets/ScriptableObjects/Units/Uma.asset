@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Uma
   m_EditorClassIdentifier: 
   name: Uma
-  unitSprite: {fileID: 21300000, guid: c822c7d5c79d340c78de341ab277dc34, type: 3}
-  prefab: {fileID: 1771482670668741706, guid: abb03c3fd0359453c96815b3d6d85c02, type: 3}
+  iconSprite: {fileID: 21300000, guid: c822c7d5c79d340c78de341ab277dc34, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 0443faeae8b3d4acc9db3558323cf09b, type: 3}
+  prefab: {fileID: 6228012723187808227, guid: 6ab80e0330e104468bb83c97f67ae1c9, type: 3}
