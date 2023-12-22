@@ -20,13 +20,15 @@ public class CharacterList : MonoBehaviour
 
     void Start()
     {
-        PopulateList();
+        // PopulateList();
     }
 
-    private void PopulateList()
+    public void PopulateList(List<UserUnit> userUnits)
     {
-        characters.ForEach(character =>
+        userUnits.ForEach(unit =>
         {
+            print($"availableCharacter: {unit.character}");
+            Character character = characters.Find(character => character.name.ToLower() == unit.character.ToLower());
             GameObject characterItem = Instantiate(CharacterItemUIPrefab, CharacterListContainer.transform);
             characterItem.GetComponent<Image>().sprite = character.characterSprite;
             characterItem.GetComponent<Button>().onClick.AddListener(() => SelectCharacter(character));
