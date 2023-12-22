@@ -53,6 +53,9 @@ Ensure you have the following dependencies installed:
   - Elixir 1.15.4
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
+  - Import the necessary TextMeshPro assets by going to:
+    - "Window -> TextMeshPro -> Import TMP Essential Resources" and
+    - "Window -> TextMeshPro -> Import TMP Examples and Extras"
 - **Docker**
 
 ## Suggested Development Environment
