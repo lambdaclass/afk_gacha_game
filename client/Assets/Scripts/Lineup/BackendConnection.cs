@@ -8,10 +8,10 @@ using UnityEngine.Networking;
 static class BackendConnection
 {
     public static IEnumerator GetAvailableUnits(
-        Action<List<UserUnit>> successCallback
+        Action<List<UnitDTO>> successCallback
     )
     {
-        string url = "http://localhost:4000/users-characters/theo_device/get_units";
+        string url = "http://localhost:4000/users-characters/faker_device/get_units";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
@@ -25,12 +25,8 @@ static class BackendConnection
                 }
                 else
                 {
-                    string jsonString = "[{\"unit_id\":\"ecde2d4f-d4c6-4fb4-9a32-e9a69b74e4e4\",\"position\":null,\"level\":1,\"selected\":true,\"character\":\"muflus\"},{\"unit_id\":\"ecde2d4f-d4c6-4fb4-9a32-e9a69b74e4e5\",\"position\":null,\"level\":8,\"selected\":false,\"character\":\"uMA\"}]";
-                    // List<UserUnit> units = JsonConvert.DeserializeObject<List<UserUnit>>(
-                    //     webRequest.downloadHandler.text
-                    // );
-                    List<UserUnit> units = JsonConvert.DeserializeObject<List<UserUnit>>(
-                        jsonString
+                    List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
+                        webRequest.downloadHandler.text
                     );
                     successCallback?.Invoke(units);
                 }
@@ -59,11 +55,20 @@ static class BackendConnection
 }
 
 [Serializable]
-public class UserUnit
+public class UnitDTO
 {
     public string unit_id { get; set; }
-    public int? position { get; set; }
+    public int? slot { get; set; }
     public int level { get; set; }
     public bool selected { get; set; }
     public string character { get; set; }
+}
+
+public class Unit
+{
+    public string unit_id { get; set; }
+    public int level { get; set; }
+    public Character character { get; set; }
+    public int? slot { get; set; }
+    public bool selected { get; set; }
 }

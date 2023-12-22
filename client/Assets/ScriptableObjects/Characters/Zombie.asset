@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078840dcd121844c69ebb05d1eb6b753, type: 3}
   m_Name: Zombie
   m_EditorClassIdentifier: 
-  name: Zombie
+  name: H4ck
   characterSprite: {fileID: 21300000, guid: 933a2fa5f5b2d43ef80935185aff7c44, type: 3}
   prefab: {fileID: 4493914613880827488, guid: 6f2cd1a643da048aabc405a45e2971ae, type: 3}

@@ -12,30 +12,21 @@ public class CharacterList : MonoBehaviour
     [SerializeField]
     GameObject CharacterListContainer;
 
-    [SerializeField]
-    List<Character> characters;
-
     [NonSerialized]
-    public UnityEvent<Character> OnCharacterSelected = new UnityEvent<Character>();
+    public UnityEvent<Unit> OnCharacterSelected = new UnityEvent<Unit>();
 
-    void Start()
+    public void PopulateList(List<Unit> units)
     {
-        // PopulateList();
-    }
-
-    public void PopulateList(List<UserUnit> userUnits)
-    {
-        userUnits.ForEach(unit =>
+        units.ForEach(unit =>
         {
-            Character character = characters.Find(character => character.name.ToLower() == unit.character.ToLower());
             GameObject characterItem = Instantiate(CharacterItemUIPrefab, CharacterListContainer.transform);
-            characterItem.GetComponent<Image>().sprite = character.characterSprite;
-            characterItem.GetComponent<Button>().onClick.AddListener(() => SelectCharacter(character));
+            characterItem.GetComponent<Image>().sprite = unit.character.characterSprite;
+            characterItem.GetComponent<Button>().onClick.AddListener(() => SelectCharacter(unit));
         });
     }
 
-    public void SelectCharacter(Character character)
+    public void SelectCharacter(Unit unit)
     {
-        OnCharacterSelected.Invoke(character);
+        OnCharacterSelected.Invoke(unit);
     }
 }

@@ -13,10 +13,10 @@ public class UnitPosition : MonoBehaviour
     private bool isOccupied;
     public bool IsOccupied => isOccupied;
 
-    public void SetCharacter(Character character) {
-        unitName.text = character.name;
+    public void SetUnit(Unit unit) {
+        unitName.text = unit.character.name;
         isOccupied = true;
         unitName.gameObject.SetActive(true);
-        UIModelManager.SetModel(character.prefab);
+        UIModelManager.SetModel(unit.character.prefab);
     }
 }

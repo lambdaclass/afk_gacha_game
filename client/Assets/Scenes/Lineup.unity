@@ -2563,6 +2563,11 @@ MonoBehaviour:
   - {fileID: 1681149557}
   - {fileID: 246826428}
   - {fileID: 973009576}
+  characters:
+  - {fileID: 11400000, guid: 74b8e72fa2adf48958d2adef09589f57, type: 2}
+  - {fileID: 11400000, guid: 177e6e40c48484d7e87288e5ccefed65, type: 2}
+  - {fileID: 11400000, guid: fa57cccb28a1d4e9c9832ae5566b73a5, type: 2}
+  - {fileID: 11400000, guid: 3985c84aa9170472c87d2830ffdee7dd, type: 2}
 --- !u!4 &1606196172
 Transform:
   m_ObjectHideFlags: 0
