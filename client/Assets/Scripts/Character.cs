@@ -7,5 +7,6 @@ public class Character : ScriptableObject
 {
     public new string name;
     public Sprite characterSprite;
+    public Sprite disabledSprite;
     public GameObject prefab;
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 public class LineupManager : MonoBehaviour
 {
     [SerializeField]
-    CharacterList characterList;
+    UnitList unitList;
 
     [SerializeField]
     UnitPosition[] playerUnitPositions;
@@ -22,19 +22,19 @@ public class LineupManager : MonoBehaviour
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {
-                        unit_id = unit.id,
+                        unitId = unit.id,
                         level = unit.level,
                         character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
                         slot = unit.slot,
                         selected = unit.selected
                     }).ToList();
-                    characterList.PopulateList(unitList);
+                    this.unitList.PopulateList(unitList);
                     SetUpSelectedUnits(unitList);
                 }
             )
         );
 
-        characterList.OnCharacterSelected.AddListener(AddUnitToLineup);
+        unitList.OnUnitSelected.AddListener(AddUnitToLineup);
     }
 
     private void SetUpSelectedUnits(List<Unit> units)
@@ -47,6 +47,7 @@ public class LineupManager : MonoBehaviour
                 unitPosition = playerUnitPositions.First(position => !position.IsOccupied);
             }
             unitPosition.SetUnit(unit);
+            unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
     }
 
@@ -59,9 +60,17 @@ public class LineupManager : MonoBehaviour
             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
 
             StartCoroutine(
-                BackendConnection.SelectUnit(unit, slot)
+                BackendConnection.SelectUnit(unit.unitId, slot)
             );
             unitPosition.SetUnit(unit);
+            unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
+    }
+
+    private void RemoveUnitFromLineup(Unit unit)
+    {
+        StartCoroutine(
+            BackendConnection.UnselectUnit(unit.unitId)
+        );
     }
 }

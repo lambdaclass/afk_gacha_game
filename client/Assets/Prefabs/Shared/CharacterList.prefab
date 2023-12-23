@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 8208938248351529351}
   - component: {fileID: 8208938248351529369}
   - component: {fileID: 8208938248351529368}
-  - component: {fileID: 8208938248351529370}
+  - component: {fileID: 321432332800331647}
   m_Layer: 5
   m_Name: CharacterList
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8208938248351529370
+--- !u!114 &321432332800331647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,13 +126,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8208938248351529350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e08dfe02971444109507a2c1096cc45, type: 3}
+  m_Script: {fileID: 11500000, guid: d4ca8ca84e8654b2c8552c9f2463237d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterItemUIPrefab: {fileID: 4962091247838370780, guid: f7c5db23b171c47b3a1e6c0f431a6fcf,
-    type: 3}
-  CharacterListContainer: {fileID: 8208938249842387035}
-  characters: []
+  unitItemUIPrefab: {fileID: 0}
+  unitContainer: {fileID: 8208938249842387035}
 --- !u!1 &8208938248466631639
 GameObject:
   m_ObjectHideFlags: 0

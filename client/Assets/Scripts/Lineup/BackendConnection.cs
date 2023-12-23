@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
@@ -29,6 +30,8 @@ static class BackendConnection
                     List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
                         webRequest.downloadHandler.text
                     );
+                    // It would be nice to bring units ordered from the backend
+                    units = units.OrderByDescending(unit => unit.selected).ThenByDescending(unit => unit.slot).ToList();
                     successCallback?.Invoke(units);
                 }
                 webRequest.Dispose();
@@ -54,17 +57,13 @@ static class BackendConnection
         }
     }
 
-    public static IEnumerator SelectUnit(
-        Unit unit,
-        int slot
-    )
+    public static IEnumerator SelectUnit(string unitId, int slot)
     {
-        string url = $"http://localhost:4000/users-characters/faker_device/select_unit/{unit.unit_id}";
+        string url = $"http://localhost:4000/users-characters/faker_device/select_unit/{unitId}";
         string parametersJson = "{\"slot\":\"" + slot + "\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
         {
-            // webRequest.certificateHandler = new AcceptAllCertificates();
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             yield return webRequest.SendWebRequest();
@@ -82,7 +81,6 @@ static class BackendConnection
                         //         webRequest.downloadHandler.text
                         //     );
                         // successCallback?.Invoke(response);
-                        Debug.Log(webRequest.downloadHandler.text);
                     }
                     break;
                 default:
@@ -91,7 +89,40 @@ static class BackendConnection
                     break;
             }
         }
+    }
 
+    public static IEnumerator UnselectUnit(string unitId)
+    {
+        string url = $"http://localhost:4000/users-characters/faker_device/unselect_unit/{unitId}";
+        string parametersJson = "{\"slot\":\"null\"}";
+        byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
+        {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            yield return webRequest.SendWebRequest();
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.Success:
+                    if (webRequest.downloadHandler.text.Contains("INEXISTENT_USER"))
+                    {
+                        // errorCallback?.Invoke(webRequest.downloadHandler.text);
+                    }
+                    else
+                    {
+                        // UserCharacterResponse response =
+                        //     JsonUtility.FromJson<UserCharacterResponse>(
+                        //         webRequest.downloadHandler.text
+                        //     );
+                        // successCallback?.Invoke(response);
+                    }
+                    break;
+                default:
+                    // errorCallback?.Invoke(webRequest.downloadHandler.error);
+                    Debug.LogError(webRequest.downloadHandler.error);
+                    break;
+            }
+        }
     }
 }
 
@@ -107,7 +138,7 @@ public class UnitDTO
 
 public class Unit
 {
-    public string unit_id { get; set; }
+    public string unitId { get; set; }
     public int level { get; set; }
     public Character character { get; set; }
     public int? slot { get; set; }

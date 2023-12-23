@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class UnitPosition : MonoBehaviour
 {
@@ -10,13 +11,56 @@ public class UnitPosition : MonoBehaviour
     [SerializeField]
     UIModelManager UIModelManager;
 
+    public event Action<Unit> OnUnitRemoved;
+
     private bool isOccupied;
     public bool IsOccupied => isOccupied;
 
+    private Unit selectedUnit;
+
+    public string selectedUnitName;
+
+    void Update()
+    {
+        // Check if spacebar is pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Print the selectedUnitName
+            if (selectedUnit != null)
+            {
+                Debug.Log("Spacebar pressed. Selected Unit Name: " + selectedUnit.character.name);
+            }
+            else
+            {
+                Debug.Log("No unit selected.");
+            }
+        }
+    }
+
+
     public void SetUnit(Unit unit) {
+        selectedUnit = unit;
+        selectedUnitName = selectedUnit.character.name;
         unitName.text = unit.character.name;
         isOccupied = true;
         unitName.gameObject.SetActive(true);
         UIModelManager.SetModel(unit.character.prefab);
+        GetComponent<Button>().interactable = true;
+    }
+
+    public void UnselectUnit() {
+        print("a");
+        if(selectedUnit != null) {
+            print("b");
+            print(selectedUnit);
+        }
+        print(selectedUnitName);
+        unitName.text = String.Empty;
+        isOccupied = false;
+        unitName.gameObject.SetActive(false);
+        UIModelManager.RemoveCurrentModel();
+        GetComponent<Button>().interactable = false;
+        OnUnitRemoved?.Invoke(selectedUnit);
+        selectedUnit = null;
     }
 }

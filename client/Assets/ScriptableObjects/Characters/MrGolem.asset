@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Mr. Golem
   characterSprite: {fileID: 21300000, guid: 17d6a6c923b3f43359954f05ac208f6f, type: 3}
+  disabledSprite: {fileID: 21300000, guid: 71f1cd017a16c4feab4573d41241087e, type: 3}
   prefab: {fileID: 1067925524328404, guid: 8908bf28cf2a74c55b9bd529a52b112e, type: 3}
