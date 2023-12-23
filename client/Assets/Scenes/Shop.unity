@@ -194,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -789,7 +789,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -986,7 +986,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -1087,6 +1087,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 19k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -2429,7 +2434,9 @@ PrefabInstance:
     - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_text
-      value: 85k
+      value: '12k
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -2491,6 +2498,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8566356999992670033, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+        type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Sprite
@@ -2510,7 +2523,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -2622,6 +2635,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenPotion
       objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: '14
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
 --- !u!1001 &682131926
@@ -2695,7 +2715,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -2805,7 +2825,12 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (19)
+      value: LeatherArmor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 26k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -2880,7 +2905,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -2991,6 +3016,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Book
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 9k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -3149,6 +3179,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8566356999992670033, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+        type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Sprite
@@ -3168,7 +3204,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -3278,7 +3314,14 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (21)
+      value: RedPotion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: '17
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -3378,6 +3421,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8566356999992670033, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+        type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Sprite
@@ -3507,7 +3556,14 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (18)
+      value: Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: '10
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -3567,7 +3623,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+      objectReference: {fileID: 21300000, guid: 53831ffd2c1064d07b3fcc10982b1e0d,
         type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -3588,7 +3644,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -3688,7 +3744,7 @@ PrefabInstance:
     - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_text
-      value: 30
+      value: 22k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -3868,6 +3924,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8566356999992670033, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+        type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Sprite
@@ -3887,7 +3949,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -3997,7 +4059,14 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: Potion
+      value: BluePotion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: '12
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -4059,6 +4128,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8566356999992670033, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+        type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Sprite
@@ -4078,7 +4153,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -4188,7 +4263,14 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (15)
+      value: EpicSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: '27
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -4587,7 +4669,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -4899,7 +4981,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -5010,6 +5092,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Scroll
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 14k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -5649,7 +5736,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -5759,7 +5846,12 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (20)
+      value: Necklace
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 99k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -6319,7 +6411,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (16)
+      value: Invocation
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -6961,7 +7053,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -7071,7 +7163,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (22)
+      value: Ring
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -7213,6 +7305,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8566356999992670033, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+        type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Sprite
@@ -7342,7 +7440,14 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (24)
+      value: Gem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: '129
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -7480,7 +7585,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -7591,6 +7696,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlateBoots
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 36k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -7744,7 +7854,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -8172,7 +8282,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -8283,6 +8393,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PurpleGloves
+      objectReference: {fileID: 0}
+    - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
+        type: 3}
+      propertyPath: m_text
+      value: 39k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -8655,7 +8770,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (17)
+      value: Prayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -8669,9 +8784,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2087394434}
   - component: {fileID: 2087394436}
-  - component: {fileID: 2087394435}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Shop item list
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8690,28 +8804,28 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 666336082}
-  - {fileID: 691600401}
-  - {fileID: 784395675}
-  - {fileID: 1889891395}
-  - {fileID: 2145270774}
-  - {fileID: 845587258}
   - {fileID: 995933425}
+  - {fileID: 1704140285}
   - {fileID: 341013753}
-  - {fileID: 1013851004}
+  - {fileID: 1889891395}
+  - {fileID: 1505036103}
+  - {fileID: 784395675}
   - {fileID: 491676952}
-  - {fileID: 1655728508}
-  - {fileID: 789735210}
   - {fileID: 386676753}
   - {fileID: 621939965}
-  - {fileID: 1704140285}
+  - {fileID: 718846133}
+  - {fileID: 311793116}
+  - {fileID: 845587258}
+  - {fileID: 1655728508}
+  - {fileID: 1495294929}
   - {fileID: 286329013}
   - {fileID: 960256076}
   - {fileID: 1729518484}
-  - {fileID: 1505036103}
+  - {fileID: 789735210}
+  - {fileID: 2145270774}
+  - {fileID: 691600401}
+  - {fileID: 1013851004}
   - {fileID: 1646216315}
-  - {fileID: 1495294929}
-  - {fileID: 311793116}
-  - {fileID: 718846133}
   - {fileID: 1047742192}
   m_Father: {fileID: 1441698476}
   m_RootOrder: 0
@@ -8721,20 +8835,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 25.592407, y: -811.6}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &2087394435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2087394433}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 1
 --- !u!114 &2087394436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8830,7 +8930,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -8940,7 +9040,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052643, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_Name
-      value: ShopItem (23)
+      value: Bag
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
@@ -9000,7 +9100,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7,
+      objectReference: {fileID: 21300000, guid: 53831ffd2c1064d07b3fcc10982b1e0d,
         type: 3}
     - target: {fileID: 8566357000660990428, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -9021,7 +9121,7 @@ PrefabInstance:
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 8566357001517052642, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
@@ -9121,7 +9221,7 @@ PrefabInstance:
     - target: {fileID: 8566357001663197754, guid: 974a3c1986acc4dbb91eed244faee0c1,
         type: 3}
       propertyPath: m_text
-      value: 49
+      value: 10k
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 974a3c1986acc4dbb91eed244faee0c1, type: 3}
