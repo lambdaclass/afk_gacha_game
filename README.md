@@ -54,7 +54,10 @@ Ensure you have the following dependencies installed:
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
     - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
-- **Docker**
+    - [Basic_RPG_Icons]()
+    - [Resource Vector Graphics]()
+    - [Map Maper]()
+ - **Docker**
 
 ## Suggested Development Environment
 
