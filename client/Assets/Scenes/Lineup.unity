@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 248698615}
   - component: {fileID: 248698614}
   m_Layer: 5
-  m_Name: BackgroundMap
+  m_Name: Background Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 1119088239}
   - component: {fileID: 1119088238}
   m_Layer: 5
-  m_Name: Save
+  m_Name: Button (Save)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.8}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2279,7 +2279,7 @@ GameObject:
   - component: {fileID: 1676379818}
   - component: {fileID: 1676379819}
   m_Layer: 0
-  m_Name: Back Button
+  m_Name: Button(Back)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2627,7 +2627,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 56, y: -20}
+  m_AnchoredPosition: {x: 56, y: -27}
   m_SizeDelta: {x: -112, y: 82}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1825541618
@@ -2681,7 +2681,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 227be139327d234448d052303d876077, type: 3}
+    m_Font: {fileID: 12800000, guid: 7dea48766ad12b548a58b7b4c650bf62, type: 3}
     m_FontSize: 72
     m_FontStyle: 0
     m_BestFit: 0
@@ -2839,9 +2839,7 @@ GameObject:
   - component: {fileID: 2028873146}
   - component: {fileID: 2028873145}
   - component: {fileID: 2028873144}
-  - component: {fileID: 2028873143}
   - component: {fileID: 2028873142}
-  - component: {fileID: 2028873141}
   m_Layer: 5
   m_Name: Button (Battle)
   m_TagString: Untagged
@@ -2875,96 +2873,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.000000033407, y: -60}
   m_SizeDelta: {x: 400, y: 120}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &2028873141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028873139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4e997f38a2e2884e89b9bd8ad830fee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AutoAttributePlayerIDs: 1
-  PlayerPrefabs: []
-  SceneCharacters: []
-  InitialSpawnPoint: {fileID: 0}
-  CurrentCheckpoint: {fileID: 0}
-  PointsOfEntry: []
-  IntroFadeDuration: 1
-  SpawnDelay: 0
-  OutroFadeDuration: 1
-  FaderID: 0
-  FadeCurve:
-    MMTweenDefinitionType: 0
-    MMTweenCurve: 6
-    Curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    Initialized: 0
-  RespawnDelay: 2
-  DelayBeforeDeathScreen: 1
-  UseLevelBounds: 1
-  LoadingSceneMode: 1
-  LoadingSceneName: LoadingScreen
-  AdditiveLoadingSettings:
-    LoadingSceneName: MMAdditiveLoadingScreen
-    ThreadPriority: 4
-    SecureLoad: 1
-    InterpolateProgress: 1
-    BeforeEntryFadeDelay: 0
-    EntryFadeDuration: 0.25
-    AfterEntryFadeDelay: 0.1
-    BeforeExitFadeDelay: 0.25
-    ExitFadeDuration: 0.2
-    EntryFadeTween:
-      MMTweenDefinitionType: 0
-      MMTweenCurve: 0
-      Curve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      Initialized: 0
-    ExitFadeTween:
-      MMTweenDefinitionType: 0
-      MMTweenCurve: 0
-      Curve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      Initialized: 0
-    ProgressBarSpeed: 5
-    FadeMode: 0
-    UnloadMethod: 2
-    AntiSpillSceneName: 
-  SetPlayerAsFeedbackRangeCenter: 0
 --- !u!114 &2028873142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2981,20 +2889,6 @@ MonoBehaviour:
   m_UseLoadingOverlay: 1
   m_InputKey: 0
   m_HookToButton: {fileID: 2028873148}
---- !u!114 &2028873143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028873139}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5072f5d59a22bc43ae572a830be8a88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ElementType: 0
-  m_Shade: 5
 --- !u!114 &2028873144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3030,7 +2924,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.85882354, g: 0.5411765, b: 0.24313726, a: 1}
+  m_Color: {r: 0.98039216, g: 0.19607843, b: 0.13333334, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3298,7 +3192,7 @@ GameObject:
   - component: {fileID: 2122190171}
   - component: {fileID: 2122190170}
   m_Layer: 5
-  m_Name: Load
+  m_Name: Button (Load)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3414,10 +3308,55 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1207190442}
     m_Modifications:
+    - target: {fileID: 553551792463135886, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_Name
+      value: Cross Button (Clear Filter)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272213107960241433, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_Transition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272969378178354423, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272969378178354423, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7272969378178354423, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7313113584923318927, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_Name
+      value: Input Field (Filter)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7378153944072725413, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208938248100278042, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529350, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
       propertyPath: m_Name
       value: CharacterList
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208938248351529350, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
@@ -3618,6 +3557,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fa57cccb28a1d4e9c9832ae5566b73a5,
         type: 2}
+    - target: {fileID: 8208938249842387035, guid: 75c00fda9ec0141b08e82a69670f4fc6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
 --- !u!1001 &8610322168123568249
