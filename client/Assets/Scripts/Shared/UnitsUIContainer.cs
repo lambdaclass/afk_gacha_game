@@ -46,8 +46,3 @@ public class UnitsUIContainer : MonoBehaviour
         unitUIItemDictionary[unitId].GetComponent<Button>().interactable = true;
     }
 }
-
-public interface IUnitPopulator
-{
-    void Populate(Unit unit, GameObject unitItem);
-}
