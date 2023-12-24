@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 078840dcd121844c69ebb05d1eb6b753, type: 3}
-  m_Name: Zombie
+  m_Name: MrGolem
   m_EditorClassIdentifier: 
-  name: H4ck
-  characterSprite: {fileID: 21300000, guid: 933a2fa5f5b2d43ef80935185aff7c44, type: 3}
-  disabledSprite: {fileID: 21300000, guid: c6f3f080d18a44f7eae797d6a4a7cd5e, type: 3}
-  prefab: {fileID: 4493914613880827488, guid: 6f2cd1a643da048aabc405a45e2971ae, type: 3}
+  name: Mr. Golem
+  iconSprite: {fileID: 21300000, guid: 17d6a6c923b3f43359954f05ac208f6f, type: 3}
+  disabledSprite: {fileID: 21300000, guid: 71f1cd017a16c4feab4573d41241087e, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: eeab71e9cd64142f1b15be28870e26d9, type: 3}
+  prefab: {fileID: 1067925524328404, guid: 8908bf28cf2a74c55b9bd529a52b112e, type: 3}

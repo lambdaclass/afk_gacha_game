@@ -10,7 +10,7 @@ public class UnitList : MonoBehaviour
     GameObject unitItemUIPrefab;
 
     [SerializeField]
-    GameObject unitContainer;
+    GameObject unitsContainer;
 
     [NonSerialized]
     public UnityEvent<Unit> OnUnitSelected = new UnityEvent<Unit>();
@@ -19,8 +19,8 @@ public class UnitList : MonoBehaviour
     {
         units.ForEach(unit =>
         {
-            GameObject unitItem = Instantiate(unitItemUIPrefab, unitContainer.transform);
-            unitItem.GetComponent<Image>().sprite = unit.character.characterSprite;
+            GameObject unitItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
+            unitItem.GetComponent<Image>().sprite = unit.character.iconSprite;
             var ss = new SpriteState();
             ss.disabledSprite = unit.character.disabledSprite;
             Button unitItemButton = unitItem.GetComponent<Button>();

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 078840dcd121844c69ebb05d1eb6b753, type: 3}
-  m_Name: MrGolem
+  m_Name: Muflus
   m_EditorClassIdentifier: 
-  name: Mr. Golem
-  characterSprite: {fileID: 21300000, guid: 17d6a6c923b3f43359954f05ac208f6f, type: 3}
-  disabledSprite: {fileID: 21300000, guid: 71f1cd017a16c4feab4573d41241087e, type: 3}
-  prefab: {fileID: 1067925524328404, guid: 8908bf28cf2a74c55b9bd529a52b112e, type: 3}
+  name: Muflus
+  iconSprite: {fileID: 21300000, guid: 06dbb91af72c34e7c85ad2f236c0cc9a, type: 3}
+  disabledSprite: {fileID: 21300000, guid: db1e5768206194879be1da8a2738aa2e, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 28c9e407687d243ed95e9826bbf5d760, type: 3}
+  prefab: {fileID: 1000710565635634031, guid: f29de91e4383147cbaf446466adcf5ca, type: 3}

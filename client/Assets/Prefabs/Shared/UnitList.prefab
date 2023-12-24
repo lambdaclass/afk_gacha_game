@@ -49,9 +49,9 @@ GameObject:
   - component: {fileID: 8208938248351529351}
   - component: {fileID: 8208938248351529369}
   - component: {fileID: 8208938248351529368}
-  - component: {fileID: 321432332800331647}
+  - component: {fileID: 8208938248351529370}
   m_Layer: 5
-  m_Name: CharacterList
+  m_Name: UnitList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &321432332800331647
+--- !u!114 &8208938248351529370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,11 +126,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8208938248351529350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4ca8ca84e8654b2c8552c9f2463237d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8165a8a6813eb4bb8814c837ffe79f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitItemUIPrefab: {fileID: 0}
-  unitsContainer: {fileID: 8208938249842387035}
+  UnitItemUIPrefab: {fileID: 0}
+  UnitListContainer: {fileID: 8208938249842387035}
+  unit: []
+  OnUnitSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8208938248466631639
 GameObject:
   m_ObjectHideFlags: 0

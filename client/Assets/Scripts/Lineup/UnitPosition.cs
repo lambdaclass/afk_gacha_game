@@ -9,7 +9,7 @@ public class UnitPosition : MonoBehaviour
     TMP_Text unitName;
 
     [SerializeField]
-    UIModelManager UIModelManager;
+    GameObject modelContainer;
 
     public event Action<Unit> OnUnitRemoved;
 
@@ -44,7 +44,7 @@ public class UnitPosition : MonoBehaviour
         unitName.text = unit.character.name;
         isOccupied = true;
         unitName.gameObject.SetActive(true);
-        UIModelManager.SetModel(unit.character.prefab);
+        Instantiate(unit.character.prefab, modelContainer.transform);
         GetComponent<Button>().interactable = true;
     }
 
@@ -58,7 +58,7 @@ public class UnitPosition : MonoBehaviour
         unitName.text = String.Empty;
         isOccupied = false;
         unitName.gameObject.SetActive(false);
-        UIModelManager.RemoveCurrentModel();
+        Destroy(modelContainer.transform.GetChild(0).gameObject);
         GetComponent<Button>().interactable = false;
         OnUnitRemoved?.Invoke(selectedUnit);
         selectedUnit = null;
