@@ -15,23 +15,19 @@ public class UnitsUIContainer : MonoBehaviour
     [NonSerialized]
     public UnityEvent<Unit> OnUnitSelected = new UnityEvent<Unit>();
 
-    public void Populate(List<Unit> units)
+    public void Populate(List<Unit> units, IUnitPopulator unitPopulator = null)
     {
         unitsContainer.SetActive(false);
         units.ForEach(unit =>
         {
             GameObject unitItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
             unitItem.GetComponent<Image>().sprite = unit.character.iconSprite;
-            // between here
-            var ss = new SpriteState();
-            ss.disabledSprite = unit.character.disabledSprite;
             Button unitItemButton = unitItem.GetComponent<Button>();
-            unitItemButton.spriteState = ss;
             unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton));
-            if(unit.selected) {
-                unitItemButton.interactable = false;
+            if (unitPopulator != null)
+            {
+                unitPopulator.Populate(unit, unitItem);
             }
-            // and here
         });
         unitsContainer.SetActive(true);
     }
@@ -41,4 +37,9 @@ public class UnitsUIContainer : MonoBehaviour
         OnUnitSelected.Invoke(unit);
         unitItemButton.interactable = false;
     }
+}
+
+public interface IUnitPopulator
+{
+    void Populate(Unit unit, GameObject unitItem);
 }

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class LineupManager : MonoBehaviour
+public class LineupManager : MonoBehaviour, IUnitPopulator
 {
     [SerializeField]
     UnitsUIContainer unitsContainer;
@@ -29,7 +30,7 @@ public class LineupManager : MonoBehaviour
                         slot = unit.slot,
                         selected = unit.selected
                     }).ToList();
-                    this.unitsContainer.Populate(unitList);
+                    this.unitsContainer.Populate(unitList, this);
                     SetUpSelectedUnits(unitList);
                 }
             )
@@ -73,5 +74,16 @@ public class LineupManager : MonoBehaviour
         StartCoroutine(
             BackendConnection.UnselectUnit(unit.unitId)
         );
+    }
+
+    public void Populate(Unit unit, GameObject unitItem)
+    {
+        var ss = new SpriteState();
+        ss.disabledSprite = unit.character.disabledSprite;
+        Button unitItemButton = unitItem.GetComponent<Button>();
+        unitItemButton.spriteState = ss;
+        if(unit.selected) {
+            unitItemButton.interactable = false;
+        }
     }
 }
