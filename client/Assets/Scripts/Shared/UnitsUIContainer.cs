@@ -15,19 +15,22 @@ public class UnitsUIContainer : MonoBehaviour
     [NonSerialized]
     public UnityEvent<Unit> OnUnitSelected = new UnityEvent<Unit>();
 
+    private Dictionary<string, GameObject> unitUIItemDictionary = new Dictionary<string, GameObject>();
+
     public void Populate(List<Unit> units, IUnitPopulator unitPopulator = null)
     {
         unitsContainer.SetActive(false);
         units.ForEach(unit =>
         {
-            GameObject unitItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
-            unitItem.GetComponent<Image>().sprite = unit.character.iconSprite;
-            Button unitItemButton = unitItem.GetComponent<Button>();
+            GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
+            unitUIItem.GetComponent<Image>().sprite = unit.character.iconSprite;
+            Button unitItemButton = unitUIItem.GetComponent<Button>();
             unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton));
             if (unitPopulator != null)
             {
-                unitPopulator.Populate(unit, unitItem);
+                unitPopulator.Populate(unit, unitUIItem);
             }
+            unitUIItemDictionary.Add(unit.unitId, unitUIItem);
         });
         unitsContainer.SetActive(true);
     }
@@ -36,6 +39,11 @@ public class UnitsUIContainer : MonoBehaviour
     {
         OnUnitSelected.Invoke(unit);
         unitItemButton.interactable = false;
+    }
+
+    public void SetUnitUIActiveById(string unitId)
+    {
+        unitUIItemDictionary[unitId].GetComponent<Button>().interactable = true;
     }
 }
 

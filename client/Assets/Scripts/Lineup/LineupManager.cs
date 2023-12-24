@@ -74,6 +74,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         StartCoroutine(
             BackendConnection.UnselectUnit(unit.unitId)
         );
+        unitsContainer.SetUnitUIActiveById(unit.unitId);
     }
 
     public void Populate(Unit unit, GameObject unitItem)

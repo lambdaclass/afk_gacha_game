@@ -59,6 +59,7 @@ public static class BackendConnection
 
     public static IEnumerator SelectUnit(string unitId, int slot)
     {
+        Debug.Log($"selected unit: {unitId} in slot: {slot}");
         string url = $"http://localhost:4000/users-characters/faker_device/select_unit/{unitId}";
         string parametersJson = "{\"slot\":\"" + slot + "\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
@@ -67,6 +68,7 @@ public static class BackendConnection
             webRequest.SetRequestHeader("Content-Type", "application/json");
 
             yield return webRequest.SendWebRequest();
+            Debug.Log(webRequest.result);
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.Success:
@@ -85,6 +87,7 @@ public static class BackendConnection
                     break;
                 default:
                     // errorCallback?.Invoke(webRequest.downloadHandler.error);
+                    Debug.LogError(webRequest.downloadHandler.text);
                     Debug.LogError(webRequest.downloadHandler.error);
                     break;
             }
@@ -94,12 +97,9 @@ public static class BackendConnection
     public static IEnumerator UnselectUnit(string unitId)
     {
         string url = $"http://localhost:4000/users-characters/faker_device/unselect_unit/{unitId}";
-        string parametersJson = "{\"slot\":\"null\"}";
-        byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
-        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
+        string parameters = "slot=";
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, parameters))
         {
-            webRequest.SetRequestHeader("Content-Type", "application/json");
-
             yield return webRequest.SendWebRequest();
             switch (webRequest.result)
             {
@@ -115,6 +115,7 @@ public static class BackendConnection
                         //         webRequest.downloadHandler.text
                         //     );
                         // successCallback?.Invoke(response);
+                        Debug.Log(webRequest.downloadHandler.text);
                     }
                     break;
                 default:

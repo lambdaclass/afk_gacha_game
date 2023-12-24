@@ -18,29 +18,8 @@ public class UnitPosition : MonoBehaviour
 
     private Unit selectedUnit;
 
-    public string selectedUnitName;
-
-    void Update()
-    {
-        // Check if spacebar is pressed
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // Print the selectedUnitName
-            if (selectedUnit != null)
-            {
-                Debug.Log("Spacebar pressed. Selected Unit Name: " + selectedUnit.character.name);
-            }
-            else
-            {
-                Debug.Log("No unit selected.");
-            }
-        }
-    }
-
-
     public void SetUnit(Unit unit) {
         selectedUnit = unit;
-        selectedUnitName = selectedUnit.character.name;
         unitName.text = $"{unit.character.name} LVL: {unit.level}";
         isOccupied = true;
         unitName.gameObject.SetActive(true);
@@ -49,12 +28,6 @@ public class UnitPosition : MonoBehaviour
     }
 
     public void UnselectUnit() {
-        print("a");
-        if(selectedUnit != null) {
-            print("b");
-            print(selectedUnit);
-        }
-        print(selectedUnitName);
         unitName.text = String.Empty;
         isOccupied = false;
         unitName.gameObject.SetActive(false);
