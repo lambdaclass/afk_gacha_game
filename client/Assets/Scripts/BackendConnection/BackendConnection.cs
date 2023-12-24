@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Unity.Plastic.Newtonsoft.Json;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
-static class BackendConnection
+public static class BackendConnection
 {
     public static IEnumerator GetAvailableUnits(
         Action<List<UnitDTO>> successCallback
@@ -30,8 +30,8 @@ static class BackendConnection
                     List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
                         webRequest.downloadHandler.text
                     );
-                    // It would be nice to bring units ordered from the backend
-                    units = units.OrderByDescending(unit => unit.selected).ThenByDescending(unit => unit.slot).ToList();
+                    // It would be nice to get the units ordered from the backend
+                    units = units.OrderByDescending(unit => unit.selected).ThenByDescending(unit => unit.slot).ThenByDescending(unit => unit.level).ToList();
                     successCallback?.Invoke(units);
                 }
                 webRequest.Dispose();
@@ -124,23 +124,53 @@ static class BackendConnection
             }
         }
     }
-}
 
-[Serializable]
-public class UnitDTO
-{
-    public string id { get; set; }
-    public int? slot { get; set; }
-    public int level { get; set; }
-    public bool selected { get; set; }
-    public string character { get; set; }
-}
+    public static IEnumerator GetBattleResult(
+        string playerDeviceId,
+        string opponentId,
+        Action<string> successCallback
+    )
+    {
+        string url = $"http://localhost:4000/autobattle/{playerDeviceId}/{opponentId}";
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
 
-public class Unit
-{
-    public string unitId { get; set; }
-    public int level { get; set; }
-    public Character character { get; set; }
-    public int? slot { get; set; }
-    public bool selected { get; set; }
+            yield return webRequest.SendWebRequest();
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
+                {
+                    // errorCallback?.Invoke("USER_NOT_FOUND");
+                }
+                else
+                {
+                    BattleResultDTO battleResult = JsonConvert.DeserializeObject<BattleResultDTO>(
+                        webRequest.downloadHandler.text
+                    );
+                    yield return new WaitForSeconds(2);
+                    successCallback?.Invoke(battleResult.winner);
+                }
+                webRequest.Dispose();
+            }
+            else
+            {
+                switch (webRequest.result)
+                {
+                    case UnityWebRequest.Result.ProtocolError:
+                        Debug.LogError("Something unexpected happened");
+                        break;
+                    case UnityWebRequest.Result.ConnectionError:
+                        Debug.LogError("Connection Error");
+                        break;
+                    case UnityWebRequest.Result.DataProcessingError:
+                        Debug.LogError("Data processing error.");
+                        break;
+                    default:
+                        Debug.LogError("Unhandled error.");
+                        break;
+                }
+            }
+        }
+    }
 }

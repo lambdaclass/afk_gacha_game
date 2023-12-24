@@ -462,7 +462,6 @@ GameObject:
   - component: {fileID: 8610322166662081393}
   - component: {fileID: 8610322166662081406}
   - component: {fileID: 8610322166662081392}
-  - component: {fileID: 5825584228062470782}
   - component: {fileID: 5138709111419423816}
   m_Layer: 5
   m_Name: UnitPosition
@@ -547,19 +546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: {fileID: 8610322166391184612}
   modelContainer: {fileID: 1298774226396644717}
---- !u!114 &5825584228062470782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8610322166662081404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60efd9737daa342f995c0a80f6678c46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerModelContainer: {fileID: 1298774226396644717}
+  selectedUnitName: 
 --- !u!114 &5138709111419423816
 MonoBehaviour:
   m_ObjectHideFlags: 0

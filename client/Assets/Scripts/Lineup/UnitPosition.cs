@@ -41,7 +41,7 @@ public class UnitPosition : MonoBehaviour
     public void SetUnit(Unit unit) {
         selectedUnit = unit;
         selectedUnitName = selectedUnit.character.name;
-        unitName.text = unit.character.name;
+        unitName.text = $"{unit.character.name} LVL: {unit.level}";
         isOccupied = true;
         unitName.gameObject.SetActive(true);
         Instantiate(unit.character.prefab, modelContainer.transform);

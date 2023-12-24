@@ -7,11 +7,12 @@ using UnityEngine;
 public class LineupManager : MonoBehaviour
 {
     [SerializeField]
-    UnitList unitList;
+    UnitsUIContainer unitsContainer;
 
     [SerializeField]
     UnitPosition[] playerUnitPositions;
 
+    // change to centralized way to get Characters, so don't have to assign everytime
     [SerializeField]
     List<Character> characters;
 
@@ -28,13 +29,13 @@ public class LineupManager : MonoBehaviour
                         slot = unit.slot,
                         selected = unit.selected
                     }).ToList();
-                    this.unitList.PopulateList(unitList);
+                    this.unitsContainer.Populate(unitList);
                     SetUpSelectedUnits(unitList);
                 }
             )
         );
 
-        unitList.OnUnitSelected.AddListener(AddUnitToLineup);
+        unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
     }
 
     private void SetUpSelectedUnits(List<Unit> units)

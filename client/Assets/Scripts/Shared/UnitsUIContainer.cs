@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UnitList : MonoBehaviour
+public class UnitsUIContainer : MonoBehaviour
 {
     [SerializeField]
     GameObject unitItemUIPrefab;
@@ -15,12 +15,14 @@ public class UnitList : MonoBehaviour
     [NonSerialized]
     public UnityEvent<Unit> OnUnitSelected = new UnityEvent<Unit>();
 
-    public void PopulateList(List<Unit> units)
+    public void Populate(List<Unit> units)
     {
+        unitsContainer.SetActive(false);
         units.ForEach(unit =>
         {
             GameObject unitItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
             unitItem.GetComponent<Image>().sprite = unit.character.iconSprite;
+            // between here
             var ss = new SpriteState();
             ss.disabledSprite = unit.character.disabledSprite;
             Button unitItemButton = unitItem.GetComponent<Button>();
@@ -29,7 +31,9 @@ public class UnitList : MonoBehaviour
             if(unit.selected) {
                 unitItemButton.interactable = false;
             }
+            // and here
         });
+        unitsContainer.SetActive(true);
     }
 
     public void SelectUnit(Unit unit, Button unitItemButton)
