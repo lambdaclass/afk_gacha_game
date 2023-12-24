@@ -10,10 +10,11 @@ using UnityEngine.Networking;
 public static class BackendConnection
 {
     public static IEnumerator GetAvailableUnits(
+        string playerDeviceId,
         Action<List<UnitDTO>> successCallback
     )
     {
-        string url = "http://localhost:4000/users-characters/faker_device/get_units";
+        string url = $"http://localhost:4000/users-characters/{playerDeviceId}/get_units";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
@@ -27,6 +28,7 @@ public static class BackendConnection
                 }
                 else
                 {
+                    Debug.Log(webRequest.downloadHandler.text);
                     List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
                         webRequest.downloadHandler.text
                     );
@@ -57,18 +59,19 @@ public static class BackendConnection
         }
     }
 
-    public static IEnumerator SelectUnit(string unitId, int slot)
+    public static IEnumerator SelectUnit(
+        string playerDeviceId,
+        string unitId,
+        int slot
+    )
     {
-        Debug.Log($"selected unit: {unitId} in slot: {slot}");
-        string url = $"http://localhost:4000/users-characters/faker_device/select_unit/{unitId}";
+        string url = $"http://localhost:4000/users-characters/{playerDeviceId}/select_unit/{unitId}";
         string parametersJson = "{\"slot\":\"" + slot + "\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
-
             yield return webRequest.SendWebRequest();
-            Debug.Log(webRequest.result);
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.Success:
@@ -87,19 +90,23 @@ public static class BackendConnection
                     break;
                 default:
                     // errorCallback?.Invoke(webRequest.downloadHandler.error);
-                    Debug.LogError(webRequest.downloadHandler.text);
                     Debug.LogError(webRequest.downloadHandler.error);
                     break;
             }
         }
     }
 
-    public static IEnumerator UnselectUnit(string unitId)
+    public static IEnumerator UnselectUnit(
+        string playerDeviceId,
+        string unitId
+    )
     {
-        string url = $"http://localhost:4000/users-characters/faker_device/unselect_unit/{unitId}";
-        string parameters = "slot=";
-        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, parameters))
+        string url = $"http://localhost:4000/users-characters/{playerDeviceId}/unselect_unit/{unitId}";
+        string parametersJson = "{\"slot\":\"\"}";
+        byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
         {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
             yield return webRequest.SendWebRequest();
             switch (webRequest.result)
             {
@@ -146,6 +153,7 @@ public static class BackendConnection
                 }
                 else
                 {
+                    Debug.Log(webRequest.downloadHandler.text);
                     BattleResultDTO battleResult = JsonConvert.DeserializeObject<BattleResultDTO>(
                         webRequest.downloadHandler.text
                     );

@@ -17,7 +17,7 @@ public class UnitDetail : MonoBehaviour
     Image backgroundImage;
 
     void Start() {
-        unitName.text = selectedUnit.character.name;
+        unitName.text = $"{selectedUnit.character.name}, lvl: {selectedUnit.level}";
         backgroundImage.sprite = selectedUnit.character.backgroundSprite;
     }
 

@@ -13,6 +13,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitPosition[] playerUnitPositions;
 
+    [SerializeField]
+    UnitPosition[] opponentUnitPositions;
+
     // change to centralized way to get Characters, so don't have to assign everytime
     [SerializeField]
     List<Character> characters;
@@ -21,6 +24,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     {
         StartCoroutine(
             BackendConnection.GetAvailableUnits(
+                "faker_device",
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {
@@ -31,24 +35,42 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
                         selected = unit.selected
                     }).ToList();
                     this.unitsContainer.Populate(unitList, this);
-                    SetUpSelectedUnits(unitList);
+                    SetUpSelectedUnits(unitList, true);
                 }
             )
         );
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
+
+        StartCoroutine(
+            BackendConnection.GetAvailableUnits(
+                "doinb_device",
+                units => {
+                    List<Unit> unitList = units.Select(unit => new Unit
+                    {
+                        unitId = unit.id,
+                        level = unit.level,
+                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
+                        slot = unit.slot,
+                        selected = unit.selected
+                    }).ToList();
+                    SetUpSelectedUnits(unitList, false);
+                }
+            )
+        );
     }
 
-    private void SetUpSelectedUnits(List<Unit> units)
+    private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
     {
+        UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
         foreach(Unit unit in units.Where(unit => unit.selected)) {
             UnitPosition unitPosition;
             if(unit.slot.HasValue) {
-                unitPosition = playerUnitPositions[unit.slot.Value];
+                unitPosition = unitPositions[unit.slot.Value];
             } else {
-                unitPosition = playerUnitPositions.First(position => !position.IsOccupied);
+                unitPosition = unitPositions.First(position => !position.IsOccupied);
             }
-            unitPosition.SetUnit(unit);
+            unitPosition.SetUnit(unit, isPlayer);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
     }
@@ -62,9 +84,13 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
 
             StartCoroutine(
-                BackendConnection.SelectUnit(unit.unitId, slot)
+                BackendConnection.SelectUnit(
+                    "faker_device",
+                    unit.unitId,
+                    slot
+                )
             );
-            unitPosition.SetUnit(unit);
+            unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
     }
@@ -72,7 +98,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     private void RemoveUnitFromLineup(Unit unit)
     {
         StartCoroutine(
-            BackendConnection.UnselectUnit(unit.unitId)
+            BackendConnection.UnselectUnit(
+                "faker_device",
+                unit.unitId
+            )
         );
         unitsContainer.SetUnitUIActiveById(unit.unitId);
     }

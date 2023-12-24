@@ -7,6 +7,9 @@ public class UnitPosition : MonoBehaviour
 {
     [SerializeField]
     TMP_Text unitName;
+    
+    [SerializeField]
+    GameObject removeSign;
 
     [SerializeField]
     GameObject modelContainer;
@@ -18,19 +21,21 @@ public class UnitPosition : MonoBehaviour
 
     private Unit selectedUnit;
 
-    public void SetUnit(Unit unit) {
+    public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
         unitName.text = $"{unit.character.name} LVL: {unit.level}";
         isOccupied = true;
         unitName.gameObject.SetActive(true);
+        removeSign.SetActive(isPlayer);
+        GetComponent<Button>().interactable = isPlayer;
         Instantiate(unit.character.prefab, modelContainer.transform);
-        GetComponent<Button>().interactable = true;
     }
 
     public void UnselectUnit() {
         unitName.text = String.Empty;
         isOccupied = false;
         unitName.gameObject.SetActive(false);
+        removeSign.SetActive(false);
         Destroy(modelContainer.transform.GetChild(0).gameObject);
         GetComponent<Button>().interactable = false;
         OnUnitRemoved?.Invoke(selectedUnit);

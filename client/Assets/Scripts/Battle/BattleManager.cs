@@ -17,10 +17,10 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(
             BackendConnection.GetBattleResult(playerDeviceId, opponentId,
             winnerId => {
-                if(winnerId == playerDeviceId) {
-                    victorySplash.SetActive(true);
-                } else {
+                if(winnerId == opponentId) {
                     defeatSplash.SetActive(true);
+                } else {
+                    victorySplash.SetActive(true);
                 }
             })
         );

@@ -15,6 +15,7 @@ public class UnitListManager : MonoBehaviour
     void Start() {
         StartCoroutine(
             BackendConnection.GetAvailableUnits(
+                "faker_device",
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {
