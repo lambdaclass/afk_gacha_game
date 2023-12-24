@@ -51,13 +51,20 @@ Ensure you have the following dependencies installed:
   - [Install Elixir using ASDF](https://thinkingelixir.com/install-elixir-using-asdf/)
   - Erlang/OTP 26
   - Elixir 1.15.4
+- **Docker**
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
-    - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
-    - [Basic_RPG_Icons](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
-    - [Resource Vector Graphics](https://assetstore.unity.com/packages/2d/gui/icons/resource-icons-101998)
+  - Download the following Unity Store assets 
+    - [RPG & MMO UI 6](https://assetstore.unity.com/packages/2d/gui/rpg-mmo-ui-6-99450)
     - [Map Maker](https://assetstore.unity.com/packages/2d/environments/map-maker-249063)
+    - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
+    - [Basic RPG Icons](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
+    - [Resource Vector Graphics](https://assetstore.unity.com/packages/2d/gui/icons/resource-icons-101998)
+    - Import the necessary TextMeshPro assets by going to:
+      - "Window -> TextMeshPro -> Import TMP Essential Resources" and
+      - "Window -> TextMeshPro -> Import TMP Examples and Extras"
  - **Docker**
+
 
 ## Suggested Development Environment
 
