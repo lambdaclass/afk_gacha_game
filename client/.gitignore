@@ -115,3 +115,4 @@ mono_crash*.blob
 /Assets/Resources/GitHash*
 
 /Assets/ThirdParty/*
+/Assets/TextMesh\ Pro/*
