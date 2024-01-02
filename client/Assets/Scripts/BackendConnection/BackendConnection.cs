@@ -11,7 +11,8 @@ public static class BackendConnection
 {
     public static IEnumerator GetAvailableUnits(
         string playerDeviceId,
-        Action<List<UnitDTO>> successCallback
+        Action<List<UnitDTO>> successCallback,
+        Action<string> errorCallback
     )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/get_units";
@@ -24,7 +25,7 @@ public static class BackendConnection
             {
                 if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
                 {
-                    // errorCallback?.Invoke("USER_NOT_FOUND");
+                    errorCallback?.Invoke("USER_NOT_FOUND");
                 }
                 else
                 {
@@ -122,7 +123,8 @@ public static class BackendConnection
     public static IEnumerator GetBattleResult(
         string playerDeviceId,
         string opponentId,
-        Action<string> successCallback
+        Action<string> successCallback,
+        Action<string> errorCallback
     )
     {
         string url = $"http://localhost:4000/autobattle/{playerDeviceId}/{opponentId}";
@@ -135,7 +137,7 @@ public static class BackendConnection
             {
                 if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
                 {
-                    // errorCallback?.Invoke("USER_NOT_FOUND");
+                    errorCallback?.Invoke("USER_NOT_FOUND");
                 }
                 else
                 {
@@ -155,7 +157,12 @@ public static class BackendConnection
         }
     }
 
-    public static IEnumerator GetOpponents(string playerDeviceId, Action<List<UserDTO>> successCallback) 
+    public static IEnumerator GetOpponents
+    (
+        string playerDeviceId, 
+        Action<List<UserDTO>> successCallback, 
+        Action<string> errorCallback
+    ) 
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/get_opponents";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -167,7 +174,7 @@ public static class BackendConnection
             {
                 if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
                 {
-                    // errorCallback?.Invoke("USER_NOT_FOUND");
+                    errorCallback?.Invoke("USER_NOT_FOUND");
                 }
                 else
                 {

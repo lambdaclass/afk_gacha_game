@@ -36,6 +36,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
                     }).ToList();
                     this.unitsContainer.Populate(unitList, this);
                     SetUpSelectedUnits(unitList, true);
+                },
+                error => {
+                    Debug.LogError("Error when getting the available units: " + error);
                 }
             )
         );
@@ -55,7 +58,11 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
                         selected = unit.selected
                     }).ToList();
                     SetUpSelectedUnits(unitList, false);
+                },
+                error => {
+                    Debug.LogError("Error when getting the available units: " + error);
                 }
+
             )
         );
     }

@@ -26,6 +26,9 @@ public class UnitListManager : MonoBehaviour
                         selected = unit.selected
                     }).ToList();
                     this.unitsContainer.Populate(unitList);
+                },
+                error => {
+                    Debug.LogError("Error when getting the available units: " + error);
                 }
             )
         );

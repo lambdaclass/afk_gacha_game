@@ -15,10 +15,6 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-         
-        // string opponentId = BackendConnection.GetOpponents(playerDeviceId, opponents => {
-        //     opponents[0].id;
-        // });
         StartCoroutine(
             BackendConnection.GetOpponents
             (
@@ -32,8 +28,15 @@ public class BattleManager : MonoBehaviour
                             } else {
                                 victorySplash.SetActive(true);
                             }
-                        })
+                        },
+                        error => {
+                            Debug.LogError("Error when getting the battle result: " + error);
+                        }
+                        )
                     );
+                },
+                error => {
+                    Debug.LogError("Error when getting the opponents: " + error);
                 }
             )
         );
