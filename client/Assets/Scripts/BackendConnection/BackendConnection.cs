@@ -40,21 +40,7 @@ public static class BackendConnection
             }
             else
             {
-                switch (webRequest.result)
-                {
-                    case UnityWebRequest.Result.ProtocolError:
-                        Debug.LogError("Something unexpected happened");
-                        break;
-                    case UnityWebRequest.Result.ConnectionError:
-                        Debug.LogError("Connection Error");
-                        break;
-                    case UnityWebRequest.Result.DataProcessingError:
-                        Debug.LogError("Data processing error.");
-                        break;
-                    default:
-                        Debug.LogError("Unhandled error.");
-                        break;
-                }
+                HandleUnsuccessfullResponse(webRequest);
             }
         }
     }
@@ -164,21 +150,7 @@ public static class BackendConnection
             }
             else
             {
-                switch (webRequest.result)
-                {
-                    case UnityWebRequest.Result.ProtocolError:
-                        Debug.LogError("Something unexpected happened");
-                        break;
-                    case UnityWebRequest.Result.ConnectionError:
-                        Debug.LogError("Connection Error");
-                        break;
-                    case UnityWebRequest.Result.DataProcessingError:
-                        Debug.LogError("Data processing error.");
-                        break;
-                    default:
-                        Debug.LogError("Unhandled error.");
-                        break;
-                }
+                HandleUnsuccessfullResponse(webRequest);
             }
         }
     }
@@ -209,23 +181,28 @@ public static class BackendConnection
             }
             else
             {
-                switch (webRequest.result)
-                {
-                    case UnityWebRequest.Result.ProtocolError:
-                        Debug.LogError("Something unexpected happened");
-                        break;
-                    case UnityWebRequest.Result.ConnectionError:
-                        Debug.LogError("Connection Error");
-                        break;
-                    case UnityWebRequest.Result.DataProcessingError:
-                        Debug.LogError("Data processing error.");
-                        break;
-                    default:
-                        Debug.LogError("Unhandled error.");
-                        break;
-                }
+                HandleUnsuccessfullResponse(webRequest);
             }
         }
 
+    }
+
+    private static void HandleUnsuccessfullResponse(UnityWebRequest webRequest)
+    {
+        switch (webRequest.result)
+        {
+            case UnityWebRequest.Result.ProtocolError:
+                Debug.LogError("Something unexpected happened");
+                break;
+            case UnityWebRequest.Result.ConnectionError:
+                Debug.LogError("Connection Error");
+                break;
+            case UnityWebRequest.Result.DataProcessingError:
+                Debug.LogError("Data processing error.");
+                break;
+            default:
+                Debug.LogError("Unhandled error.");
+                break;
+        }
     }
 }
