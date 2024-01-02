@@ -114,5 +114,11 @@ mono_crash*.blob
 ## This file is created at build time
 /Assets/Resources/GitHash*
 
-/Assets/ThirdParty/*
+## Third party assets
+/Assets/Animations/ThirdParty/*
+/Assets/Animations/ThirdParty.meta
+/Assets/Prefabs/Characters/UIPrefabs/ThirdParty/*
+/Assets/Prefabs/Characters/UIPrefabs/ThirdParty.meta
 /Assets/TextMesh\ Pro/*
+/Assets/ThirdParty/*
+
