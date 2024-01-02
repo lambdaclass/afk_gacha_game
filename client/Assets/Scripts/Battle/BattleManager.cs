@@ -10,19 +10,32 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     GameObject defeatSplash;
 
+    string playerDeviceId = "faker_device";
+    string opponentId;
+
     void Start()
     {
-        string playerDeviceId = "faker_device";
-        string opponentId = "31ee2cf1-d718-439c-be35-34bd8bad8781";
+         
+        // string opponentId = BackendConnection.GetOpponents(playerDeviceId, opponents => {
+        //     opponents[0].id;
+        // });
         StartCoroutine(
-            BackendConnection.GetBattleResult(playerDeviceId, opponentId,
-            winnerId => {
-                if(winnerId == opponentId) {
-                    defeatSplash.SetActive(true);
-                } else {
-                    victorySplash.SetActive(true);
+            BackendConnection.GetOpponents
+            (
+                playerDeviceId, opponents => {
+                    this.opponentId = opponents[0].id;
+                    StartCoroutine(
+                        BackendConnection.GetBattleResult(playerDeviceId, this.opponentId,
+                        winnerId => {
+                            if(winnerId == opponentId) {
+                                defeatSplash.SetActive(true);
+                            } else {
+                                victorySplash.SetActive(true);
+                            }
+                        })
+                    );
                 }
-            })
+            )
         );
     }
 }

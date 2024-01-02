@@ -14,7 +14,7 @@ public static class BackendConnection
         Action<List<UnitDTO>> successCallback
     )
     {
-        string url = $"http://localhost:4000/users-characters/{playerDeviceId}/get_units";
+        string url = $"http://localhost:4000/users/{playerDeviceId}/get_units";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
@@ -65,7 +65,7 @@ public static class BackendConnection
         int slot
     )
     {
-        string url = $"http://localhost:4000/users-characters/{playerDeviceId}/select_unit/{unitId}";
+        string url = $"http://localhost:4000/users/{playerDeviceId}/select_unit/{unitId}";
         string parametersJson = "{\"slot\":\"" + slot + "\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
@@ -101,7 +101,7 @@ public static class BackendConnection
         string unitId
     )
     {
-        string url = $"http://localhost:4000/users-characters/{playerDeviceId}/unselect_unit/{unitId}";
+        string url = $"http://localhost:4000/users/{playerDeviceId}/unselect_unit/{unitId}";
         string parametersJson = "{\"slot\":\"\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
@@ -181,5 +181,51 @@ public static class BackendConnection
                 }
             }
         }
+    }
+
+    public static IEnumerator GetOpponents(string playerDeviceId, Action<List<UserDTO>> successCallback) 
+    {
+        string url = $"http://localhost:4000/users/{playerDeviceId}/get_opponents";
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+
+            yield return webRequest.SendWebRequest();
+            if (webRequest.result == UnityWebRequest.Result.Success)
+            {
+                if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
+                {
+                    // errorCallback?.Invoke("USER_NOT_FOUND");
+                }
+                else
+                {
+                    Debug.Log(webRequest.downloadHandler.text);
+                    List<UserDTO> opponents = JsonConvert.DeserializeObject<List<UserDTO>>(
+                        webRequest.downloadHandler.text
+                    );
+                    successCallback?.Invoke(opponents);
+                }
+                webRequest.Dispose();
+            }
+            else
+            {
+                switch (webRequest.result)
+                {
+                    case UnityWebRequest.Result.ProtocolError:
+                        Debug.LogError("Something unexpected happened");
+                        break;
+                    case UnityWebRequest.Result.ConnectionError:
+                        Debug.LogError("Connection Error");
+                        break;
+                    case UnityWebRequest.Result.DataProcessingError:
+                        Debug.LogError("Data processing error.");
+                        break;
+                    default:
+                        Debug.LogError("Unhandled error.");
+                        break;
+                }
+            }
+        }
+
     }
 }

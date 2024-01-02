@@ -77,7 +77,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private void AddUnitToLineup(Unit unit)
     {
-        UnitPosition unitPosition = playerUnitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
+        UnitPosition unitPosition = playerUnitPositions.First(unitPosition => !unitPosition.IsOccupied);
 
         if(unitPosition)
         {
