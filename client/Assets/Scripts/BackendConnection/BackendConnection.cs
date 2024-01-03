@@ -12,36 +12,36 @@ public static class BackendConnection
     public static IEnumerator GetAvailableUnits(
         string playerDeviceId,
         Action<List<UnitDTO>> successCallback,
-        Action<string> errorCallback
+        Action<string> userNotFoundCallback
     )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/get_units";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
-
             yield return webRequest.SendWebRequest();
-            if (webRequest.result == UnityWebRequest.Result.Success)
+
+            switch (webRequest.result)
             {
-                if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
-                {
-                    errorCallback?.Invoke("USER_NOT_FOUND");
-                }
-                else
-                {
-                    Debug.Log(webRequest.downloadHandler.text);
-                    List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
-                        webRequest.downloadHandler.text
-                    );
-                    // It would be nice to get the units ordered from the backend
-                    units = units.OrderByDescending(unit => unit.selected).ThenByDescending(unit => unit.slot).ThenByDescending(unit => unit.level).ToList();
-                    successCallback?.Invoke(units);
-                }
-                webRequest.Dispose();
-            }
-            else
-            {
-                HandleUnsuccessfullResponse(webRequest);
+                case UnityWebRequest.Result.Success:
+                    if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
+                    {
+                        userNotFoundCallback?.Invoke("USER_NOT_FOUND");
+                    }
+                    else
+                    {
+                        Debug.Log(webRequest.downloadHandler.text);
+                        List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
+                            webRequest.downloadHandler.text
+                        );
+                        units = units.OrderByDescending(unit => unit.selected).ThenByDescending(unit => unit.slot).ThenByDescending(unit => unit.level).ToList();
+                        successCallback?.Invoke(units);
+                    }
+                    webRequest.Dispose();
+                    break;
+                default:
+                    HandleUnsuccessfulResponse(webRequest);
+                    break;
             }
         }
     }
@@ -49,7 +49,8 @@ public static class BackendConnection
     public static IEnumerator SelectUnit(
         string playerDeviceId,
         string unitId,
-        int slot
+        int slot,
+        Action<string> inexistentUserCallback
     )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/select_unit/{unitId}";
@@ -59,25 +60,17 @@ public static class BackendConnection
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
             yield return webRequest.SendWebRequest();
+
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.Success:
                     if (webRequest.downloadHandler.text.Contains("INEXISTENT_USER"))
                     {
-                        // errorCallback?.Invoke(webRequest.downloadHandler.text);
-                    }
-                    else
-                    {
-                        // UserCharacterResponse response =
-                        //     JsonUtility.FromJson<UserCharacterResponse>(
-                        //         webRequest.downloadHandler.text
-                        //     );
-                        // successCallback?.Invoke(response);
+                        inexistentUserCallback?.Invoke(webRequest.downloadHandler.text);
                     }
                     break;
                 default:
-                    // errorCallback?.Invoke(webRequest.downloadHandler.error);
-                    Debug.LogError(webRequest.downloadHandler.error);
+                    HandleUnsuccessfulResponse(webRequest);
                     break;
             }
         }
@@ -85,7 +78,8 @@ public static class BackendConnection
 
     public static IEnumerator UnselectUnit(
         string playerDeviceId,
-        string unitId
+        string unitId,
+        Action<string> inexistentUserCallback
     )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/unselect_unit/{unitId}";
@@ -95,26 +89,17 @@ public static class BackendConnection
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
             yield return webRequest.SendWebRequest();
+
             switch (webRequest.result)
             {
                 case UnityWebRequest.Result.Success:
                     if (webRequest.downloadHandler.text.Contains("INEXISTENT_USER"))
                     {
-                        // errorCallback?.Invoke(webRequest.downloadHandler.text);
-                    }
-                    else
-                    {
-                        // UserCharacterResponse response =
-                        //     JsonUtility.FromJson<UserCharacterResponse>(
-                        //         webRequest.downloadHandler.text
-                        //     );
-                        // successCallback?.Invoke(response);
-                        Debug.Log(webRequest.downloadHandler.text);
+                        inexistentUserCallback?.Invoke(webRequest.downloadHandler.text);
                     }
                     break;
                 default:
-                    // errorCallback?.Invoke(webRequest.downloadHandler.error);
-                    Debug.LogError(webRequest.downloadHandler.error);
+                    HandleUnsuccessfulResponse(webRequest);
                     break;
             }
         }
@@ -124,77 +109,79 @@ public static class BackendConnection
         string playerDeviceId,
         string opponentId,
         Action<string> successCallback,
-        Action<string> errorCallback
+        Action<string> userNotFoundCallback
     )
     {
         string url = $"http://localhost:4000/autobattle/{playerDeviceId}/{opponentId}";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
-
             yield return webRequest.SendWebRequest();
-            if (webRequest.result == UnityWebRequest.Result.Success)
+
+            switch (webRequest.result)
             {
-                if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
-                {
-                    errorCallback?.Invoke("USER_NOT_FOUND");
-                }
-                else
-                {
-                    Debug.Log(webRequest.downloadHandler.text);
-                    BattleResultDTO battleResult = JsonConvert.DeserializeObject<BattleResultDTO>(
-                        webRequest.downloadHandler.text
-                    );
-                    yield return new WaitForSeconds(2);
-                    successCallback?.Invoke(battleResult.winner);
-                }
-                webRequest.Dispose();
-            }
-            else
-            {
-                HandleUnsuccessfullResponse(webRequest);
+                case UnityWebRequest.Result.Success:
+                    if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
+                    {
+                        userNotFoundCallback?.Invoke("USER_NOT_FOUND");
+                    }
+                    else
+                    {
+                        Debug.Log(webRequest.downloadHandler.text);
+                        BattleResultDTO battleResult = JsonConvert.DeserializeObject<BattleResultDTO>(
+                            webRequest.downloadHandler.text
+                        );
+                        yield return new WaitForSeconds(2);
+                        successCallback?.Invoke(battleResult.winner);
+                    }
+                    webRequest.Dispose();
+                    break;
+                default:
+                    HandleUnsuccessfulResponse(webRequest);
+                    break;
             }
         }
     }
 
     public static IEnumerator GetOpponents
     (
-        string playerDeviceId, 
-        Action<List<UserDTO>> successCallback, 
-        Action<string> errorCallback
-    ) 
+        string playerDeviceId,
+        Action<List<UserDTO>> successCallback,
+        Action<string> userNotFoundCallback
+    )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/get_opponents";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
-
             yield return webRequest.SendWebRequest();
-            if (webRequest.result == UnityWebRequest.Result.Success)
-            {
-                if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
-                {
-                    errorCallback?.Invoke("USER_NOT_FOUND");
-                }
-                else
-                {
-                    Debug.Log(webRequest.downloadHandler.text);
-                    List<UserDTO> opponents = JsonConvert.DeserializeObject<List<UserDTO>>(
-                        webRequest.downloadHandler.text
-                    );
-                    successCallback?.Invoke(opponents);
-                }
-                webRequest.Dispose();
-            }
-            else
-            {
-                HandleUnsuccessfullResponse(webRequest);
-            }
-        }
 
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.Success:
+                    if (webRequest.downloadHandler.text.Contains("NOT_FOUND"))
+                    {
+                        userNotFoundCallback?.Invoke("USER_NOT_FOUND");
+                    }
+                    else
+                    {
+                        Debug.Log(webRequest.downloadHandler.text);
+                        List<UserDTO> opponents = JsonConvert.DeserializeObject<List<UserDTO>>(
+                            webRequest.downloadHandler.text
+                        );
+                        successCallback?.Invoke(opponents);
+                    }
+                    webRequest.Dispose();
+                    break;
+                default:
+                    HandleUnsuccessfulResponse(webRequest);
+                    break;
+            }
+
+        }
     }
 
-    private static void HandleUnsuccessfullResponse(UnityWebRequest webRequest)
+    private static void HandleUnsuccessfulResponse(UnityWebRequest webRequest)
     {
         switch (webRequest.result)
         {
@@ -213,3 +200,4 @@ public static class BackendConnection
         }
     }
 }
+

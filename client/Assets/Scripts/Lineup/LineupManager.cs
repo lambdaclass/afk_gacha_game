@@ -94,7 +94,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
                 BackendConnection.SelectUnit(
                     "faker_device",
                     unit.unitId,
-                    slot
+                    slot,
+                    error => {
+                        Debug.LogError("Error when selecting unit: " + error);
+                    }
                 )
             );
             unitPosition.SetUnit(unit, true);
@@ -107,7 +110,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         StartCoroutine(
             BackendConnection.UnselectUnit(
                 "faker_device",
-                unit.unitId
+                unit.unitId,
+                error => {
+                    Debug.LogError("Error when unselecting unit: " + error);
+                }
             )
         );
         unitsContainer.SetUnitUIActiveById(unit.unitId);
