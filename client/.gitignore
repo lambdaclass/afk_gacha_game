@@ -114,9 +114,11 @@ mono_crash*.blob
 ## This file is created at build time
 /Assets/Resources/GitHash*
 
-/Assets/ThirdParty/TopDownEngine/
-/Assets/ThirdParty/TopDownEngine.meta
-/Assets/ThirdParty/Map Maker/
-/Assets/ThirdParty/Map Maker.meta
-/Assets/ThirdParty/RPG and MMO UI 6/
-/Assets/ThirdParty/RPG and MMO UI 6.meta
+## Third party assets
+/Assets/Animations/ThirdParty/*
+/Assets/Animations/ThirdParty.meta
+/Assets/Prefabs/Characters/UIPrefabs/ThirdParty/*
+/Assets/Prefabs/Characters/UIPrefabs/ThirdParty.meta
+/Assets/TextMesh\ Pro/*
+/Assets/ThirdParty/*
+

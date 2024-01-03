@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "New Unit", menuName = "Units")]
-public class Unit : ScriptableObject
+public class Unit
 {
-    public new string name;
-    public Sprite iconSprite;
-    public Sprite backgroundSprite;
-    public GameObject prefab;
+    public string unitId { get; set; }
+    public int level { get; set; }
+    public Character character { get; set; }
+    public int? slot { get; set; }
+    public bool selected { get; set; }
 }

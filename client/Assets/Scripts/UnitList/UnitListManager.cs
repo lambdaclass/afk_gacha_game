@@ -1,15 +1,37 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-// I didn't like the way I solved this problem, this class shouldn't exist, the ideal thing would be for the UnitDetail.SetSelectedUnit static method to be referenced in UnitList (via inspector) and add the listener to unitList.OnUnitSelected there, enabling using the inspector to select whatrever methods you choose to be triggered on click.
 public class UnitListManager : MonoBehaviour
 {
     [SerializeField]
-    UnitList unitList;
+    UnitsUIContainer unitsContainer;
+
+    [SerializeField]
+    List<Character> characters;
 
     void Start() {
-        unitList.OnUnitSelected.AddListener(SelectUnit);
+        StartCoroutine(
+            BackendConnection.GetAvailableUnits(
+                "user1",
+                units => {
+                    List<Unit> unitList = units.Select(unit => new Unit
+                    {
+                        unitId = unit.id,
+                        level = unit.level,
+                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
+                        slot = unit.slot,
+                        selected = unit.selected
+                    }).ToList();
+                    this.unitsContainer.Populate(unitList);
+                },
+                error => {
+                    Debug.LogError("Error when getting the available units: " + error);
+                }
+            )
+        );
+
+        unitsContainer.OnUnitSelected.AddListener(SelectUnit);
     }
 
     void SelectUnit(Unit unit) {
