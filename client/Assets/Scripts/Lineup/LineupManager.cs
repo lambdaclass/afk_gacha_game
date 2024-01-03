@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -121,7 +120,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     public void Populate(Unit unit, GameObject unitItem)
     {
-        var ss = new SpriteState();
+        SpriteState ss = new SpriteState();
         ss.disabledSprite = unit.character.disabledSprite;
         Button unitItemButton = unitItem.GetComponent<Button>();
         unitItemButton.spriteState = ss;

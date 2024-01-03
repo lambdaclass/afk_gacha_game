@@ -30,7 +30,6 @@ public static class BackendConnection
                     }
                     else
                     {
-                        Debug.Log(webRequest.downloadHandler.text);
                         List<UnitDTO> units = JsonConvert.DeserializeObject<List<UnitDTO>>(
                             webRequest.downloadHandler.text
                         );
@@ -127,7 +126,6 @@ public static class BackendConnection
                     }
                     else
                     {
-                        Debug.Log(webRequest.downloadHandler.text);
                         BattleResultDTO battleResult = JsonConvert.DeserializeObject<BattleResultDTO>(
                             webRequest.downloadHandler.text
                         );
@@ -165,7 +163,6 @@ public static class BackendConnection
                     }
                     else
                     {
-                        Debug.Log(webRequest.downloadHandler.text);
                         List<UserDTO> opponents = JsonConvert.DeserializeObject<List<UserDTO>>(
                             webRequest.downloadHandler.text
                         );
