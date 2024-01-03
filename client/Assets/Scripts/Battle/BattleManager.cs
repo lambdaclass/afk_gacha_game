@@ -8,6 +8,13 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     GameObject defeatSplash;
 
+    [SerializeField]
+    UnitPosition[] playerUnitPositions;
+
+    [SerializeField]
+    UnitPosition[] opponentUnitPositions;
+
+
     string playerDeviceId = "user1";
     string opponentId;
 
