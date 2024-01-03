@@ -105,7 +105,7 @@ For local testing using the [game backend](https://github.com/lambdaclass/game_b
 For testing using a remote server, point to the _GitHub URL_ instead and specify the desired branch like so:
 `{:game_backend, git: "https://github.com/lambdaclass/game_backend", branch: "main"}`
 
-Also, you may find it useful to create two users in the database. One of them should have "faker_device" as the device_client_id and the other one should have "doinb_device" as the device_client_id. This will allow you to test the battle using the backend.
+Also, you may find it useful to create two users in the database. One of them should have "user1" as the device_client_id and the other one should have "user2" as the device_client_id. This will allow you to test the battle using the backend.
 
 ## Useful Commands
 

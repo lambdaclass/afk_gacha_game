@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078840dcd121844c69ebb05d1eb6b753, type: 3}
+  m_Name: Uren
+  m_EditorClassIdentifier: 
+  name: Uren
+  iconSprite: {fileID: 21300000, guid: 06dbb91af72c34e7c85ad2f236c0cc9a, type: 3}
+  disabledSprite: {fileID: 21300000, guid: db1e5768206194879be1da8a2738aa2e, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 28c9e407687d243ed95e9826bbf5d760, type: 3}
+  prefab: {fileID: 1000710565635634031, guid: f29de91e4383147cbaf446466adcf5ca, type: 3}

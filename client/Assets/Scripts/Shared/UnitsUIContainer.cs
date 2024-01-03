@@ -23,6 +23,7 @@ public class UnitsUIContainer : MonoBehaviour
         units.ForEach(unit =>
         {
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
+            print(unit.unitId);
             unitUIItem.GetComponent<Image>().sprite = unit.character.iconSprite;
             Button unitItemButton = unitUIItem.GetComponent<Button>();
             unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton));

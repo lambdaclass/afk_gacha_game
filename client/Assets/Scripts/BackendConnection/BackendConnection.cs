@@ -111,7 +111,7 @@ public static class BackendConnection
         Action<string> userNotFoundCallback
     )
     {
-        string url = $"http://localhost:4000/autobattle/{playerDeviceId}/{opponentId}";
+        string url = $"http://localhost:4000/battle/{playerDeviceId}/pvp/{opponentId}";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
@@ -148,7 +148,7 @@ public static class BackendConnection
         Action<string> userNotFoundCallback
     )
     {
-        string url = $"http://localhost:4000/users/{playerDeviceId}/get_opponents";
+        string url = $"http://localhost:4000/battle/{playerDeviceId}/get_opponents";
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");

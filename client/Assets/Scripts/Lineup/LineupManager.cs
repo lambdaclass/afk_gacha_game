@@ -22,7 +22,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     {
         StartCoroutine(
             BackendConnection.GetAvailableUnits(
-                "faker_device",
+                "user1",
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {
@@ -45,7 +45,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
         StartCoroutine(
             BackendConnection.GetAvailableUnits(
-                "doinb_device",
+                "user2",
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {
@@ -70,6 +70,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
         foreach(Unit unit in units.Where(unit => unit.selected)) {
             UnitPosition unitPosition;
+            if(unit.slot.HasValue && unit.slot.Value >= unitPositions.Length) {
+                break;
+            }
             if(unit.slot.HasValue) {
                 unitPosition = unitPositions[unit.slot.Value];
             } else {
@@ -90,7 +93,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
             StartCoroutine(
                 BackendConnection.SelectUnit(
-                    "faker_device",
+                    "user1",
                     unit.unitId,
                     slot,
                     error => {
@@ -107,7 +110,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     {
         StartCoroutine(
             BackendConnection.UnselectUnit(
-                "faker_device",
+                "user1",
                 unit.unitId,
                 error => {
                     Debug.LogError("Error when unselecting unit: " + error);

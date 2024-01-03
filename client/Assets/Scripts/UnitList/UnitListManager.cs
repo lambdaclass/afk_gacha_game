@@ -13,7 +13,7 @@ public class UnitListManager : MonoBehaviour
     void Start() {
         StartCoroutine(
             BackendConnection.GetAvailableUnits(
-                "faker_device",
+                "user1",
                 units => {
                     List<Unit> unitList = units.Select(unit => new Unit
                     {

@@ -8,7 +8,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     GameObject defeatSplash;
 
-    string playerDeviceId = "faker_device";
+    string playerDeviceId = "user1";
     string opponentId;
 
     void Start()
