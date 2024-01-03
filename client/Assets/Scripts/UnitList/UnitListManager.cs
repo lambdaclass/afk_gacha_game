@@ -7,7 +7,6 @@ public class UnitListManager : MonoBehaviour
     [SerializeField]
     UnitsUIContainer unitsContainer;
 
-    // change to centralized way to get Characters, so don't have to assign everytime
     [SerializeField]
     List<Character> characters;
 
