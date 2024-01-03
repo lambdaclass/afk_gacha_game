@@ -53,7 +53,7 @@ public static class BackendConnection
     )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/select_unit/{unitId}";
-        string parametersJson = "{\"slot\":\"" + slot + "\"}";
+        string parametersJson = "{\"unit_id\":\"" + unitId + "\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
         {
@@ -82,7 +82,7 @@ public static class BackendConnection
     )
     {
         string url = $"http://localhost:4000/users/{playerDeviceId}/unselect_unit/{unitId}";
-        string parametersJson = "{\"slot\":\"\"}";
+        string parametersJson = "{\"unit_id\":\"" + unitId + "\"}";
         byte[] byteArray = Encoding.UTF8.GetBytes(parametersJson);
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, byteArray))
         {

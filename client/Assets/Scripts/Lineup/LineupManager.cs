@@ -68,16 +68,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-        foreach(Unit unit in units.Where(unit => unit.selected)) {
+        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
             UnitPosition unitPosition;
-            if(unit.slot.HasValue && unit.slot.Value >= unitPositions.Length) {
-                break;
-            }
-            if(unit.slot.HasValue) {
-                unitPosition = unitPositions[unit.slot.Value];
-            } else {
-                unitPosition = unitPositions.First(position => !position.IsOccupied);
-            }
+            unitPosition = unitPositions[unit.slot.Value];
             unitPosition.SetUnit(unit, isPlayer);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
