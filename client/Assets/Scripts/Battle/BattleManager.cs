@@ -22,33 +22,19 @@ public class BattleManager : MonoBehaviour
     List<Character> characters;
 
     readonly string playerDeviceId = "user1";
-    string opponentId;
 
     void Start()
     {
         GetAndSetUpUserAvailableUnits(playerDeviceId, true);
 
         GetAndSetUpUserAvailableUnits("user2", false);
-        
+
         StartCoroutine(
             BackendConnection.GetOpponents
             (
                 playerDeviceId, opponents => {
-                    this.opponentId = opponents[0].id;
-                    StartCoroutine(
-                        BackendConnection.GetBattleResult(playerDeviceId, this.opponentId,
-                        winnerId => {
-                            if(winnerId == opponentId) {
-                                defeatSplash.SetActive(true);
-                            } else {
-                                victorySplash.SetActive(true);
-                            }
-                        },
-                        error => {
-                            Debug.LogError("Error when getting the battle result: " + error);
-                        }
-                        )
-                    );
+                    string opponentId = opponents[0].id;
+                    SimulateBattle(playerDeviceId, opponentId);                    
                 },
                 error => {
                     Debug.LogError("Error when getting the opponents: " + error);
@@ -85,6 +71,24 @@ public class BattleManager : MonoBehaviour
                 },
                 error => {
                     Debug.LogError("Error when getting the available units: " + error);
+                }
+            )
+        );
+    }
+
+    private void SimulateBattle(string playerDeviceId, string opponentId)
+    {
+        StartCoroutine(
+            BackendConnection.GetBattleResult(playerDeviceId, opponentId,
+                winnerId => {
+                    if(winnerId == opponentId) {
+                        defeatSplash.SetActive(true);
+                    } else {
+                        victorySplash.SetActive(true);
+                    }
+                },
+                error => {
+                    Debug.LogError("Error when getting the battle result: " + error);
                 }
             )
         );
