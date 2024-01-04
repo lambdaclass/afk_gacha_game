@@ -28,7 +28,6 @@ public class UnitPosition : MonoBehaviour
         unitName.gameObject.SetActive(true);
         removeSign.SetActive(isPlayer);
         GetComponent<Button>().interactable = isPlayer;
-        print("unit name: " + unit.character.name + " prefab: " + unit.character.prefab.name);
         Instantiate(unit.character.prefab, modelContainer.transform);
     }
 
