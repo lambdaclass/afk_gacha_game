@@ -1781,6 +1781,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Save
       objectReference: {fileID: 0}
+    - target: {fileID: 114959980075803386, guid: 9b2e79df0bd3aea41bed1326ea8c8e6a,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224263963862697650, guid: 9b2e79df0bd3aea41bed1326ea8c8e6a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3913,7 +3918,7 @@ PrefabInstance:
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -117
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
