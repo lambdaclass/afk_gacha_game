@@ -21,51 +21,15 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     List<Character> characters;
 
-    string playerDeviceId = "user1";
+    readonly string playerDeviceId = "user1";
     string opponentId;
 
     void Start()
     {
-        StartCoroutine(
-            BackendConnection.GetAvailableUnits(
-                "user1",
-                units => {
-                    List<Unit> unitList = units.Select(unit => new Unit
-                    {
-                        unitId = unit.id,
-                        level = unit.level,
-                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
-                        slot = unit.slot,
-                        selected = unit.selected
-                    }).ToList();
-                    SetUpSelectedUnits(unitList, true);
-                },
-                error => {
-                    Debug.LogError("Error when getting the available units: " + error);
-                }
-            )
-        );
+        GetAndSetUpUserAvailableUnits(playerDeviceId, true);
 
-        StartCoroutine(
-            BackendConnection.GetAvailableUnits(
-                "user2",
-                units => {
-                    List<Unit> unitList = units.Select(unit => new Unit
-                    {
-                        unitId = unit.id,
-                        level = unit.level,
-                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
-                        slot = unit.slot,
-                        selected = unit.selected
-                    }).ToList();
-                    SetUpSelectedUnits(unitList, false);
-                },
-                error => {
-                    Debug.LogError("Error when getting the available units: " + error);
-                }
-
-            )
-        );
+        GetAndSetUpUserAvailableUnits("user2", false);
+        
         StartCoroutine(
             BackendConnection.GetOpponents
             (
@@ -101,5 +65,28 @@ public class BattleManager : MonoBehaviour
             unitPosition = unitPositions[unit.slot.Value];
             unitPosition.SetUnit(unit, isPlayer);
         }
+    }
+
+    private void GetAndSetUpUserAvailableUnits(string playerDeviceId, bool isPlayer)
+    {
+        StartCoroutine(
+            BackendConnection.GetAvailableUnits(
+                playerDeviceId,
+                units => {
+                    List<Unit> unitList = units.Select(unit => new Unit
+                    {
+                        unitId = unit.id,
+                        level = unit.level,
+                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
+                        slot = unit.slot,
+                        selected = unit.selected
+                    }).ToList();
+                    SetUpSelectedUnits(unitList, isPlayer);
+                },
+                error => {
+                    Debug.LogError("Error when getting the available units: " + error);
+                }
+            )
+        );
     }
 }
