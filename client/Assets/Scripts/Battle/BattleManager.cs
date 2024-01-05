@@ -28,9 +28,6 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        print("Hi");
-        print(characters[1]);
-
         globalUserData = GlobalUserData.Instance;
 
         User user = globalUserData.User;

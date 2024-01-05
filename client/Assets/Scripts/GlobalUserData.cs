@@ -27,11 +27,8 @@ public class GlobalUserData : MonoBehaviour
         {
             if (instance == null)
             {
-                print("Instance is null. Instantiating.");
                 instance = new GameObject("GlobalUserData").AddComponent<GlobalUserData>();
             }
-            print("Printing instance");
-            print(instance);
             return instance;
         }
     }
@@ -39,8 +36,7 @@ public class GlobalUserData : MonoBehaviour
     // Initialize the user's units here
     private void Awake()
     {
-        print("Awoken");
-         if (instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
