@@ -138,6 +138,21 @@ PrefabInstance:
       propertyPath: m_text
       value: BOSS
       objectReference: {fileID: 0}
+    - target: {fileID: 5975096969994686504, guid: 1bc9ae72479a142778435ee4204b4445,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5975096969994686504, guid: 1bc9ae72479a142778435ee4204b4445,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -88
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737673999617761478, guid: 1bc9ae72479a142778435ee4204b4445,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7790549933138018520, guid: 1bc9ae72479a142778435ee4204b4445,
         type: 3}
       propertyPath: m_SizeDelta.y
