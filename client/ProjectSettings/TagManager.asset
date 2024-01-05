@@ -10,6 +10,7 @@ TagManager:
   - World
   - NoMask
   - Hitbox
+  - Music
   layers:
   - Default
   - TransparentFX
