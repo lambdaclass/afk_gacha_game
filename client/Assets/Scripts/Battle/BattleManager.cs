@@ -41,7 +41,7 @@ public class BattleManager : MonoBehaviour
         opponentData.Destroy();
     }
 
-    // Run a battle between two teams. Returns "Team 1" or "Team 2".
+    // Run a battle between two teams. Returns true if our user wins
     public bool Battle(List<Unit> team1, List<Unit> team2)
     {
         int team1AggLevel = CalculateAggregateLevel(team1);
