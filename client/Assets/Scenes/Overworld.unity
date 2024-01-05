@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 116821475}
   m_Layer: 0
   m_Name: MainTheme
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,10 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0deb2529275b947d4a30259aa1bea285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioToggleButton: {fileID: 1737982114}
-  audioToggle: {fileID: 1029671676}
-  audioOn: {fileID: 21300000, guid: 8f15792abe6524d1fa5297a8c01ba56a, type: 3}
-  audioOff: {fileID: 21300000, guid: baee187c6967a41f8ab4fd7aad363196, type: 3}
 --- !u!1001 &418639958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -887,6 +883,7 @@ GameObject:
   - component: {fileID: 1737982114}
   - component: {fileID: 1737982113}
   - component: {fileID: 1737982112}
+  - component: {fileID: 1737982115}
   m_Layer: 0
   m_Name: AudioToggleButton
   m_TagString: Untagged
@@ -997,9 +994,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 116821475}
-        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
-        m_MethodName: ToggleMusic
+      - m_Target: {fileID: 1737982115}
+        m_TargetAssemblyTypeName: ToggleMusic, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1009,6 +1006,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1737982115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737982110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e2d9cda4874c4f02a9fb5a423b240ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioToggleButton: {fileID: 1737982114}
+  audioToggle: {fileID: 1029671676}
+  audioOn: {fileID: 21300000, guid: 8f15792abe6524d1fa5297a8c01ba56a, type: 3}
+  audioOff: {fileID: 21300000, guid: baee187c6967a41f8ab4fd7aad363196, type: 3}
 --- !u!1001 &1938758587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1400,7 +1413,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 116821475}
+      objectReference: {fileID: 0}
     - target: {fileID: 1442761211389456795, guid: 41e39b7d9312747418ceb6356ec5396e,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
