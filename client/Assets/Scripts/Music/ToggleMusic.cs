@@ -4,10 +4,14 @@ using UnityEngine.UI;
 public class ToggleMusic : MonoBehaviour
 {
     private AudioSource audioSource;
-    public Button audioToggleButton;
-    public Image audioToggle;
-    public Sprite audioOn;
-    public Sprite audioOff;
+    [SerializeField]
+    private Button audioToggleButton;
+    [SerializeField]
+    private Image audioToggle;
+    [SerializeField]
+    private Sprite audioOn;
+    [SerializeField]
+    private Sprite audioOff;
     public static ToggleMusic Instance { get; private set; }
     private const string TAG_MUSIC = "Music";
     
