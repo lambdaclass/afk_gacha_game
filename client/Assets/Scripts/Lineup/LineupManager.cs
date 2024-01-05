@@ -1,126 +1,100 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using UnityEngine;
-// using UnityEngine.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
-// public class LineupManager : MonoBehaviour, IUnitPopulator
-// {
-//     [SerializeField]
-//     UnitsUIContainer unitsContainer;
+public class LineupManager : MonoBehaviour, IUnitPopulator
+{
+    [SerializeField]
+    UnitsUIContainer unitsContainer;
 
-//     [SerializeField]
-//     UnitPosition[] playerUnitPositions;
+    [SerializeField]
+    UnitPosition[] playerUnitPositions;
 
-//     [SerializeField]
-//     UnitPosition[] opponentUnitPositions;
+    [SerializeField]
+    UnitPosition[] opponentUnitPositions;
 
-//     [SerializeField]
-//     List<Character> characters;
+    [SerializeField]
+    List<Character> characters;
 
-//     void Start()
-//     {
-//         StartCoroutine(
-//             BackendConnection.GetAvailableUnits(
-//                 "user1",
-//                 units => {
-//                     List<Unit> unitList = units.Select(unit => new Unit
-//                     {
-//                         id = unit.id,
-//                         level = unit.level,
-//                         character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
-//                         slot = unit.slot,
-//                         selected = unit.selected
-//                     }).ToList();
-//                     this.unitsContainer.Populate(unitList, this);
-//                     SetUpSelectedUnits(unitList, true);
-//                 },
-//                 error => {
-//                     Debug.LogError("Error when getting the available units: " + error);
-//                 }
-//             )
-//         );
+    private GlobalUserData globalUserData;
+    private OpponentData opponentData;
 
-//         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
+    void Start()
+    {
+        globalUserData = GlobalUserData.Instance;
+        opponentData = OpponentData.Instance;
 
-//         StartCoroutine(
-//             BackendConnection.GetAvailableUnits(
-//                 "user2",
-//                 units => {
-//                     List<Unit> unitList = units.Select(unit => new Unit
-//                     {
-//                         id = unit.id,
-//                         level = unit.level,
-//                         character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
-//                         slot = unit.slot,
-//                         selected = unit.selected
-//                     }).ToList();
-//                     SetUpSelectedUnits(unitList, false);
-//                 },
-//                 error => {
-//                     Debug.LogError("Error when getting the available units: " + error);
-//                 }
+        User user = globalUserData.User;
+        User opponent = opponentData.User;
 
-//             )
-//         );
-//     }
+        this.unitsContainer.Populate(user.units, this);
+        SetUpSelectedUnits(user.units, true);
 
-//     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
-//     {
-//         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-//         foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
-//             UnitPosition unitPosition;
-//             unitPosition = unitPositions[unit.slot.Value];
-//             unitPosition.SetUnit(unit, isPlayer);
-//             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
-//         }
-//     }
+        unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
 
-//     private void AddUnitToLineup(Unit unit)
-//     {
-//         UnitPosition unitPosition = playerUnitPositions.First(unitPosition => !unitPosition.IsOccupied);
+        User user2 = GetOpponent();
+        opponent = user2;
+        SetUpSelectedUnits(user2.units, false);
+    }
 
-//         if(unitPosition)
-//         {
-//             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
+    private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
+    {
+        UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
+        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
+            UnitPosition unitPosition;
+            unitPosition = unitPositions[unit.slot.Value];
+            unitPosition.SetUnit(unit, isPlayer);
+            unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
+        }
+    }
 
-//             StartCoroutine(
-//                 BackendConnection.SelectUnit(
-//                     "user1",
-//                     unit.id,
-//                     slot,
-//                     error => {
-//                         Debug.LogError("Error when selecting unit: " + error);
-//                     }
-//                 )
-//             );
-//             unitPosition.SetUnit(unit, true);
-//             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
-//         }
-//     }
+    private void AddUnitToLineup(Unit unit)
+    {
+        UnitPosition unitPosition = playerUnitPositions.First(unitPosition => !unitPosition.IsOccupied);
 
-//     private void RemoveUnitFromLineup(Unit unit)
-//     {
-//         StartCoroutine(
-//             BackendConnection.UnselectUnit(
-//                 "user1",
-//                 unit.id,
-//                 error => {
-//                     Debug.LogError("Error when unselecting unit: " + error);
-//                 }
-//             )
-//         );
-//         unitsContainer.SetUnitUIActiveById(unit.id);
-//     }
+        if(unitPosition)
+        {
+            int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
+            unit.selected = true;
+            unitPosition.SetUnit(unit, true);
+            unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
+        }
+    }
 
-//     public void Populate(Unit unit, GameObject unitItem)
-//     {
-//         SpriteState ss = new SpriteState();
-//         ss.disabledSprite = unit.character.disabledSprite;
-//         Button unitItemButton = unitItem.GetComponent<Button>();
-//         unitItemButton.spriteState = ss;
-//         if(unit.selected) {
-//             unitItemButton.interactable = false;
-//         }
-//     }
-// }
+    private void RemoveUnitFromLineup(Unit unit)
+    {
+        unit.selected = false;
+        unitsContainer.SetUnitUIActiveById(unit.id);
+    }
+
+    public void Populate(Unit unit, GameObject unitItem)
+    {
+        SpriteState ss = new SpriteState();
+        ss.disabledSprite = unit.character.disabledSprite;
+        Button unitItemButton = unitItem.GetComponent<Button>();
+        unitItemButton.spriteState = ss;
+        if(unit.selected) {
+            unitItemButton.interactable = false;
+        }
+    }
+
+    public User GetOpponent()
+    {
+        User user = new User
+        {
+            username = "SampleOpponent",
+            units = new List<Unit>
+            {
+                new Unit { id = "201", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 0, selected = true },
+                new Unit { id = "202", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 1, selected = true },
+                new Unit { id = "203", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 2, selected = true },
+                new Unit { id = "204", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 3, selected = true },
+                new Unit { id = "205", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 4, selected = true }
+            }
+        };
+
+        return user;
+    }
+}
