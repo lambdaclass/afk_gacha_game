@@ -20,6 +20,7 @@ public class OpponentData : MonoBehaviour
         set { user = value; }
     }
 
+    // Method to destroy the instance after battle has been ran
     public void Destroy()
     {
         if (instance != null) { Destroy(gameObject); }
