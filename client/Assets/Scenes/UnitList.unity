@@ -123,6 +123,60 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &381496551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 381496553}
+  - component: {fileID: 381496552}
+  m_Layer: 0
+  m_Name: UnitListManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &381496552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381496551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea7702f55e574ebcb1a70d5cd3cc521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitsContainer: {fileID: 1397553258}
+  characters:
+  - {fileID: 11400000, guid: daff3c71680004519863ecf7f14aeeb0, type: 2}
+  - {fileID: 11400000, guid: 3985c84aa9170472c87d2830ffdee7dd, type: 2}
+  - {fileID: 11400000, guid: dd0132765ef134865909288d4dfc0bbc, type: 2}
+  - {fileID: 11400000, guid: b746c5700ea2f49d8945f9ed32ee7273, type: 2}
+  - {fileID: 11400000, guid: 1beb8f2a3d070418cad0fd5d7ef96f8b, type: 2}
+  - {fileID: 11400000, guid: fa57cccb28a1d4e9c9832ae5566b73a5, type: 2}
+  - {fileID: 11400000, guid: f4e4a4d736f494fcbb031c6f04031f72, type: 2}
+  - {fileID: 11400000, guid: 74b8e72fa2adf48958d2adef09589f57, type: 2}
+--- !u!4 &381496553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381496551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.1987205, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &509301369
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1459,6 +1513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1397553256}
   - component: {fileID: 1397553257}
+  - component: {fileID: 1397553258}
   m_Layer: 5
   m_Name: Shop item list
   m_TagString: Untagged
@@ -1510,6 +1565,21 @@ MonoBehaviour:
   m_Spacing: {x: 30, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 4
+--- !u!114 &1397553258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397553255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ca8ca84e8654b2c8552c9f2463237d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitItemUIPrefab: {fileID: 4962091247838370780, guid: f7c5db23b171c47b3a1e6c0f431a6fcf,
+    type: 3}
+  unitsContainer: {fileID: 1397553255}
 --- !u!1001 &1541241127
 PrefabInstance:
   m_ObjectHideFlags: 0
