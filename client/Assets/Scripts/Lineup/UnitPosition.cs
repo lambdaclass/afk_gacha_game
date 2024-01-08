@@ -41,4 +41,8 @@ public class UnitPosition : MonoBehaviour
         OnUnitRemoved?.Invoke(selectedUnit);
         selectedUnit = null;
     }
+
+    public Unit GetSelectedUnit() {
+        return selectedUnit;
+    }
 }
