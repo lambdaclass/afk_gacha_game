@@ -68,7 +68,7 @@ public class BattleManager : MonoBehaviour
         foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
             UnitPosition unitPosition;
             unitPosition = unitPositions[unit.slot.Value];
-            unitPosition.SetUnit(unit, isPlayer);
+            unitPosition.SetUnit(unit, isPlayer);    
         }
     }
 }
