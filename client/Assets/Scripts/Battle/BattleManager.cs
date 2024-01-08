@@ -21,13 +21,10 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     List<Character> characters;
 
-    private GlobalUserData globalUserData;
-    private OpponentData opponentData;
-
     void Start()
     {
-        globalUserData = GlobalUserData.Instance;
-        opponentData = OpponentData.Instance;
+        GlobalUserData globalUserData = GlobalUserData.Instance;
+        OpponentData opponentData = OpponentData.Instance;
 
         List<Unit> units = globalUserData.Units;
         User opponent = opponentData.User;
