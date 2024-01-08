@@ -8,8 +8,7 @@
   - [Licensing](#licensing)
   - [Requirements](#requirements)
   - [Suggested Development Environment](#suggested-development-environment)
-  - [Project Setup](#project-setup)
-  - [Unity Setup](#unity-setup)
+    - [Unity Setup](#unity-setup)
   - [Useful Commands](#useful-commands)
   - [Contact and Socials](#contact-and-socials)
 
@@ -56,6 +55,11 @@ Ensure you have the following dependencies installed:
       - "Window -> TextMeshPro -> Import TMP Essential Resources" and
       - "Window -> TextMeshPro -> Import TMP Examples and Extras"
 
+### Unity Setup
+
+- In Unity Hub, click on the add project button and select the `client` folder.
+- Choose the correct editor version and download the [Top Down Engine](https://assetstore.unity.com/packages/templates/systems/topdown-engine-89636) by [More Mountains](https://moremountains.com). Include it in the `Assets/ThirdParty` folder after purchasing the license.
+- To test the game, select the scene in `Assets/Scenes/Overworld` and run it by clicking the play button.
 
 ## Suggested Development Environment
 
@@ -64,23 +68,6 @@ Set up your environment with the following steps:
 - Download the [.NET SDK](https://dotnet.microsoft.com/es-es/download/dotnet/thank-you/sdk-7.0.403-macos-arm64-installer) for your operating system.
 - In VSCode, download the .NET extension. After installation, change the version to 1.26 (locate the version dropdown next to the Uninstall button in the extension window).
 - To check if the setup is successful, go to VSCode's console, select the Output tab, and pick Omnisharp Log in the dropdown. If there are no error logs and Omnisharp is scanning the project, the configuration is correct.
-
-## Project Setup
-
-Ensure Docker is running and execute the following commands:
-
-```bash
-git clone https://github.com/lambdaclass/curse_of_myrra
-cd curse_of_myrra/server
-make db
-make setup
-```
-
-## Unity Setup
-
-- In Unity Hub, click on the add project button and select the `client` folder.
-- Choose the correct editor version and download the [Top Down Engine](https://assetstore.unity.com/packages/templates/systems/topdown-engine-89636) by [More Mountains](https://moremountains.com). Include it in the `Assets/ThirdParty` folder after purchasing the license.
-- To test the game, select the scene in `Assets/Scenes/TitleScreen` and run it by clicking the play button.
 
 ## Useful Commands
 
