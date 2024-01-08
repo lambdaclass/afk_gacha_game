@@ -601,7 +601,7 @@ PrefabInstance:
     - target: {fileID: 592328171030375167, guid: 41e39b7d9312747418ceb6356ec5396e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 592328171030375167, guid: 41e39b7d9312747418ceb6356ec5396e,
         type: 3}
@@ -1082,7 +1082,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 150, y: 200}
+  m_CellSize: {x: 200, y: 200}
   m_Spacing: {x: 30, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 4
@@ -1750,7 +1750,7 @@ PrefabInstance:
     - target: {fileID: 8068492440245163594, guid: ff3ac77672c9b43f5858f5efd70ee9f4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8068492440245163594, guid: ff3ac77672c9b43f5858f5efd70ee9f4,
         type: 3}
