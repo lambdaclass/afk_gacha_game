@@ -26,11 +26,11 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         globalUserData = GlobalUserData.Instance;
         opponentData = OpponentData.Instance;
 
-        User user = globalUserData.User;
+        List<Unit> units = globalUserData.Units;
         User opponent = opponentData.User;
 
-        this.unitsContainer.Populate(user.units, this);
-        SetUpSelectedUnits(user.units, true);
+        this.unitsContainer.Populate(units, this);
+        SetUpSelectedUnits(units, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
 

@@ -29,10 +29,10 @@ public class BattleManager : MonoBehaviour
         globalUserData = GlobalUserData.Instance;
         opponentData = OpponentData.Instance;
 
-        User user = globalUserData.User;
+        List<Unit> units = globalUserData.Units;
         User opponent = opponentData.User;
 
-        bool won = Battle(user.units, opponent.units);
+        bool won = Battle(units, opponent.units);
         if(won) {
             victorySplash.SetActive(true);
         } else {

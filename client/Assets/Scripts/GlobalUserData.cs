@@ -13,11 +13,17 @@ public class GlobalUserData : MonoBehaviour
     // User
     private User user;
 
-    // Public property to access the user's units
+    // Public property to access the user
     public User User
     {
         get { return user; }
         set { user = value; }
+    }
+
+    // Public property to access the user's units
+    public List<Unit> Units
+    {
+        get { return user.units; }
     }
 
     // Method to get the singleton instance
