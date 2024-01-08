@@ -38,7 +38,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
+        foreach(Unit unit in units.Where(unit => unit.selected)) {
             UnitPosition unitPosition;
             unitPosition = unitPositions[unit.slot.Value];
             unitPosition.SetUnit(unit, isPlayer);
@@ -54,6 +54,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         {
             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
             unit.selected = true;
+            unit.slot = slot;
             unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
@@ -61,8 +62,21 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private void RemoveUnitFromLineup(Unit unit)
     {
+        UnitPosition unitPosition = playerUnitPositions.First(unitPosition => CompareUnitId(unitPosition, unit));
+        unitPosition.OnUnitRemoved -= RemoveUnitFromLineup;
         unit.selected = false;
+        unit.slot = null;
         unitsContainer.SetUnitUIActiveById(unit.id);
+    }
+
+    private bool CompareUnitId(UnitPosition unitPosition, Unit unit)
+    {
+        Unit selectedUnit = unitPosition.GetSelectedUnit();
+        if(selectedUnit != null)
+        {
+            return selectedUnit.id == unit.id;
+        }
+        return false;
     }
 
     public void Populate(Unit unit, GameObject unitItem)
