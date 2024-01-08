@@ -1,7 +1,5 @@
 # Champions of Mirra
 
-<img src="docs/src/images/Curse_of_Myrra_logo.png" alt="Curse of Myrra logo">
-
 ## Table of Contents
 
 - [Champions of Mirra](#champions-of-mirra)
