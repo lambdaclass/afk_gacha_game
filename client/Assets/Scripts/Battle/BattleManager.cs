@@ -26,10 +26,12 @@ public class BattleManager : MonoBehaviour
         GlobalUserData globalUserData = GlobalUserData.Instance;
         OpponentData opponentData = OpponentData.Instance;
 
-        List<Unit> units = globalUserData.Units;
-        User opponent = opponentData.User;
+        List<Unit> userUnits = globalUserData.Units;
+        List<Unit> opponentUnits = opponentData.Units;
 
-        bool won = Battle(units, opponent.units);
+        SetUpUnits(userUnits, opponentUnits);
+
+        bool won = Battle(userUnits, opponentUnits);
         if(won) {
             victorySplash.SetActive(true);
         } else {
@@ -52,5 +54,21 @@ public class BattleManager : MonoBehaviour
     private int CalculateAggregateLevel(List<Unit> team)
     {
         return team.Sum(unit => unit.level);
+    }
+
+    private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
+    {
+        SetUpUserUnits(userUnits, true);
+        SetUpUserUnits(opponentUnits, false);
+    }
+
+    private void SetUpUserUnits(List<Unit> units, bool isPlayer)
+    {
+        UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
+        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
+            UnitPosition unitPosition;
+            unitPosition = unitPositions[unit.slot.Value];
+            unitPosition.SetUnit(unit, isPlayer);    
+        }
     }
 }
