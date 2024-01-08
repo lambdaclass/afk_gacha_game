@@ -30,7 +30,7 @@ public class UnitsUIContainer : MonoBehaviour
             {
                 unitPopulator.Populate(unit, unitUIItem);
             }
-            unitUIItemDictionary.Add(unit.unitId, unitUIItem);
+            unitUIItemDictionary.Add(unit.id, unitUIItem);
         });
         unitsContainer.SetActive(true);
     }
