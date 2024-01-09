@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
@@ -9,6 +10,9 @@ public class GachaManager : MonoBehaviour
 
     [SerializeField]
     GameObject characterNameContainer;
+
+    [SerializeField]
+    GameObject characterContainerButton;
 
     public void RollCharacter(Box box)
     {
@@ -33,6 +37,7 @@ public class GachaManager : MonoBehaviour
         };
 
         user.units.Add(newUnit);
+        characterContainerButton.GetComponent<Button>().onClick.AddListener(() => SelectUnit(newUnit));
     }
 
     private void DisplayCharacter(Character character)
@@ -46,15 +51,11 @@ public class GachaManager : MonoBehaviour
         characterNameContainer.SetActive(true);
     }
 
-    // public void SetUnit(Unit unit, bool isPlayer) {
-    //     selectedUnit = unit;
-    //     unitName.text = $"{unit.character.name} LVL: {unit.level}";
-    //     isOccupied = true;
-    //     unitName.gameObject.SetActive(true);
-    //     removeSign.SetActive(isPlayer);
-    //     GetComponent<Button>().interactable = isPlayer;
-    //     Instantiate(unit.character.prefab, modelContainer.transform);
-    // }
+    private void SelectUnit(Unit unit) {
+        UnitDetail.SelectUnit(unit);
+    }
+
+
 
 
 }
