@@ -20,55 +20,25 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     void Start()
     {
-        StartCoroutine(
-            BackendConnection.GetAvailableUnits(
-                "user1",
-                units => {
-                    List<Unit> unitList = units.Select(unit => new Unit
-                    {
-                        unitId = unit.id,
-                        level = unit.level,
-                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
-                        slot = unit.slot,
-                        selected = unit.selected
-                    }).ToList();
-                    this.unitsContainer.Populate(unitList, this);
-                    SetUpSelectedUnits(unitList, true);
-                },
-                error => {
-                    Debug.LogError("Error when getting the available units: " + error);
-                }
-            )
-        );
+        GlobalUserData globalUserData = GlobalUserData.Instance;
+        OpponentData opponentData = OpponentData.Instance;
+
+        List<Unit> units = globalUserData.Units;
+
+        this.unitsContainer.Populate(units, this);
+        SetUpSelectedUnits(units, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
 
-        StartCoroutine(
-            BackendConnection.GetAvailableUnits(
-                "user2",
-                units => {
-                    List<Unit> unitList = units.Select(unit => new Unit
-                    {
-                        unitId = unit.id,
-                        level = unit.level,
-                        character = characters.Find(character => unit.character.ToLower() == character.name.ToLower()),
-                        slot = unit.slot,
-                        selected = unit.selected
-                    }).ToList();
-                    SetUpSelectedUnits(unitList, false);
-                },
-                error => {
-                    Debug.LogError("Error when getting the available units: " + error);
-                }
-
-            )
-        );
+        User user2 = GetOpponent();
+        opponentData.User = user2;
+        SetUpSelectedUnits(user2.units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
+        foreach(Unit unit in units.Where(unit => unit.selected)) {
             UnitPosition unitPosition;
             unitPosition = unitPositions[unit.slot.Value];
             unitPosition.SetUnit(unit, isPlayer);
@@ -83,17 +53,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         if(unitPosition)
         {
             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
-
-            StartCoroutine(
-                BackendConnection.SelectUnit(
-                    "user1",
-                    unit.unitId,
-                    slot,
-                    error => {
-                        Debug.LogError("Error when selecting unit: " + error);
-                    }
-                )
-            );
+            unit.selected = true;
+            unit.slot = slot;
             unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
@@ -101,16 +62,21 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private void RemoveUnitFromLineup(Unit unit)
     {
-        StartCoroutine(
-            BackendConnection.UnselectUnit(
-                "user1",
-                unit.unitId,
-                error => {
-                    Debug.LogError("Error when unselecting unit: " + error);
-                }
-            )
-        );
-        unitsContainer.SetUnitUIActiveById(unit.unitId);
+        UnitPosition unitPosition = playerUnitPositions.First(unitPosition => CompareUnitId(unitPosition, unit));
+        unitPosition.OnUnitRemoved -= RemoveUnitFromLineup;
+        unit.selected = false;
+        unit.slot = null;
+        unitsContainer.SetUnitUIActiveById(unit.id);
+    }
+
+    private bool CompareUnitId(UnitPosition unitPosition, Unit unit)
+    {
+        Unit selectedUnit = unitPosition.GetSelectedUnit();
+        if(selectedUnit != null)
+        {
+            return selectedUnit.id == unit.id;
+        }
+        return false;
     }
 
     public void Populate(Unit unit, GameObject unitItem)
@@ -122,5 +88,23 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         if(unit.selected) {
             unitItemButton.interactable = false;
         }
+    }
+
+    public User GetOpponent()
+    {
+        User user = new User
+        {
+            username = "SampleOpponent",
+            units = new List<Unit>
+            {
+                new Unit { id = "201", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 0, selected = true },
+                new Unit { id = "202", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 1, selected = true },
+                new Unit { id = "203", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 2, selected = true },
+                new Unit { id = "204", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 3, selected = true },
+                new Unit { id = "205", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 4, selected = true }
+            }
+        };
+
+        return user;
     }
 }
