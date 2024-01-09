@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd7495c817445494d9d91c1a4423da6b, type: 3}
-  m_Name: Basic
+  m_Name: Rare
   m_EditorClassIdentifier: 
   description: A box for begginers, with only a handful of characters.
   characterDropRates:
@@ -21,12 +21,4 @@ MonoBehaviour:
   - character: {fileID: 11400000, guid: 3985c84aa9170472c87d2830ffdee7dd, type: 2}
     weight: 1
   - character: {fileID: 11400000, guid: daff3c71680004519863ecf7f14aeeb0, type: 2}
-    weight: 1
-  - character: {fileID: 11400000, guid: dd0132765ef134865909288d4dfc0bbc, type: 2}
-    weight: 1
-  - character: {fileID: 11400000, guid: 1beb8f2a3d070418cad0fd5d7ef96f8b, type: 2}
-    weight: 1
-  - character: {fileID: 11400000, guid: f4e4a4d736f494fcbb031c6f04031f72, type: 2}
-    weight: 1
-  - character: {fileID: 11400000, guid: 74b8e72fa2adf48958d2adef09589f57, type: 2}
     weight: 1

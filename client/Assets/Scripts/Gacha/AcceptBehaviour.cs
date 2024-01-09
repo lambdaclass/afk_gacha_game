@@ -9,17 +9,19 @@ public class AcceptBehaviour : MonoBehaviour
     public List<Box> boxes;
 
     [SerializeField]
-    private TextMeshProUGUI item_name;
+    private TextMeshProUGUI itemName;
 
+    [SerializeField]
+    private GachaManager gachaManager;
 
     public Box box;
 
-    public void SetBoxByName(string box_name){
-        box = boxes.Find(box => box_name == box.name);
-        item_name.text = box_name;
+    public void SetBoxByName(string boxName){
+        box = boxes.Find(box => boxName == box.name);
+        //itemName.text = boxName;
     }
 
     public void PullBox(){
-        GachaManager.RollCharacter(box);
+        gachaManager.RollCharacter(box);
     }
 }
