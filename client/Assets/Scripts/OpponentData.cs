@@ -24,6 +24,7 @@ public class OpponentData : MonoBehaviour
     public List<Unit> Units
     {
         get { return user.units; }
+        set { user.units = value; }
     }
 
     // Method to destroy the instance after battle has been ran
@@ -48,8 +49,10 @@ public class OpponentData : MonoBehaviour
     // Initialize the user's units here
     private void Awake()
     {
+        print("Awake!");
         if (instance == null)
         {
+            print("Instance is null! Creating new.");
             instance = this;
             DontDestroyOnLoad(gameObject);
 
@@ -67,6 +70,7 @@ public class OpponentData : MonoBehaviour
                 }
             };
         } else {
+            print("Instance exists! Destroying.");
             // Destroy this instance if another one already exists
             Destroy(gameObject);
         }

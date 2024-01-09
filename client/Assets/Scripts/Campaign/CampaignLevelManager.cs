@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class LevelMarker : MonoBehaviour
+public class CampaignLevelManager : MonoBehaviour
 {
     [SerializeField]
     GameObject PlayButton;
 
-    public void SelectLevel() {
+    public void LevelSelected() {
         PlayButton.SetActive(true);
     }
 }

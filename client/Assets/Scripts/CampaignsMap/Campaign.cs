@@ -4,6 +4,6 @@ using UnityEngine;
 public class Campaign : MonoBehaviour
 {
     public void Start() {
-        
+
     }
 }

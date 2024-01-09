@@ -29,10 +29,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         SetUpSelectedUnits(units, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
-
-        User user2 = GetOpponent();
-        opponentData.User = user2;
-        SetUpSelectedUnits(user2.units, false);
+        
+        SetUpSelectedUnits(opponentData.Units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
