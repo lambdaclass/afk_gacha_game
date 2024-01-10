@@ -16,4 +16,4 @@ MonoBehaviour:
   iconSprite: {fileID: 21300000, guid: 06dbb91af72c34e7c85ad2f236c0cc9a, type: 3}
   disabledSprite: {fileID: 21300000, guid: db1e5768206194879be1da8a2738aa2e, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 28c9e407687d243ed95e9826bbf5d760, type: 3}
-  prefab: {fileID: 1000710565635634031, guid: f29de91e4383147cbaf446466adcf5ca, type: 3}
+  prefab: {fileID: 2866215690245578517, guid: b5943a432043c4ddeb23a63ccb79d69a, type: 3}
