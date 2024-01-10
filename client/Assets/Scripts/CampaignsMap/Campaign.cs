@@ -13,11 +13,11 @@ public class Campaign : MonoBehaviour
     [SerializeField]
     bool first;
 
+    [SerializeField] GameObject campaingToShowPrefab;
+
     private void Start(){
         if(first) { CampaignProgressData.Instance.SetUnlocked(name); }
 
-        print(name);
-        print(CampaignProgressData.Instance.CampaignStatus(name));
         switch(CampaignProgressData.Instance.CampaignStatus(name)) {
             case CampaignProgressData.Status.Locked:
                 break;
@@ -34,7 +34,8 @@ public class Campaign : MonoBehaviour
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
     public void Select(){
         if (CampaignProgressData.Instance.CampaignStatus(name) == CampaignProgressData.Status.Unlocked) {
-            SceneManager.LoadScene(name);
+            CampaignManager.campaingReference = campaingToShowPrefab;
+            SceneManager.LoadScene("Campaign");
         }
     }
 }
