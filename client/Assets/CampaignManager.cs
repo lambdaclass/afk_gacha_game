@@ -7,6 +7,7 @@ public class CampaignManager : MonoBehaviour
     public static GameObject campaingReference;
 
     void Start(){
-        Instantiate(campaingReference,transform);
+        GameObject instantiatedObject = Instantiate(campaingReference,transform);
+        instantiatedObject.transform.SetSiblingIndex(0);
     }
 }
