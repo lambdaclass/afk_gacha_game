@@ -87,22 +87,4 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unitItemButton.interactable = false;
         }
     }
-
-    public User GetOpponent()
-    {
-        User user = new User
-        {
-            username = "SampleOpponent",
-            units = new List<Unit>
-            {
-                new Unit { id = "201", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 0, selected = true },
-                new Unit { id = "202", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 1, selected = true },
-                new Unit { id = "203", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 2, selected = true },
-                new Unit { id = "204", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 3, selected = true },
-                new Unit { id = "205", level = 5, character = characters.Find(character => "h4ck" == character.name.ToLower()), slot = 4, selected = true }
-            }
-        };
-
-        return user;
-    }
 }
