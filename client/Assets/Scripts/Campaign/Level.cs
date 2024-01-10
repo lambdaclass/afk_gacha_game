@@ -18,14 +18,32 @@ public class Level : MonoBehaviour
     [SerializeField]
     GameObject lockObject;
 
+    [SerializeField]
+    GameObject completedCrossObject;
+
+    [SerializeField]
+    bool first;
+
+
     private void Start(){
-        if (UnlockedLevelsData.Instance.IsLevelUnlocked(name)) {
-            lockObject.SetActive(false);
+        if(first) { LevelProgressData.Instance.SetUnlocked(name); }
+
+        switch(LevelProgressData.Instance.LevelStatus(name)) 
+        {
+            case LevelProgressData.Status.Locked:
+                break;
+            case LevelProgressData.Status.Unlocked:
+                lockObject.SetActive(false);
+                break;
+            case LevelProgressData.Status.Completed:
+                completedCrossObject.SetActive(true);
+                lockObject.SetActive(false);
+                break;
         }
     }
 
     public void SelectLevel(){
-        if(lockObject.activeSelf) {
+        if(LevelProgressData.Instance.LevelStatus(name) != LevelProgressData.Status.Unlocked) {
             return;
         }
 
@@ -35,6 +53,7 @@ public class Level : MonoBehaviour
         else { Debug.LogError("Level has no CampaignLevelManager parent."); }
         
         SetUnits();
+        SetLevelToComplete();
         SetLevelToUnlock();
     }
 
@@ -47,7 +66,11 @@ public class Level : MonoBehaviour
         opponentData.Units = units;
     }
 
+    private void SetLevelToComplete() {
+        LevelProgressData.Instance.LevelToCompleteName = name;
+    }
+
     private void SetLevelToUnlock() {
-        if(nextLevel != null) { UnlockedLevelsData.Instance.LevelToUnlockName = nextLevel.name; }
+        if(nextLevel != null) { LevelProgressData.Instance.LevelToUnlockName = nextLevel.name; }
     }
 }

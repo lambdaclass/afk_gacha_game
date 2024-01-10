@@ -7,6 +7,8 @@ public class CampaignsMapManager : MonoBehaviour
     List<Campaign> campaigns;
 
     public void Start() {
-        
+        if (CampaignProgressData.Instance.IsCampaignUnlocked(name)) {
+            // 
+        }
     }
 }
