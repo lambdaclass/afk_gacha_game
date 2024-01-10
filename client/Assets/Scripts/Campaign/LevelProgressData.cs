@@ -54,14 +54,14 @@ public class LevelProgressData : MonoBehaviour
         }
     }
 
-    // Method to check if a level is playable (unlocked & not completed)
+    // Method to check the status of a campaign
     public Status LevelStatus(string levelName)
     {
         return levelStates.ContainsKey(levelName) ? levelStates[levelName] : Status.Locked;
     }
 
-    // Level was completed; mark it as completed and unlock the next
-    public void LevelCompleted()
+    // Called on battles won.
+    public void ProcessLevelCompleted()
     {
         // Key should exist, this is just to be sure
         if (levelStates.ContainsKey(levelToCompleteName))
@@ -73,14 +73,16 @@ public class LevelProgressData : MonoBehaviour
             levelStates.Add(levelToCompleteName, Status.Completed);
         }
 
-        // Key should not exist, this is just to be sure
-        if (levelStates.ContainsKey(levelToUnlockName))
-        {
-            levelStates[levelToUnlockName] = Status.Unlocked;
-        }
-        else
-        {
-            levelStates.Add(levelToUnlockName, Status.Unlocked);
+        if (levelToUnlockName != null) {
+            // Key should not exist, this is just to be sure
+            if (levelStates.ContainsKey(levelToUnlockName))
+            {
+                levelStates[levelToUnlockName] = Status.Unlocked;
+            }
+            else
+            {
+                levelStates.Add(levelToUnlockName, Status.Unlocked);
+            }
         }
     }
 

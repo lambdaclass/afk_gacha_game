@@ -34,7 +34,8 @@ public class BattleManager : MonoBehaviour
         bool won = Battle(userUnits, opponentUnits);
         if(won) {
             victorySplash.SetActive(true);
-            LevelProgressData.Instance.LevelCompleted();
+            LevelProgressData.Instance.ProcessLevelCompleted();
+            CampaignProgressData.Instance.ProcessLevelCompleted();
         } else {
             defeatSplash.SetActive(true);
         }

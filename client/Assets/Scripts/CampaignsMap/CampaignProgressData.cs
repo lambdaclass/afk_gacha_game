@@ -6,14 +6,30 @@ public class CampaignProgressData : MonoBehaviour
     private static CampaignProgressData instance;
 
     // Dictionary to store the locked/unlocked state of each campaign
-    private readonly Dictionary<string, bool> campaignStates = new Dictionary<string, bool>();
+    private readonly Dictionary<string, Status> campaignStates = new Dictionary<string, Status>();
 
-    private string campaignToUnlockName;
+    private string campaignToComplete;
+    private string campaignToUnlock;
+
+    public enum Status
+    {
+        Locked,
+        Unlocked,
+        Completed
+    }
 
     // Public property to set the next campaign
-    public string CampaignToUnlockName
+    public string CampaignToComplete
     {
-        set { campaignToUnlockName = value; }
+        get { return campaignToComplete; }
+        set { campaignToComplete = value; }
+    }
+
+    // Public property to set the next campaign
+    public string CampaignToUnlock
+    {
+        get { return campaignToUnlock; }
+        set { campaignToUnlock = value; }
     }
 
     // Singleton instance
@@ -41,22 +57,43 @@ public class CampaignProgressData : MonoBehaviour
         }
     }
 
-    // Method to check if a campaign is locked
-    public bool IsCampaignUnlocked(string campaignName)
+    // Method to check the status of a campaign
+    public Status CampaignStatus(string campaignName)
     {
-        return campaignStates.ContainsKey(campaignName) ? campaignStates[campaignName] : false;
+        return campaignStates.ContainsKey(campaignName) ? campaignStates[campaignName] : Status.Locked;
+
     }
 
-    // Method to unlock a campaign
-    public void UnlockNextCampaign()
+    // Called on battles won.
+    public void ProcessLevelCompleted()
     {
-        if (campaignStates.ContainsKey(campaignToUnlockName))
-        {
-            campaignStates[campaignToUnlockName] = true;
+        if(campaignToComplete != null) {
+        // Key should exist, this is just to be sure
+            if (campaignStates.ContainsKey(campaignToComplete))
+            {
+                campaignStates[campaignToComplete] = Status.Completed;
+            }
+            else
+            {
+                campaignStates.Add(campaignToComplete, Status.Completed);
+            }
         }
-        else
-        {
-            campaignStates.Add(campaignToUnlockName, true);
+
+        if(campaignToUnlock != null) {
+            // Key should not exist, this is just to be sure
+            if (campaignStates.ContainsKey(campaignToUnlock))
+            {
+                campaignStates[campaignToUnlock] = Status.Unlocked;
+            }
+            else
+            {
+                campaignStates.Add(campaignToUnlock, Status.Unlocked);
+            }
         }
+    }
+
+    // To be called with campaigns initially unlocked. Doesn't modify data if it already exists.
+    public void SetUnlocked(string campaignName) {
+        if(!campaignStates.ContainsKey(campaignName)) { campaignStates.Add(campaignName, Status.Unlocked); }
     }
 }

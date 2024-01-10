@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class Level : MonoBehaviour
 {
+    // The characters of the units the level has, in order.
     [SerializeField]
     List<Character> characters;
     
+    // The levels of the units the level has, in order.
     [SerializeField]
     List<int> levels;
 
+    // Unlock this level if current level is beaten.
+    // Level instead of string (like campaigns) to make it easier to set up in UI.
     [SerializeField]
     Level nextLevel;
 
@@ -21,9 +24,17 @@ public class Level : MonoBehaviour
     [SerializeField]
     GameObject completedCrossObject;
 
+    // Wether this level is the first one of the campaign (unlocked automatically)
     [SerializeField]
     bool first;
 
+    // Mark this campaign as completed if this level is beaten
+    [SerializeField]
+    string campaignToComplete;
+
+    // Unlock this campaign if this level is beaten
+    [SerializeField]
+    string campaignToUnlock;
 
     private void Start(){
         if(first) { LevelProgressData.Instance.SetUnlocked(name); }
@@ -55,6 +66,8 @@ public class Level : MonoBehaviour
         SetUnits();
         SetLevelToComplete();
         SetLevelToUnlock();
+        SetCampaignToComplete();
+        SetCampaignToUnlock();
     }
 
     private void SetUnits() {
@@ -72,5 +85,14 @@ public class Level : MonoBehaviour
 
     private void SetLevelToUnlock() {
         if(nextLevel != null) { LevelProgressData.Instance.LevelToUnlockName = nextLevel.name; }
+        else { LevelProgressData.Instance.LevelToUnlockName = null; }
+    }
+
+    private void SetCampaignToComplete() {
+        CampaignProgressData.Instance.CampaignToComplete = campaignToComplete;
+    }
+
+    private void SetCampaignToUnlock() {
+        CampaignProgressData.Instance.CampaignToUnlock = campaignToUnlock;
     }
 }
