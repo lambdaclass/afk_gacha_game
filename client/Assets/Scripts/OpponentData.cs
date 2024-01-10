@@ -54,18 +54,11 @@ public class OpponentData : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            // For testing purposes, initialize with sample data
+            // Initialize with sample data. Overwritten by Level selection.
             user = new User
             {
                 username = "SampleUser",
-                units = new List<Unit>
-                {
-                    new Unit { id = "101", level = 5, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 0, selected = true },
-                    new Unit { id = "102", level = 5, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 1, selected = true },
-                    new Unit { id = "103", level = 5, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 2, selected = true },
-                    new Unit { id = "104", level = 5, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 3, selected = true },
-                    new Unit { id = "105", level = 5, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 4, selected = true }
-                }
+                units = new List<Unit>()
             };
         } else {
             // Destroy this instance if another one already exists
