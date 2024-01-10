@@ -1,7 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using TMPro;
+using UnityEngine.VFX;
 
 public class GachaManager : MonoBehaviour
 {
@@ -54,8 +54,4 @@ public class GachaManager : MonoBehaviour
     private void SelectUnit(Unit unit) {
         UnitDetail.SelectUnit(unit);
     }
-
-
-
-
 }
