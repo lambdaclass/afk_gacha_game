@@ -57,7 +57,7 @@ public class OpponentData : MonoBehaviour
             // Initialize with sample data. Overwritten by Level selection.
             user = new User
             {
-                username = "SampleUser",
+                username = "Opponent",
                 units = new List<Unit>()
             };
         } else {
