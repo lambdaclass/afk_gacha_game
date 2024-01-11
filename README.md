@@ -16,9 +16,9 @@
 
 Welcome to the realm of Champions of Mirra, crafted by LambdaClass.
 
-Champions of Mirra is the second game that utilizes our groundbreaking Game Backend](https://github.com/lambdaclass/game_backend). This open source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
+Champions of Mirra is the second game that utilizes our groundbreaking [Game Backend](https://github.com/lambdaclass/game_backend). This open-source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
 
-Step into an universe where you, the player, get to turn the tides on an all-out war between the forces of good and evil. Side together with Mirra, the capricious deity known for manipulating entire societies by exploiting their deepest desires, or choose to rebel against its advances instead.
+Step into a universe where you, the player, get to turn the tides on an all-out war between the forces of good and evil. Side together with Mirra, the capricious deity known for manipulating entire societies by exploiting their deepest desires, or choose to rebel against its advances instead.
 
 Champions of Mirra is more than a game; it's an adventure into a world where strategy, skill, and a dash of chaos converge. Join the battle and confront the challenges that lie ahead in this captivating and dynamic gaming experience. The stage is set, and the Champions of Kaline await your commands—embrace the challenge and become a legend!
 
@@ -37,7 +37,7 @@ Champions of Mirra is more than a game; it's an adventure into a world where str
 
 The code is licensed under the Apache 2 license, while the music and graphics are licensed under a CC attribution and share-alike license.
 
-Find our open source 3D models, concept art, music, lore and more in our [Curse of Mirra Open Game Assets](https://github.com/lambdaclass/curse_of_myrra_assets) repository.
+Find our open-source 3D models, concept art, music, lore, and more in our [Curse of Mirra Open Game Assets](https://github.com/lambdaclass/curse_of_myrra_assets) repository.
 
 ## Requirements
 
