@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class AcceptBehaviour : MonoBehaviour
 {
@@ -17,11 +17,13 @@ public class AcceptBehaviour : MonoBehaviour
     public Box box;
 
     public void SetBoxByName(string boxName){
+        print("SetBoxByName");
         box = boxes.Find(box => boxName == box.name);
         //itemName.text = boxName;
     }
 
     public void PullBox(){
+        print("PullBox");
         gachaManager.RollCharacter(box);
     }
 }
