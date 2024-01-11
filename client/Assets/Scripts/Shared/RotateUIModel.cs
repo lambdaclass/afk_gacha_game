@@ -3,7 +3,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class RotateUIModel : MonoBehaviour, IDragHandler, IPointerDownHandler
+public class RotateUIModel : MonoBehaviour, IDragHandler
 {
     [SerializeField]
     float rotationSpeed = 1f;
@@ -32,14 +32,6 @@ public class RotateUIModel : MonoBehaviour, IDragHandler, IPointerDownHandler
         StartCoroutine(RotateModel(touch));
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        if (coroutine != null)
-        {
-            StopCoroutine(coroutine);
-        }
-    }
-
     IEnumerator RotateModel(Touch touch)
     {
         yield return GetModel();
@@ -50,5 +42,4 @@ public class RotateUIModel : MonoBehaviour, IDragHandler, IPointerDownHandler
             model.rotation *= rotationX;
         }
     }
-
 }
