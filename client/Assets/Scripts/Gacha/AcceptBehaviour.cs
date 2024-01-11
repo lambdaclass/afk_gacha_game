@@ -17,13 +17,11 @@ public class AcceptBehaviour : MonoBehaviour
     public Box box;
 
     public void SetBoxByName(string boxName){
-        print("SetBoxByName");
         box = boxes.Find(box => boxName == box.name);
         //itemName.text = boxName;
     }
 
     public void PullBox(){
-        print("PullBox");
         gachaManager.RollCharacter(box);
     }
 }
