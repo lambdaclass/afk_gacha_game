@@ -234,7 +234,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592328169704686539}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -948,6 +948,7 @@ GameObject:
   - component: {fileID: 592328171030375161}
   - component: {fileID: 592328171030375160}
   - component: {fileID: 5242470264428647077}
+  - component: {fileID: 8802817367069432771}
   m_Layer: 5
   m_Name: Header
   m_TagString: Untagged
@@ -1031,6 +1032,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topColor: {r: 0.6431373, g: 0.6431373, b: 0.6431373, a: 1}
   bottomColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &8802817367069432771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592328171030375166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e43df4ed2f2fa49ef8a4dac9223d4795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: {fileID: 592328171693998371}
+  gold: {fileID: 592328170091249644}
+  gems: {fileID: 592328169704686549}
 --- !u!1 &592328171170411020
 GameObject:
   m_ObjectHideFlags: 0

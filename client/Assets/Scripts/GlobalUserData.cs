@@ -60,8 +60,14 @@ public class GlobalUserData : MonoBehaviour
                     new Unit { id = "4", level = 5, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = 3, selected = true },
                     new Unit { id = "5", level = 5, character = characters.Find(character => "otix" == character.name.ToLower()), slot = 4, selected = true }
                 },
-                next_unit_id = 6
+                next_unit_id = 6,
             };
+
+            user.currencies.Add("gold", 100);
+            user.currencies.Add("gems", 100);
+            user.currencies.Add("summoning scroll", 0);
+            user.currencies.Add("heroic scroll", 0);
+
         } else {
             // Destroy this instance if another one already exists
             Destroy(gameObject);
