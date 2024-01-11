@@ -1,35 +1,36 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ButtonAnimations : Button
+public class ButtonAnimations : Selectable
 {
-    [Header("Back Button bool")]
-    [Tooltip(
-        "If this component is applied to a back button this should be true to avoid animation errors"
-    )]
-    [SerializeField]
-    bool isBackButton;
-
     [Header("Animation Scale values")]
-    [Tooltip(
-        "Initial scale of the object to animate. If is not specified it will use the scale values of the rectTransform"
-    )]
     Vector3 initialScale;
+
+    [Header("Final scale of the object to animate.")]
+    Vector3 finalScale;
 
     [Header("Animation duration")]
     float duration = 0.25f;
 
-    [Tooltip(
-        "Final scale of the object to animate. If is not specified it will use the initial scale minus 0.1f"
-    )]
-    Vector3 finalScale;
+    [Serializable]
+    /// <summary>
+    /// Function definition for a button click event.
+    /// </summary>
+    public class ButtonClickedEvent : UnityEvent {}
 
-    //Min difference of the touchStartPos and the current touch
+    // Event delegates triggered on click.
+    [FormerlySerializedAs("onClick")]
+    [SerializeField]
+    public ButtonClickedEvent clickEvent = new ButtonClickedEvent();
+
+    //Min difference of the touchStartPosition and the current touch
     private const float MIN_DIFFERENCE = 6.0f;
-    private Vector2 touchStartPos;
+    private Vector2 touchStartPosition;
     private bool isInsideCard = false;
     public bool executeRelease = false;
 
@@ -42,46 +43,24 @@ public class ButtonAnimations : Button
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
-        if (isBackButton)
-        {
-            transform
-                .DOScale(initialScale - new Vector3(0.1f, 0.1f, 0.1f), duration)
-                .SetEase(Ease.OutQuad);
-        }
-        else
-        {
-            transform.DOScale(finalScale, duration).SetEase(Ease.OutQuad);
-        }
-
-        touchStartPos = eventData.position;
+        transform.DOScale(finalScale, duration).SetEase(Ease.OutQuad);
+        touchStartPosition = eventData.position;
     }
 
     public override void OnPointerUp(PointerEventData eventData)
     {
         base.OnPointerUp(eventData);
-        if (isBackButton)
-        {
-            transform.DOPause();
-        }
-        else
-        {
-            transform.DOScale(initialScale, duration);
-        }
-
+        transform.DOScale(initialScale, duration);
         CheckReleasePosition(eventData);
     }
 
     public void CheckReleasePosition(PointerEventData eventData)
     {
-        var touchXDifference = Math.Abs(eventData.position.x - touchStartPos.x);
-        var touchYDifference = Math.Abs(eventData.position.y - touchStartPos.y);
+        var touchXDifference = Math.Abs(eventData.position.x - touchStartPosition.x);
+        var touchYDifference = Math.Abs(eventData.position.y - touchStartPosition.y);
         if (isInsideCard && touchXDifference < MIN_DIFFERENCE && touchYDifference < MIN_DIFFERENCE)
         {
-            executeRelease = true;
-        }
-        else
-        {
-            executeRelease = false;
+            clickEvent.Invoke();
         }
     }
 

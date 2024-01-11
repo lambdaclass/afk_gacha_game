@@ -14,6 +14,7 @@ public class GachaManager : MonoBehaviour
     [SerializeField]
     GameObject characterContainerButton;
 
+    private Unit currentUnit;
     public void RollCharacter(Box box)
     {
         GlobalUserData globalUserData = GlobalUserData.Instance;
@@ -37,7 +38,8 @@ public class GachaManager : MonoBehaviour
         };
 
         user.units.Add(newUnit);
-        characterContainerButton.GetComponent<Button>().onClick.AddListener(() => SelectUnit(newUnit));
+        characterContainerButton.GetComponent<ButtonAnimations>().clickEvent.AddListener(() => SelectUnit(newUnit));
+        currentUnit = newUnit;
     }
 
     private void DisplayCharacter(Character character)
@@ -51,6 +53,10 @@ public class GachaManager : MonoBehaviour
         characterNameContainer.SetActive(true);
     }
 
+    public void SelectUnit()
+    {
+        this.SelectUnit(currentUnit);
+    }
     private void SelectUnit(Unit unit) {
         UnitDetail.SelectUnit(unit);
     }
