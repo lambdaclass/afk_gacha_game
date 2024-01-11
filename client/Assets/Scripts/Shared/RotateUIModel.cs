@@ -29,11 +29,7 @@ public class RotateUIModel : MonoBehaviour, IDragHandler, IPointerDownHandler
     public void OnDrag(PointerEventData eventData)
     {
         touch = Input.GetTouch(0);
-        if (touch.phase == TouchPhase.Moved)
-        {
-            rotationX = Quaternion.Euler(0f, -touch.deltaPosition.x * rotationSpeed, 0f);
-            model.rotation *= rotationX;
-        }
+        StartCoroutine(RotateModel(touch));
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -43,4 +39,16 @@ public class RotateUIModel : MonoBehaviour, IDragHandler, IPointerDownHandler
             StopCoroutine(coroutine);
         }
     }
+
+    IEnumerator RotateModel(Touch touch)
+    {
+        yield return GetModel();
+        
+        if (touch.phase == TouchPhase.Moved)
+        {
+            rotationX = Quaternion.Euler(0f, -touch.deltaPosition.x * rotationSpeed, 0f);
+            model.rotation *= rotationX;
+        }
+    }
+
 }
