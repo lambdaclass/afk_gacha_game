@@ -1204,11 +1204,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52603900b7916461bb6f7f5dec33d376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxes:
-  - {fileID: 11400000, guid: aae4a8d5f79e747ff95e4642b3ebb884, type: 2}
-  - {fileID: 11400000, guid: 2f1b4624bc88d46b1b13a346e56c669d, type: 2}
-  item_name: {fileID: 1880474395725405431}
-  box: {fileID: 0}
 --- !u!1 &1880474394862903455
 GameObject:
   m_ObjectHideFlags: 0
