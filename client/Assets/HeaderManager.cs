@@ -6,6 +6,8 @@ using TMPro;
 public class HeaderManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI username;
+    [SerializeField] TextMeshProUGUI level;
+    [SerializeField] TextMeshProUGUI xp;
     [SerializeField] TextMeshProUGUI gold;
     [SerializeField] TextMeshProUGUI gems;
 
@@ -20,12 +22,22 @@ public class HeaderManager : MonoBehaviour
 
         username.text = user.username;
 
+        user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
+        user.OnLevelModified.AddListener(UpdateLevelValues);
+
         UpdateCurrencyValues();
+        UpdateLevelValues();
     }
 
     void UpdateCurrencyValues()
     {
-        gold.text = user.currencies["gold"].ToString();
-        gems.text = user.currencies["gems"].ToString();
+        gold.text = user.GetCurrency("gold").ToString();
+        gems.text = user.GetCurrency("gems").ToString();
+    }
+
+    void UpdateLevelValues()
+    {
+        level.text = "Lv. " + user.level.ToString();
+        xp.text = user.experience.ToString() + "/" + user.experienceToNextLevel.ToString();
     }
 }

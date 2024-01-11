@@ -8,12 +8,28 @@ public class CharacterDropRate
     public int weight;
 }
 
+[System.Serializable]
+public struct IndividualCost {
+    public string name;
+    public int cost;
+}
+
 [CreateAssetMenu(fileName = "New Box", menuName = "Box")]
 [System.Serializable]
 public class Box : ScriptableObject
 {
     public string description;
     public List<CharacterDropRate> characterDropRates;
+
+    public IndividualCost[] individualCosts;
+
+    private Dictionary<string, int> cost = new Dictionary<string, int>();
+
+    private void Start() {
+        foreach (IndividualCost individualCost in individualCosts) {
+            cost.Add(individualCost.name, individualCost.cost);
+        }
+    }
 
     public Character RollChampion()
     {
@@ -42,9 +58,6 @@ public class Box : ScriptableObject
         return character;
     }
 
-    // // Placeholder code to get our existing boxes
-    // public List<Box> GetBoxes()
-    // {
-    //     return new List[];
-    // }
+
+    
 }

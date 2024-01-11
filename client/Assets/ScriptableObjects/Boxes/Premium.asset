@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7495c817445494d9d91c1a4423da6b, type: 3}
   m_Name: Premium
   m_EditorClassIdentifier: 
-  name: Premium Box
   description: This box can drop some powerful characters, with a one in a hundred
     chance to drop the super powerful champion D'Agna!
   characterDropRates:
@@ -32,3 +31,6 @@ MonoBehaviour:
     weight: 4
   - character: {fileID: 11400000, guid: daff3c71680004519863ecf7f14aeeb0, type: 2}
     weight: 1
+  individualCosts:
+  - name: gold
+    cost: 100

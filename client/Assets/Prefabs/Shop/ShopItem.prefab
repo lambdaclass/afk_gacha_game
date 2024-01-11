@@ -454,6 +454,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8566357001517052642}
   - component: {fileID: 3515224091217403207}
+  - component: {fileID: 7828408132543591905}
   m_Layer: 5
   m_Name: ShopItem
   m_TagString: Untagged
@@ -527,6 +528,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7828408132543591905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8566357001517052643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8397fd3a1e2f54319a5f2592c6323ad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8566357001663197752
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,9 +608,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 45k
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9e5a9a86165db4a83ab525d7c7eb802c, type: 2}
-  m_sharedMaterial: {fileID: 4993287698102992291, guid: 9e5a9a86165db4a83ab525d7c7eb802c,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

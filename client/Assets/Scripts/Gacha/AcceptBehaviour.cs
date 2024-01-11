@@ -11,7 +11,6 @@ public class AcceptBehaviour : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI item_name;
 
-
     public Box box;
 
     public void SetBoxByName(string box_name){

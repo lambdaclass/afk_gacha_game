@@ -62,12 +62,6 @@ public class GlobalUserData : MonoBehaviour
                 },
                 next_unit_id = 6,
             };
-
-            user.currencies.Add("gold", 100);
-            user.currencies.Add("gems", 100);
-            user.currencies.Add("summoning scroll", 0);
-            user.currencies.Add("heroic scroll", 0);
-
         } else {
             // Destroy this instance if another one already exists
             Destroy(gameObject);
