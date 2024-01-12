@@ -53,6 +53,10 @@ public class GachaManager : MonoBehaviour
 
     public void SelectUnit()
     {
+        if (currentUnit == null)
+        {
+            return;
+        }
         UnitDetail.SelectUnit(currentUnit);
     }
 }
