@@ -8,12 +8,6 @@ public class CharacterDropRate
     public int weight;
 }
 
-[System.Serializable]
-public struct IndividualCost {
-    public string name;
-    public int cost;
-}
-
 [CreateAssetMenu(fileName = "New Box", menuName = "Box")]
 [System.Serializable]
 public class Box : ScriptableObject
@@ -21,13 +15,13 @@ public class Box : ScriptableObject
     public string description;
     public List<CharacterDropRate> characterDropRates;
 
-    public IndividualCost[] individualCosts;
+    public CurrencyValue[] individualCosts;
 
     private Dictionary<string, int> cost = new Dictionary<string, int>();
 
     private void Awake() {
-        foreach (IndividualCost individualCost in individualCosts) {
-            cost.Add(individualCost.name, individualCost.cost);
+        foreach (CurrencyValue individualCost in individualCosts) {
+            cost.Add(individualCost.name, individualCost.value);
         }
     }
 
