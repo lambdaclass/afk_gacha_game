@@ -55,15 +55,15 @@ public class User
         return currencies.ContainsKey(name) ? currencies[name] : null;
     }
 
-    public void AddIndividualCurrency(string name, int ammount) {
+    public void AddIndividualCurrency(string name, int amount) {
         if (currencies.ContainsKey(name)) {
-            currencies[name] = currencies[name] + ammount;
+            currencies[name] = currencies[name] + amount;
         } else {
             // User doesn't have this currency.
-            if (ammount < 0) { throw new InvalidOperationException("AddIndividualCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with BoxListItem.CanUserBuyItem."); }
+            if (amount < 0) { throw new InvalidOperationException("AddIndividualCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with BoxListItem.CanUserBuyItem."); }
             
             // Create it for him with the given amount.
-            currencies.Add(name, ammount);
+            currencies.Add(name, amount);
         }
         OnCurrencyModified.Invoke();
     }
