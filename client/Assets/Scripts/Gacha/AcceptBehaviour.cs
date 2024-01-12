@@ -21,5 +21,12 @@ public class AcceptBehaviour : MonoBehaviour
 
     public void PullBox(){
         gachaManager.RollCharacter(box);
+        PlayBoxSummonSFX(box.summonSFX);
+    }
+
+    private void PlayBoxSummonSFX(AudioClip summonSFX){
+        AudioSource audioSource = transform.parent.GetComponentInChildren<AudioSource>();
+        audioSource.clip = summonSFX;
+        audioSource.Play();
     }
 }
