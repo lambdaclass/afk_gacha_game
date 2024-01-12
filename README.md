@@ -54,7 +54,7 @@ Ensure you have the following dependencies installed:
     - Import the necessary TextMeshPro assets by going to:
       - "Window -> TextMeshPro -> Import TMP Essential Resources" and
       - "Window -> TextMeshPro -> Import TMP Examples and Extras"
-  - Download [DOTween](https://dotween.demigiant.com/), follow the standard setup instructions and save it in the `Assets/ThirdParty` folder. 
+  - Download [DOTween]([https://dotween.demigiant.com/](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)), follow the standard setup instructions and save it in the `Assets/ThirdParty` folder. 
 
 ### Unity Setup
 
