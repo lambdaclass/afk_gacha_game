@@ -56,12 +56,36 @@ public class User
         return currencies.ContainsKey(name) ? currencies[name] : null;
     }
 
-    public void ModifyCurrency(string name, int ammount) {
+    public void ModifyIndividualCurrency(string name, int ammount) {
         if (currencies.ContainsKey(name)) {
             currencies[name] = currencies[name] + ammount;
             OnCurrencyModified.Invoke();
         } else {
             Debug.LogError("Currency " + name + " not found amongst user's currencies.");
         }
+    }
+
+    public void AddCurrency(Dictionary<string, int> currencies) {
+        User user = GlobalUserData.Instance.User;
+
+        foreach (var currencyValue in currencies) {
+            string currency = currencyValue.Key;
+            int costAmount = currencyValue.Value;
+
+            int playerMoney = (int) user.GetCurrency(currency);
+            
+            user.ModifyIndividualCurrency(currency, costAmount);
+        }
+    }
+
+    public void SubstractCurrency(Dictionary<string, int> currencies) {
+        Dictionary<string, int> negativeCurrencies = new Dictionary<string, int>();
+
+        foreach (var pair in currencies)
+        {
+            negativeCurrencies.Add(pair.Key, -pair.Value);
+        }
+
+        AddCurrency(negativeCurrencies);
     }
 }

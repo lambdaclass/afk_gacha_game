@@ -22,4 +22,4 @@ MonoBehaviour:
     weight: 1
   individualCosts:
   - name: gold
-    cost: 30
+    value: 30

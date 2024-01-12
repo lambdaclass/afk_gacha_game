@@ -42,6 +42,7 @@ public class Level : MonoBehaviour
     string campaignToUnlock;
 
     private void Awake() {
+        // Set up the rewards dictionary
         foreach (CurrencyValue individualReward in individualRewards) {
             rewards.Add(individualReward.name, individualReward.value);
         }
@@ -73,20 +74,22 @@ public class Level : MonoBehaviour
         if (parent.TryGetComponent<CampaignLevelManager>(out CampaignLevelManager campaignLevelManager)) { campaignLevelManager.LevelSelected(); }
         else { Debug.LogError("Level has no CampaignLevelManager parent."); }
         
-        SetUnits();
+        SetLevel();
         SetLevelToComplete();
         SetLevelToUnlock();
         SetCampaignToComplete();
         SetCampaignToUnlock();
     }
 
-    private void SetUnits() {
-        OpponentData opponentData = OpponentData.Instance;
+    private void SetLevel() {
+        LevelData levelData = LevelData.Instance;
         List<Unit> units = new List<Unit>();
         for(int i = 0; i < characters.Count; i++) {
             units.Add(new Unit { id = "op-" + i.ToString(), level = levels[i], character = characters[i], slot = i, selected = true });
         }
-        opponentData.Units = units;
+        levelData.Units = units;
+
+        levelData.Rewards = rewards;
     }
 
     private void SetLevelToComplete() {
@@ -104,5 +107,9 @@ public class Level : MonoBehaviour
 
     private void SetCampaignToUnlock() {
         CampaignProgressData.Instance.CampaignToUnlock = campaignToUnlock;
+    }
+
+    public static void RewardUser(User user, Dictionary<string, int> rewards) {
+
     }
 }

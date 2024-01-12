@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,22 +18,11 @@ public class AcceptBehaviour : MonoBehaviour
 
     public void Accept(){
         PullBox();
-        SubstractMoney();
+        GlobalUserData.Instance.User.SubstractCurrency(box.GetCost());
     }
+
     private void PullBox(){
         GachaManager.RollCharacter(box);
-    }
 
-    private void SubstractMoney() {
-        User user = GlobalUserData.Instance.User;
-
-        foreach (var cost in box.GetCost()) {
-            string currency = cost.Key;
-            int costAmount = cost.Value;
-
-            int playerMoney = (int) user.GetCurrency(currency);
-            
-            user.ModifyCurrency(currency, -costAmount);
-        }
     }
 }
