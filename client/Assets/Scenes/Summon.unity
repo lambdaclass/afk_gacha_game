@@ -139,7 +139,7 @@ PrefabInstance:
     - target: {fileID: 1634361586949511137, guid: 202432c19ebae48d1b8485bb9bbdc82a,
         type: 3}
       propertyPath: m_text
-      value: 1000
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1634361587364091704, guid: 202432c19ebae48d1b8485bb9bbdc82a,
         type: 3}
@@ -1774,6 +1774,47 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1890146388}
     m_Modifications:
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 427809367}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1880474394802326507, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: AcceptBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: AcceptBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1880474394802326500, guid: 244c880a1df0a444aa6ab5b9b87767dd,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1985,6 +2026,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dadfe4db9fb8c594abf23febe42df5ef,
         type: 3}
+    - target: {fileID: 1634361586949511137, guid: 202432c19ebae48d1b8485bb9bbdc82a,
+        type: 3}
+      propertyPath: m_text
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1634361587364091704, guid: 202432c19ebae48d1b8485bb9bbdc82a,
         type: 3}
       propertyPath: m_Name

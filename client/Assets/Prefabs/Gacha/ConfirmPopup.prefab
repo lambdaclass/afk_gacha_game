@@ -256,7 +256,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1880474394802326503}
         m_TargetAssemblyTypeName: AcceptBehaviour, Assembly-CSharp
-        m_MethodName: PullBox
+        m_MethodName: Accept
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1204,6 +1204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52603900b7916461bb6f7f5dec33d376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item_name: {fileID: 0}
 --- !u!1 &1880474394862903455
 GameObject:
   m_ObjectHideFlags: 0

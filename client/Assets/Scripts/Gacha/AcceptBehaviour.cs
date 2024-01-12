@@ -15,7 +15,24 @@ public class AcceptBehaviour : MonoBehaviour
         item_name.text = box.name;
     }
 
-    public void PullBox(){
+    public void Accept(){
+        PullBox();
+        SubstractMoney();
+    }
+    private void PullBox(){
         GachaManager.RollCharacter(box);
+    }
+
+    private void SubstractMoney() {
+        User user = GlobalUserData.Instance.User;
+
+        foreach (var cost in box.GetCost()) {
+            string currency = cost.Key;
+            int costAmount = cost.Value;
+
+            int playerMoney = (int) user.GetCurrency(currency);
+            
+            user.ModifyCurrency(currency, -costAmount);
+        }
     }
 }
