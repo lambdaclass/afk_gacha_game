@@ -38,8 +38,8 @@ public class GachaManager : MonoBehaviour
         };
 
         user.units.Add(newUnit);
-        characterContainerButton.GetComponent<ButtonAnimations>().clickEvent.AddListener(() => SelectUnit(newUnit));
         currentUnit = newUnit;
+        characterContainerButton.GetComponent<ButtonAnimations>().clickEvent.AddListener(() => SelectUnit());
     }
 
     private void DisplayCharacter(Character character)
@@ -55,9 +55,6 @@ public class GachaManager : MonoBehaviour
 
     public void SelectUnit()
     {
-        this.SelectUnit(currentUnit);
-    }
-    private void SelectUnit(Unit unit) {
-        UnitDetail.SelectUnit(unit);
+        UnitDetail.SelectUnit(currentUnit);
     }
 }

@@ -63,4 +63,16 @@ public class ButtonAnimations : Selectable
             clickEvent.Invoke();
         }
     }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+        isInsideCard = false;
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+        isInsideCard = true;
+    }
 }
