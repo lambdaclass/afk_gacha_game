@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7495c817445494d9d91c1a4423da6b, type: 3}
+  m_Name: Rare
+  m_EditorClassIdentifier: 
+  description: A box for begginers, with only a handful of characters.
+  characterDropRates:
+  - character: {fileID: 11400000, guid: b746c5700ea2f49d8945f9ed32ee7273, type: 2}
+    weight: 1
+  - character: {fileID: 11400000, guid: fa57cccb28a1d4e9c9832ae5566b73a5, type: 2}
+    weight: 1
+  - character: {fileID: 11400000, guid: 3985c84aa9170472c87d2830ffdee7dd, type: 2}
+    weight: 1
+  - character: {fileID: 11400000, guid: daff3c71680004519863ecf7f14aeeb0, type: 2}
+    weight: 1
+  individualCosts:
+  - name: gold
+    value: 30

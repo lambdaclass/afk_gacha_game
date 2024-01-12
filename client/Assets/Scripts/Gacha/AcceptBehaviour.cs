@@ -1,19 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class AcceptBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI item_name;
+    private TextMeshProUGUI itemName;
 
     private Box box;
 
+    [SerializeField]
+    private GachaManager gachaManager;
+
     public void SetBox(Box newBox){
         box = newBox;
-        item_name.text = box.name;
+        itemName.text = box.name;
     }
 
     public void Accept(){
@@ -22,7 +25,6 @@ public class AcceptBehaviour : MonoBehaviour
     }
 
     private void PullBox(){
-        GachaManager.RollCharacter(box);
-
+        gachaManager.RollCharacter(box);
     }
 }
