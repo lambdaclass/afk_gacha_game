@@ -56,13 +56,17 @@ public class User
         return currencies.ContainsKey(name) ? currencies[name] : null;
     }
 
-    public void ModifyIndividualCurrency(string name, int ammount) {
+    public void AddIndividualCurrency(string name, int ammount) {
         if (currencies.ContainsKey(name)) {
             currencies[name] = currencies[name] + ammount;
-            OnCurrencyModified.Invoke();
         } else {
-            Debug.LogError("Currency " + name + " not found amongst user's currencies.");
+            // User doesn't have this currency.
+            if (ammount < 0) { throw new InvalidOperationException("AddIndividualCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with BoxListItem.CanUserBuyItem."); }
+            
+            // Create it for him with the given amount.
+            currencies.Add(name, ammount);
         }
+        OnCurrencyModified.Invoke();
     }
 
     public void AddCurrency(Dictionary<string, int> currencies) {
@@ -70,11 +74,9 @@ public class User
 
         foreach (var currencyValue in currencies) {
             string currency = currencyValue.Key;
-            int costAmount = currencyValue.Value;
-
-            int playerMoney = (int) user.GetCurrency(currency);
+            int addAmount = currencyValue.Value;
             
-            user.ModifyIndividualCurrency(currency, costAmount);
+            user.AddIndividualCurrency(currency, addAmount);
         }
     }
 
