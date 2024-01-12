@@ -42,11 +42,10 @@ public class User
         experience += experienceToAdd;
 
         // Level up
-        if (experience > experienceToNextLevel) {
+        while (experience >= experienceToNextLevel) {
             experience -= experienceToNextLevel;
             level++;
             experienceToNextLevel = (int)Math.Floor(Math.Pow((float)experienceToNextLevel, 1.1));
-
         }
 
         OnLevelModified.Invoke();

@@ -19,6 +19,8 @@ public class LevelData : MonoBehaviour
     // Rewards
     private Dictionary<string, int> rewards = new Dictionary<string, int>();
 
+    private int experience;
+
     // Public property to access the opponent
     public User User
     {
@@ -39,6 +41,13 @@ public class LevelData : MonoBehaviour
     {
         get { return rewards; }
         set { rewards = value; }
+    }
+
+    // Public property to access the level's experience reward
+    public int Experience
+    {
+        get { return experience; }
+        set { experience = value; }
     }
 
     // Method to destroy the instance after battle has been ran

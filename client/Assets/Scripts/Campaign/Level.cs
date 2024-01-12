@@ -17,6 +17,8 @@ public class Level : MonoBehaviour
     [SerializeField] public CurrencyValue[] individualRewards;
     private Dictionary<string, int> rewards = new Dictionary<string, int>();
 
+    [SerializeField] private int experienceReward;
+
 
     // Unlock this level if current level is beaten.
     // Level instead of string (like campaigns) to make it easier to set up in UI.
@@ -90,6 +92,7 @@ public class Level : MonoBehaviour
         levelData.Units = units;
 
         levelData.Rewards = rewards;
+        levelData.Experience = experienceReward;
     }
 
     private void SetLevelToComplete() {

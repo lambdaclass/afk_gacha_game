@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1166366009, guid: 1bc9ae72479a142778435ee4204b4445, type: 3}
+      propertyPath: experienceReward
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166366009, guid: 1bc9ae72479a142778435ee4204b4445, type: 3}
       propertyPath: individualRewards.Array.size
       value: 2
       objectReference: {fileID: 0}

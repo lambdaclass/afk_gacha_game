@@ -36,6 +36,7 @@ public class BattleManager : MonoBehaviour
         bool won = Battle(userUnits, opponentUnits);
         if(won) {
             user.AddCurrency(levelData.Rewards);
+            user.AddExperience(levelData.Experience);
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.SetActive(true);
