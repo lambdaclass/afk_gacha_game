@@ -34,3 +34,5 @@ MonoBehaviour:
   individualCosts:
   - name: gold
     value: 100
+  - name: Gems
+    value: 100

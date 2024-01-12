@@ -7,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1166366009, guid: 1bc9ae72479a142778435ee4204b4445, type: 3}
+      propertyPath: individualRewards.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166366009, guid: 1bc9ae72479a142778435ee4204b4445, type: 3}
+      propertyPath: individualRewards.Array.data[1].name
+      value: gems
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166366009, guid: 1bc9ae72479a142778435ee4204b4445, type: 3}
+      propertyPath: individualRewards.Array.data[0].value
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 1166366009, guid: 1bc9ae72479a142778435ee4204b4445, type: 3}
+      propertyPath: individualRewards.Array.data[1].value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1612886673973861950, guid: 1bc9ae72479a142778435ee4204b4445,
         type: 3}
       propertyPath: PlayButton
