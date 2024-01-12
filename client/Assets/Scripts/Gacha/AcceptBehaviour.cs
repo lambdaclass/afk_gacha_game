@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AcceptBehaviour : MonoBehaviour
 {
-    [SerializeField]
     public List<Box> boxes;
 
     [SerializeField]
@@ -18,7 +17,8 @@ public class AcceptBehaviour : MonoBehaviour
 
     public void SetBoxByName(string boxName){
         box = boxes.Find(box => boxName == box.name);
-        //itemName.text = boxName;
+        print(boxName);
+        itemName.text = boxName;
     }
 
     public void PullBox(){
