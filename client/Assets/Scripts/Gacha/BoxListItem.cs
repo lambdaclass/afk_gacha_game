@@ -23,6 +23,7 @@ public class BoxListItem : MonoBehaviour
         {
             string currency = cost.Key;
             int costAmount = cost.Value;
+            print(costAmount);
 
             int? playerMoney = user.GetCurrency(currency);
             

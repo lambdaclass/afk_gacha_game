@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 135622213}
   - component: {fileID: 135622216}
   - component: {fileID: 135622215}
+  - component: {fileID: 135622217}
   m_Layer: 0
   m_Name: SummonRareButton
   m_TagString: Untagged
@@ -349,10 +350,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 222745347}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 135622217}
+        m_TargetAssemblyTypeName: BoxListItem, Assembly-CSharp
+        m_MethodName: SelectBox
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -360,19 +361,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Battle
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 222745346}
-        m_TargetAssemblyTypeName: AcceptBehaviour, Assembly-CSharp
-        m_MethodName: SetBox
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: aae4a8d5f79e747ff95e4642b3ebb884,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Box, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Rare
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!224 &135622214
 RectTransform:
@@ -434,6 +422,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135622211}
   m_CullTransparentMesh: 1
+--- !u!114 &135622217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135622211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1e7fca11a7943f187207a3369559c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  box: {fileID: 11400000, guid: aae4a8d5f79e747ff95e4642b3ebb884, type: 2}
+  confirmPopUp: {fileID: 222745347}
 --- !u!1 &190660889
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,18 +923,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
---- !u!114 &222745346 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1880474394802326503, guid: 244c880a1df0a444aa6ab5b9b87767dd,
-    type: 3}
-  m_PrefabInstance: {fileID: 222745345}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 222745347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52603900b7916461bb6f7f5dec33d376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &222745347 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1880474394802326507, guid: 244c880a1df0a444aa6ab5b9b87767dd,
@@ -2455,7 +2445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 592328170560155472, guid: 580c190a426d64bc2adb1771024b893c,
         type: 3}
-      propertyPath: m_AnchoredPosition.y
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 592328170560155472, guid: 580c190a426d64bc2adb1771024b893c,
@@ -2553,6 +2543,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 592328171641021118, guid: 580c190a426d64bc2adb1771024b893c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fbb369977077e4f568586f50bc16c663,
+        type: 3}
     - target: {fileID: 592328171641021118, guid: 580c190a426d64bc2adb1771024b893c,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -2580,40 +2576,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2164660845166415705, guid: 580c190a426d64bc2adb1771024b893c,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164660845166415705, guid: 580c190a426d64bc2adb1771024b893c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2164660845166415705, guid: 580c190a426d64bc2adb1771024b893c,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 592328171572898307, guid: 580c190a426d64bc2adb1771024b893c,
-        type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 592328171572898307, guid: 580c190a426d64bc2adb1771024b893c,
+    - target: {fileID: 2164660845166415705, guid: 580c190a426d64bc2adb1771024b893c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 592328171572898307, guid: 580c190a426d64bc2adb1771024b893c,
+    - target: {fileID: 2164660845166415705, guid: 580c190a426d64bc2adb1771024b893c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 592328171641021118, guid: 580c190a426d64bc2adb1771024b893c,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: fbb369977077e4f568586f50bc16c663,
-        type: 3}
     - target: {fileID: 5341647535329109189, guid: 580c190a426d64bc2adb1771024b893c,
         type: 3}
       propertyPath: far clip plane
@@ -2910,6 +2885,7 @@ GameObject:
   - component: {fileID: 2121596532}
   - component: {fileID: 2121596535}
   - component: {fileID: 2121596534}
+  - component: {fileID: 2121596536}
   m_Layer: 0
   m_Name: SummonEpicButton
   m_TagString: Untagged
@@ -2961,10 +2937,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 222745347}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 2121596536}
+        m_TargetAssemblyTypeName: BoxListItem, Assembly-CSharp
+        m_MethodName: SelectBox
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2972,19 +2948,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: Battle
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 222745346}
-        m_TargetAssemblyTypeName: AcceptBehaviour, Assembly-CSharp
-        m_MethodName: SetBox
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: aae4a8d5f79e747ff95e4642b3ebb884,
-            type: 2}
-          m_ObjectArgumentAssemblyTypeName: Box, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Epic
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!224 &2121596533
 RectTransform:
@@ -3046,3 +3009,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121596530}
   m_CullTransparentMesh: 1
+--- !u!114 &2121596536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2121596530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be1e7fca11a7943f187207a3369559c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  box: {fileID: 11400000, guid: 2f1b4624bc88d46b1b13a346e56c669d, type: 2}
+  confirmPopUp: {fileID: 222745347}
