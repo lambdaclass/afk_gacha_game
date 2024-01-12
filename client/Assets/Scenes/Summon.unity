@@ -144,7 +144,7 @@ PrefabInstance:
     - target: {fileID: 1634361587364091704, guid: 202432c19ebae48d1b8485bb9bbdc82a,
         type: 3}
       propertyPath: m_Name
-      value: Premium
+      value: Premium Box
       objectReference: {fileID: 0}
     - target: {fileID: 1634361587364091705, guid: 202432c19ebae48d1b8485bb9bbdc82a,
         type: 3}

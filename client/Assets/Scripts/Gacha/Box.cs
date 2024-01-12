@@ -25,11 +25,13 @@ public class Box : ScriptableObject
 
     private Dictionary<string, int> cost = new Dictionary<string, int>();
 
-    private void Start() {
+    private void Awake() {
         foreach (IndividualCost individualCost in individualCosts) {
             cost.Add(individualCost.name, individualCost.cost);
         }
     }
+
+    public Dictionary<string, int> GetCost() { return cost; }
 
     public Character RollChampion()
     {
@@ -57,7 +59,4 @@ public class Box : ScriptableObject
 
         return character;
     }
-
-
-    
 }
