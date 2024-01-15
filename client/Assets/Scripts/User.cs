@@ -17,14 +17,32 @@ public class User
         return next_id;
     }
 
+    public void DeleteUnit(Unit unit) { 
+        // We will need to unequip their items here
+        units.Remove(unit);
+    } 
+
     public bool FuseUnits(List<Unit> units) {
         if (CanFuseUnits(units)) {
-            // yadda yadda
-            return true;
-        } else {
-            // blegh
+            // Pop the first one. We will upgrade the quality of this guy.
+            Unit mergeTarget = units[0];
+            units.RemoveAt(0);
+
+
+            // Upgrade!
+            if (mergeTarget.QualityUp()) {
+                // Delete all the other ones we fused into this one.
+                foreach (Unit unit in units) { DeleteUnit(unit); }
+                
+                return true;
+            }
+
+            // Could not upgrade quality because target unit was invalid. Either it was Common or at its maximum possible quality value.
             return false;
         }
+
+        // Units selected are invalid.
+        return false;
     }
 
     // Check if the units list granted can be fused. Expects the head of the list to be the merge target.

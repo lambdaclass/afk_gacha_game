@@ -11,7 +11,36 @@ public class Unit
     public int? slot { get; set; }
     public bool selected { get; set; }
 
-    public Rarity rarity { get { return character.rarity; } }
+    /////////////
+    // Quality //
+    /////////////
+
+    public bool QualityUp() { 
+        if(CanQualityUp()){
+            quality = quality.Next();
+            return true;
+        }
+        return false;
+    }
+
+    public bool CanQualityUp() {
+        // Common champions can't upgrade Quality.
+        // Rare champions can only get to 5 Stars.
+        return character.rarity != Rarity.Common && quality < GetMaxQuality(character.rarity);
+    }
+
+    public static Quality GetMaxQuality(Rarity rarity) {
+        switch (rarity) {
+            case Rarity.Common:
+                return Quality.Star3;
+            case Rarity.Rare:
+                return Quality.Star5;
+            case Rarity.Elite:
+                return Quality.Awakened;
+            default:
+                return Quality.Awakened;
+        } 
+    }
 
     //////////
     // Tier //
