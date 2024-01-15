@@ -22,7 +22,7 @@ public class ToggleMusic : MonoBehaviour
             Instance = this;
             audioSource = GameObject.FindGameObjectWithTag(TAG_MUSIC).GetComponent<AudioSource>();
             DontDestroyOnLoad(audioSource);
-            audioToggle.sprite = audioSource.isPlaying ? audioOn : audioOff;           
+            audioToggle.sprite = AudioListener.volume > 0 ? audioOn : audioOff;           
         }
         else
         {
@@ -32,13 +32,13 @@ public class ToggleMusic : MonoBehaviour
 
     public void Toggle()
     {
-        if (audioSource.isPlaying) 
+        if (AudioListener.volume == 1) 
         {
-            audioSource.Pause();
+            AudioListener.volume = 0;
             audioToggle.sprite = audioOff;
             return;
         }
-        audioSource.UnPause();
+        AudioListener.volume = 1;
         audioToggle.sprite = audioOn;
     }
 }
