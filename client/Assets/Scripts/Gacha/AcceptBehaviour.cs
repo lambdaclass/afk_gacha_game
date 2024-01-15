@@ -25,7 +25,7 @@ public class AcceptBehaviour : MonoBehaviour
     }
 
     private void PlayBoxSummonSFX(AudioClip summonSFX){
-        AudioSource audioSource = transform.parent.GetComponentInChildren<AudioSource>();
+        AudioSource audioSource = transform.parent.Find("SummonSFX").GetComponent<AudioSource>();
         audioSource.clip = summonSFX;
         audioSource.Play();
     }

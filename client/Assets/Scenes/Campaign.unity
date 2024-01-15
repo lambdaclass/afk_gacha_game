@@ -634,7 +634,7 @@ PrefabInstance:
     - target: {fileID: 114851839747405846, guid: f24057f0865f940aea63ebd760a46fb6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ChangeToScene
+      value: ChangeToSceneWithDelay
       objectReference: {fileID: 0}
     - target: {fileID: 114851839747405846, guid: f24057f0865f940aea63ebd760a46fb6,
         type: 3}
@@ -664,7 +664,7 @@ PrefabInstance:
     - target: {fileID: 224799658048824814, guid: f24057f0865f940aea63ebd760a46fb6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224799658048824814, guid: f24057f0865f940aea63ebd760a46fb6,
         type: 3}

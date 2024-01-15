@@ -314,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 5680396890292483277, guid: c36f69f305d3c4336a02acc5a4050f98,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ChangeToScene
+      value: ChangeToSceneWithDelay
       objectReference: {fileID: 0}
     - target: {fileID: 5680396890292483277, guid: c36f69f305d3c4336a02acc5a4050f98,
         type: 3}
@@ -845,7 +845,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1609519950}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
-        m_MethodName: ChangeToScene
+        m_MethodName: ChangeToSceneWithDelay
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1622,7 +1622,7 @@ PrefabInstance:
     - target: {fileID: 5680396890292483277, guid: c36f69f305d3c4336a02acc5a4050f98,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ChangeToScene
+      value: ChangeToSceneWithDelay
       objectReference: {fileID: 0}
     - target: {fileID: 5680396890292483277, guid: c36f69f305d3c4336a02acc5a4050f98,
         type: 3}

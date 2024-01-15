@@ -3877,7 +3877,7 @@ PrefabInstance:
     - target: {fileID: 114745404925296982, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ChangeToScene
+      value: ChangeToSceneWithDelay
       objectReference: {fileID: 0}
     - target: {fileID: 114745404925296982, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
@@ -4209,7 +4209,7 @@ PrefabInstance:
     - target: {fileID: 114851839747405846, guid: f24057f0865f940aea63ebd760a46fb6,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ChangeToScene
+      value: ChangeToSceneWithDelay
       objectReference: {fileID: 0}
     - target: {fileID: 114851839747405846, guid: f24057f0865f940aea63ebd760a46fb6,
         type: 3}
@@ -4457,7 +4457,7 @@ PrefabInstance:
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117.000336
+      value: -117.00037
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
