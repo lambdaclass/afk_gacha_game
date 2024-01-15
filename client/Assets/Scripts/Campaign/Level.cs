@@ -111,8 +111,4 @@ public class Level : MonoBehaviour
     private void SetCampaignToUnlock() {
         CampaignProgressData.Instance.CampaignToUnlock = campaignToUnlock;
     }
-
-    public static void RewardUser(User user, Dictionary<string, int> rewards) {
-
-    }
 }
