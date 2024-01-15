@@ -34,10 +34,12 @@ public class BattleManager : MonoBehaviour
         bool won = Battle(userUnits, opponentUnits);
         if(won) {
             victorySplash.SetActive(true);
+            victorySplash.GetComponent<AudioSource>().Play();
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
         } else {
             defeatSplash.SetActive(true);
+            defeatSplash.GetComponent<AudioSource>().Play();
         }
         opponentData.Destroy();
     }
