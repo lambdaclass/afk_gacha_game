@@ -34,8 +34,9 @@ public class ButtonAnimations : Selectable
     private bool isInsideCard = false;
     public bool executeRelease = false;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         initialScale = transform.localScale;
         finalScale = initialScale - new Vector3(0.05f, 0.05f, 0.05f);
     }
