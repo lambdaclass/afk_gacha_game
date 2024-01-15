@@ -334,12 +334,12 @@ PrefabInstance:
     - target: {fileID: 3077920206330293243, guid: ee19f8169504f49ec8f4b09e64c8de0a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3077920206330293243, guid: ee19f8169504f49ec8f4b09e64c8de0a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 321
+      value: 323
       objectReference: {fileID: 0}
     - target: {fileID: 3077920206330293243, guid: ee19f8169504f49ec8f4b09e64c8de0a,
         type: 3}
@@ -1035,7 +1035,7 @@ PrefabInstance:
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -117.00052
+      value: -117.00067
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6,
         type: 3}
@@ -1343,7 +1343,7 @@ PrefabInstance:
     - target: {fileID: 224799658048824814, guid: ebd699b3417fde94cb5bb7e84954f77a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224799658048824814, guid: ebd699b3417fde94cb5bb7e84954f77a,
         type: 3}
@@ -1708,6 +1708,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 474110657}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &474110659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114745404925296982, guid: f9fa21dca98874c4196e015010414446,
+    type: 3}
+  m_PrefabInstance: {fileID: 474110657}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &567353525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,6 +2308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modelContainer: {fileID: 92195186}
+  fusionButton: {fileID: 474110659}
   unitsContainer: {fileID: 254964278}
   characters: []
 --- !u!4 &936414172

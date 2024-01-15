@@ -6,20 +6,21 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 {
     [SerializeField]
     GameObject modelContainer;
-
+    [SerializeField]
+    Button fusionButton;
     [SerializeField]
     UnitsUIContainer unitsContainer;
-
     [SerializeField]
     List<Character> characters;
-
+    private List<Unit> selectedUnits;
     void Start()
     {
         GlobalUserData globalUserData = GlobalUserData.Instance;
         OpponentData opponentData = OpponentData.Instance;
 
         List<Unit> units = globalUserData.Units;
-
+        selectedUnits = new List<Unit>();
+        fusionButton.onClick.AddListener(Fusion);
         this.unitsContainer.Populate(units, this);
     }
 
@@ -45,5 +46,21 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
         }
         Instantiate(unit.character.prefab, modelContainer.transform);
         unit.selected = true;
+        selectedUnits.Add(unit);
+        fusionButton.gameObject.SetActive(true);
+    }
+
+    public void UnselectUnit(Unit unit)
+    {
+        unit.selected = false;
+        selectedUnits.Remove(unit);
+        if (selectedUnits.Count == 0)
+        {
+            fusionButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void Fusion() {
+        Debug.Log("Fusion!");
     }
 }
