@@ -1363,6 +1363,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 272119270}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &272119272 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6858262836634528697, guid: 226c8f6dfa61149b995339a7bf2ba479,
+    type: 3}
+  m_PrefabInstance: {fileID: 272119270}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &295713231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2333,7 +2345,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1795223319}
         m_TargetAssemblyTypeName: UnitDetail, Assembly-CSharp
-        m_MethodName: LevelUp
+        m_MethodName: ActionButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4864,6 +4876,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goldCostText: {fileID: 6858262836781891746}
+  gemCostText: {fileID: 272119272}
+  actionButtonText: {fileID: 1943274019}
   unitName: {fileID: 1133847618}
   backgroundImage: {fileID: 653320918}
 --- !u!114 &1795223321

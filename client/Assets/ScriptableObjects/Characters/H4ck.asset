@@ -17,3 +17,4 @@ MonoBehaviour:
   disabledSprite: {fileID: 21300000, guid: 3c95af6d197c24f9b96a8f18c682fe2a, type: 3}
   backgroundSprite: {fileID: 21300000, guid: eeab71e9cd64142f1b15be28870e26d9, type: 3}
   prefab: {fileID: 2866215690245578517, guid: b5943a432043c4ddeb23a63ccb79d69a, type: 3}
+  rarity: 0
