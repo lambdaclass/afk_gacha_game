@@ -17,7 +17,7 @@ public class LevelData : MonoBehaviour
     };
 
     // Rewards
-    private Dictionary<string, int> rewards = new Dictionary<string, int>();
+    private Dictionary<Currency, int> rewards = new Dictionary<Currency, int>();
 
     private int experience;
 
@@ -37,7 +37,7 @@ public class LevelData : MonoBehaviour
     }
 
     // Public property to access the level's rewards
-    public Dictionary<string, int> Rewards
+    public Dictionary<Currency, int> Rewards
     {
         get { return rewards; }
         set { rewards = value; }

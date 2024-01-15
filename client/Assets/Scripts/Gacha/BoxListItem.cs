@@ -17,13 +17,12 @@ public class BoxListItem : MonoBehaviour
         }
     }
 
-    static bool CanUserBuyItem(User user, Dictionary<string, int> itemCosts)
+    static bool CanUserBuyItem(User user, Dictionary<Currency, int> itemCosts)
     {
         foreach (var cost in itemCosts)
         {
-            string currency = cost.Key;
+            Currency currency = cost.Key;
             int costAmount = cost.Value;
-            print(costAmount);
 
             int? playerMoney = user.GetCurrency(currency);
             

@@ -2,6 +2,13 @@ using System;
 
 [System.Serializable]
 public struct CurrencyValue {
-    public string name;
+    public Currency name;
     public int value;
+}
+
+public enum Currency {
+    Gold,
+    Gems,
+    Scrolls,
+    HeroicScrolls
 }

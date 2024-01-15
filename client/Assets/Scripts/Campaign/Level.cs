@@ -15,7 +15,7 @@ public class Level : MonoBehaviour
 
     // Currency rewards
     [SerializeField] public CurrencyValue[] individualRewards;
-    private Dictionary<string, int> rewards = new Dictionary<string, int>();
+    private Dictionary<Currency, int> rewards = new Dictionary<Currency, int>();
 
     [SerializeField] private int experienceReward;
 

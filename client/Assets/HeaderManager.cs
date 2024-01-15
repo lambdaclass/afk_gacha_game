@@ -31,8 +31,8 @@ public class HeaderManager : MonoBehaviour
 
     void UpdateCurrencyValues()
     {
-        gold.text = user.GetCurrency("gold").ToString();
-        gems.text = user.GetCurrency("gems").ToString();
+        gold.text = user.GetCurrency(Currency.Gold).ToString();
+        gems.text = user.GetCurrency(Currency.Gems).ToString();
     }
 
     void UpdateLevelValues()

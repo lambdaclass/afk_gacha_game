@@ -17,7 +17,7 @@ public class Box : ScriptableObject
 
     public CurrencyValue[] individualCosts;
 
-    private Dictionary<string, int> cost = new Dictionary<string, int>();
+    private Dictionary<Currency, int> cost = new Dictionary<Currency, int>();
 
     private void Awake() {
         foreach (CurrencyValue individualCost in individualCosts) {
@@ -25,7 +25,7 @@ public class Box : ScriptableObject
         }
     }
 
-    public Dictionary<string, int> GetCost() { return cost; }
+    public Dictionary<Currency, int> GetCost() { return cost; }
 
     public Character RollChampion()
     {

@@ -14,12 +14,12 @@ public class User
 
     public int next_unit_id;
 
-    private Dictionary<string, int> currencies = new Dictionary<string, int>()
+    private Dictionary<Currency, int> currencies = new Dictionary<Currency, int>()
         {
-            { "gold", 100 },
-            { "gems", 100 },
-            { "scrolls", 10 },
-            { "heroic scrolls", 5 }
+            { Currency.Gold, 100 },
+            { Currency.Gems, 100 },
+            { Currency.Scrolls, 10 },
+            { Currency.HeroicScrolls, 5 }
         };
 
     public int level = 1;
@@ -51,11 +51,11 @@ public class User
         OnLevelModified.Invoke();
     }
 
-    public int? GetCurrency(string name) {
+    public int? GetCurrency(Currency name) {
         return currencies.ContainsKey(name) ? currencies[name] : null;
     }
 
-    public void AddIndividualCurrency(string name, int amount) {
+    public void AddIndividualCurrency(Currency name, int amount) {
         if (currencies.ContainsKey(name)) {
             currencies[name] = currencies[name] + amount;
         } else {
@@ -68,19 +68,19 @@ public class User
         OnCurrencyModified.Invoke();
     }
 
-    public void AddCurrency(Dictionary<string, int> currencies) {
+    public void AddCurrency(Dictionary<Currency, int> currencies) {
         User user = GlobalUserData.Instance.User;
 
         foreach (var currencyValue in currencies) {
-            string currency = currencyValue.Key;
+            Currency currency = currencyValue.Key;
             int addAmount = currencyValue.Value;
             
             user.AddIndividualCurrency(currency, addAmount);
         }
     }
 
-    public void SubstractCurrency(Dictionary<string, int> currencies) {
-        Dictionary<string, int> negativeCurrencies = new Dictionary<string, int>();
+    public void SubstractCurrency(Dictionary<Currency, int> currencies) {
+        Dictionary<Currency, int> negativeCurrencies = new Dictionary<Currency, int>();
 
         foreach (var pair in currencies)
         {
