@@ -4,6 +4,7 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public new string name;
+    public string faction;
     public Sprite iconSprite;
     public Sprite disabledSprite;
     public Sprite backgroundSprite;

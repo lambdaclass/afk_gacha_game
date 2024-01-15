@@ -4,20 +4,20 @@ using UnityEngine.UI;
 
 public class FusionManager : MonoBehaviour, IUnitPopulator
 {
-    [SerializeField]
-    GameObject modelContainer;
-    [SerializeField]
-    Button fusionButton;
-    [SerializeField]
-    UnitsUIContainer unitsContainer;
-    [SerializeField]
-    List<Character> characters;
+    [SerializeField] GameObject modelContainer;
+
+    [SerializeField] Button fusionButton;
+
+    [SerializeField] UnitsUIContainer unitsContainer;
+
+    [SerializeField] List<Character> characters;
+
     private List<Unit> selectedUnits;
+
+    GlobalUserData globalUserData = GlobalUserData.Instance;
+
     void Start()
     {
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-        OpponentData opponentData = OpponentData.Instance;
-
         List<Unit> units = globalUserData.Units;
         selectedUnits = new List<Unit>();
         fusionButton.onClick.AddListener(Fusion);
@@ -61,6 +61,6 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     }
 
     public void Fusion() {
-        Debug.Log("Fusion!");
+        globalUserData.User.FuseUnits(selectedUnits);
     }
 }
