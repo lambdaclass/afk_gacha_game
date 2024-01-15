@@ -40,8 +40,10 @@ public class BattleManager : MonoBehaviour
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.SetActive(true);
+            victorySplash.GetComponent<AudioSource>().Play();
         } else {
             defeatSplash.SetActive(true);
+            defeatSplash.GetComponent<AudioSource>().Play();
         }
         levelData.Destroy();
     }

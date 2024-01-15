@@ -25,3 +25,4 @@ MonoBehaviour:
   individualCosts:
   - name: gold
     value: 30
+  summonSFX: {fileID: 8300000, guid: 2db70e322e82d4097bcc8511e0b28cb5, type: 3}

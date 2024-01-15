@@ -14,6 +14,7 @@ public class Box : ScriptableObject
 {
     public string description;
     public List<CharacterDropRate> characterDropRates;
+    public AudioClip summonSFX;
 
     public CurrencyValue[] individualCosts;
 

@@ -32,10 +32,10 @@ public class Campaign : MonoBehaviour
     }
 
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
-    public void Select(){
+    public void Select(LevelManager levelManager){
         if (CampaignProgressData.Instance.CampaignStatus(name) == CampaignProgressData.Status.Unlocked) {
             CampaignManager.campaingReference = campaingToShowPrefab;
-            SceneManager.LoadScene("Campaign");
+            levelManager.ChangeToSceneWithDelay("Campaign");
         }
     }
 }

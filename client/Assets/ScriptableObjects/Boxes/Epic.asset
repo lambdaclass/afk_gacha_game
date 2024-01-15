@@ -30,3 +30,4 @@ MonoBehaviour:
     value: 100
   - name: 1
     value: 100
+  summonSFX: {fileID: 8300000, guid: 2d3e41b03426d4bcd852bec6ffb1a5a4, type: 3}
