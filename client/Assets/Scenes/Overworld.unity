@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -782,7 +782,7 @@ PrefabInstance:
     - target: {fileID: 7414010533079904355, guid: c36f69f305d3c4336a02acc5a4050f98,
         type: 3}
       propertyPath: m_Name
-      value: Summoning Pyramid
+      value: Summon
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904355, guid: c36f69f305d3c4336a02acc5a4050f98,
         type: 3}
