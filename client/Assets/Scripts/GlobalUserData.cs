@@ -54,11 +54,11 @@ public class GlobalUserData : MonoBehaviour
                 username = "SampleUser",
                 units = new List<Unit>
                 {
-                    new Unit { id = "1", level = 95, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 0, selected = true },
-                    new Unit { id = "2", level = 95, character = characters.Find(character => "uma" == character.name.ToLower()), slot = 1, selected = true },
-                    new Unit { id = "3", level = 95, character = characters.Find(character => "uma" == character.name.ToLower()), slot = 2, selected = true },
-                    new Unit { id = "4", level = 95, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = 3, selected = true },
-                    new Unit { id = "5", level = 95, character = characters.Find(character => "otix" == character.name.ToLower()), slot = 4, selected = true }
+                    new Unit { id = "1", tier = 0, level = 1, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 0, selected = true, quality = Quality.Star1 },
+                    new Unit { id = "2", tier = 0, level = 5, character = characters.Find(character => "uma" == character.name.ToLower()), slot = 1, selected = true, quality = Quality.Star2 },
+                    new Unit { id = "3", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = 2, selected = true, quality = Quality.Star1 },
+                    new Unit { id = "4", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = 3, selected = true, quality = Quality.Star3 },
+                    new Unit { id = "5", tier = 0, level = 4, character = characters.Find(character => "otix" == character.name.ToLower()), slot = 4, selected = true, quality = Quality.Ilumination1 }
                 },
                 next_unit_id = 6,
             };
