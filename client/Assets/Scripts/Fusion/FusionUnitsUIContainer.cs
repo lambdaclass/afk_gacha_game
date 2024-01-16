@@ -47,9 +47,7 @@ public class FusionUnitsUIContainer : MonoBehaviour
 
     public void SelectUnit(Unit unit, GameObject unitUIItem)
     {
-        //OnUnitSelected.Invoke(unit);
-        unitUIItem.GetComponent<Image>().sprite = unit.character.selectedSprite;
-        
+        unitUIItem.GetComponent<Image>().sprite = unit.character.selectedSprite;        
     }
 
     public void SetUnitUIActiveById(string unitId)
