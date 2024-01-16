@@ -130,11 +130,11 @@ public class User
         
         // Get the required qualities of units with the same character
         List<Quality> sameCharacter = SameCharacterRequirements(mergeTarget.quality);
-        if (sameCharacter == null) { return false; }
+        if (sameCharacter.Count == 0) { return false; }
 
         // Get the required qualities of units with the same faction
         List<Quality> sameFaction = SameFactionRequirements(mergeTarget.quality);
-        if (sameFaction == null) { return false; }
+        if (sameFaction.Count == 0) { return false; }
 
         foreach (Quality qualityReq in sameCharacter) {
             Unit evalUnit = units.Find(unit => unit.character.name == mergeTarget.character.name && unit.quality == qualityReq);
@@ -175,7 +175,7 @@ public class User
             case Quality.Ilumination3:
                 return new List<Quality>{Quality.Star5, Quality.Star5, Quality.Star5};
             default:
-                return null;
+                return new List<Quality>();
         }
     }
 
@@ -192,7 +192,7 @@ public class User
             case Quality.Ilumination3:
                 return new List<Quality>{Quality.Ilumination1, Quality.Ilumination1};
             default:
-                return null;
+                return new List<Quality>();
         }
     }
 }
