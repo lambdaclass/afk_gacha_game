@@ -26,14 +26,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 
     public void Populate(Unit unit, GameObject unitUIItem)
     {
-        // SpriteState ss = new SpriteState();
-        // ss.highlightedSprite = unit.character.iconSprite;
-        // Button unitItemButton = unitItem.GetComponent<Button>();
-        // unitItemButton.spriteState = ss;
-        // if(unit.selected) {
-        //     unitItemButton.interactable = false;
-        // }
-        unitUIItem.GetComponent<Image>().sprite = unit.character.iconSprite;
+        unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
         Button unitItemButton = unitUIItem.GetComponent<Button>();
         unitItemButton.onClick.AddListener(() => SelectUnit(unit));
     }
