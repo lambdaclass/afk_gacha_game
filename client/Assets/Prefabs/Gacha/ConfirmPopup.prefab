@@ -244,7 +244,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1880474394802326503}
         m_TargetAssemblyTypeName: AcceptBehaviour, Assembly-CSharp
-        m_MethodName: PullBox
+        m_MethodName: Accept
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1207,12 +1207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52603900b7916461bb6f7f5dec33d376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxes:
-  - {fileID: 11400000, guid: aae4a8d5f79e747ff95e4642b3ebb884, type: 2}
-  - {fileID: 11400000, guid: 2f1b4624bc88d46b1b13a346e56c669d, type: 2}
   itemName: {fileID: 1880474395725405431}
   gachaManager: {fileID: 0}
-  box: {fileID: 0}
 --- !u!82 &442801478813376352
 AudioSource:
   m_ObjectHideFlags: 0

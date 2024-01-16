@@ -1,25 +1,27 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class AcceptBehaviour : MonoBehaviour
 {
-    public List<Box> boxes;
-
     [SerializeField]
     private TextMeshProUGUI itemName;
+
+    private Box box;
 
     [SerializeField]
     private GachaManager gachaManager;
 
-    public Box box;
-
-    public void SetBoxByName(string boxName){
-        box = boxes.Find(box => boxName == box.name);
-        itemName.text = boxName;
+    public void SetBox(Box newBox){
+        box = newBox;
+        itemName.text = box.name;
     }
 
-    public void PullBox(){
+    public void Accept(){
+        PullBox();
+        GlobalUserData.Instance.User.SubstractCurrency(box.GetCost());
+    }
+
+    private void PullBox(){
         gachaManager.RollCharacter(box);
         PlayBoxSummonSFX(box.summonSFX);
     }
