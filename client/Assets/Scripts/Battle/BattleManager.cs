@@ -24,24 +24,28 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         GlobalUserData globalUserData = GlobalUserData.Instance;
-        OpponentData opponentData = OpponentData.Instance;
+        LevelData levelData = LevelData.Instance;
+
+        User user = globalUserData.User;
 
         List<Unit> userUnits = globalUserData.Units;
-        List<Unit> opponentUnits = opponentData.Units;
+        List<Unit> opponentUnits = levelData.Units;
 
         SetUpUnits(userUnits, opponentUnits);
 
         bool won = Battle(userUnits, opponentUnits);
         if(won) {
-            victorySplash.SetActive(true);
-            victorySplash.GetComponent<AudioSource>().Play();
+            user.AddCurrency(levelData.Rewards);
+            user.AddExperience(levelData.Experience);
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
+            victorySplash.SetActive(true);
+            victorySplash.GetComponent<AudioSource>().Play();
         } else {
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
         }
-        opponentData.Destroy();
+        levelData.Destroy();
     }
 
     // Run a battle between two teams. Returns true if our user wins

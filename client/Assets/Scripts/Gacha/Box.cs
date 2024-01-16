@@ -16,6 +16,18 @@ public class Box : ScriptableObject
     public List<CharacterDropRate> characterDropRates;
     public AudioClip summonSFX;
 
+    public CurrencyValue[] individualCosts;
+
+    private Dictionary<Currency, int> cost = new Dictionary<Currency, int>();
+
+    private void Awake() {
+        foreach (CurrencyValue individualCost in individualCosts) {
+            cost.Add(individualCost.name, individualCost.value);
+        }
+    }
+
+    public Dictionary<Currency, int> GetCost() { return cost; }
+
     public Character RollChampion()
     {
         List<CharacterDropRate> sortedDropRates = characterDropRates;
@@ -42,10 +54,4 @@ public class Box : ScriptableObject
 
         return character;
     }
-
-    // // Placeholder code to get our existing boxes
-    // public List<Box> GetBoxes()
-    // {
-    //     return new List[];
-    // }
 }
