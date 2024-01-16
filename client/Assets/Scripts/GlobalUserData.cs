@@ -60,7 +60,7 @@ public class GlobalUserData : MonoBehaviour
                     new Unit { id = "4", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = 3, selected = true, quality = Quality.Star3 },
                     new Unit { id = "5", tier = 0, level = 4, character = characters.Find(character => "otix" == character.name.ToLower()), slot = 4, selected = true, quality = Quality.Ilumination1 }
                 },
-                next_unit_id = 6
+                next_unit_id = 6,
             };
         } else {
             // Destroy this instance if another one already exists

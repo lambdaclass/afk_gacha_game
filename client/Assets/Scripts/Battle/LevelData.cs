@@ -2,16 +2,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class OpponentData : MonoBehaviour
+public class LevelData : MonoBehaviour
 {
     [SerializeField]
     List<Character> characters;
 
     // Singleton instance
-    private static OpponentData instance;
+    private static LevelData instance;
 
     // User
-    private User user;
+    private User user = new User {
+        username = "Opponent",
+        units = new List<Unit>()
+    };
+
+    // Rewards
+    private Dictionary<Currency, int> rewards = new Dictionary<Currency, int>();
+
+    private int experience;
 
     // Public property to access the opponent
     public User User
@@ -20,11 +28,26 @@ public class OpponentData : MonoBehaviour
         set { user = value; }
     }
 
+
     // Public property to access the opponent's units
     public List<Unit> Units
     {
         get { return user.units; }
         set { user.units = value; }
+    }
+
+    // Public property to access the level's rewards
+    public Dictionary<Currency, int> Rewards
+    {
+        get { return rewards; }
+        set { rewards = value; }
+    }
+
+    // Public property to access the level's experience reward
+    public int Experience
+    {
+        get { return experience; }
+        set { experience = value; }
     }
 
     // Method to destroy the instance after battle has been ran
@@ -34,32 +57,24 @@ public class OpponentData : MonoBehaviour
     }
 
     // Method to get the singleton instance
-    public static OpponentData Instance
+    public static LevelData Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new GameObject("OpponentData").AddComponent<OpponentData>();
+                instance = new GameObject("LevelData").AddComponent<LevelData>();
             }
             return instance;
         }
     }
 
-    // Initialize the user's units here
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-
-            // Initialize with sample data. Overwritten by Level selection.
-            user = new User
-            {
-                username = "Opponent",
-                units = new List<Unit>()
-            };
         } else {
             // Destroy this instance if another one already exists
             Destroy(gameObject);

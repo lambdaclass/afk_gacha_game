@@ -21,7 +21,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     void Start()
     {
         GlobalUserData globalUserData = GlobalUserData.Instance;
-        OpponentData opponentData = OpponentData.Instance;
+        LevelData levelData = LevelData.Instance;
 
         List<Unit> units = globalUserData.Units;
 
@@ -30,7 +30,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
-        SetUpSelectedUnits(opponentData.Units, false);
+        SetUpSelectedUnits(levelData.Units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)

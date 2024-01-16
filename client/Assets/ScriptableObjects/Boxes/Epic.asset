@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd7495c817445494d9d91c1a4423da6b, type: 3}
   m_Name: Epic
@@ -23,4 +23,11 @@ MonoBehaviour:
     weight: 5
   - character: {fileID: 11400000, guid: f4e4a4d736f494fcbb031c6f04031f72, type: 2}
     weight: 4
+  - character: {fileID: 11400000, guid: daff3c71680004519863ecf7f14aeeb0, type: 2}
+    weight: 1
+  individualCosts:
+  - name: 0
+    value: 100
+  - name: 1
+    value: 100
   summonSFX: {fileID: 8300000, guid: 2d3e41b03426d4bcd852bec6ffb1a5a4, type: 3}
