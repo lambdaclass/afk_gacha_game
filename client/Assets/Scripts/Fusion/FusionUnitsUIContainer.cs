@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UnitsUIContainer : MonoBehaviour
+public class FusionUnitsUIContainer : MonoBehaviour
 {
     [SerializeField]
     GameObject unitItemUIPrefab;
@@ -26,7 +26,7 @@ public class UnitsUIContainer : MonoBehaviour
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
             unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
             Button unitItemButton = unitUIItem.GetComponent<Button>();
-            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton));
+            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitUIItem));
             if (unitPopulator != null)
             {
                 unitPopulator.Populate(unit, unitUIItem);
@@ -45,10 +45,11 @@ public class UnitsUIContainer : MonoBehaviour
         unitUIItemDictionary.Clear();
     }
 
-    public void SelectUnit(Unit unit, Button unitItemButton)
+    public void SelectUnit(Unit unit, GameObject unitUIItem)
     {
-        OnUnitSelected.Invoke(unit);
-        unitItemButton.interactable = false;
+        //OnUnitSelected.Invoke(unit);
+        unitUIItem.GetComponent<Image>().sprite = unit.character.selectedSprite;
+        
     }
 
     public void SetUnitUIActiveById(string unitId)

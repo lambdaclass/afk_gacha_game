@@ -31,7 +31,7 @@ public class UnitDetail : MonoBehaviour
     void Start() {
         SetActionAndCosts();
         UpdateTexts();
-        backgroundImage.sprite = selectedUnit.character.backgroundSprite;
+        backgroundImage.sprite = selectedUnit.character.selectedSprite;
     }
 
     public void ActionButton() {

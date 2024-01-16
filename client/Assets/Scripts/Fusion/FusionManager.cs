@@ -8,7 +8,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 
     [SerializeField] Button fusionButton;
 
-    [SerializeField] UnitsUIContainer unitsContainer;
+    [SerializeField] FusionUnitsUIContainer unitsContainer;
 
     [SerializeField] List<Character> characters;
 
@@ -20,20 +20,12 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     {
         List<Unit> units = globalUserData.Units;
         selectedUnits = new List<Unit>();
-        fusionButton.onClick.AddListener(Fusion);
         this.unitsContainer.Populate(units, this);
     }
 
     public void Populate(Unit unit, GameObject unitUIItem)
     {
-        // SpriteState ss = new SpriteState();
-        // ss.highlightedSprite = unit.character.iconSprite;
-        // Button unitItemButton = unitItem.GetComponent<Button>();
-        // unitItemButton.spriteState = ss;
-        // if(unit.selected) {
-        //     unitItemButton.interactable = false;
-        // }
-        unitUIItem.GetComponent<Image>().sprite = unit.character.iconSprite;
+        unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
         Button unitItemButton = unitUIItem.GetComponent<Button>();
         unitItemButton.onClick.AddListener(() => SelectUnit(unit));
     }
@@ -45,14 +37,12 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
             Destroy(modelContainer.transform.GetChild(0).gameObject);
         }
         Instantiate(unit.character.prefab, modelContainer.transform);
-        unit.selected = true;
         selectedUnits.Add(unit);
         fusionButton.gameObject.SetActive(true);
     }
 
     public void UnselectUnit(Unit unit)
     {
-        unit.selected = false;
         selectedUnits.Remove(unit);
         if (selectedUnits.Count == 0)
         {
@@ -62,5 +52,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 
     public void Fusion() {
         globalUserData.User.FuseUnits(selectedUnits);
+        this.unitsContainer.Populate(globalUserData.Units, this);
+        fusionButton.gameObject.SetActive(false);
     }
 }
