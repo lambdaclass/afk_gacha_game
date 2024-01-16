@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -136,6 +136,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2010958685045145532, guid: cd6c40e67eb7b4df48cd90e4f9332d16,
         type: 3}
+    - target: {fileID: 4017276844912295173, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_text
+      value: CAMPAIGN 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017276845764398068, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5425641655313808468, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -745,7 +755,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 634500195}
+      objectReference: {fileID: 0}
     - target: {fileID: 114745404925296982, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -947,12 +957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ecea33205204bf99fab8c779ea6abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &634500195 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 2277539832404413938, guid: f9fa21dca98874c4196e015010414446,
-    type: 3}
-  m_PrefabInstance: {fileID: 634500192}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1045099588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,6 +1019,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1872237370564198280, guid: c8cc60b610ef0403980dda8b49f630d1,
         type: 3}
+    - target: {fileID: 4017276844912295173, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_text
+      value: CAMPAIGN 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017276845764398068, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5425641655313808468, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -1159,6 +1173,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 4017276844912295173, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_text
+      value: CAMPAIGN 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4017276845764398068, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5425641655313808468, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: m_SizeDelta.y
