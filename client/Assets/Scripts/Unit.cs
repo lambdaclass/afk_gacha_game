@@ -58,8 +58,8 @@ public class Unit
         return tier < GetMaxTier(quality);
     }
 
-    public Dictionary<string, int> TierUpCost {
-        get { return new Dictionary<string, int>(){{"gold", (int)Math.Floor(Math.Pow(level, 1 + level / 30.0))}, {"gems", 50}}; }
+    public Dictionary<Currency, int> TierUpCost {
+        get { return new Dictionary<Currency, int>(){{Currency.Gold, (int)Math.Floor(Math.Pow(level, 1 + level / 30.0))}, {Currency.Gems, 50}}; }
     }
 
     public static int GetMaxTier(Quality quality) {
@@ -103,8 +103,8 @@ public class Unit
         return level < GetMaxLevel(tier);
     }
 
-    public Dictionary<string, int> LevelUpCost {
-        get { return new Dictionary<string, int>(){{"gold", (int)Math.Floor(Math.Pow(level, 1 + level / 30.0))}}; }
+    public Dictionary<Currency, int> LevelUpCost {
+        get { return new Dictionary<Currency, int>(){{Currency.Gold, (int)Math.Floor(Math.Pow(level, 1 + level / 30.0))}}; }
     }
 
     public static int GetMaxLevel(int tier) {

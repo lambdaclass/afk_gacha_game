@@ -23,7 +23,7 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     Image backgroundImage;
 
-    private Dictionary<string, int> cost;
+    private Dictionary<Currency, int> cost;
 
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
@@ -74,8 +74,8 @@ public class UnitDetail : MonoBehaviour
         else actionButtonText.text = "Tier up";
 
         unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.quality.ToString()}";
-        goldCostText.text = cost.ContainsKey("gold") ? cost["gold"].ToString() : "0";
-        gemCostText.text = cost.ContainsKey("gems") ? cost["gems"].ToString() : "0";
+        goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
+        gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
     }
 
     private void SetActionAndCosts() {
