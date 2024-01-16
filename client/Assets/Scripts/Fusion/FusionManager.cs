@@ -20,7 +20,6 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     {
         List<Unit> units = globalUserData.Units;
         selectedUnits = new List<Unit>();
-        fusionButton.onClick.AddListener(Fusion);
         this.unitsContainer.Populate(units, this);
     }
 
@@ -54,5 +53,6 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     public void Fusion() {
         globalUserData.User.FuseUnits(selectedUnits);
         this.unitsContainer.Populate(globalUserData.Units, this);
+        fusionButton.gameObject.SetActive(false);
     }
 }
