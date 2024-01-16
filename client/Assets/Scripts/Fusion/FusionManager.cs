@@ -8,7 +8,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 
     [SerializeField] Button fusionButton;
 
-    [SerializeField] UnitsUIContainer unitsContainer;
+    [SerializeField] FusionUnitsUIContainer unitsContainer;
 
     [SerializeField] List<Character> characters;
 
@@ -38,14 +38,12 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
             Destroy(modelContainer.transform.GetChild(0).gameObject);
         }
         Instantiate(unit.character.prefab, modelContainer.transform);
-        unit.selected = true;
         selectedUnits.Add(unit);
         fusionButton.gameObject.SetActive(true);
     }
 
     public void UnselectUnit(Unit unit)
     {
-        unit.selected = false;
         selectedUnits.Remove(unit);
         if (selectedUnits.Count == 0)
         {

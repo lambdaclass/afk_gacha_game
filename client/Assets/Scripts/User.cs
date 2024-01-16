@@ -101,7 +101,6 @@ public class User
             Unit mergeTarget = units[0];
             units.RemoveAt(0);
 
-
             // Upgrade!
             if (mergeTarget.QualityUp()) {
                 // Delete all the other ones we fused into this one.
