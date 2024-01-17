@@ -65,7 +65,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
             RemoveUnitFromContainer(unit);
         }
         Instantiate(unit.character.prefab, modelContainer.transform);
-        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = unit.character.name + "\n Rank: " + unit.quality.ToString();
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = unit.character.name + "\n Rank: " + unit.rank.ToString();
         characterNameContainer.SetActive(true);
     }
 

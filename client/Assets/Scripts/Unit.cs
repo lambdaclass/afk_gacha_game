@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Unit
 {
     public string id { get; set; }
-    public Quality quality { get; set; }
+    public Rank rank { get; set; }
     public int tier { get; set; }
     public int level { get; set; }
     public Character character { get; set; }
@@ -12,33 +12,33 @@ public class Unit
     public bool selected { get; set; }
 
     /////////////
-    // Quality //
+    // Rank //
     /////////////
 
-    public bool QualityUp() { 
-        if(CanQualityUp()){
-            quality = quality.Next();
+    public bool RankUp() { 
+        if(CanRankUp()){
+            rank = rank.Next();
             return true;
         }
         return false;
     }
 
-    public bool CanQualityUp() {
-        // Common champions can't upgrade Quality.
+    public bool CanRankUp() {
+        // Common champions can't upgrade Rank.
         // Rare champions can only get to 5 Stars.
-        return character.rarity != Rarity.Common && quality < GetMaxQuality(character.rarity);
+        return character.rarity != Rarity.Common && rank < GetMaxRank(character.rarity);
     }
 
-    public static Quality GetMaxQuality(Rarity rarity) {
+    public static Rank GetMaxRank(Rarity rarity) {
         switch (rarity) {
             case Rarity.Common:
-                return Quality.Star3;
+                return Rank.Star3;
             case Rarity.Rare:
-                return Quality.Star5;
+                return Rank.Star5;
             case Rarity.Elite:
-                return Quality.Awakened;
+                return Rank.Awakened;
             default:
-                return Quality.Awakened;
+                return Rank.Awakened;
         } 
     }
 
@@ -55,32 +55,32 @@ public class Unit
     }
 
     public bool CanTierUp() {
-        return tier < GetMaxTier(quality);
+        return tier < GetMaxTier(rank);
     }
 
     public Dictionary<Currency, int> TierUpCost {
         get { return new Dictionary<Currency, int>(){{Currency.Gold, (int)Math.Floor(Math.Pow(level, 1 + level / 30.0))}, {Currency.Gems, 50}}; }
     }
 
-    public static int GetMaxTier(Quality quality) {
-        switch (quality) {
-            case Quality.Star1:
+    public static int GetMaxTier(Rank rank) {
+        switch (rank) {
+            case Rank.Star1:
                 return 1;
-            case Quality.Star2:
+            case Rank.Star2:
                 return 2;
-            case Quality.Star3:
+            case Rank.Star3:
                 return 3; 
-            case Quality.Star4:
+            case Rank.Star4:
                 return 4;
-            case Quality.Star5:
+            case Rank.Star5:
                 return 5; 
-            case Quality.Ilumination1:
+            case Rank.Ilumination1:
                 return 7; 
-            case Quality.Ilumination2:
+            case Rank.Ilumination2:
                 return 9; 
-            case Quality.Ilumination3:
+            case Rank.Ilumination3:
                 return 220; 
-            case Quality.Awakened:
+            case Rank.Awakened:
                 return 12; 
             default:
                 return 0;
@@ -141,7 +141,7 @@ public class Unit
     }
 }
 
-public enum Quality{
+public enum Rank{
     Star1,
     Star2,
     Star3,

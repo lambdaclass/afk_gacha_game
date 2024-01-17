@@ -73,7 +73,7 @@ public class UnitDetail : MonoBehaviour
         if (actionLevelUp) actionButtonText.text = "Level Up";
         else actionButtonText.text = "Tier up";
 
-        unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.quality.ToString()}";
+        unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.rank.ToString()}";
         goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
         gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
     }
