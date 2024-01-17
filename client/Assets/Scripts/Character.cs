@@ -4,8 +4,16 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public new string name;
-    public Sprite iconSprite;
+    public string faction;
+    public Sprite availableSprite;
     public Sprite disabledSprite;
-    public Sprite backgroundSprite;
+    public Sprite selectedSprite;
     public GameObject prefab;
+    public Rarity rarity;
+}
+
+public enum Rarity{
+    Common,
+    Rare,
+    Elite
 }
