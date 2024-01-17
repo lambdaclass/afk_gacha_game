@@ -35,11 +35,13 @@ public class UnitDetail : MonoBehaviour
     }
 
     public void ActionButton() {
-        if (UserAffords()) {
+        User user = GlobalUserData.Instance.User;
+        if (user.CanAfford(cost)) {
             bool result;
             if (actionLevelUp) { result = LevelUp(); } else { result = TierUp(); }
 
             if (result) { 
+                user.SubstractCurrency(cost);
                 SetActionAndCosts();
                 UpdateTexts();
             }
@@ -86,11 +88,5 @@ public class UnitDetail : MonoBehaviour
             actionLevelUp = false;
             cost = selectedUnit.TierUpCost;
         }
-    }
-
-    private bool UserAffords() {
-        // TODO: Waiting on #22
-        // return CanUserBuyItem(globalUserData.User, cost);
-        return true;
     }
 }
