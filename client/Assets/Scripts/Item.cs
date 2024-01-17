@@ -12,7 +12,9 @@ public class Item
     public EquipType type;
 
     public List<Effect> effects = new List<Effect>();
-    
+
+    public Unit equippedTo;
+
     public Item(string _name, List<Effect> _effects, EquipType _type) {
         id = NextId();
         name = _name;

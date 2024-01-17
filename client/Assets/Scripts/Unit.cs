@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Unit
 {
@@ -36,6 +37,8 @@ public class Unit
     }
 
     public void EquipItem(Item item) {
+        if (item.equippedTo != null) { item.equippedTo.UnequipItem(item.type); }
+        
         switch (item.type) {
             case EquipType.Head:
                 head = item;
@@ -52,6 +55,8 @@ public class Unit
             default:
                 break;
         }
+
+        item.equippedTo = this;
     }
     public void UnequipItem(EquipType type) {
         switch (type) {

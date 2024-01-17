@@ -25,15 +25,21 @@ public class GachaManager : MonoBehaviour
         Unit unit = AddNewUnit(user, rolledCharacter);
         DisplayCharacter(rolledCharacter);
 
-        // For testing the equipables, we'll create a sword when we summon
-        Item sword = new Item(
-            "Epic Sword of Epicness",
-            new List<Effect>(){
-                new Effect{attribute = Attribute.Level, modifier = new AdditiveModifier{value = 100}}
-            },
-            EquipType.Weapon);
+        // For testing unequip, we first check if we had already created the sword. If we did, we set a new owner instead.
+        Item sword;
+        if (user.items.Count > 0) {
+            sword = user.items[0];
+        } else {
+            // For testing the equipables, we'll create a sword when we summon
+            sword = new Item(
+                "Epic Sword of Epicness",
+                new List<Effect>(){
+                    new Effect{attribute = Attribute.Level, modifier = new AdditiveModifier{value = 100}}
+                },
+                EquipType.Weapon);
 
-        user.AddItem(sword);
+            user.AddItem(sword);
+        }
         unit.EquipItem(sword);
     }
 
@@ -42,7 +48,7 @@ public class GachaManager : MonoBehaviour
         Unit newUnit = new Unit
         {
             id = user.NextId(),
-            level = 1,
+            level = 0,
             character = character,
             selected = false
         };
