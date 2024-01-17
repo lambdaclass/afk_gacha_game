@@ -23,6 +23,12 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     Image backgroundImage;
 
+    [SerializeField]
+    GameObject modelContainer;
+
+    [SerializeField]
+    GameObject characterNameContainer;
+
     private Dictionary<Currency, int> cost;
 
     // true if we're leveling up, false if we're tiering up
@@ -32,6 +38,7 @@ public class UnitDetail : MonoBehaviour
         SetActionAndCosts();
         UpdateTexts();
         SetBackgroundImage();
+        DisplayUnit();
     }
 
     public void ActionButton() {
@@ -115,4 +122,22 @@ public class UnitDetail : MonoBehaviour
                 break;
         }
     }
+
+    private void DisplayUnit()
+    {
+        if (modelContainer.transform.childCount > 0)
+        {
+            RemoveUnitFromContainer();
+        }
+        Instantiate(selectedUnit.character.prefab, modelContainer.transform);
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name + "\n Rank: " + selectedUnit.rank.ToString();
+        characterNameContainer.SetActive(true);
+    }
+
+    private void RemoveUnitFromContainer()
+    {
+        Destroy(modelContainer.transform.GetChild(0).gameObject);
+        characterNameContainer.SetActive(false);
+    }
+
 }
