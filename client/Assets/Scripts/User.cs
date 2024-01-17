@@ -196,28 +196,15 @@ public class User
     }
 
     public bool CanAfford(Dictionary<Currency, int> itemCosts) {
+        // Check if the player has enough of each currency
         foreach (var cost in itemCosts) {
             Currency currency = cost.Key;
             int costAmount = cost.Value;
 
             int? money = GetCurrency(currency);
 
-            // Check if the player has enough of each currency
-            if (money == null) {
-
-                //// Do frontend stuff
-
-                return false;
-            }
-
-            if (money < costAmount)
-            {
-                // Player doesn't have enough of this currency
-
-                //// Do Frontend stuff
-
-                return false;
-            }
+            if (money == null) { return false; }
+            if (money < costAmount) { return false; }
         }
 
         // Player has enough of all currencies
