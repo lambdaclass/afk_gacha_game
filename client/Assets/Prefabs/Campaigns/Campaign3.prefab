@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: campaignToComplete
       value: Campaign_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualRewards.Array.data[1].name
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1932950366438959233, guid: b9905ae9753b542f18093f7a97853e0c,
         type: 3}
       propertyPath: m_Name
