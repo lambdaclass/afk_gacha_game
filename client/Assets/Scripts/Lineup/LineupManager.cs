@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class LineupManager : MonoBehaviour, IUnitPopulator
 {
     [SerializeField]
-    UnitsUIContainer unitsContainer;
+    LineUpUnitsUIContainer unitsContainer;
 
     [SerializeField]
     UnitPosition[] playerUnitPositions;

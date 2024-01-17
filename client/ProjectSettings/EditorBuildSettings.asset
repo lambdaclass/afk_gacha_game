@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CampaignsMap.unity
     guid: 30b663d8f564c491a8477d1800d6655f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Campaigns/Campaign_1.unity
     guid: 113802530606d46628e9c3f78097e9ef
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Campaigns/Campaign_2.unity
     guid: 3e08f36df615c424c86fb54d1c8ed6f5
   - enabled: 1
@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Summon.unity
     guid: 64d840933cf864b208be53b10897f6f7
+  - enabled: 1
+    path: Assets/Scenes/HeroFusion.unity
+    guid: 0a977706ef21944f89afc3db4e23b7be
   m_configObjects: {}
