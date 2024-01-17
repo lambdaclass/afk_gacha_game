@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine.Events;
 using UnityEngine;
+using UnityEngine.Events;
 
 [Serializable]
 public class User
@@ -96,13 +96,16 @@ public class User
     } 
 
     public bool FuseUnits(List<Unit> units) {
+        Debug.Log("Units count: " + units.Count);
         if (CanFuseUnits(units)) {
+            Debug.Log("Can fuse");
             // Pop the first one. We will upgrade the quality of this guy.
             Unit mergeTarget = units[0];
             units.RemoveAt(0);
 
             // Upgrade!
             if (mergeTarget.QualityUp()) {
+                Debug.Log("Quality up");
                 // Delete all the other ones we fused into this one.
                 foreach (Unit unit in units) { DeleteUnit(unit); }
                 
