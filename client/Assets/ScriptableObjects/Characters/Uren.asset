@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Uren
   m_EditorClassIdentifier: 
   name: Uren
-  iconSprite: {fileID: 21300000, guid: 17d6a6c923b3f43359954f05ac208f6f, type: 3}
+  faction: 
+  availableSprite: {fileID: 21300000, guid: 17d6a6c923b3f43359954f05ac208f6f, type: 3}
   disabledSprite: {fileID: 21300000, guid: 71f1cd017a16c4feab4573d41241087e, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 28c9e407687d243ed95e9826bbf5d760, type: 3}
+  selectedSprite: {fileID: 21300000, guid: a1437621e6e31420581434f1405b4f74, type: 3}
   prefab: {fileID: 5819572997624566537, guid: a58f36917e06d4ce4998ca8c1b64415e, type: 3}
+  rarity: 2
