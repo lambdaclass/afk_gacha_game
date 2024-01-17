@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Dagna
   m_EditorClassIdentifier: 
   name: Dagna
-  iconSprite: {fileID: 21300000, guid: 45d37ec53220e4aed924e7ae7a04305b, type: 3}
+  faction: 
+  availableSprite: {fileID: 21300000, guid: 45d37ec53220e4aed924e7ae7a04305b, type: 3}
   disabledSprite: {fileID: 21300000, guid: b1af22155b47b491182a78568a6cfa40, type: 3}
-  backgroundSprite: {fileID: 21300000, guid: 0443faeae8b3d4acc9db3558323cf09b, type: 3}
+  selectedSprite: {fileID: 21300000, guid: 5c156d61c2fbe4c02b104a69fe0700c8, type: 3}
   prefab: {fileID: 2866215690245578517, guid: b5943a432043c4ddeb23a63ccb79d69a, type: 3}
+  rarity: 0
