@@ -28,7 +28,7 @@ public class BattleManager : MonoBehaviour
 
         User user = globalUserData.User;
 
-        List<Unit> userUnits = globalUserData.Units;
+        List<Unit> userUnits = globalUserData.SelectedUnits;
         List<Unit> opponentUnits = levelData.Units;
 
         SetUpUnits(userUnits, opponentUnits);

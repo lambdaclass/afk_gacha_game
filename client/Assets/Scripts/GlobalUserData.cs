@@ -26,6 +26,12 @@ public class GlobalUserData : MonoBehaviour
         get { return user.units; }
     }
 
+    // Public property to access the user's selected units
+    public List<Unit> SelectedUnits
+    {
+        get { return user.units.FindAll(unit => unit.selected); }
+    }
+
     // Method to get the singleton instance
     public static GlobalUserData Instance
     {
