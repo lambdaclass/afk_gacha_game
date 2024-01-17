@@ -1,8 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -31,7 +31,7 @@ public class UnitDetail : MonoBehaviour
     void Start() {
         SetActionAndCosts();
         UpdateTexts();
-        backgroundImage.sprite = selectedUnit.character.selectedSprite;
+        SetBackgroundImage();
     }
 
     public void ActionButton() {
@@ -92,5 +92,27 @@ public class UnitDetail : MonoBehaviour
         // TODO: Waiting on #22
         // return CanUserBuyItem(globalUserData.User, cost);
         return true;
+    }
+
+    private void SetBackgroundImage() 
+    {
+        switch (selectedUnit.character.faction) 
+        {
+            case Faction.Araban:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/ArabanBackground");
+                break;
+            case Faction.Kaline:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/KalineBackground");
+                break;
+            case Faction.Merliot:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/MerliotBackground");
+                break;
+            case Faction.Otobi:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/OtobiBackground");
+                break;
+            default:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/ArabanBackground");
+                break;
+        }
     }
 }
