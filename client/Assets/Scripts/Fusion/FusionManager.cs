@@ -27,7 +27,16 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     {
         unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
         Button unitItemButton = unitUIItem.GetComponent<Button>();
-        unitItemButton.onClick.AddListener(() => SelectUnit(unit));
+        unitItemButton.onClick.AddListener(() => {
+            if (selectedUnits.Contains(unit))
+            {
+                UnselectUnit(unit);
+            }
+            else
+            {
+                SelectUnit(unit);
+            }
+        });
     }
 
     public void SelectUnit(Unit unit)

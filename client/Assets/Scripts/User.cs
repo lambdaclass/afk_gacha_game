@@ -96,6 +96,7 @@ public class User
     } 
 
     public bool FuseUnits(List<Unit> units) {
+        Debug.Log("Fusing units: " + units.Count);
         if (CanFuseUnits(units)) {
             // Pop the first one. We will upgrade the quality of this guy.
             Unit mergeTarget = units[0];
