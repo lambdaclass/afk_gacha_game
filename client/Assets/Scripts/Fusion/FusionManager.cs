@@ -53,6 +53,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     public void Fusion() {
         globalUserData.User.FuseUnits(selectedUnits);
         this.unitsContainer.Populate(globalUserData.Units, this);
+        selectedUnits.Clear();
         fusionButton.gameObject.SetActive(false);
     }
 }
