@@ -48,7 +48,7 @@ public class GachaManager : MonoBehaviour
         Unit newUnit = new Unit
         {
             id = user.NextId(),
-            level = 0,
+            level = 1,
             character = character,
             selected = false
         };
