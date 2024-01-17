@@ -61,7 +61,7 @@ public class BattleManager : MonoBehaviour
     // Helper method to calculate the aggregate level of a team
     private int CalculateAggregateLevel(List<Unit> team)
     {
-        return team.Sum(unit => unit.level);
+        return team.Sum(unit => unit.CalculateLevel());
     }
 
     private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)

@@ -14,6 +14,8 @@ public class User
 
     public int next_unit_id;
 
+    public List<Item> items { get; set; } = new List<Item>();
+
     private Dictionary<Currency, int> currencies = new Dictionary<Currency, int>()
         {
             { Currency.Gold, 100 },
@@ -30,7 +32,6 @@ public class User
 
     public UnityEvent OnCurrencyModified = new UnityEvent();
     public UnityEvent OnLevelModified = new UnityEvent();
-
 
     public string NextId() {
         string next_id = next_unit_id.ToString();
@@ -88,5 +89,9 @@ public class User
         }
 
         AddCurrency(negativeCurrencies);
+    }
+
+    public void AddItem(Item item) {
+        items.Add(item);
     }
 }

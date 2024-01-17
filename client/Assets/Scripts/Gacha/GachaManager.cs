@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GachaManager : MonoBehaviour
 {
@@ -21,11 +22,22 @@ public class GachaManager : MonoBehaviour
         Character rolledCharacter = box.RollChampion();
 
         // Add the rolled character to the user's units.
-        AddNewUnit(user, rolledCharacter);
+        Unit unit = AddNewUnit(user, rolledCharacter);
         DisplayCharacter(rolledCharacter);
+
+        // For testing the equipables, we'll create a sword when we summon
+        Item sword = new Item(
+            "Epic Sword of Epicness",
+            new List<Effect>(){
+                new Effect{attribute = Attribute.Level, modifier = new AdditiveModifier{value = 100}}
+            },
+            EquipType.Weapon);
+
+        user.AddItem(sword);
+        unit.EquipItem(sword);
     }
 
-    private void AddNewUnit(User user, Character character)
+    private Unit AddNewUnit(User user, Character character)
     {
         Unit newUnit = new Unit
         {
@@ -38,6 +50,7 @@ public class GachaManager : MonoBehaviour
         user.units.Add(newUnit);
         currentUnit = newUnit;
         characterContainerButton.GetComponent<ButtonAnimations>().clickEvent.AddListener(() => SelectUnit());
+        return newUnit;
     }
 
     private void DisplayCharacter(Character character)
