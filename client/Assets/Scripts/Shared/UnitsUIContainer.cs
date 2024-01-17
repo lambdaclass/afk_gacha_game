@@ -4,38 +4,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class UnitsUIContainer : MonoBehaviour
+public abstract class UnitsUIContainer : MonoBehaviour
 {
     [SerializeField]
-    GameObject unitItemUIPrefab;
+    protected GameObject unitItemUIPrefab;
 
     [SerializeField]
-    GameObject unitsContainer;
+    protected GameObject unitsContainer;
 
     [NonSerialized]
     public UnityEvent<Unit> OnUnitSelected = new UnityEvent<Unit>();
 
-    private Dictionary<string, GameObject> unitUIItemDictionary = new Dictionary<string, GameObject>();
+    protected Dictionary<string, GameObject> unitUIItemDictionary = new Dictionary<string, GameObject>();
 
-    public void Populate(List<Unit> units, IUnitPopulator unitPopulator = null)
-    {
-        unitsContainer.SetActive(false);
-        this.Clear();
-        units.ForEach(unit =>
-        {
-            GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
-            unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
-            Button unitItemButton = unitUIItem.GetComponent<Button>();
-            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton));
-            if (unitPopulator != null)
-            {
-                unitPopulator.Populate(unit, unitUIItem);
-            }
-            unitUIItemDictionary.Add(unit.id, unitUIItem);
-        });
-        unitsContainer.SetActive(true);
-    }
+    public abstract void Populate(List<Unit> units, IUnitPopulator unitPopulator = null);
 
+    public abstract void SelectUnit(Unit unit, GameObject UISelector);
     public void Clear()
     {
         foreach (Transform child in unitsContainer.transform)
@@ -43,16 +27,5 @@ public class UnitsUIContainer : MonoBehaviour
             Destroy(child.gameObject);
         }
         unitUIItemDictionary.Clear();
-    }
-
-    public void SelectUnit(Unit unit, Button unitItemButton)
-    {
-        OnUnitSelected.Invoke(unit);
-        unitItemButton.interactable = false;
-    }
-
-    public void SetUnitUIActiveById(string unitId)
-    {
-        unitUIItemDictionary[unitId].GetComponent<Button>().interactable = true;
     }
 }

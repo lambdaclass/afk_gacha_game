@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class FusionUnitsUIContainer : UnitsUIContainer
+public class LineUpUnitsUIContainer : UnitsUIContainer
 {
     public override void Populate(List<Unit> units, IUnitPopulator unitPopulator = null)
     {
@@ -15,7 +15,7 @@ public class FusionUnitsUIContainer : UnitsUIContainer
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
             unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
             Button unitItemButton = unitUIItem.GetComponent<Button>();
-            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitUIItem));
+            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton.gameObject));
             if (unitPopulator != null)
             {
                 unitPopulator.Populate(unit, unitUIItem);
@@ -25,18 +25,15 @@ public class FusionUnitsUIContainer : UnitsUIContainer
         unitsContainer.SetActive(true);
     }
 
-    public override void SelectUnit(Unit unit, GameObject unitUIItem)
+    public override void SelectUnit(Unit unit, GameObject selector)
     {
-        Sprite unitUIItemSprite = unitUIItem.GetComponent<Image>().sprite;
-        if (unitUIItemSprite == unit.character.availableSprite)
-        {
-            unitUIItemSprite = unit.character.selectedSprite;   
-        }
-        else
-        {
-            unitUIItemSprite = unit.character.availableSprite;
-        }
-        unitUIItem.GetComponent<Image>().sprite = unitUIItemSprite;
+        Button unitItemButton = selector.GetComponent<Button>();
         OnUnitSelected.Invoke(unit);
+        unitItemButton.interactable = false;
+    }
+
+    public void SetUnitUIActiveById(string unitId)
+    {
+        unitUIItemDictionary[unitId].GetComponent<Button>().interactable = true;
     }
 }

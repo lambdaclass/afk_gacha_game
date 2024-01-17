@@ -10,8 +10,6 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 
     [SerializeField] FusionUnitsUIContainer unitsContainer;
 
-    [SerializeField] List<Character> characters;
-
     private List<Unit> selectedUnits;
 
     GlobalUserData globalUserData = GlobalUserData.Instance;
