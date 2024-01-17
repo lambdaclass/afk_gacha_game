@@ -18,9 +18,6 @@ public class UnitDetail : MonoBehaviour
     Text actionButtonText;
 
     [SerializeField]
-    TMP_Text unitName;
-
-    [SerializeField]
     Image backgroundImage;
 
     [SerializeField]
@@ -28,6 +25,15 @@ public class UnitDetail : MonoBehaviour
 
     [SerializeField]
     GameObject characterNameContainer;
+
+    [SerializeField]
+    GameObject levelStatUI;
+
+    [SerializeField]
+    GameObject tierStatUI;
+
+    [SerializeField]
+    GameObject rankStatUI;
 
     private Dictionary<Currency, int> cost;
 
@@ -80,7 +86,10 @@ public class UnitDetail : MonoBehaviour
         if (actionLevelUp) actionButtonText.text = "Level Up";
         else actionButtonText.text = "Tier up";
 
-        unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.rank.ToString()}";
+        //unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.rank.ToString()}";
+        tierStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Tier\n" + selectedUnit.tier.ToString();
+        levelStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Level\n" + selectedUnit.level.ToString();
+        rankStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Rank\n" + selectedUnit.rank.ToString();
         goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
         gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
     }
@@ -130,7 +139,7 @@ public class UnitDetail : MonoBehaviour
             RemoveUnitFromContainer();
         }
         Instantiate(selectedUnit.character.prefab, modelContainer.transform);
-        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name + "\n Rank: " + selectedUnit.rank.ToString();
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
     }
 
