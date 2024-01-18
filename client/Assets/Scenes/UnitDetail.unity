@@ -225,17 +225,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0452eb00be995044ab5cc98a09598270,
+      objectReference: {fileID: 21300000, guid: 84008151a12ef4cbfa61099a6c1f99a6,
         type: 3}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 68.99
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 86.23
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
@@ -355,7 +355,12 @@ PrefabInstance:
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Name
-      value: Slot (2)
+      value: Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 435529950980917264, guid: cf431a15a4f3541f490bee16365a1889,
+        type: 3}
+      propertyPath: type
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
@@ -940,37 +945,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 53678755}
     m_Modifications:
-    - target: {fileID: 369244516782865793, guid: cf431a15a4f3541f490bee16365a1889,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 369244517295900953, guid: cf431a15a4f3541f490bee16365a1889,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1dc2e62f931b9ff46819c21a0eb49518,
-        type: 3}
-    - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 84.82
-      objectReference: {fileID: 0}
-    - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 80.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1079,13 +1053,19 @@ PrefabInstance:
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Name
-      value: Slot
+      value: Head
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!224 &247723782 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889,
+    type: 3}
+  m_PrefabInstance: {fileID: 247723781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &247723783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
     type: 3}
   m_PrefabInstance: {fileID: 247723781}
   m_PrefabAsset: {fileID: 0}
@@ -1540,17 +1520,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 885dd96652d1da34bbbf36479f2d533a,
+      objectReference: {fileID: 21300000, guid: 84008151a12ef4cbfa61099a6c1f99a6,
         type: 3}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 70
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 95
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
@@ -1670,13 +1650,24 @@ PrefabInstance:
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Name
-      value: Slot (1)
+      value: Chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 435529950980917264, guid: cf431a15a4f3541f490bee16365a1889,
+        type: 3}
+      propertyPath: type
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!224 &370590592 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889,
+    type: 3}
+  m_PrefabInstance: {fileID: 370590591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &370590593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
     type: 3}
   m_PrefabInstance: {fileID: 370590591}
   m_PrefabAsset: {fileID: 0}
@@ -1794,6 +1785,10 @@ MonoBehaviour:
   levelStatUI: {fileID: 295713233}
   tierStatUI: {fileID: 636289764}
   rankStatUI: {fileID: 825121889}
+  headItem: {fileID: 247723783}
+  chestItem: {fileID: 370590593}
+  bootsItem: {fileID: 1490731955}
+  weaponItem: {fileID: 369244518153740540}
 --- !u!4 &625935471
 Transform:
   m_ObjectHideFlags: 0
@@ -2290,17 +2285,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f971711f802a9544795cfc29333e3ef8,
+      objectReference: {fileID: 21300000, guid: 84008151a12ef4cbfa61099a6c1f99a6,
         type: 3}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 76.43
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 82.91
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
@@ -2420,7 +2415,12 @@ PrefabInstance:
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Name
-      value: Slot (2)
+      value: Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 435529950980917264, guid: cf431a15a4f3541f490bee16365a1889,
+        type: 3}
+      propertyPath: type
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
@@ -4083,17 +4083,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1a3d3548a96d39547bae25a395fe6b13,
+      objectReference: {fileID: 21300000, guid: 84008151a12ef4cbfa61099a6c1f99a6,
         type: 3}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80.539
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 96.13
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
@@ -4213,13 +4213,24 @@ PrefabInstance:
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Name
-      value: Slot (1)
+      value: Boots
+      objectReference: {fileID: 0}
+    - target: {fileID: 435529950980917264, guid: cf431a15a4f3541f490bee16365a1889,
+        type: 3}
+      propertyPath: type
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!224 &1490731954 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889,
+    type: 3}
+  m_PrefabInstance: {fileID: 1490731953}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1490731955 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
     type: 3}
   m_PrefabInstance: {fileID: 1490731953}
   m_PrefabAsset: {fileID: 0}
@@ -5875,17 +5886,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1f5d95119edb81d4fb47c4427e5a6151,
+      objectReference: {fileID: 21300000, guid: 84008151a12ef4cbfa61099a6c1f99a6,
         type: 3}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 57.38
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 88.89
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
@@ -6005,10 +6016,21 @@ PrefabInstance:
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
         type: 3}
       propertyPath: m_Name
-      value: Slot
+      value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 435529950980917264, guid: cf431a15a4f3541f490bee16365a1889,
+        type: 3}
+      propertyPath: type
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
+--- !u!1 &369244518153740540 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889,
+    type: 3}
+  m_PrefabInstance: {fileID: 369244518153740539}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6858262836781891745
 PrefabInstance:
   m_ObjectHideFlags: 0

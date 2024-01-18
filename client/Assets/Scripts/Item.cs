@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-public class Item
+public class Item : MonoBehaviour
 {
     public static int nextId = 0;
 
@@ -15,11 +16,22 @@ public class Item
 
     public Unit equippedTo;
 
+    public Sprite sprite { get; set; }
+
     public Item(string _name, List<Effect> _effects, EquipType _type) {
         id = NextId();
         name = _name;
         effects = _effects;
         type = _type;
+        if (type == EquipType.Head) {
+            sprite = Resources.Load<Sprite>("UI/Items/head");
+        } else if (type == EquipType.Chest) {
+            sprite = Resources.Load<Sprite>("UI/Items/chest");
+        } else if (type == EquipType.Weapon) {
+            sprite = Resources.Load<Sprite>("UI/Items/weapon");
+        } else if (type == EquipType.Boots) {
+            sprite = Resources.Load<Sprite>("UI/Items/boots");
+        }
     }
 
     public static string NextId() { return nextId++.ToString(); }
@@ -29,7 +41,8 @@ public enum EquipType {
     Head,
     Chest,
     Weapon,
-    Boots
+    Boots,
+    Accessory
 }
 
 

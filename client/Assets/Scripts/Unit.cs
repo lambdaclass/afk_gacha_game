@@ -47,6 +47,7 @@ public class Unit
                 chest = item;
                 break;
             case EquipType.Weapon:
+                Debug.Log("Equipping weapon");
                 weapon = item;
                 break;
             case EquipType.Boots:
@@ -59,6 +60,7 @@ public class Unit
         item.equippedTo = this;
     }
     public void UnequipItem(EquipType type) {
+        Debug.Log("Unequipping item");
         switch (type) {
             case EquipType.Head:
                 head = null;

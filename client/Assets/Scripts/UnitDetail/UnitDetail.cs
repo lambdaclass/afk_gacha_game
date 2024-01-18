@@ -35,6 +35,18 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     GameObject rankStatUI;
 
+    [SerializeField]
+    GameObject headItem;
+
+    [SerializeField]
+    GameObject chestItem;
+
+    [SerializeField]
+    GameObject bootsItem;
+
+    [SerializeField]
+    GameObject weaponItem;
+
     private Dictionary<Currency, int> cost;
 
     // true if we're leveling up, false if we're tiering up
@@ -45,6 +57,7 @@ public class UnitDetail : MonoBehaviour
         UpdateTexts();
         SetBackgroundImage();
         DisplayUnit();
+        DisplayUnitItems();
     }
 
     public void ActionButton() {
@@ -143,6 +156,32 @@ public class UnitDetail : MonoBehaviour
     {
         Destroy(modelContainer.transform.GetChild(0).gameObject);
         characterNameContainer.SetActive(false);
+    }
+
+    private void DisplayUnitItems()
+    {
+        Debug.Log("Displaying unit items for: " + selectedUnit.character.name);
+        Debug.Log("Items: " + selectedUnit.Items.Count);
+        if (selectedUnit.head != null)
+        {
+            Debug.Log("Assigning head");
+            headItem.GetComponent<Image>().sprite = selectedUnit.head.sprite;
+        }
+        if (selectedUnit.chest != null)
+        {
+            Debug.Log("Assigning chest");
+            chestItem.GetComponent<Image>().sprite = selectedUnit.chest.sprite;
+        }
+        if (selectedUnit.boots != null)
+        {
+            Debug.Log("Assigning boots");
+            bootsItem.GetComponent<Image>().sprite = selectedUnit.boots.sprite;
+        }
+        if (selectedUnit.weapon != null)
+        {
+            Debug.Log("Assigning weapon");
+            weaponItem.GetComponent<Image>().sprite = selectedUnit.weapon.sprite;
+        }
     }
 
 }
