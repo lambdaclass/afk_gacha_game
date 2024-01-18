@@ -55,6 +55,7 @@ public class UnitDetail : MonoBehaviour
     void Start() {
         SetActionAndCosts();
         UpdateTexts();
+        UpdateStats();
         SetBackgroundImage();
         DisplayUnit();
         DisplayUnitItems();
@@ -101,12 +102,78 @@ public class UnitDetail : MonoBehaviour
         if (actionLevelUp) actionButtonText.text = "Level Up";
         else actionButtonText.text = "Tier up";
 
+        goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
+        gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
+    }
+
+    private void UpdateStats()
+    {
         //unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.rank.ToString()}";
         tierStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Tier\n" + selectedUnit.tier.ToString();
         levelStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Level\n" + selectedUnit.level.ToString();
-        rankStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Rank\n" + selectedUnit.rank.ToString();
-        goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
-        gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
+        //rankStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Rank\n" + selectedUnit.rank.ToString();
+        UpdateRank();    
+
+    }
+
+    private void UpdateRank()
+    {
+        // Star1, Star2, Star3, Star4 and Star5 ranks use the resource found in Resources/UI/Ranks/Star, and are instantiated as many as the number of their rank indicates.
+        // Illumination1, Illumination2 and Illumination3 idem but with the resource found in Resources/UI/Ranks/Illumination.
+        // Awakened uses the resource found in Resources/UI/Ranks/Awakened, always instantiated once.
+        GameObject prefab;
+        int rankNumber;
+
+        switch (selectedUnit.rank)
+        {
+            case Rank.Star1:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankNumber = 1;
+                break;
+            case Rank.Star2:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankNumber = 2;
+                break;
+            case Rank.Star3:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankNumber = 3;
+                break;
+            case Rank.Star4:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankNumber = 4;
+                break;
+            case Rank.Star5:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankNumber = 5;
+                break;
+            case Rank.Ilumination1:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
+                rankNumber = 1;
+                break;
+            case Rank.Ilumination2:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
+                rankNumber = 2;
+                break;
+            case Rank.Ilumination3:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
+                rankNumber = 3;
+                break;
+            case Rank.Awakened:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Awakened");
+                rankNumber = 1;
+                break;
+            default:
+                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankNumber = 1;
+                break;
+        }
+
+        for (int i = 0; i < rankNumber; i++)
+        {
+            GameObject rank = Instantiate(prefab, rankStatUI.transform);
+            rank.transform.localPosition = new Vector3(15f * i, 0, 0);
+        }
+
     }
 
     private void SetActionAndCosts() {
@@ -183,5 +250,4 @@ public class UnitDetail : MonoBehaviour
             weaponItem.GetComponent<Image>().sprite = selectedUnit.weapon.sprite;
         }
     }
-
 }

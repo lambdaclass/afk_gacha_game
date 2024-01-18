@@ -52,6 +52,7 @@ public class BattleManager : MonoBehaviour
     public bool Battle(List<Unit> team1, List<Unit> team2)
     {
         int team1AggLevel = CalculateAggregateLevel(team1);
+        Debug.Log("Team 1 aggregate level: " + team1AggLevel);
         int team2AggLevel = CalculateAggregateLevel(team2);
         int totalLevel = team1AggLevel + team2AggLevel;
 
