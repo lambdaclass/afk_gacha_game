@@ -227,26 +227,20 @@ public class UnitDetail : MonoBehaviour
 
     private void DisplayUnitItems()
     {
-        Debug.Log("Displaying unit items for: " + selectedUnit.character.name);
-        Debug.Log("Items: " + selectedUnit.Items.Count);
         if (selectedUnit.head != null)
         {
-            Debug.Log("Assigning head");
             headItemSprite.GetComponent<Image>().sprite = selectedUnit.head.concreteItem.Sprite;
         }
         if (selectedUnit.chest != null)
         {
-            Debug.Log("Assigning chest");
             chestItemSprite.GetComponent<Image>().sprite = selectedUnit.chest.concreteItem.Sprite;
         }
         if (selectedUnit.boots != null)
         {
-            Debug.Log("Assigning boots");
             bootsItemSprite.GetComponent<Image>().sprite = selectedUnit.boots.concreteItem.Sprite;
         }
         if (selectedUnit.weapon != null)
         {
-            Debug.Log("Assigning weapon");
             weaponItemSprite.GetComponent<Image>().sprite = selectedUnit.weapon.concreteItem.Sprite;
         }
     }
