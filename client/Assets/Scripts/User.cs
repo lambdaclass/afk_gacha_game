@@ -33,8 +33,9 @@ public class User
 
     private DateTime lastAfkRewardClaim = DateTime.Now;
     private DateTime lastAfkRewardAccum = DateTime.Now;
-    
+
     private Dictionary<Currency, int> accumulatedCurrencyReward = new Dictionary<Currency, int>();
+
     public int accumulatedExperienceReward = 0;
 
     public Dictionary<Currency, int> afkMaxCurrencyReward = new Dictionary<Currency, int>();
@@ -61,6 +62,14 @@ public class User
 
     public int? GetCurrency(Currency name) {
         return currencies.ContainsKey(name) ? currencies[name] : null;
+    }
+
+    public int GetCurrencyAfkReward(Currency name) {
+        return accumulatedCurrencyReward.ContainsKey(name) ? accumulatedCurrencyReward[name] : 0;
+    }
+
+    public int GetMaxCurrencyReward(Currency name) {
+        return afkMaxCurrencyReward.ContainsKey(name) ? afkMaxCurrencyReward[name] : 0;
     }
 
     public void AddIndividualCurrency(Currency name, int amount) {

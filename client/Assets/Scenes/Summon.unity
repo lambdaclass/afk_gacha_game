@@ -717,6 +717,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 462
       objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 222745349}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Accept
+      objectReference: {fileID: 0}
+    - target: {fileID: 1880474394014530342, guid: 244c880a1df0a444aa6ab5b9b87767dd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GachaAcceptBehaviour, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1880474394523230721, guid: 244c880a1df0a444aa6ab5b9b87767dd,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -862,23 +877,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1880474394802326503, guid: 244c880a1df0a444aa6ab5b9b87767dd,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: itemName
       value: 
       objectReference: {fileID: 222745348}
-    - target: {fileID: 1880474394802326503, guid: 244c880a1df0a444aa6ab5b9b87767dd,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: gachaManager
       value: 
       objectReference: {fileID: 2068635825}
-    - target: {fileID: 1880474394802326503, guid: 244c880a1df0a444aa6ab5b9b87767dd,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: boxes.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1880474394802326503, guid: 244c880a1df0a444aa6ab5b9b87767dd,
-        type: 3}
+    - target: {fileID: 0}
       propertyPath: boxes.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 2f1b4624bc88d46b1b13a346e56c669d,
@@ -960,6 +971,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &222745349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 222745347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52603900b7916461bb6f7f5dec33d376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: {fileID: 222745348}
+  gachaManager: {fileID: 2068635825}
 --- !u!1 &248698612
 GameObject:
   m_ObjectHideFlags: 0

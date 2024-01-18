@@ -11,7 +11,7 @@ public class BoxListItem : MonoBehaviour
         GlobalUserData globalUserData = GlobalUserData.Instance;
 
         if (CanUserBuyItem(globalUserData.User, box.GetCost())) {
-            confirmPopUp.GetComponent<AcceptBehaviour>().SetBox(box);
+            confirmPopUp.GetComponent<GachaAcceptBehaviour>().SetBox(box);
             confirmPopUp.SetActive(true);
         }
     }
