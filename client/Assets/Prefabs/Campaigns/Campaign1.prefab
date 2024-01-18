@@ -7,6 +7,121 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: afkExperienceRate
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: afkExperienceRewardRates
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.data[1].name
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.data[0].value
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.data[1].value
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[0].value
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: afkExperienceRate
+      value: 432000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: afkExperienceRewardRates
+      value: 432000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.data[1].name
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.data[0].value
+      value: 432000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAFKRewardRates.Array.data[1].value
+      value: 432000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[0].name
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[0].value
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: afkExperienceRate
+      value: 432000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[0].name
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[1].name
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[0].value
+      value: 43200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: individualAfkCurrencyRates.Array.data[1].value
+      value: 43200
+      objectReference: {fileID: 0}
     - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
         type: 3}
       propertyPath: individualRewards.Array.data[1].name

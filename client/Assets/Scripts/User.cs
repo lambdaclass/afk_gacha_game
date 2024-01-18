@@ -31,6 +31,14 @@ public class User
     public UnityEvent OnCurrencyModified = new UnityEvent();
     public UnityEvent OnLevelModified = new UnityEvent();
 
+    private DateTime lastAfkRewardClaim = DateTime.Now;
+    private DateTime lastAfkRewardAccum = DateTime.Now;
+    
+    private Dictionary<Currency, int> accumulatedCurrencyReward = new Dictionary<Currency, int>();
+    public int accumulatedExperienceReward = 0;
+
+    public Dictionary<Currency, int> afkMaxCurrencyReward = new Dictionary<Currency, int>();
+    public int afkMaxExperienceReward = 0;
 
     public string NextId() {
         string next_id = next_unit_id.ToString();
@@ -193,5 +201,59 @@ public class User
             default:
                 return new List<Rank>();
         }
+    }
+
+    public void AccumulateAFKRewards(){
+        DateTime now = DateTime.Now;
+
+        // To cap at 12 hours
+        DateTime lastClaim = lastAfkRewardClaim;
+        TimeSpan maxTimeSpan = new TimeSpan(12, 0, 0);
+        // To calculate this interval's rewards
+        DateTime lastAccum = lastAfkRewardAccum;
+
+        // This way we cap the rewards to our maximums
+        TimeSpan maxTimeSpanAccumulable = now - lastClaim;
+        // Get the minimum between the two
+        if (maxTimeSpanAccumulable.CompareTo(maxTimeSpan) == 1) { maxTimeSpanAccumulable = maxTimeSpan; }
+
+        // How much time happened since we last accumulated
+        TimeSpan timeSinceLastAccum = now - lastAccum;
+
+        // Get the minimum between the two
+        if (timeSinceLastAccum.CompareTo(maxTimeSpanAccumulable) == 1) { timeSinceLastAccum = maxTimeSpanAccumulable; }
+
+        // Number between 0 and 1, we multiply this to the maximum rewards possible to calculate the corresponding amount
+        double multiplier = Math.Min(timeSinceLastAccum.Divide(new TimeSpan(12, 0, 0)), (1));
+
+        // Calculate rewards
+        int xpToAccum = (int)Math.Round(afkMaxExperienceReward * multiplier);
+        Dictionary<Currency, int> currencyToAccum = new Dictionary<Currency, int>();
+        foreach (var currReward in afkMaxCurrencyReward) {
+            currencyToAccum.Add(currReward.Key, (int)Math.Round(currReward.Value * multiplier));
+        }
+
+        // Update rewards
+        accumulatedExperienceReward += xpToAccum;
+        foreach (var currReward in currencyToAccum) {
+            Currency name = currReward.Key;
+            int value = currReward.Value;
+
+            if (accumulatedCurrencyReward.ContainsKey(name)) {
+                accumulatedCurrencyReward[name] = accumulatedCurrencyReward[name] + value;
+            } else {
+                accumulatedCurrencyReward.Add(name, value);
+            }
+        }
+
+        lastAfkRewardAccum = now;
+    }
+
+    public void ClaimAFKRewards() {
+        AccumulateAFKRewards();
+        AddCurrency(accumulatedCurrencyReward);
+        AddExperience(accumulatedExperienceReward);
+        accumulatedCurrencyReward = new Dictionary<Currency, int>();
+        accumulatedExperienceReward = 0;
     }
 }
