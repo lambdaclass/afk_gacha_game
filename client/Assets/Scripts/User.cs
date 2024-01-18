@@ -77,7 +77,7 @@ public class User
             currencies[name] = currencies[name] + amount;
         } else {
             // User doesn't have this currency.
-            if (amount < 0) { throw new InvalidOperationException("AddIndividualCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with BoxListItem.CanUserBuyItem."); }
+            if (amount < 0) { throw new InvalidOperationException("AddIndividualCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
             
             // Create it for him with the given amount.
             currencies.Add(name, amount);
@@ -264,5 +264,21 @@ public class User
         AddExperience(accumulatedExperienceReward);
         accumulatedCurrencyReward = new Dictionary<Currency, int>();
         accumulatedExperienceReward = 0;
+    }
+
+    public bool CanAfford(Dictionary<Currency, int> itemCosts) {
+        // Check if the player has enough of each currency
+        foreach (var cost in itemCosts) {
+            Currency currency = cost.Key;
+            int costAmount = cost.Value;
+
+            int? money = GetCurrency(currency);
+
+            if (money == null) { return false; }
+            if (money < costAmount) { return false; }
+        }
+
+        // Player has enough of all currencies
+        return true;
     }
 }
