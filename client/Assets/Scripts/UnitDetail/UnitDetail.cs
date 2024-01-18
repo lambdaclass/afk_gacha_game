@@ -116,52 +116,49 @@ public class UnitDetail : MonoBehaviour
 
     private void UpdateRank()
     {
-        // Star1, Star2, Star3, Star4 and Star5 ranks use the resource found in Resources/UI/Ranks/Star, and are instantiated as many as the number of their rank indicates.
-        // Illumination1, Illumination2 and Illumination3 idem but with the resource found in Resources/UI/Ranks/Illumination.
-        // Awakened uses the resource found in Resources/UI/Ranks/Awakened, always instantiated once.
-        GameObject prefab;
+        GameObject rankPrefab;
         int rankNumber;
 
         switch (selectedUnit.rank)
         {
             case Rank.Star1:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 1;
                 break;
             case Rank.Star2:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 2;
                 break;
             case Rank.Star3:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 3;
                 break;
             case Rank.Star4:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 4;
                 break;
             case Rank.Star5:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 5;
                 break;
             case Rank.Ilumination1:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
                 rankNumber = 1;
                 break;
             case Rank.Ilumination2:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
                 rankNumber = 2;
                 break;
             case Rank.Ilumination3:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
                 rankNumber = 3;
                 break;
             case Rank.Awakened:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Awakened");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Awakened");
                 rankNumber = 1;
                 break;
             default:
-                prefab = Resources.Load<GameObject>("UI/Ranks/Star");
+                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 1;
                 break;
         }
@@ -169,9 +166,9 @@ public class UnitDetail : MonoBehaviour
         Transform rankContainer = rankStatUI.transform.Find("Value");
         for (int i = 0; i < rankNumber; i++)
         {
-            GameObject rank = Instantiate(prefab, rankContainer);
-            // The instantiated prefab should be placed equidistantly from each other inside the rankContainer, without exceeding the rankContainer's width. They may overlap if they exceed the rankContainer's width.
-            // Also, it should be placed in the middle of the rankContainer's height.
+            GameObject rank = Instantiate(rankPrefab, rankContainer);
+            // The instantiated rankPrefabs are placed equidistantly from each other inside the rankContainer, without exceeding the rankContainer's width.
+            // Also, they should be placed in the middle of the rankContainer's height.
             rank.transform.localPosition = new Vector3(
                 (i - (rankNumber - 1) / 2f) * rankContainer.GetComponent<RectTransform>().rect.width / rankNumber,                 
                 -rankStatUI.transform.localPosition.y/2f, 

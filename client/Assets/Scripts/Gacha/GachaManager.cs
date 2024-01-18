@@ -16,7 +16,6 @@ public class GachaManager : MonoBehaviour
     [SerializeField]
     List<ConcreteItem> concreteItems;
 
-
     private Unit currentUnit;
     public void RollCharacter(Box box)
     {

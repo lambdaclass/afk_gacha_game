@@ -6,6 +6,5 @@ public class ConcreteItem : ScriptableObject
     public string Name;
     public EquipType Type;
     public Sprite Sprite;
-
 }
 
