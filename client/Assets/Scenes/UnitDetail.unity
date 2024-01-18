@@ -2610,6 +2610,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: RankStatUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7030375158796419499, guid: fbce5ba1d58b043b0bbd4c23d2ce3094,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7030375158796419501, guid: fbce5ba1d58b043b0bbd4c23d2ce3094,
         type: 3}
       propertyPath: m_text

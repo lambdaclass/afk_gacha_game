@@ -108,10 +108,8 @@ public class UnitDetail : MonoBehaviour
 
     private void UpdateStats()
     {
-        //unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.rank.ToString()}";
         tierStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Tier\n" + selectedUnit.tier.ToString();
         levelStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Level\n" + selectedUnit.level.ToString();
-        //rankStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Rank\n" + selectedUnit.rank.ToString();
         UpdateRank();    
 
     }
@@ -168,10 +166,16 @@ public class UnitDetail : MonoBehaviour
                 break;
         }
 
+        Transform rankContainer = rankStatUI.transform.Find("Value");
         for (int i = 0; i < rankNumber; i++)
         {
-            GameObject rank = Instantiate(prefab, rankStatUI.transform);
-            rank.transform.localPosition = new Vector3(15f * i, 0, 0);
+            GameObject rank = Instantiate(prefab, rankContainer);
+            // The instantiated prefab should be placed equidistantly from each other inside the rankContainer, without exceeding the rankContainer's width. They may overlap if they exceed the rankContainer's width.
+            // Also, it should be placed in the middle of the rankContainer's height.
+            rank.transform.localPosition = new Vector3(
+                (i - (rankNumber - 1) / 2f) * rankContainer.GetComponent<RectTransform>().rect.width / rankNumber,                 
+                -rankStatUI.transform.localPosition.y/2f, 
+                0);
         }
 
     }
