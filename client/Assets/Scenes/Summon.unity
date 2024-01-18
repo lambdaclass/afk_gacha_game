@@ -4460,6 +4460,8 @@ MonoBehaviour:
   modelContainer: {fileID: 92195186}
   characterNameContainer: {fileID: 568271030}
   characterContainerButton: {fileID: 1461291212}
+  concreteItems:
+  - {fileID: 11400000, guid: db913f9d3c6464de593650833f802d7b, type: 2}
 --- !u!4 &2068635826
 Transform:
   m_ObjectHideFlags: 0

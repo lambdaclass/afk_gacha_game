@@ -36,16 +36,16 @@ public class UnitDetail : MonoBehaviour
     GameObject rankStatUI;
 
     [SerializeField]
-    GameObject headItem;
+    GameObject headItemSprite;
 
     [SerializeField]
-    GameObject chestItem;
+    GameObject chestItemSprite;
 
     [SerializeField]
-    GameObject bootsItem;
+    GameObject bootsItemSprite;
 
     [SerializeField]
-    GameObject weaponItem;
+    GameObject weaponItemSprite;
 
     private Dictionary<Currency, int> cost;
 
@@ -232,22 +232,22 @@ public class UnitDetail : MonoBehaviour
         if (selectedUnit.head != null)
         {
             Debug.Log("Assigning head");
-            headItem.GetComponent<Image>().sprite = selectedUnit.head.sprite;
+            headItemSprite.GetComponent<Image>().sprite = selectedUnit.head.concreteItem.Sprite;
         }
         if (selectedUnit.chest != null)
         {
             Debug.Log("Assigning chest");
-            chestItem.GetComponent<Image>().sprite = selectedUnit.chest.sprite;
+            chestItemSprite.GetComponent<Image>().sprite = selectedUnit.chest.concreteItem.Sprite;
         }
         if (selectedUnit.boots != null)
         {
             Debug.Log("Assigning boots");
-            bootsItem.GetComponent<Image>().sprite = selectedUnit.boots.sprite;
+            bootsItemSprite.GetComponent<Image>().sprite = selectedUnit.boots.concreteItem.Sprite;
         }
         if (selectedUnit.weapon != null)
         {
             Debug.Log("Assigning weapon");
-            weaponItem.GetComponent<Image>().sprite = selectedUnit.weapon.sprite;
+            weaponItemSprite.GetComponent<Image>().sprite = selectedUnit.weapon.concreteItem.Sprite;
         }
     }
 }

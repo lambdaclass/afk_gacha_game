@@ -13,6 +13,10 @@ public class GachaManager : MonoBehaviour
     [SerializeField]
     GameObject characterContainerButton;
 
+    [SerializeField]
+    List<ConcreteItem> concreteItems;
+
+
     private Unit currentUnit;
     public void RollCharacter(Box box)
     {
@@ -36,7 +40,9 @@ public class GachaManager : MonoBehaviour
                 new List<Effect>(){
                     new Effect{attribute = Attribute.Level, modifier = new AdditiveModifier{value = 100}}
                 },
-                EquipType.Weapon);
+                EquipType.Weapon,
+                concreteItems.Find(item => item.name == "Sword")
+            );
 
             user.AddItem(sword);
         }

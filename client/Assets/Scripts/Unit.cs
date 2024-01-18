@@ -37,13 +37,17 @@ public class Unit
     }
 
     public void EquipItem(Item item) {
-        if (item.equippedTo != null) { item.equippedTo.UnequipItem(item.type); }
-        
-        switch (item.type) {
+        if (item.equippedTo != null) { item.equippedTo.UnequipItem(item.concreteItem.Type); }
+        Debug.Log(item);
+        Debug.Log(item.concreteItem);
+        Debug.Log(item.concreteItem.Type);
+        switch (item.concreteItem.Type) {
             case EquipType.Head:
+                Debug.Log("Equipping weapon");
                 head = item;
                 break;
             case EquipType.Chest:
+                Debug.Log("Equipping weapon");
                 chest = item;
                 break;
             case EquipType.Weapon:
@@ -51,9 +55,11 @@ public class Unit
                 weapon = item;
                 break;
             case EquipType.Boots:
+                Debug.Log("Equipping weapon");
                 boots = item;
                 break;
             default:
+                Debug.Log("No matches");  
                 break;
         }
 
