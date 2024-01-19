@@ -7,8 +7,8 @@
   - [About](#about)
   - [Licensing](#licensing)
   - [Requirements](#requirements)
-  - [Suggested Development Environment](#suggested-development-environment)
     - [Unity Setup](#unity-setup)
+  - [Suggested Development Environment](#suggested-development-environment)
   - [Useful Commands](#useful-commands)
   - [Contact and Socials](#contact-and-socials)
 
@@ -51,6 +51,7 @@ Ensure you have the following dependencies installed:
     - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
     - [Basic RPG Icons](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
     - [Resource Vector Graphics](https://assetstore.unity.com/packages/2d/gui/icons/resource-icons-101998)
+    - [Gold Mining Game](https://assetstore.unity.com/packages/2d/gui/gold-mining-game-2d-mine-ui-tilset-263856)
     - Import the necessary TextMeshPro assets by going to:
       - "Window -> TextMeshPro -> Import TMP Essential Resources" and
       - "Window -> TextMeshPro -> Import TMP Examples and Extras"
