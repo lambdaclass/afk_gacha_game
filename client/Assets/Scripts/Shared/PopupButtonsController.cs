@@ -4,7 +4,6 @@ using UnityEngine;
 public class PopupButtonsController : MonoBehaviour
 {
     public AudioSource audioSource;
-    public GameObject popup;
 
     public void OnPopupButtonClick()
     {
@@ -15,6 +14,6 @@ public class PopupButtonsController : MonoBehaviour
     {
         audioSource.Play();
         yield return new WaitForSecondsRealtime(audioSource.clip.length);
-        popup.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

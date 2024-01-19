@@ -37,6 +37,9 @@ public class BattleManager : MonoBehaviour
         if(won) {
             user.AddCurrency(levelData.Rewards);
             user.AddExperience(levelData.Experience);
+            user.AccumulateAFKRewards();
+            user.afkMaxCurrencyReward = levelData.AfkCurrencyRate;
+            user.afkMaxExperienceReward = levelData.AfkExperienceRate;
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.SetActive(true);

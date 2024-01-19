@@ -242,7 +242,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1880474394802326503}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AcceptBehaviour, Assembly-CSharp
         m_MethodName: Accept
         m_Mode: 1
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.26666668, b: 0, a: 1}
+  m_Color: {r: 0.11764706, g: 0.7607843, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1124,7 +1124,6 @@ GameObject:
   - component: {fileID: 1880474394802326500}
   - component: {fileID: 1880474394802326502}
   - component: {fileID: 1880474394802326501}
-  - component: {fileID: 1880474394802326503}
   - component: {fileID: 442801478813376352}
   - component: {fileID: 3115046462034672257}
   m_Layer: 0
@@ -1195,20 +1194,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1880474394802326503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1880474394802326507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52603900b7916461bb6f7f5dec33d376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemName: {fileID: 1880474395725405431}
-  gachaManager: {fileID: 0}
 --- !u!82 &442801478813376352
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1672,7 +1657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.26666668, b: 0, a: 1}
+  m_Color: {r: 0.11764706, g: 0.7607843, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

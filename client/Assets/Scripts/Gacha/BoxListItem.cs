@@ -9,7 +9,7 @@ public class BoxListItem : MonoBehaviour
     public void SelectBox()
     {
         if (GlobalUserData.Instance.User.CanAfford(box.GetCost())) {
-            confirmPopUp.GetComponent<AcceptBehaviour>().SetBox(box);
+            confirmPopUp.GetComponent<GachaAcceptBehaviour>().SetBox(box);
             confirmPopUp.SetActive(true);
         }
     }

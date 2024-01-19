@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class AcceptBehaviour : MonoBehaviour
+public class GachaAcceptBehaviour : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI itemName;
