@@ -23,7 +23,7 @@ public class UnitPosition : MonoBehaviour
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
-        unitName.text = $"{unit.character.name} LVL: {unit.level}";
+        unitName.text = $"Lvl: {unit.level}";
         isOccupied = true;
         unitName.gameObject.SetActive(true);
         removeSign.SetActive(isPlayer);
