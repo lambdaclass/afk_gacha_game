@@ -43,10 +43,21 @@ public class Level : MonoBehaviour
     [SerializeField]
     string campaignToUnlock;
 
+    // AFK Rewards rate granted
+    // These are how many a player makes in the maximum timespan available (12h now)
+    [SerializeField] public CurrencyValue[] individualAfkCurrencyRates;
+    private Dictionary<Currency, int> afkCurrencyRate = new Dictionary<Currency, int>();
+
+    [SerializeField] private int afkExperienceRate;
+
     private void Awake() {
-        // Set up the rewards dictionary
+        // Set up the currency dictionaries
         foreach (CurrencyValue individualReward in individualRewards) {
             rewards.Add(individualReward.name, individualReward.value);
+        }
+
+        foreach (CurrencyValue individualAfkCurrencyRate in individualAfkCurrencyRates) {
+            afkCurrencyRate.Add(individualAfkCurrencyRate.name, individualAfkCurrencyRate.value);
         }
     }
     private void Start(){
@@ -93,6 +104,8 @@ public class Level : MonoBehaviour
 
         levelData.Rewards = rewards;
         levelData.Experience = experienceReward;
+        levelData.AfkCurrencyRate = afkCurrencyRate;
+        levelData.AfkExperienceRate = afkExperienceRate;
     }
 
     private void SetLevelToComplete() {

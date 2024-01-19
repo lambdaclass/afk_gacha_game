@@ -21,6 +21,11 @@ public class LevelData : MonoBehaviour
 
     private int experience;
 
+    // AFK Rewards
+    private Dictionary<Currency, int> afkCurrencyRate = new Dictionary<Currency, int>();
+
+    private int afkExperienceRate;
+
     // Public property to access the opponent
     public User User
     {
@@ -48,6 +53,17 @@ public class LevelData : MonoBehaviour
     {
         get { return experience; }
         set { experience = value; }
+    }
+
+    public Dictionary<Currency, int> AfkCurrencyRate {
+        get { return afkCurrencyRate; }
+        set { afkCurrencyRate = value; }
+    }
+
+    public int AfkExperienceRate
+    {
+        get { return afkExperienceRate; }
+        set { afkExperienceRate = value; }
     }
 
     // Method to destroy the instance after battle has been ran
