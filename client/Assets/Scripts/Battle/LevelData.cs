@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class LevelData : MonoBehaviour
 {
     [SerializeField]
@@ -43,6 +42,16 @@ public class LevelData : MonoBehaviour
     public int AfkExperienceRate
     {
         get { return level.afkExperienceRate; }
+    }
+
+    public string CampaignToComplete
+    {
+        get { return level.campaignToComplete; }
+    }
+
+    public string CampaignToUnlock
+    {
+        get { return level.campaignToUnlock; }
     }
 
     // Method to destroy the instance after battle has been ran

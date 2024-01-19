@@ -32,10 +32,10 @@ public class Level : MonoBehaviour
     [SerializeField] bool first;
 
     // Mark this campaign as completed if this level is beaten
-    [SerializeField] string campaignToComplete;
+    [SerializeField] public string campaignToComplete;
 
     // Unlock this campaign if this level is beaten
-    [SerializeField] string campaignToUnlock;
+    [SerializeField] public string campaignToUnlock;
 
     // AFK Rewards rate granted
     // These are how many a player makes in the maximum timespan available (12h now)

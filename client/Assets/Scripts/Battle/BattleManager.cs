@@ -45,6 +45,23 @@ public class BattleManager : MonoBehaviour
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
+
+            GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
+            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
+
+            if (levelData.CampaignToComplete == "") {
+                nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
+                victoryText.GetComponent<Text>().text = "Victory!";
+            } else {
+                // We assume this level's campaign is the one that was completed
+                victoryText.GetComponent<Text>().text = "Campaign beaten!";
+                if (levelData.CampaignToUnlock == "") {
+                    // No "next campaign". Just go back to CampaignsMap.
+                    nextButton.SetActive(false);
+                } else {
+                    nextButton.GetComponentInChildren<Text>().text = "NEXT CAMPAIGN";
+                }
+            }
         } else {
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
@@ -96,5 +113,23 @@ public class BattleManager : MonoBehaviour
         }
 
         return rewards;
+    }
+
+    public void Next() {
+        LevelData levelData = LevelData.Instance;
+
+        if (levelData.CampaignToComplete == null) {
+            // nextButton.GetComponentInChildren<Text>.text = "Next Stage";
+            // victoryText.text = "Victory!";
+        } else {
+            // // We assume this level's campaign is the one that was completed
+            // victoryText.text = "Campaign beaten!";
+            if (levelData.CampaignToUnlock == null) {
+                // // No "next campaign". Just go back to CampaignsMap.
+                // nextButton.SetActive(false);
+            } else {
+                // nextButton.GetComponentInChildren<Text>.text = "Next Campaign";
+            }
+        }
     }
 }
