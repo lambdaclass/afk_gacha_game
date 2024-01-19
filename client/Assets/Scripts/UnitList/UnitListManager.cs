@@ -13,8 +13,6 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     void Start() {
         this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
         unitsContainer.OnUnitSelected.AddListener(SelectUnit);
-        Debug.Log("User items: " + GlobalUserData.Instance.User.items.Count);
-        Debug.Log("Last unit weapon: " + GlobalUserData.Instance.Units[GlobalUserData.Instance.Units.Count - 1].weapon);
     }
 
     void SelectUnit(Unit unit) {
