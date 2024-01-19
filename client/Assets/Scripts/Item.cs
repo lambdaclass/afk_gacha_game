@@ -1,25 +1,17 @@
-using System;
 using System.Collections.Generic;
 
 public class Item
 {
     public static int nextId = 0;
-
-    public string name;
-
     public string id { get; }
-
-    public EquipType type;
-
+    public ConcreteItem concreteItem { get; set; }
     public List<Effect> effects = new List<Effect>();
-
     public Unit equippedTo;
 
-    public Item(string _name, List<Effect> _effects, EquipType _type) {
+    public Item(string _name, List<Effect> _effects, EquipType _type, ConcreteItem _concreteItem) {
         id = NextId();
-        name = _name;
         effects = _effects;
-        type = _type;
+        concreteItem = _concreteItem;
     }
 
     public static string NextId() { return nextId++.ToString(); }
@@ -29,7 +21,8 @@ public enum EquipType {
     Head,
     Chest,
     Weapon,
-    Boots
+    Boots,
+    Accessory
 }
 
 

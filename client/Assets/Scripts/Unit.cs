@@ -37,9 +37,9 @@ public class Unit
     }
 
     public void EquipItem(Item item) {
-        if (item.equippedTo != null) { item.equippedTo.UnequipItem(item.type); }
+        if (item.equippedTo != null) { item.equippedTo.UnequipItem(item.concreteItem.Type); }
         
-        switch (item.type) {
+        switch (item.concreteItem.Type) {
             case EquipType.Head:
                 head = item;
                 break;
