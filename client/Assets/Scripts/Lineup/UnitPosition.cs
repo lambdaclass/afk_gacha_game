@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UnitPosition : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text unitName;
+    GameObject unitName;
     
     [SerializeField]
     GameObject removeSign;
@@ -23,7 +23,7 @@ public class UnitPosition : MonoBehaviour
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
-        unitName.text = $"Lvl: {unit.level}";
+        unitName.GetComponentInChildren<TMP_Text>().text = $"Lvl: {unit.level}";
         isOccupied = true;
         unitName.gameObject.SetActive(true);
         removeSign.SetActive(isPlayer);
@@ -32,7 +32,7 @@ public class UnitPosition : MonoBehaviour
     }
 
     public void UnselectUnit() {
-        unitName.text = String.Empty;
+        unitName.GetComponentInChildren<TMP_Text>().text = String.Empty;
         isOccupied = false;
         unitName.gameObject.SetActive(false);
         removeSign.SetActive(false);
