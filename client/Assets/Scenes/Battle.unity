@@ -2732,7 +2732,7 @@ PrefabInstance:
     - target: {fileID: 114902987647824782, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
       propertyPath: m_Text
-      value: NEXT STAGE
+      value: Try Again
       objectReference: {fileID: 0}
     - target: {fileID: 224617439908966828, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
