@@ -12,6 +12,7 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
         {
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
             unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
+            unitUIItem.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"Lvl: {unit.level}";
             Button unitItemButton = unitUIItem.GetComponent<Button>();
             unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton.gameObject));
             if (unitPopulator != null)
