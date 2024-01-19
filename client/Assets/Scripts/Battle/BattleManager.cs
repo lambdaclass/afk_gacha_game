@@ -39,6 +39,7 @@ public class BattleManager : MonoBehaviour
             user.AddExperience(levelData.Experience);
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
+            victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
         } else {
@@ -78,5 +79,19 @@ public class BattleManager : MonoBehaviour
             unitPosition = unitPositions[unit.slot.Value];
             unitPosition.SetUnit(unit, isPlayer);    
         }
+    }
+
+    private List<UIReward> CreateRewardsList() {
+        LevelData levelData = LevelData.Instance;
+
+        List<UIReward> rewards = new List<UIReward>();
+
+        if (levelData.Experience != 0) { rewards.Add(new ExperienceUIReward(levelData.Experience)); }
+
+        foreach (var currencyReward in levelData.Rewards) {
+            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+        }
+
+        return rewards;
     }
 }
