@@ -13,7 +13,7 @@ public class Campaign : MonoBehaviour
     [SerializeField]
     bool first;
 
-    [SerializeField] GameObject campaingToShowPrefab;
+    [SerializeField] GameObject campaignToShowPrefab;
 
     private void Start(){
         if(first) { CampaignProgressData.Instance.SetUnlocked(name); }
@@ -34,7 +34,7 @@ public class Campaign : MonoBehaviour
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
     public void Select(LevelManager levelManager){
         if (CampaignProgressData.Instance.CampaignStatus(name) == CampaignProgressData.Status.Unlocked) {
-            CampaignManager.campaingReference = campaingToShowPrefab;
+            CampaignManager.campaignReference = campaignToShowPrefab;
             levelManager.ChangeToSceneWithDelay("Campaign");
         }
     }

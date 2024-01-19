@@ -54,6 +54,11 @@ public class LevelData : MonoBehaviour
         get { return level.campaignToUnlock; }
     }
 
+    public string NextLevelName
+    {
+        get { return level.nextLevelName; }
+    }
+
     // Method to destroy the instance after battle has been ran
     public void Destroy()
     {

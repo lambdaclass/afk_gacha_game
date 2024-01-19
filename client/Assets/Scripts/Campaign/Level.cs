@@ -23,6 +23,7 @@ public class Level : MonoBehaviour
     // Unlock this level if current level is beaten.
     // Level instead of string (like campaigns) to make it easier to set up in UI.
     [SerializeField] public Level nextLevel;
+    public string nextLevelName = null;
 
     [SerializeField] GameObject lockObject;
 
@@ -58,6 +59,8 @@ public class Level : MonoBehaviour
         for(int i = 0; i < characters.Count; i++) {
             units.Add(new Unit { id = "op-" + i.ToString(), level = levels[i], character = characters[i], slot = i, selected = true });
         }
+
+        if(nextLevel != null) { nextLevelName = nextLevel.name; }
     }
 
     private void Start(){
