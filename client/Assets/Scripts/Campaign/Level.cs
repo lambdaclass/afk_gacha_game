@@ -6,49 +6,44 @@ using UnityEngine.UI;
 public class Level : MonoBehaviour
 {
     // The characters of the units the level has, in order.
-    [SerializeField]
-    List<Character> characters;
+    [SerializeField] List<Character> characters;
     
     // The levels of the units the level has, in order.
-    [SerializeField]
-    List<int> levels;
+    [SerializeField] List<int> levels;
+
+    public List<Unit> units = new List<Unit>();
 
     // Currency rewards
     [SerializeField] public CurrencyValue[] individualRewards;
-    private Dictionary<Currency, int> rewards = new Dictionary<Currency, int>();
+    public Dictionary<Currency, int> rewards = new Dictionary<Currency, int>();
 
-    [SerializeField] private int experienceReward;
+    [SerializeField] public int experienceReward;
 
 
     // Unlock this level if current level is beaten.
     // Level instead of string (like campaigns) to make it easier to set up in UI.
-    [SerializeField]
-    Level nextLevel;
+    [SerializeField] public Level nextLevel;
+    public string nextLevelName = null;
 
-    [SerializeField]
-    GameObject lockObject;
+    [SerializeField] GameObject lockObject;
 
-    [SerializeField]
-    GameObject completedCrossObject;
+    [SerializeField] GameObject completedCrossObject;
 
     // Wether this level is the first one of the campaign (unlocked automatically)
-    [SerializeField]
-    bool first;
+    [SerializeField] bool first;
 
     // Mark this campaign as completed if this level is beaten
-    [SerializeField]
-    string campaignToComplete;
+    [SerializeField] public string campaignToComplete;
 
     // Unlock this campaign if this level is beaten
-    [SerializeField]
-    string campaignToUnlock;
+    [SerializeField] public string campaignToUnlock;
 
     // AFK Rewards rate granted
     // These are how many a player makes in the maximum timespan available (12h now)
     [SerializeField] public CurrencyValue[] individualAfkCurrencyRates;
-    private Dictionary<Currency, int> afkCurrencyRate = new Dictionary<Currency, int>();
+    public Dictionary<Currency, int> afkCurrencyRate = new Dictionary<Currency, int>();
 
-    [SerializeField] private int afkExperienceRate;
+    [SerializeField] public int afkExperienceRate;
 
     private void Awake() {
         // Set up the currency dictionaries
@@ -59,7 +54,15 @@ public class Level : MonoBehaviour
         foreach (CurrencyValue individualAfkCurrencyRate in individualAfkCurrencyRates) {
             afkCurrencyRate.Add(individualAfkCurrencyRate.name, individualAfkCurrencyRate.value);
         }
+
+        // Build Units list
+        for(int i = 0; i < characters.Count; i++) {
+            units.Add(new Unit { id = "op-" + i.ToString(), level = levels[i], character = characters[i], slot = i, selected = true });
+        }
+
+        if(nextLevel != null) { nextLevelName = nextLevel.name; }
     }
+
     private void Start(){
         if(first) { LevelProgressData.Instance.SetUnlocked(name); }
 
@@ -95,17 +98,7 @@ public class Level : MonoBehaviour
     }
 
     private void SetLevel() {
-        LevelData levelData = LevelData.Instance;
-        List<Unit> units = new List<Unit>();
-        for(int i = 0; i < characters.Count; i++) {
-            units.Add(new Unit { id = "op-" + i.ToString(), level = levels[i], character = characters[i], slot = i, selected = true });
-        }
-        levelData.Units = units;
-
-        levelData.Rewards = rewards;
-        levelData.Experience = experienceReward;
-        levelData.AfkCurrencyRate = afkCurrencyRate;
-        levelData.AfkExperienceRate = afkExperienceRate;
+        LevelData.Instance.Level = this;
     }
 
     private void SetLevelToComplete() {

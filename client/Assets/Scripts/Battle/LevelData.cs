@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class LevelData : MonoBehaviour
 {
     [SerializeField]
@@ -10,60 +9,54 @@ public class LevelData : MonoBehaviour
     // Singleton instance
     private static LevelData instance;
 
-    // User
-    private User user = new User {
-        username = "Opponent",
-        units = new List<Unit>()
-    };
+    private Level level;
 
-    // Rewards
-    private Dictionary<Currency, int> rewards = new Dictionary<Currency, int>();
-
-    private int experience;
-
-    // AFK Rewards
-    private Dictionary<Currency, int> afkCurrencyRate = new Dictionary<Currency, int>();
-
-    private int afkExperienceRate;
-
-    // Public property to access the opponent
-    public User User
+    public Level Level
     {
-        get { return user; }
-        set { user = value; }
+        get { return level; }
+        set { level = value; }
     }
-
 
     // Public property to access the opponent's units
     public List<Unit> Units
     {
-        get { return user.units; }
-        set { user.units = value; }
+        get { return level.units; }
     }
 
     // Public property to access the level's rewards
     public Dictionary<Currency, int> Rewards
     {
-        get { return rewards; }
-        set { rewards = value; }
+        get { return level.rewards; }
     }
 
     // Public property to access the level's experience reward
     public int Experience
     {
-        get { return experience; }
-        set { experience = value; }
+        get { return level.experienceReward; }
     }
 
     public Dictionary<Currency, int> AfkCurrencyRate {
-        get { return afkCurrencyRate; }
-        set { afkCurrencyRate = value; }
+        get { return level.afkCurrencyRate; }
     }
 
     public int AfkExperienceRate
     {
-        get { return afkExperienceRate; }
-        set { afkExperienceRate = value; }
+        get { return level.afkExperienceRate; }
+    }
+
+    public string CampaignToComplete
+    {
+        get { return level.campaignToComplete; }
+    }
+
+    public string CampaignToUnlock
+    {
+        get { return level.campaignToUnlock; }
+    }
+
+    public string NextLevelName
+    {
+        get { return level.nextLevelName; }
     }
 
     // Method to destroy the instance after battle has been ran
