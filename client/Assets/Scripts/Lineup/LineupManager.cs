@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,8 +21,29 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     void Start()
     {
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-        List<Unit> units = globalUserData.Units;
+        // GlobalUserData globalUserData = GlobalUserData.Instance;
+
+
+        StartCoroutine(GetUser());
+
+        // List<Unit> units = globalUserData.Units;
+
+        // this.unitsContainer.Populate(units, this);
+        // SetUpSelectedUnits(units, true);
+
+        // unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
+        
+        // SetUpSelectedUnits(LevelData.Instance.Units, false);
+    }
+
+    private IEnumerator GetUser()
+    {
+        print("start get user");
+        SocketConnection.GetUser();
+        yield return new WaitUntil(() => GlobalUserData.Instance != null);
+        print("finish get user");
+
+        List<Unit> units = GlobalUserData.Instance.Units;
 
         this.unitsContainer.Populate(units, this);
         SetUpSelectedUnits(units, true);
