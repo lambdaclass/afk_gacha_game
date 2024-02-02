@@ -11,7 +11,7 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
         units.ForEach(unit =>
         {
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
-            unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
+            unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
             Button unitItemButton = unitUIItem.GetComponent<Button>();
             unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton.gameObject));
             if (unitPopulator != null)

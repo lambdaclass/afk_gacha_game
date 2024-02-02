@@ -11,7 +11,7 @@ public class FusionUnitsUIContainer : UnitsUIContainer
         units.ForEach(unit =>
         {
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
-            unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
+            unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
             Button unitItemButton = unitUIItem.GetComponent<Button>();
             unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitUIItem));
             if (unitPopulator != null)
@@ -26,13 +26,13 @@ public class FusionUnitsUIContainer : UnitsUIContainer
     public override void SelectUnit(Unit unit, GameObject unitUIItem)
     {
         Sprite unitUIItemSprite = unitUIItem.GetComponent<Image>().sprite;
-        if (unitUIItemSprite == unit.character.availableSprite)
+        if (unitUIItemSprite == unit.character.defaultSprite)
         {
             unitUIItemSprite = unit.character.selectedSprite;   
         }
         else
         {
-            unitUIItemSprite = unit.character.availableSprite;
+            unitUIItemSprite = unit.character.defaultSprite;
         }
         unitUIItem.GetComponent<Image>().sprite = unitUIItemSprite;
         OnUnitSelected.Invoke(unit);

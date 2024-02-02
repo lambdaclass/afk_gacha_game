@@ -23,7 +23,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
 
     public void Populate(Unit unit, GameObject unitUIItem)
     {
-        unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
+        unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
         Button unitItemButton = unitUIItem.GetComponent<Button>();
         unitItemButton.onClick.AddListener(() => {
             if (selectedUnits.Contains(unit))

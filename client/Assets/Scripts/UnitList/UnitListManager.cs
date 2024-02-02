@@ -21,6 +21,8 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     }
 
     public void Populate(Unit unit, GameObject unitUIItem) {
-        unitUIItem.GetComponent<Image>().sprite = unit.character.availableSprite;
+        unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
+        //unitUIItem.GetComponentInChildren<Image>().border = border(unit.rank.ToString());
+
     }
 }
