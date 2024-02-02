@@ -42,6 +42,28 @@ Find our open-source 3D models, concept art, music, lore, and more in our [Curse
 ## Requirements
 
 Ensure you have the following dependencies installed:
+- **Nix:**
+You can install the Nix package manager by running the following command in your terminal:
+```bash
+$ curl \
+  --proto '=https' \
+  --tlsv1.2 \
+  -sSf \
+  -L https://install.determinate.systems/nix \
+  | sh -s -- install
+```
+The installer will ask you for the sudo password, and then print the details about what steps it will perform to install Nix. You have to accept this to proceed with the installation.
+
+Make sure there weren't any errors during the installation and, if there are none, close the shell and start a new one.
+
+To test if Nix generally works, just run GNU hello or any other package:
+```bash
+$ nix run nixpkgs#hello
+Hello, world!
+```
+
+For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
+
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
