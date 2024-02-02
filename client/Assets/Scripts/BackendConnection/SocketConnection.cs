@@ -4,56 +4,130 @@ using NativeWebSocket;
 using Google.Protobuf;
 using Google.Protobuf.Collections;
 using System.IO;
+using UnityEngine;
 
-public static class SocketConnection {
-    static WebSocket ws;
-    
-    private static void ConnectToSession()
+public class SocketConnection : MonoBehaviour{
+    WebSocket ws;
+
+    public static SocketConnection Instance;
+
+    public bool connected = false;
+
+
+    void Start()
     {
-        string url = "localhost:4000/testSocketUrl";
+        Init();
+    }
+
+    public void Init()
+    {
+        if (Instance != null)
+        {
+            if (this.ws != null)
+            {
+                this.ws.Close();
+            }
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    void Update()
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        if (ws != null)
+        {
+            ws.DispatchMessageQueue();
+        }
+#endif
+        // StartCoroutine(IsGameCreated());
+        if(!connected)
+        {
+            connected = true;
+            ConnectToSession();
+        }
+    }
+
+    // private IEnumerator IsGameCreated()
+    // {
+    //     // yield return new WaitUntil(() => !String.IsNullOrEmpty(SessionParameters.GameId));
+
+    //     // this.sessionId = ServerConnection.Instance.GameSession;
+    //     // this.serverIp = ServerConnection.Instance.serverIp;
+    //     // this.serverTickRate_ms = ServerConnection.Instance.serverTickRate_ms;
+    //     // this.serverHash = ServerConnection.Instance.serverHash;
+    //     // this.clientId = ServerConnection.Instance.clientId;
+    //     // this.reconnect = ServerConnection.Instance.reconnect;
+
+    //     if (!connected)
+    //     {
+    //         connected = true;
+    //         ConnectToSession();
+    //     }
+    // }
+    
+    private void ConnectToSession()
+    {
+        // string url = $"ws://localhost:4000/2/{Guid.NewGuid().GetHashCode()}";
+        string url = $"ws://localhost:4001/2";
+        Debug.Log($"url: {url}");
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnClose += OnWebsocketClose;
-        // ws.OnOpen += () =>
-        // {
-        //     LobbySession = "sessionId";
-        // };
+        ws.OnOpen += () =>
+        {
+            Debug.Log("opened connection");
+        };
+        ws.OnError += (e) =>
+        {
+            Debug.LogError("Received error: " + e);
+        };
         ws.Connect();
     }
 
-    private static void OnWebSocketMessage(byte[] data)
+    private void OnWebSocketMessage(byte[] data)
     {
+        Debug.Log("Get message");
         try
         {
-            GameEvent gameEvent = GameEvent.Parser.ParseFrom(data);
+            WebSocketRequest webSocketRequest = WebSocketRequest.Parser.ParseFrom(data);
 
-            switch (gameEvent.EventCase)
+            print($"request type case {webSocketRequest.RequestTypeCase}");
+
+            switch (webSocketRequest.RequestTypeCase)
             {
-                case GameEvent.EventOneofCase.GetUser:
-                    
+                case WebSocketRequest.RequestTypeOneofCase.GetUser:
+                    Debug.Log($"userId: {webSocketRequest.GetUser.UserId}");
+                    break;
+                default:
+                    Debug.Log("Request case not handled");
                     break;
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine("InvalidProtocolBufferException: " + e);
+            Debug.LogError("InvalidProtocolBufferException: " + e);
         }
     }
 
-    private static void OnWebsocketClose(WebSocketCloseCode closeCode)
+    private void OnWebsocketClose(WebSocketCloseCode closeCode)
     {
         if (closeCode != WebSocketCloseCode.Normal)
         {
             // Errors.Instance.HandleNetworkError(connectionTitle, connectionDescription);
-            Console.WriteLine("Your connection to the server has been lost.");
+            Debug.LogError("Your connection to the server has been lost.");
         }
         else
         {
-            Console.WriteLine("ServerConnection websocket closed normally.");
+            Debug.Log("ServerConnection websocket closed normally.");
         }
     }
 
-    private static void SendGameAction<T>(IMessage<T> action)
+    private void SendGameAction<T>(IMessage<T> action)
         where T : IMessage<T>
     {
         using (var stream = new MemoryStream())
@@ -64,22 +138,27 @@ public static class SocketConnection {
         }
     }
 
-    public static void GetUser()
+    public void GetUser()
     {
-        int userId = 2;
-        GetUserAction getUserAction = new GetUserAction(userId);
-        SendGameAction(getUserAction);
+        Debug.Log("get user");
+        GetUser getUserAction = new GetUser{
+            UserId = "2123cce2-4a71-4b8d-a95e-d519e5935cc9"
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            GetUser = getUserAction
+        };
+        SendGameAction(request);
     }
 
-    public static void SelectUnit(int unitId, int slotId, int userId)
-    {
-        SelectUnitAction selectUnitAction = new SelectUnitAction(unitId, slotId, userId);
-        SendGameAction(selectUnitAction);
-    }
+    // public static void SelectUnit(int unitId, int slotId, int userId)
+    // {
+    //     SelectUnitAction selectUnitAction = new SelectUnitAction(unitId, slotId, userId);
+    //     SendGameAction(selectUnitAction);
+    // }
 
-    public static void DeselectUnit(int unitId, int userId)
-    {
-        DeselectUnitAction deselectUnitAction = new DeselectUnitAction(unitId, userId);
-        SendGameAction(deselectUnitAction);
-    }
+    // public static void DeselectUnit(int unitId, int userId)
+    // {
+    //     DeselectUnitAction deselectUnitAction = new DeselectUnitAction(unitId, userId);
+    //     SendGameAction(deselectUnitAction);
+    // }
 }

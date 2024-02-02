@@ -40,46 +40,46 @@ public class GlobalUserData : MonoBehaviour
     }
 
     // Initialize the user's units here
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
+    // private void Awake()
+    // {
+    //     if (instance == null)
+    //     {
+    //         instance = this;
+    //         DontDestroyOnLoad(gameObject);
 
-            // For testing purposes, initialize with sample data
-            user = new User
-            {
-                id = "1",
-                username = "SampleUser",
-                units = new List<Unit>
-                {
-                    new Unit { id = "1", tier = 0, level = 1, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 0, selected = true, rank = Rank.Star1 },
-                    new Unit { id = "2", tier = 0, level = 5, character = characters.Find(character => "uma" == character.name.ToLower()), slot = 1, selected = true, rank = Rank.Star2 },
-                    new Unit { id = "3", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = 2, selected = true, rank = Rank.Star4 },
-                    new Unit { id = "4", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = 3, selected = true, rank = Rank.Star4 },
-                    new Unit { id = "5", tier = 0, level = 4, character = characters.Find(character => "otix" == character.name.ToLower()), slot = 4, selected = true, rank = Rank.Star5 },
-                    new Unit { id = "6", tier = 0, level = 1, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star1 },
-                    new Unit { id = "7", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "8", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "9", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "10", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "11", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "12", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "13", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "14", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "15", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "16", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "17", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "18", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "19", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                    new Unit { id = "20", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
-                },
-                next_unit_id = 22,
-            };
-        } else {
-            // Destroy this instance if another one already exists
-            Destroy(gameObject);
-        }
-    }
+    //         // For testing purposes, initialize with sample data
+    //         user = new User
+    //         {
+    //             id = "1",
+    //             username = "SampleUser",
+    //             units = new List<Unit>
+    //             {
+    //                 new Unit { id = "1", tier = 0, level = 1, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = 0, selected = true, rank = Rank.Star1 },
+    //                 new Unit { id = "2", tier = 0, level = 5, character = characters.Find(character => "uma" == character.name.ToLower()), slot = 1, selected = true, rank = Rank.Star2 },
+    //                 new Unit { id = "3", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = 2, selected = true, rank = Rank.Star4 },
+    //                 new Unit { id = "4", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = 3, selected = true, rank = Rank.Star4 },
+    //                 new Unit { id = "5", tier = 0, level = 4, character = characters.Find(character => "otix" == character.name.ToLower()), slot = 4, selected = true, rank = Rank.Star5 },
+    //                 new Unit { id = "6", tier = 0, level = 1, character = characters.Find(character => "muflus" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star1 },
+    //                 new Unit { id = "7", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "8", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "9", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "10", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "11", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "12", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "13", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "14", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "15", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "16", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "17", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "18", tier = 0, level = 3, character = characters.Find(character => "kenzu" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "19", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //                 new Unit { id = "20", tier = 0, level = 2, character = characters.Find(character => "valtimer" == character.name.ToLower()), slot = null, selected = false, rank = Rank.Star4 },
+    //             },
+    //             next_unit_id = 22,
+    //         };
+    //     } else {
+    //         // Destroy this instance if another one already exists
+    //         Destroy(gameObject);
+    //     }
+    // }
 }

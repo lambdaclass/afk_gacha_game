@@ -39,7 +39,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     private IEnumerator GetUser()
     {
         print("start get user");
-        SocketConnection.GetUser();
+        print(GlobalUserData.Instance.User.username);
+        SocketConnection.Instance.GetUser();
         yield return new WaitUntil(() => GlobalUserData.Instance != null);
         print("finish get user");
 
