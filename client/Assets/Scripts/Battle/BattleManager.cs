@@ -28,7 +28,7 @@ public class BattleManager : MonoBehaviour
 
         User user = globalUserData.User;
 
-        List<Unit> userUnits = globalUserData.Units;
+        List<Unit> userUnits = globalUserData.SelectedUnits;
         List<Unit> opponentUnits = levelData.Units;
 
         SetUpUnits(userUnits, opponentUnits);
@@ -81,7 +81,7 @@ public class BattleManager : MonoBehaviour
     // Helper method to calculate the aggregate level of a team
     private int CalculateAggregateLevel(List<Unit> team)
     {
-        return team.Sum(unit => unit.level);
+        return team.Sum(unit => unit.CalculateLevel());
     }
 
     private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
