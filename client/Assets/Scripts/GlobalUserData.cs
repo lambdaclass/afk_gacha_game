@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class GlobalUserData : MonoBehaviour
 {
+
+    // This should be in it's own manager like of Curse of Mirra, not a list in the user singleton (should there be a user singleton?)
     [SerializeField]
     List<Character> characters;
+
+    public List<Character> AvailableCharacters {
+        get {
+            return this.characters;
+        }
+    }
 
     // Singleton instance
     private static GlobalUserData instance;
@@ -36,6 +44,18 @@ public class GlobalUserData : MonoBehaviour
                 instance = new GameObject("GlobalUserData").AddComponent<GlobalUserData>();
             }
             return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        if(instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else {
+            // Destroy this instance if another one already exists
+            Destroy(gameObject);
         }
     }
 

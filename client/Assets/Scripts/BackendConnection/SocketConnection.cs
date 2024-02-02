@@ -5,6 +5,8 @@ using Google.Protobuf;
 using Google.Protobuf.Collections;
 using System.IO;
 using UnityEngine;
+using Protobuf;
+using System.Collections.Generic;
 
 public class SocketConnection : MonoBehaviour{
     WebSocket ws;
@@ -14,9 +16,10 @@ public class SocketConnection : MonoBehaviour{
     public bool connected = false;
 
 
-    void Start()
+    void Awake()
     {
         Init();
+        Instance.GetUser();
     }
 
     public void Init()
@@ -44,31 +47,12 @@ public class SocketConnection : MonoBehaviour{
             ws.DispatchMessageQueue();
         }
 #endif
-        // StartCoroutine(IsGameCreated());
         if(!connected)
         {
             connected = true;
             ConnectToSession();
         }
     }
-
-    // private IEnumerator IsGameCreated()
-    // {
-    //     // yield return new WaitUntil(() => !String.IsNullOrEmpty(SessionParameters.GameId));
-
-    //     // this.sessionId = ServerConnection.Instance.GameSession;
-    //     // this.serverIp = ServerConnection.Instance.serverIp;
-    //     // this.serverTickRate_ms = ServerConnection.Instance.serverTickRate_ms;
-    //     // this.serverHash = ServerConnection.Instance.serverHash;
-    //     // this.clientId = ServerConnection.Instance.clientId;
-    //     // this.reconnect = ServerConnection.Instance.reconnect;
-
-    //     if (!connected)
-    //     {
-    //         connected = true;
-    //         ConnectToSession();
-    //     }
-    // }
     
     private void ConnectToSession()
     {
@@ -91,17 +75,37 @@ public class SocketConnection : MonoBehaviour{
 
     private void OnWebSocketMessage(byte[] data)
     {
-        Debug.Log("Get message");
         try
         {
-            WebSocketRequest webSocketRequest = WebSocketRequest.Parser.ParseFrom(data);
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
 
-            print($"request type case {webSocketRequest.RequestTypeCase}");
+            print($"request type case {webSocketResponse.ResponseTypeCase}");
 
-            switch (webSocketRequest.RequestTypeCase)
+            switch (webSocketResponse.ResponseTypeCase)
             {
-                case WebSocketRequest.RequestTypeOneofCase.GetUser:
-                    Debug.Log($"userId: {webSocketRequest.GetUser.UserId}");
+                case WebSocketResponse.ResponseTypeOneofCase.User:
+                    List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
+                    List<Unit> units = new List<Unit>();
+                    var enumerator = webSocketResponse.User.Units.GetEnumerator();
+                    while(enumerator.MoveNext()) {
+                        Unit unit = new Unit{
+                            id = enumerator.Current.Id,
+                            tier = (int)enumerator.Current.Tier,
+                            character = availableCharacters.Find(character => character.name.ToLower() == enumerator.Current.Character.Name.ToLower()),
+                            // We currently don't get the rank from the backend so it's hardcoded
+                            rank = Rank.Star1,
+                            level = (int)enumerator.Current.UnitLevel,
+                            slot = (int?)enumerator.Current.Slot,
+                            selected = enumerator.Current.Selected
+                        };
+                        units.Add(unit);
+                    }
+
+                    GlobalUserData.Instance.User = new User{
+                        id = webSocketResponse.User.Id,
+                        username = webSocketResponse.User.Username,
+                        units = units
+                    };
                     break;
                 default:
                     Debug.Log("Request case not handled");
@@ -134,7 +138,10 @@ public class SocketConnection : MonoBehaviour{
         {
             action.WriteTo(stream);
             var msg = stream.ToArray();
-            ws.Send(msg);
+
+            if(ws != null) {
+                ws.Send(msg);
+            }
         }
     }
 

@@ -32,8 +32,7 @@ public class HeaderManager : MonoBehaviour
 
     private IEnumerator GetUserAndContinue()
     {
-        yield return StartCoroutine(GetUser());
-        print("finish GetUserAndContinue");
+        yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
 
         GlobalUserData globalUserData = GlobalUserData.Instance;
         user = globalUserData.User;
@@ -45,18 +44,6 @@ public class HeaderManager : MonoBehaviour
 
         UpdateCurrencyValues();
         UpdateLevelValues();
-    }
-
-    private IEnumerator GetUser()
-    {
-        print("start get user");
-        SocketConnection.Instance.GetUser();
-        yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
-        print("finish get user");
-
-        // List<Unit> units = GlobalUserData.Instance.Units;
-
-        print(GlobalUserData.Instance.User.username);
     }
 
     void UpdateCurrencyValues()
