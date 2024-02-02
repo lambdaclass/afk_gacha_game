@@ -42,6 +42,7 @@ Find our open-source 3D models, concept art, music, lore, and more in our [Curse
 ## Requirements
 
 Ensure you have the following dependencies installed:
+
 - **Nix:**
 You can install the Nix package manager by running the following command in your terminal:
 ```bash
@@ -63,7 +64,6 @@ Hello, world!
 ```
 
 For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
-
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
