@@ -42,13 +42,30 @@ public class BattleManager : MonoBehaviour
             user.afkMaxExperienceReward = levelData.AfkExperienceRate;
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
+            victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
+
+            GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
+            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
+
+            if (levelData.CampaignToComplete == "") {
+                nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
+                victoryText.GetComponent<Text>().text = "Victory!";
+            } else {
+                // We assume this level's campaign is the one that was completed
+                victoryText.GetComponent<Text>().text = "Campaign beaten!";
+                if (levelData.CampaignToUnlock == "") {
+                    // No "next campaign". Just go back to CampaignsMap.
+                    nextButton.SetActive(false);
+                } else {
+                    nextButton.GetComponentInChildren<Text>().text = "BACK TO CAMPAIGNS";
+                }
+            }
         } else {
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
         }
-        levelData.Destroy();
     }
 
     // Run a battle between two teams. Returns true if our user wins
@@ -80,6 +97,32 @@ public class BattleManager : MonoBehaviour
             UnitPosition unitPosition;
             unitPosition = unitPositions[unit.slot.Value];
             unitPosition.SetUnit(unit, isPlayer);    
+        }
+    }
+
+    private List<UIReward> CreateRewardsList() {
+        LevelData levelData = LevelData.Instance;
+
+        List<UIReward> rewards = new List<UIReward>();
+
+        if (levelData.Experience != 0) { rewards.Add(new ExperienceUIReward(levelData.Experience)); }
+
+        foreach (var currencyReward in levelData.Rewards) {
+            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+        }
+
+        return rewards;
+    }
+
+    public void Next() {
+        LevelData levelData = LevelData.Instance;
+
+        // If nextLevel is null this won't do anything
+        if (levelData.CampaignToUnlock != "") {
+            gameObject.GetComponent<LevelManager>().ChangeToScene("CampaignsMap");
+        } else {
+            CampaignManager.automaticLoadLevelName = levelData.NextLevelName;
+            gameObject.GetComponent<LevelManager>().ChangeToScene("Campaign");
         }
     }
 }

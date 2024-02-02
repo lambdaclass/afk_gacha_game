@@ -47,6 +47,11 @@ PrefabInstance:
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
+    - target: {fileID: 1708985256031450714, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: m_Name
+      value: CampaignLevelManager
+      objectReference: {fileID: 0}
     - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
         type: 3}
       propertyPath: afkExperienceRate
