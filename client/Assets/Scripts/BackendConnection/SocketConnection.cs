@@ -58,7 +58,6 @@ public class SocketConnection : MonoBehaviour{
     {
         // string url = $"ws://localhost:4000/2/{Guid.NewGuid().GetHashCode()}";
         string url = $"ws://localhost:4001/2";
-        Debug.Log($"url: {url}");
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnClose += OnWebsocketClose;
@@ -86,17 +85,17 @@ public class SocketConnection : MonoBehaviour{
                 case WebSocketResponse.ResponseTypeOneofCase.User:
                     List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
                     List<Unit> units = new List<Unit>();
-                    var enumerator = webSocketResponse.User.Units.GetEnumerator();
-                    while(enumerator.MoveNext()) {
+                    var unitsEnumerator = webSocketResponse.User.Units.GetEnumerator();
+                    while(unitsEnumerator.MoveNext()) {
                         Unit unit = new Unit{
-                            id = enumerator.Current.Id,
-                            tier = (int)enumerator.Current.Tier,
-                            character = availableCharacters.Find(character => character.name.ToLower() == enumerator.Current.Character.Name.ToLower()),
+                            id = unitsEnumerator.Current.Id,
+                            tier = (int)unitsEnumerator.Current.Tier,
+                            character = availableCharacters.Find(character => character.name.ToLower() == unitsEnumerator.Current.Character.Name.ToLower()),
                             // We currently don't get the rank from the backend so it's hardcoded
                             rank = Rank.Star1,
-                            level = (int)enumerator.Current.UnitLevel,
-                            slot = (int?)enumerator.Current.Slot,
-                            selected = enumerator.Current.Selected
+                            level = (int)unitsEnumerator.Current.UnitLevel,
+                            slot = (int?)unitsEnumerator.Current.Slot,
+                            selected = unitsEnumerator.Current.Selected
                         };
                         units.Add(unit);
                     }
@@ -106,6 +105,15 @@ public class SocketConnection : MonoBehaviour{
                         username = webSocketResponse.User.Username,
                         units = units
                     };
+                    break;
+                case WebSocketResponse.ResponseTypeOneofCase.Campaigns:
+                    List<CampaignItem> campaigns = new List<CampaignItem>();
+                    var campaignsEnumerator = webSocketResponse.Campaigns.Campaigns_.GetEnumerator();
+                    while(campaignsEnumerator.MoveNext()) {
+                        CampaignItem campaign = new CampaignItem {
+                            
+                        };
+                    }
                     break;
                 default:
                     Debug.Log("Request case not handled");
@@ -131,12 +139,12 @@ public class SocketConnection : MonoBehaviour{
         }
     }
 
-    private void SendGameAction<T>(IMessage<T> action)
+    private void SendWebSocketMessage<T>(IMessage<T> message)
         where T : IMessage<T>
     {
         using (var stream = new MemoryStream())
         {
-            action.WriteTo(stream);
+            message.WriteTo(stream);
             var msg = stream.ToArray();
 
             if(ws != null) {
@@ -147,14 +155,24 @@ public class SocketConnection : MonoBehaviour{
 
     public void GetUser()
     {
-        Debug.Log("get user");
-        GetUser getUserAction = new GetUser{
+        GetUser getUserRequest = new GetUser{
             UserId = "2123cce2-4a71-4b8d-a95e-d519e5935cc9"
         };
         WebSocketRequest request = new WebSocketRequest{
-            GetUser = getUserAction
+            GetUser = getUserRequest
         };
-        SendGameAction(request);
+        SendWebSocketMessage(request);
+    }
+
+    public void GetCampaigns()
+    {
+        GetCampaigns getCampaignsRequest = new GetCampaigns{
+            UserId = "2123cce2-4a71-4b8d-a95e-d519e5935cc9"
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            GetCampaigns = getCampaignsRequest
+        };
+        SendWebSocketMessage(request);
     }
 
     // public static void SelectUnit(int unitId, int slotId, int userId)
