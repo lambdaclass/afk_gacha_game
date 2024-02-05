@@ -4,7 +4,7 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public new string name;
-    public string faction;
+    public Faction faction;
     public Sprite defaultSprite;
     public Sprite disabledSprite;
     public Sprite selectedSprite;
@@ -16,4 +16,11 @@ public enum Rarity{
     Common,
     Rare,
     Elite
+}
+
+public enum Faction {
+    Araban,
+    Otobi,
+    Kaline,
+    Merliot
 }

@@ -14,6 +14,8 @@ public class User
 
     public int next_unit_id;
 
+    public List<Item> items { get; set; } = new List<Item>();
+
     private Dictionary<Currency, int> currencies = new Dictionary<Currency, int>()
         {
             { Currency.Gold, 100 },
@@ -107,6 +109,10 @@ public class User
         AddCurrency(negativeCurrencies);
     }
 
+    public void AddItem(Item item) {
+        items.Add(item);
+    }
+    
     public void DeleteUnit(Unit unit) { 
         // We will need to unequip their items here
         units.Remove(unit);

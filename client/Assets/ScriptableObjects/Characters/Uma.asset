@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Uma
   m_EditorClassIdentifier: 
   name: Uma
-  faction: 
+  faction:
   defaultSprite: {fileID: 21300000, guid: 6c3af5a5f5d27457db51f7c344ce4539, type: 3}
   disabledSprite: {fileID: 21300000, guid: 3144019d1288c4de9851065f05a1cbc5, type: 3}
   selectedSprite: {fileID: 21300000, guid: a1437621e6e31420581434f1405b4f74, type: 3}
