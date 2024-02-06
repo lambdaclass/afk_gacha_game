@@ -47,6 +47,36 @@ PrefabInstance:
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: levelIndicators.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: levelIndicators.Array.data[0]
+      value: 
+      objectReference: {fileID: 1485964594212663822}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: levelIndicators.Array.data[1]
+      value: 
+      objectReference: {fileID: 1485964593583910396}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: levelIndicators.Array.data[2]
+      value: 
+      objectReference: {fileID: 1485964593708636691}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: levelIndicators.Array.data[3]
+      value: 
+      objectReference: {fileID: 1485964593428336863}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: levelIndicators.Array.data[4]
+      value: 
+      objectReference: {fileID: 1485964593137064302}
     - target: {fileID: 1708985256031450714, guid: b9905ae9753b542f18093f7a97853e0c,
         type: 3}
       propertyPath: m_Name
@@ -187,6 +217,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Campaign1
       objectReference: {fileID: 0}
+    - target: {fileID: 1932950366438959233, guid: b9905ae9753b542f18093f7a97853e0c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
         type: 3}
       propertyPath: m_RootOrder
@@ -269,3 +304,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+--- !u!114 &1485964593137064302 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 227640576583833353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b7db17f0772488390f161908a79557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1485964593428336863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 227640576583833353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b7db17f0772488390f161908a79557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1485964593583910396 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 227640576583833353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b7db17f0772488390f161908a79557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1485964593708636691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 227640576583833353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b7db17f0772488390f161908a79557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1485964594212663822 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 227640576583833353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6b7db17f0772488390f161908a79557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

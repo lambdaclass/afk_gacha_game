@@ -17,7 +17,8 @@ public class CampaignManager : MonoBehaviour
         BattleManager.selectedLevelData = null;
         GameObject campaignGameObject = Instantiate(campaignPrefab, transform);
         campaignGameObject.transform.SetSiblingIndex(0);
-        campaignGameObject.GetComponent<CampaignLevelsManager>().AssignLevelsData(selectedCampaignData.levels);
+        var campaignLevelManager = campaignGameObject.GetComponentInChildren<CampaignLevelsManager>();
+        campaignLevelManager.AssignLevelsData(selectedCampaignData.levels);
 
         if (automaticLoadLevelName != null) {
             CampaignLevelIndicator level = campaignGameObject.transform.Find("CampaignLevelManager").transform.Find(automaticLoadLevelName).gameObject.GetComponent<CampaignLevelIndicator>();

@@ -16,8 +16,10 @@ public class CampaignLevelsManager : MonoBehaviour
 
     public void AssignLevelsData(List<LevelData> levelsData)
     {
-        for(int levelIndex = 0; levelIndex < levelsData.Count; levelIndex++) {
+        // Get the min between the levels from the backend and the level indicators from the scene to assign to not go OutOfRange
+        for(int levelIndex = 0; levelIndex < Math.Min(levelsData.Count, levelIndicators.Count); levelIndex++) {
             levelIndicators[levelIndex].levelData = levelsData[levelIndex];
+            levelIndicators[levelIndex].Init();
         }
     }
 }

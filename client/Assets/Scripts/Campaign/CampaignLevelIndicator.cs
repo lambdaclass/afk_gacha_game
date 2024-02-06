@@ -11,7 +11,10 @@ public class CampaignLevelIndicator : MonoBehaviour
 
     [SerializeField] GameObject completedCrossObject;
 
-    private void Awake() {
+    public void Init() {
+        if(levelData.individualRewards == null) {
+            Debug.Log("levelData.individualRewards == null");
+        }
         // Set up the currency dictionaries
         foreach (CurrencyValue individualReward in levelData.individualRewards) {
             levelData.rewards.Add(individualReward.name, individualReward.value);
@@ -20,9 +23,7 @@ public class CampaignLevelIndicator : MonoBehaviour
         foreach (CurrencyValue individualAfkCurrencyRate in levelData.individualAfkCurrencyRates) {
             levelData.afkCurrencyRate.Add(individualAfkCurrencyRate.name, individualAfkCurrencyRate.value);
         }
-    }
 
-    private void Start(){
         if(levelData.first) { LevelProgressData.Instance.SetUnlocked(name); }
 
         switch(LevelProgressData.Instance.LevelStatus(name)) 

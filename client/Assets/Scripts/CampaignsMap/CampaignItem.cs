@@ -37,8 +37,10 @@ public class CampaignItem : MonoBehaviour
     }
 
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
-    public void SelectCampaign(){
+    public void SelectCampaign(CampaignData campaignData)
+    {
         if (CampaignProgressData.Instance.CampaignStatus(name) == CampaignProgressData.Status.Unlocked) {
+            CampaignManager.selectedCampaignData = campaignData;
             CampaignManager.campaignPrefab = campaignToShowPrefab;
             sceneManager.ChangeToSceneWithDelay("Campaign");
         }
@@ -46,6 +48,6 @@ public class CampaignItem : MonoBehaviour
 
     public void SetCampaignData(CampaignData campaignData)
     {
-        gameObject.GetComponent<Button>().onClick.AddListener(() => SelectCampaign());
+        gameObject.GetComponent<Button>().onClick.AddListener(() => SelectCampaign(campaignData));
     }
 }

@@ -70,8 +70,10 @@ public class LevelItem : MonoBehaviour
     {
         get
         {
+            Debug.Log("get");
             if (instance == null)
             {
+                Debug.Log("instance == null");
                 instance = new GameObject("LevelData").AddComponent<LevelItem>();
             }
             return instance;

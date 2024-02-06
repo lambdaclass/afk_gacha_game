@@ -21,28 +21,14 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     void Start()
     {
-        // GlobalUserData globalUserData = GlobalUserData.Instance;
-
-
         StartCoroutine(GetUser());
-
-        // List<Unit> units = globalUserData.Units;
-
-        // this.unitsContainer.Populate(units, this);
-        // SetUpSelectedUnits(units, true);
-
-        // unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
-        
-        // SetUpSelectedUnits(LevelData.Instance.Units, false);
     }
 
     private IEnumerator GetUser()
     {
-        print("start get user");
         print(GlobalUserData.Instance.User.username);
         SocketConnection.Instance.GetUser();
         yield return new WaitUntil(() => GlobalUserData.Instance != null);
-        print("finish get user");
 
         List<Unit> units = GlobalUserData.Instance.Units;
 
@@ -51,7 +37,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
-        SetUpSelectedUnits(LevelItem.Instance.Units, false);
+        var levelItem = LevelItem.Instance;
+        SetUpSelectedUnits(levelItem.Units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)

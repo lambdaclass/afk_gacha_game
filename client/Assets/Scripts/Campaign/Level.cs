@@ -46,6 +46,7 @@ public class Level : MonoBehaviour
     [SerializeField] public int afkExperienceRate;
 
     private void Awake() {
+        Debug.Log("awake level.cs");
         // Set up the currency dictionaries
         foreach (CurrencyValue individualReward in individualRewards) {
             rewards.Add(individualReward.name, individualReward.value);
@@ -64,6 +65,7 @@ public class Level : MonoBehaviour
     }
 
     private void Start(){
+        Debug.Log("Level start");
         if(first) { LevelProgressData.Instance.SetUnlocked(name); }
 
         switch(LevelProgressData.Instance.LevelStatus(name)) 

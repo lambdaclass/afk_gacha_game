@@ -152,8 +152,9 @@ public class SocketConnection : MonoBehaviour{
         {
             List<LevelData> levels = new List<LevelData>();
 
-            foreach (var level in campaign.Levels)
+            for(int levelIndex = 0; levelIndex < campaign.Levels.Count; levelIndex++)
             {
+                Protobuf.Level level = campaign.Levels[levelIndex];
                 List<Unit> levelUnits = new List<Unit>();
 
                 foreach (var levelUnit in level.Units)
@@ -167,7 +168,8 @@ public class SocketConnection : MonoBehaviour{
                     id = level.Id,
                     levelNumber = (int)level.LevelNumber,
                     campaign = (int)level.Campaign,
-                    units = levelUnits
+                    units = levelUnits,
+                    first = levelIndex == 0
                 });
             }
 
