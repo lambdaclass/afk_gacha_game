@@ -15,7 +15,6 @@ public class SocketConnection : MonoBehaviour{
 
     public bool connected = false;
 
-
     void Awake()
     {
         Init();
@@ -72,60 +71,6 @@ public class SocketConnection : MonoBehaviour{
         ws.Connect();
     }
 
-    private void OnWebSocketMessage(byte[] data)
-    {
-        try
-        {
-            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-
-            print($"request type case {webSocketResponse.ResponseTypeCase}");
-
-            switch (webSocketResponse.ResponseTypeCase)
-            {
-                case WebSocketResponse.ResponseTypeOneofCase.User:
-                    List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-                    List<Unit> units = new List<Unit>();
-                    var unitsEnumerator = webSocketResponse.User.Units.GetEnumerator();
-                    while(unitsEnumerator.MoveNext()) {
-                        Unit unit = new Unit{
-                            id = unitsEnumerator.Current.Id,
-                            tier = (int)unitsEnumerator.Current.Tier,
-                            character = availableCharacters.Find(character => character.name.ToLower() == unitsEnumerator.Current.Character.Name.ToLower()),
-                            // We currently don't get the rank from the backend so it's hardcoded
-                            rank = Rank.Star1,
-                            level = (int)unitsEnumerator.Current.UnitLevel,
-                            slot = (int?)unitsEnumerator.Current.Slot,
-                            selected = unitsEnumerator.Current.Selected
-                        };
-                        units.Add(unit);
-                    }
-
-                    GlobalUserData.Instance.User = new User{
-                        id = webSocketResponse.User.Id,
-                        username = webSocketResponse.User.Username,
-                        units = units
-                    };
-                    break;
-                case WebSocketResponse.ResponseTypeOneofCase.Campaigns:
-                    List<CampaignItem> campaigns = new List<CampaignItem>();
-                    var campaignsEnumerator = webSocketResponse.Campaigns.Campaigns_.GetEnumerator();
-                    while(campaignsEnumerator.MoveNext()) {
-                        CampaignItem campaign = new CampaignItem {
-                            
-                        };
-                    }
-                    break;
-                default:
-                    Debug.Log("Request case not handled");
-                    break;
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("InvalidProtocolBufferException: " + e);
-        }
-    }
-
     private void OnWebsocketClose(WebSocketCloseCode closeCode)
     {
         if (closeCode != WebSocketCloseCode.Normal)
@@ -151,6 +96,103 @@ public class SocketConnection : MonoBehaviour{
                 ws.Send(msg);
             }
         }
+    }
+    
+    private void OnWebSocketMessage(byte[] data)
+    {
+        try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            print($"request type case {webSocketResponse.ResponseTypeCase}");
+
+            List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
+
+            switch (webSocketResponse.ResponseTypeCase)
+            {
+                case WebSocketResponse.ResponseTypeOneofCase.User:
+                    HandleUserResponse(webSocketResponse.User, availableCharacters);
+                    break;
+                case WebSocketResponse.ResponseTypeOneofCase.Campaigns:
+                    HandleCampaignsResponse(webSocketResponse.Campaigns, availableCharacters);
+                    break;
+                default:
+                    Debug.Log("Request case not handled");
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("InvalidProtocolBufferException: " + e);
+        }
+    }
+
+    private void HandleUserResponse(Protobuf.User user, List<Character> availableCharacters)
+    {
+        List<Unit> units = new List<Unit>();
+
+        foreach (var userUnit in user.Units)
+        {
+            Unit unit = CreateUnitFromData(userUnit, availableCharacters);
+            units.Add(unit);
+        }
+
+        GlobalUserData.Instance.User = new User
+        {
+            id = user.Id,
+            username = user.Username,
+            units = units
+        };
+    }
+
+    private void HandleCampaignsResponse(Protobuf.Campaigns campaignsData, List<Character> availableCharacters)
+    {
+        List<CampaignData> campaigns = new List<CampaignData>();
+
+        foreach (var campaign in campaignsData.Campaigns_)
+        {
+            List<LevelData> levels = new List<LevelData>();
+
+            foreach (var level in campaign.Levels)
+            {
+                List<Unit> levelUnits = new List<Unit>();
+
+                foreach (var levelUnit in level.Units)
+                {
+                    Unit unit = CreateUnitFromData(levelUnit, availableCharacters);
+                    levelUnits.Add(unit);
+                }
+
+                levels.Add(new LevelData
+                {
+                    id = level.Id,
+                    levelNumber = (int)level.LevelNumber,
+                    campaign = (int)level.Campaign,
+                    units = levelUnits
+                });
+            }
+
+            campaigns.Add(new CampaignData
+            {
+                levels = levels
+            });
+        }
+
+        CampaignsMapManager.campaigns = campaigns;
+    }
+
+    private Unit CreateUnitFromData(Protobuf.Unit unitData, List<Character> availableCharacters)
+    {
+        return new Unit
+        {
+            id = unitData.Id,
+            tier = (int)unitData.Tier,
+            character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
+            // We currently don't get the rank from the backend so it's hardcoded
+            rank = Rank.Star1,
+            level = (int)unitData.UnitLevel,
+            slot = (int?)unitData.Slot,
+            selected = unitData.Selected
+        };
     }
 
     public void GetUser()

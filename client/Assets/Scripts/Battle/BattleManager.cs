@@ -24,7 +24,7 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         GlobalUserData globalUserData = GlobalUserData.Instance;
-        LevelData levelData = LevelData.Instance;
+        LevelItem levelData = LevelItem.Instance;
 
         User user = globalUserData.User;
 
@@ -101,7 +101,7 @@ public class BattleManager : MonoBehaviour
     }
 
     private List<UIReward> CreateRewardsList() {
-        LevelData levelData = LevelData.Instance;
+        LevelItem levelData = LevelItem.Instance;
 
         List<UIReward> rewards = new List<UIReward>();
 
@@ -115,7 +115,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void Next() {
-        LevelData levelData = LevelData.Instance;
+        LevelItem levelData = LevelItem.Instance;
 
         // If nextLevel is null this won't do anything
         if (levelData.CampaignToUnlock != "") {

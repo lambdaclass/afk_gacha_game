@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelData : MonoBehaviour
+public class LevelItem : MonoBehaviour
 {
     [SerializeField]
     List<Character> characters;
 
     // Singleton instance
-    private static LevelData instance;
+    private static LevelItem instance;
 
     private Level level;
 
@@ -66,13 +66,13 @@ public class LevelData : MonoBehaviour
     }
 
     // Method to get the singleton instance
-    public static LevelData Instance
+    public static LevelItem Instance
     {
         get
         {
             if (instance == null)
             {
-                instance = new GameObject("LevelData").AddComponent<LevelData>();
+                instance = new GameObject("LevelData").AddComponent<LevelItem>();
             }
             return instance;
         }

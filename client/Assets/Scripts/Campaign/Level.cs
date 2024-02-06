@@ -98,7 +98,7 @@ public class Level : MonoBehaviour
     }
 
     private void SetLevel() {
-        LevelData.Instance.Level = this;
+        LevelItem.Instance.Level = this;
     }
 
     private void SetLevelToComplete() {

@@ -51,7 +51,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
-        SetUpSelectedUnits(LevelData.Instance.Units, false);
+        SetUpSelectedUnits(LevelItem.Instance.Units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)

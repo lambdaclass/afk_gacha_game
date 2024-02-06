@@ -10,7 +10,7 @@ public class CampaignManager : MonoBehaviour
     [SerializeField] GameObject screenLocker;
 
     void Start() {
-        LevelData.Instance.Level = null;
+        LevelItem.Instance.Level = null;
         GameObject campaign = Instantiate(campaignReference, transform);
         campaign.transform.SetSiblingIndex(0);
         
