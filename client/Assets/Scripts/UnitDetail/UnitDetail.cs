@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -68,7 +67,7 @@ public class UnitDetail : MonoBehaviour
 
     public static void SelectUnit(Unit unit) {
         selectedUnit = unit;
-        SceneManager.LoadScene("UnitDetail");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("UnitDetail");
     }
 
     private void UpdateTexts() {

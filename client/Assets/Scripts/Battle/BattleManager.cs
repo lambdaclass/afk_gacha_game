@@ -18,28 +18,26 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-    [SerializeField]
-    List<Character> characters;
+    public static LevelData selectedLevelData;
 
     void Start()
     {
         GlobalUserData globalUserData = GlobalUserData.Instance;
-        LevelItem levelData = LevelItem.Instance;
 
         User user = globalUserData.User;
 
         List<Unit> userUnits = globalUserData.Units;
-        List<Unit> opponentUnits = levelData.Units;
+        List<Unit> opponentUnits = selectedLevelData.units;
 
         SetUpUnits(userUnits, opponentUnits);
 
         bool won = Battle(userUnits, opponentUnits);
         if(won) {
-            user.AddCurrency(levelData.Rewards);
-            user.AddExperience(levelData.Experience);
+            user.AddCurrency(selectedLevelData.rewards);
+            user.AddExperience(selectedLevelData.experienceReward);
             user.AccumulateAFKRewards();
-            user.afkMaxCurrencyReward = levelData.AfkCurrencyRate;
-            user.afkMaxExperienceReward = levelData.AfkExperienceRate;
+            user.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
+            user.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
             LevelProgressData.Instance.ProcessLevelCompleted();
             CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
@@ -49,13 +47,13 @@ public class BattleManager : MonoBehaviour
             GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
             GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
 
-            if (levelData.CampaignToComplete == "") {
+            if (selectedLevelData.campaignToComplete == "") {
                 nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
                 victoryText.GetComponent<Text>().text = "Victory!";
             } else {
                 // We assume this level's campaign is the one that was completed
                 victoryText.GetComponent<Text>().text = "Campaign beaten!";
-                if (levelData.CampaignToUnlock == "") {
+                if (selectedLevelData.campaignToUnlock == "") {
                     // No "next campaign". Just go back to CampaignsMap.
                     nextButton.SetActive(false);
                 } else {
@@ -101,13 +99,11 @@ public class BattleManager : MonoBehaviour
     }
 
     private List<UIReward> CreateRewardsList() {
-        LevelItem levelData = LevelItem.Instance;
-
         List<UIReward> rewards = new List<UIReward>();
 
-        if (levelData.Experience != 0) { rewards.Add(new ExperienceUIReward(levelData.Experience)); }
+        if (selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(selectedLevelData.experienceReward)); }
 
-        foreach (var currencyReward in levelData.Rewards) {
+        foreach (var currencyReward in selectedLevelData.rewards) {
             rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
         }
 
@@ -115,14 +111,12 @@ public class BattleManager : MonoBehaviour
     }
 
     public void Next() {
-        LevelItem levelData = LevelItem.Instance;
-
         // If nextLevel is null this won't do anything
-        if (levelData.CampaignToUnlock != "") {
-            gameObject.GetComponent<LevelManager>().ChangeToScene("CampaignsMap");
+        if (selectedLevelData.campaignToUnlock != "") {
+            gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
         } else {
-            CampaignManager.automaticLoadLevelName = levelData.NextLevelName;
-            gameObject.GetComponent<LevelManager>().ChangeToScene("Campaign");
+            CampaignManager.automaticLoadLevelName = selectedLevelData.nextLevel.name;
+            gameObject.GetComponent<SceneManager>().ChangeToScene("Campaign");
         }
     }
 }

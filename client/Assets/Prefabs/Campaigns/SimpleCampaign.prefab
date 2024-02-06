@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayButton: {fileID: 1707813680245884072}
+  levelIndicators: []
 --- !u!1 &1708985256362400050
 GameObject:
   m_ObjectHideFlags: 0

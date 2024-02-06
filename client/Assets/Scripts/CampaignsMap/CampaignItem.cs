@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CampaignItem : MonoBehaviour
 {
@@ -13,7 +15,10 @@ public class CampaignItem : MonoBehaviour
     [SerializeField]
     bool first;
 
-    [SerializeField] GameObject campaignToShowPrefab;
+    [SerializeField]
+    GameObject campaignToShowPrefab;
+
+    public SceneManager sceneManager;
 
     private void Start(){
         if(first) { CampaignProgressData.Instance.SetUnlocked(name); }
@@ -32,10 +37,15 @@ public class CampaignItem : MonoBehaviour
     }
 
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
-    public void Select(LevelManager levelManager){
+    public void SelectCampaign(){
         if (CampaignProgressData.Instance.CampaignStatus(name) == CampaignProgressData.Status.Unlocked) {
-            CampaignManager.campaignReference = campaignToShowPrefab;
-            levelManager.ChangeToSceneWithDelay("Campaign");
+            CampaignManager.campaignPrefab = campaignToShowPrefab;
+            sceneManager.ChangeToSceneWithDelay("Campaign");
         }
+    }
+
+    public void SetCampaignData(CampaignData campaignData)
+    {
+        gameObject.GetComponent<Button>().onClick.AddListener(() => SelectCampaign());
     }
 }

@@ -17,17 +17,6 @@ public class HeaderManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(GetUserAndContinue());
-
-        // GlobalUserData globalUserData = GlobalUserData.Instance;
-        // user = globalUserData.User;
-
-        // username.text = user.username;
-
-        // user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
-        // user.OnLevelModified.AddListener(UpdateLevelValues);
-
-        // UpdateCurrencyValues();
-        // UpdateLevelValues();
     }
 
     private IEnumerator GetUserAndContinue()
