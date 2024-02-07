@@ -12,9 +12,6 @@ public class CampaignLevelIndicator : MonoBehaviour
     [SerializeField] GameObject completedCrossObject;
 
     public void Init() {
-        if(levelData.individualRewards == null) {
-            Debug.Log("levelData.individualRewards == null");
-        }
         // Set up the currency dictionaries
         foreach (CurrencyValue individualReward in levelData.individualRewards) {
             levelData.rewards.Add(individualReward.name, individualReward.value);

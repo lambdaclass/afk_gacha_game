@@ -26,7 +26,6 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private IEnumerator GetUser()
     {
-        print(GlobalUserData.Instance.User.username);
         SocketConnection.Instance.GetUser();
         yield return new WaitUntil(() => GlobalUserData.Instance != null);
 
@@ -37,8 +36,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
-        var levelItem = LevelItem.Instance;
-        SetUpSelectedUnits(levelItem.Units, false);
+        LevelData levelData = BattleManager.selectedLevelData;
+        SetUpSelectedUnits(levelData.units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)

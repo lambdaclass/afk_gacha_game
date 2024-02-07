@@ -62,7 +62,7 @@ public class SocketConnection : MonoBehaviour{
         ws.OnClose += OnWebsocketClose;
         ws.OnOpen += () =>
         {
-            Debug.Log("opened connection");
+            // Debug.Log("opened connection");
         };
         ws.OnError += (e) =>
         {

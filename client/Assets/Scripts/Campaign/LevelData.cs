@@ -3,12 +3,13 @@ using System.Collections.Generic;
 
 public class LevelData
 {
+    // This fields shouldn't be modifiable externally (they shouldn't be public?)
     public string id;
     public int levelNumber;
     public int campaign;
     public List<Unit> units;
 
-    // Hardcode values that aren't currently brought from the backend
+    // Hardcoded values aren't currently brought from the backend
 
     // Currency rewards
     public CurrencyValue[] individualRewards = new CurrencyValue[]{
