@@ -219,15 +219,28 @@ public class SocketConnection : MonoBehaviour{
         SendWebSocketMessage(request);
     }
 
-    // public static void SelectUnit(int unitId, int slotId, int userId)
-    // {
-    //     SelectUnitAction selectUnitAction = new SelectUnitAction(unitId, slotId, userId);
-    //     SendGameAction(selectUnitAction);
-    // }
+    public void SelectUnit(string unitId, string userId, int slot)
+    {
+        SelectUnit selectUnitRequest = new SelectUnit {
+            UserId = userId,
+            UnitId = unitId,
+            Slot = (uint)slot
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            SelectUnit = selectUnitRequest
+        };
+        SendWebSocketMessage(request);
+    }
 
-    // public static void DeselectUnit(int unitId, int userId)
-    // {
-    //     DeselectUnitAction deselectUnitAction = new DeselectUnitAction(unitId, userId);
-    //     SendGameAction(deselectUnitAction);
-    // }
+    public void UnselectUnit(string unitId, string userId)
+    {
+        UnselectUnit unselectUnitRequest = new UnselectUnit {
+            UserId = userId,
+            UnitId = unitId
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            UnselectUnit = unselectUnitRequest
+        };
+        SendWebSocketMessage(request);
+    }
 }

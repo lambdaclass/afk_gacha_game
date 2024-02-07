@@ -62,6 +62,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unit.slot = slot;
             unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
+            SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
         }
     }
 
@@ -72,6 +73,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         unit.selected = false;
         unit.slot = null;
         unitsContainer.SetUnitUIActiveById(unit.id);
+        SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
     }
 
     private bool CompareUnitId(UnitPosition unitPosition, Unit unit)
