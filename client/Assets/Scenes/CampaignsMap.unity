@@ -179,6 +179,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: campaignToShowPrefab
@@ -1028,6 +1033,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: first
@@ -1206,6 +1216,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: campaignToShowPrefab
@@ -1227,6 +1242,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Campaign_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096975054899021653, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7096975054899021674, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}

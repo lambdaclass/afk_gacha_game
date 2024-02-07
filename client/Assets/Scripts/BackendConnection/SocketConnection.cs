@@ -15,6 +15,8 @@ public class SocketConnection : MonoBehaviour{
 
     public bool connected = false;
 
+    private WebSocketMessageEventHandler currentMessageHandler;
+
     void Awake()
     {
         Init();
@@ -103,7 +105,6 @@ public class SocketConnection : MonoBehaviour{
         try
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-            print($"request type case {webSocketResponse.ResponseTypeCase}");
 
             List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
 
@@ -111,9 +112,6 @@ public class SocketConnection : MonoBehaviour{
             {
                 case WebSocketResponse.ResponseTypeOneofCase.User:
                     HandleUserResponse(webSocketResponse.User, availableCharacters);
-                    break;
-                case WebSocketResponse.ResponseTypeOneofCase.Campaigns:
-                    HandleCampaignsResponse(webSocketResponse.Campaigns, availableCharacters);
                     break;
                 default:
                     Debug.Log("Request case not handled");
@@ -144,7 +142,7 @@ public class SocketConnection : MonoBehaviour{
         };
     }
 
-    private void HandleCampaignsResponse(Protobuf.Campaigns campaignsData, List<Character> availableCharacters)
+    private List<CampaignData> ParseCampaignsFromResponse(Protobuf.Campaigns campaignsData, List<Character> availableCharacters)
     {
         List<CampaignData> campaigns = new List<CampaignData>();
 
@@ -180,7 +178,7 @@ public class SocketConnection : MonoBehaviour{
             });
         }
 
-        CampaignsMapManager.campaigns = campaigns;
+        return campaigns;
     }
 
     private Unit CreateUnitFromData(Protobuf.Unit unitData, List<Character> availableCharacters)
@@ -209,15 +207,37 @@ public class SocketConnection : MonoBehaviour{
         SendWebSocketMessage(request);
     }
 
-    public void GetCampaigns()
+    public void GetCampaigns(string userId, Action<List<CampaignData>> onCampaignDataReceived)
     {
         GetCampaigns getCampaignsRequest = new GetCampaigns{
-            UserId = "2123cce2-4a71-4b8d-a95e-d519e5935cc9"
+            UserId = userId
         };
         WebSocketRequest request = new WebSocketRequest{
             GetCampaigns = getCampaignsRequest
         };
         SendWebSocketMessage(request);
+        currentMessageHandler = (data) => AwaitGetCampaignsResponse(data, onCampaignDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+    }
+
+    private void AwaitGetCampaignsResponse(byte[] data, Action<List<CampaignData>> onCampaignDataReceived)
+    {
+        try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Campaigns) {
+                ws.OnMessage -= currentMessageHandler;
+                List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
+                List<CampaignData> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, availableCharacters);
+                onCampaignDataReceived?.Invoke(campaigns);
+                ws.OnMessage += OnWebSocketMessage;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("InvalidProtocolBufferException: " + e);
+        }
     }
 
     public void SelectUnit(string unitId, string userId, int slot)
@@ -243,5 +263,33 @@ public class SocketConnection : MonoBehaviour{
             UnselectUnit = unselectUnitRequest
         };
         SendWebSocketMessage(request);
+    }
+
+    public void Battle(string userId, string levelId, Action<bool> onBattleResultReceived) {
+        FightLevel fightLevelRequest = new FightLevel {
+            UserId = userId,
+            LevelId = levelId
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            FightLevel = fightLevelRequest
+        };
+        SendWebSocketMessage(request);
+        ws.OnMessage += (data) => AwaitBattleResponse(data, onBattleResultReceived);
+    }
+
+    private void AwaitBattleResponse(byte[] data, Action<bool> onBattleResultReceived)
+    {
+        try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
+                bool battleResult = webSocketResponse.BattleResult.Result == "win";
+                onBattleResultReceived?.Invoke(battleResult);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("InvalidProtocolBufferException: " + e);
+        }
     }
 }

@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class CampaignsMapManager : MonoBehaviour
 {
-    [NonSerialized]
-    public static List<CampaignData> campaigns;
-
     [SerializeField]
     private List<CampaignItem> campaignItems;
 
@@ -16,14 +13,13 @@ public class CampaignsMapManager : MonoBehaviour
 
     void Start()
     {
-        SocketConnection.Instance.GetCampaigns();
-        StartCoroutine(GenerateCampaigns());
+        SocketConnection.Instance.GetCampaigns("2123cce2-4a71-4b8d-a95e-d519e5935cc9", (campaigns) => {
+            GenerateCampaigns(campaigns);
+        });
     }
 
-    private IEnumerator GenerateCampaigns()
+    private void GenerateCampaigns(List<CampaignData> campaigns)
     {
-        yield return new WaitUntil(() => campaigns != null);
-
         // Currently we have 2 campaigns and the client is hardcoded to only manage 2 campaigns, TODO: variable number of campaigns
         for(int campaignsIndex = 0; campaignsIndex < 2; campaignsIndex++) {
             campaignItems[campaignsIndex].sceneManager = sceneManager;

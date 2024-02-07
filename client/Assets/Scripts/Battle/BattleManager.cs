@@ -22,17 +22,26 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-
-        User user = globalUserData.User;
-
-        List<Unit> userUnits = globalUserData.Units;
+        List<Unit> userUnits = GlobalUserData.Instance.Units;
         List<Unit> opponentUnits = selectedLevelData.units;
 
         SetUpUnits(userUnits, opponentUnits);
 
-        bool won = Battle(userUnits, opponentUnits);
-        if(won) {
+        Battle();
+    }
+
+    // Run a battle between two teams. Returns true if our user wins
+    public void Battle()
+    {
+        SocketConnection.Instance.Battle("2123cce2-4a71-4b8d-a95e-d519e5935cc9", selectedLevelData.id, (result) => {
+            HandleBattleResult(result);
+        });
+    }
+
+    private void HandleBattleResult(bool result)
+    {
+        if(result) {
+            User user = GlobalUserData.Instance.User;
             user.AddCurrency(selectedLevelData.rewards);
             user.AddExperience(selectedLevelData.experienceReward);
             user.AccumulateAFKRewards();
@@ -68,16 +77,6 @@ public class BattleManager : MonoBehaviour
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
         }
-    }
-
-    // Run a battle between two teams. Returns true if our user wins
-    public bool Battle(List<Unit> team1, List<Unit> team2)
-    {
-        int team1AggLevel = CalculateAggregateLevel(team1);
-        int team2AggLevel = CalculateAggregateLevel(team2);
-        int totalLevel = team1AggLevel + team2AggLevel;
-
-        return UnityEngine.Random.Range(1, totalLevel + 1) <= team1AggLevel;
     }
 
     // Helper method to calculate the aggregate level of a team

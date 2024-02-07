@@ -14,7 +14,7 @@ public class LevelData
     public Dictionary<Currency, int> rewards = new Dictionary<Currency, int>(){
         { Currency.Gold, 1000 },
         { Currency.Gems, 45 },
-        { Currency.Scrolls, 2 }
+        { Currency.Experience, 200 }
     };
 
     // AFK Rewards rate granted
