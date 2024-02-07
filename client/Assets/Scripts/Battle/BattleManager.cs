@@ -39,7 +39,7 @@ public class BattleManager : MonoBehaviour
             user.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
             user.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
             LevelProgressData.Instance.ProcessLevelCompleted();
-            CampaignProgressData.Instance.ProcessLevelCompleted();
+            // CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
@@ -47,19 +47,23 @@ public class BattleManager : MonoBehaviour
             GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
             GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
 
-            if (selectedLevelData.campaignToComplete == "") {
-                nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
-                victoryText.GetComponent<Text>().text = "Victory!";
-            } else {
-                // We assume this level's campaign is the one that was completed
-                victoryText.GetComponent<Text>().text = "Campaign beaten!";
-                if (selectedLevelData.campaignToUnlock == "") {
-                    // No "next campaign". Just go back to CampaignsMap.
-                    nextButton.SetActive(false);
-                } else {
-                    nextButton.GetComponentInChildren<Text>().text = "BACK TO CAMPAIGNS";
-                }
-            }
+            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+            nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
+            victoryText.GetComponent<Text>().text = "Victory!";
+
+            // if (selectedLevelData.campaignToComplete == "") {
+            //     nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
+            //     victoryText.GetComponent<Text>().text = "Victory!";
+            // } else {
+            //     // We assume this level's campaign is the one that was completed
+            //     victoryText.GetComponent<Text>().text = "Campaign beaten!";
+            //     if (selectedLevelData.campaignToUnlock == "") {
+            //         // No "next campaign". Just go back to CampaignsMap.
+            //         nextButton.SetActive(false);
+            //     } else {
+            //         nextButton.GetComponentInChildren<Text>().text = "BACK TO CAMPAIGNS";
+            //     }
+            // }
         } else {
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
@@ -111,12 +115,14 @@ public class BattleManager : MonoBehaviour
     }
 
     public void Next() {
+        gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
+
         // If nextLevel is null this won't do anything
-        if (selectedLevelData.campaignToUnlock != "") {
-            gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
-        } else {
-            CampaignManager.automaticLoadLevelName = selectedLevelData.nextLevel.name;
-            gameObject.GetComponent<SceneManager>().ChangeToScene("Campaign");
-        }
+        // if (selectedLevelData.campaignToUnlock != "") {
+        //     gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
+        // } else {
+        //     CampaignManager.automaticLoadLevelName = selectedLevelData.nextLevel.name;
+        //     gameObject.GetComponent<SceneManager>().ChangeToScene("Campaign");
+        // }
     }
 }

@@ -148,13 +148,13 @@ public class SocketConnection : MonoBehaviour{
     {
         List<CampaignData> campaigns = new List<CampaignData>();
 
-        foreach (var campaign in campaignsData.Campaigns_)
+        for(int campaignIndex = 0; campaignIndex < campaignsData.Campaigns_.Count; campaignIndex++)
         {
             List<LevelData> levels = new List<LevelData>();
 
-            for(int levelIndex = 0; levelIndex < campaign.Levels.Count; levelIndex++)
+            for(int levelIndex = 0; levelIndex < campaignsData.Campaigns_[campaignIndex].Levels.Count; levelIndex++)
             {
-                Protobuf.Level level = campaign.Levels[levelIndex];
+                Protobuf.Level level = campaignsData.Campaigns_[campaignIndex].Levels[levelIndex];
                 List<Unit> levelUnits = new List<Unit>();
 
                 foreach (var levelUnit in level.Units)
@@ -175,6 +175,7 @@ public class SocketConnection : MonoBehaviour{
 
             campaigns.Add(new CampaignData
             {
+                status = campaignIndex == 0 ? CampaignData.Status.Unlocked : CampaignData.Status.Locked,
                 levels = levels
             });
         }

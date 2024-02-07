@@ -12,15 +12,6 @@ public class CampaignLevelIndicator : MonoBehaviour
     [SerializeField] GameObject completedCrossObject;
 
     public void Init() {
-        // Set up the currency dictionaries
-        foreach (CurrencyValue individualReward in levelData.individualRewards) {
-            levelData.rewards.Add(individualReward.name, individualReward.value);
-        }
-
-        foreach (CurrencyValue individualAfkCurrencyRate in levelData.individualAfkCurrencyRates) {
-            levelData.afkCurrencyRate.Add(individualAfkCurrencyRate.name, individualAfkCurrencyRate.value);
-        }
-
         if(levelData.first) { LevelProgressData.Instance.SetUnlocked(name); }
 
         switch(LevelProgressData.Instance.LevelStatus(name)) 
@@ -63,15 +54,17 @@ public class CampaignLevelIndicator : MonoBehaviour
     }
 
     private void SetLevelToUnlock() {
-        if(levelData.nextLevel != null) { LevelProgressData.Instance.LevelToUnlockName = levelData.nextLevel.name; }
-        else { LevelProgressData.Instance.LevelToUnlockName = null; }
+        // if(levelData.nextLevel != null) { LevelProgressData.Instance.LevelToUnlockName = levelData.nextLevel.name; }
+        // else { LevelProgressData.Instance.LevelToUnlockName = null; }
+
+        LevelProgressData.Instance.LevelToUnlockName = null;
     }
 
     private void SetCampaignToComplete() {
-        CampaignProgressData.Instance.CampaignToComplete = levelData.campaignToComplete;
+        // CampaignProgressData.Instance.CampaignToComplete = levelData.campaignToComplete;
     }
 
     private void SetCampaignToUnlock() {
-        CampaignProgressData.Instance.CampaignToUnlock = levelData.campaignToUnlock;
+        // CampaignProgressData.Instance.CampaignToUnlock = levelData.campaignToUnlock;
     }
 }
