@@ -12,6 +12,8 @@ public class User
 
     public List<Unit> units { get; set; }
 
+    public List<Item> items { get; set; }
+
     public int next_unit_id;
 
     private Dictionary<Currency, int> currencies = new Dictionary<Currency, int>()

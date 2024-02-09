@@ -7,298 +7,239 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRate
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRewardRates
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.data[1].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.data[1].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: levelIndicators.Array.size
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: levelIndicators.Array.data[0]
       value: 
       objectReference: {fileID: 1485964594212663822}
-    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: levelIndicators.Array.data[1]
       value: 
       objectReference: {fileID: 1485964593583910396}
-    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: levelIndicators.Array.data[2]
       value: 
       objectReference: {fileID: 1485964593708636691}
-    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: levelIndicators.Array.data[3]
       value: 
       objectReference: {fileID: 1485964593428336863}
-    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: levelIndicators.Array.data[4]
       value: 
       objectReference: {fileID: 1485964593137064302}
-    - target: {fileID: 1708985256031450714, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256031450714, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_Name
       value: CampaignLevelManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRate
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRewardRates
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.data[1].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.data[0].value
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAFKRewardRates.Array.data[1].value
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRate
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[1].name
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[1].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRate
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[1].value
       value: 43200
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: afkExperienceRate
       value: 4320000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualRewards.Array.data[1].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[1].name
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[0].value
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: individualAfkCurrencyRates.Array.data[1].value
       value: 432000
       objectReference: {fileID: 0}
-    - target: {fileID: 1932950366438959233, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1932950366438959233, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_Name
       value: Campaign1
       objectReference: {fileID: 0}
-    - target: {fileID: 1932950366438959233, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 1932950366438959233, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -32832
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalPosition.y
       value: -18624
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 7757335773968764840, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8910968803098308838, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 8910968803098308838, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8910968803737131259, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 8910968803737131259, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8910968803865210644, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 8910968803865210644, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8910968804170226566, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 8910968804170226566, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8910968804545385015, guid: b9905ae9753b542f18093f7a97853e0c,
-        type: 3}
+    - target: {fileID: 8910968804545385015, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
@@ -306,8 +247,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
 --- !u!114 &1485964593137064302 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 1708985256918421095, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
   m_PrefabInstance: {fileID: 227640576583833353}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -318,8 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1485964593428336863 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 1708985256627144662, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
   m_PrefabInstance: {fileID: 227640576583833353}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -330,8 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1485964593583910396 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 1708985256211577589, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
   m_PrefabInstance: {fileID: 227640576583833353}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -342,8 +280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1485964593708636691 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 1708985256355368218, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
   m_PrefabInstance: {fileID: 227640576583833353}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -354,8 +291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1485964594212663822 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c,
-    type: 3}
+  m_CorrespondingSourceObject: {fileID: 1708985255851255047, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
   m_PrefabInstance: {fileID: 227640576583833353}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

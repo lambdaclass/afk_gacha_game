@@ -57,16 +57,10 @@ public class SocketConnection : MonoBehaviour {
             ws.DispatchMessageQueue();
         }
 #endif
-        // if(!connected)
-        // {
-        //     connected = true;
-        //     ConnectToSession();
-        // }
     }
 
     private void ConnectToSession()
     {
-        // string url = $"ws://localhost:4000/2/{Guid.NewGuid().GetHashCode()}";
         string url = $"ws://localhost:4001/2";
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
@@ -208,6 +202,21 @@ public class SocketConnection : MonoBehaviour {
         };
     }
 
+    private Item CreateItemFromData(Protobuf.Item itemData) {
+        return new Item
+        {
+            id = itemData.Id,
+            level = (int)itemData.Level,
+            userId = itemData.UserId,
+            unitId = itemData.UnitId,
+            template = new ItemTemplate{
+                id = itemData.Template.Id,
+                name = itemData.Template.Name,
+                type = itemData.Template.Type
+            }
+        };
+    }
+
     // Better name for this method?
     private IEnumerator GetUserAndContinue()
     {
@@ -267,17 +276,29 @@ public class SocketConnection : MonoBehaviour {
 
                 List<Unit> units = new List<Unit>();
 
-                foreach (var userUnit in webSocketResponse.User.Units)
+                foreach(var userUnit in webSocketResponse.User.Units)
                 {
                     Unit unit = CreateUnitFromData(userUnit, GlobalUserData.Instance.AvailableCharacters);
                     units.Add(unit);
+                }
+
+                foreach(var item in webSocketResponse.User.Items) {
+                    Debug.Log($"{item.Template.Name}, {item.Level}");
+                }
+
+                List<Item> items = new List<Item>();
+
+                foreach(var userItem in webSocketResponse.User.Items)
+                {
+                    Item item = CreateItemFromData(userItem);
                 }
 
                 User user = new User
                 {
                     id = webSocketResponse.User.Id,
                     username = webSocketResponse.User.Username,
-                    units = units
+                    units = units,
+                    items = items
                 };
 
                 onGetUserDataReceived?.Invoke(user);
