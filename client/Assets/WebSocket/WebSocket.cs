@@ -374,6 +374,9 @@ namespace NativeWebSocket
         private Dictionary<string, string> headers;
         private List<string> subprotocols;
         private ClientWebSocket m_Socket = new ClientWebSocket();
+        public System.Net.WebSockets.WebSocketState WebSocketConnectionState {
+            get { return m_Socket.State; }
+        }
 
         private CancellationTokenSource m_TokenSource;
         private CancellationToken m_CancellationToken;

@@ -1,22 +1,24 @@
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditor.SceneManagement;
+// This loads the first scene 
 
-[InitializeOnLoadAttribute]
-public static class DefaultSceneLoader
-{
-    static DefaultSceneLoader(){
-        EditorApplication.playModeStateChanged += LoadDefaultScene;
-    }
+// #if UNITY_EDITOR
+// using UnityEditor;
+// using UnityEditor.SceneManagement;
 
-    static void LoadDefaultScene(PlayModeStateChange state){
-        if (state == PlayModeStateChange.ExitingEditMode) {
-            EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo ();
-        }
+// [InitializeOnLoadAttribute]
+// public static class DefaultSceneLoader
+// {
+//     static DefaultSceneLoader(){
+//         EditorApplication.playModeStateChanged += LoadDefaultScene;
+//     }
 
-        if (state == PlayModeStateChange.EnteredPlayMode) {
-            EditorSceneManager.LoadScene (0);
-        }
-    }
-}
-#endif
+//     static void LoadDefaultScene(PlayModeStateChange state){
+//         if (state == PlayModeStateChange.ExitingEditMode) {
+//             EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo ();
+//         }
+
+//         if (state == PlayModeStateChange.EnteredPlayMode) {
+//             EditorSceneManager.LoadScene (0);
+//         }
+//     }
+// }
+// #endif
