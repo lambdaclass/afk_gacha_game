@@ -7,8 +7,9 @@ using System.IO;
 using UnityEngine;
 using Protobuf;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-public class SocketConnection : MonoBehaviour{
+public class SocketConnection : MonoBehaviour {
     WebSocket ws;
 
     public static SocketConnection Instance;
@@ -17,19 +18,30 @@ public class SocketConnection : MonoBehaviour{
 
     private WebSocketMessageEventHandler currentMessageHandler;
 
-    void Awake()
+    async Task AwakeAsync()
     {
-        Init();
-        Instance.GetUser();
+        await Init();
+
+        if(!gotUser) {
+            print("gotUser = false");
+            gotUser = true;
+            // this should be called only once on Start or Awake method, but doesn't work for some reason
+            if(GlobalUserData.Instance.User == null) {
+                GetUserByUsername("testUser", (user) => {
+                    print($"Gotten user: {user.username}");
+                    GlobalUserData.Instance.User = user;
+                });
+            }
+        }
     }
 
-    public void Init()
+    public async Task Init()
     {
         if (Instance != null)
         {
             if (this.ws != null)
             {
-                this.ws.Close();
+                await this.ws.Close();
             }
             Destroy(gameObject);
         }
@@ -37,6 +49,12 @@ public class SocketConnection : MonoBehaviour{
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        if(!connected)
+        {
+            connected = true;
+            ConnectToSession();
         }
     }
 
@@ -48,12 +66,15 @@ public class SocketConnection : MonoBehaviour{
             ws.DispatchMessageQueue();
         }
 #endif
-        if(!connected)
-        {
-            connected = true;
-            ConnectToSession();
-        }
+        // if(!connected)
+        // {
+        //     connected = true;
+        //     ConnectToSession();
+
+        // }
     }
+
+    bool gotUser = false;
     
     private void ConnectToSession()
     {
@@ -89,6 +110,7 @@ public class SocketConnection : MonoBehaviour{
     private void SendWebSocketMessage<T>(IMessage<T> message)
         where T : IMessage<T>
     {
+        print("send message");
         using (var stream = new MemoryStream())
         {
             message.WriteTo(stream);
@@ -106,12 +128,17 @@ public class SocketConnection : MonoBehaviour{
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
 
+            print($"WebSocketResponse type: {webSocketResponse.ResponseTypeCase}");
+
             List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
 
             switch (webSocketResponse.ResponseTypeCase)
             {
                 case WebSocketResponse.ResponseTypeOneofCase.User:
                     HandleUserResponse(webSocketResponse.User, availableCharacters);
+                    break;
+                case WebSocketResponse.ResponseTypeOneofCase.Error:
+                    Debug.LogError("response type error");
                     break;
                 default:
                     Debug.Log("Request case not handled");
@@ -196,14 +223,84 @@ public class SocketConnection : MonoBehaviour{
         };
     }
 
-    public void GetUser()
+    public void GetUser(string userId, Action<User> onGetUserDataReceived)
     {
+        print("GetUser");
         GetUser getUserRequest = new GetUser{
-            UserId = "2123cce2-4a71-4b8d-a95e-d519e5935cc9"
+            UserId = userId
         };
         WebSocketRequest request = new WebSocketRequest{
             GetUser = getUserRequest
         };
+        currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    public void GetUserByUsername(string username, Action<User> onGetUserDataReceived)
+    {
+        print("GetUser");
+        GetUserByUsername getUserByUsernameRequest = new GetUserByUsername{
+            Username = username
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            GetUserByUsername = getUserByUsernameRequest
+        };
+        currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitGetUserResponse(byte[] data, Action<User> onGetUserDataReceived)
+    {
+        try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            print($"Get User response type: {webSocketResponse.ResponseTypeCase}");
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User) {
+                ws.OnMessage -= currentMessageHandler;
+
+                List<Unit> units = new List<Unit>();
+
+                foreach (var userUnit in webSocketResponse.User.Units)
+                {
+                    Unit unit = CreateUnitFromData(userUnit, GlobalUserData.Instance.AvailableCharacters);
+                    units.Add(unit);
+                }
+
+                User user = new User
+                {
+                    id = webSocketResponse.User.Id,
+                    username = webSocketResponse.User.Username,
+                    units = units
+                };
+
+                Debug.Log("User gotten");
+
+                onGetUserDataReceived?.Invoke(user);
+                ws.OnMessage += OnWebSocketMessage;
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                CreateUser("testUser", onGetUserDataReceived);
+            }
+        } catch (Exception e) {
+            Debug.LogError("InvalidProtocolBufferException: " + e);
+        }
+    }
+
+    public void CreateUser(string username, Action<User> onGetUserDataReceived)
+    {
+        CreateUser createUserRequest = new CreateUser{
+            Username = username
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            CreateUser = createUserRequest
+        };
+        currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
 
@@ -291,5 +388,10 @@ public class SocketConnection : MonoBehaviour{
         {
             Debug.LogError("InvalidProtocolBufferException: " + e);
         }
+    }
+
+    private async void OnApplicationQuit()
+    {
+        await this.ws.Close();
     }
 }

@@ -26,7 +26,6 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private IEnumerator GetUser()
     {
-        SocketConnection.Instance.GetUser();
         yield return new WaitUntil(() => GlobalUserData.Instance != null);
 
         List<Unit> units = GlobalUserData.Instance.Units;
