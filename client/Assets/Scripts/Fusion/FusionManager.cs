@@ -21,10 +21,10 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
         this.unitsContainer.Populate(units, this);
     }
 
-    public void Populate(Unit unit, GameObject unitUIItem)
+    public void Populate(Unit unit, GameObject unitItem)
     {
-        unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
-        Button unitItemButton = unitUIItem.GetComponent<Button>();
+        unitItem.GetComponent<UnitItemUI>().SetUpUnitItemUI(unit);
+        Button unitItemButton = unitItem.GetComponent<Button>();
         unitItemButton.onClick.AddListener(() => {
             if (selectedUnits.Contains(unit))
             {
@@ -41,6 +41,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
     {
         DisplayUnit(unit);
         selectedUnits.Add(unit);
+        unitsContainer.SetUnitsLock(unit.character.faction, true);
         fusionButton.gameObject.SetActive(true);
     }
 
@@ -54,6 +55,7 @@ public class FusionManager : MonoBehaviour, IUnitPopulator
         else
         {
             RemoveUnitFromContainer(unit);
+            unitsContainer.SetUnitsLock(unit.character.faction, false);
             fusionButton.gameObject.SetActive(false);
         }
     }

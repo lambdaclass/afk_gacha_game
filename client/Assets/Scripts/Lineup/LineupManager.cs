@@ -77,10 +77,11 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     public void Populate(Unit unit, GameObject unitItem)
     {
-        SpriteState ss = new SpriteState();
-        ss.disabledSprite = unit.character.disabledSprite;
+        // SpriteState ss = new SpriteState();
+        // ss.disabledSprite = unit.character.disabledSprite;
         Button unitItemButton = unitItem.GetComponent<Button>();
-        unitItemButton.spriteState = ss;
+        // unitItemButton.spriteState = ss;
+        unitItem.GetComponent<UnitItemUI>().SetUpUnitItemUI(unit);
         if(unit.selected) {
             unitItemButton.interactable = false;
         }
