@@ -115,8 +115,6 @@ public class SocketConnection : MonoBehaviour {
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
 
-            // print($"WebSocketResponse type: {webSocketResponse.ResponseTypeCase}");
-
             List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
 
             switch (webSocketResponse.ResponseTypeCase)
@@ -247,21 +245,16 @@ public class SocketConnection : MonoBehaviour {
 
     public void GetUserByUsername(string username, Action<User> onGetUserDataReceived)
     {
-        print("GetUserByUsername");
-        counter++;
-        if(counter < 5)
-        {
-            GetUserByUsername getUserByUsernameRequest = new GetUserByUsername{
-                Username = username
-            };
-            WebSocketRequest request = new WebSocketRequest{
-                GetUserByUsername = getUserByUsernameRequest
-            };
-            currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
-            ws.OnMessage += currentMessageHandler;
-            ws.OnMessage -= OnWebSocketMessage;
-            SendWebSocketMessage(request);
-        }
+        GetUserByUsername getUserByUsernameRequest = new GetUserByUsername{
+            Username = username
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            GetUserByUsername = getUserByUsernameRequest
+        };
+        currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
     private void AwaitGetUserResponse(byte[] data, Action<User> onGetUserDataReceived)
@@ -269,7 +262,6 @@ public class SocketConnection : MonoBehaviour {
         try
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-            print($"Get User response type: {webSocketResponse.ResponseTypeCase}");
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User) {
                 ws.OnMessage -= currentMessageHandler;
 
@@ -312,7 +304,6 @@ public class SocketConnection : MonoBehaviour {
 
     public void CreateUser(string username, Action<User> onGetUserDataReceived)
     {
-        print("create user");
         CreateUser createUserRequest = new CreateUser{
             Username = username
         };
