@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Character", menuName = "Characters")]
+[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 public class Character : ScriptableObject
 {
     public new string name;
     public Faction faction;
-    public Sprite availableSprite;
+    public Sprite defaultSprite;
     public Sprite disabledSprite;
     public Sprite selectedSprite;
     public GameObject prefab;

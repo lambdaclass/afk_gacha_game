@@ -141,15 +141,15 @@ public class UnitDetail : MonoBehaviour
                 rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
                 rankNumber = 5;
                 break;
-            case Rank.Ilumination1:
+            case Rank.Illumination1:
                 rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
                 rankNumber = 1;
                 break;
-            case Rank.Ilumination2:
+            case Rank.Illumination2:
                 rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
                 rankNumber = 2;
                 break;
-            case Rank.Ilumination3:
+            case Rank.Illumination3:
                 rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
                 rankNumber = 3;
                 break;

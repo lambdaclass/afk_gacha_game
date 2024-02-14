@@ -161,11 +161,11 @@ public class Unit
                 return 4;
             case Rank.Star5:
                 return 5; 
-            case Rank.Ilumination1:
+            case Rank.Illumination1:
                 return 7; 
-            case Rank.Ilumination2:
+            case Rank.Illumination2:
                 return 9; 
-            case Rank.Ilumination3:
+            case Rank.Illumination3:
                 return 220; 
             case Rank.Awakened:
                 return 12; 
@@ -234,8 +234,8 @@ public enum Rank{
     Star3,
     Star4,
     Star5,
-    Ilumination1,
-    Ilumination2,
-    Ilumination3,
+    Illumination1,
+    Illumination2,
+    Illumination3,
     Awakened
 }

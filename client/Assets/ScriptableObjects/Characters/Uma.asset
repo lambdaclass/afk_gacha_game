@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Uma
   faction: 2
-  availableSprite: {fileID: 21300000, guid: c822c7d5c79d340c78de341ab277dc34, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 6c3af5a5f5d27457db51f7c344ce4539, type: 3}
   disabledSprite: {fileID: 21300000, guid: 3144019d1288c4de9851065f05a1cbc5, type: 3}
   selectedSprite: {fileID: 21300000, guid: a1437621e6e31420581434f1405b4f74, type: 3}
   prefab: {fileID: 5819572997624566537, guid: a58f36917e06d4ce4998ca8c1b64415e, type: 3}

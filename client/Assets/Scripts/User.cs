@@ -190,11 +190,11 @@ public class User
                 return new List<Rank>{Rank.Star4, Rank.Star4};
             case Rank.Star5:
                 return new List<Rank>{Rank.Star5};
-            case Rank.Ilumination1:
+            case Rank.Illumination1:
                 return new List<Rank>{Rank.Star5};
-            case Rank.Ilumination2:
+            case Rank.Illumination2:
                 return new List<Rank>{Rank.Star5};
-            case Rank.Ilumination3:
+            case Rank.Illumination3:
                 return new List<Rank>{Rank.Star5, Rank.Star5, Rank.Star5};
             default:
                 return new List<Rank>();
@@ -207,12 +207,12 @@ public class User
                 return new List<Rank>{Rank.Star4, Rank.Star4, Rank.Star4, Rank.Star4};
             case Rank.Star5:
                 return new List<Rank>{Rank.Star5, Rank.Star5, Rank.Star5, Rank.Star5};
-            case Rank.Ilumination1:
-                return new List<Rank>{Rank.Ilumination1};
-            case Rank.Ilumination2:
-                return new List<Rank>{Rank.Ilumination1, Rank.Ilumination1};
-            case Rank.Ilumination3:
-                return new List<Rank>{Rank.Ilumination1, Rank.Ilumination1};
+            case Rank.Illumination1:
+                return new List<Rank>{Rank.Illumination1};
+            case Rank.Illumination2:
+                return new List<Rank>{Rank.Illumination1, Rank.Illumination1};
+            case Rank.Illumination3:
+                return new List<Rank>{Rank.Illumination1, Rank.Illumination1};
             default:
                 return new List<Rank>();
         }
