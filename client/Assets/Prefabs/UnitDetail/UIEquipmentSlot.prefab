@@ -87,10 +87,10 @@ GameObject:
   - component: {fileID: 369244518475764640}
   - component: {fileID: 369244518475764646}
   - component: {fileID: 369244518475764647}
-  - component: {fileID: 64495240602330542}
   - component: {fileID: 1354958758335994699}
+  - component: {fileID: 7427165014804456999}
   m_Layer: 5
-  m_Name: UIItemEquipSlot
+  m_Name: UIEquipmentSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,19 +156,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &64495240602330542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 369244518475764641}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11e85c04eb9134ced82c8b28b0b25a54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemListPopup: {fileID: 0}
 --- !u!114 &1354958758335994699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 64495240602330542}
+      - m_Target: {fileID: 7427165014804456999}
         m_TargetAssemblyTypeName: UIItemEquipSlot, Assembly-CSharp
         m_MethodName: OpenItemListPopup
         m_Mode: 1
@@ -225,6 +212,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7427165014804456999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369244518475764641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e85c04eb9134ced82c8b28b0b25a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemListPopup: {fileID: 0}
+  slotIcon: {fileID: 369244517295900953}
+  addIconSprite: {fileID: 21300000, guid: c7541ec6202d8f04f8b8452a813a2580, type: 3}
+  removeIconSprite: {fileID: 21300000, guid: da56f9e81f1371743b44410a22631439, type: 3}
+  actionIcon: {fileID: 4528544715349082079}
 --- !u!1 &3274632967157625851
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +241,7 @@ GameObject:
   - component: {fileID: 389520599015364823}
   - component: {fileID: 4528544715349082079}
   m_Layer: 5
-  m_Name: AddIcon
+  m_Name: ActionIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

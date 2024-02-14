@@ -18,8 +18,6 @@ public class SocketConnection : MonoBehaviour {
 
     private WebSocketMessageEventHandler currentMessageHandler;
 
-    int counter = 0;
-
     async void Awake()
     {
         await Init();
@@ -57,6 +55,11 @@ public class SocketConnection : MonoBehaviour {
             ws.DispatchMessageQueue();
         }
 #endif
+    }
+
+    private async void OnApplicationQuit()
+    {
+        await this.ws.Close();
     }
 
     private void ConnectToSession()
@@ -282,15 +285,12 @@ public class SocketConnection : MonoBehaviour {
                     units.Add(unit);
                 }
 
-                foreach(var item in webSocketResponse.User.Items) {
-                    Debug.Log($"{item.Template.Name}, {item.Level}");
-                }
-
                 List<Item> items = new List<Item>();
 
                 foreach(var userItem in webSocketResponse.User.Items)
                 {
-                    Item item = CreateItemFromData(userItem);
+                    items.Add(CreateItemFromData(userItem));
+
                 }
 
                 User user = new User
@@ -366,7 +366,7 @@ public class SocketConnection : MonoBehaviour {
         }
         catch (Exception e)
         {
-            Debug.LogError("InvalidProtocolBufferException: " + e);
+            Debug.LogError(e.Message);
         }
     }
 
@@ -419,12 +419,57 @@ public class SocketConnection : MonoBehaviour {
         }
         catch (Exception e)
         {
-            Debug.LogError("InvalidProtocolBufferException: " + e);
+            Debug.LogError(e.Message);
         }
     }
 
-    private async void OnApplicationQuit()
+    public void EquipItem(string userId, string itemId, string unitId, Action<Item> onItemDataReceived) {
+        EquipItem equipItemRequest = new EquipItem {
+            UserId = userId,
+            ItemId = itemId,
+            UnitId = unitId
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            EquipItem = equipItemRequest
+        };
+        SendWebSocketMessage(request);
+        currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+    }
+
+    public void UnequipItem(string userId, string itemId, Action<Item> onItemDataReceived) {
+        UnequipItem unequipItemRequest = new UnequipItem {
+            UserId = userId,
+            ItemId = itemId
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            UnequipItem = unequipItemRequest
+        };
+        SendWebSocketMessage(request);
+        currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+    }
+
+    private void AwaitItemResponse(byte[] data, Action<Item> onCampaignDataReceived)
     {
-        await this.ws.Close();
+        try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Item) {
+                ws.OnMessage -= currentMessageHandler;
+                Item item = CreateItemFromData(webSocketResponse.Item);
+                onCampaignDataReceived?.Invoke(item);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                Debug.LogError(webSocketResponse.Error.Reason);
+            }
+            ws.OnMessage += OnWebSocketMessage;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 }

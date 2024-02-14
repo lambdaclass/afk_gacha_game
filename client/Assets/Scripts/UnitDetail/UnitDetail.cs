@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class UnitDetail : MonoBehaviour
     Image backgroundImage;
 
     private Dictionary<Currency, int> cost;
+
+    [SerializeField]
+    List<UIEquipmentSlot> equipmentSlots;
 
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
@@ -65,9 +69,14 @@ public class UnitDetail : MonoBehaviour
         return false;
     }
 
+    // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
     public static void SelectUnit(Unit unit) {
         selectedUnit = unit;
         UnityEngine.SceneManagement.SceneManager.LoadScene("UnitDetail");
+    }
+
+    public static Unit GetSelectedUnit() {
+        return selectedUnit;
     }
 
     private void UpdateTexts() {
@@ -87,5 +96,21 @@ public class UnitDetail : MonoBehaviour
             actionLevelUp = false;
             cost = selectedUnit.TierUpCost;
         }
+    }
+
+    public void EquipItem(string itemId, string unitId)
+    {
+        SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
+            UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
+            GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
+        });
+    }
+
+    public void UnequipItem(string itemId)
+    {
+        SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
+            UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
+            GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
+        });
     }
 }
