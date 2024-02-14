@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class UIEquipmentSlot : MonoBehaviour
 {
     [SerializeField]
+    string equipmentType;
+    public string EquipmentType => equipmentType;
+
+    [SerializeField]
     GameObject ItemListPopup;
 
     [SerializeField]

@@ -337,6 +337,10 @@ PrefabInstance:
       propertyPath: ItemListPopup
       value: 
       objectReference: {fileID: 1391266788}
+    - target: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
+      propertyPath: equipmentType
+      value: boots
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!224 &16438665 stripped
@@ -1651,6 +1655,10 @@ PrefabInstance:
       propertyPath: ItemListPopup
       value: 
       objectReference: {fileID: 1391266788}
+    - target: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
+      propertyPath: equipmentType
+      value: chest
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!224 &370590592 stripped
@@ -3814,7 +3822,7 @@ PrefabInstance:
     - target: {fileID: 369244517295900953, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1a3d3548a96d39547bae25a395fe6b13, type: 3}
+      objectReference: {fileID: 21300000, guid: 57e601d79fb5d0349aecfc2cbb226adc, type: 3}
     - target: {fileID: 369244517295900954, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
       propertyPath: m_SizeDelta.x
       value: 80.539
@@ -3923,6 +3931,10 @@ PrefabInstance:
       propertyPath: ItemListPopup
       value: 
       objectReference: {fileID: 1391266788}
+    - target: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
+      propertyPath: equipmentType
+      value: weapon
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!224 &1490731954 stripped
@@ -5134,6 +5146,10 @@ PrefabInstance:
       propertyPath: ItemListPopup
       value: 
       objectReference: {fileID: 1391266788}
+    - target: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
+      propertyPath: equipmentType
+      value: helmet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
 --- !u!1001 &6858262836781891745
