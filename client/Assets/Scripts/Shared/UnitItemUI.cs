@@ -28,6 +28,7 @@ public class UnitItemUI : MonoBehaviour {
 
     public void SetSelectedChampionMark(bool selected) {
         selectedChampionMark.gameObject.SetActive(selected);
+        GetComponent<Button>().interactable = !selected;
     }
 
     public bool IsSelected() {
@@ -45,7 +46,6 @@ public class UnitItemUI : MonoBehaviour {
     }
 
     public string GetUnitFaction() {
-        print(faction.sprite.name);
         return faction.sprite.name;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,10 +29,34 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
         Button unitItemButton = selector.GetComponent<Button>();
         OnUnitSelected.Invoke(unit);
         unitItemButton.interactable = false;
+        SetLocks();
     }
 
-    public void SetUnitUIActiveById(string unitId)
+    public void SetUnitUIActiveById(string unitId, bool active)
     {
-        unitUIItemDictionary[unitId].GetComponent<Button>().interactable = true;
+        unitUIItemDictionary[unitId].GetComponent<Button>().interactable = active;
+        unitUIItemDictionary[unitId].GetComponent<UnitItemUI>().SetSelectedChampionMark(!active);
+        SetLocks();
+    }
+
+    private void SetLocks()
+    {
+        if (unitUIItemDictionary.Values.Count(unitItem => unitItem.GetComponent<UnitItemUI>().IsSelected()) == 5)
+        {
+            foreach (GameObject unitUIItem in unitUIItemDictionary.Values)
+            {
+                if (!unitUIItem.GetComponent<UnitItemUI>().IsSelected())
+                {
+                    unitUIItem.GetComponent<UnitItemUI>().SetLocked(true);
+                }
+            }
+        }
+        else
+        {
+            foreach (GameObject unitUIItem in unitUIItemDictionary.Values)
+            {
+                unitUIItem.GetComponent<UnitItemUI>().SetLocked(false);
+            }
+        }
     }
 }

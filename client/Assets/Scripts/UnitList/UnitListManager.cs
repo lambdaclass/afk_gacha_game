@@ -20,8 +20,8 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     }
 
     public void Populate(Unit unit, GameObject unitUIItem) {
-        unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
-        //unitUIItem.GetComponentInChildren<Image>().border = border(unit.rank.ToString());
-
+        UnitItemUI unitItemUI = unitUIItem.GetComponent<UnitItemUI>();
+        unitItemUI.SetUpUnitItemUI(unit);
+        Button unitItemButton = unitUIItem.GetComponent<Button>();
     }
 }
