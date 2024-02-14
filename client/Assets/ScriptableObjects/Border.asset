@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccabbb392a64a4f9a8ad10e19be4ab44, type: 3}
+  m_Name: Border
+  m_EditorClassIdentifier: 
+  Star1: {fileID: 21300000, guid: 28412153c583c421c8f7b772c8b40679, type: 3}
+  Star2: {fileID: 21300000, guid: f33375e9618ce4ddfbf14d1fd2094045, type: 3}
+  Star3: {fileID: 21300000, guid: ff48857eedbe343c8a2f946bfee0dce0, type: 3}
+  Star4: {fileID: 21300000, guid: 843fc6d7d95124481b321614dff25b32, type: 3}
+  Star5: {fileID: 21300000, guid: eec72d44121ce40cf9c4fa43264069e3, type: 3}
+  Illumination1: {fileID: 21300000, guid: 7c455038396fb48e1901ed9aa14e1499, type: 3}
+  Illumination2: {fileID: 21300000, guid: 469f70e68840c4d81a35f0a0d71a0327, type: 3}
+  Illumination3: {fileID: 21300000, guid: f989843721e4a4db5a4f87d0bb939c15, type: 3}
+  Awakened: {fileID: 21300000, guid: fa62765b5519a4011bd1409a044c8f4c, type: 3}
