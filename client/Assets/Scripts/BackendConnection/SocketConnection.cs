@@ -21,7 +21,6 @@ public class SocketConnection : MonoBehaviour {
     async void Awake()
     {
         await Init();
-        StartCoroutine(GetUserAndContinue());
     }
 
     public async Task Init()
@@ -70,7 +69,7 @@ public class SocketConnection : MonoBehaviour {
         ws.OnClose += OnWebsocketClose;
         ws.OnOpen += () =>
         {
-            // Debug.Log("opened connection");
+            GetUserAndContinue();
         };
         ws.OnError += (e) =>
         {
@@ -221,10 +220,9 @@ public class SocketConnection : MonoBehaviour {
     }
 
     // Better name for this method?
-    private IEnumerator GetUserAndContinue()
+    private void GetUserAndContinue()
     {
         if(GlobalUserData.Instance.User == null) {
-            yield return new WaitUntil(() => ws.WebSocketConnectionState == System.Net.WebSockets.WebSocketState.Open);
             string userId = PlayerPrefs.GetString("userId");
             if(String.IsNullOrEmpty(userId)) {
                 CreateUser("testUser", (user) => {

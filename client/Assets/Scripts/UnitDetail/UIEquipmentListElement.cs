@@ -61,6 +61,7 @@ public class UIEquipmentListElement : MonoBehaviour
 
     public void LevelUpItem() {
         SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, this.item.id, (item) => {
+            GlobalUserData.Instance.User.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));
             GlobalUserData.Instance.User.items.Find(item => item.id == this.item.id).level = item.level;
             this.item.level = item.level;
             itemLevelText.text = $"Level: {item.level}";
