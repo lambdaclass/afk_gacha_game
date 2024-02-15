@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SceneManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
     public void ChangeToScene(string sceneName) {
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);

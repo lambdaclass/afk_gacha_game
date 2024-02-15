@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -69,7 +69,7 @@ public class UnitDetail : MonoBehaviour
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
     public static void SelectUnit(Unit unit) {
         selectedUnit = unit;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("UnitDetail");
+        SceneManager.LoadScene("UnitDetail");
     }
 
     public static Unit GetSelectedUnit() {

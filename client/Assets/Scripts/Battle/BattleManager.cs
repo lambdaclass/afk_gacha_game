@@ -30,10 +30,9 @@ public class BattleManager : MonoBehaviour
         Battle();
     }
 
-    // Run a battle between two teams. Returns true if our user wins
     public void Battle()
     {
-        SocketConnection.Instance.Battle("2123cce2-4a71-4b8d-a95e-d519e5935cc9", selectedLevelData.id, (result) => {
+        SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
             HandleBattleResult(result);
         });
     }
@@ -108,7 +107,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void Next() {
-        gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
+        gameObject.GetComponent<LevelManager>().ChangeToScene("CampaignsMap");
 
         // If nextLevel is null this won't do anything
         // if (selectedLevelData.campaignToUnlock != "") {

@@ -9,11 +9,11 @@ public class CampaignsMapManager : MonoBehaviour
     private List<CampaignItem> campaignItems;
 
     [SerializeField]
-    SceneManager sceneManager;
+    LevelManager sceneManager;
 
     void Start()
     {
-        SocketConnection.Instance.GetCampaigns("2123cce2-4a71-4b8d-a95e-d519e5935cc9", (campaigns) => {
+        SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) => {
             GenerateCampaigns(campaigns);
         });
     }

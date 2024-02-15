@@ -24,7 +24,7 @@ public class CampaignManager : MonoBehaviour
             CampaignLevelIndicator level = campaignGameObject.transform.Find("CampaignLevelManager").transform.Find(automaticLoadLevelName).gameObject.GetComponent<CampaignLevelIndicator>();
             level.SelectLevel();
             screenLocker.SetActive(true);
-            StartCoroutine(gameObject.GetComponent<SceneManager>().ChangeToSceneAfterSeconds("Lineup", 1));
+            StartCoroutine(gameObject.GetComponent<LevelManager>().ChangeToSceneAfterSeconds("Lineup", 1));
             automaticLoadLevelName = null;
         }
     }

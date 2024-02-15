@@ -194,10 +194,9 @@ public class SocketConnection : MonoBehaviour {
         return new Unit
         {
             id = unitData.Id,
-            tier = (int)unitData.Tier,
+            // tier = (int)unitData.Tier,
             character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
-            // We currently don't get the rank from the backend so it's hardcoded
-            rank = Rank.Star1,
+            // rank = Rank.Star1,
             level = (int)unitData.UnitLevel,
             slot = (int?)unitData.Slot,
             selected = unitData.Selected
