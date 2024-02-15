@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Unit
 {
@@ -11,9 +12,95 @@ public class Unit
     public int? slot { get; set; }
     public bool selected { get; set; }
 
-    /////////////
+    public Item head = null;
+
+    public Item chest = null;
+
+    public Item weapon = null;
+
+    public Item boots = null;
+
+    ///////////
+    // Items //
+    ///////////
+
+    public List<Item> Items { 
+        get {
+            List<Item> items = new List<Item>();
+            foreach(Item item in new Item[]{head, chest, weapon, boots}) {
+                if (item != null) {
+                    items.Add(item);
+                }
+            }
+            return items;
+        }
+    }
+
+    public void EquipItem(Item item) {
+        if (item.equippedTo != null) { item.equippedTo.UnequipItem(item.concreteItem.Type); }
+        
+        switch (item.concreteItem.Type) {
+            case EquipType.Head:
+                head = item;
+                break;
+            case EquipType.Chest:
+                chest = item;
+                break;
+            case EquipType.Weapon:
+                weapon = item;
+                break;
+            case EquipType.Boots:
+                boots = item;
+                break;
+            default:
+                break;
+        }
+
+        item.equippedTo = this;
+    }
+    public void UnequipItem(EquipType type) {
+        switch (type) {
+            case EquipType.Head:
+                head = null;
+                break;
+            case EquipType.Chest:
+                chest = null;
+                break;
+            case EquipType.Weapon:
+                weapon = null;
+                break;
+            case EquipType.Boots:
+                boots = null;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public int CalculateLevel() {
+        int totalLevel = level;
+
+        if (Items.Count > 0) {
+            List<int> levelModifications = new List<int>();
+            foreach (Item item in Items) {
+                foreach (Effect effect in item.effects) {
+                    if (effect.attribute == Attribute.Level) {
+                        levelModifications.Add(effect.modifier.CalculateModification(level));
+                    }
+                }
+            }
+
+            if (levelModifications.Count > 0) {
+                foreach (int modification in levelModifications) { totalLevel += modification; }
+            }
+        }
+
+        return totalLevel;
+    }
+
+    //////////
     // Rank //
-    /////////////
+    //////////
 
     public bool RankUp() { 
         if(CanRankUp()){
@@ -74,11 +161,11 @@ public class Unit
                 return 4;
             case Rank.Star5:
                 return 5; 
-            case Rank.Ilumination1:
+            case Rank.Illumination1:
                 return 7; 
-            case Rank.Ilumination2:
+            case Rank.Illumination2:
                 return 9; 
-            case Rank.Ilumination3:
+            case Rank.Illumination3:
                 return 220; 
             case Rank.Awakened:
                 return 12; 
@@ -147,8 +234,8 @@ public enum Rank{
     Star3,
     Star4,
     Star5,
-    Ilumination1,
-    Ilumination2,
-    Ilumination3,
+    Illumination1,
+    Illumination2,
+    Illumination3,
     Awakened
 }

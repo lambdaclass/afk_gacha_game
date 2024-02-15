@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using System;
 using System.Linq;
 
@@ -19,10 +19,34 @@ public class UnitDetail : MonoBehaviour
     Text actionButtonText;
 
     [SerializeField]
-    TMP_Text unitName;
+    Image backgroundImage;
 
     [SerializeField]
-    Image backgroundImage;
+    GameObject modelContainer;
+
+    [SerializeField]
+    GameObject characterNameContainer;
+
+    [SerializeField]
+    GameObject levelStatUI;
+
+    [SerializeField]
+    GameObject tierStatUI;
+
+    [SerializeField]
+    GameObject rankStatUI;
+
+    [SerializeField]
+    GameObject headItemSprite;
+
+    [SerializeField]
+    GameObject chestItemSprite;
+
+    [SerializeField]
+    GameObject bootsItemSprite;
+
+    [SerializeField]
+    GameObject weaponItemSprite;
 
     private Dictionary<Currency, int> cost;
 
@@ -33,42 +57,13 @@ public class UnitDetail : MonoBehaviour
     private bool actionLevelUp;
 
     void Start() {
-        SetActionAndCosts();
-        UpdateTexts();
         SetUpEquipment();
-        backgroundImage.sprite = selectedUnit.character.selectedSprite;
+        SetBackgroundImage();
+        DisplayUnit();
     }
 
     public void ActionButton() {
-        User user = GlobalUserData.Instance.User;
-        if (user.CanAfford(cost)) {
-            bool result;
-            if (actionLevelUp) { result = LevelUp(); } else { result = TierUp(); }
-
-            if (result) { 
-                user.SubtractCurrency(cost);
-                SetActionAndCosts();
-                UpdateTexts();
-            }
-        } else {
-            // Blocked by currency cost.
-        }
-    }
-
-    private bool LevelUp() {
-        if (selectedUnit.LevelUp()) {
-            return true;
-        }
-        Debug.LogError("[UnitDetail.cs] Could not level up unit. Likely cause: a disparity between User.CanLevelUp() calls in UnitDetail.SetActionAndCosts() and Unit.LevelUp().");
-        return false;
-    }
-
-    private bool TierUp() {
-        if (selectedUnit.TierUp()) {
-            return true;
-        }
-        // Tell user they need to improve the ranking of their unit via fusion.
-        return false;
+        Debug.LogError("LevelUp not yet done in backend");
     }
 
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
@@ -79,25 +74,6 @@ public class UnitDetail : MonoBehaviour
 
     public static Unit GetSelectedUnit() {
         return selectedUnit;
-    }
-
-    private void UpdateTexts() {
-        if (actionLevelUp) actionButtonText.text = "Level Up";
-        else actionButtonText.text = "Tier up";
-
-        unitName.text = $"{selectedUnit.character.name}, tier/lvl: {selectedUnit.tier}/{selectedUnit.level} {selectedUnit.rank.ToString()}";
-        goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
-        gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
-    }
-
-    private void SetActionAndCosts() {
-        if (selectedUnit.CanLevelUp()) {
-            actionLevelUp = true;
-            cost = selectedUnit.LevelUpCost;
-        } else {
-            actionLevelUp = false;
-            cost = selectedUnit.TierUpCost;
-        }
     }
 
     public void EquipItem(string itemId, string unitId)
@@ -121,5 +97,43 @@ public class UnitDetail : MonoBehaviour
         foreach(Item item in GlobalUserData.Instance.User.items.Where(item => item.unitId == selectedUnit.id)) {
             equipmentSlots.Find(slot => slot.EquipmentType == item.template.type).SetEquippedItem(item);
         }
+    }
+    private void SetBackgroundImage() 
+    {
+        switch (selectedUnit.character.faction) 
+        {
+            case Faction.Araban:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/ArabanBackground");
+                break;
+            case Faction.Kaline:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/KalineBackground");
+                break;
+            case Faction.Merliot:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/MerliotBackground");
+                break;
+            case Faction.Otobi:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/OtobiBackground");
+                break;
+            default:
+                backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/ArabanBackground");
+                break;
+        }
+    }
+
+    private void DisplayUnit()
+    {
+        if (modelContainer.transform.childCount > 0)
+        {
+            RemoveUnitFromContainer();
+        }
+        Instantiate(selectedUnit.character.prefab, modelContainer.transform);
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
+        characterNameContainer.SetActive(true);
+    }
+
+    private void RemoveUnitFromContainer()
+    {
+        Destroy(modelContainer.transform.GetChild(0).gameObject);
+        characterNameContainer.SetActive(false);
     }
 }

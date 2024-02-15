@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GachaManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class GachaManager : MonoBehaviour
     [SerializeField]
     GameObject characterContainerButton;
 
+    [SerializeField]
+    List<ConcreteItem> concreteItems;
+
     private Unit currentUnit;
     public void RollCharacter(Box box)
     {
@@ -21,11 +25,30 @@ public class GachaManager : MonoBehaviour
         Character rolledCharacter = box.RollChampion();
 
         // Add the rolled character to the user's units.
-        AddNewUnit(user, rolledCharacter);
+        Unit unit = AddNewUnit(user, rolledCharacter);
         DisplayCharacter(rolledCharacter);
+
+        // For testing unequip, we first check if we had already created the sword. If we did, we set a new owner instead.
+        Item sword;
+        if (user.items.Count > 0) {
+            sword = user.items[0];
+        } else {
+            // For testing the equipables, we'll create a sword when we summon
+            sword = new Item(
+                "Epic Sword of Epicness",
+                new List<Effect>(){
+                    new Effect{attribute = Attribute.Level, modifier = new AdditiveModifier{value = 100}}
+                },
+                EquipType.Weapon,
+                concreteItems.Find(item => item.name == "Sword")
+            );
+
+            user.AddItem(sword);
+        }
+        unit.EquipItem(sword);
     }
 
-    private void AddNewUnit(User user, Character character)
+    private Unit AddNewUnit(User user, Character character)
     {
         Unit newUnit = new Unit
         {
@@ -38,6 +61,7 @@ public class GachaManager : MonoBehaviour
         user.units.Add(newUnit);
         currentUnit = newUnit;
         characterContainerButton.GetComponent<ButtonAnimations>().clickEvent.AddListener(() => SelectUnit());
+        return newUnit;
     }
 
     private void DisplayCharacter(Character character)

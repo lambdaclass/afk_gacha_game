@@ -1303,7 +1303,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8025216740175069464}
-  popup: {fileID: 1880474394802326507}
 --- !u!1 &1880474394862903455
 GameObject:
   m_ObjectHideFlags: 0

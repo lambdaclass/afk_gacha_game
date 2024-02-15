@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Character", menuName = "Characters")]
+[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 public class Character : ScriptableObject
 {
     public new string name;
-    public string faction;
-    public Sprite availableSprite;
+    public Faction faction;
+    public Sprite defaultSprite;
     public Sprite disabledSprite;
     public Sprite selectedSprite;
     public GameObject prefab;
@@ -16,4 +16,11 @@ public enum Rarity{
     Common,
     Rare,
     Elite
+}
+
+public enum Faction {
+    Araban,
+    Otobi,
+    Kaline,
+    Merliot
 }
