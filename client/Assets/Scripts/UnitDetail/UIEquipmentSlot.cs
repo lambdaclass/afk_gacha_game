@@ -17,6 +17,9 @@ public class UIEquipmentSlot : MonoBehaviour
     Image slotIcon;
 
     [SerializeField]
+    Image equipmentIcon;
+
+    [SerializeField]
     Sprite addIconSprite;
 
     [SerializeField]
@@ -38,11 +41,15 @@ public class UIEquipmentSlot : MonoBehaviour
     {
         this.equippedItem = item;
         if(item != null) {
-            // Currently we don't get items images from the backend but it should be assigned here
-
+            equipmentIcon.sprite = item.icon;
+            equipmentIcon.gameObject.SetActive(true);
+            slotIcon.gameObject.SetActive(false);
             actionIcon.sprite = removeIconSprite;
         }
         else {
+            equipmentIcon.sprite = null;
+            equipmentIcon.gameObject.SetActive(false);
+            slotIcon.gameObject.SetActive(true);
             actionIcon.sprite = addIconSprite;
         }
     }

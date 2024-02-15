@@ -38,13 +38,16 @@ public class UIEquipmentListElement : MonoBehaviour
         itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
         // We don't currently get the image from the backend but it should be set up here.
 
-        if(!String.IsNullOrEmpty(this.item.unitId)) {
+        if(this.item.unitId == UnitDetail.GetSelectedUnit().id) {
             equipButton.gameObject.SetActive(false);
             unequipButton.gameObject.SetActive(true);
         }
     }
 
     public void EquipItem() {
+        if(!String.IsNullOrEmpty(item.unitId)) {
+            Debug.Log($"Unequipped item from unit: {item.unitId} and equipped to current unit");
+        }
         unitDetail.EquipItem(item.id, UnitDetail.GetSelectedUnit().id);
         equipButton.gameObject.SetActive(false);
         unequipButton.gameObject.SetActive(true);

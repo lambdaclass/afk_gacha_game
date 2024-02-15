@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class UnitDetail : MonoBehaviour
     void Start() {
         SetActionAndCosts();
         UpdateTexts();
+        SetUpEquipment();
         backgroundImage.sprite = selectedUnit.character.selectedSprite;
     }
 
@@ -112,5 +114,12 @@ public class UnitDetail : MonoBehaviour
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
         });
+    }
+
+    private void SetUpEquipment()
+    {
+        foreach(Item item in GlobalUserData.Instance.User.items.Where(item => item.unitId == selectedUnit.id)) {
+            equipmentSlots.Find(slot => slot.EquipmentType == item.template.type).SetEquippedItem(item);
+        }
     }
 }
