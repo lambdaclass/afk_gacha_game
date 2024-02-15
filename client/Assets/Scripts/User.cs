@@ -16,13 +16,7 @@ public class User
 
     public int next_unit_id;
 
-    private Dictionary<Currency, int> currencies = new Dictionary<Currency, int>()
-        {
-            { Currency.Gold, 100 },
-            { Currency.Gems, 100 },
-            { Currency.Scrolls, 10 },
-            { Currency.HeroicScrolls, 5 }
-        };
+    public Dictionary<Currency, int> currencies;
 
     public int level = 1;
 
@@ -98,7 +92,7 @@ public class User
         }
     }
 
-    public void SubstractCurrency(Dictionary<Currency, int> currencies) {
+    public void SubtractCurrency(Dictionary<Currency, int> currencies) {
         Dictionary<Currency, int> negativeCurrencies = new Dictionary<Currency, int>();
 
         foreach (var pair in currencies)

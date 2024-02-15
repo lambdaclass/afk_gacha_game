@@ -44,7 +44,7 @@ public class UnitDetail : MonoBehaviour
             if (actionLevelUp) { result = LevelUp(); } else { result = TierUp(); }
 
             if (result) { 
-                user.SubstractCurrency(cost);
+                user.SubtractCurrency(cost);
                 SetActionAndCosts();
                 UpdateTexts();
             }

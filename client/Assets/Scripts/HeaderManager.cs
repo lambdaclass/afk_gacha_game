@@ -23,8 +23,7 @@ public class HeaderManager : MonoBehaviour
     {
         yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
 
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-        user = globalUserData.User;
+        user = GlobalUserData.Instance.User;
 
         username.text = user.username;
 

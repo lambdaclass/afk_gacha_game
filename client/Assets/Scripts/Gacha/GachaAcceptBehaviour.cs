@@ -18,7 +18,7 @@ public class GachaAcceptBehaviour : MonoBehaviour
 
     public void Accept(){
         PullBox();
-        GlobalUserData.Instance.User.SubstractCurrency(box.GetCost());
+        GlobalUserData.Instance.User.SubtractCurrency(box.GetCost());
     }
 
     private void PullBox(){

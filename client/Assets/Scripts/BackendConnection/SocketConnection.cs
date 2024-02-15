@@ -290,6 +290,19 @@ public class SocketConnection : MonoBehaviour {
                 foreach(var userItem in webSocketResponse.User.Items)
                 {
                     items.Add(CreateItemFromData(userItem));
+                }
+
+                Dictionary<Currency, int> currencies = new Dictionary<Currency, int>();
+
+                foreach(var currency in webSocketResponse.User.Currencies) {
+                    if (Enum.TryParse<Currency>(currency.Currency.Name, out Currency currencyValue))
+                    {
+                        currencies.Add(currencyValue, (int)currency.Amount);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Currency brought from the backend not found in client: {currency.Currency.Name}");
+                    }
 
                 }
 
@@ -298,7 +311,8 @@ public class SocketConnection : MonoBehaviour {
                     id = webSocketResponse.User.Id,
                     username = webSocketResponse.User.Username,
                     units = units,
-                    items = items
+                    items = items,
+                    currencies = currencies
                 };
 
                 onGetUserDataReceived?.Invoke(user);
@@ -445,6 +459,20 @@ public class SocketConnection : MonoBehaviour {
         };
         WebSocketRequest request = new WebSocketRequest {
             UnequipItem = unequipItemRequest
+        };
+        SendWebSocketMessage(request);
+        currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+    }
+
+    public void LevelUpItem(string userId, string itemId, Action<Item> onItemDataReceived) {
+        LevelUpItem levelUpItemRequest = new LevelUpItem {
+            UserId = userId,
+            ItemId = itemId
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            LevelUpItem = levelUpItemRequest
         };
         SendWebSocketMessage(request);
         currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);

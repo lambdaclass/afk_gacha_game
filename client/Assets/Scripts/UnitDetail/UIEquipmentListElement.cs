@@ -26,11 +26,16 @@ public class UIEquipmentListElement : MonoBehaviour
     [SerializeField]
     Button unequipButton;
 
+    [SerializeField]
+    TMP_Text itemLevelUpText;
+
     public void SetItemInfo(UnitDetail unitDetail, Item item) {
         this.unitDetail = unitDetail;
         this.item = item;
         itemNameText.text = item.template.name;
         itemLevelText.text = $"Level: {item.level}";
+        // Currently no way to know which resource is needed to level up the weapon
+        itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
         // We don't currently get the image from the backend but it should be set up here.
 
         if(!String.IsNullOrEmpty(this.item.unitId)) {
@@ -49,5 +54,15 @@ public class UIEquipmentListElement : MonoBehaviour
         unitDetail.UnequipItem(item.id);
         equipButton.gameObject.SetActive(true);
         unequipButton.gameObject.SetActive(false);
+    }
+
+    public void LevelUpItem() {
+        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, this.item.id, (item) => {
+            GlobalUserData.Instance.User.items.Find(item => item.id == this.item.id).level = item.level;
+            this.item.level = item.level;
+            itemLevelText.text = $"Level: {item.level}";
+            // Currently no way to know which resource is needed to level up the weapon
+            itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
+        });
     }
 }
