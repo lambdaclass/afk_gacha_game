@@ -41,7 +41,7 @@ public class UIEquipmentSlot : MonoBehaviour
     {
         this.equippedItem = item;
         if(item != null) {
-            equipmentIcon.sprite = item.icon;
+            equipmentIcon.sprite = item.template.icon;
             equipmentIcon.gameObject.SetActive(true);
             slotIcon.gameObject.SetActive(false);
             actionIcon.sprite = removeIconSprite;
