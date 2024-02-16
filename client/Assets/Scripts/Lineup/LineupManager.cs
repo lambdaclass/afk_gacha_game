@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class LineupManager : MonoBehaviour, IUnitPopulator
 {
+    List<Unit> playerAvailableUnits;
+
     [SerializeField]
     LineUpUnitsUIContainer unitsContainer;
 
@@ -28,10 +30,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     {
         yield return new WaitUntil(() => GlobalUserData.Instance != null);
 
-        List<Unit> units = GlobalUserData.Instance.Units;
+        playerAvailableUnits = GlobalUserData.Instance.Units;
 
-        this.unitsContainer.Populate(units, this);
-        SetUpSelectedUnits(units, true);
+        this.unitsContainer.Populate(playerAvailableUnits, this);
+        SetUpSelectedUnits(playerAvailableUnits, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
@@ -94,7 +96,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         if(unit.selected) {
             unitItemUI.SetSelectedChampionMark(true);
             unitItemButton.interactable = false;
-        } else if (playerUnitPositions.Count() >= 5) {
+        } else if (playerAvailableUnits.Where(unit => unit.selected).Count() >= 5) {
             unitItemUI.SetLocked(true);
             unitItemButton.interactable = false;
         }

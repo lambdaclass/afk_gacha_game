@@ -109,17 +109,19 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
 
-            List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-            Debug.Log($"Response type case: {webSocketResponse.ResponseTypeCase}");
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             switch (webSocketResponse.ResponseTypeCase)
             {
                 case WebSocketResponse.ResponseTypeOneofCase.User:
+                    List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
                     HandleUserResponse(webSocketResponse.User, availableCharacters);
                     break;
                 case WebSocketResponse.ResponseTypeOneofCase.Error:
                     Debug.LogError("response type error");
+                    break;
+                // Since the response of type Unit isn't used for anything there isn't a specific handler for it, it is caught here so it doesn't log any confusing messages
+                case WebSocketResponse.ResponseTypeOneofCase.Unit:
                     break;
                 default:
                     Debug.Log("Request case not handled");
