@@ -61,12 +61,15 @@ public class UIEquipmentListElement : MonoBehaviour
 
     public void LevelUpItem() {
         SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, this.item.id, (item) => {
-            GlobalUserData.Instance.User.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));
-            GlobalUserData.Instance.User.items.Find(item => item.id == this.item.id).level = item.level;
-            this.item.level = item.level;
-            itemLevelText.text = $"Level: {item.level}";
-            // Currently no way to know which resource is needed to level up the weapon
-            itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
+            // Check if level of item returned changed, if not then the level up wasn't successful (should refactor)
+            if(item.level > this.item.level) {
+                GlobalUserData.Instance.User.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));
+                GlobalUserData.Instance.User.items.Find(item => item.id == this.item.id).level = item.level;
+                this.item.level = item.level;
+                itemLevelText.text = $"Level: {item.level}";
+                // Currently no way to know which resource is needed to level up the weapon
+                itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
+            }
         });
     }
 }
