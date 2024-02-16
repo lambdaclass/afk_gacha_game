@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 
 public class LineupManager : MonoBehaviour, IUnitPopulator
 {
+    List<Unit> playerAvailableUnits;
+
     [SerializeField]
     LineUpUnitsUIContainer unitsContainer;
 
@@ -20,15 +23,22 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     void Start()
     {
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-        List<Unit> units = globalUserData.Units;
+        StartCoroutine(GetUser());
+    }
 
-        this.unitsContainer.Populate(units, this);
-        SetUpSelectedUnits(units, true);
+    private IEnumerator GetUser()
+    {
+        yield return new WaitUntil(() => GlobalUserData.Instance != null);
+
+        playerAvailableUnits = GlobalUserData.Instance.Units;
+
+        this.unitsContainer.Populate(playerAvailableUnits, this);
+        SetUpSelectedUnits(playerAvailableUnits, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
-        SetUpSelectedUnits(LevelData.Instance.Units, false);
+        LevelData levelData = BattleManager.selectedLevelData;
+        SetUpSelectedUnits(levelData.units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
@@ -53,6 +63,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unit.slot = slot;
             unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
+            SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
             unitsContainer.SetUnitUIActiveById(unit.id, false);
         }
     }
@@ -63,6 +74,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         unitPosition.OnUnitRemoved -= RemoveUnitFromLineup;
         unit.selected = false;
         unit.slot = null;
+        SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
         unitsContainer.SetUnitUIActiveById(unit.id, true);
     }
 
@@ -84,7 +96,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         if(unit.selected) {
             unitItemUI.SetSelectedChampionMark(true);
             unitItemButton.interactable = false;
-        } else if (playerUnitPositions.Count() >= 5) {
+        } else if (playerAvailableUnits.Where(unit => unit.selected).Count() >= 5) {
             unitItemUI.SetLocked(true);
             unitItemButton.interactable = false;
         }

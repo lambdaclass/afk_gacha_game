@@ -98,7 +98,7 @@ public class Level : MonoBehaviour
     }
 
     private void SetLevel() {
-        LevelData.Instance.Level = this;
+        LevelItem.Instance.Level = this;
     }
 
     private void SetLevelToComplete() {
@@ -111,10 +111,10 @@ public class Level : MonoBehaviour
     }
 
     private void SetCampaignToComplete() {
-        CampaignProgressData.Instance.CampaignToComplete = campaignToComplete;
+        // CampaignProgressData.Instance.CampaignToComplete = campaignToComplete;
     }
 
     private void SetCampaignToUnlock() {
-        CampaignProgressData.Instance.CampaignToUnlock = campaignToUnlock;
+        // CampaignProgressData.Instance.CampaignToUnlock = campaignToUnlock;
     }
 }

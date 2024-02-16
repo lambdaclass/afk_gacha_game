@@ -26,6 +26,7 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
 
     public override void SelectUnit(Unit unit, GameObject selector)
     {
+        Debug.Log("select unit");
         Button unitItemButton = selector.GetComponent<Button>();
         OnUnitSelected.Invoke(unit);
         unitItemButton.interactable = false;

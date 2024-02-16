@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &6749143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6749145}
+  - component: {fileID: 6749144}
+  m_Layer: 0
+  m_Name: CampaignsMapManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &6749144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 123526e23ead04e1484c7e72aabb5d23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  campaignItems:
+  - {fileID: 1069111804}
+  - {fileID: 504427597}
+  - {fileID: 1540271240}
+  sceneManager: {fileID: 1045099589}
+--- !u!4 &6749145
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749143}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00004172325, y: 1.5944575, z: -100.01375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &504427596
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +179,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: campaignToShowPrefab
@@ -279,6 +333,18 @@ PrefabInstance:
       objectReference: {fileID: 1045099589}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+--- !u!114 &504427597 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
+    type: 3}
+  m_PrefabInstance: {fileID: 504427596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad0456984eb947c3855979fdc93fcd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &536687277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -773,17 +839,17 @@ PrefabInstance:
     - target: {fileID: 114754063598300098, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.1882353
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114754063598300098, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.23921569
+      value: 0.7607843
       objectReference: {fileID: 0}
     - target: {fileID: 114754063598300098, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
       propertyPath: m_Color.r
-      value: 1
+      value: 0.34509805
       objectReference: {fileID: 0}
     - target: {fileID: 114902987647824782, guid: f9fa21dca98874c4196e015010414446,
         type: 3}
@@ -927,7 +993,7 @@ GameObject:
   - component: {fileID: 1045099590}
   - component: {fileID: 1045099589}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: SceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -967,6 +1033,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: first
@@ -1116,11 +1187,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8915763092202398284, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915763092202398284, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 1045099589}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+--- !u!114 &1069111804 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
+    type: 3}
+  m_PrefabInstance: {fileID: 1069111803}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad0456984eb947c3855979fdc93fcd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1540271239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1128,6 +1216,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
       propertyPath: campaignToShowPrefab
@@ -1149,6 +1242,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Campaign_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7096975054899021653, guid: b976b0f1477c04167ab8adef6b5cfa20,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7096975054899021674, guid: b976b0f1477c04167ab8adef6b5cfa20,
         type: 3}
@@ -1262,6 +1360,18 @@ PrefabInstance:
       objectReference: {fileID: 1045099589}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+--- !u!114 &1540271240 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20,
+    type: 3}
+  m_PrefabInstance: {fileID: 1540271239}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad0456984eb947c3855979fdc93fcd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1545587329
 PrefabInstance:
   m_ObjectHideFlags: 0

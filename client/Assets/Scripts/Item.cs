@@ -1,65 +1,27 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
+// "ItemInstance" rethink names? In backend is like this
 public class Item
 {
-    public static int nextId = 0;
-    public string id { get; }
-    public ConcreteItem concreteItem { get; set; }
-    public List<Effect> effects = new List<Effect>();
-    public Unit equippedTo;
+    public string id;
+    public int level;
+    public ItemTemplate template;
+    public string userId;
+    public string unitId;
+    // Hardcoded sprite, should get from backend
+    public Sprite icon = Resources.Load<Sprite>("UI/Equipment/PlaceholderSprite");
 
-    public Item(string _name, List<Effect> _effects, EquipType _type, ConcreteItem _concreteItem) {
-        id = NextId();
-        effects = _effects;
-        concreteItem = _concreteItem;
-    }
-
-    public static string NextId() { return nextId++.ToString(); }
-}
-
-public enum EquipType {
-    Head,
-    Chest,
-    Weapon,
-    Boots,
-    Accessory
-}
-
-
-public class Effect
-{
-    public Attribute attribute;
-    public Modifier modifier;
-}
-
-public enum Attribute
-{
-    // Eventually we'll have actual attributes like health, damage, etc.
-    // For now we use the level since that's all we have.
-    Level
-}
-
-public abstract class Modifier
-{
-    public abstract int CalculateModification(int baseValue);
-}
-
-public class AdditiveModifier : Modifier
-{
-    public int value;
-
-    public override int CalculateModification(int baseValue)
-    {
-        return baseValue + value;
+    public int GetLevelUpCost() {
+        return (int)Math.Pow(level, 2);
     }
 }
 
-public class MultiplicativeModifier : Modifier
+public class ItemTemplate
 {
-    public float value;
-
-    public override int CalculateModification(int baseValue)
-    {
-        return (int)(baseValue * value);
-    }
+    public string id;
+    public string name;
+    public string type;
 }

@@ -10,5 +10,6 @@ public enum Currency {
     Gold,
     Gems,
     Scrolls,
-    HeroicScrolls
+    HeroicScrolls,
+    Experience
 }

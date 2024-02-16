@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -49,144 +50,54 @@ public class UnitDetail : MonoBehaviour
 
     private Dictionary<Currency, int> cost;
 
+    [SerializeField]
+    List<UIEquipmentSlot> equipmentSlots;
+
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
 
     void Start() {
-        SetActionAndCosts();
-        UpdateTexts();
-        UpdateStats();
+        SetUpEquipment();
         SetBackgroundImage();
         DisplayUnit();
-        DisplayUnitItems();
     }
 
     public void ActionButton() {
-        User user = GlobalUserData.Instance.User;
-        if (user.CanAfford(cost)) {
-            bool result;
-            if (actionLevelUp) { result = LevelUp(); } else { result = TierUp(); }
-
-            if (result) { 
-                user.SubstractCurrency(cost);
-                SetActionAndCosts();
-                UpdateTexts();
-            }
-        } else {
-            // Blocked by currency cost.
-        }
+        Debug.LogError("LevelUp not yet done in backend");
     }
 
-    private bool LevelUp() {
-        if (selectedUnit.LevelUp()) {
-            return true;
-        }
-        Debug.LogError("[UnitDetail.cs] Could not level up unit. Likely cause: a disparity between User.CanLevelUp() calls in UnitDetail.SetActionAndCosts() and Unit.LevelUp().");
-        return false;
-    }
-
-    private bool TierUp() {
-        if (selectedUnit.TierUp()) {
-            return true;
-        }
-        // Tell user they need to improve the ranking of their unit via fusion.
-        return false;
-    }
-
+    // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
     public static void SelectUnit(Unit unit) {
         selectedUnit = unit;
         SceneManager.LoadScene("UnitDetail");
     }
 
-    private void UpdateTexts() {
-        if (actionLevelUp) actionButtonText.text = "Level Up";
-        else actionButtonText.text = "Tier up";
-
-        goldCostText.text = cost.ContainsKey(Currency.Gold) ? cost[Currency.Gold].ToString() : "0";
-        gemCostText.text = cost.ContainsKey(Currency.Gems) ? cost[Currency.Gems].ToString() : "0";
+    public static Unit GetSelectedUnit() {
+        return selectedUnit;
     }
 
-    private void UpdateStats()
+    public void EquipItem(string itemId, string unitId)
     {
-        tierStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Tier\n" + selectedUnit.tier.ToString();
-        levelStatUI.GetComponentInChildren<TextMeshProUGUI>().text = "Level\n" + selectedUnit.level.ToString();
-        UpdateRank();    
-
+        SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
+            UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
+            GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
+        });
     }
 
-    private void UpdateRank()
+    public void UnequipItem(string itemId)
     {
-        GameObject rankPrefab;
-        int rankNumber;
-
-        switch (selectedUnit.rank)
-        {
-            case Rank.Star1:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
-                rankNumber = 1;
-                break;
-            case Rank.Star2:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
-                rankNumber = 2;
-                break;
-            case Rank.Star3:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
-                rankNumber = 3;
-                break;
-            case Rank.Star4:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
-                rankNumber = 4;
-                break;
-            case Rank.Star5:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
-                rankNumber = 5;
-                break;
-            case Rank.Illumination1:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
-                rankNumber = 1;
-                break;
-            case Rank.Illumination2:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
-                rankNumber = 2;
-                break;
-            case Rank.Illumination3:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Illumination");
-                rankNumber = 3;
-                break;
-            case Rank.Awakened:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Awakened");
-                rankNumber = 1;
-                break;
-            default:
-                rankPrefab = Resources.Load<GameObject>("UI/Ranks/Star");
-                rankNumber = 1;
-                break;
-        }
-
-        Transform rankContainer = rankStatUI.transform.Find("Value");
-        for (int i = 0; i < rankNumber; i++)
-        {
-            GameObject rank = Instantiate(rankPrefab, rankContainer);
-            // The instantiated rankPrefabs are placed equidistantly from each other inside the rankContainer, without exceeding the rankContainer's width.
-            // Also, they should be placed in the middle of the rankContainer's height.
-            rank.transform.localPosition = new Vector3(
-                (i - (rankNumber - 1) / 2f) * rankContainer.GetComponent<RectTransform>().rect.width / rankNumber,                 
-                -rankStatUI.transform.localPosition.y/2f, 
-                0);
-        }
-
+        SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
+            UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
+            GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
+        });
     }
 
-    private void SetActionAndCosts() {
-        if (selectedUnit.CanLevelUp()) {
-            actionLevelUp = true;
-            cost = selectedUnit.LevelUpCost;
-        } else {
-            actionLevelUp = false;
-            cost = selectedUnit.TierUpCost;
+    private void SetUpEquipment()
+    {
+        foreach(Item item in GlobalUserData.Instance.User.items.Where(item => item.unitId == selectedUnit.id)) {
+            equipmentSlots.Find(slot => slot.EquipmentType == item.template.type).SetEquippedItem(item);
         }
     }
-
     private void SetBackgroundImage() 
     {
         switch (selectedUnit.character.faction) 
@@ -224,25 +135,5 @@ public class UnitDetail : MonoBehaviour
     {
         Destroy(modelContainer.transform.GetChild(0).gameObject);
         characterNameContainer.SetActive(false);
-    }
-
-    private void DisplayUnitItems()
-    {
-        if (selectedUnit.head != null)
-        {
-            headItemSprite.GetComponent<Image>().sprite = selectedUnit.head.concreteItem.Sprite;
-        }
-        if (selectedUnit.chest != null)
-        {
-            chestItemSprite.GetComponent<Image>().sprite = selectedUnit.chest.concreteItem.Sprite;
-        }
-        if (selectedUnit.boots != null)
-        {
-            bootsItemSprite.GetComponent<Image>().sprite = selectedUnit.boots.concreteItem.Sprite;
-        }
-        if (selectedUnit.weapon != null)
-        {
-            weaponItemSprite.GetComponent<Image>().sprite = selectedUnit.weapon.concreteItem.Sprite;
-        }
     }
 }
