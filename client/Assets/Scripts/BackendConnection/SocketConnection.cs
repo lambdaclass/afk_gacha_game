@@ -112,7 +112,7 @@ public class SocketConnection : MonoBehaviour {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
 
             List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-
+            Debug.Log($"Response type case: {webSocketResponse.ResponseTypeCase}");
             switch (webSocketResponse.ResponseTypeCase)
             {
                 case WebSocketResponse.ResponseTypeOneofCase.User:
@@ -224,12 +224,15 @@ public class SocketConnection : MonoBehaviour {
         if(GlobalUserData.Instance.User == null) {
             string userId = PlayerPrefs.GetString("userId");
             if(String.IsNullOrEmpty(userId)) {
+                Debug.Log("No user in player prefs, creating user with username \"testUser\"");
                 CreateUser("testUser", (user) => {
                     PlayerPrefs.SetString("userId", user.id);
                     GlobalUserData.Instance.User = user;
+                    Debug.Log("User created correctly");
                 });
             }
             else {
+                Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
                 GetUser(userId, (user) => {
                     PlayerPrefs.SetString("userId", user.id);
                     GlobalUserData.Instance.User = user;
@@ -316,10 +319,14 @@ public class SocketConnection : MonoBehaviour {
                 ws.OnMessage += OnWebSocketMessage;
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                Debug.LogError($"error reason: {webSocketResponse.Error.Reason}");
                 switch(webSocketResponse.Error.Reason) {
                     case "not_found":
-                        CreateUser("testUser", onGetUserDataReceived);
+                        Debug.Log("User not found, trying to create new user");
+                        CreateUser("testUser",  (user) => {
+                            PlayerPrefs.SetString("userId", user.id);
+                            GlobalUserData.Instance.User = user;
+                            Debug.Log("User created correctly");
+                        });
                         break;
                     case "username_taken":
                         Debug.LogError("Tried to create user, username was taken");
