@@ -37,22 +37,26 @@ public class UIEquipmentListElement : MonoBehaviour
         this.item = item;
         itemNameText.text = item.template.name;
         itemLevelText.text = $"Level: {item.level}";
-        // Currently no way to know which resource is needed to level up the weapon
+        // Currently no way to know which resource is needed to level up the weapon.
         itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
         // We don't currently get the image from the backend but it should be set up here.
 
         if(this.item.unitId == UnitDetail.GetSelectedUnit().id) {
+            equippedUnitIconUI.gameObject.SetActive(false);
             equipButton.gameObject.SetActive(false);
             unequipButton.gameObject.SetActive(true);
         } else if(!String.IsNullOrEmpty(this.item.unitId)) {
-
+            equippedUnitIconUI.gameObject.SetActive(true);
+            // Not the prettiest code
+            equippedUnitIconUI.SetUpUnitItemUI(GlobalUserData.Instance.User.units.Find(unit => unit.id == this.item.unitId));
+            equipButton.GetComponentInChildren<TMP_Text>().text = "Change";
+        } else {
+            equippedUnitIconUI.gameObject.SetActive(false);
+            equipButton.GetComponentInChildren<TMP_Text>().text = "Equip";
         }
     }
 
     public void EquipItem() {
-        if(!String.IsNullOrEmpty(item.unitId)) {
-            Debug.Log($"Unequipped item from unit: {item.unitId} and equipped to current unit");
-        }
         unitDetail.EquipItem(item.id, UnitDetail.GetSelectedUnit().id);
         equipButton.gameObject.SetActive(false);
         unequipButton.gameObject.SetActive(true);
