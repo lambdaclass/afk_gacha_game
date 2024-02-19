@@ -18,7 +18,7 @@ public class UIEquipmentListElement : MonoBehaviour
     TMP_Text itemLevelText;
     
     [SerializeField]
-    Image itemIcon;
+    Image itemIconUI;
 
     [SerializeField]
     Button equipButton;
@@ -28,6 +28,9 @@ public class UIEquipmentListElement : MonoBehaviour
 
     [SerializeField]
     TMP_Text itemLevelUpText;
+
+    [SerializeField]
+    UnitItemUI equippedUnitIconUI;
 
     public void SetItemInfo(UnitDetail unitDetail, Item item) {
         this.unitDetail = unitDetail;
@@ -41,6 +44,8 @@ public class UIEquipmentListElement : MonoBehaviour
         if(this.item.unitId == UnitDetail.GetSelectedUnit().id) {
             equipButton.gameObject.SetActive(false);
             unequipButton.gameObject.SetActive(true);
+        } else if(!String.IsNullOrEmpty(this.item.unitId)) {
+
         }
     }
 
