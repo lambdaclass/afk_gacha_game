@@ -64,7 +64,6 @@ public class UIEquipmentListElement : MonoBehaviour
     }
 
     public void EquipItem() {
-        print("EquipItem");
         unitDetail.EquipItem(item.id, UnitDetail.GetSelectedUnit().id);
         equipButton.gameObject.SetActive(false);
         unequipButton.gameObject.SetActive(true);
@@ -77,7 +76,7 @@ public class UIEquipmentListElement : MonoBehaviour
     }
 
     public void LevelUpItem() {
-        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, this.item.id, (item) => {
+        unitDetail.LevelUpItem(this.item, (item) => {
             // Check if level of item returned changed, if not then the level up wasn't successful (should refactor)
             if(item.level > this.item.level) {
                 GlobalUserData.Instance.User.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));

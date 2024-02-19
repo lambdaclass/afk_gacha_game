@@ -109,8 +109,8 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            Debug.Log(webSocketResponse.ResponseTypeCase);
             switch (webSocketResponse.ResponseTypeCase)
             {
                 case WebSocketResponse.ResponseTypeOneofCase.User:
@@ -118,6 +118,7 @@ public class SocketConnection : MonoBehaviour {
                     HandleUserResponse(webSocketResponse.User, availableCharacters);
                     break;
                 case WebSocketResponse.ResponseTypeOneofCase.Error:
+                    Debug.Log(webSocketResponse.Error.Reason);
                     Debug.LogError("response type error");
                     break;
                 // Since the response of type Unit isn't used for anything there isn't a specific handler for it, it is caught here so it doesn't log any confusing messages
@@ -452,10 +453,10 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest {
             EquipItem = equipItemRequest
         };
-        SendWebSocketMessage(request);
         currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
     public void UnequipItem(string userId, string itemId, Action<Item> onItemDataReceived) {
@@ -466,13 +467,13 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest {
             UnequipItem = unequipItemRequest
         };
-        SendWebSocketMessage(request);
         currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
-    public void LevelUpItem(string userId, string itemId, Action<Item> onItemDataReceived) {
+    public void LevelUpItem(string userId, string itemId, Action<Item> onItemDataReceived, Action<string> onError) {
         LevelUpItem levelUpItemRequest = new LevelUpItem {
             UserId = userId,
             ItemId = itemId
@@ -480,13 +481,13 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest {
             LevelUpItem = levelUpItemRequest
         };
-        SendWebSocketMessage(request);
-        currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived);
+        currentMessageHandler = (data) => AwaitItemResponse(data, onItemDataReceived, onError);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
-    private void AwaitItemResponse(byte[] data, Action<Item> onCampaignDataReceived)
+    private void AwaitItemResponse(byte[] data, Action<Item> onItemDataReceived, Action<string> onError = null)
     {
         try
         {
@@ -494,10 +495,11 @@ public class SocketConnection : MonoBehaviour {
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Item) {
                 ws.OnMessage -= currentMessageHandler;
                 Item item = CreateItemFromData(webSocketResponse.Item);
-                onCampaignDataReceived?.Invoke(item);
+                onItemDataReceived?.Invoke(item);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                Debug.LogError(webSocketResponse.Error.Reason);
+                ws.OnMessage -= currentMessageHandler;
+                onError?.Invoke(webSocketResponse.Error.Reason);
             }
             ws.OnMessage += OnWebSocketMessage;
         }
