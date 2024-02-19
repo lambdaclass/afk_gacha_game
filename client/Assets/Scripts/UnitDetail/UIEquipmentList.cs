@@ -15,6 +15,9 @@ public class UIEquipmentList : MonoBehaviour
     [SerializeField]
     UnitDetail unitDetail;
 
+    [SerializeField]
+    ChangeItemUnitPopup changeItemUnitPopup;
+
     void OnEnable()
     {
         foreach (Transform child in UIItemsContainer.transform) {
@@ -24,7 +27,7 @@ public class UIEquipmentList : MonoBehaviour
         foreach(Item item in GlobalUserData.Instance.User.items.Where(item => item.template.type == UIEquipmentSlot.selctedEquipmentSlot.EquipmentType).OrderBy(item => String.IsNullOrEmpty(item.unitId))) {
             GameObject ItemGO = Instantiate(UIItemPrefab, UIItemsContainer.transform);
             UIEquipmentListElement ItemUI = ItemGO.GetComponent<UIEquipmentListElement>();
-            ItemUI.SetItemInfo(unitDetail, item);
+            ItemUI.SetItemInfo(unitDetail, item, changeItemUnitPopup);
         }
     }
 }

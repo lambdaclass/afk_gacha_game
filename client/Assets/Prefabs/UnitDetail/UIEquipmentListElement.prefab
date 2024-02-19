@@ -943,7 +943,7 @@ MonoBehaviour:
   equipButton: {fileID: 5560286842157226916}
   unequipButton: {fileID: 4291887842051352344}
   itemLevelUpText: {fileID: 2515359634523128067}
-  equippedUnitIconUI: {fileID: 7374822274534391751}
+  currentUnitIconUI: {fileID: 7374822274534391751}
 --- !u!1 &5560286841708265274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,19 +1142,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5560286842157226919}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5748120677360765829}
-        m_TargetAssemblyTypeName: UIEquipmentListElement, Assembly-CSharp
-        m_MethodName: EquipItem
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7795858613179543709
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,9 +30,9 @@ public class UIEquipmentListElement : MonoBehaviour
     TMP_Text itemLevelUpText;
 
     [SerializeField]
-    UnitItemUI equippedUnitIconUI;
+    UnitItemUI currentUnitIconUI;
 
-    public void SetItemInfo(UnitDetail unitDetail, Item item) {
+    public void SetItemInfo(UnitDetail unitDetail, Item item, ChangeItemUnitPopup changeItemUnitPopup) {
         this.unitDetail = unitDetail;
         this.item = item;
         itemNameText.text = item.template.name;
@@ -42,21 +42,29 @@ public class UIEquipmentListElement : MonoBehaviour
         // We don't currently get the image from the backend but it should be set up here.
 
         if(this.item.unitId == UnitDetail.GetSelectedUnit().id) {
-            equippedUnitIconUI.gameObject.SetActive(false);
+            currentUnitIconUI.gameObject.SetActive(false);
             equipButton.gameObject.SetActive(false);
             unequipButton.gameObject.SetActive(true);
         } else if(!String.IsNullOrEmpty(this.item.unitId)) {
-            equippedUnitIconUI.gameObject.SetActive(true);
+            currentUnitIconUI.gameObject.SetActive(true);
             // Not the prettiest code
-            equippedUnitIconUI.SetUpUnitItemUI(GlobalUserData.Instance.User.units.Find(unit => unit.id == this.item.unitId));
+            Unit currentUnit = GlobalUserData.Instance.User.units.Find(unit => unit.id == this.item.unitId);
+            currentUnitIconUI.SetUpUnitItemUI(currentUnit);
             equipButton.GetComponentInChildren<TMP_Text>().text = "Change";
+            equipButton.onClick.RemoveAllListeners();
+            equipButton.onClick.AddListener(() => {
+                changeItemUnitPopup.SetData(item, currentUnit, UnitDetail.GetSelectedUnit(), EquipItem);
+            });
         } else {
-            equippedUnitIconUI.gameObject.SetActive(false);
+            currentUnitIconUI.gameObject.SetActive(false);
             equipButton.GetComponentInChildren<TMP_Text>().text = "Equip";
+            equipButton.onClick.RemoveAllListeners();
+            equipButton.onClick.AddListener(EquipItem);
         }
     }
 
     public void EquipItem() {
+        print("EquipItem");
         unitDetail.EquipItem(item.id, UnitDetail.GetSelectedUnit().id);
         equipButton.gameObject.SetActive(false);
         unequipButton.gameObject.SetActive(true);
