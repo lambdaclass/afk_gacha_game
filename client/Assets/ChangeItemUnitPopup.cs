@@ -20,7 +20,7 @@ public class ChangeItemUnitPopup : MonoBehaviour
 
     public void SetData(Item item, Unit currentUnit, Unit targetUnit, Action equipItem)
     {
-        itemImage.sprite = item.icon;
+        itemImage.sprite = item.template.icon;
         currentUnitIconUI.SetUpUnitItemUI(currentUnit);
         targetUnitIconUI.SetUpUnitItemUI(targetUnit);
         confirmButtonUI.onClick.RemoveAllListeners();

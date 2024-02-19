@@ -73,6 +73,10 @@ public class UIEquipmentListElement : MonoBehaviour
         unitDetail.UnequipItem(item.id);
         equipButton.gameObject.SetActive(true);
         unequipButton.gameObject.SetActive(false);
+        currentUnitIconUI.gameObject.SetActive(false);
+        equipButton.GetComponentInChildren<TMP_Text>().text = "Equip";
+        equipButton.onClick.RemoveAllListeners();
+        equipButton.onClick.AddListener(EquipItem);
     }
 
     public void LevelUpItem() {
