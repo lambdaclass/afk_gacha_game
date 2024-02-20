@@ -54,9 +54,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private void AddUnitToLineup(Unit unit)
     {
-        UnitPosition unitPosition = playerUnitPositions.First(unitPosition => !unitPosition.IsOccupied);
+        UnitPosition unitPosition = playerUnitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
 
-        if(unitPosition)
+        if(unitPosition != null)
         {
             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
             unit.selected = true;

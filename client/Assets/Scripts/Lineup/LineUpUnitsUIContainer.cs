@@ -14,7 +14,7 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
             GameObject unitUIItem = Instantiate(unitItemUIPrefab, unitsContainer.transform);
             unitUIItem.GetComponentInChildren<Image>().sprite = unit.character.defaultSprite;
             Button unitItemButton = unitUIItem.GetComponent<Button>();
-            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitItemButton.gameObject));
+            unitItemButton.onClick.AddListener(() => SelectUnit(unit, unitUIItem));
             if (unitPopulator != null)
             {
                 unitPopulator.Populate(unit, unitUIItem);
@@ -26,8 +26,8 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
 
     public override void SelectUnit(Unit unit, GameObject selector)
     {
-        Button unitItemButton = selector.GetComponent<Button>();
         OnUnitSelected.Invoke(unit);
+        Button unitItemButton = selector.GetComponent<Button>();
         unitItemButton.interactable = false;
         SetLocks();
     }
