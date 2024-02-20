@@ -63,7 +63,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unit.slot = slot;
             unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
-            SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
+            // SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
             unitsContainer.SetUnitUIActiveById(unit.id, false);
         }
     }
@@ -74,7 +74,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         unitPosition.OnUnitRemoved -= RemoveUnitFromLineup;
         unit.selected = false;
         unit.slot = null;
-        SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
+        // SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
         unitsContainer.SetUnitUIActiveById(unit.id, true);
     }
 

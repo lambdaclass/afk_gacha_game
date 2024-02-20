@@ -32,9 +32,9 @@ public class BattleManager : MonoBehaviour
 
     public void Battle()
     {
-        SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
-            HandleBattleResult(result);
-        });
+        // SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
+        //     HandleBattleResult(result);
+        // });
     }
 
     private void HandleBattleResult(bool result)

@@ -80,18 +80,18 @@ public class UnitDetail : MonoBehaviour
 
     public void EquipItem(string itemId, string unitId)
     {
-        SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
-            UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
-            GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
-        });
+        // SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
+        //     UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
+        //     GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
+        // });
     }
 
     public void UnequipItem(string itemId)
     {
-        SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
-            UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
-            GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
-        });
+        // SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
+        //     UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
+        //     GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
+        // });
     }
 
     public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
@@ -100,13 +100,13 @@ public class UnitDetail : MonoBehaviour
             cantAffordPopup.SetActive(true);
             return;
         }
-        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) => {
-            onItemDataReceived?.Invoke(item);
-        }, (reason) => {
-            if(reason == "cant_afford") {
-                cantAffordPopup.SetActive(true);
-            }
-        });
+        // SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) => {
+        //     onItemDataReceived?.Invoke(item);
+        // }, (reason) => {
+        //     if(reason == "cant_afford") {
+        //         cantAffordPopup.SetActive(true);
+        //     }
+        // });
     }
 
     private void SetUpEquipment()

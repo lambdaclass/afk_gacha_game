@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
@@ -14,8 +15,10 @@ public class HeaderManager : MonoBehaviour
     User user;
 
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
+        await SocketConnection.Connect();
+        SocketConnection.GetUser("b52949a9-eb28-49d4-a614-d243452ca6e7");
         StartCoroutine(GetUserAndContinue());
     }
 

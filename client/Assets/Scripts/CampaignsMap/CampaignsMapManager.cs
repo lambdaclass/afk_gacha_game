@@ -13,9 +13,9 @@ public class CampaignsMapManager : MonoBehaviour
 
     void Start()
     {
-        SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) => {
-            GenerateCampaigns(campaigns);
-        });
+        // SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) => {
+        //     GenerateCampaigns(campaigns);
+        // });
     }
 
     private void GenerateCampaigns(List<CampaignData> campaigns)
