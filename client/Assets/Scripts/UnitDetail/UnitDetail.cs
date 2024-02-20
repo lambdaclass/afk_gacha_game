@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -48,7 +49,8 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     GameObject weaponItemSprite;
 
-    private Dictionary<Currency, int> cost;
+    [SerializeField]
+    GameObject cantAffordPopup;
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
@@ -89,6 +91,21 @@ public class UnitDetail : MonoBehaviour
         SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
+        });
+    }
+
+    public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
+        // Hardcoded to check for gold
+        if(item.GetLevelUpCost() > GlobalUserData.Instance.User.GetCurrency(Currency.Gold)) {
+            cantAffordPopup.SetActive(true);
+            return;
+        }
+        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) => {
+            onItemDataReceived?.Invoke(item);
+        }, (reason) => {
+            if(reason == "cant_afford") {
+                cantAffordPopup.SetActive(true);
+            }
         });
     }
 

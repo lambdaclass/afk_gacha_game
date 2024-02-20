@@ -18,7 +18,7 @@ public class UIEquipmentListElement : MonoBehaviour
     TMP_Text itemLevelText;
     
     [SerializeField]
-    Image itemIcon;
+    Image itemIconUI;
 
     [SerializeField]
     Button equipButton;
@@ -29,25 +29,41 @@ public class UIEquipmentListElement : MonoBehaviour
     [SerializeField]
     TMP_Text itemLevelUpText;
 
-    public void SetItemInfo(UnitDetail unitDetail, Item item) {
+    [SerializeField]
+    UnitItemUI currentUnitIconUI;
+
+    public void SetItemInfo(UnitDetail unitDetail, Item item, ChangeItemUnitPopup changeItemUnitPopup) {
         this.unitDetail = unitDetail;
         this.item = item;
         itemNameText.text = item.template.name;
         itemLevelText.text = $"Level: {item.level}";
-        // Currently no way to know which resource is needed to level up the weapon
+        // Currently no way to know which resource is needed to level up the weapon.
         itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
         // We don't currently get the image from the backend but it should be set up here.
 
         if(this.item.unitId == UnitDetail.GetSelectedUnit().id) {
+            currentUnitIconUI.gameObject.SetActive(false);
             equipButton.gameObject.SetActive(false);
             unequipButton.gameObject.SetActive(true);
+        } else if(!String.IsNullOrEmpty(this.item.unitId)) {
+            currentUnitIconUI.gameObject.SetActive(true);
+            // Not the prettiest code
+            Unit currentUnit = GlobalUserData.Instance.User.units.Find(unit => unit.id == this.item.unitId);
+            currentUnitIconUI.SetUpUnitItemUI(currentUnit);
+            equipButton.GetComponentInChildren<TMP_Text>().text = "Change";
+            equipButton.onClick.RemoveAllListeners();
+            equipButton.onClick.AddListener(() => {
+                changeItemUnitPopup.SetData(item, currentUnit, UnitDetail.GetSelectedUnit(), EquipItem);
+            });
+        } else {
+            currentUnitIconUI.gameObject.SetActive(false);
+            equipButton.GetComponentInChildren<TMP_Text>().text = "Equip";
+            equipButton.onClick.RemoveAllListeners();
+            equipButton.onClick.AddListener(EquipItem);
         }
     }
 
     public void EquipItem() {
-        if(!String.IsNullOrEmpty(item.unitId)) {
-            Debug.Log($"Unequipped item from unit: {item.unitId} and equipped to current unit");
-        }
         unitDetail.EquipItem(item.id, UnitDetail.GetSelectedUnit().id);
         equipButton.gameObject.SetActive(false);
         unequipButton.gameObject.SetActive(true);
@@ -57,10 +73,14 @@ public class UIEquipmentListElement : MonoBehaviour
         unitDetail.UnequipItem(item.id);
         equipButton.gameObject.SetActive(true);
         unequipButton.gameObject.SetActive(false);
+        currentUnitIconUI.gameObject.SetActive(false);
+        equipButton.GetComponentInChildren<TMP_Text>().text = "Equip";
+        equipButton.onClick.RemoveAllListeners();
+        equipButton.onClick.AddListener(EquipItem);
     }
 
     public void LevelUpItem() {
-        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, this.item.id, (item) => {
+        unitDetail.LevelUpItem(this.item, (item) => {
             // Check if level of item returned changed, if not then the level up wasn't successful (should refactor)
             if(item.level > this.item.level) {
                 GlobalUserData.Instance.User.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));
