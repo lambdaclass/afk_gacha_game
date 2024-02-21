@@ -24,17 +24,17 @@ public class UnitPosition : MonoBehaviour
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
         unitName.text = $"{unit.character.name} LVL: {unit.level}";
+        unitName.transform.parent.gameObject.SetActive(true);
         isOccupied = true;
-        unitName.gameObject.SetActive(true);
         removeSign.SetActive(isPlayer);
         GetComponent<Button>().interactable = isPlayer;
         Instantiate(unit.character.prefab, modelContainer.transform);
     }
 
     public void UnselectUnit() {
+        unitName.transform.parent.gameObject.SetActive(false);
         unitName.text = String.Empty;
         isOccupied = false;
-        unitName.gameObject.SetActive(false);
         removeSign.SetActive(false);
         Destroy(modelContainer.transform.GetChild(0).gameObject);
         GetComponent<Button>().interactable = false;
