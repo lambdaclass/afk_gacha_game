@@ -2550,7 +2550,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7030375157332425269, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
       propertyPath: m_Name
-      value: TierStatUI
+      value: HealthStatUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7030375157332425269, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7030375158796419498, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2587,7 +2591,7 @@ PrefabInstance:
     - target: {fileID: 8974902742151796865, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 223e9efa268312449812d64d421c8450, type: 3}
+      objectReference: {fileID: 21300000, guid: 3c796fa3e86cd8b48ad142fdfb8ce8fa, type: 3}
     - target: {fileID: 8974902742151796865, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -2854,7 +2858,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 625935470}
         m_TargetAssemblyTypeName: UnitDetail, Assembly-CSharp
-        m_MethodName: ActionButton
+        m_MethodName: LevelUpUnit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
