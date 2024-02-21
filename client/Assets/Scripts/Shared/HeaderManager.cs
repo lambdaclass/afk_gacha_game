@@ -18,7 +18,8 @@ public class HeaderManager : MonoBehaviour
     async void Start()
     {
         await SocketConnection.Connect();
-        SocketConnection.GetUser("b52949a9-eb28-49d4-a614-d243452ca6e7");
+        // Hardcoded userId, should be changed to the userId you have in your database. Better yet should be to build the full user login and creation with the new websocket implemetatiom
+        SocketConnection.GetUser("76eff72a-02be-4485-92a0-11009fff2ca2");
         StartCoroutine(GetUserAndContinue());
     }
 
