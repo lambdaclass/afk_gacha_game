@@ -526,8 +526,6 @@ public static class SocketConnection
         try {
             webSocket.Options.SetRequestHeader("Origin", "http://example.com");
             await webSocket.ConnectAsync(wsUri, CancellationToken.None);
-            Debug.Log("conexion satisfactoria");
-            // Start a background task to receive messages
             _ = ReceiveMessages();
         } catch(Exception ex) {
             Debug.Log(ex.Message);
@@ -554,7 +552,6 @@ public static class SocketConnection
                         var webSocketResponse = WebSocketResponse.Parser.ParseFrom(messageBytes.ToArray());
                         Debug.Log("received user: " + webSocketResponse.User.Id);
                         
-                        // Clear the message buffer for the next message
                         messageBytes.Clear();
                     }
                 }
@@ -590,7 +587,6 @@ public static class SocketConnection
                 message.WriteTo(stream);
                 var msg = stream.ToArray();
                 webSocket.SendAsync(msg, WebSocketMessageType.Binary, true, CancellationToken.None);
-                Debug.Log("mensaje enviado");
             }
         } catch(Exception e) {
             Debug.LogError(e.Message);
