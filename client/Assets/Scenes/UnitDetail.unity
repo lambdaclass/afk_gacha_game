@@ -3568,7 +3568,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 919205758}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 625935470}
+        m_TargetAssemblyTypeName: UnitDetail, Assembly-CSharp
+        m_MethodName: PreviousUnit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &928639177
 GameObject:
   m_ObjectHideFlags: 0
@@ -4055,7 +4067,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1009150718}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 625935470}
+        m_TargetAssemblyTypeName: UnitDetail, Assembly-CSharp
+        m_MethodName: NextUnit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1042843541 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6858262836679624500, guid: 226c8f6dfa61149b995339a7bf2ba479, type: 3}
