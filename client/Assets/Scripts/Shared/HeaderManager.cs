@@ -11,7 +11,9 @@ public class HeaderManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI gold;
     [SerializeField] TextMeshProUGUI gems;
 
-    User user;
+    static User user;
+
+    // static bool infoHasBeenSet = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +23,10 @@ public class HeaderManager : MonoBehaviour
 
     private IEnumerator GetUserAndContinue()
     {
-        yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
-
-        user = GlobalUserData.Instance.User;
+        if(user == null) {
+            yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
+            user = GlobalUserData.Instance.User;
+        }
 
         username.text = user.username;
 

@@ -13,7 +13,6 @@ public class UnitItemUI : MonoBehaviour {
     private Image selectedChampionMark;
     [SerializeField]
     private Image lockedOverlay;
-
     [SerializeField]
     private TextMeshProUGUI level;
 
@@ -34,7 +33,7 @@ public class UnitItemUI : MonoBehaviour {
 
     public void SetLocked(bool locked) {
         lockedOverlay.gameObject.SetActive(locked);
-        if (locked) {
+        if (locked || IsSelected()) {
             GetComponent<Button>().interactable = false;
         } else {
             GetComponent<Button>().interactable = true;
