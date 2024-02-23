@@ -5,9 +5,9 @@ public class GlobalUserData : MonoBehaviour
 {
     // This should be in it's own manager like of Curse of Mirra, not a list in the user singleton (should there be a user singleton?)
     [SerializeField]
-    List<UnitTemplate> characters;
+    List<Character> characters;
 
-    public List<UnitTemplate> AvailableCharacters {
+    public List<Character> AvailableCharacters {
         get {
             return this.characters;
         }

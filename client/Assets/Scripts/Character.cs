@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Unit Template", menuName = "Units")]
-public class UnitTemplate : ScriptableObject
+[CreateAssetMenu(fileName = "New Character", menuName = "Characters")]
+public class Character : ScriptableObject
 {
     public new string name;
     public Faction faction;

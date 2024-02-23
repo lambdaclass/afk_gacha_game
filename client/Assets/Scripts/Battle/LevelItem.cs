@@ -4,7 +4,7 @@ using UnityEngine;
 public class LevelItem : MonoBehaviour
 {
     [SerializeField]
-    List<UnitTemplate> characters;
+    List<Character> characters;
 
     // Singleton instance
     private static LevelItem instance;

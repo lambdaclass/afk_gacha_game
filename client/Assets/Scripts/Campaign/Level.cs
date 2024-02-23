@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Level : MonoBehaviour
 {
     // The characters of the units the level has, in order.
-    [SerializeField] List<UnitTemplate> characters;
+    [SerializeField] List<Character> characters;
     
     // The levels of the units the level has, in order.
     [SerializeField] List<int> levels;
