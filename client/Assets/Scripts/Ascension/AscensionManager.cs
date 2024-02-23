@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 public class AscensionManager : MonoBehaviour, IUnitPopulator
 {
-    [SerializeField] GameObject modelContainer;
-    [SerializeField] Button fusionButton;
-    [SerializeField] FusionUnitsUIContainer unitsContainer;
-    [SerializeField] GameObject characterNameContainer;
+    [SerializeField]
+    Button fusionButton;
+    [SerializeField]
+    FusionUnitsUIContainer unitsContainer;
+    [SerializeField]
+    GameObject characterNameContainer;
+    [SerializeField]
+    Image selectedCharacterImage;
 
     private List<Unit> selectedUnits;
 
@@ -54,7 +58,7 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
         }
         else
         {
-            RemoveUnitFromContainer(unit);
+            RemoveUnitFromDisplay(unit);
             unitsContainer.SetUnitsLock(unit.character.faction, false);
             fusionButton.gameObject.SetActive(false);
         }
@@ -62,19 +66,16 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
 
     private void DisplayUnit(Unit unit)
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer(unit);
-        }
-        Instantiate(unit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = unit.character.inGameSprite;
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = unit.character.name + "\n Rank: " + unit.rank.ToString();
-        characterNameContainer.SetActive(true);
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
     }
 
-    private void RemoveUnitFromContainer(Unit unit)
+    private void RemoveUnitFromDisplay(Unit unit)
     {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
+        selectedCharacterImage.sprite = null;
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = null;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(false);
     }
 
     public void Fusion() {
