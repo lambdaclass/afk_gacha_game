@@ -113,10 +113,6 @@ public class SocketConnection : MonoBehaviour {
             Debug.Log(webSocketResponse.ResponseTypeCase);
             switch (webSocketResponse.ResponseTypeCase)
             {
-                case WebSocketResponse.ResponseTypeOneofCase.User:
-                    List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-                    HandleUserResponse(webSocketResponse.User, availableCharacters);
-                    break;
                 case WebSocketResponse.ResponseTypeOneofCase.Error:
                     Debug.Log(webSocketResponse.Error.Reason);
                     Debug.LogError("response type error");
@@ -135,7 +131,7 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
-    private void HandleUserResponse(Protobuf.User user, List<Character> availableCharacters)
+    private void HandleUserResponse(Protobuf.User user, List<UnitTemplate> availableCharacters)
     {
         List<Unit> units = new List<Unit>();
 
@@ -153,7 +149,7 @@ public class SocketConnection : MonoBehaviour {
         };
     }
 
-    private List<CampaignData> ParseCampaignsFromResponse(Protobuf.Campaigns campaignsData, List<Character> availableCharacters)
+    private List<CampaignData> ParseCampaignsFromResponse(Protobuf.Campaigns campaignsData, List<UnitTemplate> availableCharacters)
     {
         List<CampaignData> campaigns = new List<CampaignData>();
 
@@ -192,7 +188,7 @@ public class SocketConnection : MonoBehaviour {
         return campaigns;
     }
 
-    private Unit CreateUnitFromData(Protobuf.Unit unitData, List<Character> availableCharacters)
+    private Unit CreateUnitFromData(Protobuf.Unit unitData, List<UnitTemplate> availableCharacters)
     {
         return new Unit
         {
@@ -379,7 +375,7 @@ public class SocketConnection : MonoBehaviour {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Campaigns) {
                 ws.OnMessage -= currentMessageHandler;
-                List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
+                List<UnitTemplate> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
                 List<CampaignData> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, availableCharacters);
                 onCampaignDataReceived?.Invoke(campaigns);
                 ws.OnMessage += OnWebSocketMessage;
