@@ -50,7 +50,9 @@ public class UnitDetail : MonoBehaviour
     GameObject weaponItemSprite;
 
     [SerializeField]
-    GameObject cantAffordPopup;
+    GameObject insufficientCurrencyPopup;
+    [SerializeField]
+    GameObject needToTierUpPopup;
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
@@ -64,8 +66,28 @@ public class UnitDetail : MonoBehaviour
         DisplayUnit();
     }
 
-    public void ActionButton() {
-        Debug.LogError("LevelUp not yet done in backend");
+    public void LevelUp() {
+        SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
+        (unitAndCurrencies) => {
+            foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
+                GlobalUserData.Instance.User.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name), (int)userCurrency.Amount);
+            }
+            // Should this be encapsulated somewhere?
+            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;
+        },
+        (reason) => {
+            switch(reason) {
+                case "cant_afford":
+                    insufficientCurrencyPopup.SetActive(true);
+                    break;
+                case "cant_level_up":
+                    needToTierUpPopup.SetActive(true);
+                    break;
+                default:
+                    Debug.LogError(reason);
+                    break;
+            }
+        });
     }
 
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
@@ -82,6 +104,7 @@ public class UnitDetail : MonoBehaviour
     {
         SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
+            // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
         });
     }
@@ -90,6 +113,7 @@ public class UnitDetail : MonoBehaviour
     {
         SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
+            // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
         });
     }
@@ -97,14 +121,14 @@ public class UnitDetail : MonoBehaviour
     public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
         // Hardcoded to check for gold
         if(item.GetLevelUpCost() > GlobalUserData.Instance.User.GetCurrency(Currency.Gold)) {
-            cantAffordPopup.SetActive(true);
+            insufficientCurrencyPopup.SetActive(true);
             return;
         }
         SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) => {
             onItemDataReceived?.Invoke(item);
         }, (reason) => {
             if(reason == "cant_afford") {
-                cantAffordPopup.SetActive(true);
+                insufficientCurrencyPopup.SetActive(true);
             }
         });
     }

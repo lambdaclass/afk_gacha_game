@@ -226,6 +226,7 @@ public class SocketConnection : MonoBehaviour {
     }
 
     // Better name for this method?
+    // This should be refactored, assigning player prefs should not be handled here
     private void GetUserAndContinue()
     {
         if(GlobalUserData.Instance.User == null) {
@@ -500,6 +501,41 @@ public class SocketConnection : MonoBehaviour {
                 ws.OnMessage -= currentMessageHandler;
                 Item item = CreateItemFromData(webSocketResponse.Item);
                 onItemDataReceived?.Invoke(item);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                ws.OnMessage -= currentMessageHandler;
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+            ws.OnMessage += OnWebSocketMessage;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
+    public void LevelUpUnit(string userId, string unitId, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError) {
+        LevelUpUnit levelUpUnitRequest = new LevelUpUnit {
+            UserId = userId,
+            UnitId = unitId
+        };
+        WebSocketRequest request = new WebSocketRequest {
+            LevelUpUnit = levelUpUnitRequest
+        };
+        currentMessageHandler = (data) => AwaitUnitAndCurrenciesReponse(data, onUnitAndCurrenciesDataReceived, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitUnitAndCurrenciesReponse(byte[] data, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError = null)
+    {
+        try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UnitAndCurrencies) {
+                ws.OnMessage -= currentMessageHandler;
+                onUnitAndCurrenciesDataReceived?.Invoke(webSocketResponse.UnitAndCurrencies);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 ws.OnMessage -= currentMessageHandler;
