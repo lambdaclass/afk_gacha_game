@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Fetra
   faction: 0
-  defaultSprite: {fileID: 21300000, guid: ef0342d46db8748e99fe6163572f8a9d, type: 3}
+  defaultSprite: {fileID: 21300000, guid: d7ac9d893401d4af1b67ae9df4e84c98, type: 3}
   disabledSprite: {fileID: 21300000, guid: 7cbbd800f2b02497a91084c47728e2a8, type: 3}
   selectedSprite: {fileID: 21300000, guid: 657b179b25e5447fb93a7832cec990b1, type: 3}
   inGameSprite: {fileID: -108213976, guid: a517222ed693d4a9a82d52ed5d82450b, type: 3}
