@@ -56,6 +56,8 @@ public class UnitDetail : MonoBehaviour
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
+    [SerializeField]
+    TMP_Text unitLevelText;
 
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
@@ -73,7 +75,8 @@ public class UnitDetail : MonoBehaviour
                 GlobalUserData.Instance.User.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name), (int)userCurrency.Amount);
             }
             // Should this be encapsulated somewhere?
-            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;
+            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
+            unitLevelText.text = $"Level: {selectedUnit.level}";
         },
         (reason) => {
             switch(reason) {
@@ -170,6 +173,7 @@ public class UnitDetail : MonoBehaviour
         Instantiate(selectedUnit.character.prefab, modelContainer.transform);
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
+        unitLevelText.text = $"Level: {selectedUnit.level}";
     }
 
     private void RemoveUnitFromContainer()
