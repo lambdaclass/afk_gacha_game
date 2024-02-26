@@ -8,6 +8,7 @@ using UnityEngine;
 using Protobuf;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Protobuf.Messages;
 
 public class SocketConnection : MonoBehaviour {
     WebSocket ws;
@@ -109,6 +110,9 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+            // this works
+            // Protobuf.Messages.WebSocketResponse webSocketResponse = Protobuf.Messages.WebSocketResponse.Parser.ParseFrom(data);
+            // this doesn't
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             Debug.Log(webSocketResponse.ResponseTypeCase);
             switch (webSocketResponse.ResponseTypeCase)
@@ -135,7 +139,7 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
-    private void HandleUserResponse(Protobuf.User user, List<Character> availableCharacters)
+    private void HandleUserResponse(Protobuf.Messages.User user, List<Character> availableCharacters)
     {
         List<Unit> units = new List<Unit>();
 
@@ -153,7 +157,7 @@ public class SocketConnection : MonoBehaviour {
         };
     }
 
-    private List<CampaignData> ParseCampaignsFromResponse(Protobuf.Campaigns campaignsData, List<Character> availableCharacters)
+    private List<CampaignData> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
     {
         List<CampaignData> campaigns = new List<CampaignData>();
 
@@ -163,7 +167,7 @@ public class SocketConnection : MonoBehaviour {
 
             for(int levelIndex = 0; levelIndex < campaignsData.Campaigns_[campaignIndex].Levels.Count; levelIndex++)
             {
-                Protobuf.Level level = campaignsData.Campaigns_[campaignIndex].Levels[levelIndex];
+                Protobuf.Messages.Level level = campaignsData.Campaigns_[campaignIndex].Levels[levelIndex];
                 List<Unit> levelUnits = new List<Unit>();
 
                 foreach (var levelUnit in level.Units)
@@ -192,7 +196,7 @@ public class SocketConnection : MonoBehaviour {
         return campaigns;
     }
 
-    private Unit CreateUnitFromData(Protobuf.Unit unitData, List<Character> availableCharacters)
+    private Unit CreateUnitFromData(Protobuf.Messages.Unit unitData, List<Character> availableCharacters)
     {
         return new Unit
         {
@@ -206,7 +210,7 @@ public class SocketConnection : MonoBehaviour {
         };
     }
 
-    private Item CreateItemFromData(Protobuf.Item itemData) {
+    private Item CreateItemFromData(Protobuf.Messages.Item itemData) {
         return new Item
         {
             id = itemData.Id,
