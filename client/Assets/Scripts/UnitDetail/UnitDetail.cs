@@ -51,13 +51,18 @@ public class UnitDetail : MonoBehaviour
 
     [SerializeField]
     GameObject insufficientCurrencyPopup;
+
     [SerializeField]
     GameObject needToTierUpPopup;
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
+
     [SerializeField]
     TMP_Text unitLevelText;
+
+    [SerializeField]
+    TMP_Text levelUpGoldCostText;
 
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
@@ -77,6 +82,7 @@ public class UnitDetail : MonoBehaviour
             // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
             unitLevelText.text = $"Level: {selectedUnit.level}";
+            levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
         },
         (reason) => {
             switch(reason) {
@@ -174,6 +180,7 @@ public class UnitDetail : MonoBehaviour
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
         unitLevelText.text = $"Level: {selectedUnit.level}";
+        levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
     }
 
     private void RemoveUnitFromContainer()

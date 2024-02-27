@@ -2226,6 +2226,7 @@ MonoBehaviour:
   - {fileID: 1490731956}
   - {fileID: 0}
   unitLevelText: {fileID: 1839430508}
+  levelUpGoldCostText: {fileID: 6858262836781891746}
 --- !u!4 &625935471
 Transform:
   m_ObjectHideFlags: 0
