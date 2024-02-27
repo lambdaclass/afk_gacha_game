@@ -25,7 +25,6 @@ public class UnitItemUI : MonoBehaviour {
 
     public void SetSelectedChampionMark(bool selected) {
         selectedChampionMark.gameObject.SetActive(selected);
-        GetComponent<Button>().interactable = !selected;
     }
 
     public bool IsSelected() {
