@@ -11,52 +11,19 @@ public class UnitDetail : MonoBehaviour
     private static Unit selectedUnit;
 
     [SerializeField]
-    TMP_Text goldCostText;
-
-    [SerializeField]
-    TMP_Text gemCostText;
-    
-    [SerializeField]
-    Text actionButtonText;
-
-    [SerializeField]
     Image backgroundImage;
 
     [SerializeField]
-    GameObject modelContainer;
+    Image selectedCharacterImage;
 
     [SerializeField]
     GameObject characterNameContainer;
-
-    [SerializeField]
-    GameObject levelStatUI;
-
-    [SerializeField]
-    GameObject tierStatUI;
-
-    [SerializeField]
-    GameObject rankStatUI;
-
-    [SerializeField]
-    GameObject headItemSprite;
-
-    [SerializeField]
-    GameObject chestItemSprite;
-
-    [SerializeField]
-    GameObject bootsItemSprite;
-
-    [SerializeField]
-    GameObject weaponItemSprite;
 
     [SerializeField]
     GameObject cantAffordPopup;
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
-
-    // true if we're leveling up, false if we're tiering up
-    private bool actionLevelUp;
 
     void Start() {
         SetUpEquipment();
@@ -139,19 +106,10 @@ public class UnitDetail : MonoBehaviour
 
     private void DisplayUnit()
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer();
-        }
-        Instantiate(selectedUnit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = selectedUnit.character.inGameSprite;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
-    }
-
-    private void RemoveUnitFromContainer()
-    {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
     }
 
     public void PreviousUnit() {

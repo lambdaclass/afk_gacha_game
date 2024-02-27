@@ -7,9 +7,6 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitsUIContainer unitsContainer;
 
-    [SerializeField]
-    List<Character> characters;
-
     void Start() {
         this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
         unitsContainer.OnUnitSelected.AddListener(SelectUnit);
