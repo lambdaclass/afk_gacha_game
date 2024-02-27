@@ -110,9 +110,6 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-            // this works
-            // Protobuf.Messages.WebSocketResponse webSocketResponse = Protobuf.Messages.WebSocketResponse.Parser.ParseFrom(data);
-            // this doesn't
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             Debug.Log(webSocketResponse.ResponseTypeCase);
             switch (webSocketResponse.ResponseTypeCase)
