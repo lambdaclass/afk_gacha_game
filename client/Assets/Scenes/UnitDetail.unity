@@ -1537,11 +1537,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
   m_PrefabInstance: {fileID: 247723781}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &247723783 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 369244517295900955, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
-  m_PrefabInstance: {fileID: 247723781}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &247723784 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
@@ -1671,17 +1666,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6858262836679624500, guid: 226c8f6dfa61149b995339a7bf2ba479, type: 3}
   m_PrefabInstance: {fileID: 272119270}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &272119272 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6858262836634528697, guid: 226c8f6dfa61149b995339a7bf2ba479, type: 3}
-  m_PrefabInstance: {fileID: 272119270}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &295713231
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1850,11 +1834,6 @@ PrefabInstance:
 --- !u!224 &295713232 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7030375157332425268, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
-  m_PrefabInstance: {fileID: 295713231}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &295713233 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7030375157332425269, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
   m_PrefabInstance: {fileID: 295713231}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &322127135
@@ -2082,11 +2061,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
   m_PrefabInstance: {fileID: 370590591}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &370590593 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 369244517295900955, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
-  m_PrefabInstance: {fileID: 370590591}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &370590594 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
@@ -2203,25 +2177,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94795d7c69434217834420d9dfde04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldCostText: {fileID: 6858262836781891746}
-  gemCostText: {fileID: 272119272}
-  actionButtonText: {fileID: 1943274019}
   backgroundImage: {fileID: 653320918}
   modelContainer: {fileID: 1057804273}
   characterNameContainer: {fileID: 742182412}
-  levelStatUI: {fileID: 295713233}
-  tierStatUI: {fileID: 636289764}
-  rankStatUI: {fileID: 825121889}
-  headItemSprite: {fileID: 247723783}
-  chestItemSprite: {fileID: 370590593}
-  bootsItemSprite: {fileID: 1490731955}
-  weaponItemSprite: {fileID: 369244518153740540}
   insufficientCurrencyPopup: {fileID: 1726070662}
   needToTierUpPopup: {fileID: 1033663060}
   equipmentSlots:
   - {fileID: 247723784}
   - {fileID: 370590594}
-  - {fileID: 0}
   - {fileID: 369244518153740541}
   - {fileID: 1490731956}
   - {fileID: 0}
@@ -2541,11 +2504,6 @@ PrefabInstance:
 --- !u!224 &636289763 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7030375157332425268, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
-  m_PrefabInstance: {fileID: 636289762}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &636289764 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7030375157332425269, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
   m_PrefabInstance: {fileID: 636289762}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &653320916
@@ -3326,11 +3284,6 @@ PrefabInstance:
 --- !u!224 &825121888 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7030375157332425268, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
-  m_PrefabInstance: {fileID: 825121887}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &825121889 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7030375157332425269, guid: fbce5ba1d58b043b0bbd4c23d2ce3094, type: 3}
   m_PrefabInstance: {fileID: 825121887}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &862930867
@@ -6185,11 +6138,6 @@ PrefabInstance:
 --- !u!224 &1490731954 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 369244518475764640, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
-  m_PrefabInstance: {fileID: 1490731953}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1490731955 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 369244517295900955, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
   m_PrefabInstance: {fileID: 1490731953}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1490731956 stripped
@@ -9469,11 +9417,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
---- !u!1 &369244518153740540 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 369244517295900955, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
-  m_PrefabInstance: {fileID: 369244518153740539}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &369244518153740541 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
@@ -9590,14 +9533,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 226c8f6dfa61149b995339a7bf2ba479, type: 3}
---- !u!114 &6858262836781891746 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6858262836634528697, guid: 226c8f6dfa61149b995339a7bf2ba479, type: 3}
-  m_PrefabInstance: {fileID: 6858262836781891745}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
