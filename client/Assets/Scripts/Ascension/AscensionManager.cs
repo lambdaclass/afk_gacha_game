@@ -12,11 +12,11 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
 
     private List<Unit> selectedUnits;
 
-    GlobalUserData globalUserData = GlobalUserData.Instance;
+    User user = GlobalUserData.Instance.User;
 
     void Start()
     {
-        List<Unit> units = globalUserData.Units;
+        List<Unit> units = user.units;
         selectedUnits = new List<Unit>();
         this.unitsContainer.Populate(units, this);
     }
@@ -54,7 +54,7 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
         }
         else
         {
-            RemoveUnitFromContainer(unit);
+            RemoveUnitFromContainer();
             unitsContainer.SetUnitsLock(unit.character.faction, false);
             fusionButton.gameObject.SetActive(false);
         }
@@ -64,14 +64,14 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     {
         if (modelContainer.transform.childCount > 0)
         {
-            RemoveUnitFromContainer(unit);
+            RemoveUnitFromContainer();
         }
         Instantiate(unit.character.prefab, modelContainer.transform);
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = unit.character.name + "\n Rank: " + unit.rank.ToString();
         characterNameContainer.SetActive(true);
     }
 
-    private void RemoveUnitFromContainer(Unit unit)
+    private void RemoveUnitFromContainer()
     {
         Destroy(modelContainer.transform.GetChild(0).gameObject);
         characterNameContainer.SetActive(false);
@@ -80,7 +80,8 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     public void Fusion() {
         // globalUserData.User.FuseUnits(selectedUnits);
         Debug.LogError("Fusion not yet connected to backend");
-        this.unitsContainer.Populate(globalUserData.Units, this);
+        RemoveUnitFromContainer();
+        this.unitsContainer.Populate(user.units, this);
         selectedUnits.Clear();
         fusionButton.gameObject.SetActive(false);
     }

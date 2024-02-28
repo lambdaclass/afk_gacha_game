@@ -6,8 +6,6 @@ public class Character : ScriptableObject
     public new string name;
     public Faction faction;
     public Sprite defaultSprite;
-    public Sprite disabledSprite;
-    public Sprite selectedSprite;
     public GameObject prefab;
     public Rarity rarity;
 }

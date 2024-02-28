@@ -153,4 +153,30 @@ public class UnitDetail : MonoBehaviour
         Destroy(modelContainer.transform.GetChild(0).gameObject);
         characterNameContainer.SetActive(false);
     }
+
+    public void PreviousUnit() {
+        List<Unit> userUnits = GlobalUserData.Instance.User.units;
+        int currentIndex = userUnits.IndexOf(selectedUnit);
+        
+        int previousIndex = currentIndex - 1;
+        if (previousIndex < 0) {
+            previousIndex = userUnits.Count - 1;
+        }
+
+        Unit previousUnit = userUnits[previousIndex];
+        SelectUnit(previousUnit);
+    }
+
+    public void NextUnit() {
+        List<Unit> userUnits = GlobalUserData.Instance.User.units;
+        int currentIndex = userUnits.IndexOf(selectedUnit);
+        
+        int nextIndex = currentIndex + 1;
+        if (nextIndex >= userUnits.Count) {
+            nextIndex = 0;
+        }
+
+        Unit nextUnit = userUnits[nextIndex];
+        SelectUnit(nextUnit);
+    }
 }
