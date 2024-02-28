@@ -11,15 +11,6 @@ public class UnitDetail : MonoBehaviour
     private static Unit selectedUnit;
 
     [SerializeField]
-    TMP_Text goldCostText;
-
-    [SerializeField]
-    TMP_Text gemCostText;
-    
-    [SerializeField]
-    Text actionButtonText;
-
-    [SerializeField]
     Image backgroundImage;
 
     [SerializeField]
@@ -29,34 +20,10 @@ public class UnitDetail : MonoBehaviour
     GameObject characterNameContainer;
 
     [SerializeField]
-    GameObject levelStatUI;
-
-    [SerializeField]
-    GameObject tierStatUI;
-
-    [SerializeField]
-    GameObject rankStatUI;
-
-    [SerializeField]
-    GameObject headItemSprite;
-
-    [SerializeField]
-    GameObject chestItemSprite;
-
-    [SerializeField]
-    GameObject bootsItemSprite;
-
-    [SerializeField]
-    GameObject weaponItemSprite;
-
-    [SerializeField]
     GameObject cantAffordPopup;
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
-
-    // true if we're leveling up, false if we're tiering up
-    private bool actionLevelUp;
 
     void Start() {
         SetUpEquipment();
