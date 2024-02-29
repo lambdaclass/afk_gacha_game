@@ -18,9 +18,6 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-    [SerializeField]
-    List<Character> characters;
-
     void Start()
     {
         StartCoroutine(GetUser());

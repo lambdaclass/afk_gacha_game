@@ -113,10 +113,6 @@ public class SocketConnection : MonoBehaviour {
             Debug.Log(webSocketResponse.ResponseTypeCase);
             switch (webSocketResponse.ResponseTypeCase)
             {
-                case WebSocketResponse.ResponseTypeOneofCase.User:
-                    List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-                    HandleUserResponse(webSocketResponse.User, availableCharacters);
-                    break;
                 case WebSocketResponse.ResponseTypeOneofCase.Error:
                     Debug.Log(webSocketResponse.Error.Reason);
                     Debug.LogError("response type error");
