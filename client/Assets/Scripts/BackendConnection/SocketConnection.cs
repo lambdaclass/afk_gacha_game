@@ -9,6 +9,7 @@ using Protobuf;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Protobuf.Messages;
+using System.Linq;
 
 public class SocketConnection : MonoBehaviour {
     WebSocket ws;
@@ -141,13 +142,7 @@ public class SocketConnection : MonoBehaviour {
 
     private void HandleUserResponse(Protobuf.Messages.User user, List<Character> availableCharacters)
     {
-        List<Unit> units = new List<Unit>();
-
-        foreach (var userUnit in user.Units)
-        {
-            Unit unit = CreateUnitFromData(userUnit, availableCharacters);
-            units.Add(unit);
-        }
+        List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
 
         GlobalUserData.Instance.User = new User
         {
@@ -168,13 +163,7 @@ public class SocketConnection : MonoBehaviour {
             for(int levelIndex = 0; levelIndex < campaignsData.Campaigns_[campaignIndex].Levels.Count; levelIndex++)
             {
                 Protobuf.Messages.Level level = campaignsData.Campaigns_[campaignIndex].Levels[levelIndex];
-                List<Unit> levelUnits = new List<Unit>();
-
-                foreach (var levelUnit in level.Units)
-                {
-                    Unit unit = CreateUnitFromData(levelUnit, availableCharacters);
-                    levelUnits.Add(unit);
-                }
+				List<Unit> levelUnits = CreateUnitsFromData(level.Units, availableCharacters);
 
                 levels.Add(new LevelData
                 {
@@ -196,19 +185,34 @@ public class SocketConnection : MonoBehaviour {
         return campaigns;
     }
 
-    private Unit CreateUnitFromData(Protobuf.Messages.Unit unitData, List<Character> availableCharacters)
-    {
-        return new Unit
-        {
-            id = unitData.Id,
-            // tier = (int)unitData.Tier,
-            character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
-            // rank = Rank.Star1,
-            level = (int)unitData.Level,
-            slot = (int?)unitData.Slot,
-            selected = unitData.Selected
-        };
-    }
+    private List<Unit> CreateUnitsFromData(IEnumerable<Protobuf.Messages.Unit> unitsData, List<Character> availableCharacters)
+	{
+		List<Unit> createdUnits = new List<Unit>();
+
+		foreach (var unitData in unitsData)
+		{
+			if (!availableCharacters.Any(character => character.name.ToLower() == unitData.Character.Name.ToLower()))
+			{
+				Debug.Log($"Character not found in available characters: {unitData.Character.Name}");
+				continue;
+			}
+
+			Unit unit = new Unit
+			{
+				id = unitData.Id,
+				// tier = (int)unitData.Tier,
+				character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
+				// rank = Rank.Star1,
+				level = (int)unitData.Level,
+				slot = (int?)unitData.Slot,
+				selected = unitData.Selected
+			};
+
+			createdUnits.Add(unit);
+		}
+
+		return createdUnits;
+	}
 
     private Item CreateItemFromData(Protobuf.Messages.Item itemData) {
         return new Item
@@ -285,13 +289,7 @@ public class SocketConnection : MonoBehaviour {
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User) {
                 ws.OnMessage -= currentMessageHandler;
 
-                List<Unit> units = new List<Unit>();
-
-                foreach(var userUnit in webSocketResponse.User.Units)
-                {
-                    Unit unit = CreateUnitFromData(userUnit, GlobalUserData.Instance.AvailableCharacters);
-                    units.Add(unit);
-                }
+				List<Unit> units = CreateUnitsFromData(webSocketResponse.User.Units, GlobalUserData.Instance.AvailableCharacters);
 
                 List<Item> items = new List<Item>();
 
@@ -548,4 +546,52 @@ public class SocketConnection : MonoBehaviour {
             Debug.LogError(e.Message);
         }
     }
+
+	public void GetBoxes(Action<List<Box>> onBoxesDataReceived, Action<string> onError = null) {
+		GetBoxes getBoxesRequest = new GetBoxes();
+        WebSocketRequest request = new WebSocketRequest {
+            GetBoxes = getBoxesRequest
+        };
+        currentMessageHandler = (data) => AwaitBoxesReponse(data, onBoxesDataReceived, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+	}
+
+	private void AwaitBoxesReponse(byte[] data, Action<List<Box>> onBoxesDataReceived, Action<string> onError = null)
+	{
+		try
+        {
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Boxes) {
+                ws.OnMessage -= currentMessageHandler;
+				List<Box> boxes = ParseBoxesFromResponse(webSocketResponse.Boxes);
+                onBoxesDataReceived?.Invoke(boxes);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                ws.OnMessage -= currentMessageHandler;
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+            ws.OnMessage += OnWebSocketMessage;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+	}
+
+	private List<Box> ParseBoxesFromResponse(Boxes boxesMessage)
+	{
+		return boxesMessage.Boxes_.Select(box => 
+		{
+			return new Box {
+				id = box.Id,
+				name = box.Name,
+				description = box.Description,
+				factions = box.Factions.ToList(),
+				rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
+				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Cost)
+			};
+		}).ToList();
+	}
 }
