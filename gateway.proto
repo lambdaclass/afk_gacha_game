@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "Protobuf.Messages";
 
-message WebSocketRequest {
+  message WebSocketRequest {
     oneof request_type {
       GetUser get_user = 1;
       GetUserByUsername get_user_by_username = 2;
@@ -137,12 +137,12 @@ message WebSocketRequest {
 
   message Unit {
     string id = 1;
-    uint32 level = 2;
+    uint32 unit_level = 2;
     uint32 tier = 3;
     uint32 rank = 4;
     bool selected = 5;
     uint32 slot = 6;
-    string campaign_level_id = 7;
+    string level_id = 7;
     string user_id = 8;
     Character character = 9;
     repeated Item items = 10;

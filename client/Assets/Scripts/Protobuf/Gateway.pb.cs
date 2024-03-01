@@ -66,24 +66,24 @@ namespace Protobuf.Messages {
             "ZXJuYW1lGAIgASgJEiEKCmN1cnJlbmNpZXMYAyADKAsyDS5Vc2VyQ3VycmVu",
             "Y3kSFAoFdW5pdHMYBCADKAsyBS5Vbml0EhQKBWl0ZW1zGAUgAygLMgUuSXRl",
             "bSI7CgxVc2VyQ3VycmVuY3kSGwoIY3VycmVuY3kYASABKAsyCS5DdXJyZW5j",
-            "eRIOCgZhbW91bnQYAiABKA0iGAoIQ3VycmVuY3kSDAoEbmFtZRgBIAEoCSK+",
-            "AQoEVW5pdBIKCgJpZBgBIAEoCRINCgVsZXZlbBgCIAEoDRIMCgR0aWVyGAMg",
-            "ASgNEgwKBHJhbmsYBCABKA0SEAoIc2VsZWN0ZWQYBSABKAgSDAoEc2xvdBgG",
-            "IAEoDRIZChFjYW1wYWlnbl9sZXZlbF9pZBgHIAEoCRIPCgd1c2VyX2lkGAgg",
-            "ASgJEh0KCWNoYXJhY3RlchgJIAEoCzIKLkNoYXJhY3RlchIUCgVpdGVtcxgK",
-            "IAMoCzIFLkl0ZW0iTgoRVW5pdEFuZEN1cnJlbmNpZXMSEwoEdW5pdBgBIAEo",
-            "CzIFLlVuaXQSJAoNdXNlcl9jdXJyZW5jeRgCIAMoCzINLlVzZXJDdXJyZW5j",
-            "eSJKCglDaGFyYWN0ZXISDgoGYWN0aXZlGAEgASgIEgwKBG5hbWUYAiABKAkS",
-            "DwoHZmFjdGlvbhgDIAEoCRIOCgZyYXJpdHkYBCABKAkiZAoESXRlbRIKCgJp",
-            "ZBgBIAEoCRINCgVsZXZlbBgCIAEoDRIfCgh0ZW1wbGF0ZRgDIAEoCzINLkl0",
-            "ZW1UZW1wbGF0ZRIPCgd1c2VyX2lkGAQgASgJEg8KB3VuaXRfaWQYBSABKAki",
-            "NgoMSXRlbVRlbXBsYXRlEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSDAoE",
-            "dHlwZRgDIAEoCSIpCglDYW1wYWlnbnMSHAoJY2FtcGFpZ25zGAEgAygLMgku",
-            "Q2FtcGFpZ24iIgoIQ2FtcGFpZ24SFgoGbGV2ZWxzGAEgAygLMgYuTGV2ZWwi",
-            "UQoFTGV2ZWwSCgoCaWQYASABKAkSFAoMbGV2ZWxfbnVtYmVyGAIgASgNEhAK",
-            "CGNhbXBhaWduGAMgASgNEhQKBXVuaXRzGAQgAygLMgUuVW5pdCIeCgxCYXR0",
-            "bGVSZXN1bHQSDgoGcmVzdWx0GAEgASgJIhcKBUVycm9yEg4KBnJlYXNvbhgB",
-            "IAEoCUIUqgIRUHJvdG9idWYuTWVzc2FnZXNiBnByb3RvMw=="));
+            "eRIOCgZhbW91bnQYAiABKA0iGAoIQ3VycmVuY3kSDAoEbmFtZRgBIAEoCSK6",
+            "AQoEVW5pdBIKCgJpZBgBIAEoCRISCgp1bml0X2xldmVsGAIgASgNEgwKBHRp",
+            "ZXIYAyABKA0SDAoEcmFuaxgEIAEoDRIQCghzZWxlY3RlZBgFIAEoCBIMCgRz",
+            "bG90GAYgASgNEhAKCGxldmVsX2lkGAcgASgJEg8KB3VzZXJfaWQYCCABKAkS",
+            "HQoJY2hhcmFjdGVyGAkgASgLMgouQ2hhcmFjdGVyEhQKBWl0ZW1zGAogAygL",
+            "MgUuSXRlbSJOChFVbml0QW5kQ3VycmVuY2llcxITCgR1bml0GAEgASgLMgUu",
+            "VW5pdBIkCg11c2VyX2N1cnJlbmN5GAIgAygLMg0uVXNlckN1cnJlbmN5IkoK",
+            "CUNoYXJhY3RlchIOCgZhY3RpdmUYASABKAgSDAoEbmFtZRgCIAEoCRIPCgdm",
+            "YWN0aW9uGAMgASgJEg4KBnJhcml0eRgEIAEoCSJkCgRJdGVtEgoKAmlkGAEg",
+            "ASgJEg0KBWxldmVsGAIgASgNEh8KCHRlbXBsYXRlGAMgASgLMg0uSXRlbVRl",
+            "bXBsYXRlEg8KB3VzZXJfaWQYBCABKAkSDwoHdW5pdF9pZBgFIAEoCSI2CgxJ",
+            "dGVtVGVtcGxhdGUSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIMCgR0eXBl",
+            "GAMgASgJIikKCUNhbXBhaWducxIcCgljYW1wYWlnbnMYASADKAsyCS5DYW1w",
+            "YWlnbiIiCghDYW1wYWlnbhIWCgZsZXZlbHMYASADKAsyBi5MZXZlbCJRCgVM",
+            "ZXZlbBIKCgJpZBgBIAEoCRIUCgxsZXZlbF9udW1iZXIYAiABKA0SEAoIY2Ft",
+            "cGFpZ24YAyABKA0SFAoFdW5pdHMYBCADKAsyBS5Vbml0Ih4KDEJhdHRsZVJl",
+            "c3VsdBIOCgZyZXN1bHQYASABKAkiFwoFRXJyb3ISDgoGcmVhc29uGAEgASgJ",
+            "QhSqAhFQcm90b2J1Zi5NZXNzYWdlc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -108,7 +108,7 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.User), global::Protobuf.Messages.User.Parser, new[]{ "Id", "Username", "Currencies", "Units", "Items" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.UserCurrency), global::Protobuf.Messages.UserCurrency.Parser, new[]{ "Currency", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Currency), global::Protobuf.Messages.Currency.Parser, new[]{ "Name" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Unit), global::Protobuf.Messages.Unit.Parser, new[]{ "Id", "Level", "Tier", "Rank", "Selected", "Slot", "CampaignLevelId", "UserId", "Character", "Items" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Unit), global::Protobuf.Messages.Unit.Parser, new[]{ "Id", "UnitLevel", "Tier", "Rank", "Selected", "Slot", "LevelId", "UserId", "Character", "Items" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.UnitAndCurrencies), global::Protobuf.Messages.UnitAndCurrencies.Parser, new[]{ "Unit", "UserCurrency" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Character), global::Protobuf.Messages.Character.Parser, new[]{ "Active", "Name", "Faction", "Rarity" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Item), global::Protobuf.Messages.Item.Parser, new[]{ "Id", "Level", "Template", "UserId", "UnitId" }, null, null, null, null),
@@ -6160,12 +6160,12 @@ namespace Protobuf.Messages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Unit(Unit other) : this() {
       id_ = other.id_;
-      level_ = other.level_;
+      unitLevel_ = other.unitLevel_;
       tier_ = other.tier_;
       rank_ = other.rank_;
       selected_ = other.selected_;
       slot_ = other.slot_;
-      campaignLevelId_ = other.campaignLevelId_;
+      levelId_ = other.levelId_;
       userId_ = other.userId_;
       character_ = other.character_ != null ? other.character_.Clone() : null;
       items_ = other.items_.Clone();
@@ -6190,15 +6190,15 @@ namespace Protobuf.Messages {
       }
     }
 
-    /// <summary>Field number for the "level" field.</summary>
-    public const int LevelFieldNumber = 2;
-    private uint level_;
+    /// <summary>Field number for the "unit_level" field.</summary>
+    public const int UnitLevelFieldNumber = 2;
+    private uint unitLevel_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint Level {
-      get { return level_; }
+    public uint UnitLevel {
+      get { return unitLevel_; }
       set {
-        level_ = value;
+        unitLevel_ = value;
       }
     }
 
@@ -6250,15 +6250,15 @@ namespace Protobuf.Messages {
       }
     }
 
-    /// <summary>Field number for the "campaign_level_id" field.</summary>
-    public const int CampaignLevelIdFieldNumber = 7;
-    private string campaignLevelId_ = "";
+    /// <summary>Field number for the "level_id" field.</summary>
+    public const int LevelIdFieldNumber = 7;
+    private string levelId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string CampaignLevelId {
-      get { return campaignLevelId_; }
+    public string LevelId {
+      get { return levelId_; }
       set {
-        campaignLevelId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        levelId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -6313,12 +6313,12 @@ namespace Protobuf.Messages {
         return true;
       }
       if (Id != other.Id) return false;
-      if (Level != other.Level) return false;
+      if (UnitLevel != other.UnitLevel) return false;
       if (Tier != other.Tier) return false;
       if (Rank != other.Rank) return false;
       if (Selected != other.Selected) return false;
       if (Slot != other.Slot) return false;
-      if (CampaignLevelId != other.CampaignLevelId) return false;
+      if (LevelId != other.LevelId) return false;
       if (UserId != other.UserId) return false;
       if (!object.Equals(Character, other.Character)) return false;
       if(!items_.Equals(other.items_)) return false;
@@ -6330,12 +6330,12 @@ namespace Protobuf.Messages {
     public override int GetHashCode() {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
-      if (Level != 0) hash ^= Level.GetHashCode();
+      if (UnitLevel != 0) hash ^= UnitLevel.GetHashCode();
       if (Tier != 0) hash ^= Tier.GetHashCode();
       if (Rank != 0) hash ^= Rank.GetHashCode();
       if (Selected != false) hash ^= Selected.GetHashCode();
       if (Slot != 0) hash ^= Slot.GetHashCode();
-      if (CampaignLevelId.Length != 0) hash ^= CampaignLevelId.GetHashCode();
+      if (LevelId.Length != 0) hash ^= LevelId.GetHashCode();
       if (UserId.Length != 0) hash ^= UserId.GetHashCode();
       if (character_ != null) hash ^= Character.GetHashCode();
       hash ^= items_.GetHashCode();
@@ -6361,9 +6361,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (Level != 0) {
+      if (UnitLevel != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt32(Level);
+        output.WriteUInt32(UnitLevel);
       }
       if (Tier != 0) {
         output.WriteRawTag(24);
@@ -6381,9 +6381,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(48);
         output.WriteUInt32(Slot);
       }
-      if (CampaignLevelId.Length != 0) {
+      if (LevelId.Length != 0) {
         output.WriteRawTag(58);
-        output.WriteString(CampaignLevelId);
+        output.WriteString(LevelId);
       }
       if (UserId.Length != 0) {
         output.WriteRawTag(66);
@@ -6408,9 +6408,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (Level != 0) {
+      if (UnitLevel != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt32(Level);
+        output.WriteUInt32(UnitLevel);
       }
       if (Tier != 0) {
         output.WriteRawTag(24);
@@ -6428,9 +6428,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(48);
         output.WriteUInt32(Slot);
       }
-      if (CampaignLevelId.Length != 0) {
+      if (LevelId.Length != 0) {
         output.WriteRawTag(58);
-        output.WriteString(CampaignLevelId);
+        output.WriteString(LevelId);
       }
       if (UserId.Length != 0) {
         output.WriteRawTag(66);
@@ -6454,8 +6454,8 @@ namespace Protobuf.Messages {
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
-      if (Level != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Level);
+      if (UnitLevel != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(UnitLevel);
       }
       if (Tier != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Tier);
@@ -6469,8 +6469,8 @@ namespace Protobuf.Messages {
       if (Slot != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Slot);
       }
-      if (CampaignLevelId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(CampaignLevelId);
+      if (LevelId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(LevelId);
       }
       if (UserId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(UserId);
@@ -6494,8 +6494,8 @@ namespace Protobuf.Messages {
       if (other.Id.Length != 0) {
         Id = other.Id;
       }
-      if (other.Level != 0) {
-        Level = other.Level;
+      if (other.UnitLevel != 0) {
+        UnitLevel = other.UnitLevel;
       }
       if (other.Tier != 0) {
         Tier = other.Tier;
@@ -6509,8 +6509,8 @@ namespace Protobuf.Messages {
       if (other.Slot != 0) {
         Slot = other.Slot;
       }
-      if (other.CampaignLevelId.Length != 0) {
-        CampaignLevelId = other.CampaignLevelId;
+      if (other.LevelId.Length != 0) {
+        LevelId = other.LevelId;
       }
       if (other.UserId.Length != 0) {
         UserId = other.UserId;
@@ -6542,7 +6542,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 16: {
-            Level = input.ReadUInt32();
+            UnitLevel = input.ReadUInt32();
             break;
           }
           case 24: {
@@ -6562,7 +6562,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 58: {
-            CampaignLevelId = input.ReadString();
+            LevelId = input.ReadString();
             break;
           }
           case 66: {
@@ -6600,7 +6600,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 16: {
-            Level = input.ReadUInt32();
+            UnitLevel = input.ReadUInt32();
             break;
           }
           case 24: {
@@ -6620,7 +6620,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 58: {
-            CampaignLevelId = input.ReadString();
+            LevelId = input.ReadString();
             break;
           }
           case 66: {

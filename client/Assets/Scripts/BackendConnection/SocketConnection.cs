@@ -204,7 +204,7 @@ public class SocketConnection : MonoBehaviour {
             // tier = (int)unitData.Tier,
             character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
             // rank = Rank.Star1,
-            level = (int)unitData.Level,
+            level = (int)unitData.UnitLevel,
             slot = (int?)unitData.Slot,
             selected = unitData.Selected
         };
