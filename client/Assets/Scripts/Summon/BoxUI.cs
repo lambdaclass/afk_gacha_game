@@ -1,8 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoxUI : MonoBehaviour
 {
 	Box box;
+
+	[SerializeField]
+	Image icon;
+	
+	[SerializeField]
+	TMP_Text title;
+
+	[SerializeField]
+	TMP_Text cost;
+
+	[SerializeField]
+	Button button;
+
+	public void SetBox(Box box, Action<string, string> onClick) {
+		this.box = box;
+		title.text = this.box.name;
+
+		// Only shows the first cost
+		KeyValuePair<Currency, int> firstCost = this.box.costs.First();
+		cost.text = $"{firstCost.Key.ToString()}: {firstCost.Value}";
+
+		button.onClick.AddListener(() => onClick.Invoke(GlobalUserData.Instance.User.id, box.id));
+	}
 }
