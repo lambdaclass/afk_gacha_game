@@ -36,6 +36,7 @@ public class UIEquipmentListElement : MonoBehaviour
         this.unitDetail = unitDetail;
         this.item = item;
         itemNameText.text = item.template.name;
+        itemIconUI.sprite = item.template.icon;
         itemLevelText.text = $"Level: {item.level}";
         // Currently no way to know which resource is needed to level up the weapon.
         itemLevelUpText.text = $"Level Up ({item.GetLevelUpCost()})";
