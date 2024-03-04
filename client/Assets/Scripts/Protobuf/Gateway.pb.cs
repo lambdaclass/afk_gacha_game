@@ -6619,10 +6619,6 @@ namespace Protobuf.Messages {
             Slot = input.ReadUInt32();
             break;
           }
-          case 48: {
-            Slot = input.ReadUInt32();
-            break;
-          }
           case 58: {
             CampaignLevelId = input.ReadString();
             break;
