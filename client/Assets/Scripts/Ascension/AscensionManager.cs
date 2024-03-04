@@ -16,11 +16,9 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
 
     private List<Unit> selectedUnits;
 
-    User user = GlobalUserData.Instance.User;
-
     void Start()
     {
-        List<Unit> units = user.units;
+        List<Unit> units = GlobalUserData.Instance.Units;
         selectedUnits = new List<Unit>();
         this.unitsContainer.Populate(units, this);
     }
@@ -81,7 +79,7 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     public void Fusion() {
         // globalUserData.User.FuseUnits(selectedUnits);
         Debug.LogError("Fusion not yet connected to backend");
-        this.unitsContainer.Populate(user.units, this);
+        this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
         selectedUnits.Clear();
         fusionButton.gameObject.SetActive(false);
     }
