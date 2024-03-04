@@ -14,7 +14,7 @@ public class UnitDetail : MonoBehaviour
     Image backgroundImage;
 
     [SerializeField]
-    GameObject modelContainer;
+    Image selectedCharacterImage;
 
     [SerializeField]
     GameObject characterNameContainer;
@@ -106,19 +106,10 @@ public class UnitDetail : MonoBehaviour
 
     private void DisplayUnit()
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer();
-        }
-        Instantiate(selectedUnit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = selectedUnit.character.inGameSprite;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
-    }
-
-    private void RemoveUnitFromContainer()
-    {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
     }
 
     public void PreviousUnit() {
