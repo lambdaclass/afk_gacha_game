@@ -15,8 +15,6 @@ MonoBehaviour:
   name: Kenzu
   faction: 1
   defaultSprite: {fileID: 21300000, guid: 6d3d5d87bd5b64c598f5b1f0bc1edaed, type: 3}
-  disabledSprite: {fileID: 21300000, guid: 11656ee72c86a45b99ddc43d666cd368, type: 3}
-  selectedSprite: {fileID: 21300000, guid: 5749ed7bc217c40c3a32fd0cf71acb2d, type: 3}
-  inGameSprite: {fileID: 21300000, guid: ba06c0998f5ae499fad662d9f2a896a2, type: 3}
+  inGameSprite: {fileID: 21300000, guid: ff944c7c77b5242e6bf4b122ab09dd10, type: 3}
   prefab: {fileID: 2866215690245578517, guid: b5943a432043c4ddeb23a63ccb79d69a, type: 3}
   rarity: 2
