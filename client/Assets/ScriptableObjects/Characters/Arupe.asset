@@ -17,6 +17,6 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: 8db6fc4ee1fbf4c4fb9fea5a94f12e73, type: 3}
   disabledSprite: {fileID: 21300000, guid: 7cbbd800f2b02497a91084c47728e2a8, type: 3}
   selectedSprite: {fileID: 21300000, guid: 657b179b25e5447fb93a7832cec990b1, type: 3}
-  inGameSprite: {fileID: -174554069, guid: 345858b77e3e7417c9e2aa2b05a48dc4, type: 3}
+  inGameSprite: {fileID: 21300000, guid: 345858b77e3e7417c9e2aa2b05a48dc4, type: 3}
   prefab: {fileID: 2866215690245578517, guid: b5943a432043c4ddeb23a63ccb79d69a, type: 3}
   rarity: 0

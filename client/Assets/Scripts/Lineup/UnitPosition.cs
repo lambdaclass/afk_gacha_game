@@ -23,9 +23,10 @@ public class UnitPosition : MonoBehaviour
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
+        // Uncomment to display unit name and level
+        // unitName.text = $"{unit.character.name} LVL: {unit.level}";
+        // unitName.transform.parent.gameObject.SetActive(true);
         isOccupied = true;
-        unitName.text = $"{unit.character.name} LVL: {unit.level}";
-        unitName.gameObject.SetActive(true);
         removeSign.SetActive(isPlayer);
         GetComponent<Button>().interactable = isPlayer;
 
@@ -35,9 +36,10 @@ public class UnitPosition : MonoBehaviour
     }
 
     public void UnselectUnit() {
-        unitName.text = String.Empty;
+        // Uncomment to display unit name and level
+        // unitName.transform.parent.gameObject.SetActive(false);
+        // unitName.text = String.Empty;
         isOccupied = false;
-        unitName.gameObject.SetActive(false);
         removeSign.SetActive(false);
         unitImage.gameObject.SetActive(false);
         unitImage.sprite = null;
