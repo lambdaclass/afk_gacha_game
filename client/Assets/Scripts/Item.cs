@@ -15,12 +15,3 @@ public class Item
         return (int)Math.Pow(level, 2);
     }
 }
-
-public class ItemTemplate
-{
-    public string id;
-    public string name;
-    public string type;
-    // Hardcoded sprite, should get from backend
-    public Sprite icon = Resources.Load<Sprite>("UI/Equipment/PlaceholderSprite");
-}
