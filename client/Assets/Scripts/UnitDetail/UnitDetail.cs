@@ -11,43 +11,13 @@ public class UnitDetail : MonoBehaviour
     private static Unit selectedUnit;
 
     [SerializeField]
-    TMP_Text goldCostText;
-
-    [SerializeField]
-    TMP_Text gemCostText;
-    
-    [SerializeField]
-    Text actionButtonText;
-
-    [SerializeField]
     Image backgroundImage;
 
     [SerializeField]
-    GameObject modelContainer;
+    Image selectedCharacterImage;
 
     [SerializeField]
     GameObject characterNameContainer;
-
-    [SerializeField]
-    GameObject levelStatUI;
-
-    [SerializeField]
-    GameObject tierStatUI;
-
-    [SerializeField]
-    GameObject rankStatUI;
-
-    [SerializeField]
-    GameObject headItemSprite;
-
-    [SerializeField]
-    GameObject chestItemSprite;
-
-    [SerializeField]
-    GameObject bootsItemSprite;
-
-    [SerializeField]
-    GameObject weaponItemSprite;
 
     [SerializeField]
     GameObject insufficientCurrencyPopup;
@@ -76,7 +46,6 @@ public class UnitDetail : MonoBehaviour
     public void LevelUp() {
         SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
         (unitAndCurrencies) => {
-			Debug.Log("success");
             foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
                 GlobalUserData.Instance.User.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name), (int)userCurrency.Amount);
             }
@@ -86,7 +55,6 @@ public class UnitDetail : MonoBehaviour
             levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
         },
         (reason) => {
-			Debug.Log("failure");
             switch(reason) {
                 case "cant_afford":
                     insufficientCurrencyPopup.SetActive(true);
@@ -174,21 +142,12 @@ public class UnitDetail : MonoBehaviour
 
     private void DisplayUnit()
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer();
-        }
-        Instantiate(selectedUnit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = selectedUnit.character.inGameSprite;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
         unitLevelText.text = $"Level: {selectedUnit.level}";
         levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
-    }
-
-    private void RemoveUnitFromContainer()
-    {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
     }
 
     public void PreviousUnit() {

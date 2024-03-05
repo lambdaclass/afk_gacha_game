@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Weak Hunter
   faction: 0
-  defaultSprite: {fileID: 21300000, guid: 7c984ab6ab9004e67ac3d05cdc1755a8, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 044f4d0e1e7bf4c3183ed9cf0e1deeb5, type: 3}
   inGameSprite: {fileID: 21300000, guid: 851959bb20417493093581513f5163f8, type: 3}
   prefab: {fileID: 5819572997624566537, guid: a58f36917e06d4ce4998ca8c1b64415e, type: 3}
   rarity: 1

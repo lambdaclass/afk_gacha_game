@@ -111,13 +111,12 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+            // this works
+            // Protobuf.Messages.WebSocketResponse webSocketResponse = Protobuf.Messages.WebSocketResponse.Parser.ParseFrom(data);
+            // this doesn't
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             switch (webSocketResponse.ResponseTypeCase)
             {
-                case WebSocketResponse.ResponseTypeOneofCase.User:
-                    List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-                    CreateUserFromData(webSocketResponse.User, availableCharacters);
-                    break;
                 case WebSocketResponse.ResponseTypeOneofCase.Error:
                     Debug.Log(webSocketResponse.Error.Reason);
                     break;
@@ -178,11 +177,7 @@ public class SocketConnection : MonoBehaviour {
             level = (int)itemData.Level,
             userId = itemData.UserId,
             unitId = itemData.UnitId,
-            template = new ItemTemplate{
-                id = itemData.Template.Id,
-                name = itemData.Template.Name,
-                type = itemData.Template.Type
-            }
+            template = GlobalUserData.Instance.AvailableItemTemplates.Find(itemtemplate => itemtemplate.name.ToLower() == itemData.Template.Name.ToLower())
         };
     }
 
