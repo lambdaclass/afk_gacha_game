@@ -87,9 +87,15 @@ public class BattleManager : MonoBehaviour
     private void SetUpUserUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
-            UnitPosition unitPosition;
-            unitPosition = unitPositions[unit.slot.Value];
+		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
+		if(!isPlayer) {
+			Debug.Log(unitPositions.Length);
+		}
+        foreach(Unit unit in units.Where(unit => unit.selected)) {
+			if(!isPlayer) {
+				Debug.Log($"unit position index: {unit.slot.Value - 1}");
+			}
+            UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);    
         }
     }
