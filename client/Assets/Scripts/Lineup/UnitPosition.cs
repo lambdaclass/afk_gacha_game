@@ -27,7 +27,10 @@ public class UnitPosition : MonoBehaviour
         // unitName.text = $"{unit.character.name} LVL: {unit.level}";
         // unitName.transform.parent.gameObject.SetActive(true);
         isOccupied = true;
-        removeSign.SetActive(isPlayer);
+
+		// Uncomment to show the remove unit sign
+        // removeSign.SetActive(isPlayer);
+		
         GetComponent<Button>().interactable = isPlayer;
 
         // Instantiate(unit.character.prefab, modelContainer.transform);
@@ -40,7 +43,10 @@ public class UnitPosition : MonoBehaviour
         // unitName.transform.parent.gameObject.SetActive(false);
         // unitName.text = String.Empty;
         isOccupied = false;
-        removeSign.SetActive(false);
+
+		// Uncomment to show the remove unit sign
+        // removeSign.SetActive(false);
+
         unitImage.gameObject.SetActive(false);
         unitImage.sprite = null;
         GetComponent<Button>().interactable = false;
