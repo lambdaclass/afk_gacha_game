@@ -234,7 +234,7 @@ public class SocketConnection : MonoBehaviour {
                 {
                     id = level.Id,
                     levelNumber = (int)level.LevelNumber,
-                    campaign = (int)level.Campaign,
+                    campaignId = level.CampaignId,
                     units = levelUnits,
                     first = levelIndex == 0
                 });
@@ -359,10 +359,10 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest{
             GetCampaigns = getCampaignsRequest
         };
-        SendWebSocketMessage(request);
         currentMessageHandler = (data) => AwaitGetCampaignsResponse(data, onCampaignDataReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
     private void AwaitGetCampaignsResponse(byte[] data, Action<List<CampaignData>> onCampaignDataReceived)
@@ -580,7 +580,7 @@ public class SocketConnection : MonoBehaviour {
 				description = box.Description,
 				factions = box.Factions.ToList(),
 				rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
-				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Cost)
+				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Amount)
 			};
 		}).ToList();
 	}
