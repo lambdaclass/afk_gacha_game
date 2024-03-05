@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class LineUpUnitsUIContainer : UnitsUIContainer
 {
+	// solve this, this shouldn't be a constant, this should all be refactored
+    public const int numberOfPositions = 6;
+
     public override void Populate(List<Unit> units, IUnitPopulator unitPopulator = null)
     {
         unitsContainer.SetActive(false);
@@ -41,7 +44,8 @@ public class LineUpUnitsUIContainer : UnitsUIContainer
 
     private void SetLocks()
     {
-        if (unitUIItemDictionary.Values.Count(unitItem => unitItem.GetComponent<UnitItemUI>().IsSelected()) == 5)
+        // This six is hardcoded, very naughty
+        if (unitUIItemDictionary.Values.Count(unitItem => unitItem.GetComponent<UnitItemUI>().IsSelected()) == numberOfPositions)
         {
             foreach (GameObject unitUIItem in unitUIItemDictionary.Values)
             {
