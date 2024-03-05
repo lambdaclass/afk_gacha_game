@@ -76,6 +76,7 @@ public class UnitDetail : MonoBehaviour
     public void LevelUp() {
         SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
         (unitAndCurrencies) => {
+			Debug.Log("success");
             foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
                 GlobalUserData.Instance.User.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name), (int)userCurrency.Amount);
             }
@@ -85,6 +86,7 @@ public class UnitDetail : MonoBehaviour
             levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
         },
         (reason) => {
+			Debug.Log("failure");
             switch(reason) {
                 case "cant_afford":
                     insufficientCurrencyPopup.SetActive(true);

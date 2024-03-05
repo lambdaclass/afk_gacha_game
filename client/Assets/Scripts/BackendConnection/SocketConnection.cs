@@ -112,7 +112,6 @@ public class SocketConnection : MonoBehaviour {
         try
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-            Debug.Log(webSocketResponse.ResponseTypeCase);
             switch (webSocketResponse.ResponseTypeCase)
             {
                 case WebSocketResponse.ResponseTypeOneofCase.User:
@@ -121,7 +120,6 @@ public class SocketConnection : MonoBehaviour {
                     break;
                 case WebSocketResponse.ResponseTypeOneofCase.Error:
                     Debug.Log(webSocketResponse.Error.Reason);
-                    Debug.LogError("response type error");
                     break;
                 // Since the response of type Unit isn't used for anything there isn't a specific handler for it, it is caught here so it doesn't log any confusing messages
                 case WebSocketResponse.ResponseTypeOneofCase.Unit:
@@ -611,15 +609,14 @@ public class SocketConnection : MonoBehaviour {
 	{
 		try
         {
+			ws.OnMessage -= currentMessageHandler;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UserAndUnit) {
-                ws.OnMessage -= currentMessageHandler;
 				User user = CreateUserFromData(webSocketResponse.UserAndUnit.User, GlobalUserData.Instance.AvailableCharacters);
 				Unit unit = CreateUnitFromData(webSocketResponse.UserAndUnit.Unit, GlobalUserData.Instance.AvailableCharacters);
                 onSuccess?.Invoke(user, unit);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
             ws.OnMessage += OnWebSocketMessage;

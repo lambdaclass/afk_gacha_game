@@ -15,5 +15,6 @@ MonoBehaviour:
   name: Mediocre Assasin
   faction: 3
   defaultSprite: {fileID: 21300000, guid: ef0342d46db8748e99fe6163572f8a9d, type: 3}
+  inGameSprite: {fileID: 21300000, guid: 345858b77e3e7417c9e2aa2b05a48dc4, type: 3}
   prefab: {fileID: 5819572997624566537, guid: a58f36917e06d4ce4998ca8c1b64415e, type: 3}
   rarity: 1

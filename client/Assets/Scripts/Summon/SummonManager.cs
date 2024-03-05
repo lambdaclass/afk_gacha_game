@@ -27,38 +27,60 @@ public class SummonManager : MonoBehaviour
 	[SerializeField]
 	Image newUnitImage;
 
+	[SerializeField]
+    GameObject insufficientCurrencyPopup;
+
 	void Start() {
 		SocketConnection.Instance.GetBoxes(
 			(boxes) => {
 				foreach(Box box in boxes) {
 					BoxUI boxUI = Instantiate(boxPrefab, boxesContainer.transform);
-					Action<string, string> onClick = (userId, boxId) => ShowConfirmPopup(userId, boxId);
+					Action<string, string> onClick = (userId, boxId) => ShowConfirmPopup(userId, box);
 					boxUI.SetBox(box, onClick);
 				}
 			},
-			(error) => {
-				Debug.LogError(error);
+			(reason) => {
+				Debug.LogError(reason);
 			}
 		);
 	}
 
-	void ShowConfirmPopup(string userId, string boxId) {
-		UnityAction onClickAction = () => Summon(userId, boxId);
+	void ShowConfirmPopup(string userId, Box box) {
+		confirmPopup.ConfirmButton.onClick.RemoveAllListeners();
+		UnityAction onClickAction = () => Summon(userId, box);
 		confirmPopup.ConfirmButton.onClick.AddListener(onClickAction);
 		confirmPopup.gameObject.SetActive(true);
 	}
 
-	private void Summon(string userId, string boxId)
+	private void Summon(string userId, Box box)
 	{
-		SocketConnection.Instance.Summon(userId, boxId,
+		foreach(KeyValuePair<Currency, int> cost in box.costs) {
+			if(cost.Value > GlobalUserData.Instance.User.GetCurrency(cost.Key)) {
+				// Need to specify which currency
+            	insufficientCurrencyPopup.SetActive(true);
+				return;
+			}
+		}
+
+		SocketConnection.Instance.Summon(userId, box.id,
 			(user, unit) => {
-				Debug.Log($"new unit: {unit.character.name}, {unit.id}");
-				newCharacterContainer.SetActive(true);
+				foreach(KeyValuePair<Currency, int> userCurrency in user.currencies) {
+					GlobalUserData.Instance.User.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
+				}
 				newUnitName.text = unit.character.name;
 				newUnitImage.sprite = unit.character.inGameSprite;
+				newCharacterContainer.SetActive(true);
 			},
 			reason => {
-				Debug.LogError(reason);
+				switch(reason) {
+					case "cant_afford":
+						// Need to specify which currency
+						insufficientCurrencyPopup.SetActive(true);
+						break;
+					default:
+						Debug.LogError(reason);
+						break;
+				}
 			}	
 		);
 	}
