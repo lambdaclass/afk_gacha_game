@@ -2575,6 +2575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed87f9880c0b04e2a8d90f2c4b5754bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  confirmButton: {fileID: 0}
   audioSource: {fileID: 1317429375}
 --- !u!82 &598908195
 AudioSource:
@@ -4280,6 +4281,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74b8e72fa2adf48958d2adef09589f57, type: 2}
   - {fileID: 11400000, guid: 898997de4b13c43e388386b5b893fc5d, type: 2}
   - {fileID: 11400000, guid: 864eca84037504d6cb414b0bbe006bc3, type: 2}
+  - {fileID: 11400000, guid: 0a7866fe5097048208092ba45bddc182, type: 2}
+  - {fileID: 11400000, guid: 6e08e4940a89849c09f36577812351f6, type: 2}
+  - {fileID: 11400000, guid: cbfe21d90f8964a89b30b974676dc0ab, type: 2}
+  - {fileID: 11400000, guid: 8b5d05c9e7d57416a9591c4fa9d5c116, type: 2}
   itemtemplates:
   - {fileID: 11400000, guid: eddee7e4308dc4f15ae7496dc6d331d5, type: 2}
   - {fileID: 11400000, guid: 7ddb59d68c78b4ccf8b784f37f79dbc6, type: 2}
@@ -6662,6 +6667,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 121765713848253420, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 121765713848253420, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 121765713848253420, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 121765713848253420, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 592328169692779777, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
