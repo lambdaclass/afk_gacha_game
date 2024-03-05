@@ -92,6 +92,20 @@ public class User
         }
     }
 
+    // This method should be unified with AddIndividualCurrency, only one of these should exist
+    public void SetCurrencyAmount(Currency currency, int amount) {
+        if (currencies.ContainsKey(currency)) {
+            currencies[currency] = amount;
+        } else {
+            // User doesn't have this currency.
+            if (amount < 0) { throw new InvalidOperationException("SetCurrencyAmount received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
+            
+            // Create it for him with the given amount.
+            currencies.Add(currency, amount);
+        }
+        OnCurrencyModified.Invoke();
+    }
+
     public void SubtractCurrency(Dictionary<Currency, int> currencies) {
         Dictionary<Currency, int> negativeCurrencies = new Dictionary<Currency, int>();
 
