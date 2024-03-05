@@ -67,6 +67,7 @@ public class SummonManager : MonoBehaviour
 				foreach(KeyValuePair<Currency, int> userCurrency in user.currencies) {
 					GlobalUserData.Instance.User.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
 				}
+				GlobalUserData.Instance.User.units.Add(unit);
 				newUnitName.text = unit.character.name;
 				newUnitImage.sprite = unit.character.inGameSprite;
 				newCharacterContainer.SetActive(true);
