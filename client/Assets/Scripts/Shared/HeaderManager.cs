@@ -10,6 +10,7 @@ public class HeaderManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI xp;
     [SerializeField] TextMeshProUGUI gold;
     [SerializeField] TextMeshProUGUI gems;
+	[SerializeField] TextMeshProUGUI scrolls;
 
     static User user;
 
@@ -41,6 +42,7 @@ public class HeaderManager : MonoBehaviour
     {
         gold.text = user.GetCurrency(Currency.Gold).ToString();
         gems.text = user.GetCurrency(Currency.Gems).ToString();
+		scrolls.text = user.GetCurrency(Currency.Scrolls).ToString();
     }
 
     void UpdateLevelValues()
