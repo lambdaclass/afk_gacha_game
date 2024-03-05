@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class SummonManager : MonoBehaviour
 {
@@ -15,6 +17,15 @@ public class SummonManager : MonoBehaviour
 
 	[SerializeField]
 	PopupButtonsController confirmPopup;
+
+	[SerializeField]
+	GameObject newCharacterContainer;
+
+	[SerializeField]
+	TMP_Text newUnitName;
+
+	[SerializeField]
+	Image newUnitImage;
 
 	void Start() {
 		SocketConnection.Instance.GetBoxes(
@@ -42,6 +53,9 @@ public class SummonManager : MonoBehaviour
 		SocketConnection.Instance.Summon(userId, boxId,
 			(user, unit) => {
 				Debug.Log($"new unit: {unit.character.name}, {unit.id}");
+				newCharacterContainer.SetActive(true);
+				newUnitName.text = unit.character.name;
+				newUnitImage.sprite = unit.character.inGameSprite;
 			},
 			reason => {
 				Debug.LogError(reason);
