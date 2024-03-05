@@ -213,11 +213,7 @@ public class SocketConnection : MonoBehaviour {
             level = (int)itemData.Level,
             userId = itemData.UserId,
             unitId = itemData.UnitId,
-            template = new ItemTemplate{
-                id = itemData.Template.Id,
-                name = itemData.Template.Name,
-                type = itemData.Template.Type
-            }
+            template = GlobalUserData.Instance.AvailableItemTemplates.Find(itemtemplate => itemtemplate.name.ToLower() == itemData.Template.Name.ToLower())
         };
     }
 

@@ -12,7 +12,7 @@ public class UnitPosition : MonoBehaviour
     GameObject removeSign;
 
     [SerializeField]
-    GameObject modelContainer;
+    Image unitImage;
 
     public event Action<Unit> OnUnitRemoved;
 
@@ -29,7 +29,10 @@ public class UnitPosition : MonoBehaviour
         isOccupied = true;
         removeSign.SetActive(isPlayer);
         GetComponent<Button>().interactable = isPlayer;
-        Instantiate(unit.character.prefab, modelContainer.transform);
+
+        // Instantiate(unit.character.prefab, modelContainer.transform);
+        unitImage.sprite = selectedUnit.character.inGameSprite;
+        unitImage.gameObject.SetActive(true);
     }
 
     public void UnselectUnit() {
@@ -38,7 +41,8 @@ public class UnitPosition : MonoBehaviour
         // unitName.text = String.Empty;
         isOccupied = false;
         removeSign.SetActive(false);
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
+        unitImage.gameObject.SetActive(false);
+        unitImage.sprite = null;
         GetComponent<Button>().interactable = false;
         OnUnitRemoved?.Invoke(selectedUnit);
         selectedUnit = null;

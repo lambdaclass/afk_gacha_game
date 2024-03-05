@@ -5,18 +5,20 @@ using UnityEngine.UI;
 
 public class AscensionManager : MonoBehaviour, IUnitPopulator
 {
-    [SerializeField] GameObject modelContainer;
-    [SerializeField] Button fusionButton;
-    [SerializeField] FusionUnitsUIContainer unitsContainer;
-    [SerializeField] GameObject characterNameContainer;
+    [SerializeField]
+    Button fusionButton;
+    [SerializeField]
+    FusionUnitsUIContainer unitsContainer;
+    [SerializeField]
+    GameObject characterNameContainer;
+    [SerializeField]
+    Image selectedCharacterImage;
 
     private List<Unit> selectedUnits;
 
-    User user = GlobalUserData.Instance.User;
-
     void Start()
     {
-        List<Unit> units = user.units;
+        List<Unit> units = GlobalUserData.Instance.Units;
         selectedUnits = new List<Unit>();
         this.unitsContainer.Populate(units, this);
     }
@@ -54,7 +56,7 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
         }
         else
         {
-            RemoveUnitFromContainer();
+            RemoveUnitFromDisplay(unit);
             unitsContainer.SetUnitsLock(unit.character.faction, false);
             fusionButton.gameObject.SetActive(false);
         }
@@ -62,26 +64,22 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
 
     private void DisplayUnit(Unit unit)
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer();
-        }
-        Instantiate(unit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = unit.character.inGameSprite;
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = unit.character.name + "\n Rank: " + unit.rank.ToString();
-        characterNameContainer.SetActive(true);
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
     }
 
-    private void RemoveUnitFromContainer()
+    private void RemoveUnitFromDisplay(Unit unit)
     {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
+        selectedCharacterImage.sprite = null;
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = null;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(false);
     }
 
     public void Fusion() {
         // globalUserData.User.FuseUnits(selectedUnits);
         Debug.LogError("Fusion not yet connected to backend");
-        RemoveUnitFromContainer();
-        this.unitsContainer.Populate(user.units, this);
+        this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
         selectedUnits.Clear();
         fusionButton.gameObject.SetActive(false);
     }

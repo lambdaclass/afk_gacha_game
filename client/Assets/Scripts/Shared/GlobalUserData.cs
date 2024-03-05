@@ -13,6 +13,15 @@ public class GlobalUserData : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    List<ItemTemplate> itemtemplates;
+    public List<ItemTemplate> AvailableItemTemplates {
+        get {
+            return this.itemtemplates;
+        }
+    }
+
+
     // Singleton instance
     private static GlobalUserData instance;
 
