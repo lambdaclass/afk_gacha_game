@@ -111,9 +111,6 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-            // this works
-            // Protobuf.Messages.WebSocketResponse webSocketResponse = Protobuf.Messages.WebSocketResponse.Parser.ParseFrom(data);
-            // this doesn't
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             switch (webSocketResponse.ResponseTypeCase)
             {
@@ -502,7 +499,7 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
-    public void LevelUpUnit(string userId, string unitId, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError) {
+    public void LevelUpUnit(string userId, string unitId, Action<Unit, Dictionary<Currency, int>> onUnitAndCurrenciesDataReceived, Action<string> onError) {
         LevelUpUnit levelUpUnitRequest = new LevelUpUnit {
             UserId = userId,
             UnitId = unitId
@@ -516,14 +513,21 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-    private void AwaitUnitAndCurrenciesReponse(byte[] data, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError = null)
+    private void AwaitUnitAndCurrenciesReponse(byte[] data, Action<Unit, Dictionary<Currency, int>> onUnitAndCurrenciesDataReceived, Action<string> onError = null)
     {
         try
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UnitAndCurrencies) {
                 ws.OnMessage -= currentMessageHandler;
-                onUnitAndCurrenciesDataReceived?.Invoke(webSocketResponse.UnitAndCurrencies);
+				Unit newUnit = CreateUnitFromData(webSocketResponse.UnitAndCurrencies.Unit, GlobalUserData.Instance.AvailableCharacters);
+				Dictionary<Currency, int> newUserCurrencies = webSocketResponse.UnitAndCurrencies.UserCurrency
+																.ToDictionary(currency =>
+																	Enum.Parse<Currency>(currency.Currency.Name),
+																	currency => (int)currency.Amount
+																);
+
+                onUnitAndCurrenciesDataReceived?.Invoke(newUnit, newUserCurrencies);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 ws.OnMessage -= currentMessageHandler;
