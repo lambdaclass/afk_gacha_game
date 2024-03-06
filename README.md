@@ -1,5 +1,7 @@
 # Champions of Mirra
 
+![_8cacb6e9-9700-4ceb-a771-fb835010a2b6](https://github.com/lambdaclass/champions_of_mirra/assets/159582894/19972af4-0d41-42e1-8bb9-13292eafd258)
+
 ## Table of Contents
 
 - [Champions of Mirra](#champions-of-mirra)
