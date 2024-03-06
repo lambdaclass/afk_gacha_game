@@ -2,6 +2,8 @@
 
 ![imagenvolatil](https://github.com/lambdaclass/champions_of_mirra/assets/159582894/2283e93e-20f9-4e35-8535-8bd8587513c6)
 
+! [imagenrandom] (https://www.freepik.es/fotos-premium/imagen-fondo_63341773.htm)
+
 ## Table of Contents
 
 - [Champions of Mirra](#champions-of-mirra)
