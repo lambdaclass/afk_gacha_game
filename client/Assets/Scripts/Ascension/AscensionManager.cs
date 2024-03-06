@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -77,10 +78,20 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     }
 
     public void Fusion() {
-        // globalUserData.User.FuseUnits(selectedUnits);
-        Debug.LogError("Fusion not yet connected to backend");
-        this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
-        selectedUnits.Clear();
-        fusionButton.gameObject.SetActive(false);
+        SocketConnection.Instance.FuseUnits(GlobalUserData.Instance.User.id, selectedUnits.First().id, selectedUnits.Skip(1).Select(unit => unit.id).ToArray(),
+			(unit) => {
+				foreach(Unit selectedUnit in selectedUnits) {
+					GlobalUserData.Instance.Units.Remove(selectedUnit);
+				}
+				GlobalUserData.Instance.Units.Add(unit);
+				this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
+				selectedUnits.Clear();
+				fusionButton.gameObject.SetActive(false);
+				selectedCharacterImage.transform.parent.gameObject.SetActive(false);
+			},
+			(error) => {
+				Debug.Log(error);
+			}
+		);
     }
 }

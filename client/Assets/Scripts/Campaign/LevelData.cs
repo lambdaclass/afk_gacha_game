@@ -6,7 +6,7 @@ public class LevelData
     // This fields shouldn't be modifiable externally (they shouldn't be public?)
     public string id;
     public int levelNumber;
-    public int campaign;
+    public string campaignId;
     public List<Unit> units;
 
     // Hardcoded values aren't currently brought from the backend
