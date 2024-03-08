@@ -14,11 +14,15 @@ public class CampaignsMapManager : MonoBehaviour
     void Start()
     {
         SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) => {
+			foreach(Campaign campaign in campaigns) {
+				Debug.Log($"campaign id: {campaign.campaignId}, status: {campaign.status.ToString()}");
+			}
+
             GenerateCampaigns(campaigns);
         });
     }
 
-    private void GenerateCampaigns(List<CampaignData> campaigns)
+    private void GenerateCampaigns(List<Campaign> campaigns)
     {
         // Currently we have 2 campaigns and the client is hardcoded to only manage 2 campaigns, TODO: variable number of campaigns
         for(int campaignsIndex = 0; campaignsIndex < 2; campaignsIndex++) {

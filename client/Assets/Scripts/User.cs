@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Specialized;
 
 [Serializable]
 public class User
@@ -37,11 +38,7 @@ public class User
     public Dictionary<Currency, int> afkMaxCurrencyReward = new Dictionary<Currency, int>();
     public int afkMaxExperienceReward = 0;
 
-    public string NextId() {
-        string next_id = next_unit_id.ToString();
-        next_unit_id = next_unit_id + 1;
-        return next_id;
-    }
+	public List<(string campaignId, string levelId)> campaignsProgress = new List<(string, string)>();
 
     public void AddExperience(int experienceToAdd) {
         experience += experienceToAdd;

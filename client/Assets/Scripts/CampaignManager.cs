@@ -6,7 +6,7 @@ public class CampaignManager : MonoBehaviour
 {
     public static GameObject campaignPrefab;
     
-    public static CampaignData selectedCampaignData;
+    public static Campaign selectedCampaignData;
     
     public static string automaticLoadLevelName = null;
     
