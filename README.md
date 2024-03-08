@@ -1,9 +1,7 @@
 # Champions of Mirra
 
-![imagenvolatil](https://github.com/lambdaclass/champions_of_mirra/assets/159582894/2283e93e-20f9-4e35-8535-8bd8587513c6)
+<img src="IMG_9706.PNG" alt="bannerimage">
 
-
-![imagenrandom](https://github.com/lambdaclass/champions_of_mirra/assets/159582894/75718662-1b7f-44be-aa24-d95c9eec5330)
 
 
 ## Table of Contents
