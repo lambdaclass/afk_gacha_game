@@ -1,5 +1,8 @@
 # Champions of Mirra
 
+<img src=https://github.com/lambdaclass/champions_of_mirra/blob/add-banner-image/IMG_9706.PNG alt="Champions of mirra BannerImage">
+
+
 ## Table of Contents
 
 - [Champions of Mirra](#champions-of-mirra)
