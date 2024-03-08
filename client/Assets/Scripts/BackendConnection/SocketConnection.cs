@@ -220,10 +220,9 @@ public class SocketConnection : MonoBehaviour {
         for(int campaignIndex = 0; campaignIndex < campaignsData.Campaigns_.Count; campaignIndex++)
         {
             List<LevelData> levels = new List<LevelData>();
-
-            for(int levelIndex = 0; levelIndex < campaignsData.Campaigns_[campaignIndex].Levels.Count; levelIndex++)
+			int levelIndex = 0;
+			foreach(Protobuf.Messages.Level level in campaignsData.Campaigns_[campaignIndex].Levels.OrderBy(a => a.LevelNumber))
             {
-                Protobuf.Messages.Level level = campaignsData.Campaigns_[campaignIndex].Levels[levelIndex];
 				List<Unit> levelUnits = CreateUnitsFromData(level.Units, availableCharacters);
 
                 levels.Add(new LevelData
@@ -234,6 +233,8 @@ public class SocketConnection : MonoBehaviour {
                     units = levelUnits,
                     first = levelIndex == 0
                 });
+
+				levelIndex++;
             }
 
             campaigns.Add(new CampaignData
