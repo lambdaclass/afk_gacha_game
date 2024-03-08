@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 078840dcd121844c69ebb05d1eb6b753, type: 3}
-  m_Name: Dagna
+  m_Name: Zil'kan
   m_EditorClassIdentifier: 
-  name: Dagna
-  faction: 3
-  defaultSprite: {fileID: 21300000, guid: 2df7c770113194d8daf9e0ecdd2e1dc2, type: 3}
-  inGameSprite: {fileID: 21300000, guid: 906e26b2aa5e549d889e6e2f38a87ff7, type: 3}
+  name: Zil'kan
+  faction: 0
+  defaultSprite: {fileID: 21300000, guid: d81f3d1d191354e8eb68ad2d0cec3e19, type: 3}
+  inGameSprite: {fileID: 21300000, guid: dccc4110ba81a4b54bce4fe4ee8d119a, type: 3}
   prefab: {fileID: 2866215690245578517, guid: b5943a432043c4ddeb23a63ccb79d69a, type: 3}
   rarity: 0

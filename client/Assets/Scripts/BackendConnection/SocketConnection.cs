@@ -136,6 +136,17 @@ public class SocketConnection : MonoBehaviour {
 
 	private User CreateUserFromData(Protobuf.Messages.User user, List<Character> availableCharacters)
 	{
+		// if(user.CampaignsProgress != null) {
+		// 	Debug.Log($"campaign progression count: {user.CampaignsProgress.Count()}");
+		// 	if(user.CampaignsProgress.Count() > 0) {
+		// 		Debug.Log($"campaign progression: {user.CampaignsProgress.First().LevelId}");
+		// 	}
+		// }
+		// else
+		// {
+		// 	Debug.LogError("no campaign progress");
+		// }
+
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
 
 		List<Item> items = new List<Item>();
@@ -234,7 +245,7 @@ public class SocketConnection : MonoBehaviour {
                 {
                     id = level.Id,
                     levelNumber = (int)level.LevelNumber,
-                    campaign = (int)level.Campaign,
+                    campaignId = level.CampaignId,
                     units = levelUnits,
                     first = levelIndex == 0
                 });
@@ -580,7 +591,7 @@ public class SocketConnection : MonoBehaviour {
 				description = box.Description,
 				factions = box.Factions.ToList(),
 				rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
-				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Cost)
+				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Amount)
 			};
 		}).ToList();
 	}

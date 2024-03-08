@@ -32,6 +32,7 @@ public class BattleManager : MonoBehaviour
 
     public void Battle()
     {
+		Debug.Log($"level id: {selectedLevelData.id}");
         SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
             HandleBattleResult(result);
         });
@@ -88,13 +89,7 @@ public class BattleManager : MonoBehaviour
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
 		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
-		if(!isPlayer) {
-			Debug.Log(unitPositions.Length);
-		}
         foreach(Unit unit in units.Where(unit => unit.selected)) {
-			if(!isPlayer) {
-				Debug.Log($"unit position index: {unit.slot.Value - 1}");
-			}
             UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);    
         }
