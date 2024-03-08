@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,12 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     GameObject characterNameContainer;
     [SerializeField]
     Image selectedCharacterImage;
+	
+	// Error popup
+	[SerializeField]
+	GameObject errorPopup;
+	[SerializeField]
+	TMP_Text errorMessage;
 
     private List<Unit> selectedUnits;
 
@@ -77,10 +84,31 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     }
 
     public void Fusion() {
-        // globalUserData.User.FuseUnits(selectedUnits);
-        Debug.LogError("Fusion not yet connected to backend");
-        this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
-        selectedUnits.Clear();
-        fusionButton.gameObject.SetActive(false);
+        SocketConnection.Instance.FuseUnits(GlobalUserData.Instance.User.id, selectedUnits.First().id, selectedUnits.Skip(1).Select(unit => unit.id).ToArray(),
+			(unit) => {
+				foreach(Unit selectedUnit in selectedUnits) {
+					GlobalUserData.Instance.Units.Remove(selectedUnit);
+				}
+				GlobalUserData.Instance.Units.Add(unit);
+				this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
+				selectedUnits.Clear();
+				fusionButton.gameObject.SetActive(false);
+				selectedCharacterImage.transform.parent.gameObject.SetActive(false);
+			},
+			(error) => {
+				switch (error) {
+					case "consumed_units_invalid":
+						errorMessage.text = "The selected units are invalid for fusion";
+						break;
+					case "cant_rank_up":
+						errorMessage.text = "Can't rank up unit";
+						break;
+					default:
+						errorMessage.text = error;
+						break;
+				}
+				errorPopup.SetActive(true);
+			}
+		);
     }
 }
