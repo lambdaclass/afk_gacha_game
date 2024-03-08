@@ -111,9 +111,6 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-            // this works
-            // Protobuf.Messages.WebSocketResponse webSocketResponse = Protobuf.Messages.WebSocketResponse.Parser.ParseFrom(data);
-            // this doesn't
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             switch (webSocketResponse.ResponseTypeCase)
             {
@@ -136,19 +133,7 @@ public class SocketConnection : MonoBehaviour {
 
 	private User CreateUserFromData(Protobuf.Messages.User user, List<Character> availableCharacters)
 	{
-		// if(user.CampaignsProgress != null) {
-		// 	Debug.Log($"campaign progression count: {user.CampaignsProgress.Count()}");
-		// 	if(user.CampaignsProgress.Count() > 0) {
-		// 		Debug.Log($"campaign progression: {user.CampaignsProgress.First().LevelId}");
-		// 	}
-		// }
-		// else
-		// {
-		// 	Debug.LogError("no campaign progress");
-		// }
-
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
-
 		List<Item> items = new List<Item>();
 
 		foreach (var userItem in user.Items)
