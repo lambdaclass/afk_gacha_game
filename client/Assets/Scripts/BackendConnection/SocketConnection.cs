@@ -223,13 +223,18 @@ public class SocketConnection : MonoBehaviour {
         {
 			LevelProgressData.Status levelStatus = LevelProgressData.Status.Unlocked;
             List<LevelData> levels = new List<LevelData>();
-            for(int levelIndex = 0; levelIndex < campaignData.Levels.Count; levelIndex++)
+			
+			foreach(Protobuf.Messages.Level level in campaignData.Levels.OrderBy(level => level.LevelNumber))
             {
-                Protobuf.Messages.Level level = campaignData.Levels[levelIndex];
 				List<Unit> levelUnits = CreateUnitsFromData(level.Units, availableCharacters);
 
 				if(levelStatus != LevelProgressData.Status.Locked) {
-					levelStatus = level.Id != GlobalUserData.Instance.User.campaignsProgress.Find(cp => cp.Item1 == campaignData.Id).levelId ? LevelProgressData.Status.Completed : levelStatus;
+					if(GlobalUserData.Instance.User.campaignsProgress.Any(cp => cp.campaignId == campaignData.Id)) {
+						// if(level.Id != GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId) {
+						// 	Debug.Log($"{level.Id} != {GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId}");
+						// }
+						levelStatus = level.Id != GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId ? LevelProgressData.Status.Completed : LevelProgressData.Status.Unlocked;
+					}
 				}
 
                 levels.Add(new LevelData

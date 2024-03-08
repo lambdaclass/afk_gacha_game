@@ -14,10 +14,6 @@ public class CampaignsMapManager : MonoBehaviour
     void Start()
     {
         SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) => {
-			foreach(Campaign campaign in campaigns) {
-				Debug.Log($"campaign id: {campaign.campaignId}, status: {campaign.status.ToString()}");
-			}
-
             GenerateCampaigns(campaigns);
         });
     }
