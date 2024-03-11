@@ -133,7 +133,6 @@ public class SocketConnection : MonoBehaviour {
 
 	private User CreateUserFromData(Protobuf.Messages.User user, List<Character> availableCharacters)
 	{
-		Debug.Log("CreateUserFromData");
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
 		List<Item> items = new List<Item>();
 
@@ -154,11 +153,6 @@ public class SocketConnection : MonoBehaviour {
 			{
 				Debug.LogError($"Currency brought from the backend not found in client: {currency.Currency.Name}");
 			}
-		}
-
-		Debug.Log($"campaigns progress count: {user.CampaignsProgress.Count}");
-		foreach(var cp in user.CampaignsProgress) {
-			Debug.Log($"campaign id: {cp.CampaignId}, level id: {cp.LevelId}");
 		}
 
 		return new User
@@ -240,10 +234,6 @@ public class SocketConnection : MonoBehaviour {
 					}
 				}
 
-				// if(GlobalUserData.Instance.User.campaignsProgress.Any(cp => cp.campaignId == campaignData.Id)) {
-				// 	Debug.Log($"{GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId}");
-				// }
-
                 levels.Add(new LevelData
                 {
                     id = level.Id,
@@ -294,7 +284,6 @@ public class SocketConnection : MonoBehaviour {
 		else {
 			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
 			GetUser(userId, (user) => {
-				Debug.Log("callback GetUser");
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
 			});
@@ -304,7 +293,6 @@ public class SocketConnection : MonoBehaviour {
     public void GetUser(string userId, Action<User> onGetUserDataReceived)
     {
 		try{
-			Debug.Log("GetUser");
 			GetUser getUserRequest = new GetUser{
 				UserId = userId
 			};
@@ -336,16 +324,18 @@ public class SocketConnection : MonoBehaviour {
 
     private void AwaitGetUserResponse(byte[] data, Action<User> onGetUserDataReceived)
     {
-		Debug.Log("AwaitGetUserResponse");
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
 			{
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
 				onGetUserDataReceived?.Invoke(user);
 			}
-			else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+			else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error)
+			{
                 switch(webSocketResponse.Error.Reason) {
                     case "not_found":
                         Debug.Log("User not found, trying to create new user");
@@ -363,9 +353,6 @@ public class SocketConnection : MonoBehaviour {
                         break;
                 }
             }
-
-			ws.OnMessage -= currentMessageHandler;
-			ws.OnMessage += OnWebSocketMessage;
         } catch (Exception e) {
             Debug.LogError("InvalidProtocolBufferException: " + e);
         }
@@ -403,13 +390,13 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Campaigns) {
-                ws.OnMessage -= currentMessageHandler;
                 List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
                 List<Campaign> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, availableCharacters);
                 onCampaignDataReceived?.Invoke(campaigns);
-                ws.OnMessage += OnWebSocketMessage;
             }
         }
         catch (Exception e)
@@ -461,14 +448,13 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
-				Debug.Log($"battle result: {webSocketResponse.BattleResult.Result}");
                 bool battleResult = webSocketResponse.BattleResult.Result == "win";
                 onBattleResultReceived?.Invoke(battleResult);
             }
-			ws.OnMessage -= currentMessageHandler;
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -523,17 +509,16 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Item) {
-                ws.OnMessage -= currentMessageHandler;
                 Item item = CreateItemFromData(webSocketResponse.Item);
                 onItemDataReceived?.Invoke(item);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -559,16 +544,15 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UnitAndCurrencies) {
-                ws.OnMessage -= currentMessageHandler;
                 onUnitAndCurrenciesDataReceived?.Invoke(webSocketResponse.UnitAndCurrencies);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -591,17 +575,16 @@ public class SocketConnection : MonoBehaviour {
 	{
 		try
         {
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Boxes) {
-                ws.OnMessage -= currentMessageHandler;
 				List<Box> boxes = ParseBoxesFromResponse(webSocketResponse.Boxes);
                 onBoxesDataReceived?.Invoke(boxes);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -644,6 +627,7 @@ public class SocketConnection : MonoBehaviour {
 		try
         {
 			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UserAndUnit) {
 				User user = CreateUserFromData(webSocketResponse.UserAndUnit.User, GlobalUserData.Instance.AvailableCharacters);
@@ -653,7 +637,6 @@ public class SocketConnection : MonoBehaviour {
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -685,6 +668,7 @@ public class SocketConnection : MonoBehaviour {
 		try
         {
 			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Unit) {
 				Unit unit = CreateUnitFromData(webSocketResponse.Unit, GlobalUserData.Instance.AvailableCharacters);
@@ -693,7 +677,6 @@ public class SocketConnection : MonoBehaviour {
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {

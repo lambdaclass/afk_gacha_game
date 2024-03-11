@@ -42,7 +42,6 @@ public class BattleManager : MonoBehaviour
         if(result) {
 			// Should this be here? refactor after demo?
 			try {
-				Debug.Log("call GetUserAndContinue");
 				SocketConnection.Instance.GetUserAndContinue();
 			} catch (Exception ex) {
 				Debug.LogError(ex.Message);
