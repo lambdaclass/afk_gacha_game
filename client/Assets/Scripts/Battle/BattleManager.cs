@@ -18,15 +18,19 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
+	[SerializeField]
+	LevelManager levelManager;
+
     public static LevelData selectedLevelData;
 
     void Start()
     {
+		victorySplash.SetActive(false);
+		defeatSplash.SetActive(false);
         List<Unit> userUnits = GlobalUserData.Instance.Units;
         List<Unit> opponentUnits = selectedLevelData.units;
 
         SetUpUnits(userUnits, opponentUnits);
-
         Battle();
     }
 

@@ -43,8 +43,6 @@ public class CampaignLevelIndicator : MonoBehaviour
         SetLevel();
         SetLevelToComplete();
         SetLevelToUnlock();
-        SetCampaignToComplete();
-        SetCampaignToUnlock();
     }
 
     private void SetLevel() {
@@ -60,13 +58,5 @@ public class CampaignLevelIndicator : MonoBehaviour
         // else { LevelProgressData.Instance.LevelToUnlockName = null; }
 
         LevelProgressData.Instance.LevelToUnlockName = null;
-    }
-
-    private void SetCampaignToComplete() {
-        // CampaignProgressData.Instance.CampaignToComplete = levelData.campaignToComplete;
-    }
-
-    private void SetCampaignToUnlock() {
-        // CampaignProgressData.Instance.CampaignToUnlock = levelData.campaignToUnlock;
     }
 }
