@@ -230,9 +230,6 @@ public class SocketConnection : MonoBehaviour {
 
 				if(levelStatus != LevelProgressData.Status.Locked) {
 					if(GlobalUserData.Instance.User.campaignsProgress.Any(cp => cp.campaignId == campaignData.Id)) {
-						// if(level.Id != GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId) {
-						// 	Debug.Log($"{level.Id} != {GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId}");
-						// }
 						levelStatus = level.Id != GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId ? LevelProgressData.Status.Completed : LevelProgressData.Status.Unlocked;
 					}
 				}
@@ -272,26 +269,24 @@ public class SocketConnection : MonoBehaviour {
 
     // Better name for this method?
     // This should be refactored, assigning player prefs should not be handled here
-    private void GetUserAndContinue()
+    public void GetUserAndContinue()
     {
-        if(GlobalUserData.Instance.User == null) {
-            string userId = PlayerPrefs.GetString("userId");
-            if(String.IsNullOrEmpty(userId)) {
-                Debug.Log("No user in player prefs, creating user with username \"testUser\"");
-                CreateUser("testUser", (user) => {
-                    PlayerPrefs.SetString("userId", user.id);
-                    GlobalUserData.Instance.User = user;
-                    Debug.Log("User created correctly");
-                });
-            }
-            else {
-                Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
-                GetUser(userId, (user) => {
-                    PlayerPrefs.SetString("userId", user.id);
-                    GlobalUserData.Instance.User = user;
-                });
-            }
-        }
+		string userId = PlayerPrefs.GetString("userId");
+		if(String.IsNullOrEmpty(userId)) {
+			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
+			CreateUser("testUser", (user) => {
+				PlayerPrefs.SetString("userId", user.id);
+				GlobalUserData.Instance.User = user;
+				Debug.Log("User created correctly");
+			});
+		}
+		else {
+			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
+			GetUser(userId, (user) => {
+				PlayerPrefs.SetString("userId", user.id);
+				GlobalUserData.Instance.User = user;
+			});
+		}
     }
 
     public void GetUser(string userId, Action<User> onGetUserDataReceived)
@@ -437,8 +432,9 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest {
             FightLevel = fightLevelRequest
         };
-        SendWebSocketMessage(request);
         ws.OnMessage += (data) => AwaitBattleResponse(data, onBattleResultReceived);
+		ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
     private void AwaitBattleResponse(byte[] data, Action<bool> onBattleResultReceived)

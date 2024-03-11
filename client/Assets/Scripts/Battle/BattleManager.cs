@@ -32,9 +32,15 @@ public class BattleManager : MonoBehaviour
 
     public void Battle()
     {
-		Debug.Log($"level id: {selectedLevelData.id}");
         SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
             HandleBattleResult(result);
+
+			// Should this be here? refactor after demo?
+			try {
+				SocketConnection.Instance.GetUserAndContinue();
+			} catch (Exception ex) {
+				Debug.LogError(ex.Message);
+			}
         });
     }
 
