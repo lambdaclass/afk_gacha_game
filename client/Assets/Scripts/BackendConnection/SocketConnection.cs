@@ -204,7 +204,7 @@ public class SocketConnection : MonoBehaviour {
 		foreach (var unitData in unitsData)
 		{
 			Unit unit = CreateUnitFromData(unitData, availableCharacters);
-
+	
 			if(unit != null) {
 				createdUnits.Add(unit);
 			}
@@ -607,6 +607,46 @@ public class SocketConnection : MonoBehaviour {
 				User user = CreateUserFromData(webSocketResponse.UserAndUnit.User, GlobalUserData.Instance.AvailableCharacters);
 				Unit unit = CreateUnitFromData(webSocketResponse.UserAndUnit.Unit, GlobalUserData.Instance.AvailableCharacters);
                 onSuccess?.Invoke(user, unit);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+            ws.OnMessage += OnWebSocketMessage;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+	}
+
+	public void FuseUnits(string userId, string unitId, string[] consumedUnitsIds, Action<Unit> onSuccess, Action<string> onError = null)
+	{
+		FuseUnit fuseRequest = new FuseUnit {
+            UserId = userId,
+            UnitId = unitId,
+        };
+		// Why on earth repeated fields don't have a setter but you can still add values to them?
+		foreach(string consumedUnitId in consumedUnitsIds) {
+			fuseRequest.ConsumedUnitsIds.Add(consumedUnitId);
+		}
+        WebSocketRequest request = new WebSocketRequest {
+            FuseUnit = fuseRequest
+        };
+        currentMessageHandler = (data) => AwaitFuseUnitsResponse(data, onSuccess, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+	}
+
+	private void AwaitFuseUnitsResponse(byte[] data, Action<Unit> onSuccess, Action<string> onError)
+	{
+		try
+        {
+			ws.OnMessage -= currentMessageHandler;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Unit) {
+				Unit unit = CreateUnitFromData(webSocketResponse.Unit, GlobalUserData.Instance.AvailableCharacters);
+                onSuccess?.Invoke(unit);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 onError?.Invoke(webSocketResponse.Error.Reason);
