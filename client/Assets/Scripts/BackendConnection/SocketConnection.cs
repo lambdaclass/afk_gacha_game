@@ -133,6 +133,7 @@ public class SocketConnection : MonoBehaviour {
 
 	private User CreateUserFromData(Protobuf.Messages.User user, List<Character> availableCharacters)
 	{
+		Debug.Log("CreateUserFromData");
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
 		List<Item> items = new List<Item>();
 
@@ -153,6 +154,11 @@ public class SocketConnection : MonoBehaviour {
 			{
 				Debug.LogError($"Currency brought from the backend not found in client: {currency.Currency.Name}");
 			}
+		}
+
+		Debug.Log($"campaigns progress count: {user.CampaignsProgress.Count}");
+		foreach(var cp in user.CampaignsProgress) {
+			Debug.Log($"campaign id: {cp.CampaignId}, level id: {cp.LevelId}");
 		}
 
 		return new User
@@ -234,6 +240,10 @@ public class SocketConnection : MonoBehaviour {
 					}
 				}
 
+				// if(GlobalUserData.Instance.User.campaignsProgress.Any(cp => cp.campaignId == campaignData.Id)) {
+				// 	Debug.Log($"{GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId}");
+				// }
+
                 levels.Add(new LevelData
                 {
                     id = level.Id,
@@ -271,6 +281,7 @@ public class SocketConnection : MonoBehaviour {
     // This should be refactored, assigning player prefs should not be handled here
     public void GetUserAndContinue()
     {
+		Debug.Log("GetUserAndContinue");
 		string userId = PlayerPrefs.GetString("userId");
 		if(String.IsNullOrEmpty(userId)) {
 			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
@@ -283,6 +294,7 @@ public class SocketConnection : MonoBehaviour {
 		else {
 			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
 			GetUser(userId, (user) => {
+				Debug.Log("callback GetUser");
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
 			});
@@ -291,16 +303,21 @@ public class SocketConnection : MonoBehaviour {
 
     public void GetUser(string userId, Action<User> onGetUserDataReceived)
     {
-        GetUser getUserRequest = new GetUser{
-            UserId = userId
-        };
-        WebSocketRequest request = new WebSocketRequest{
-            GetUser = getUserRequest
-        };
-        currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
-        ws.OnMessage += currentMessageHandler;
-        ws.OnMessage -= OnWebSocketMessage;
-        SendWebSocketMessage(request);
+		try{
+			Debug.Log("GetUser");
+			GetUser getUserRequest = new GetUser{
+				UserId = userId
+			};
+			WebSocketRequest request = new WebSocketRequest{
+				GetUser = getUserRequest
+			};
+			currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
+			ws.OnMessage += currentMessageHandler;
+			ws.OnMessage -= OnWebSocketMessage;
+			SendWebSocketMessage(request);
+		} catch(Exception ex) {
+			Debug.LogError(ex.Message);
+		}
     }
 
     public void GetUserByUsername(string username, Action<User> onGetUserDataReceived)
@@ -319,15 +336,14 @@ public class SocketConnection : MonoBehaviour {
 
     private void AwaitGetUserResponse(byte[] data, Action<User> onGetUserDataReceived)
     {
+		Debug.Log("AwaitGetUserResponse");
         try
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
 			{
-				ws.OnMessage -= currentMessageHandler;
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
 				onGetUserDataReceived?.Invoke(user);
-				ws.OnMessage += OnWebSocketMessage;
 			}
 			else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 switch(webSocketResponse.Error.Reason) {
@@ -347,6 +363,9 @@ public class SocketConnection : MonoBehaviour {
                         break;
                 }
             }
+
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
         } catch (Exception e) {
             Debug.LogError("InvalidProtocolBufferException: " + e);
         }
@@ -432,8 +451,9 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest {
             FightLevel = fightLevelRequest
         };
-        ws.OnMessage += (data) => AwaitBattleResponse(data, onBattleResultReceived);
-		ws.OnMessage -= OnWebSocketMessage;
+		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
 
@@ -443,9 +463,12 @@ public class SocketConnection : MonoBehaviour {
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
+				Debug.Log($"battle result: {webSocketResponse.BattleResult.Result}");
                 bool battleResult = webSocketResponse.BattleResult.Result == "win";
                 onBattleResultReceived?.Invoke(battleResult);
             }
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
