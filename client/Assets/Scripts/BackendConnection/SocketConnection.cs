@@ -271,7 +271,6 @@ public class SocketConnection : MonoBehaviour {
     // This should be refactored, assigning player prefs should not be handled here
     public void GetUserAndContinue()
     {
-		Debug.Log("GetUserAndContinue");
 		string userId = PlayerPrefs.GetString("userId");
 		if(String.IsNullOrEmpty(userId)) {
 			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
