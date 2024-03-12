@@ -145,7 +145,7 @@ public class SocketConnection : MonoBehaviour {
 
 		foreach (var currency in user.Currencies)
 		{
-			if (Enum.TryParse<Currency>(currency.Currency.Name, out Currency currencyValue))
+			if (Enum.TryParse<Currency>(currency.Currency.Name.Replace(" ", ""), out Currency currencyValue))
 			{
 				currencies.Add(currencyValue, (int)currency.Amount);
 			}
@@ -162,7 +162,7 @@ public class SocketConnection : MonoBehaviour {
 			units = units,
 			items = items,
 			currencies = currencies,
-			campaignsProgress = user.CampaignsProgress.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
+			campaignsProgress = user.CampaignProgresses.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
 		};
 	}
 	
@@ -240,6 +240,7 @@ public class SocketConnection : MonoBehaviour {
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
+					rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount),
                     status = levelStatus
                 });
 
@@ -601,7 +602,7 @@ public class SocketConnection : MonoBehaviour {
 				description = box.Description,
 				factions = box.Factions.ToList(),
 				rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
-				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Amount)
+				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name.Replace(" ", "")), cost => cost.Amount)
 			};
 		}).ToList();
 	}
