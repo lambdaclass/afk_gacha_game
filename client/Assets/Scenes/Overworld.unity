@@ -3429,6 +3429,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ddb59d68c78b4ccf8b784f37f79dbc6, type: 2}
   - {fileID: 11400000, guid: 2cc4d05bb9b5d431884bd703bda60e73, type: 2}
   - {fileID: 11400000, guid: 28a81630246324598866b34de6a45b39, type: 2}
+  OnCurrencyModified:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLevelModified:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1160099789
 Transform:
   m_ObjectHideFlags: 0

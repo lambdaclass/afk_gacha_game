@@ -47,7 +47,7 @@ public class UnitDetail : MonoBehaviour
         SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
         (unitAndCurrencies) => {
             foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
-                GlobalUserData.Instance.User.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
+                GlobalUserData.Instance.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
             }
             // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
@@ -99,7 +99,7 @@ public class UnitDetail : MonoBehaviour
 
     public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
         // Hardcoded to check for gold
-        if(item.GetLevelUpCost() > GlobalUserData.Instance.User.GetCurrency(Currency.Gold)) {
+        if(item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency(Currency.Gold)) {
             insufficientCurrencyPopup.SetActive(true);
             return;
         }

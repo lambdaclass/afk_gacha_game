@@ -12,7 +12,7 @@ public class HeaderManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI gems;
 	[SerializeField] TextMeshProUGUI scrolls;
 
-    static User user;
+    static GlobalUserData user;
 
     // static bool infoHasBeenSet = false;
 
@@ -26,10 +26,10 @@ public class HeaderManager : MonoBehaviour
     {
         if(user == null) {
             yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
-            user = GlobalUserData.Instance.User;
+            user = GlobalUserData.Instance;
         }
 
-        username.text = user.username;
+        username.text = user.User.username;
 
         user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
         user.OnLevelModified.AddListener(UpdateLevelValues);
@@ -47,7 +47,7 @@ public class HeaderManager : MonoBehaviour
 
     void UpdateLevelValues()
     {
-        level.text = "Lv. " + user.level.ToString();
-        xp.text = user.experience.ToString() + "/" + user.experienceToNextLevel.ToString();
+        level.text = "Lv. " + user.User.level.ToString();
+        xp.text = user.User.experience.ToString() + "/" + user.User.experienceToNextLevel.ToString();
     }
 }

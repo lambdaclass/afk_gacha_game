@@ -50,12 +50,12 @@ public class BattleManager : MonoBehaviour
 			} catch (Exception ex) {
 				Debug.LogError(ex.Message);
 			}
-            User user = GlobalUserData.Instance.User;
+            GlobalUserData user = GlobalUserData.Instance;
             user.AddCurrency(selectedLevelData.rewards);
             user.AddExperience(selectedLevelData.experienceReward);
             user.AccumulateAFKRewards();
-            user.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
-            user.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
+            user.User.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
+            user.User.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
             LevelProgressData.Instance.ProcessLevelCompleted();
             // CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());

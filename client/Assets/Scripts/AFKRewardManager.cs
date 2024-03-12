@@ -15,19 +15,19 @@ public class AFKRewardManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI xpRate;
 
     public void ShowRewards() {
-        User user = GlobalUserData.Instance.User;
+        GlobalUserData user = GlobalUserData.Instance;
         user.AccumulateAFKRewards();
         confirmPopUp.SetActive(true);
         gems.text = user.GetCurrencyAfkReward(Currency.Gems).ToString();
         gold.text = user.GetCurrencyAfkReward(Currency.Gold).ToString();
-        xp.text = user.accumulatedExperienceReward.ToString();
+        xp.text = user.User.accumulatedExperienceReward.ToString();
         gemsRate.text = (user.GetMaxCurrencyReward(Currency.Gems)/720).ToString() + "/m";
         goldRate.text = (user.GetMaxCurrencyReward(Currency.Gold)/720).ToString() + "/m";
-        xpRate.text = (user.afkMaxExperienceReward/720).ToString() + "/m";
+        xpRate.text = (user.User.afkMaxExperienceReward/720).ToString() + "/m";
     }
 
     public void ClaimRewards() {
-        User user = GlobalUserData.Instance.User;
+        GlobalUserData user = GlobalUserData.Instance;
         user.AccumulateAFKRewards();
         user.ClaimAFKRewards();
     }
