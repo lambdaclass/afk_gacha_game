@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 6696132460992470720}
   - component: {fileID: 1166366009}
   m_Layer: 5
-  m_Name: LevelMarker
+  m_Name: LevelMarker_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
