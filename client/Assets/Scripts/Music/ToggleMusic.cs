@@ -21,7 +21,7 @@ public class ToggleMusic : MonoBehaviour
         {
             Instance = this;
             audioSource = GameObject.FindGameObjectWithTag(TAG_MUSIC).GetComponent<AudioSource>();
-            DontDestroyOnLoad(audioSource);
+            // DontDestroyOnLoad(audioSource);
             audioToggle.sprite = AudioListener.volume > 0 ? audioOn : audioOff;           
         }
         else

@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour
     
     private void Awake()
     {
+        Debug.Log("awdwad");
         if (Instance == null)
         {
             Instance = this;
