@@ -15,13 +15,7 @@ public class CampaignManager : MonoBehaviour
 
     void Start() {
         BattleManager.selectedLevelData = null;
-		GameObject campaignGameObject;
-		if(campaignPrefab != null) {
-        	campaignGameObject = Instantiate(campaignPrefab, transform);
-		}
-		if(campaignGameObject == null) {
-			Debug.LogError("campaignGameObject == null");
-		}
+		GameObject campaignGameObject = Instantiate(campaignPrefab, transform);
         campaignGameObject.transform.SetSiblingIndex(0);
         var campaignLevelManager = campaignGameObject.GetComponentInChildren<CampaignLevelsManager>();
         campaignLevelManager.AssignLevelsData(selectedCampaignData.levels);

@@ -3560,6 +3560,10 @@ PrefabInstance:
       value: -95
       objectReference: {fileID: 0}
     - target: {fileID: 5952733458007189769, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952733458007189769, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.x
       value: 90
       objectReference: {fileID: 0}
@@ -3584,6 +3588,10 @@ PrefabInstance:
       value: Boss_2-1
       objectReference: {fileID: 0}
     - target: {fileID: 5952733458185674936, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952733458185674936, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 1.53
       objectReference: {fileID: 0}
@@ -3606,6 +3614,10 @@ PrefabInstance:
     - target: {fileID: 5952733458873151723, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -14.999832
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952733459261230040, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5952733459261230040, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.x
@@ -3636,6 +3648,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 84295e2381f444b70a8a10576c755148, type: 3}
     - target: {fileID: 5952733459897967557, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952733459897967557, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.x
       value: 90
       objectReference: {fileID: 0}
@@ -3658,6 +3674,10 @@ PrefabInstance:
     - target: {fileID: 5952733460008473621, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_Name
       value: Level_2-2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952733460008473642, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 5952733460008473642, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_SizeDelta.x
