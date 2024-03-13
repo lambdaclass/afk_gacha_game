@@ -249,8 +249,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad7095a8160a94dc2a8c06bc9c4db145, type: 2}
-  m_sharedMaterial: {fileID: -6215521632685670565, guid: ad7095a8160a94dc2a8c06bc9c4db145,
-    type: 2}
+  m_sharedMaterial: {fileID: -6215521632685670565, guid: ad7095a8160a94dc2a8c06bc9c4db145, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -350,8 +349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 407.99988, y: 1881.9979}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &4444403730762166079
 AudioSource:
@@ -663,23 +662,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6b7db17f0772488390f161908a79557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  levels: 0000000000000000000000000000000000000000
-  individualRewards:
-  - name: 0
-    value: 15
-  experienceReward: 25
-  nextLevel: {fileID: 0}
   lockObject: {fileID: 3229416807145212521}
   completedCrossObject: {fileID: 3296925110222054232}
-  first: 0
-  campaignToComplete: 
-  campaignToUnlock: 
 --- !u!1 &4984308875523684609
 GameObject:
   m_ObjectHideFlags: 0
