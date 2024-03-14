@@ -180,9 +180,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+      propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1045099589}
+    - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: campaignToShowPrefab
       value: 
-      objectReference: {fileID: 2010958685045145532, guid: cd6c40e67eb7b4df48cd90e4f9332d16, type: 3}
+      objectReference: {fileID: 3035669641798519435, guid: 23873abd9dc434cfa9acce9c73500327, type: 3}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: campaingToShowPrefab
       value: 
