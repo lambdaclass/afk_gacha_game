@@ -7,9 +7,11 @@ public class CampaignLevelIndicator : MonoBehaviour
 {
     public LevelData levelData;
 
-    [SerializeField] GameObject lockObject;
+    [SerializeField]
+	GameObject lockObject;
 
-    [SerializeField] GameObject completedCrossObject;
+    [SerializeField]
+	GameObject completedCrossObject;
 
     public void Init() {
         if(levelData.status == LevelProgressData.Status.Unlocked) {

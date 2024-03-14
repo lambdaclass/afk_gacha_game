@@ -32,8 +32,17 @@ public class CampaignItem : MonoBehaviour
     public void SetCampaignData(Campaign campaignData)
     {
         this.campaignData = campaignData;
-        if(campaignData.status == LevelProgressData.Status.Unlocked) {
-            lockObject.SetActive(false);
+        switch(this.campaignData.status) 
+        {
+            case LevelProgressData.Status.Locked:
+                break;
+            case LevelProgressData.Status.Unlocked:
+				lockObject.SetActive(false);
+                break;
+            case LevelProgressData.Status.Completed:
+                completedCrossObject.SetActive(true);
+				lockObject.SetActive(false);
+                break;
         }
         gameObject.GetComponent<Button>().onClick.AddListener(() => SelectCampaign());
     }
