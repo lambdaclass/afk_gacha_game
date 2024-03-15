@@ -111,9 +111,6 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-            // this works
-            // Protobuf.Messages.WebSocketResponse webSocketResponse = Protobuf.Messages.WebSocketResponse.Parser.ParseFrom(data);
-            // this doesn't
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             switch (webSocketResponse.ResponseTypeCase)
             {
@@ -137,7 +134,6 @@ public class SocketConnection : MonoBehaviour {
 	private User CreateUserFromData(Protobuf.Messages.User user, List<Character> availableCharacters)
 	{
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
-
 		List<Item> items = new List<Item>();
 
 		foreach (var userItem in user.Items)
@@ -149,7 +145,7 @@ public class SocketConnection : MonoBehaviour {
 
 		foreach (var currency in user.Currencies)
 		{
-			if (Enum.TryParse<Currency>(currency.Currency.Name, out Currency currencyValue))
+			if (Enum.TryParse<Currency>(currency.Currency.Name.Replace(" ", ""), out Currency currencyValue))
 			{
 				currencies.Add(currencyValue, (int)currency.Amount);
 			}
@@ -157,7 +153,6 @@ public class SocketConnection : MonoBehaviour {
 			{
 				Debug.LogError($"Currency brought from the backend not found in client: {currency.Currency.Name}");
 			}
-
 		}
 
 		return new User
@@ -166,7 +161,8 @@ public class SocketConnection : MonoBehaviour {
 			username = user.Username,
 			units = units,
 			items = items,
-			currencies = currencies
+			currencies = currencies,
+			campaignsProgress = user.CampaignsProgress.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
 		};
 	}
 	
@@ -217,18 +213,26 @@ public class SocketConnection : MonoBehaviour {
 		return createdUnits;
 	}
 
-    private List<CampaignData> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
+	private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
     {
-        List<CampaignData> campaigns = new List<CampaignData>();
+        List<Campaign> campaigns = new List<Campaign>();
+		// Currently looping through all the campaigns like they all belong to the same super campaign
+		LevelProgressData.Status campaignStatus = LevelProgressData.Status.Unlocked;
 
-        for(int campaignIndex = 0; campaignIndex < campaignsData.Campaigns_.Count; campaignIndex++)
+		foreach(Protobuf.Messages.Campaign campaignData in campaignsData.Campaigns_)
         {
+			LevelProgressData.Status levelStatus = LevelProgressData.Status.Unlocked;
             List<LevelData> levels = new List<LevelData>();
-
-            for(int levelIndex = 0; levelIndex < campaignsData.Campaigns_[campaignIndex].Levels.Count; levelIndex++)
+			
+			foreach(Protobuf.Messages.Level level in campaignData.Levels.OrderBy(level => level.LevelNumber))
             {
-                Protobuf.Messages.Level level = campaignsData.Campaigns_[campaignIndex].Levels[levelIndex];
 				List<Unit> levelUnits = CreateUnitsFromData(level.Units, availableCharacters);
+
+				if(levelStatus != LevelProgressData.Status.Locked) {
+					if(GlobalUserData.Instance.User.campaignsProgress.Any(cp => cp.campaignId == campaignData.Id)) {
+						levelStatus = level.Id != GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId ? LevelProgressData.Status.Completed : LevelProgressData.Status.Unlocked;
+					}
+				}
 
                 levels.Add(new LevelData
                 {
@@ -236,15 +240,28 @@ public class SocketConnection : MonoBehaviour {
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
-                    first = levelIndex == 0
+                    status = levelStatus
                 });
+
+				if(levelStatus == LevelProgressData.Status.Unlocked) {
+					levelStatus = LevelProgressData.Status.Locked;
+				}
             }
 
-            campaigns.Add(new CampaignData
+			if(campaignStatus != LevelProgressData.Status.Locked) {
+				campaignStatus = campaignData.Id != GlobalUserData.Instance.User.campaignsProgress.First().campaignId ? LevelProgressData.Status.Completed : campaignStatus;
+			}
+
+            campaigns.Add(new Campaign
             {
-                status = campaignIndex == 0 ? CampaignData.Status.Unlocked : CampaignData.Status.Locked,
+				campaignId = campaignData.Id,
+                status = campaignStatus,
                 levels = levels
             });
+
+			if(campaignStatus == LevelProgressData.Status.Unlocked) {
+				campaignStatus = LevelProgressData.Status.Locked;
+			}
         }
 
         return campaigns;
@@ -252,40 +269,42 @@ public class SocketConnection : MonoBehaviour {
 
     // Better name for this method?
     // This should be refactored, assigning player prefs should not be handled here
-    private void GetUserAndContinue()
+    public void GetUserAndContinue()
     {
-        if(GlobalUserData.Instance.User == null) {
-            string userId = PlayerPrefs.GetString("userId");
-            if(String.IsNullOrEmpty(userId)) {
-                Debug.Log("No user in player prefs, creating user with username \"testUser\"");
-                CreateUser("testUser", (user) => {
-                    PlayerPrefs.SetString("userId", user.id);
-                    GlobalUserData.Instance.User = user;
-                    Debug.Log("User created correctly");
-                });
-            }
-            else {
-                Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
-                GetUser(userId, (user) => {
-                    PlayerPrefs.SetString("userId", user.id);
-                    GlobalUserData.Instance.User = user;
-                });
-            }
-        }
+		string userId = PlayerPrefs.GetString("userId");
+		if(String.IsNullOrEmpty(userId)) {
+			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
+			CreateUser("testUser", (user) => {
+				PlayerPrefs.SetString("userId", user.id);
+				GlobalUserData.Instance.User = user;
+				Debug.Log("User created correctly");
+			});
+		}
+		else {
+			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
+			GetUser(userId, (user) => {
+				PlayerPrefs.SetString("userId", user.id);
+				GlobalUserData.Instance.User = user;
+			});
+		}
     }
 
     public void GetUser(string userId, Action<User> onGetUserDataReceived)
     {
-        GetUser getUserRequest = new GetUser{
-            UserId = userId
-        };
-        WebSocketRequest request = new WebSocketRequest{
-            GetUser = getUserRequest
-        };
-        currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
-        ws.OnMessage += currentMessageHandler;
-        ws.OnMessage -= OnWebSocketMessage;
-        SendWebSocketMessage(request);
+		try{
+			GetUser getUserRequest = new GetUser{
+				UserId = userId
+			};
+			WebSocketRequest request = new WebSocketRequest{
+				GetUser = getUserRequest
+			};
+			currentMessageHandler = (data) => AwaitGetUserResponse(data, onGetUserDataReceived);
+			ws.OnMessage += currentMessageHandler;
+			ws.OnMessage -= OnWebSocketMessage;
+			SendWebSocketMessage(request);
+		} catch(Exception ex) {
+			Debug.LogError(ex.Message);
+		}
     }
 
     public void GetUserByUsername(string username, Action<User> onGetUserDataReceived)
@@ -306,15 +325,16 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
 			{
-				ws.OnMessage -= currentMessageHandler;
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
 				onGetUserDataReceived?.Invoke(user);
-				ws.OnMessage += OnWebSocketMessage;
 			}
-			else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+			else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error)
+			{
                 switch(webSocketResponse.Error.Reason) {
                     case "not_found":
                         Debug.Log("User not found, trying to create new user");
@@ -351,7 +371,7 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-    public void GetCampaigns(string userId, Action<List<CampaignData>> onCampaignDataReceived)
+    public void GetCampaigns(string userId, Action<List<Campaign>> onCampaignDataReceived)
     {
         GetCampaigns getCampaignsRequest = new GetCampaigns{
             UserId = userId
@@ -359,23 +379,23 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest{
             GetCampaigns = getCampaignsRequest
         };
-        SendWebSocketMessage(request);
         currentMessageHandler = (data) => AwaitGetCampaignsResponse(data, onCampaignDataReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
     }
 
-    private void AwaitGetCampaignsResponse(byte[] data, Action<List<CampaignData>> onCampaignDataReceived)
+    private void AwaitGetCampaignsResponse(byte[] data, Action<List<Campaign>> onCampaignDataReceived)
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Campaigns) {
-                ws.OnMessage -= currentMessageHandler;
                 List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-                List<CampaignData> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, availableCharacters);
+                List<Campaign> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, availableCharacters);
                 onCampaignDataReceived?.Invoke(campaigns);
-                ws.OnMessage += OnWebSocketMessage;
             }
         }
         catch (Exception e)
@@ -417,14 +437,18 @@ public class SocketConnection : MonoBehaviour {
         WebSocketRequest request = new WebSocketRequest {
             FightLevel = fightLevelRequest
         };
+		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
-        ws.OnMessage += (data) => AwaitBattleResponse(data, onBattleResultReceived);
     }
 
     private void AwaitBattleResponse(byte[] data, Action<bool> onBattleResultReceived)
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
                 bool battleResult = webSocketResponse.BattleResult.Result == "win";
@@ -484,17 +508,16 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Item) {
-                ws.OnMessage -= currentMessageHandler;
                 Item item = CreateItemFromData(webSocketResponse.Item);
                 onItemDataReceived?.Invoke(item);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -520,16 +543,15 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UnitAndCurrencies) {
-                ws.OnMessage -= currentMessageHandler;
                 onUnitAndCurrenciesDataReceived?.Invoke(webSocketResponse.UnitAndCurrencies);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -552,17 +574,16 @@ public class SocketConnection : MonoBehaviour {
 	{
 		try
         {
+			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Boxes) {
-                ws.OnMessage -= currentMessageHandler;
 				List<Box> boxes = ParseBoxesFromResponse(webSocketResponse.Boxes);
                 onBoxesDataReceived?.Invoke(boxes);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                ws.OnMessage -= currentMessageHandler;
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -580,7 +601,7 @@ public class SocketConnection : MonoBehaviour {
 				description = box.Description,
 				factions = box.Factions.ToList(),
 				rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
-				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Amount)
+				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name.Replace(" ", "")), cost => cost.Amount)
 			};
 		}).ToList();
 	}
@@ -605,6 +626,7 @@ public class SocketConnection : MonoBehaviour {
 		try
         {
 			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.UserAndUnit) {
 				User user = CreateUserFromData(webSocketResponse.UserAndUnit.User, GlobalUserData.Instance.AvailableCharacters);
@@ -614,7 +636,6 @@ public class SocketConnection : MonoBehaviour {
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {
@@ -646,6 +667,7 @@ public class SocketConnection : MonoBehaviour {
 		try
         {
 			ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Unit) {
 				Unit unit = CreateUnitFromData(webSocketResponse.Unit, GlobalUserData.Instance.AvailableCharacters);
@@ -654,7 +676,6 @@ public class SocketConnection : MonoBehaviour {
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
-            ws.OnMessage += OnWebSocketMessage;
         }
         catch (Exception e)
         {

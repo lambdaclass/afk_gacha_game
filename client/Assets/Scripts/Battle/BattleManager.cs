@@ -18,15 +18,19 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
+	[SerializeField]
+	LevelManager levelManager;
+
     public static LevelData selectedLevelData;
 
     void Start()
     {
+		victorySplash.SetActive(false);
+		defeatSplash.SetActive(false);
         List<Unit> userUnits = GlobalUserData.Instance.Units;
         List<Unit> opponentUnits = selectedLevelData.units;
 
         SetUpUnits(userUnits, opponentUnits);
-
         Battle();
     }
 
@@ -40,6 +44,12 @@ public class BattleManager : MonoBehaviour
     private void HandleBattleResult(bool result)
     {
         if(result) {
+			// Should this be here? refactor after demo?
+			try {
+				SocketConnection.Instance.GetUserAndContinue();
+			} catch (Exception ex) {
+				Debug.LogError(ex.Message);
+			}
             User user = GlobalUserData.Instance.User;
             user.AddCurrency(selectedLevelData.rewards);
             user.AddExperience(selectedLevelData.experienceReward);
@@ -88,13 +98,7 @@ public class BattleManager : MonoBehaviour
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
 		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
-		if(!isPlayer) {
-			Debug.Log(unitPositions.Length);
-		}
         foreach(Unit unit in units.Where(unit => unit.selected)) {
-			if(!isPlayer) {
-				Debug.Log($"unit position index: {unit.slot.Value - 1}");
-			}
             UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);    
         }

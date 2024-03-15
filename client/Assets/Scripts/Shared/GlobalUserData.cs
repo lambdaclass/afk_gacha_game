@@ -21,7 +21,6 @@ public class GlobalUserData : MonoBehaviour
         }
     }
 
-
     // Singleton instance
     private static GlobalUserData instance;
 

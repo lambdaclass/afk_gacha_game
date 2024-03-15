@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "Protobuf.Messages";
 
-message WebSocketRequest {
+  message WebSocketRequest {
     oneof request_type {
       GetUser get_user = 1;
       GetUserByUsername get_user_by_username = 2;
