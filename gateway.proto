@@ -111,6 +111,14 @@ option csharp_namespace = "Protobuf.Messages";
     string item_id = 2;
   }
 
+ message GetAfkRewards {
+    string user_id = 1;
+ }
+
+ message ClaimAfkRewards {
+    string user_id = 1;
+ }
+
   message GetBoxes {
     string user_id = 1;
   }
@@ -123,14 +131,6 @@ option csharp_namespace = "Protobuf.Messages";
     string user_id = 1;
     string box_id = 2;
   }
-
- message GetAfkRewards {
-    string user_id = 1;
- }
-
- message ClaimAfkRewards {
-    string user_id = 1;
- }
 
   ////////////////////////////////////////
 
