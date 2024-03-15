@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311924, g: 0.38073963, b: 0.3587269, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -192,25 +192,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2010958685045145532, guid: cd6c40e67eb7b4df48cd90e4f9332d16, type: 3}
     - target: {fileID: 5425641655313808468, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+      objectReference: {fileID: 2010958685045145532, guid: cd6c40e67eb7b4df48cd90e4f9332d16, type: 3}
+    - target: {fileID: 5425641655313808468, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6927763661763116159, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
     - target: {fileID: 6927763661763116159, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: m_text
       value: Campaign 2
       objectReference: {fileID: 0}
     - target: {fileID: 6927763661763116159, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+    - target: {fileID: 6927763661763116159, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: m_fontSize
       value: 28.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7096975054899021653, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
     - target: {fileID: 7096975054899021653, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: m_Name
       value: Campaign_2
       objectReference: {fileID: 0}
     - target: {fileID: 7096975054899021653, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+    - target: {fileID: 7096975054899021653, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7096975054899021674, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
     - target: {fileID: 7096975054899021674, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1005,6 +1012,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+    - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: first
       value: 1
       objectReference: {fileID: 0}
@@ -1156,6 +1164,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 536687278}
     m_Modifications:
+    - target: {fileID: 830745684171372261, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: campaignToShowPrefab
       value: 
@@ -1404,6 +1416,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2292034909449118681, guid: f24057f0865f940aea63ebd760a46fb6, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 26ffc2210e47c4829bfb34b1b5ba0392, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f24057f0865f940aea63ebd760a46fb6, type: 3}
 --- !u!114 &1545587330 stripped

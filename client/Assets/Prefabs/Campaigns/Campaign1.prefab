@@ -160,6 +160,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1708985256362400060, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708985256362400060, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
       propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
@@ -326,6 +330,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1708985256031450660, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
   m_PrefabInstance: {fileID: 3527415174021030410}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2829505626793235503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1708985256031450661, guid: b9905ae9753b542f18093f7a97853e0c, type: 3}
+  m_PrefabInstance: {fileID: 3527415174021030410}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f02632d55d1c47748b18909cdc2b2c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3736677676562021805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -425,6 +440,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-5
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339957037575636 stripped
@@ -537,6 +556,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-6
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339957214191626 stripped
@@ -649,6 +672,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-2
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339956562879587 stripped
@@ -761,6 +788,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-8
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339956777237483 stripped
@@ -873,6 +904,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-9
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339956651595588 stripped
@@ -985,6 +1020,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-3
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339956679230861 stripped
@@ -1097,6 +1136,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-4
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339958237065800 stripped
@@ -1213,6 +1256,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7781616091726421039, guid: 27289a57410a84a7b8bd8e9c1c992169, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27289a57410a84a7b8bd8e9c1c992169, type: 3}
 --- !u!114 &6351907362525152691 stripped
@@ -1321,6 +1368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339957902452075 stripped
@@ -1433,6 +1484,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 1-7
       objectReference: {fileID: 0}
+    - target: {fileID: 8486713405277786233, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
+      propertyPath: campaignLevelManager
+      value: 
+      objectReference: {fileID: 2829505626793235503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df6e452c4c1ce499a9f27dd07077905a, type: 3}
 --- !u!114 &5052339957951934883 stripped

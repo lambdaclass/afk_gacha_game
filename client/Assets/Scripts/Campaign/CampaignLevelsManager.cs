@@ -11,6 +11,7 @@ public class CampaignLevelsManager : MonoBehaviour
     List<CampaignLevelIndicator> levelIndicators;
 
     public void LevelSelected() {
+		Debug.Log("LevelSelected");
         PlayButton.SetActive(true);
     }
 
