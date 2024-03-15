@@ -145,7 +145,7 @@ public class SocketConnection : MonoBehaviour {
 
 		foreach (var currency in user.Currencies)
 		{
-			if (Enum.TryParse<Currency>(currency.Currency.Name, out Currency currencyValue))
+			if (Enum.TryParse<Currency>(currency.Currency.Name.Replace(" ", ""), out Currency currencyValue))
 			{
 				currencies.Add(currencyValue, (int)currency.Amount);
 			}
@@ -601,7 +601,7 @@ public class SocketConnection : MonoBehaviour {
 				description = box.Description,
 				factions = box.Factions.ToList(),
 				rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
-				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name), cost => cost.Amount)
+				costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name.Replace(" ", "")), cost => cost.Amount)
 			};
 		}).ToList();
 	}
