@@ -123,7 +123,6 @@ option csharp_namespace = "Protobuf.Messages";
     string user_id = 1;
     string box_id = 2;
   }
-
  message GetAfkRewards {
     string user_id = 1;
  }
