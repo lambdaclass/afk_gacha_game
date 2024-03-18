@@ -162,7 +162,7 @@ public class SocketConnection : MonoBehaviour {
 			units = units,
 			items = items,
 			currencies = currencies,
-			campaignsProgress = user.CampaignsProgress.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
+			campaignsProgress = user.CampaignProgresses.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
 		};
 	}
 	
@@ -240,6 +240,7 @@ public class SocketConnection : MonoBehaviour {
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
+					rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount),
                     status = levelStatus
                 });
 

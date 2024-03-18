@@ -112,6 +112,14 @@ option csharp_namespace = "Protobuf.Messages";
     string item_id = 2;
   }
 
+ message GetAfkRewards {
+    string user_id = 1;
+ }
+
+ message ClaimAfkRewards {
+    string user_id = 1;
+ }
+
   message GetBoxes {
     string user_id = 1;
   }
@@ -124,13 +132,6 @@ option csharp_namespace = "Protobuf.Messages";
     string user_id = 1;
     string box_id = 2;
   }
- message GetAfkRewards {
-    string user_id = 1;
- }
-
- message ClaimAfkRewards {
-    string user_id = 1;
- }
 
   ////////////////////////////////////////
 
@@ -158,7 +159,7 @@ option csharp_namespace = "Protobuf.Messages";
     string username = 2;
     uint64 level = 3;
     uint64 experience = 4;
-    repeated CampaignProgress campaigns_progress = 6;
+    repeated CampaignProgress campaign_progresses = 6;
     repeated UserCurrency currencies = 7;
     repeated Unit units = 8;
     repeated Item items = 9;
@@ -174,7 +175,7 @@ option csharp_namespace = "Protobuf.Messages";
   message AfkRewardRate {
     string user_id = 1;
     string currency_id = 2;
-    uint64 rate = 3;
+    float rate = 3;
   }
 
   message UserCurrency {
@@ -249,8 +250,7 @@ option csharp_namespace = "Protobuf.Messages";
   }
 
   message CurrencyReward {
-    string currency_id = 1; 
-    string level_id = 2;
+    Currency currency = 1; 
     uint64 amount = 3;
   }
 

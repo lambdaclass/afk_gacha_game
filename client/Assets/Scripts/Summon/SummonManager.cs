@@ -30,13 +30,21 @@ public class SummonManager : MonoBehaviour
 	[SerializeField]
     GameObject insufficientCurrencyPopup;
 
+	// remove this
+	[SerializeField]
+	Sprite[] boxesSprites;
+
 	void Start() {
 		SocketConnection.Instance.GetBoxes(
 			(boxes) => {
+				int imageIndex = 0;
 				foreach(Box box in boxes) {
 					BoxUI boxUI = Instantiate(boxPrefab, boxesContainer.transform);
 					Action<string, string> onClick = (userId, boxId) => ShowConfirmPopup(userId, box);
-					boxUI.SetBox(box, onClick);
+					
+					// fix how boxes images are handled
+					boxUI.SetBox(box, boxesSprites[imageIndex], onClick);
+					imageIndex = imageIndex < boxesSprites.Length ? imageIndex + 1 : 0;
 				}
 			},
 			(reason) => {
@@ -55,7 +63,7 @@ public class SummonManager : MonoBehaviour
 	private void Summon(string userId, Box box)
 	{
 		foreach(KeyValuePair<Currency, int> cost in box.costs) {
-			if(cost.Value > GlobalUserData.Instance.User.GetCurrency(cost.Key)) {
+			if(cost.Value > GlobalUserData.Instance.GetCurrency(cost.Key)) {
 				// Need to specify which currency
             	insufficientCurrencyPopup.SetActive(true);
 				return;
@@ -65,7 +73,7 @@ public class SummonManager : MonoBehaviour
 		SocketConnection.Instance.Summon(userId, box.id,
 			(user, unit) => {
 				foreach(KeyValuePair<Currency, int> userCurrency in user.currencies) {
-					GlobalUserData.Instance.User.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
+					GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
 				}
 				GlobalUserData.Instance.User.units.Add(unit);
 				newUnitName.text = unit.character.name;
