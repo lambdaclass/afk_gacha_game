@@ -1,22 +1,31 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AscensionManager : MonoBehaviour, IUnitPopulator
 {
-    [SerializeField] GameObject modelContainer;
-    [SerializeField] Button fusionButton;
-    [SerializeField] FusionUnitsUIContainer unitsContainer;
-    [SerializeField] GameObject characterNameContainer;
+    [SerializeField]
+    Button fusionButton;
+    [SerializeField]
+    FusionUnitsUIContainer unitsContainer;
+    [SerializeField]
+    GameObject characterNameContainer;
+    [SerializeField]
+    Image selectedCharacterImage;
+	
+	// Error popup
+	[SerializeField]
+	GameObject errorPopup;
+	[SerializeField]
+	TMP_Text errorMessage;
 
     private List<Unit> selectedUnits;
 
-    User user = GlobalUserData.Instance.User;
-
     void Start()
     {
-        List<Unit> units = user.units;
+        List<Unit> units = GlobalUserData.Instance.Units;
         selectedUnits = new List<Unit>();
         this.unitsContainer.Populate(units, this);
     }
@@ -54,7 +63,7 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
         }
         else
         {
-            RemoveUnitFromContainer();
+            RemoveUnitFromDisplay(unit);
             unitsContainer.SetUnitsLock(unit.character.faction, false);
             fusionButton.gameObject.SetActive(false);
         }
@@ -62,27 +71,44 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
 
     private void DisplayUnit(Unit unit)
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer();
-        }
-        Instantiate(unit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = unit.character.inGameSprite;
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = unit.character.name + "\n Rank: " + unit.rank.ToString();
-        characterNameContainer.SetActive(true);
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
     }
 
-    private void RemoveUnitFromContainer()
+    private void RemoveUnitFromDisplay(Unit unit)
     {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
+        selectedCharacterImage.sprite = null;
+        characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = null;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(false);
     }
 
     public void Fusion() {
-        // globalUserData.User.FuseUnits(selectedUnits);
-        Debug.LogError("Fusion not yet connected to backend");
-        RemoveUnitFromContainer();
-        this.unitsContainer.Populate(user.units, this);
-        selectedUnits.Clear();
-        fusionButton.gameObject.SetActive(false);
+        SocketConnection.Instance.FuseUnits(GlobalUserData.Instance.User.id, selectedUnits.First().id, selectedUnits.Skip(1).Select(unit => unit.id).ToArray(),
+			(unit) => {
+				foreach(Unit selectedUnit in selectedUnits) {
+					GlobalUserData.Instance.Units.Remove(selectedUnit);
+				}
+				GlobalUserData.Instance.Units.Add(unit);
+				this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
+				selectedUnits.Clear();
+				fusionButton.gameObject.SetActive(false);
+				selectedCharacterImage.transform.parent.gameObject.SetActive(false);
+			},
+			(error) => {
+				switch (error) {
+					case "consumed_units_invalid":
+						errorMessage.text = "The selected units are invalid for fusion";
+						break;
+					case "cant_rank_up":
+						errorMessage.text = "Can't rank up unit";
+						break;
+					default:
+						errorMessage.text = error;
+						break;
+				}
+				errorPopup.SetActive(true);
+			}
+		);
     }
 }

@@ -11,49 +11,28 @@ public class UnitDetail : MonoBehaviour
     private static Unit selectedUnit;
 
     [SerializeField]
-    TMP_Text goldCostText;
-
-    [SerializeField]
-    TMP_Text gemCostText;
-    
-    [SerializeField]
-    Text actionButtonText;
-
-    [SerializeField]
     Image backgroundImage;
 
     [SerializeField]
-    GameObject modelContainer;
+    Image selectedCharacterImage;
 
     [SerializeField]
     GameObject characterNameContainer;
 
     [SerializeField]
-    GameObject levelStatUI;
+    GameObject insufficientCurrencyPopup;
 
     [SerializeField]
-    GameObject tierStatUI;
-
-    [SerializeField]
-    GameObject rankStatUI;
-
-    [SerializeField]
-    GameObject headItemSprite;
-
-    [SerializeField]
-    GameObject chestItemSprite;
-
-    [SerializeField]
-    GameObject bootsItemSprite;
-
-    [SerializeField]
-    GameObject weaponItemSprite;
-
-    [SerializeField]
-    GameObject cantAffordPopup;
+    GameObject needToTierUpPopup;
 
     [SerializeField]
     List<UIEquipmentSlot> equipmentSlots;
+
+    [SerializeField]
+    TMP_Text unitLevelText;
+
+    [SerializeField]
+    TMP_Text levelUpGoldCostText;
 
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
@@ -64,8 +43,30 @@ public class UnitDetail : MonoBehaviour
         DisplayUnit();
     }
 
-    public void ActionButton() {
-        Debug.LogError("LevelUp not yet done in backend");
+    public void LevelUp() {
+        SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
+        (unitAndCurrencies) => {
+            foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
+                GlobalUserData.Instance.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
+            }
+            // Should this be encapsulated somewhere?
+            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
+            unitLevelText.text = $"Level: {selectedUnit.level}";
+            levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
+        },
+        (reason) => {
+            switch(reason) {
+                case "cant_afford":
+                    insufficientCurrencyPopup.SetActive(true);
+                    break;
+                case "cant_level_up":
+                    needToTierUpPopup.SetActive(true);
+                    break;
+                default:
+                    Debug.LogError(reason);
+                    break;
+            }
+        });
     }
 
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
@@ -82,6 +83,7 @@ public class UnitDetail : MonoBehaviour
     {
         SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
+            // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
         });
     }
@@ -90,21 +92,22 @@ public class UnitDetail : MonoBehaviour
     {
         SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
+            // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
         });
     }
 
     public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
         // Hardcoded to check for gold
-        if(item.GetLevelUpCost() > GlobalUserData.Instance.User.GetCurrency(Currency.Gold)) {
-            cantAffordPopup.SetActive(true);
+        if(item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency(Currency.Gold)) {
+            insufficientCurrencyPopup.SetActive(true);
             return;
         }
         SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) => {
             onItemDataReceived?.Invoke(item);
         }, (reason) => {
             if(reason == "cant_afford") {
-                cantAffordPopup.SetActive(true);
+                insufficientCurrencyPopup.SetActive(true);
             }
         });
     }
@@ -139,19 +142,12 @@ public class UnitDetail : MonoBehaviour
 
     private void DisplayUnit()
     {
-        if (modelContainer.transform.childCount > 0)
-        {
-            RemoveUnitFromContainer();
-        }
-        Instantiate(selectedUnit.character.prefab, modelContainer.transform);
+        selectedCharacterImage.sprite = selectedUnit.character.inGameSprite;
+        selectedCharacterImage.transform.parent.gameObject.SetActive(true);
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
-    }
-
-    private void RemoveUnitFromContainer()
-    {
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
-        characterNameContainer.SetActive(false);
+        unitLevelText.text = $"Level: {selectedUnit.level}";
+        levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
     }
 
     public void PreviousUnit() {
