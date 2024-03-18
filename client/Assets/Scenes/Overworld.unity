@@ -5108,12 +5108,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confirmPopUp: {fileID: 598908192}
-  gems: {fileID: 404531698}
-  gold: {fileID: 0}
-  xp: {fileID: 0}
-  gemsRate: {fileID: 0}
-  goldRate: {fileID: 0}
-  xpRate: {fileID: 0}
+  gems: {fileID: 54798075}
+  gold: {fileID: 404531698}
+  xp: {fileID: 1412746533}
 --- !u!4 &1860652815
 Transform:
   m_ObjectHideFlags: 0
@@ -5122,7 +5119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860652813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9256852, y: -1.999501, z: -100.0109}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
