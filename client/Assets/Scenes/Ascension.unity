@@ -637,6 +637,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3115046462034672257, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: confirmButton
+      value: 
+      objectReference: {fileID: 222745349}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
 --- !u!1 &222745346 stripped
@@ -664,6 +668,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &222745349 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+  m_PrefabInstance: {fileID: 222745345}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &248698612
@@ -1048,7 +1063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224799658048824814, guid: ebd699b3417fde94cb5bb7e84954f77a, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224799658048824814, guid: ebd699b3417fde94cb5bb7e84954f77a, type: 3}
       propertyPath: m_AnchorMax.x

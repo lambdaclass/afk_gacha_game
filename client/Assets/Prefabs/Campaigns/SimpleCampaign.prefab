@@ -168,6 +168,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3615009627882092730}
     m_Modifications:
+    - target: {fileID: 4829158356047363534, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
+      propertyPath: m_text
+      value: Battle
+      objectReference: {fileID: 0}
     - target: {fileID: 8811879870847704122, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_Text
       value: BATTLE
