@@ -24,7 +24,7 @@ namespace Protobuf.Messages {
     static GatewayReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg1nYXRld2F5LnByb3RvIsAGChBXZWJTb2NrZXRSZXF1ZXN0EhwKCGdldF91",
+            "Cg1nYXRld2F5LnByb3RvIqAGChBXZWJTb2NrZXRSZXF1ZXN0EhwKCGdldF91",
             "c2VyGAEgASgLMgguR2V0VXNlckgAEjIKFGdldF91c2VyX2J5X3VzZXJuYW1l",
             "GAIgASgLMhIuR2V0VXNlckJ5VXNlcm5hbWVIABIiCgtjcmVhdGVfdXNlchgD",
             "IAEoCzILLkNyZWF0ZVVzZXJIABImCg1nZXRfY2FtcGFpZ25zGAQgASgLMg0u",
@@ -120,7 +120,7 @@ namespace Protobuf.Messages {
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.WebSocketRequest), global::Protobuf.Messages.WebSocketRequest.Parser, new[]{ "GetUser", "GetUserByUsername", "CreateUser", "GetCampaigns", "GetCampaign", "GetLevel", "FightLevel", "GetUnits", "SelectUnit", "UnselectUnit", "LevelUpUnit", "TierUpUnit", "FuseUnit", "EquipItem", "UnequipItem", "GetItem", "LevelUpItem", "GetBoxes", "GetBox", "Summon", "GetAfkRewards", "ClaimAfkRewards" }, new[]{ "RequestType" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.WebSocketRequest), global::Protobuf.Messages.WebSocketRequest.Parser, new[]{ "GetUser", "GetUserByUsername", "CreateUser", "GetCampaigns", "GetCampaign", "GetLevel", "FightLevel", "SelectUnit", "UnselectUnit", "LevelUpUnit", "TierUpUnit", "FuseUnit", "EquipItem", "UnequipItem", "GetItem", "LevelUpItem", "GetBoxes", "GetBox", "Summon", "GetAfkRewards", "ClaimAfkRewards" }, new[]{ "RequestType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.GetUser), global::Protobuf.Messages.GetUser.Parser, new[]{ "UserId" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.GetUserByUsername), global::Protobuf.Messages.GetUserByUsername.Parser, new[]{ "Username" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.CreateUser), global::Protobuf.Messages.CreateUser.Parser, new[]{ "Username" }, null, null, null, null),
@@ -230,9 +230,6 @@ namespace Protobuf.Messages {
           break;
         case RequestTypeOneofCase.FightLevel:
           FightLevel = other.FightLevel.Clone();
-          break;
-        case RequestTypeOneofCase.GetUnits:
-          GetUnits = other.GetUnits.Clone();
           break;
         case RequestTypeOneofCase.SelectUnit:
           SelectUnit = other.SelectUnit.Clone();
@@ -368,18 +365,6 @@ namespace Protobuf.Messages {
       set {
         requestType_ = value;
         requestTypeCase_ = value == null ? RequestTypeOneofCase.None : RequestTypeOneofCase.FightLevel;
-      }
-    }
-
-    /// <summary>Field number for the "get_units" field.</summary>
-    public const int GetUnitsFieldNumber = 8;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Protobuf.Messages.GetUnits GetUnits {
-      get { return requestTypeCase_ == RequestTypeOneofCase.GetUnits ? (global::Protobuf.Messages.GetUnits) requestType_ : null; }
-      set {
-        requestType_ = value;
-        requestTypeCase_ = value == null ? RequestTypeOneofCase.None : RequestTypeOneofCase.GetUnits;
       }
     }
 
@@ -562,7 +547,6 @@ namespace Protobuf.Messages {
       GetCampaign = 5,
       GetLevel = 6,
       FightLevel = 7,
-      GetUnits = 8,
       SelectUnit = 9,
       UnselectUnit = 10,
       LevelUpUnit = 11,
@@ -614,7 +598,6 @@ namespace Protobuf.Messages {
       if (!object.Equals(GetCampaign, other.GetCampaign)) return false;
       if (!object.Equals(GetLevel, other.GetLevel)) return false;
       if (!object.Equals(FightLevel, other.FightLevel)) return false;
-      if (!object.Equals(GetUnits, other.GetUnits)) return false;
       if (!object.Equals(SelectUnit, other.SelectUnit)) return false;
       if (!object.Equals(UnselectUnit, other.UnselectUnit)) return false;
       if (!object.Equals(LevelUpUnit, other.LevelUpUnit)) return false;
@@ -644,7 +627,6 @@ namespace Protobuf.Messages {
       if (requestTypeCase_ == RequestTypeOneofCase.GetCampaign) hash ^= GetCampaign.GetHashCode();
       if (requestTypeCase_ == RequestTypeOneofCase.GetLevel) hash ^= GetLevel.GetHashCode();
       if (requestTypeCase_ == RequestTypeOneofCase.FightLevel) hash ^= FightLevel.GetHashCode();
-      if (requestTypeCase_ == RequestTypeOneofCase.GetUnits) hash ^= GetUnits.GetHashCode();
       if (requestTypeCase_ == RequestTypeOneofCase.SelectUnit) hash ^= SelectUnit.GetHashCode();
       if (requestTypeCase_ == RequestTypeOneofCase.UnselectUnit) hash ^= UnselectUnit.GetHashCode();
       if (requestTypeCase_ == RequestTypeOneofCase.LevelUpUnit) hash ^= LevelUpUnit.GetHashCode();
@@ -705,10 +687,6 @@ namespace Protobuf.Messages {
       if (requestTypeCase_ == RequestTypeOneofCase.FightLevel) {
         output.WriteRawTag(58);
         output.WriteMessage(FightLevel);
-      }
-      if (requestTypeCase_ == RequestTypeOneofCase.GetUnits) {
-        output.WriteRawTag(66);
-        output.WriteMessage(GetUnits);
       }
       if (requestTypeCase_ == RequestTypeOneofCase.SelectUnit) {
         output.WriteRawTag(74);
@@ -804,10 +782,6 @@ namespace Protobuf.Messages {
         output.WriteRawTag(58);
         output.WriteMessage(FightLevel);
       }
-      if (requestTypeCase_ == RequestTypeOneofCase.GetUnits) {
-        output.WriteRawTag(66);
-        output.WriteMessage(GetUnits);
-      }
       if (requestTypeCase_ == RequestTypeOneofCase.SelectUnit) {
         output.WriteRawTag(74);
         output.WriteMessage(SelectUnit);
@@ -894,9 +868,6 @@ namespace Protobuf.Messages {
       }
       if (requestTypeCase_ == RequestTypeOneofCase.FightLevel) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(FightLevel);
-      }
-      if (requestTypeCase_ == RequestTypeOneofCase.GetUnits) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GetUnits);
       }
       if (requestTypeCase_ == RequestTypeOneofCase.SelectUnit) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(SelectUnit);
@@ -994,12 +965,6 @@ namespace Protobuf.Messages {
             FightLevel = new global::Protobuf.Messages.FightLevel();
           }
           FightLevel.MergeFrom(other.FightLevel);
-          break;
-        case RequestTypeOneofCase.GetUnits:
-          if (GetUnits == null) {
-            GetUnits = new global::Protobuf.Messages.GetUnits();
-          }
-          GetUnits.MergeFrom(other.GetUnits);
           break;
         case RequestTypeOneofCase.SelectUnit:
           if (SelectUnit == null) {
@@ -1163,15 +1128,6 @@ namespace Protobuf.Messages {
             }
             input.ReadMessage(subBuilder);
             FightLevel = subBuilder;
-            break;
-          }
-          case 66: {
-            global::Protobuf.Messages.GetUnits subBuilder = new global::Protobuf.Messages.GetUnits();
-            if (requestTypeCase_ == RequestTypeOneofCase.GetUnits) {
-              subBuilder.MergeFrom(GetUnits);
-            }
-            input.ReadMessage(subBuilder);
-            GetUnits = subBuilder;
             break;
           }
           case 74: {
@@ -1376,15 +1332,6 @@ namespace Protobuf.Messages {
             }
             input.ReadMessage(subBuilder);
             FightLevel = subBuilder;
-            break;
-          }
-          case 66: {
-            global::Protobuf.Messages.GetUnits subBuilder = new global::Protobuf.Messages.GetUnits();
-            if (requestTypeCase_ == RequestTypeOneofCase.GetUnits) {
-              subBuilder.MergeFrom(GetUnits);
-            }
-            input.ReadMessage(subBuilder);
-            GetUnits = subBuilder;
             break;
           }
           case 74: {

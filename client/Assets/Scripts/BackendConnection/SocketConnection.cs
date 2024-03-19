@@ -215,24 +215,21 @@ public class SocketConnection : MonoBehaviour {
 
 	private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
     {
+		List<(string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgress;
         List<Campaign> campaigns = new List<Campaign>();
-		// Currently looping through all the campaigns like they all belong to the same super campaign
-		LevelProgressData.Status campaignStatus = LevelProgressData.Status.Unlocked;
+		LevelProgressData.Status campaignStatus = LevelProgressData.Status.Completed;
 
+		// Currently looping through all the campaigns like they all belong to the same super campaign
 		foreach(Protobuf.Messages.Campaign campaignData in campaignsData.Campaigns_)
         {
-			LevelProgressData.Status levelStatus = LevelProgressData.Status.Unlocked;
+			LevelProgressData.Status levelStatus = LevelProgressData.Status.Completed;
             List<LevelData> levels = new List<LevelData>();
 			
 			foreach(Protobuf.Messages.Level level in campaignData.Levels.OrderBy(level => level.LevelNumber))
             {
 				List<Unit> levelUnits = CreateUnitsFromData(level.Units, availableCharacters);
 
-				if(levelStatus != LevelProgressData.Status.Locked) {
-					if(GlobalUserData.Instance.User.campaignsProgress.Any(cp => cp.campaignId == campaignData.Id)) {
-						levelStatus = level.Id != GlobalUserData.Instance.User.campaignsProgress.First(cp => cp.campaignId == campaignData.Id).levelId ? LevelProgressData.Status.Completed : LevelProgressData.Status.Unlocked;
-					}
-				}
+				levelStatus = userCampaignsProgress.Any(cp => cp.campaignId == campaignData.Id && cp.levelId == level.Id) ? LevelProgressData.Status.Unlocked : levelStatus;
 
                 levels.Add(new LevelData
                 {
@@ -249,9 +246,7 @@ public class SocketConnection : MonoBehaviour {
 				}
             }
 
-			if(campaignStatus != LevelProgressData.Status.Locked) {
-				campaignStatus = campaignData.Id != GlobalUserData.Instance.User.campaignsProgress.First().campaignId ? LevelProgressData.Status.Completed : campaignStatus;
-			}
+			campaignStatus = userCampaignsProgress.Any(cp => cp.campaignId == campaignData.Id) ? LevelProgressData.Status.Unlocked : campaignStatus;
 
             campaigns.Add(new Campaign
             {

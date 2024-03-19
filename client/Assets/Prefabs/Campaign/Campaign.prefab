@@ -286,8 +286,7 @@ MonoBehaviour:
   m_text: Campaign
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad7095a8160a94dc2a8c06bc9c4db145, type: 2}
-  m_sharedMaterial: {fileID: -6215521632685670565, guid: ad7095a8160a94dc2a8c06bc9c4db145,
-    type: 2}
+  m_sharedMaterial: {fileID: -6215521632685670565, guid: ad7095a8160a94dc2a8c06bc9c4db145, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -504,7 +503,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lockObject: {fileID: 830745684171372261}
   completedCrossObject: {fileID: 8365586952368866566}
-  first: 0
   campaignToShowPrefab: {fileID: 0}
   sceneManager: {fileID: 0}
 --- !u!1 &7096975055422375309
