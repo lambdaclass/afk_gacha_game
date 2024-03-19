@@ -641,6 +641,38 @@ PrefabInstance:
       propertyPath: confirmButton
       value: 
       objectReference: {fileID: 222745349}
+    - target: {fileID: 8902849820822576112, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_Name
+      value: ConfirmButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 936414173}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Fusion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: AscensionManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8902849820822576122, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 244c880a1df0a444aa6ab5b9b87767dd, type: 3}
 --- !u!1 &222745346 stripped
@@ -1296,6 +1328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button (Fusion)
       objectReference: {fileID: 0}
+    - target: {fileID: 8811879872254460255, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
 --- !u!224 &392661443 stripped
@@ -1303,6 +1339,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8811879872254460244, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
   m_PrefabInstance: {fileID: 392661442}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &392661444 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
+  m_PrefabInstance: {fileID: 392661442}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &568271030
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,7 +2160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a87a9c362f8a4c8d8c3f8abb1c38186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fusionButton: {fileID: 0}
+  fusionButton: {fileID: 392661444}
   unitsContainer: {fileID: 254964280}
   characterNameContainer: {fileID: 568271030}
   selectedCharacterImage: {fileID: 821842055}
