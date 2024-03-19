@@ -22,9 +22,10 @@ public class BoxUI : MonoBehaviour
 	[SerializeField]
 	Button button;
 
-	public void SetBox(Box box, Action<string, string> onClick) {
+	public void SetBox(Box box, Sprite boxSprite, Action<string, string> onClick) {
 		this.box = box;
 		title.text = this.box.name;
+		icon.sprite = boxSprite;
 
 		// Only shows the first cost
 		KeyValuePair<Currency, int> firstCost = this.box.costs.First();

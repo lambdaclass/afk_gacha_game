@@ -84,7 +84,7 @@ public class UIEquipmentListElement : MonoBehaviour
         unitDetail.LevelUpItem(this.item, (item) => {
             // Check if level of item returned changed, if not then the level up wasn't successful (should refactor)
             if(item.level > this.item.level) {
-                GlobalUserData.Instance.User.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));
+                GlobalUserData.Instance.AddIndividualCurrency(Currency.Gold, -(int)Math.Round(Math.Pow(this.item.level, 2)));
                 GlobalUserData.Instance.User.items.Find(item => item.id == this.item.id).level = item.level;
                 this.item.level = item.level;
                 itemLevelText.text = $"Level: {item.level}";

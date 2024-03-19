@@ -48,11 +48,11 @@ public class Level : MonoBehaviour
     private void Awake() {
         // Set up the currency dictionaries
         foreach (CurrencyValue individualReward in individualRewards) {
-            rewards.Add(individualReward.name, individualReward.value);
+            rewards.Add(individualReward.currency, individualReward.value);
         }
 
         foreach (CurrencyValue individualAfkCurrencyRate in individualAfkCurrencyRates) {
-            afkCurrencyRate.Add(individualAfkCurrencyRate.name, individualAfkCurrencyRate.value);
+            afkCurrencyRate.Add(individualAfkCurrencyRate.currency, individualAfkCurrencyRate.value);
         }
 
         // Build Units list
