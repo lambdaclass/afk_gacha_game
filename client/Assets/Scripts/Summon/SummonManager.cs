@@ -16,7 +16,7 @@ public class SummonManager : MonoBehaviour
 	GameObject boxesContainer;
 
 	[SerializeField]
-	PopupButtonsController confirmPopup;
+	ClosePopupWithSound confirmPopup;
 
 	[SerializeField]
 	GameObject newCharacterContainer;
