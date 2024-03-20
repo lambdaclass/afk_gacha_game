@@ -2004,10 +2004,6 @@ PrefabInstance:
       propertyPath: m_text
       value: CONFIRM
       objectReference: {fileID: 0}
-    - target: {fileID: 644717861757118906, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
-      propertyPath: m_fontSize
-      value: 45
-      objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460244, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2038,7 +2034,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460244, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460244, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2122,7 +2118,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460255, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
       propertyPath: m_Name
-      value: SecondaryButton
+      value: ConfirmButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
