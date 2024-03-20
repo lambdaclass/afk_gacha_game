@@ -34,6 +34,9 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     TMP_Text levelUpGoldCostText;
 
+	[SerializeField]
+	AudioSource levelUpSound;
+
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
 
@@ -49,6 +52,7 @@ public class UnitDetail : MonoBehaviour
             foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
                 GlobalUserData.Instance.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
             }
+			levelUpSound.Play();
             // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
             unitLevelText.text = $"Level: {selectedUnit.level}";

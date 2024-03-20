@@ -74,6 +74,7 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
     - [Basic RPG Icons](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
     - [Resource Vector Graphics](https://assetstore.unity.com/packages/2d/gui/icons/resource-icons-101998)
     - [Gold Mining Game](https://assetstore.unity.com/packages/2d/gui/gold-mining-game-2d-mine-ui-tilset-263856)
+    - [UX Flat Icons](https://assetstore.unity.com/packages/2d/gui/icons/ux-flat-icons-free-202525)
     - Import the necessary TextMeshPro assets by going to:
       - "Window -> TextMeshPro -> Import TMP Essential Resources" and
       - "Window -> TextMeshPro -> Import TMP Examples and Extras"
