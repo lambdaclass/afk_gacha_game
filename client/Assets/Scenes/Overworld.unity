@@ -564,11 +564,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 644717861757118906, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
       propertyPath: m_text
-      value: CLAIM
-      objectReference: {fileID: 0}
-    - target: {fileID: 3275273155191737474, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      value: Claim
       objectReference: {fileID: 0}
     - target: {fileID: 8811879870847704070, guid: 087e2034b0c5e461bbfa16d47a5e21ed, type: 3}
       propertyPath: m_IsActive
