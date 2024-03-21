@@ -15,7 +15,7 @@ public class CurrencyUIReward : UIReward {
 
     public CurrencyUIReward(Currency currencyName, int currencyAmount) {
         CurrencyValue currencyValue = new CurrencyValue();
-        currencyValue.name = currencyName;
+        currencyValue.currency = currencyName;
         currencyValue.value = currencyAmount;
 
         value = currencyValue;
@@ -23,7 +23,7 @@ public class CurrencyUIReward : UIReward {
 
     public override int Amount() { return value.value; }
 
-    public override string RewardType() { return value.name.ToString(); }
+    public override string RewardType() { return value.currency.ToString(); }
 }
 
 public class ExperienceUIReward : UIReward {

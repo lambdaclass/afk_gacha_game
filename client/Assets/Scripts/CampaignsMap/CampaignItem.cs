@@ -15,25 +15,34 @@ public class CampaignItem : MonoBehaviour
     [SerializeField]
     GameObject campaignToShowPrefab;
 
-    private CampaignData campaignData;
+    private Campaign campaignData;
 
     public LevelManager sceneManager;
 
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
     public void SelectCampaign()
     {
-        if (campaignData.status == CampaignData.Status.Unlocked) {
+        if (campaignData.status == LevelProgressData.Status.Unlocked) {
             CampaignManager.selectedCampaignData = campaignData;
             CampaignManager.campaignPrefab = campaignToShowPrefab;
             sceneManager.ChangeToSceneWithDelay("Campaign");
         }
     }
 
-    public void SetCampaignData(CampaignData campaignData)
+    public void SetCampaignData(Campaign campaignData)
     {
         this.campaignData = campaignData;
-        if(campaignData.status == CampaignData.Status.Unlocked) {
-            lockObject.SetActive(false);
+        switch(this.campaignData.status) 
+        {
+            case LevelProgressData.Status.Locked:
+                break;
+            case LevelProgressData.Status.Unlocked:
+				lockObject.SetActive(false);
+                break;
+            case LevelProgressData.Status.Completed:
+                completedCrossObject.SetActive(true);
+				lockObject.SetActive(false);
+                break;
         }
         gameObject.GetComponent<Button>().onClick.AddListener(() => SelectCampaign());
     }

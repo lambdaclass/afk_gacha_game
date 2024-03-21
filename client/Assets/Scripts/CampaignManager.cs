@@ -6,7 +6,7 @@ public class CampaignManager : MonoBehaviour
 {
     public static GameObject campaignPrefab;
     
-    public static CampaignData selectedCampaignData;
+    public static Campaign selectedCampaignData;
     
     public static string automaticLoadLevelName = null;
     
@@ -15,7 +15,7 @@ public class CampaignManager : MonoBehaviour
 
     void Start() {
         BattleManager.selectedLevelData = null;
-        GameObject campaignGameObject = Instantiate(campaignPrefab, transform);
+		GameObject campaignGameObject = Instantiate(campaignPrefab, transform);
         campaignGameObject.transform.SetSiblingIndex(0);
         var campaignLevelManager = campaignGameObject.GetComponentInChildren<CampaignLevelsManager>();
         campaignLevelManager.AssignLevelsData(selectedCampaignData.levels);

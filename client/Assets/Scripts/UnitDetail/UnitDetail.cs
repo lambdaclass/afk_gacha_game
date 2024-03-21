@@ -34,6 +34,9 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     TMP_Text levelUpGoldCostText;
 
+	[SerializeField]
+	AudioSource levelUpSound;
+
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
 
@@ -47,8 +50,9 @@ public class UnitDetail : MonoBehaviour
         SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
         (unitAndCurrencies) => {
             foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
-                GlobalUserData.Instance.User.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name), (int)userCurrency.Amount);
+                GlobalUserData.Instance.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
             }
+			levelUpSound.Play();
             // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
             unitLevelText.text = $"Level: {selectedUnit.level}";
@@ -99,7 +103,7 @@ public class UnitDetail : MonoBehaviour
 
     public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
         // Hardcoded to check for gold
-        if(item.GetLevelUpCost() > GlobalUserData.Instance.User.GetCurrency(Currency.Gold)) {
+        if(item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency(Currency.Gold)) {
             insufficientCurrencyPopup.SetActive(true);
             return;
         }

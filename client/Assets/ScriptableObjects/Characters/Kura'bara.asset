@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 078840dcd121844c69ebb05d1eb6b753, type: 3}
-  m_Name: "Kura\u2019bara"
+  m_Name: Kura'bara
   m_EditorClassIdentifier: 
   name: Kura'bara
   faction: 2

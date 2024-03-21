@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CampaignData
+public class Campaign
 {
-    public Status status = Status.Locked;
+	public string campaignId;
+    public LevelProgressData.Status status = LevelProgressData.Status.Locked;
     public List<LevelData> levels;
-
-    public enum Status
-    {
-        Locked,
-        Unlocked,
-        Completed
-    }
 }
