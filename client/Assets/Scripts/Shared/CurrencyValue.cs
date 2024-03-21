@@ -11,5 +11,8 @@ public enum Currency {
     Gems,
     SummonScrolls,
     HeroicScrolls,
+	ArcaneCrystals,
+	HeroSouls,
+	MysticSummonScrolls,
     Experience
 }

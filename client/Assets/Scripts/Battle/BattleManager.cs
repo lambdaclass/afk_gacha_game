@@ -18,9 +18,6 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-	[SerializeField]
-	LevelManager levelManager;
-
     public static LevelData selectedLevelData;
 
     void Start()
@@ -56,18 +53,11 @@ public class BattleManager : MonoBehaviour
             user.AccumulateAFKRewards();
             user.User.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
-            LevelProgressData.Instance.ProcessLevelCompleted();
-            // CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
 
-            GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
-            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
-
             // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
-            nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
-            victoryText.GetComponent<Text>().text = "Victory!";
 
             // if (selectedLevelData.campaignToComplete == "") {
             //     nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
