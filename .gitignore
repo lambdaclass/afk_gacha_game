@@ -129,3 +129,14 @@ client/ProjectSettings/ProjectSettings.asset
 # Ignore Visual Studio Code configuration
 .vscode
 curse_of_myrra.code-workspace
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
