@@ -373,7 +373,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1880474394802326500, guid: 80a0e36580b14449684c7d9d960c6ba2, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1880474394802326500, guid: 80a0e36580b14449684c7d9d960c6ba2, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1210,7 +1210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8682741422058279250, guid: 424b6890ff1cd44748d2c157fbc92310, type: 3}
       propertyPath: m_Name
-      value: InsifficientCurrencyPopup
+      value: InsufficientCurrencyPopup
       objectReference: {fileID: 0}
     - target: {fileID: 8682741422058279250, guid: 424b6890ff1cd44748d2c157fbc92310, type: 3}
       propertyPath: m_IsActive
@@ -1226,7 +1226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8682741422058279261, guid: 424b6890ff1cd44748d2c157fbc92310, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8682741422058279261, guid: 424b6890ff1cd44748d2c157fbc92310, type: 3}
       propertyPath: m_AnchorMax.x
