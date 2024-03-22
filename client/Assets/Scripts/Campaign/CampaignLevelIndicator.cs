@@ -17,18 +17,18 @@ public class CampaignLevelIndicator : MonoBehaviour
 	CampaignLevelsManager campaignLevelManager;
 
     public void Init() {
-        if(levelData.status == LevelProgressData.Status.Unlocked) {
-			LevelProgressData.Instance.SetUnlocked(name);
+        if(levelData.status == LevelProgress.Status.Unlocked) {
+			// LevelProgress.Instance.SetUnlocked(name);
 		}
 
         switch(levelData.status) 
         {
-            case LevelProgressData.Status.Locked:
+            case LevelProgress.Status.Locked:
                 break;
-            case LevelProgressData.Status.Unlocked:
+            case LevelProgress.Status.Unlocked:
 				lockObject.SetActive(false);
                 break;
-            case LevelProgressData.Status.Completed:
+            case LevelProgress.Status.Completed:
                 completedCrossObject.SetActive(true);
 				lockObject.SetActive(false);
                 break;
@@ -48,13 +48,13 @@ public class CampaignLevelIndicator : MonoBehaviour
     }
 
     private void SetLevelToComplete() {
-        LevelProgressData.Instance.LevelToCompleteName = name;
+        // LevelProgressData.Instance.LevelToCompleteName = name;
     }
 
     private void SetLevelToUnlock() {
         // if(levelData.nextLevel != null) { LevelProgressData.Instance.LevelToUnlockName = levelData.nextLevel.name; }
         // else { LevelProgressData.Instance.LevelToUnlockName = null; }
 
-        LevelProgressData.Instance.LevelToUnlockName = null;
+        // LevelProgressData.Instance.LevelToUnlockName = null;
     }
 }

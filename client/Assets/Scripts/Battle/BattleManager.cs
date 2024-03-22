@@ -56,7 +56,7 @@ public class BattleManager : MonoBehaviour
             user.AccumulateAFKRewards();
             user.User.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
-            LevelProgressData.Instance.ProcessLevelCompleted();
+            // LevelProgressData.Instance.ProcessLevelCompleted();
             // CampaignProgressData.Instance.ProcessLevelCompleted();
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);

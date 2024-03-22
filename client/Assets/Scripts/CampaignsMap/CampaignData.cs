@@ -5,6 +5,6 @@ using UnityEngine;
 public class Campaign
 {
 	public string campaignId;
-    public LevelProgressData.Status status = LevelProgressData.Status.Locked;
+    public LevelProgress.Status status = LevelProgress.Status.Locked;
     public List<LevelData> levels;
 }
