@@ -7,9 +7,14 @@ public class CampaignLevelIndicator : MonoBehaviour
 {
     public LevelData levelData;
 
-    [SerializeField] GameObject lockObject;
+    [SerializeField]
+	GameObject lockObject;
 
-    [SerializeField] GameObject completedCrossObject;
+    [SerializeField]
+	GameObject completedCrossObject;
+
+	[SerializeField]
+	CampaignLevelsManager campaignLevelManager;
 
     public void Init() {
         if(levelData.status == LevelProgressData.Status.Unlocked) {
@@ -21,24 +26,17 @@ public class CampaignLevelIndicator : MonoBehaviour
             case LevelProgressData.Status.Locked:
                 break;
             case LevelProgressData.Status.Unlocked:
-                lockObject.SetActive(false);
+				lockObject.SetActive(false);
                 break;
             case LevelProgressData.Status.Completed:
                 completedCrossObject.SetActive(true);
-                lockObject.SetActive(false);
+				lockObject.SetActive(false);
                 break;
         }
     }
 
     public void SelectLevel(){
-        if(LevelProgressData.Instance.LevelStatus(name) != LevelProgressData.Status.Unlocked) {
-            return;
-        }
-
-        // Get the CampaignLevelManager parent and make it pop up the Battle button
-        Transform parent = transform.parent;
-        if (parent.TryGetComponent<CampaignLevelsManager>(out CampaignLevelsManager campaignLevelManager)) { campaignLevelManager.LevelSelected(); }
-        else { Debug.LogError("Level has no CampaignLevelManager parent."); }
+		campaignLevelManager.LevelSelected();
         
         SetLevel();
         SetLevelToComplete();

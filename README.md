@@ -1,5 +1,8 @@
 # Champions of Mirra
 
+<img src="docs/ChampionsBattle.PNG" alt="ChampionsBattle">
+
+
 ## Table of Contents
 
 - [Champions of Mirra](#champions-of-mirra)
@@ -22,16 +25,7 @@ Step into a universe where you, the player, get to turn the tides on an all-out 
 
 Champions of Mirra is more than a game; it's an adventure into a world where strategy, skill, and a dash of chaos converge. Join the battle and confront the challenges that lie ahead in this captivating and dynamic gaming experience. The stage is set, and the Champions of Kaline await your commands—embrace the challenge and become a legend!
 
-<div>
-  <div float="center">
-    <img src="docs/src/images/Curse_of_Myrra_3D_Assets_Muflus.png" alt="Muflus 3D model" width=300px>  
-    <img src="docs/src/images/Curse_of_Myrra_3D_Assets_Uma.jpeg" alt="Uma 3D model" width=300px> 
-  </div>
-  <div float="center">
-    <img src="docs/src/images/Curse_of_Myrra_concept_art_Shinko.png" alt="Shinko hero concept art" width=300px>
-    <img src="docs/src/images/Curse_of_Myrra_concept_art_Otobi_dog.png" alt="Concept art for a gang member dog in the planet of Otobi" width=300px>
-  </div>
-<div>
+
 
 ## Licensing
 
@@ -74,6 +68,7 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
     - [Basic RPG Icons](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
     - [Resource Vector Graphics](https://assetstore.unity.com/packages/2d/gui/icons/resource-icons-101998)
     - [Gold Mining Game](https://assetstore.unity.com/packages/2d/gui/gold-mining-game-2d-mine-ui-tilset-263856)
+    - [UX Flat Icons](https://assetstore.unity.com/packages/2d/gui/icons/ux-flat-icons-free-202525)
     - Import the necessary TextMeshPro assets by going to:
       - "Window -> TextMeshPro -> Import TMP Essential Resources" and
       - "Window -> TextMeshPro -> Import TMP Examples and Extras"
