@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CampaignLevelIndicator : MonoBehaviour
 {
     public LevelData levelData;
+	public LevelData nextLevelData;
 
     [SerializeField]
 	GameObject lockObject;
@@ -17,10 +18,6 @@ public class CampaignLevelIndicator : MonoBehaviour
 	CampaignLevelsManager campaignLevelManager;
 
     public void Init() {
-        if(levelData.status == LevelProgress.Status.Unlocked) {
-			// LevelProgress.Instance.SetUnlocked(name);
-		}
-
         switch(levelData.status) 
         {
             case LevelProgress.Status.Locked:
@@ -39,22 +36,10 @@ public class CampaignLevelIndicator : MonoBehaviour
 		campaignLevelManager.LevelSelected();
         
         SetLevel();
-        SetLevelToComplete();
-        SetLevelToUnlock();
     }
 
     private void SetLevel() {
         BattleManager.selectedLevelData = levelData;
-    }
-
-    private void SetLevelToComplete() {
-        // LevelProgressData.Instance.LevelToCompleteName = name;
-    }
-
-    private void SetLevelToUnlock() {
-        // if(levelData.nextLevel != null) { LevelProgressData.Instance.LevelToUnlockName = levelData.nextLevel.name; }
-        // else { LevelProgressData.Instance.LevelToUnlockName = null; }
-
-        // LevelProgressData.Instance.LevelToUnlockName = null;
+		BattleManager.nextLevelData = nextLevelData;
     }
 }
