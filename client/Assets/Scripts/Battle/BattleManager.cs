@@ -64,6 +64,10 @@ public class BattleManager : MonoBehaviour
             victoryText.GetComponent<Text>().text = "Victory!";
 
 			SetUpNextButton();
+			
+			// This should be handeled differently
+			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
+			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
         } else {
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
