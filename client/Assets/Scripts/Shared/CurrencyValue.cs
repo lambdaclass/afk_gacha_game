@@ -7,9 +7,12 @@ public struct CurrencyValue {
 }
 
 public enum Currency {
+    Experience,
     Gold,
     Gems,
+	ArcaneCrystals,
+	HeroSouls,
     SummonScrolls,
     HeroicScrolls,
-    Experience
+	MysticSummonScrolls
 }
