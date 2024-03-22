@@ -251,6 +251,7 @@ public class SocketConnection : MonoBehaviour {
             campaigns.Add(new Campaign
             {
 				campaignId = campaignData.Id,
+				campaignNumber = (int)campaignData.CampaignNumber,
                 status = campaignStatus,
                 levels = levels
             });

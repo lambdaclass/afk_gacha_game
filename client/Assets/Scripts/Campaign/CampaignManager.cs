@@ -12,8 +12,8 @@ public class CampaignManager : MonoBehaviour
     GameObject screenLocker;
 
     void Start() {
-        BattleManager.selectedLevelData = null;
-		BattleManager.nextLevelData = null;
+        LevelProgress.selectedLevelData = null;
+		LevelProgress.nextLevelData = null;
 		GameObject campaignGameObject = Instantiate(campaignPrefab, transform);
         campaignGameObject.transform.SetSiblingIndex(0);
         var campaignLevelManager = campaignGameObject.GetComponentInChildren<CampaignLevelsManager>();

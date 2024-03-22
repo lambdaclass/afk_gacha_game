@@ -39,7 +39,7 @@ public class CampaignLevelIndicator : MonoBehaviour
     }
 
     private void SetLevel() {
-        BattleManager.selectedLevelData = levelData;
-		BattleManager.nextLevelData = nextLevelData;
+        LevelProgress.selectedLevelData = levelData;
+		LevelProgress.nextLevelData = nextLevelData;
     }
 }
