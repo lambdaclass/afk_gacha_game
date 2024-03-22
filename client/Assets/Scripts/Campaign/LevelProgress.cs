@@ -28,6 +28,7 @@ public static class LevelProgress
 			return campaigns.Find(campaign => campaign.campaignNumber == currentCampaign.campaignNumber + 1).levels.Find(lvl => lvl.levelNumber == 1);
 		}
 		
-		throw new Exception("no more campaigns");
+		Debug.Log("There are no more campaigns after this one");
+		return null;
 	}
 }

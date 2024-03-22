@@ -87,14 +87,13 @@ public class BattleManager : MonoBehaviour
 	private void SetUpNextButton()
 	{
 		GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
-		if(LevelProgress.nextLevelData == null) {
+		if(LevelProgress.selectedLevelData.campaignId != LevelProgress.nextLevelData.campaignId) {
 			nextButton.GetComponentInChildren<Text>().text = "NEXT CAMPAIGN";
 		} else {
 			nextButton.GetComponentInChildren<Text>().text = "NEXT LEVEL";
 			nextButton.GetComponent<Button>().onClick.AddListener(() => {
 				LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
 				LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
-				Debug.Log($"{LevelProgress.nextLevelData.id}: {LevelProgress.nextLevelData.campaignId}");
 				gameObject.GetComponent<LevelManager>().ChangeToScene("Lineup");
 			});
 		}

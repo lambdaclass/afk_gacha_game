@@ -26,6 +26,8 @@ public class CampaignLevelsManager : MonoBehaviour
 
 			if(levelIndex + 1 < levelsData.Count) {
 				levelIndicators[levelIndex].nextLevelData = levelsData[levelIndex + 1];
+			} else {
+				levelIndicators[levelIndex].nextLevelData = LevelProgress.NextLevel(levelsData[levelIndex]);
 			}
 			
             levelIndicators[levelIndex].Init();
