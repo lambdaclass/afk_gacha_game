@@ -1,16 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using DuloGames.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HeaderManager : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI username;
-    [SerializeField] TextMeshProUGUI level;
-    [SerializeField] TextMeshProUGUI xp;
-    [SerializeField] TextMeshProUGUI gold;
-    [SerializeField] TextMeshProUGUI gems;
-	[SerializeField] TextMeshProUGUI scrolls;
+	[SerializeField]
+	TextMeshProUGUI username;
+    
+	[SerializeField]
+	TextMeshProUGUI level;
+    
+	[SerializeField]
+	UIProgressBar progressBarXp;
+    
+	[SerializeField]
+	TextMeshProUGUI gold;
+    
+	[SerializeField]
+	TextMeshProUGUI gems;
+	
+	[SerializeField]
+	TextMeshProUGUI scrolls;
 
     static GlobalUserData user;
 
@@ -47,7 +60,7 @@ public class HeaderManager : MonoBehaviour
 
     void UpdateLevelValues()
     {
-        level.text = "Lv. " + user.User.level.ToString();
-        xp.text = user.User.experience.ToString() + "/" + user.User.experienceToNextLevel.ToString();
+        level.text = "Level " + user.User.level.ToString();
+		progressBarXp.fillAmount = user.User.experience / (float)user.User.experienceToNextLevel;
     }
 }
