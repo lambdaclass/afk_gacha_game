@@ -1,7 +1,5 @@
-.PHONY: gen-client-protobuf gen-protobuf
+.PHONY: generate-protos
 
-gen-protobuf: gen-client-protobuf
-
-gen-client-protobuf:
-	protoc --csharp_out=./  communication/messages.proto
-	mv Messages.cs client/Assets/Scripts/Messages.pb.cs
+generate-protos: 
+    protoc --csharp_out=./ messages.proto \
+    mv Messages.cs client/Assets/Scripts/Messages.pb.cs

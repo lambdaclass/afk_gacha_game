@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,8 +7,10 @@ using UnityEngine.UI;
 
 public class LineupManager : MonoBehaviour, IUnitPopulator
 {
+    List<Unit> playerAvailableUnits;
+
     [SerializeField]
-    UnitsUIContainer unitsContainer;
+    LineUpUnitsUIContainer unitsContainer;
 
     [SerializeField]
     UnitPosition[] playerUnitPositions;
@@ -15,30 +18,31 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-    [SerializeField]
-    List<Character> characters;
-
     void Start()
     {
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-        OpponentData opponentData = OpponentData.Instance;
+        StartCoroutine(GetUser());
+    }
 
-        List<Unit> units = globalUserData.Units;
+    private IEnumerator GetUser()
+    {
+        yield return new WaitUntil(() => GlobalUserData.Instance != null);
 
-        this.unitsContainer.Populate(units, this);
-        SetUpSelectedUnits(units, true);
+        playerAvailableUnits = GlobalUserData.Instance.Units;
+
+        this.unitsContainer.Populate(playerAvailableUnits, this);
+        SetUpSelectedUnits(playerAvailableUnits, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
         
-        SetUpSelectedUnits(opponentData.Units, false);
+        LevelData levelData = BattleManager.selectedLevelData;
+        SetUpSelectedUnits(levelData.units, false);
     }
 
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
         foreach(Unit unit in units.Where(unit => unit.selected)) {
-            UnitPosition unitPosition;
-            unitPosition = unitPositions[unit.slot.Value];
+            UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
         }
@@ -46,15 +50,17 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private void AddUnitToLineup(Unit unit)
     {
-        UnitPosition unitPosition = playerUnitPositions.First(unitPosition => !unitPosition.IsOccupied);
+        UnitPosition unitPosition = playerUnitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
 
-        if(unitPosition)
+        if(unitPosition != null)
         {
-            int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied);
+            int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied) + 1;
             unit.selected = true;
             unit.slot = slot;
             unitPosition.SetUnit(unit, true);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
+            SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
+            unitsContainer.SetUnitUIActiveById(unit.id, false);
         }
     }
 
@@ -64,7 +70,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         unitPosition.OnUnitRemoved -= RemoveUnitFromLineup;
         unit.selected = false;
         unit.slot = null;
-        unitsContainer.SetUnitUIActiveById(unit.id);
+        SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
+        unitsContainer.SetUnitUIActiveById(unit.id, true);
     }
 
     private bool CompareUnitId(UnitPosition unitPosition, Unit unit)
@@ -79,11 +86,14 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     public void Populate(Unit unit, GameObject unitItem)
     {
-        SpriteState ss = new SpriteState();
-        ss.disabledSprite = unit.character.disabledSprite;
+        UnitItemUI unitItemUI = unitItem.GetComponent<UnitItemUI>();
+        unitItemUI.SetUpUnitItemUI(unit);
         Button unitItemButton = unitItem.GetComponent<Button>();
-        unitItemButton.spriteState = ss;
         if(unit.selected) {
+            unitItemUI.SetSelectedChampionMark(true);
+            unitItemButton.interactable = false;
+        } else if (playerAvailableUnits.Where(unit => unit.selected).Count() >= LineUpUnitsUIContainer.numberOfPositions) {
+            unitItemUI.SetLocked(true);
             unitItemButton.interactable = false;
         }
     }

@@ -18,44 +18,74 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-    [SerializeField]
-    List<Character> characters;
+	[SerializeField]
+	LevelManager levelManager;
+
+    public static LevelData selectedLevelData;
 
     void Start()
     {
-        GlobalUserData globalUserData = GlobalUserData.Instance;
-        OpponentData opponentData = OpponentData.Instance;
-
-        List<Unit> userUnits = globalUserData.Units;
-        List<Unit> opponentUnits = opponentData.Units;
+		victorySplash.SetActive(false);
+		defeatSplash.SetActive(false);
+        List<Unit> userUnits = GlobalUserData.Instance.Units;
+        List<Unit> opponentUnits = selectedLevelData.units;
 
         SetUpUnits(userUnits, opponentUnits);
+        Battle();
+    }
 
-        bool won = Battle(userUnits, opponentUnits);
-        if(won) {
-            victorySplash.SetActive(true);
+    public void Battle()
+    {
+        SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
+            HandleBattleResult(result);
+        });
+    }
+
+    private void HandleBattleResult(bool result)
+    {
+        if(result) {
+			// Should this be here? refactor after demo?
+			try {
+				SocketConnection.Instance.GetUserAndContinue();
+			} catch (Exception ex) {
+				Debug.LogError(ex.Message);
+			}
+            GlobalUserData user = GlobalUserData.Instance;
+            user.AddCurrency(selectedLevelData.rewards);
+            user.AddExperience(selectedLevelData.experienceReward);
+            user.AccumulateAFKRewards();
+            user.User.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
+            user.User.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
             LevelProgressData.Instance.ProcessLevelCompleted();
-            CampaignProgressData.Instance.ProcessLevelCompleted();
+            // CampaignProgressData.Instance.ProcessLevelCompleted();
+            victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
+            victorySplash.SetActive(true);
+            victorySplash.GetComponent<AudioSource>().Play();
+
+            GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
+            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
+
+            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+            nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
+            victoryText.GetComponent<Text>().text = "Victory!";
+
+            // if (selectedLevelData.campaignToComplete == "") {
+            //     nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
+            //     victoryText.GetComponent<Text>().text = "Victory!";
+            // } else {
+            //     // We assume this level's campaign is the one that was completed
+            //     victoryText.GetComponent<Text>().text = "Campaign beaten!";
+            //     if (selectedLevelData.campaignToUnlock == "") {
+            //         // No "next campaign". Just go back to CampaignsMap.
+            //         nextButton.SetActive(false);
+            //     } else {
+            //         nextButton.GetComponentInChildren<Text>().text = "BACK TO CAMPAIGNS";
+            //     }
+            // }
         } else {
             defeatSplash.SetActive(true);
+            defeatSplash.GetComponent<AudioSource>().Play();
         }
-        opponentData.Destroy();
-    }
-
-    // Run a battle between two teams. Returns true if our user wins
-    public bool Battle(List<Unit> team1, List<Unit> team2)
-    {
-        int team1AggLevel = CalculateAggregateLevel(team1);
-        int team2AggLevel = CalculateAggregateLevel(team2);
-        int totalLevel = team1AggLevel + team2AggLevel;
-
-        return UnityEngine.Random.Range(1, totalLevel + 1) <= team1AggLevel;
-    }
-
-    // Helper method to calculate the aggregate level of a team
-    private int CalculateAggregateLevel(List<Unit> team)
-    {
-        return team.Sum(unit => unit.level);
     }
 
     private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
@@ -67,10 +97,34 @@ public class BattleManager : MonoBehaviour
     private void SetUpUserUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-        foreach(Unit unit in units.Where(unit => unit.selected && unit.slot.Value < unitPositions.Length)) {
-            UnitPosition unitPosition;
-            unitPosition = unitPositions[unit.slot.Value];
+		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
+        foreach(Unit unit in units.Where(unit => unit.selected)) {
+            UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);    
         }
+    }
+
+    private List<UIReward> CreateRewardsList() {
+        List<UIReward> rewards = new List<UIReward>();
+
+        if (selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(selectedLevelData.experienceReward)); }
+
+        foreach (var currencyReward in selectedLevelData.rewards) {
+            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+        }
+
+        return rewards;
+    }
+
+    public void Next() {
+        gameObject.GetComponent<LevelManager>().ChangeToScene("CampaignsMap");
+
+        // If nextLevel is null this won't do anything
+        // if (selectedLevelData.campaignToUnlock != "") {
+        //     gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
+        // } else {
+        //     CampaignManager.automaticLoadLevelName = selectedLevelData.nextLevel.name;
+        //     gameObject.GetComponent<SceneManager>().ChangeToScene("Campaign");
+        // }
     }
 }

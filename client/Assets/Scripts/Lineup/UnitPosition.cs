@@ -12,7 +12,7 @@ public class UnitPosition : MonoBehaviour
     GameObject removeSign;
 
     [SerializeField]
-    GameObject modelContainer;
+    Image unitImage;
 
     public event Action<Unit> OnUnitRemoved;
 
@@ -23,20 +23,32 @@ public class UnitPosition : MonoBehaviour
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
-        unitName.text = $"{unit.character.name} LVL: {unit.level}";
+        // Uncomment to display unit name and level
+        // unitName.text = $"{unit.character.name} LVL: {unit.level}";
+        // unitName.transform.parent.gameObject.SetActive(true);
         isOccupied = true;
-        unitName.gameObject.SetActive(true);
-        removeSign.SetActive(isPlayer);
+
+		// Uncomment to show the remove unit sign
+        // removeSign.SetActive(isPlayer);
+		
         GetComponent<Button>().interactable = isPlayer;
-        Instantiate(unit.character.prefab, modelContainer.transform);
+
+        // Instantiate(unit.character.prefab, modelContainer.transform);
+        unitImage.sprite = selectedUnit.character.inGameSprite;
+        unitImage.gameObject.SetActive(true);
     }
 
     public void UnselectUnit() {
-        unitName.text = String.Empty;
+        // Uncomment to display unit name and level
+        // unitName.transform.parent.gameObject.SetActive(false);
+        // unitName.text = String.Empty;
         isOccupied = false;
-        unitName.gameObject.SetActive(false);
-        removeSign.SetActive(false);
-        Destroy(modelContainer.transform.GetChild(0).gameObject);
+
+		// Uncomment to show the remove unit sign
+        // removeSign.SetActive(false);
+
+        unitImage.gameObject.SetActive(false);
+        unitImage.sprite = null;
         GetComponent<Button>().interactable = false;
         OnUnitRemoved?.Invoke(selectedUnit);
         selectedUnit = null;

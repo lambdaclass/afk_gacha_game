@@ -1,5 +1,8 @@
 # Champions of Mirra
 
+<img src="docs/ChampionsBattle.PNG" alt="ChampionsBattle">
+
+
 ## Table of Contents
 
 - [Champions of Mirra](#champions-of-mirra)
@@ -7,8 +10,8 @@
   - [About](#about)
   - [Licensing](#licensing)
   - [Requirements](#requirements)
-  - [Suggested Development Environment](#suggested-development-environment)
     - [Unity Setup](#unity-setup)
+  - [Suggested Development Environment](#suggested-development-environment)
   - [Useful Commands](#useful-commands)
   - [Contact and Socials](#contact-and-socials)
 
@@ -22,16 +25,7 @@ Step into a universe where you, the player, get to turn the tides on an all-out 
 
 Champions of Mirra is more than a game; it's an adventure into a world where strategy, skill, and a dash of chaos converge. Join the battle and confront the challenges that lie ahead in this captivating and dynamic gaming experience. The stage is set, and the Champions of Kaline await your commands—embrace the challenge and become a legend!
 
-<div>
-  <div float="center">
-    <img src="docs/src/images/Curse_of_Myrra_3D_Assets_Muflus.png" alt="Muflus 3D model" width=300px>  
-    <img src="docs/src/images/Curse_of_Myrra_3D_Assets_Uma.jpeg" alt="Uma 3D model" width=300px> 
-  </div>
-  <div float="center">
-    <img src="docs/src/images/Curse_of_Myrra_concept_art_Shinko.png" alt="Shinko hero concept art" width=300px>
-    <img src="docs/src/images/Curse_of_Myrra_concept_art_Otobi_dog.png" alt="Concept art for a gang member dog in the planet of Otobi" width=300px>
-  </div>
-<div>
+
 
 ## Licensing
 
@@ -43,6 +37,28 @@ Find our open-source 3D models, concept art, music, lore, and more in our [Curse
 
 Ensure you have the following dependencies installed:
 
+- **Nix:**
+You can install the Nix package manager by running the following command in your terminal:
+```bash
+$ curl \
+  --proto '=https' \
+  --tlsv1.2 \
+  -sSf \
+  -L https://install.determinate.systems/nix \
+  | sh -s -- install
+```
+The installer will ask you for the sudo password, and then print the details about what steps it will perform to install Nix. You have to accept this to proceed with the installation.
+
+Make sure there weren't any errors during the installation and, if there are none, close the shell and start a new one.
+
+To test if Nix generally works, just run GNU hello or any other package:
+```bash
+$ nix run nixpkgs#hello
+Hello, world!
+```
+
+For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
+
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
   - Download the following Unity Store assets 
@@ -52,6 +68,8 @@ Ensure you have the following dependencies installed:
     - [Basic RPG Icons](https://assetstore.unity.com/packages/2d/gui/icons/basic-rpg-icons-181301)
     - [Resource Vector Graphics](https://assetstore.unity.com/packages/2d/gui/icons/resource-icons-101998)
     - [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
+    - [Gold Mining Game](https://assetstore.unity.com/packages/2d/gui/gold-mining-game-2d-mine-ui-tilset-263856)
+    - [UX Flat Icons](https://assetstore.unity.com/packages/2d/gui/icons/ux-flat-icons-free-202525)
     - Import the necessary TextMeshPro assets by going to:
       - "Window -> TextMeshPro -> Import TMP Essential Resources" and
       - "Window -> TextMeshPro -> Import TMP Examples and Extras"
