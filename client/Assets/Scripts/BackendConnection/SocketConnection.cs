@@ -272,6 +272,9 @@ public class SocketConnection : MonoBehaviour {
 		if(String.IsNullOrEmpty(userId)) {
 			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
 			CreateUser("testUser", (user) => {
+				GetCampaignsProgress(userId, (progresses) => {
+					user.campaignsProgresses = progresses;
+				});
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
 				Debug.Log("User created correctly");
