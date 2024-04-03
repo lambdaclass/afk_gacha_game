@@ -164,7 +164,7 @@ public class SocketConnection : MonoBehaviour {
 			currencies = currencies,
 			level = (int)user.Level,
 			experience = (int)user.Experience,
-			campaignsProgress = user.CampaignProgresses.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
+			// campaignsProgress = user.CampaignProgresses.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList(),
 		};
 	}
 	
@@ -217,7 +217,7 @@ public class SocketConnection : MonoBehaviour {
 
 	private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
     {
-		List<(string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgress;
+		List<(string superCampaignId, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgresses;
         List<Campaign> campaigns = new List<Campaign>();
 		LevelProgressData.Status campaignStatus = LevelProgressData.Status.Completed;
 
@@ -281,6 +281,9 @@ public class SocketConnection : MonoBehaviour {
 		else {
 			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
 			GetUser(userId, (user) => {
+				GetCampaignsProgress(userId, (progresses) => {
+					user.campaignsProgresses = progresses;
+				});
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
 			});
@@ -367,6 +370,38 @@ public class SocketConnection : MonoBehaviour {
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
+    }
+
+	public void GetCampaignsProgress(string userId, Action<List<(string, string, string)>> onCampaignProgressReceived)
+    {
+        GetUserSuperCampaignProgresses getCampaignsProgressRequest = new GetUserSuperCampaignProgresses{
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            GetUserSuperCampaignProgresses = getCampaignsProgressRequest
+        };
+        currentMessageHandler = (data) => AwaitCampaignsProgressResponse(data, onCampaignProgressReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+	private void AwaitCampaignsProgressResponse(byte[] data, Action<List<(string, string, string)>> onCampaignProgressReceived)
+    {
+        try
+        {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses) {
+				List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignId, cp.CampaignId, cp.LevelId)).ToList();
+                onCampaignProgressReceived?.Invoke(campaignProgresses);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 
     public void GetCampaigns(string userId, Action<List<Campaign>> onCampaignDataReceived)
