@@ -164,7 +164,6 @@ public class SocketConnection : MonoBehaviour {
 			currencies = currencies,
 			level = (int)user.Level,
 			experience = (int)user.Experience,
-			superCampaignsProgress = user.SuperCampaignProgresses.Select(superCampaignProgress => (superCampaignProgress.SuperCampaignId, superCampaignProgress.LevelId)).ToList()
 		};
 	}
 	
