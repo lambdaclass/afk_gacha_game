@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainThemeSetter : MonoBehaviour
+public class MusicSetter : MonoBehaviour
 {
 	[SerializeField]
 	AudioClip audioClip;
 
     void Start()
     {
-        MainThemeManager.Instance.Play(audioClip);
+        MusicManager.Instance.Play(audioClip);
     }
 }
