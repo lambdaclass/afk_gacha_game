@@ -151,7 +151,8 @@ option csharp_namespace = "Protobuf.Messages";
       Box box = 12;
       UserAndUnit user_and_unit = 13;
       AfkRewards afk_rewards = 14;
-      BattleReplay battle_replay = 15;
+	  SuperCampaignProgresses super_campaign_progresses = 15;
+	  BattleReplay battle_replay = 16;
     }
   }
   
