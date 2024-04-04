@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -80,9 +81,9 @@ public class BattleManager : MonoBehaviour
 	{
 		GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
 		if(LevelProgress.selectedLevelData.campaignId != LevelProgress.nextLevelData.campaignId) {
-			nextButton.GetComponentInChildren<Text>().text = "NEXT CAMPAIGN";
+			nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT CAMPAIGN";
 		} else {
-			nextButton.GetComponentInChildren<Text>().text = "NEXT LEVEL";
+			nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT LEVEL";
 			nextButton.GetComponent<Button>().onClick.AddListener(() => {
 				LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
 				LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
