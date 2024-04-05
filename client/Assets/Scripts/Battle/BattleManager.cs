@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -32,10 +33,6 @@ public class BattleManager : MonoBehaviour
 
     public void Battle()
     {
-        // SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (result) => {
-        //     HandleBattleResult(result);
-        // });
-
 		SocketConnection.Instance.FakeBattle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (battleReplay) => {
 			foreach(var unit in battleReplay.InitialState.Units) {
 				Debug.Log($"{unit.CharacterId}, {unit.Health}");
@@ -49,8 +46,18 @@ public class BattleManager : MonoBehaviour
 				battleUnit.MaxHealth = unit.Health;
 				battleUnit.CurrentHealth = unit.Health;
 			}
+
+			StartCoroutine(SetCurrentHealthAfterDelay(playerUnits.Last(), 2f, 10)); // Wait for 2 seconds and then set CurrentHealth to 10
         });
     }
+
+	private IEnumerator SetCurrentHealthAfterDelay(BattleUnit battleUnit, float delay, int newHealth)
+	{
+		yield return new WaitForSeconds(delay);
+
+		battleUnit.CurrentHealth = newHealth;
+	}
+
 
     private void HandleBattleResult(bool result)
     {

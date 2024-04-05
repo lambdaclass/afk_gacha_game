@@ -501,17 +501,17 @@ public class SocketConnection : MonoBehaviour {
 
 		battleReplay.InitialState = new State();
 		Protobuf.Messages.BattleUnit playerUnit = new Protobuf.Messages.BattleUnit();
-		playerUnit.UnitId = GlobalUserData.Instance.Units.First().id;
+		playerUnit.UnitId = GlobalUserData.Instance.Units.Last().id;
 		playerUnit.Health = 100;
 		playerUnit.Slot = 1;
-		playerUnit.CharacterId = GlobalUserData.Instance.Units.First().character.name;
+		playerUnit.CharacterId = GlobalUserData.Instance.Units.Last().character.name;
 		playerUnit.Team = 0;
 		battleReplay.InitialState.Units.Add(playerUnit);
 		Protobuf.Messages.BattleUnit opponentUnit = new Protobuf.Messages.BattleUnit();
-		opponentUnit.UnitId = LevelProgress.selectedLevelData.units.First().id;
+		opponentUnit.UnitId = LevelProgress.selectedLevelData.units.Last().id;
 		opponentUnit.Health = 50;
 		opponentUnit.Slot = 1;
-		opponentUnit.CharacterId = LevelProgress.selectedLevelData.units.First().character.name;
+		opponentUnit.CharacterId = LevelProgress.selectedLevelData.units.Last().character.name;
 		opponentUnit.Team = 1;
 		battleReplay.InitialState.Units.Add(opponentUnit);
 
