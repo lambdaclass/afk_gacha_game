@@ -14,13 +14,10 @@ public class BattleManager : MonoBehaviour
     GameObject defeatSplash;
 
     [SerializeField]
-    UnitPosition[] playerUnitPositions;
+    BattleUnit[] playerUnits;
 
     [SerializeField]
-    UnitPosition[] opponentUnitPositions;
-
-	[SerializeField]
-	LevelManager levelManager;
+    BattleUnit[] opponentUnits;
 
     void Start()
     {
@@ -42,6 +39,15 @@ public class BattleManager : MonoBehaviour
 		SocketConnection.Instance.FakeBattle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (battleReplay) => {
 			foreach(var unit in battleReplay.InitialState.Units) {
 				Debug.Log($"{unit.CharacterId}, {unit.Health}");
+
+				BattleUnit battleUnit;
+				if(unit.Team == 0) {
+					battleUnit = playerUnits.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
+				} else {
+					battleUnit = opponentUnits.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
+				}
+				battleUnit.MaxHealth = unit.Health;
+				battleUnit.CurrentHealth = unit.Health;
 			}
         });
     }
@@ -106,11 +112,11 @@ public class BattleManager : MonoBehaviour
 
     private void SetUpUserUnits(List<Unit> units, bool isPlayer)
     {
-        UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
+        BattleUnit[] unitPositions = isPlayer ? playerUnits : opponentUnits;
 		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
         foreach(Unit unit in units.Where(unit => unit.selected)) {
-            UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
-            unitPosition.SetUnit(unit, isPlayer);    
+            BattleUnit unitPosition = unitPositions[unit.slot.Value - 1];
+            unitPosition.SetUnit(unit, isPlayer);
         }
     }
 
