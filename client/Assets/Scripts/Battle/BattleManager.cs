@@ -15,86 +15,125 @@ public class BattleManager : MonoBehaviour
     GameObject defeatSplash;
 
     [SerializeField]
-    BattleUnit[] playerUnits;
+    BattleUnit[] playerUnitsUI;
 
     [SerializeField]
-    BattleUnit[] opponentUnits;
+    BattleUnit[] opponentUnitsUI;
+
+	List<BattleUnit> units = new List<BattleUnit>();
 
     void Start()
-    {
+	{
 		victorySplash.SetActive(false);
 		defeatSplash.SetActive(false);
-        List<Unit> userUnits = GlobalUserData.Instance.Units;
-        List<Unit> opponentUnits = LevelProgress.selectedLevelData.units;
+		List<Unit> userUnits = GlobalUserData.Instance.Units;
+		List<Unit> opponentUnits = LevelProgress.selectedLevelData.units;
+		units.AddRange(playerUnitsUI);
+		units.AddRange(opponentUnitsUI);
 
-        SetUpUnits(userUnits, opponentUnits);
-        Battle();
-    }
+		SetUpUnits(userUnits, opponentUnits);
+		StartCoroutine(BattleCoroutine());
+	}
 
-    public void Battle()
-    {
-		SocketConnection.Instance.FakeBattle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (battleReplay) => {
-			foreach(var unit in battleReplay.InitialState.Units) {
+	private IEnumerator BattleCoroutine()
+	{
+		// Start the battle and wait for its completion
+		yield return StartCoroutine(Battle());
+		
+		// Battle completed, handle victory or defeat here
+	}
+
+	private IEnumerator Battle()
+	{
+		// Start the battle and get the replay asynchronously
+		yield return StartCoroutine(FakeBattleCoroutine());
+	}
+
+	private IEnumerator FakeBattleCoroutine()
+	{
+        Protobuf.Messages.BattleReplay battleReplay = null;
+
+		// Fetch battle replay asynchronously
+		yield return StartCoroutine(SocketConnection.Instance.FakeBattle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (replay) => {
+			battleReplay = replay;
+		}));
+
+		// Process the battle replay
+		if (battleReplay != null)
+		{
+			foreach (var unit in battleReplay.InitialState.Units)
+			{
 				Debug.Log($"{unit.CharacterId}, {unit.Health}");
 
 				BattleUnit battleUnit;
-				if(unit.Team == 0) {
-					battleUnit = playerUnits.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
-				} else {
-					battleUnit = opponentUnits.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
+				if (unit.Team == 0)
+				{
+					battleUnit = playerUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
+				}
+				else
+				{
+					battleUnit = opponentUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
 				}
 				battleUnit.MaxHealth = unit.Health;
 				battleUnit.CurrentHealth = unit.Health;
 			}
 
-			StartCoroutine(SetCurrentHealthAfterDelay(playerUnits.Last(), 2f, 10)); // Wait for 2 seconds and then set CurrentHealth to 10
-        });
-    }
+			// Simulate battle steps
+			foreach (var step in battleReplay.Steps)
+			{
+				Debug.Log($"Step: {step.StepNumber}");
+				yield return new WaitForSeconds(1f);
+				// Process each step of the battle here
+				foreach(var action in step.Actions) {
+					// TODO: check which action type is it
+					BattleUnit targetUnit = units.Find(unit => unit.SelectedUnit.id == action.SkillAction.TargetId);
 
-	private IEnumerator SetCurrentHealthAfterDelay(BattleUnit battleUnit, float delay, int newHealth)
-	{
-		yield return new WaitForSeconds(delay);
-
-		battleUnit.CurrentHealth = newHealth;
+					foreach(var statAffected in action.SkillAction.StatsAffected) {
+						if(statAffected.Stat == "Health") {
+							targetUnit.CurrentHealth = targetUnit.CurrentHealth + statAffected.Amount;
+						}
+					}
+				}
+			}
+		}
 	}
 
+    // private void HandleBattleResult(bool result)
+    // {
+    //     if(result) {
+	// 		// Should this be here? refactor after demo?
+	// 		try {
+	// 			SocketConnection.Instance.GetUserAndContinue();
+	// 		} catch (Exception ex) {
+	// 			Debug.LogError(ex.Message);
+	// 		}
+    //         GlobalUserData user = GlobalUserData.Instance;
+    //         user.AddCurrency(LevelProgress.selectedLevelData.rewards);
+    //         user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
+    //         user.AccumulateAFKRewards();
+    //         user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
+    //         user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
+    //         victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
+    //         victorySplash.SetActive(true);
+    //         victorySplash.GetComponent<AudioSource>().Play();
 
-    private void HandleBattleResult(bool result)
-    {
-        if(result) {
-			// Should this be here? refactor after demo?
-			try {
-				SocketConnection.Instance.GetUserAndContinue();
-			} catch (Exception ex) {
-				Debug.LogError(ex.Message);
-			}
-            GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrency(LevelProgress.selectedLevelData.rewards);
-            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
-            user.AccumulateAFKRewards();
-            user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
-            user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
-            victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
-            victorySplash.SetActive(true);
-            victorySplash.GetComponent<AudioSource>().Play();
+    //         GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
 
-            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
+    //         // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+    //         victoryText.GetComponent<Text>().text = "Victory!";
 
-            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
-            victoryText.GetComponent<Text>().text = "Victory!";
-
-			SetUpNextButton();
+	// 		SetUpNextButton();
 			
-			// This should be handled differently
-			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
-			if(CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id)) {
-				CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
-			}
-        } else {
-            defeatSplash.SetActive(true);
-            defeatSplash.GetComponent<AudioSource>().Play();
-        }
-    }
+	// 		// This should be handled differently
+	// 		CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
+	// 		if(CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id)) {
+	// 			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
+	// 		}
+    //     } else {
+    //         defeatSplash.SetActive(true);
+    //         defeatSplash.GetComponent<AudioSource>().Play();
+    //     }
+    // }
 
 	private void SetUpNextButton()
 	{
@@ -119,7 +158,7 @@ public class BattleManager : MonoBehaviour
 
     private void SetUpUserUnits(List<Unit> units, bool isPlayer)
     {
-        BattleUnit[] unitPositions = isPlayer ? playerUnits : opponentUnits;
+        BattleUnit[] unitPositions = isPlayer ? playerUnitsUI : opponentUnitsUI;
 		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
         foreach(Unit unit in units.Where(unit => unit.selected)) {
             BattleUnit unitPosition = unitPositions[unit.slot.Value - 1];

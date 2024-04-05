@@ -242,7 +242,6 @@ option csharp_namespace = "Protobuf.Messages";
   
   message ModifierExpired {
     string skill_id = 1;
-
     string target_id = 2;
     string stat_affected = 3;
     int32 amount = 4;

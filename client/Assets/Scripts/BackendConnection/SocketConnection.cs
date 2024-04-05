@@ -496,9 +496,12 @@ public class SocketConnection : MonoBehaviour {
     }
 
 	#region FakeBattle
-	public void FakeBattle(string userId, string levelId, Action<BattleReplay> onBattleReplayReceived) {
+	public IEnumerator FakeBattle(string userId, string levelId, Action<BattleReplay> onBattleReplayReceived)
+	{
+		// Create a new BattleReplay instance
 		BattleReplay battleReplay = new BattleReplay();
 
+		// Set up initial state
 		battleReplay.InitialState = new State();
 		Protobuf.Messages.BattleUnit playerUnit = new Protobuf.Messages.BattleUnit();
 		playerUnit.UnitId = GlobalUserData.Instance.Units.Last().id;
@@ -515,8 +518,35 @@ public class SocketConnection : MonoBehaviour {
 		opponentUnit.Team = 1;
 		battleReplay.InitialState.Units.Add(opponentUnit);
 
+		// Create steps
+		Protobuf.Messages.Step step;
+		for (int i = 0; i < 6; i++)
+		{
+			step = new Protobuf.Messages.Step();
+			step.StepNumber = i;
+			battleReplay.Steps.Add(step);
+		}
+
+		// Add an action to the final step
+		step = new Protobuf.Messages.Step();
+		step.StepNumber = 7;
+		Protobuf.Messages.Action stepAction = new Protobuf.Messages.Action();
+		Protobuf.Messages.SkillAction skillAction = new Protobuf.Messages.SkillAction();
+		skillAction.CasterId = GlobalUserData.Instance.Units.Last().id;
+		skillAction.TargetId = LevelProgress.selectedLevelData.units.Last().id;
+		skillAction.SkillId = "0";
+		skillAction.SkillActionType = "EffectHit";
+		Protobuf.Messages.StatAffected statAffected = new Protobuf.Messages.StatAffected();
+		statAffected.Stat = "health";
+		statAffected.Amount = -10;
+		skillAction.StatsAffected.Add(statAffected);
+		stepAction.SkillAction = skillAction;
+		step.Actions.Add(stepAction);
+		battleReplay.Steps.Add(step);
+
+		yield return null;
 		onBattleReplayReceived?.Invoke(battleReplay);
-    }
+	}
 	#endregion
 
     public void EquipItem(string userId, string itemId, string unitId, Action<Item> onItemDataReceived) {
