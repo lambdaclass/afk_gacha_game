@@ -35,8 +35,14 @@ public class BattleManager : MonoBehaviour
 
     public void Battle()
     {
-        SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (result) => {
-            HandleBattleResult(result);
+        // SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (result) => {
+        //     HandleBattleResult(result);
+        // });
+
+		SocketConnection.Instance.FakeBattle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (battleReplay) => {
+			foreach(var unit in battleReplay.InitialState.Units) {
+				Debug.Log($"{unit.CharacterId}, {unit.Health}");
+			}
         });
     }
 

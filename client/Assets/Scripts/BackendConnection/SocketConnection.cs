@@ -393,8 +393,6 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-			ws.OnMessage -= currentMessageHandler;
-			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses) {
 				List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignId, cp.CampaignId, cp.LevelId)).ToList();
@@ -496,6 +494,32 @@ public class SocketConnection : MonoBehaviour {
             Debug.LogError(e.Message);
         }
     }
+
+	#region FakeBattle
+	public void FakeBattle(string userId, string levelId, Action<BattleReplay> onBattleReplayReceived) {
+		BattleReplay battleReplay = new BattleReplay();
+
+		battleReplay.InitialState = new State();
+		BattleUnit playerUnit = new BattleUnit();
+		playerUnit.UnitId = GlobalUserData.Instance.Units.First().id;
+		playerUnit.Health = 100;
+		playerUnit.Slot = 1;
+		playerUnit.CharacterId = GlobalUserData.Instance.Units.First().character.name;
+		playerUnit.Team = 0;
+		battleReplay.InitialState.Units.Add(playerUnit);
+		BattleUnit opponentUnit = new BattleUnit();
+		opponentUnit.UnitId = LevelProgress.selectedLevelData.units.First().id;
+		opponentUnit.Health = 50;
+		opponentUnit.Slot = 1;
+		opponentUnit.CharacterId = LevelProgress.selectedLevelData.units.First().character.name;
+		opponentUnit.Team = 1;
+		battleReplay.InitialState.Units.Add(opponentUnit);
+
+		
+
+		onBattleReplayReceived?.Invoke(battleReplay);
+    }
+	#endregion
 
     public void EquipItem(string userId, string itemId, string unitId, Action<Item> onItemDataReceived) {
         EquipItem equipItemRequest = new EquipItem {
