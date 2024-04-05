@@ -166,10 +166,11 @@ option csharp_namespace = "Protobuf.Messages";
   }
 
   message BattleUnit {
-    int32 id = 1;
+    string unit_id = 1;
     int32 health = 2;
     int32 slot = 3;
     string character_id = 4;
+	int32 team = 5;
   }
 
   message Step {
