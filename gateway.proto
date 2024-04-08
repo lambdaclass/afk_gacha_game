@@ -26,7 +26,12 @@ option csharp_namespace = "Protobuf.Messages";
       GetAfkRewards get_afk_rewards = 21;
       ClaimAfkRewards claim_afk_rewards = 22;
       GetUserSuperCampaignProgresses get_user_super_campaign_progresses = 23;
+	  BattleTest battle_test = 24;
     }
+  }
+
+  message BattleTest {
+    string user_id = 1;
   }
 
  message GetUser {
@@ -156,9 +161,26 @@ option csharp_namespace = "Protobuf.Messages";
     }
   }
   
+  // BATTLE REPLAY
+
+  enum SkillActionType {
+    ANIMATION_START = 0;
+    EFFECT_TRIGGER = 1;
+    EFFECT_HIT = 2;
+    EFFECT_MISS = 3;
+  }
+
+  enum Stat {
+    health = 0;
+    energy = 1;
+    damage = 2;
+    defense = 3;
+  }
+
   message BattleReplay {
     State initial_state = 1;
     repeated Step steps = 2;
+    string result = 3;
   }
 
   message State {
@@ -166,11 +188,11 @@ option csharp_namespace = "Protobuf.Messages";
   }
 
   message BattleUnit {
-    string unit_id = 1;
+    string id = 1;
     int32 health = 2;
     int32 slot = 3;
     string character_id = 4;
-	int32 team = 5;
+    int32 team = 5;
   }
 
   message Step {
@@ -189,62 +211,36 @@ option csharp_namespace = "Protobuf.Messages";
     }
   }
 
-  // Sample step when Muflus hits:
-  // Action -> AttackAction ->
-  // {
-  // caster_id = muflus_id
-  // target_id = uma_id
-  // skill_cast_id = ultimate_muflus_id
-  // action_type =  EffectHit
-  // }
-  // Action -> TagReceived ->
-  // {
-  //  target_id = uma_id
-  //  tag_name = "ControlEffect.Stun"
-  // }
-  //
-  //
+  message StatAffected {
+    Stat stat = 1;
+    float amount = 2;
+  }
 
   message SkillAction {
     string caster_id = 1;
-    string target_id = 2;
+    repeated string target_ids = 2;
     string skill_id = 3;
-    string skill_action_type = 4; // one of AnimationStart, EffectStart, EffectHit
+    SkillActionType skill_action_type = 4;
+    // Stat should only be "health" or "energy" when in SkillAction
     repeated StatAffected stats_affected = 5;
-  }
-
-  message StatAffected {
-    string stat = 1; // one of health, energy
-    int32 amount = 2;
   }
 
   message ModifierReceived {
     string skill_id = 1;
-    // EmpoweringSong
     string target_id = 2;
-    // MartiCharacter
-    string stat_affected = 3;
-    // Damage
-    int32 amount = 4;
-    // 20
+    StatAffected stat_affected = 3;
   }
-  // EmpoweringSong.Target.MusicalNotes
-  
+
   message TagReceived {
     string skill_id = 1;
-    // MuflusUltimateSkill
     string target_id = 2;
-    // MartiCharacter
     string tag_name = 3;
-    // Stun
   }
-  // aplicar {MuflusUltimateSkill.Target}.{Stun} al {target_id}
-  
+
   message ModifierExpired {
     string skill_id = 1;
     string target_id = 2;
-    string stat_affected = 3;
-    int32 amount = 4;
+    StatAffected stat_affected = 3;
   }
 
   message TagExpired {

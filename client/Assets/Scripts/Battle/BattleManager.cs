@@ -58,22 +58,32 @@ public class BattleManager : MonoBehaviour
 			battleReplay = replay;
 		}));
 
+		yield return new WaitUntil(() => battleReplay != null);
 		// Process the battle replay
 		if (battleReplay != null)
 		{
+			int playerUnitsIndex = 0;
+			int opponentUnitsIndex = 0;
 			foreach (var unit in battleReplay.InitialState.Units)
+			// for(int i = 0; i < battleReplay.InitialState.Units.Count; i++)
 			{
-				Debug.Log($"{unit.CharacterId}, {unit.Health}");
+				// var unit = battleReplay.InitialState.Units[i];
+				Debug.Log($"{unit.Id}, {unit.Health}, team: {unit.Team}");
 
 				BattleUnit battleUnit;
 				if (unit.Team == 0)
 				{
-					battleUnit = playerUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
+					// battleUnit = playerUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.Id);
+					battleUnit = playerUnitsUI[playerUnitsIndex];
+					playerUnitsIndex++;
 				}
 				else
 				{
-					battleUnit = opponentUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.UnitId);
+					// battleUnit = opponentUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.Id);
+					battleUnit = opponentUnitsUI[opponentUnitsIndex];
+					opponentUnitsIndex++;
 				}
+				battleUnit.gameObject.SetActive(true);
 				battleUnit.MaxHealth = unit.Health;
 				battleUnit.CurrentHealth = unit.Health;
 			}
@@ -86,11 +96,11 @@ public class BattleManager : MonoBehaviour
 				// Process each step of the battle here
 				foreach(var action in step.Actions) {
 					// TODO: check which action type is it
-					BattleUnit targetUnit = units.Find(unit => unit.SelectedUnit.id == action.SkillAction.TargetId);
+					BattleUnit targetUnit = units.Find(unit => unit.SelectedUnit.id == action.SkillAction.TargetIds.First());
 
 					foreach(var statAffected in action.SkillAction.StatsAffected) {
-						if(statAffected.Stat == "Health") {
-							targetUnit.CurrentHealth = targetUnit.CurrentHealth + statAffected.Amount;
+						if(statAffected.Stat == Protobuf.Messages.Stat.Health) {
+							targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
 						}
 					}
 				}
