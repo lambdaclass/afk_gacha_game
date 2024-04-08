@@ -4,6 +4,9 @@ using UnityEngine.UI;
 public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance { get; private set; }
+
+	[SerializeField]
+	AudioSource audioSource;
     
     private void Awake()
     {
@@ -17,4 +20,11 @@ public class MusicManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+	public void Play(AudioClip audioClip) {
+		if(audioSource.clip != audioClip) {
+			audioSource.clip = audioClip;
+			audioSource.Play();
+		}
+	}
 }
