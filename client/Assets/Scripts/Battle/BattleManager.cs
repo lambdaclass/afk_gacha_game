@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,14 +19,15 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-    public static LevelData selectedLevelData;
+	[SerializeField]
+	LevelManager levelManager;
 
     void Start()
     {
 		victorySplash.SetActive(false);
 		defeatSplash.SetActive(false);
         List<Unit> userUnits = GlobalUserData.Instance.Units;
-        List<Unit> opponentUnits = selectedLevelData.units;
+        List<Unit> opponentUnits = LevelProgress.selectedLevelData.units;
 
         SetUpUnits(userUnits, opponentUnits);
         Battle();
@@ -33,7 +35,7 @@ public class BattleManager : MonoBehaviour
 
     public void Battle()
     {
-        SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, selectedLevelData.id, (result) => {
+        SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (result) => {
             HandleBattleResult(result);
         });
     }
@@ -48,35 +50,47 @@ public class BattleManager : MonoBehaviour
 				Debug.LogError(ex.Message);
 			}
             GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrency(selectedLevelData.rewards);
-            user.AddExperience(selectedLevelData.experienceReward);
+            user.AddCurrency(LevelProgress.selectedLevelData.rewards);
+            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
             user.AccumulateAFKRewards();
-            user.User.afkMaxCurrencyReward = selectedLevelData.afkCurrencyRate;
-            user.User.afkMaxExperienceReward = selectedLevelData.afkExperienceRate;
+            user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
+            user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
 
-            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
 
-            // if (selectedLevelData.campaignToComplete == "") {
-            //     nextButton.GetComponentInChildren<Text>().text = "NEXT STAGE";
-            //     victoryText.GetComponent<Text>().text = "Victory!";
-            // } else {
-            //     // We assume this level's campaign is the one that was completed
-            //     victoryText.GetComponent<Text>().text = "Campaign beaten!";
-            //     if (selectedLevelData.campaignToUnlock == "") {
-            //         // No "next campaign". Just go back to CampaignsMap.
-            //         nextButton.SetActive(false);
-            //     } else {
-            //         nextButton.GetComponentInChildren<Text>().text = "BACK TO CAMPAIGNS";
-            //     }
-            // }
+            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+            victoryText.GetComponent<Text>().text = "Victory!";
+
+			SetUpNextButton();
+			
+			// This should be handled differently
+			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
+			if(CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id)) {
+				CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
+			}
         } else {
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
         }
     }
+
+	private void SetUpNextButton()
+	{
+		GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
+		if(LevelProgress.selectedLevelData.campaignId != LevelProgress.nextLevelData.campaignId) {
+			nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT CAMPAIGN";
+		} else {
+			nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT LEVEL";
+			nextButton.GetComponent<Button>().onClick.AddListener(() => {
+				LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
+				LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
+				gameObject.GetComponent<LevelManager>().ChangeToScene("Lineup");
+			});
+		}
+	}
 
     private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
     {
@@ -97,24 +111,12 @@ public class BattleManager : MonoBehaviour
     private List<UIReward> CreateRewardsList() {
         List<UIReward> rewards = new List<UIReward>();
 
-        if (selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(selectedLevelData.experienceReward)); }
+        if (LevelProgress.selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(LevelProgress.selectedLevelData.experienceReward)); }
 
-        foreach (var currencyReward in selectedLevelData.rewards) {
+        foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
             rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
         }
 
         return rewards;
-    }
-
-    public void Next() {
-        gameObject.GetComponent<LevelManager>().ChangeToScene("CampaignsMap");
-
-        // If nextLevel is null this won't do anything
-        // if (selectedLevelData.campaignToUnlock != "") {
-        //     gameObject.GetComponent<SceneManager>().ChangeToScene("CampaignsMap");
-        // } else {
-        //     CampaignManager.automaticLoadLevelName = selectedLevelData.nextLevel.name;
-        //     gameObject.GetComponent<SceneManager>().ChangeToScene("Campaign");
-        // }
     }
 }
