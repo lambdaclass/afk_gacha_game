@@ -273,7 +273,7 @@ public class SocketConnection : MonoBehaviour {
 		if(String.IsNullOrEmpty(userId)) {
 			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
 			CreateUser("testUser", (user) => {
-				GetCampaignsProgress(userId, (progresses) => {
+				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
 				PlayerPrefs.SetString("userId", user.id);
@@ -284,7 +284,7 @@ public class SocketConnection : MonoBehaviour {
 		else {
 			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
 			GetUser(userId, (user) => {
-				GetCampaignsProgress(userId, (progresses) => {
+				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
 				PlayerPrefs.SetString("userId", user.id);
@@ -343,9 +343,7 @@ public class SocketConnection : MonoBehaviour {
                     case "not_found":
                         Debug.Log("User not found, trying to create new user");
                         CreateUser("testUser",  (user) => {
-                            PlayerPrefs.SetString("userId", user.id);
-                            GlobalUserData.Instance.User = user;
-                            Debug.Log("User created correctly");
+                            onGetUserDataReceived?.Invoke(user);
                         });
                         break;
                     case "username_taken":
@@ -375,7 +373,7 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-	public void GetCampaignsProgress(string userId, Action<List<(string, string, string)>> onCampaignProgressReceived)
+	public void GetCampaignProgresses(string userId, Action<List<(string, string, string)>> onCampaignProgressReceived)
     {
         GetUserSuperCampaignProgresses getCampaignsProgressRequest = new GetUserSuperCampaignProgresses{
             UserId = userId
