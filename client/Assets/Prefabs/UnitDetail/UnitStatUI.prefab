@@ -806,7 +806,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5535208499762096312}
+  - component: {fileID: 3723517280848721022}
   - component: {fileID: 1884190164837427355}
   - component: {fileID: 4189511173692875753}
   m_Layer: 5
@@ -842,7 +842,7 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3347057754249003545}
+  m_GameObject: {fileID: 3133495120923410303}
   m_CullTransparentMesh: 1
 --- !u!114 &4189511173692875753
 MonoBehaviour:
