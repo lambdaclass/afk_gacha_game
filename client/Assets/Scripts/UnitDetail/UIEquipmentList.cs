@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class UIEquipmentList : MonoBehaviour
@@ -18,8 +19,20 @@ public class UIEquipmentList : MonoBehaviour
     [SerializeField]
     ChangeItemUnitPopup changeItemUnitPopup;
 
+	[SerializeField]
+	TextMeshProUGUI gold;
+	
+	[SerializeField]
+	TextMeshProUGUI scrolls;
+
+	GlobalUserData user;
+
     void OnEnable()
     {
+		user = GlobalUserData.Instance;
+		user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
+		UpdateCurrencyValues();
+
         foreach (Transform child in UIItemsContainer.transform) {
             Destroy(child.gameObject);
         }
@@ -29,5 +42,11 @@ public class UIEquipmentList : MonoBehaviour
             UIEquipmentListElement ItemUI = ItemGO.GetComponent<UIEquipmentListElement>();
             ItemUI.SetItemInfo(unitDetail, item, changeItemUnitPopup);
         }
+    }
+
+	void UpdateCurrencyValues()
+    {
+        gold.text = user.GetCurrency(Currency.Gold).ToString();
+		scrolls.text = user.GetCurrency(Currency.SummonScrolls).ToString();
     }
 }
