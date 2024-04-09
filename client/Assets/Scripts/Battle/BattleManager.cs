@@ -20,7 +20,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     BattleUnit[] opponentUnitsUI;
 
-	List<BattleUnit> units = new List<BattleUnit>();
+	// this has to be changed when the real battle is played out and not the mock, since the units in the backend message will match with the ones already in the client
+	Dictionary<string, BattleUnit> units = new Dictionary<string, BattleUnit>();
 
     void Start()
 	{
@@ -28,8 +29,6 @@ public class BattleManager : MonoBehaviour
 		defeatSplash.SetActive(false);
 		List<Unit> userUnits = GlobalUserData.Instance.Units;
 		List<Unit> opponentUnits = LevelProgress.selectedLevelData.units;
-		units.AddRange(playerUnitsUI);
-		units.AddRange(opponentUnitsUI);
 
 		SetUpUnits(userUnits, opponentUnits);
 		StartCoroutine(BattleCoroutine());
@@ -71,7 +70,7 @@ public class BattleManager : MonoBehaviour
 				Debug.Log($"{unit.Id}, {unit.Health}, team: {unit.Team}");
 
 				BattleUnit battleUnit;
-				if (unit.Team == 0)
+				if (unit.Team == 1)
 				{
 					// battleUnit = playerUnitsUI.First(inGameUnit => inGameUnit.SelectedUnit.id == unit.Id);
 					battleUnit = playerUnitsUI[playerUnitsIndex];
@@ -83,6 +82,7 @@ public class BattleManager : MonoBehaviour
 					battleUnit = opponentUnitsUI[opponentUnitsIndex];
 					opponentUnitsIndex++;
 				}
+				units.Add(unit.Id, battleUnit);
 				battleUnit.gameObject.SetActive(true);
 				battleUnit.MaxHealth = unit.Health;
 				battleUnit.CurrentHealth = unit.Health;
@@ -92,16 +92,54 @@ public class BattleManager : MonoBehaviour
 			foreach (var step in battleReplay.Steps)
 			{
 				Debug.Log($"Step: {step.StepNumber}");
-				yield return new WaitForSeconds(1f);
+				yield return new WaitForSeconds(.4f);
 				// Process each step of the battle here
 				foreach(var action in step.Actions) {
 					// TODO: check which action type is it
-					BattleUnit targetUnit = units.Find(unit => unit.SelectedUnit.id == action.SkillAction.TargetIds.First());
-
-					foreach(var statAffected in action.SkillAction.StatsAffected) {
-						if(statAffected.Stat == Protobuf.Messages.Stat.Health) {
-							targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
-						}
+					switch (action.ActionTypeCase) {
+						case Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction:
+							switch (action.SkillAction.SkillActionType) {
+								case Protobuf.Messages.SkillActionType.AnimationStart:
+									Debug.Log($"{action.SkillAction.CasterId} started animation to cast {action.SkillAction.SkillId}");
+									break;
+								case Protobuf.Messages.SkillActionType.EffectTrigger:
+									Debug.Log($"{action.SkillAction.CasterId} casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
+									break;
+								case Protobuf.Messages.SkillActionType.EffectHit:
+									Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
+									BattleUnit[] targetUnits = units.Where(unit => action.SkillAction.TargetIds.Contains(unit.Key)).Select(unit => unit.Value).ToArray();
+									Debug.Log($"number of targets: {targetUnits.Length}");
+									foreach(BattleUnit targetUnit in targetUnits) {
+										Debug.Log($"number of stats affected: {action.SkillAction.StatsAffected.Count}");
+										foreach(var statAffected in action.SkillAction.StatsAffected) {
+											switch(statAffected.Stat) {
+												case Protobuf.Messages.Stat.Health:
+													targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
+													Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
+													break;
+												case Protobuf.Messages.Stat.Energy:
+													Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's energy");
+													break;
+												case Protobuf.Messages.Stat.Damage:
+													Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's damage");
+													break;
+												case Protobuf.Messages.Stat.Defense:
+													Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage it it's defense");
+													break;
+												default:
+													Debug.Log(statAffected.Stat);
+													break;
+											}
+										}
+									}
+									break;
+								case Protobuf.Messages.SkillActionType.EffectMiss:
+									Debug.Log($"{action.SkillAction.SkillId} missed {string.Join(", ", action.SkillAction.TargetIds)}");
+									break;
+							}
+							break;
+						default:
+							break;
 					}
 				}
 			}
