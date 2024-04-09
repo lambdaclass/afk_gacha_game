@@ -12,6 +12,9 @@ public class BattleUnit : MonoBehaviour
 	[SerializeField]
 	UIProgressBar healthBar;
 
+	[SerializeField]
+	GameObject indicatorPrefab;
+
     private Unit selectedUnit;
 	public Unit SelectedUnit
     {
@@ -41,12 +44,15 @@ public class BattleUnit : MonoBehaviour
         {
             if (value != currentHealth)
             {
+				if(currentHealth > 0) {
+					GameObject indicator = Instantiate(indicatorPrefab, gameObject.transform);
+					indicator.GetComponent<BattleIndicator>().SetText((currentHealth - value).ToString());
+				}
                 currentHealth = value;
                 healthBar.fillAmount = currentHealth / (float)maxHealth;
             }
         }
     }
-
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;

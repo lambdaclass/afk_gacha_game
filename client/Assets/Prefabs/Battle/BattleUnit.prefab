@@ -888,3 +888,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitImage: {fileID: 8328940659209088198}
   healthBar: {fileID: 994135883094543766}
+  indicatorPrefab: {fileID: 8573289930963585773, guid: 5928aa16c7d1040f082d680abccbf5b3, type: 3}

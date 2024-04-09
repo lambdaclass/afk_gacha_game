@@ -138,6 +138,7 @@ public class BattleManager : MonoBehaviour
 		#endregion
 
 		#region End Battle
+			yield return new WaitForSeconds(2f);
 			HandleBattleResult(battleReplay.Result == "team_1");
 		#endregion
 	}
