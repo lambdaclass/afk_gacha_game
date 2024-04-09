@@ -36,15 +36,11 @@ public class BattleManager : MonoBehaviour
 
 	private IEnumerator BattleCoroutine()
 	{
-		// Start the battle and wait for its completion
 		yield return StartCoroutine(Battle());
-		
-		// Battle completed, handle victory or defeat here
 	}
 
 	private IEnumerator Battle()
 	{
-		// Start the battle and get the replay asynchronously
 		yield return StartCoroutine(FakeBattleCoroutine());
 	}
 
@@ -52,15 +48,13 @@ public class BattleManager : MonoBehaviour
 	{
         Protobuf.Messages.BattleReplay battleReplay = null;
 
-		// Fetch battle replay asynchronously
 		yield return StartCoroutine(SocketConnection.Instance.FakeBattle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (replay) => {
 			battleReplay = replay;
 		}));
 
 		yield return new WaitUntil(() => battleReplay != null);
-		// Process the battle replay
-		if (battleReplay != null)
-		{
+
+		#region Set Up Initial State
 			int playerUnitsIndex = 0;
 			int opponentUnitsIndex = 0;
 			foreach (var unit in battleReplay.InitialState.Units)
@@ -87,15 +81,15 @@ public class BattleManager : MonoBehaviour
 				battleUnit.MaxHealth = unit.Health;
 				battleUnit.CurrentHealth = unit.Health;
 			}
+		#endregion
 
-			// Simulate battle steps
+		#region Play Out Battle
 			foreach (var step in battleReplay.Steps)
 			{
 				Debug.Log($"Step: {step.StepNumber}");
-				yield return new WaitForSeconds(.4f);
-				// Process each step of the battle here
+				yield return new WaitForSeconds(.3f);
+
 				foreach(var action in step.Actions) {
-					// TODO: check which action type is it
 					switch (action.ActionTypeCase) {
 						case Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction:
 							switch (action.SkillAction.SkillActionType) {
@@ -108,9 +102,7 @@ public class BattleManager : MonoBehaviour
 								case Protobuf.Messages.SkillActionType.EffectHit:
 									Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
 									BattleUnit[] targetUnits = units.Where(unit => action.SkillAction.TargetIds.Contains(unit.Key)).Select(unit => unit.Value).ToArray();
-									Debug.Log($"number of targets: {targetUnits.Length}");
 									foreach(BattleUnit targetUnit in targetUnits) {
-										Debug.Log($"number of stats affected: {action.SkillAction.StatsAffected.Count}");
 										foreach(var statAffected in action.SkillAction.StatsAffected) {
 											switch(statAffected.Stat) {
 												case Protobuf.Messages.Stat.Health:
@@ -143,45 +135,49 @@ public class BattleManager : MonoBehaviour
 					}
 				}
 			}
-		}
+		#endregion
+
+		#region End Battle
+			HandleBattleResult(battleReplay.Result == "team_1");
+		#endregion
 	}
 
-    // private void HandleBattleResult(bool result)
-    // {
-    //     if(result) {
-	// 		// Should this be here? refactor after demo?
-	// 		try {
-	// 			SocketConnection.Instance.GetUserAndContinue();
-	// 		} catch (Exception ex) {
-	// 			Debug.LogError(ex.Message);
-	// 		}
-    //         GlobalUserData user = GlobalUserData.Instance;
-    //         user.AddCurrency(LevelProgress.selectedLevelData.rewards);
-    //         user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
-    //         user.AccumulateAFKRewards();
-    //         user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
-    //         user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
-    //         victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
-    //         victorySplash.SetActive(true);
-    //         victorySplash.GetComponent<AudioSource>().Play();
+    private void HandleBattleResult(bool result)
+    {
+        if(result) {
+			// Should this be here? refactor after demo?
+			try {
+				SocketConnection.Instance.GetUserAndContinue();
+			} catch (Exception ex) {
+				Debug.LogError(ex.Message);
+			}
+            GlobalUserData user = GlobalUserData.Instance;
+            user.AddCurrency(LevelProgress.selectedLevelData.rewards);
+            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
+            user.AccumulateAFKRewards();
+            user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
+            user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
+            victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
+            victorySplash.SetActive(true);
+            victorySplash.GetComponent<AudioSource>().Play();
 
-    //         GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
+            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
 
-    //         // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
-    //         victoryText.GetComponent<Text>().text = "Victory!";
+            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+            victoryText.GetComponent<Text>().text = "Victory!";
 
-	// 		SetUpNextButton();
+			SetUpNextButton();
 			
-	// 		// This should be handled differently
-	// 		CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
-	// 		if(CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id)) {
-	// 			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
-	// 		}
-    //     } else {
-    //         defeatSplash.SetActive(true);
-    //         defeatSplash.GetComponent<AudioSource>().Play();
-    //     }
-    // }
+			// This should be handled differently
+			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
+			if(CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id)) {
+				CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
+			}
+        } else {
+            defeatSplash.SetActive(true);
+            defeatSplash.GetComponent<AudioSource>().Play();
+        }
+    }
 
 	private void SetUpNextButton()
 	{
