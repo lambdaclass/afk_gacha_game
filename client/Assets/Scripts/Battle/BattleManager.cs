@@ -23,6 +23,8 @@ public class BattleManager : MonoBehaviour
 	// this has to be changed when the real battle is played out and not the mock, since the units in the backend message will match with the ones already in the client
 	Dictionary<string, BattleUnit> units = new Dictionary<string, BattleUnit>();
 
+	public static bool IsSimulationBattle = false;
+
     void Start()
 	{
 		victorySplash.SetActive(false);
@@ -31,17 +33,19 @@ public class BattleManager : MonoBehaviour
 		List<Unit> opponentUnits = LevelProgress.selectedLevelData.units;
 
 		SetUpUnits(userUnits, opponentUnits);
-		StartCoroutine(BattleCoroutine());
+
+		if(IsSimulationBattle) {
+			StartCoroutine(FakeBattleCoroutine());
+		}
+		else {
+			Battle();
+		}
 	}
 
-	private IEnumerator BattleCoroutine()
-	{
-		yield return StartCoroutine(Battle());
-	}
-
-	private IEnumerator Battle()
-	{
-		yield return StartCoroutine(FakeBattleCoroutine());
+	private void Battle() {
+		SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (result) => {
+            HandleBattleResult(result);
+        });
 	}
 
 	private IEnumerator FakeBattleCoroutine()
@@ -140,6 +144,7 @@ public class BattleManager : MonoBehaviour
 		#region End Battle
 			yield return new WaitForSeconds(2f);
 			HandleBattleResult(battleReplay.Result == "team_1");
+			IsSimulationBattle = false;
 		#endregion
 	}
 
