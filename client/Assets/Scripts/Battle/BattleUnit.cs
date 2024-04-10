@@ -15,6 +15,9 @@ public class BattleUnit : MonoBehaviour
 	[SerializeField]
 	GameObject indicatorPrefab;
 
+    [SerializeField]
+    AudioSource AttackSFX;
+
     private Unit selectedUnit;
 	public Unit SelectedUnit
     {
@@ -63,5 +66,9 @@ public class BattleUnit : MonoBehaviour
 
     public Unit GetSelectedUnit() {
         return selectedUnit;
+    } 
+
+    public void AttackTrigger() { 
+        AttackSFX.Play();
     }
 }

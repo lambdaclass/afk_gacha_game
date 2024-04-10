@@ -87,7 +87,7 @@ public class BattleManager : MonoBehaviour
 			foreach (var step in battleReplay.Steps)
 			{
 				Debug.Log($"Step: {step.StepNumber}");
-				yield return new WaitForSeconds(.3f);
+				yield return new WaitForSeconds(1f);
 
 				foreach(var action in step.Actions) {
 					switch (action.ActionTypeCase) {
@@ -98,6 +98,7 @@ public class BattleManager : MonoBehaviour
 									break;
 								case Protobuf.Messages.SkillActionType.EffectTrigger:
 									Debug.Log($"{action.SkillAction.CasterId} casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
+									units[action.SkillAction.CasterId].AttackTrigger();
 									break;
 								case Protobuf.Messages.SkillActionType.EffectHit:
 									Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
