@@ -35,5 +35,5 @@ public class User
     public Dictionary<Currency, int> afkMaxCurrencyReward = new Dictionary<Currency, int>();
     public int afkMaxExperienceReward = 0;
 
-	public List<(string superCampaignId, string campaignId, string levelId)> campaignsProgresses = new List<(string, string, string)>();
+	public List<(string campaignId, string levelId)> campaignsProgress = new List<(string, string)>();
 }
