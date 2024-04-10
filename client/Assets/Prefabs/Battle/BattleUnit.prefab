@@ -240,7 +240,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7414895120705640518}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -766,6 +766,7 @@ GameObject:
   - component: {fileID: 8610322166662081393}
   - component: {fileID: 5138709111419423816}
   - component: {fileID: 8636076441503725533}
+  - component: {fileID: 5847183632047591615}
   m_Layer: 5
   m_Name: BattleUnit
   m_TagString: Untagged
@@ -889,3 +890,16 @@ MonoBehaviour:
   unitImage: {fileID: 8328940659209088198}
   healthBar: {fileID: 994135883094543766}
   indicatorPrefab: {fileID: 8573289930963585773, guid: 5928aa16c7d1040f082d680abccbf5b3, type: 3}
+  canvasGroup: {fileID: 5847183632047591615}
+--- !u!225 &5847183632047591615
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610322166662081404}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

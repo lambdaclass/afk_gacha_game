@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DuloGames.UI;
+using DG.Tweening;
 
 public class BattleUnit : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class BattleUnit : MonoBehaviour
 
 	[SerializeField]
 	GameObject indicatorPrefab;
+
+	[SerializeField]
+	CanvasGroup canvasGroup;
 
     private Unit selectedUnit;
 	public Unit SelectedUnit
@@ -60,4 +64,13 @@ public class BattleUnit : MonoBehaviour
         unitImage.sprite = selectedUnit.character.inGameSprite;
         unitImage.gameObject.SetActive(true);
     }
+
+	public void DeathFeedback()
+	{
+		Sequence sequence = DOTween.Sequence();
+		sequence.Append(unitImage.transform.DORotate(new Vector3(0, 180, 90), .5f));
+		sequence.Append(unitImage.DOFade(0, 2f));
+		sequence.Join(canvasGroup.DOFade(0, 2f));
+		sequence.Play();
+	}
 }

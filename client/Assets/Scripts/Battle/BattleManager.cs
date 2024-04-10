@@ -130,6 +130,9 @@ public class BattleManager : MonoBehaviour
 									break;
 							}
 							break;
+						case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
+							units[action.Death.UnitId].DeathFeedback();
+							break;
 						default:
 							break;
 					}
