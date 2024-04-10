@@ -60,8 +60,4 @@ public class BattleUnit : MonoBehaviour
         unitImage.sprite = selectedUnit.character.inGameSprite;
         unitImage.gameObject.SetActive(true);
     }
-
-    public Unit GetSelectedUnit() {
-        return selectedUnit;
-    }
 }
