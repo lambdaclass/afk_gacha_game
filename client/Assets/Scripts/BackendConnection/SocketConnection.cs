@@ -163,8 +163,7 @@ public class SocketConnection : MonoBehaviour {
 			items = items,
 			currencies = currencies,
 			level = (int)user.Level,
-			experience = (int)user.Experience,
-			campaignsProgress = user.CampaignProgresses.Select(campaignProgress => (campaignProgress.CampaignId, campaignProgress.LevelId)).ToList()
+			experience = (int)user.Experience
 		};
 	}
 	
@@ -217,7 +216,7 @@ public class SocketConnection : MonoBehaviour {
 
 	private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
     {
-		List<(string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgress;
+		List<(string superCampaignId, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgresses;
         List<Campaign> campaigns = new List<Campaign>();
 		LevelProgress.Status campaignStatus = LevelProgress.Status.Completed;
 
@@ -274,6 +273,9 @@ public class SocketConnection : MonoBehaviour {
 		if(String.IsNullOrEmpty(userId)) {
 			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
 			CreateUser("testUser", (user) => {
+				GetCampaignProgresses(user.id, (progresses) => {
+					user.campaignsProgresses = progresses;
+				});
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
 				Debug.Log("User created correctly");
@@ -282,6 +284,9 @@ public class SocketConnection : MonoBehaviour {
 		else {
 			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
 			GetUser(userId, (user) => {
+				GetCampaignProgresses(user.id, (progresses) => {
+					user.campaignsProgresses = progresses;
+				});
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
 			});
@@ -338,9 +343,7 @@ public class SocketConnection : MonoBehaviour {
                     case "not_found":
                         Debug.Log("User not found, trying to create new user");
                         CreateUser("testUser",  (user) => {
-                            PlayerPrefs.SetString("userId", user.id);
-                            GlobalUserData.Instance.User = user;
-                            Debug.Log("User created correctly");
+                            onGetUserDataReceived?.Invoke(user);
                         });
                         break;
                     case "username_taken":
@@ -368,6 +371,38 @@ public class SocketConnection : MonoBehaviour {
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
+    }
+
+	public void GetCampaignProgresses(string userId, Action<List<(string, string, string)>> onCampaignProgressReceived)
+    {
+        GetUserSuperCampaignProgresses getCampaignsProgressRequest = new GetUserSuperCampaignProgresses{
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest{
+            GetUserSuperCampaignProgresses = getCampaignsProgressRequest
+        };
+        currentMessageHandler = (data) => AwaitCampaignsProgressResponse(data, onCampaignProgressReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+	private void AwaitCampaignsProgressResponse(byte[] data, Action<List<(string, string, string)>> onCampaignProgressReceived)
+    {
+        try
+        {
+			ws.OnMessage -= currentMessageHandler;
+			ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses) {
+				List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignId, cp.CampaignId, cp.LevelId)).ToList();
+                onCampaignProgressReceived?.Invoke(campaignProgresses);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
     }
 
     public void GetCampaigns(string userId, Action<List<Campaign>> onCampaignDataReceived)
