@@ -87,7 +87,7 @@ public class BattleManager : MonoBehaviour
 			foreach (var step in battleReplay.Steps)
 			{
 				Debug.Log($"Step: {step.StepNumber}");
-				yield return new WaitForSeconds(1f);
+				yield return new WaitForSeconds(.3f);
 
 				foreach(var action in step.Actions) {
 					switch (action.ActionTypeCase) {
