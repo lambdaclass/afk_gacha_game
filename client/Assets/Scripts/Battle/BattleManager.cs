@@ -33,12 +33,6 @@ public class BattleManager : MonoBehaviour
 		StartCoroutine(Battle());
 	}
 
-	// private void Battle() {
-	// 	SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (result) => {
-    //         HandleBattleResult(result);
-    //     });
-	// }
-
 	private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
     {
         SetUpUserUnits(userUnits, true);
