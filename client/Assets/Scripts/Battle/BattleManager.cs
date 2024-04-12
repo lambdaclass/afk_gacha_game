@@ -102,6 +102,7 @@ public class BattleManager : MonoBehaviour
 									break;
 								case Protobuf.Messages.SkillActionType.EffectTrigger:
 									Debug.Log($"{action.SkillAction.CasterId} casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
+
 									break;
 								case Protobuf.Messages.SkillActionType.EffectHit:
 									Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
@@ -111,6 +112,7 @@ public class BattleManager : MonoBehaviour
 											switch(statAffected.Stat) {
 												case Protobuf.Messages.Stat.Health:
 													targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
+													units[action.SkillAction.CasterId].AttackFeedback(targetUnit.transform.position);
 													Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
 													break;
 												case Protobuf.Messages.Stat.Energy:
