@@ -24,6 +24,7 @@ public class CampaignLevelIndicator : MonoBehaviour
                 break;
             case LevelProgress.Status.Unlocked:
 				lockObject.SetActive(false);
+				GetComponent<Button>().enabled = true;
                 break;
             case LevelProgress.Status.Completed:
                 completedCrossObject.SetActive(true);
