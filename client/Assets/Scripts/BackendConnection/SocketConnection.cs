@@ -461,21 +461,7 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-    public void Battle(string userId, string levelId, Action<bool> onBattleResultReceived) {
-        FightLevel fightLevelRequest = new FightLevel {
-            UserId = userId,
-            LevelId = levelId
-        };
-        WebSocketRequest request = new WebSocketRequest {
-            FightLevel = fightLevelRequest
-        };
-		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
-        ws.OnMessage += currentMessageHandler;
-        ws.OnMessage -= OnWebSocketMessage;
-        SendWebSocketMessage(request);
-    }
-
-    private void AwaitBattleResponse(byte[] data, Action<bool> onBattleResultReceived)
+	private void AwaitBattleResponse(byte[] data, Action<BattleResult> onBattleResultReceived)
     {
         try
         {
@@ -483,8 +469,7 @@ public class SocketConnection : MonoBehaviour {
             ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
-                bool battleResult = webSocketResponse.BattleResult.Result == "win";
-                onBattleResultReceived?.Invoke(battleResult);
+                onBattleResultReceived?.Invoke(webSocketResponse.BattleResult);
             }
         }
         catch (Exception e)
@@ -493,88 +478,21 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
-	#region FakeBattle
-	private void AwaitFakeBattleResponse(byte[] data, Action<BattleReplay> onBattleReplayReceived)
-    {
-        try
-        {
-			ws.OnMessage -= currentMessageHandler;
-            ws.OnMessage += OnWebSocketMessage;
-            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleReplay) {
-                onBattleReplayReceived?.Invoke(webSocketResponse.BattleReplay);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
-    }
-
-	public IEnumerator FakeBattle(string userId, string levelId, Action<BattleReplay> onBattleReplayReceived)
+	public IEnumerator Battle(string userId, string levelId, Action<BattleResult> onBattleResultReceived)
 	{
-		BattleTest battleTestRequest = new BattleTest {
-			UserId = GlobalUserData.Instance.User.id
+		FightLevel fightLevelRequest = new FightLevel {
+			UserId = userId,
+			LevelId = levelId
 		};
 		WebSocketRequest request = new WebSocketRequest {
-			BattleTest = battleTestRequest
+			FightLevel = fightLevelRequest
 		};
-		currentMessageHandler = (data) => AwaitFakeBattleResponse(data, onBattleReplayReceived);
+		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
 		yield return null;
-
-		// // Create a new BattleReplay instance
-		// BattleReplay battleReplay = new BattleReplay();
-
-		// // Set up initial state
-		// battleReplay.InitialState = new State();
-		// Protobuf.Messages.BattleUnit playerUnit = new Protobuf.Messages.BattleUnit();
-		// playerUnit.Id = GlobalUserData.Instance.Units.Last().id;
-		// playerUnit.Health = 100;
-		// playerUnit.Slot = 1;
-		// playerUnit.CharacterId = GlobalUserData.Instance.Units.Last().character.name;
-		// playerUnit.Team = 0;
-		// battleReplay.InitialState.Units.Add(playerUnit);
-		// Protobuf.Messages.BattleUnit opponentUnit = new Protobuf.Messages.BattleUnit();
-		// opponentUnit.Id = LevelProgress.selectedLevelData.units.Last().id;
-		// opponentUnit.Health = 50;
-		// opponentUnit.Slot = 1;
-		// opponentUnit.CharacterId = LevelProgress.selectedLevelData.units.Last().character.name;
-		// opponentUnit.Team = 1;
-		// battleReplay.InitialState.Units.Add(opponentUnit);
-
-		// // Create steps
-		// Protobuf.Messages.Step step;
-		// for (int i = 0; i < 6; i++)
-		// {
-		// 	step = new Protobuf.Messages.Step();
-		// 	step.StepNumber = i;
-		// 	battleReplay.Steps.Add(step);
-		// }
-
-		// // Add an action to the final step
-		// step = new Protobuf.Messages.Step();
-		// step.StepNumber = 7;
-		// Protobuf.Messages.Action stepAction = new Protobuf.Messages.Action();
-		// Protobuf.Messages.SkillAction skillAction = new Protobuf.Messages.SkillAction();
-		// skillAction.CasterId = GlobalUserData.Instance.Units.Last().id;
-		// skillAction.TargetId = LevelProgress.selectedLevelData.units.Last().id;
-		// skillAction.SkillId = "0";
-		// skillAction.SkillActionType = "EffectHit";
-		// Protobuf.Messages.StatAffected statAffected = new Protobuf.Messages.StatAffected();
-		// statAffected.Stat = "health";
-		// statAffected.Amount = -10;
-		// skillAction.StatsAffected.Add(statAffected);
-		// stepAction.SkillAction = skillAction;
-		// step.Actions.Add(stepAction);
-		// battleReplay.Steps.Add(step);
-
-		// yield return null;
-		// onBattleReplayReceived?.Invoke(battleReplay);
 	}
-	#endregion
 
     public void EquipItem(string userId, string itemId, string unitId, Action<Item> onItemDataReceived) {
         EquipItem equipItemRequest = new EquipItem {

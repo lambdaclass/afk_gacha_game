@@ -98,9 +98,4 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unitItemButton.interactable = false;
         }
     }
-
-	public void GoToMockBattle() {
-		BattleManager.IsSimulationBattle = true;
-		SceneManager.LoadScene("Battle");
-	}
 }

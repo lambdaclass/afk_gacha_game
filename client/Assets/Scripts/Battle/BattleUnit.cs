@@ -42,6 +42,7 @@ public class BattleUnit : MonoBehaviour
         get { return currentHealth; }
         set
         {
+			Debug.LogWarning("set current health");
             if (value != currentHealth)
             {
 				if(currentHealth > 0) {
@@ -50,6 +51,7 @@ public class BattleUnit : MonoBehaviour
 				}
                 currentHealth = value;
                 healthBar.fillAmount = currentHealth / (float)maxHealth;
+				// Debug.LogWarning("inside if");
             }
         }
     }
