@@ -391,8 +391,6 @@ public class SocketConnection : MonoBehaviour {
     {
         try
         {
-			ws.OnMessage -= currentMessageHandler;
-			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses) {
 				List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignId, cp.CampaignId, cp.LevelId)).ToList();
@@ -463,21 +461,7 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-    public void Battle(string userId, string levelId, Action<bool> onBattleResultReceived) {
-        FightLevel fightLevelRequest = new FightLevel {
-            UserId = userId,
-            LevelId = levelId
-        };
-        WebSocketRequest request = new WebSocketRequest {
-            FightLevel = fightLevelRequest
-        };
-		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
-        ws.OnMessage += currentMessageHandler;
-        ws.OnMessage -= OnWebSocketMessage;
-        SendWebSocketMessage(request);
-    }
-
-    private void AwaitBattleResponse(byte[] data, Action<bool> onBattleResultReceived)
+	private void AwaitBattleResponse(byte[] data, Action<BattleResult> onBattleResultReceived)
     {
         try
         {
@@ -485,8 +469,7 @@ public class SocketConnection : MonoBehaviour {
             ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
-                bool battleResult = webSocketResponse.BattleResult.Result == "win";
-                onBattleResultReceived?.Invoke(battleResult);
+                onBattleResultReceived?.Invoke(webSocketResponse.BattleResult);
             }
         }
         catch (Exception e)
@@ -494,6 +477,22 @@ public class SocketConnection : MonoBehaviour {
             Debug.LogError(e.Message);
         }
     }
+
+	public IEnumerator Battle(string userId, string levelId, Action<BattleResult> onBattleResultReceived)
+	{
+		FightLevel fightLevelRequest = new FightLevel {
+			UserId = userId,
+			LevelId = levelId
+		};
+		WebSocketRequest request = new WebSocketRequest {
+			FightLevel = fightLevelRequest
+		};
+		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+		yield return null;
+	}
 
     public void EquipItem(string userId, string itemId, string unitId, Action<Item> onItemDataReceived) {
         EquipItem equipItemRequest = new EquipItem {
