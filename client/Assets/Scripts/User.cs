@@ -27,6 +27,7 @@ public class User
 
     public DateTime lastAfkRewardClaim = DateTime.Now;
     public DateTime lastAfkRewardAccum = DateTime.Now;
+    public List<AfkRewardRate> afkRewardRates = new List<AfkRewardRate>();
 
     public Dictionary<Currency, int> accumulatedCurrencyReward = new Dictionary<Currency, int>();
 
