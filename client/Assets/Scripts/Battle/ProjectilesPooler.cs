@@ -11,41 +11,63 @@ public class ProjectilesPooler : MonoBehaviour
 	[SerializeField]
 	GameObject lineRendererPrefab;
 
-    List<(bool isBeingUsed, LineRenderer lineRendererComponent)> lineRenderersList = new List<(bool isBeingUsed, LineRenderer lineRendererComponent)>();
+    List<(string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent)> lineRenderersList = new List<(string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent)>();
+
+	int start, hit, dissapear = 0;
 
 	void Start() {
 		foreach(LineRenderer lineRenderer in initialLineRenderers) {
-			lineRenderersList.Add((false, lineRenderer));
+			lineRenderersList.Add((null, null, lineRenderer));
 		}
 	}
 
-    public void ShootProjectile(Transform startTransform, Transform targetTransform, Color porjectileColor) {
-		int availableIndex = lineRenderersList.FindIndex(l => !l.isBeingUsed);
-        (bool isBeingUsed, LineRenderer lineRendererComponent) lineRenderer;
+	public void StartProjectile(BattleUnit casterUnit, BattleUnit targetUnit, Color porjectileColor) {
+		int availableIndex = lineRenderersList.FindIndex(linerenderer => linerenderer.casterUnitId == null && linerenderer.targetUnitId == null);
+        (string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent) lineRenderer;
 
         if(availableIndex != -1) {
-			lineRenderer = lineRenderersList.Find(l => !l.isBeingUsed);
+			lineRenderer = lineRenderersList.Find(linerenderer => linerenderer.casterUnitId == null && linerenderer.targetUnitId == null);
         } else {
 			GameObject lineRendererGO = Instantiate(lineRendererPrefab, transform);
 			LineRenderer newLineRenderer = lineRendererGO.GetComponent<LineRenderer>();
-			lineRenderersList.Add((false, newLineRenderer));
+			lineRenderersList.Add((null, null, newLineRenderer));
 			lineRenderer = lineRenderersList[lineRenderersList.Count - 1];
 			availableIndex = lineRenderersList.Count - 1;
 		}
         
-        lineRenderer.lineRendererComponent.SetPosition(0, new Vector3(startTransform.localPosition.x, startTransform.localPosition.y, -100));
-        lineRenderer.lineRendererComponent.SetPosition(1, new Vector3(targetTransform.localPosition.x, targetTransform.localPosition.y, -100));
+        lineRenderer.lineRendererComponent.SetPosition(0, new Vector3(casterUnit.transform.localPosition.x, casterUnit.transform.localPosition.y, -100));
+        lineRenderer.lineRendererComponent.SetPosition(1, new Vector3(targetUnit.transform.localPosition.x, targetUnit.transform.localPosition.y, -100));
 		lineRenderer.lineRendererComponent.startColor = porjectileColor;
 		lineRenderer.lineRendererComponent.endColor = porjectileColor;
         lineRenderer.lineRendererComponent.gameObject.SetActive(true);
-        lineRenderersList[availableIndex] = (true, lineRenderer.lineRendererComponent);
+        lineRenderersList[availableIndex] = (casterUnit.SelectedUnit.id, targetUnit.SelectedUnit.id, lineRenderer.lineRendererComponent);
 
-        StartCoroutine(DisappearAfterDelay(availableIndex, 0.3f));
-    }
+		start++;
+		Debug.LogWarning($"start {start}");
+	}
+
+	public void ProjectileHit(BattleUnit casterUnit, BattleUnit targetUnit) {
+		int availableIndex = lineRenderersList.FindIndex(linerenderer => linerenderer.casterUnitId == casterUnit.SelectedUnit.id && linerenderer.targetUnitId == targetUnit.SelectedUnit.id);
+		
+		if(availableIndex != -1) {
+			var lineRenderer = lineRenderersList[availableIndex];
+			lineRenderer.lineRendererComponent.startColor = Color.white;
+			lineRenderer.lineRendererComponent.endColor = Color.white;
+			StartCoroutine(DisappearAfterDelay(availableIndex, 0.4f));
+		} else {
+			Debug.LogError("Couldn't find line renderer for caster unit ID: " + casterUnit.SelectedUnit.id);
+		}
+
+		hit++;
+		Debug.LogWarning($"hit {hit}");
+	}
 
     IEnumerator DisappearAfterDelay(int projectileIndex, float delay) {
         yield return new WaitForSeconds(delay);
         lineRenderersList[projectileIndex].lineRendererComponent.gameObject.SetActive(false);
-        lineRenderersList[projectileIndex] = (false, lineRenderersList[projectileIndex].lineRendererComponent);
+        lineRenderersList[projectileIndex] = (null, null, lineRenderersList[projectileIndex].lineRendererComponent);
+
+		dissapear++;
+		Debug.LogWarning($"dissapear {dissapear}");
     }
 }

@@ -24,6 +24,15 @@ public class BattleManager : MonoBehaviour
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
 
+	enum UnitStatus {
+		Idle,
+		AnimationStart,
+		Trigger,
+		End
+	}
+
+	Dictionary<string, UnitStatus> unitsStatus;
+
     void Start()
 	{
 		victorySplash.SetActive(false);
@@ -96,39 +105,50 @@ public class BattleManager : MonoBehaviour
 			Debug.Log($"Step: {step.StepNumber}");
 			yield return new WaitForSeconds(.3f);
 
-			foreach (var action in step.Actions)
+			foreach (var action in step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+													.OrderBy(action => action.SkillAction.SkillActionType)
+													.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death))
+													.Concat(step.Actions.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.Death)))
 			{
 				switch (action.ActionTypeCase)
 				{
 					case Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction:
+						List<BattleUnit> targetUnits = GetSkillTargets(action.SkillAction.TargetIds.ToArray());
+
+						BattleUnit casterUnit;
+						Color porjectileColor;
+						if (playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId))
+						{
+							casterUnit = playerUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
+							porjectileColor = Color.green;
+						}
+						else
+						{
+							casterUnit = opponentUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
+							porjectileColor = Color.red;
+						}
+
 						switch (action.SkillAction.SkillActionType)
 						{
 							case Protobuf.Messages.SkillActionType.AnimationStart:
-								Debug.Log($"{action.SkillAction.CasterId} started animation to cast {action.SkillAction.SkillId}");
+								Debug.Log($"{action.SkillAction.CasterId} ({casterUnit.SelectedUnit.character.name}) started animation to cast {action.SkillAction.SkillId}");
 								break;
 							case Protobuf.Messages.SkillActionType.EffectTrigger:
-								Debug.Log($"{action.SkillAction.CasterId} casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
-								break;
-							case Protobuf.Messages.SkillActionType.EffectHit:
-								Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
-								List<BattleUnit> targetUnits = new List<BattleUnit>();
-								targetUnits.AddRange(playerUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToArray());
-								targetUnits.AddRange(opponentUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToArray());
-
-								BattleUnit casterUnit;
-								Color porjectileColor;
-								if(playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId)) {
-									casterUnit = playerUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
-									porjectileColor = Color.green;
-								} else {
-									casterUnit = opponentUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
-									porjectileColor = Color.red;
-								}
-								foreach(BattleUnit targetUnit in targetUnits) {
-									projectilesPooler.ShootProjectile(casterUnit.transform, targetUnit.transform, porjectileColor);
-								}
 								foreach (BattleUnit targetUnit in targetUnits)
 								{
+									projectilesPooler.StartProjectile(casterUnit, targetUnit, porjectileColor);
+								}
+
+								Debug.Log($"{action.SkillAction.CasterId} ({casterUnit.SelectedUnit.character.name}) casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
+								break;
+							case Protobuf.Messages.SkillActionType.EffectHit:
+								Debug.Log($"{action.SkillAction.CasterId} ({casterUnit.SelectedUnit.character.name}) hit {string.Join(", ", action.SkillAction.TargetIds)} with skill {action.SkillAction.SkillId}");
+
+
+								foreach (BattleUnit targetUnit in targetUnits)
+								{
+									projectilesPooler.ProjectileHit(casterUnit, targetUnit);
+
 									foreach (var statAffected in action.SkillAction.StatsAffected)
 									{
 										switch (statAffected.Stat)
@@ -156,6 +176,12 @@ public class BattleManager : MonoBehaviour
 								break;
 							case Protobuf.Messages.SkillActionType.EffectMiss:
 								Debug.Log($"{action.SkillAction.SkillId} missed {string.Join(", ", action.SkillAction.TargetIds)}");
+
+								foreach (BattleUnit targetUnit in targetUnits)
+								{
+									projectilesPooler.ProjectileHit(casterUnit, targetUnit);
+								}
+								
 								break;
 						}
 						break;
@@ -167,6 +193,14 @@ public class BattleManager : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	private List<BattleUnit> GetSkillTargets(string[] targetIds)
+	{
+		List<BattleUnit> targetUnits = new List<BattleUnit>();
+		targetUnits.AddRange(playerUnitsUI.Where(unit => targetIds.Contains(unit.SelectedUnit.id)).ToArray());
+		targetUnits.AddRange(opponentUnitsUI.Where(unit => targetIds.Contains(unit.SelectedUnit.id)).ToArray());
+		return targetUnits;
 	}
 
 	private void HandleBattleResult(bool result)
