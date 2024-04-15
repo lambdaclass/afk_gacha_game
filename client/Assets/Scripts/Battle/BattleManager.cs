@@ -143,36 +143,6 @@ public class BattleManager : MonoBehaviour
 								break;
 							case Protobuf.Messages.SkillActionType.EffectHit:
 								Debug.Log($"{action.SkillAction.CasterId} ({casterUnit.SelectedUnit.character.name}) hit {string.Join(", ", action.SkillAction.TargetIds)} with skill {action.SkillAction.SkillId}");
-
-
-								foreach (BattleUnit targetUnit in targetUnits)
-								{
-									projectilesPooler.ProjectileHit(casterUnit, targetUnit);
-
-									foreach (var statAffected in action.SkillAction.StatsAffected)
-									{
-										switch (statAffected.Stat)
-										{
-											case Protobuf.Messages.Stat.Health:
-												targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
-												// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackFeedback(targetUnit.transform.position);
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
-												break;
-											case Protobuf.Messages.Stat.Energy:
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's energy");
-												break;
-											case Protobuf.Messages.Stat.Damage:
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's damage");
-												break;
-											case Protobuf.Messages.Stat.Defense:
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage it it's defense");
-												break;
-											default:
-												Debug.Log(statAffected.Stat);
-												break;
-										}
-									}
-								}
 								break;
 							case Protobuf.Messages.SkillActionType.EffectMiss:
 								Debug.Log($"{action.SkillAction.SkillId} missed {string.Join(", ", action.SkillAction.TargetIds)}");
@@ -187,6 +157,30 @@ public class BattleManager : MonoBehaviour
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
 						playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived:
+						BattleUnit target = playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
+						var statAffected = action.ExecutionReceived.StatAffected;
+						switch (statAffected.Stat)
+						{
+							case Protobuf.Messages.Stat.Health:
+								target.CurrentHealth = target.CurrentHealth + (int)(statAffected.Amount);
+								// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackFeedback(targetUnit.transform.position);
+								Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {target.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
+								break;
+							case Protobuf.Messages.Stat.Energy:
+								Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {target.SelectedUnit.id} dealing {statAffected.Amount} damage to it's energy");
+								break;
+							case Protobuf.Messages.Stat.Attack:
+								Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {target.SelectedUnit.id} dealing {statAffected.Amount} damage to it's attack");
+								break;
+							case Protobuf.Messages.Stat.Defense:
+								Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {target.SelectedUnit.id} dealing {statAffected.Amount} damage it it's defense");
+								break;
+							default:
+								Debug.Log(statAffected.Stat);
+								break;
+						}
 						break;
 					default:
 						break;
