@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 using TMPro;
-
+using UnityEngine;
 
 public class AFKRewardManager : MonoBehaviour
 {
@@ -14,10 +12,12 @@ public class AFKRewardManager : MonoBehaviour
     public void ShowRewards() {
         GlobalUserData user = GlobalUserData.Instance;
         user.AccumulateAFKRewards();
-        confirmPopUp.SetActive(true);
-        gems.text = $"{user.GetCurrencyAfkReward(Currency.Gems).ToString()} ({(user.GetMaxCurrencyReward(Currency.Gems)/720).ToString()}/m)";
-		gold.text = $"{user.GetCurrencyAfkReward(Currency.Gold).ToString()} ({(user.GetMaxCurrencyReward(Currency.Gold)/720).ToString()}/m)";
-		xp.text = $"{user.User.accumulatedExperienceReward.ToString()} ({(user.User.afkMaxExperienceReward/720).ToString()}/m)";
+        SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) => {
+            confirmPopUp.SetActive(true);
+            gems.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gems).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gems).rate}/m)";
+            gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate}/m)";
+            //xp.text = $"{afkRewards.Single(ar => ar.currency == Currency.Experience).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Experience)}/m)";
+        });
     }
 
     public void ClaimRewards() {
