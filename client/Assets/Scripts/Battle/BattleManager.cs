@@ -159,6 +159,17 @@ public class BattleManager : MonoBehaviour
 								break;
 						}
 						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierReceived:
+						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId)) {
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).StatusFeedback(action.ModifierReceived.StatAffected.Stat.ToString());
+						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
+						Debug.LogWarning($"tag received: {action.TagReceived.TagName}");
+						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagReceived.TargetId)) {
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).StatusFeedback(action.TagReceived.TagName);
+						}
+						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
 						playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;

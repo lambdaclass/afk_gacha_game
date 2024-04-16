@@ -93,4 +93,10 @@ public class BattleUnit : MonoBehaviour
 		yield return new WaitForSeconds(.3f);
 		lineRenderer.enabled = false;
 	}
+
+	public void StatusFeedback(string message)
+	{
+		GameObject indicator = Instantiate(indicatorPrefab, gameObject.transform);
+		indicator.GetComponent<BattleIndicator>().SetText(message);
+	}
 }
