@@ -346,6 +346,7 @@ public class SocketConnection : MonoBehaviour {
 			ws.OnMessage -= currentMessageHandler;
 			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            Debug.Log(webSocketResponse);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
 			{
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
