@@ -21,7 +21,7 @@ public class CampaignLevelsManager : MonoBehaviour
 			throw new Exception("The number of levels brought from the backend doesn't match with the number of levels on that campaign prefab.");
 		}
 
-        for(int levelIndex = 1; levelIndex < levelsData.Count; levelIndex++) {
+        for(int levelIndex = 1; levelIndex < levelsData.Count + 1; levelIndex++) {
             levelIndicators[levelIndex - 1].levelData = levelsData[levelIndex - 1];
 
 			if(levelIndex < levelsData.Count) {
