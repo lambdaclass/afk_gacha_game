@@ -20,25 +20,25 @@ public class AFKRewardManager : MonoBehaviour
                 gold.text = EMPTY_AFK_REWARD;
                 xp.text = EMPTY_AFK_REWARD;
             } else {
-                gems.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gems).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gems).rate}/m)";
-                gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate}/m)";
+                gems.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gems).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gems).rate * 60}/m)";
+                gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate * 60}/m)";
                 //xp.text = $"{afkRewards.Single(ar => ar.currency == Currency.Experience).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Experience)}/m)";
             }
         });
     }
 
     public void ClaimRewards() {
-        int current_gold = GlobalUserData.Instance.GetCurrency(Currency.Gold).Value;
-        int current_gems = GlobalUserData.Instance.GetCurrency(Currency.Gems).Value;
-        int current_experience = GlobalUserData.Instance.User.experience;
-
         SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (user_received) => {
             GlobalUserData user_to_update = GlobalUserData.Instance;
             Dictionary<Currency, int> currencies_to_add = new Dictionary<Currency, int>();
-            currencies_to_add.Add(Currency.Gold, user_received.currencies[Currency.Gold] - current_gold);
-            currencies_to_add.Add(Currency.Gems, user_received.currencies[Currency.Gems] - current_gems);
-            user_to_update.AddCurrency(currencies_to_add);
-            user_to_update.AddExperience(user_received.experience - current_experience);
+
+            user_received.currencies.Select(c => c.Key).ToList().ForEach(c => {
+                if (!currencies_to_add.ContainsKey(c)) {
+                    currencies_to_add.Add(c, user_received.currencies[c] - user_to_update.GetCurrency(c).Value);
+                }
+            });
+            currencies_to_add.Add(Currency.Experience, user_received.experience - user_to_update.User.experience);
+            user_to_update.AddCurrencies(currencies_to_add);
         });
         confirmPopUp.SetActive(false);
     }

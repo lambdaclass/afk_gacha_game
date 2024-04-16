@@ -77,7 +77,7 @@ public class GlobalUserData : MonoBehaviour
         }
     }
 
-	public void AddExperience(int experienceToAdd) {
+	private void AddExperience(int experienceToAdd) {
         user.experience += experienceToAdd;
 
         // Level up
@@ -102,12 +102,17 @@ public class GlobalUserData : MonoBehaviour
         return user.afkMaxCurrencyReward.ContainsKey(name) ? user.afkMaxCurrencyReward[name] : 0;
     }
 
-    public void AddIndividualCurrency(Currency name, int amount) {
+    public void AddCurrency(Currency name, int amount) {
+        if (name == Currency.Experience) {
+            AddExperience(amount);
+            return;
+        }
+
         if (user.currencies.ContainsKey(name)) {
             user.currencies[name] = user.currencies[name] + amount;
         } else {
             // User doesn't have this currency.
-            if (amount < 0) { throw new InvalidOperationException("AddIndividualCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
+            if (amount < 0) { throw new InvalidOperationException("AddCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
             
             // Create it for him with the given amount.
             user.currencies.Add(name, amount);
@@ -115,18 +120,18 @@ public class GlobalUserData : MonoBehaviour
         OnCurrencyModified.Invoke();
     }
 
-    public void AddCurrency(Dictionary<Currency, int> currencies) {
+    public void AddCurrencies(Dictionary<Currency, int> currencies) {
         User user = GlobalUserData.Instance.User;
 
         foreach (var currencyValue in currencies) {
             Currency currency = currencyValue.Key;
             int addAmount = currencyValue.Value;
             
-            AddIndividualCurrency(currency, addAmount);
+            AddCurrency(currency, addAmount);
         }
     }
 
-    // This method should be unified with AddIndividualCurrency, only one of these should exist
+    // This method should be unified with AddCurrency, only one of these should exist
     public void SetCurrencyAmount(Currency currency, int amount) {
         if (user.currencies.ContainsKey(currency)) {
             user.currencies[currency] = amount;

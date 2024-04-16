@@ -50,8 +50,7 @@ public class BattleManager : MonoBehaviour
 				Debug.LogError(ex.Message);
 			}
             GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrencies(LevelProgress.selectedLevelData.rewards);
-            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
+            user.AddCurrencies(GetLevelRewards());
             user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
@@ -74,6 +73,14 @@ public class BattleManager : MonoBehaviour
             defeatSplash.SetActive(true);
             defeatSplash.GetComponent<AudioSource>().Play();
         }
+    }
+
+    private Dictionary<Currency, int> GetLevelRewards()
+    {
+        Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
+        rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
+        
+        return rewards;
     }
 
 	private void SetUpNextButton()
