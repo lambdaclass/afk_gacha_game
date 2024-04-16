@@ -346,7 +346,6 @@ public class SocketConnection : MonoBehaviour {
 			ws.OnMessage -= currentMessageHandler;
 			ws.OnMessage += OnWebSocketMessage;
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-            Debug.Log(webSocketResponse);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
 			{
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
@@ -742,13 +741,13 @@ public class SocketConnection : MonoBehaviour {
         {
             GetAfkRewards = getAfkRewardsRequest
         };
-        currentMessageHandler = (data) => AwaitAfkRewardsResponse(data, onAfkRewardsReceived);
+        currentMessageHandler = (data) => AwaitGetAfkRewardsResponse(data, onAfkRewardsReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
 
-    private void AwaitAfkRewardsResponse(byte[] data, Action<List<AfkReward>> onAfkRewardsReceived, Action<string> onError = null)
+    private void AwaitGetAfkRewardsResponse(byte[] data, Action<List<AfkReward>> onAfkRewardsReceived, Action<string> onError = null)
     {
         try
         {
@@ -774,4 +773,44 @@ public class SocketConnection : MonoBehaviour {
             Debug.LogError(e.Message);
         }
     }
+
+        public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
+    {
+        ClaimAfkRewards claimAfkRewardsRequest = new ClaimAfkRewards
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            ClaimAfkRewards = claimAfkRewardsRequest
+        };
+        currentMessageHandler = (data) => AwaitClaimAfkRewardsResponse(data, onAfkRewardsReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitClaimAfkRewardsResponse(byte[] data, Action<User> onAfkRewardsReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
+            {
+				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
+				onAfkRewardsReceived?.Invoke(user);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
 }

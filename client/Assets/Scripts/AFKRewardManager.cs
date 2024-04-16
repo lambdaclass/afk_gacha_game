@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -12,7 +13,6 @@ public class AFKRewardManager : MonoBehaviour
     private const string EMPTY_AFK_REWARD = "0 (0/m)";
     public void ShowRewards() {
         GlobalUserData user = GlobalUserData.Instance;
-        user.AccumulateAFKRewards();
         SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) => {
             confirmPopUp.SetActive(true);
             if (afkRewards.Count == 0) {
@@ -28,8 +28,18 @@ public class AFKRewardManager : MonoBehaviour
     }
 
     public void ClaimRewards() {
-        GlobalUserData user = GlobalUserData.Instance;
-        user.AccumulateAFKRewards();
-        user.ClaimAFKRewards();
+        int current_gold = GlobalUserData.Instance.GetCurrency(Currency.Gold).Value;
+        int current_gems = GlobalUserData.Instance.GetCurrency(Currency.Gems).Value;
+        int current_experience = GlobalUserData.Instance.User.experience;
+
+        SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (user_received) => {
+            GlobalUserData user_to_update = GlobalUserData.Instance;
+            Dictionary<Currency, int> currencies_to_add = new Dictionary<Currency, int>();
+            currencies_to_add.Add(Currency.Gold, user_received.currencies[Currency.Gold] - current_gold);
+            currencies_to_add.Add(Currency.Gems, user_received.currencies[Currency.Gems] - current_gems);
+            user_to_update.AddCurrency(currencies_to_add);
+            user_to_update.AddExperience(user_received.experience - current_experience);
+        });
+        confirmPopUp.SetActive(false);
     }
 }
