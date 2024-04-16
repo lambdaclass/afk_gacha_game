@@ -9,15 +9,16 @@ public class AFKRewardManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI gold;
     [SerializeField] TextMeshProUGUI xp;
 
+    private const string EMPTY_AFK_REWARD = "0 (0/m)";
     public void ShowRewards() {
         GlobalUserData user = GlobalUserData.Instance;
         user.AccumulateAFKRewards();
         SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) => {
             confirmPopUp.SetActive(true);
             if (afkRewards.Count == 0) {
-                gems.text = $"0 (0/m)";
-                gold.text = $"0 (0/m)";
-                xp.text = $"0 (0/m)";
+                gems.text = EMPTY_AFK_REWARD;
+                gold.text = EMPTY_AFK_REWARD;
+                xp.text = EMPTY_AFK_REWARD;
             } else {
                 gems.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gems).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gems).rate}/m)";
                 gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate}/m)";
