@@ -50,7 +50,7 @@ public class BattleManager : MonoBehaviour
 				Debug.LogError(ex.Message);
 			}
             GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrency(LevelProgress.selectedLevelData.rewards);
+            user.AddCurrencies(LevelProgress.selectedLevelData.rewards);
             user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
             user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
