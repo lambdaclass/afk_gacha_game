@@ -13,7 +13,7 @@ public class ProjectilesPooler : MonoBehaviour
 
     List<(string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent)> lineRenderersList = new List<(string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent)>();
 
-	int start, hit, dissapear = 0;
+	int trigger, hit, dissapear = 0;
 
 	void Start() {
 		foreach(LineRenderer lineRenderer in initialLineRenderers) {
@@ -21,7 +21,7 @@ public class ProjectilesPooler : MonoBehaviour
 		}
 	}
 
-	public void StartProjectile(BattleUnit casterUnit, BattleUnit targetUnit, Color porjectileColor) {
+	public void TriggerProjectile(BattleUnit casterUnit, BattleUnit targetUnit, Color porjectileColor) {
 		int availableIndex = lineRenderersList.FindIndex(linerenderer => linerenderer.casterUnitId == null && linerenderer.targetUnitId == null);
         (string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent) lineRenderer;
 
@@ -41,9 +41,15 @@ public class ProjectilesPooler : MonoBehaviour
 		lineRenderer.lineRendererComponent.endColor = porjectileColor;
         lineRenderer.lineRendererComponent.gameObject.SetActive(true);
         lineRenderersList[availableIndex] = (casterUnit.SelectedUnit.id, targetUnit.SelectedUnit.id, lineRenderer.lineRendererComponent);
-
-		start++;
-		Debug.LogWarning($"start {start}");
+		
+		// foreach(var lr in lineRenderersList.Where(x => x.casterUnitId != null)) {
+		// 	Debug.Log($"{lr.casterUnitId} - {lr.targetUnitId}");
+		// }
+		
+		// c8aaf033-71ac-42d5-9455-906767f0bc45
+		// ba6d87d7-83dc-4222-9c4e-c24c7592887a
+		trigger++;
+		Debug.LogWarning($"trigger {trigger}");
 	}
 
 	public void ProjectileHit(BattleUnit casterUnit, BattleUnit targetUnit) {
@@ -55,7 +61,10 @@ public class ProjectilesPooler : MonoBehaviour
 			lineRenderer.lineRendererComponent.endColor = Color.white;
 			StartCoroutine(DisappearAfterDelay(availableIndex, 0.4f));
 		} else {
-			Debug.LogError("Couldn't find line renderer for caster unit ID: " + casterUnit.SelectedUnit.id);
+			foreach(var lr in lineRenderersList.Where(x => x.casterUnitId != null)) {
+				Debug.Log($"{lr.casterUnitId} - {lr.targetUnitId}");
+			}
+			Debug.LogError("Couldn't find line renderer for caster units: " + casterUnit.SelectedUnit.id + " and " + targetUnit.SelectedUnit.id);
 		}
 
 		hit++;
@@ -68,6 +77,6 @@ public class ProjectilesPooler : MonoBehaviour
         lineRenderersList[projectileIndex] = (null, null, lineRenderersList[projectileIndex].lineRendererComponent);
 
 		dissapear++;
-		Debug.LogWarning($"dissapear {dissapear}");
+		// Debug.LogWarning($"dissapear {dissapear}");
     }
 }
