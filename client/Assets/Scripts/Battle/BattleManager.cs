@@ -21,6 +21,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     BattleUnit[] opponentUnitsUI;
 
+	[SerializeField]
+	ProjectilesPooler projectilesPooler;
+
     void Start()
 	{
 		victorySplash.SetActive(false);
@@ -111,6 +114,19 @@ public class BattleManager : MonoBehaviour
 								List<BattleUnit> targetUnits = new List<BattleUnit>();
 								targetUnits.AddRange(playerUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToArray());
 								targetUnits.AddRange(opponentUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToArray());
+
+								BattleUnit casterUnit;
+								Color porjectileColor;
+								if(playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId)) {
+									casterUnit = playerUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
+									porjectileColor = Color.green;
+								} else {
+									casterUnit = opponentUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
+									porjectileColor = Color.red;
+								}
+								foreach(BattleUnit targetUnit in targetUnits) {
+									projectilesPooler.ShootProjectile(casterUnit.transform, targetUnit.transform, porjectileColor);
+								}
 								foreach (BattleUnit targetUnit in targetUnits)
 								{
 									foreach (var statAffected in action.SkillAction.StatsAffected)
@@ -119,6 +135,7 @@ public class BattleManager : MonoBehaviour
 										{
 											case Protobuf.Messages.Stat.Health:
 												targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
+												// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackFeedback(targetUnit.transform.position);
 												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
 												break;
 											case Protobuf.Messages.Stat.Energy:
