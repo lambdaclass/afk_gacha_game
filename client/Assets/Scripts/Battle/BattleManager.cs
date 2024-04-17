@@ -160,7 +160,6 @@ public class BattleManager : MonoBehaviour
 			}
             GlobalUserData user = GlobalUserData.Instance;
             user.AddCurrency(LevelProgress.selectedLevelData.rewards);
-            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
             user.AccumulateAFKRewards();
             user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
@@ -203,8 +202,6 @@ public class BattleManager : MonoBehaviour
 
     private List<UIReward> CreateRewardsList() {
         List<UIReward> rewards = new List<UIReward>();
-
-        if (LevelProgress.selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(LevelProgress.selectedLevelData.experienceReward)); }
 
         foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
             rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));

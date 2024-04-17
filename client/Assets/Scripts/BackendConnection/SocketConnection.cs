@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
-using NativeWebSocket;
-using Google.Protobuf;
-using Google.Protobuf.Collections;
-using System.IO;
-using UnityEngine;
-using Protobuf;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Protobuf.Messages;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Google.Protobuf;
+using NativeWebSocket;
+using Protobuf.Messages;
+using UnityEngine;
 
 public class SocketConnection : MonoBehaviour {
     WebSocket ws;
@@ -238,10 +236,11 @@ public class SocketConnection : MonoBehaviour {
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
-					rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount),
+					rewards = GetLevelCurrencyRewards(level),
                     status = levelStatus
                 });
 
+                
 				if(levelStatus == LevelProgress.Status.Unlocked) {
 					levelStatus = LevelProgress.Status.Locked;
 				}
@@ -715,4 +714,11 @@ public class SocketConnection : MonoBehaviour {
             Debug.LogError(e.Message);
         }
 	}
+
+    private Dictionary<Currency, int> GetLevelCurrencyRewards(Level level)
+    {
+        Dictionary<Currency, int> rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount);
+        rewards.Add(Currency.Experience, (int)level.ExperienceReward);
+        return rewards;
+    }
 }
