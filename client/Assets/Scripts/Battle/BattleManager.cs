@@ -66,10 +66,9 @@ public class BattleManager : MonoBehaviour
 		SetUpInitialState(battleResult);
 		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
 		
-		yield return new WaitForSeconds(2f);
 		projectilesPooler.ClearProjectiles();
 		
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(2f);
 		HandleBattleResult(battleResult.Result == "team_1");
 	}
 
@@ -103,18 +102,32 @@ public class BattleManager : MonoBehaviour
 
 				BattleUnit casterUnit;
 
+				Color projectileColor = Color.red;
+				int casterTeam, targetTeam;
 				if (playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId))
 				{
 					casterUnit = playerUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
+					casterTeam = 1;
 				}
 				else
 				{
 					casterUnit = opponentUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
+					casterTeam = 2;
 				}
 
 				foreach (BattleUnit targetUnit in targetUnits)
 				{
-					projectilesPooler.TriggerProjectile(casterUnit, targetUnit);
+					if(playerUnitsUI.Any(unit => unit.SelectedUnit.id == targetUnit.SelectedUnit.id)) {
+						targetTeam = 1;
+					} else {
+						targetTeam = 2;
+					}
+
+					if(casterTeam == targetTeam) {
+						projectileColor = Color.green;
+					}
+
+					projectilesPooler.TriggerProjectile(casterUnit, targetUnit, projectileColor);
 				}
 			}
 
@@ -139,7 +152,7 @@ public class BattleManager : MonoBehaviour
 
 				foreach (BattleUnit targetUnit in targetUnits)
 				{
-					if(playerUnitsUI.Any(unit => casterUnit.SelectedUnit.id == action.SkillAction.CasterId)) {
+					if(playerUnitsUI.Any(unit => unit.SelectedUnit.id == targetUnit.SelectedUnit.id)) {
 						targetTeam = 1;
 					} else {
 						targetTeam = 2;

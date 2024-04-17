@@ -20,7 +20,7 @@ public class ProjectilesPooler : MonoBehaviour
 		}
 	}
 
-	public void TriggerProjectile(BattleUnit casterUnit, BattleUnit targetUnit) {
+	public void TriggerProjectile(BattleUnit casterUnit, BattleUnit targetUnit, Color projectileColor) {
 
 		int availableIndex = lineRenderersList.FindIndex(linerenderer => linerenderer.casterUnitId == null && linerenderer.targetUnitId == null);
         (string casterUnitId, string targetUnitId, LineRenderer lineRendererComponent) lineRenderer;
@@ -35,7 +35,6 @@ public class ProjectilesPooler : MonoBehaviour
 			availableIndex = lineRenderersList.Count - 1;
 		}
 
-        Color projectileColor = Color.white;
 		projectileColor.a = .4f;
 		lineRenderer.lineRendererComponent.startColor = projectileColor;
 		lineRenderer.lineRendererComponent.endColor = projectileColor;
@@ -54,7 +53,7 @@ public class ProjectilesPooler : MonoBehaviour
 			projectileColor.a = 1;
 			lineRenderer.lineRendererComponent.startColor = projectileColor;
 			lineRenderer.lineRendererComponent.endColor = projectileColor;
-			StartCoroutine(DisappearAfterDelay(availableIndex, 0.2f));
+			StartCoroutine(DisappearAfterDelay(casterUnit.SelectedUnit.id, targetUnit.SelectedUnit.id, 0.2f));
 		} else {
 			foreach(var lr in lineRenderersList.Where(x => x.casterUnitId != null)) {
 				Debug.Log($"{lr.casterUnitId} - {lr.targetUnitId}");
@@ -63,10 +62,13 @@ public class ProjectilesPooler : MonoBehaviour
 		}
 	}
 
-    IEnumerator DisappearAfterDelay(int projectileIndex, float delay) {
+    IEnumerator DisappearAfterDelay(string casterId, string targetId, float delay) {
         yield return new WaitForSeconds(delay);
-		lineRenderersList[projectileIndex].lineRendererComponent.gameObject.SetActive(false);
-		lineRenderersList[projectileIndex] = (null, null, lineRenderersList[projectileIndex].lineRendererComponent);
+		if(lineRenderersList.Any(lr => lr.casterUnitId == casterId && lr.targetUnitId == targetId)) {
+			int availableIndex = lineRenderersList.FindIndex(linerenderer => linerenderer.casterUnitId == casterId && linerenderer.targetUnitId == targetId);
+			lineRenderersList[availableIndex].lineRendererComponent.gameObject.SetActive(false);
+			lineRenderersList[availableIndex] = (null, null, lineRenderersList[availableIndex].lineRendererComponent);
+		}
     }
 
 	public void ClearProjectiles()
