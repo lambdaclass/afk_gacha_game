@@ -187,8 +187,10 @@ public class BattleManager : MonoBehaviour
     private Dictionary<Currency, int> GetLevelRewards()
     {
         Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
-        rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
-        
+        if (LevelProgress.selectedLevelData.experienceReward > 0)
+        {
+            rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
+        }
         return rewards;
     }
 
@@ -209,13 +211,9 @@ public class BattleManager : MonoBehaviour
 
     private List<UIReward> CreateRewardsList() {
         List<UIReward> rewards = new List<UIReward>();
-
-        if (LevelProgress.selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(LevelProgress.selectedLevelData.experienceReward)); }
-
         foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
-            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));            
         }
-
         return rewards;
     }
 }

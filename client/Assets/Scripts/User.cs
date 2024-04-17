@@ -31,8 +31,6 @@ public class User
 
     public Dictionary<Currency, int> accumulatedCurrencyReward = new Dictionary<Currency, int>();
 
-    public int accumulatedExperienceReward = 0;
-
     public Dictionary<Currency, int> afkMaxCurrencyReward = new Dictionary<Currency, int>();
     public int afkMaxExperienceReward = 0;
 
