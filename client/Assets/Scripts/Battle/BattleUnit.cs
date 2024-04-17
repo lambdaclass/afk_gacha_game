@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DuloGames.UI;
 using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BattleUnit : MonoBehaviour
 {
@@ -53,14 +54,19 @@ public class BattleUnit : MonoBehaviour
             if (value != currentHealth)
             {
 				if(currentHealth > 0) {
-					GameObject indicator = Instantiate(indicatorPrefab, gameObject.transform);
-					indicator.GetComponent<BattleIndicator>().SetText((currentHealth - value).ToString());
+					GameObject indicatorGO = Instantiate(indicatorPrefab, gameObject.transform);
+					BattleIndicator indicator = indicatorGO.GetComponent<BattleIndicator>();
+					indicator.SetText((currentHealth - value).ToString());
+					indicator.FadeAnimation();
 				}
                 currentHealth = value;
                 healthBar.fillAmount = currentHealth / (float)maxHealth;
             }
         }
     }
+
+	Dictionary<string, int> statusCount = new Dictionary<string, int>();
+	Dictionary<string, BattleIndicator> statusIndicators = new Dictionary<string, BattleIndicator>();
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
@@ -94,9 +100,35 @@ public class BattleUnit : MonoBehaviour
 		lineRenderer.enabled = false;
 	}
 
-	public void StatusFeedback(string message)
+	public void ApplyStatus(string status)
 	{
-		GameObject indicator = Instantiate(indicatorPrefab, gameObject.transform);
-		indicator.GetComponent<BattleIndicator>().SetText(message);
+		if (!statusCount.ContainsKey(status))
+		{
+			statusCount.Add(status, 1);
+			GameObject indicatorGO = Instantiate(indicatorPrefab, gameObject.transform);
+			BattleIndicator indicator = indicatorGO.GetComponent<BattleIndicator>();
+			indicator.SetText(status);
+			statusIndicators.Add(status, indicator);
+			indicator.SetUpAnimation();
+		}
+		else
+		{
+			statusCount[status]++;
+		}
+	}
+
+	public void RemoveStatus(string status)
+	{
+		if (statusCount.ContainsKey(status))
+		{
+			statusCount[status]--;
+			if (statusCount[status] == 0)
+			{
+				BattleIndicator indicator = statusIndicators[status];
+				indicator.RemoveAnimation();
+				statusIndicators.Remove(status);
+				statusCount.Remove(status);
+			}
+		}
 	}
 }

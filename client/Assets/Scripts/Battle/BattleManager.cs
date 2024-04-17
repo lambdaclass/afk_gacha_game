@@ -74,7 +74,7 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var unit in battleResult.InitialState.Units)
 		{
-			Debug.Log($"{unit.Id}, {unit.Health}, team: {unit.Team}");
+			// Debug.Log($"{unit.Id}, {unit.Health}, team: {unit.Team}");
 
 			BattleUnit battleUnit;
 			if(unit.Team == 1) {
@@ -93,7 +93,7 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
-			Debug.Log($"Step: {step.StepNumber}");
+			// Debug.Log($"Step: {step.StepNumber}");
 			yield return new WaitForSeconds(.3f);
 
 			foreach (var action in step.Actions)
@@ -104,13 +104,13 @@ public class BattleManager : MonoBehaviour
 						switch (action.SkillAction.SkillActionType)
 						{
 							case Protobuf.Messages.SkillActionType.AnimationStart:
-								Debug.Log($"{action.SkillAction.CasterId} started animation to cast {action.SkillAction.SkillId}");
+								// Debug.Log($"{action.SkillAction.CasterId} started animation to cast {action.SkillAction.SkillId}");
 								break;
 							case Protobuf.Messages.SkillActionType.EffectTrigger:
-								Debug.Log($"{action.SkillAction.CasterId} casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
+								// Debug.Log($"{action.SkillAction.CasterId} casted {action.SkillAction.SkillId} targeting {string.Join(", ", action.SkillAction.TargetIds)}");
 								break;
 							case Protobuf.Messages.SkillActionType.EffectHit:
-								Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
+								// Debug.Log($"{action.SkillAction.SkillId} hit {string.Join(", ", action.SkillAction.TargetIds)}");
 								List<BattleUnit> targetUnits = new List<BattleUnit>();
 								targetUnits.AddRange(playerUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToArray());
 								targetUnits.AddRange(opponentUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToArray());
@@ -135,17 +135,17 @@ public class BattleManager : MonoBehaviour
 										{
 											case Protobuf.Messages.Stat.Health:
 												targetUnit.CurrentHealth = targetUnit.CurrentHealth + (int)(statAffected.Amount);
-												// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackFeedback(targetUnit.transform.position);
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
+												playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackFeedback(targetUnit.transform.position);
+												// Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's health");
 												break;
 											case Protobuf.Messages.Stat.Energy:
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's energy");
+												// Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's energy");
 												break;
-											case Protobuf.Messages.Stat.Damage:
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's damage");
+											case Protobuf.Messages.Stat.Attack:
+												// Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage to it's damage");
 												break;
 											case Protobuf.Messages.Stat.Defense:
-												Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage it it's defense");
+												// Debug.Log($"{action.SkillAction.CasterId} hit {action.SkillAction.SkillId} targeting {targetUnit.SelectedUnit.id} dealing {statAffected.Amount} damage it it's defense");
 												break;
 											default:
 												Debug.Log(statAffected.Stat);
@@ -155,19 +155,28 @@ public class BattleManager : MonoBehaviour
 								}
 								break;
 							case Protobuf.Messages.SkillActionType.EffectMiss:
-								Debug.Log($"{action.SkillAction.SkillId} missed {string.Join(", ", action.SkillAction.TargetIds)}");
+								// Debug.Log($"{action.SkillAction.SkillId} missed {string.Join(", ", action.SkillAction.TargetIds)}");
 								break;
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierReceived:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId)) {
-							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).StatusFeedback(action.ModifierReceived.StatAffected.Stat.ToString());
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(action.ModifierReceived.StatAffected.Stat.ToString());
+						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierExpired:
+						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId)) {
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(action.ModifierExpired.StatAffected.Stat.ToString());
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
-						Debug.LogWarning($"tag received: {action.TagReceived.TagName}");
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagReceived.TargetId)) {
-							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).StatusFeedback(action.TagReceived.TagName);
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(action.TagReceived.Tag);
+						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.TagExpired:
+						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagExpired.TargetId)) {
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(action.TagExpired.Tag);
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
