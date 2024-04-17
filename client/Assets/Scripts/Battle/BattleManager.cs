@@ -65,8 +65,11 @@ public class BattleManager : MonoBehaviour
 
 		SetUpInitialState(battleResult);
 		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
-
+		
 		yield return new WaitForSeconds(2f);
+		projectilesPooler.ClearProjectiles();
+		
+		yield return new WaitForSeconds(1f);
 		HandleBattleResult(battleResult.Result == "team_1");
 	}
 
@@ -74,8 +77,6 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var unit in battleResult.InitialState.Units)
 		{
-			// Debug.LogWarning($"{unit.Id}, {unit.Health}, team: {unit.Team}");
-
 			BattleUnit battleUnit;
 			if(unit.Team == 1) {
 				battleUnit = playerUnitsUI.First(unitPosition => unitPosition.SelectedUnit.id == unit.Id);
@@ -91,28 +92,9 @@ public class BattleManager : MonoBehaviour
 
 	private IEnumerator PlayOutSteps(RepeatedField<Protobuf.Messages.Step> steps)
 	{
-		// Calculate total triggers
-		int totalTriggers = steps
-			.SelectMany(step => step.Actions)
-			.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-			.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger)
-			.Sum(action => action.SkillAction.TargetIds.Count);
-
-		Debug.LogError($"Total triggers: {totalTriggers}");
-
-		// Calculate total hits
-		int totalHits = steps
-			.SelectMany(step => step.Actions)
-			.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-			.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectHit || action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectMiss)
-			.Sum(action => action.SkillAction.TargetIds.Count);
-
-		Debug.LogError($"Total hits: {totalHits}");
-
 		foreach (var step in steps)
 		{
-			Debug.Log($"Step: {step.StepNumber}");
-			yield return new WaitForSeconds(.3f);
+			yield return new WaitForSeconds(.4f);
 
 			foreach(var action in step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
 														.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger))
@@ -120,21 +102,19 @@ public class BattleManager : MonoBehaviour
 				List<BattleUnit> targetUnits = GetSkillTargets(action.SkillAction.TargetIds.ToArray());
 
 				BattleUnit casterUnit;
-				Color porjectileColor;
+
 				if (playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId))
 				{
 					casterUnit = playerUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
-					porjectileColor = Color.green;
 				}
 				else
 				{
 					casterUnit = opponentUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
-					porjectileColor = Color.red;
 				}
 
 				foreach (BattleUnit targetUnit in targetUnits)
 				{
-					projectilesPooler.TriggerProjectile(casterUnit, targetUnit, porjectileColor);
+					projectilesPooler.TriggerProjectile(casterUnit, targetUnit);
 				}
 			}
 
@@ -144,21 +124,32 @@ public class BattleManager : MonoBehaviour
 				List<BattleUnit> targetUnits = GetSkillTargets(action.SkillAction.TargetIds.ToArray());
 
 				BattleUnit casterUnit;
-				Color porjectileColor;
+				Color projectileColor = Color.red;
+				int casterTeam, targetTeam;
 				if (playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId))
 				{
 					casterUnit = playerUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
-					porjectileColor = Color.green;
+					casterTeam = 1;
 				}
 				else
 				{
 					casterUnit = opponentUnitsUI.First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId);
-					porjectileColor = Color.red;
+					casterTeam = 2;
 				}
 
 				foreach (BattleUnit targetUnit in targetUnits)
 				{
-					projectilesPooler.ProjectileHit(casterUnit, targetUnit);
+					if(playerUnitsUI.Any(unit => casterUnit.SelectedUnit.id == action.SkillAction.CasterId)) {
+						targetTeam = 1;
+					} else {
+						targetTeam = 2;
+					}
+
+					if(casterTeam == targetTeam) {
+						projectileColor = Color.green;
+					}
+
+					projectilesPooler.ProjectileHit(casterUnit, targetUnit, projectileColor);
 				}
 			}
 
@@ -168,7 +159,7 @@ public class BattleManager : MonoBehaviour
 				switch (action.ActionTypeCase)
 				{
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
-						// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
+						playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived:
 						BattleUnit target = playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
@@ -177,17 +168,12 @@ public class BattleManager : MonoBehaviour
 						{
 							case Protobuf.Messages.Stat.Health:
 								target.CurrentHealth = target.CurrentHealth + (int)(statAffected.Amount);
-								// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackFeedback(targetUnit.transform.position);
-								// Debug.Log($"{action.ExecutionReceived.TargetId} got hit, taking {statAffected.Amount} damage to it's health");
 								break;
 							case Protobuf.Messages.Stat.Energy:
-								// Debug.Log($"{action.ExecutionReceived.TargetId} got hit, taking {statAffected.Amount} damage to it's energy");
 								break;
 							case Protobuf.Messages.Stat.Attack:
-								// Debug.Log($"{action.ExecutionReceived.TargetId} got hit, taking {statAffected.Amount} damage to it's attack");
 								break;
 							case Protobuf.Messages.Stat.Defense:
-								// Debug.Log($"{action.ExecutionReceived.TargetId} got hit, taking {statAffected.Amount} damage to it's defense");
 								break;
 							default:
 								Debug.Log(statAffected.Stat);
