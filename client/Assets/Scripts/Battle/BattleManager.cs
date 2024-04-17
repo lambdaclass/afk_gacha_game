@@ -23,16 +23,7 @@ public class BattleManager : MonoBehaviour
 
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
-
-	enum UnitStatus {
-		Idle,
-		AnimationStart,
-		Trigger,
-		End
-	}
-
-	Dictionary<string, UnitStatus> unitsStatus;
-
+	
     void Start()
 	{
 		victorySplash.SetActive(false);
