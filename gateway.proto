@@ -312,8 +312,10 @@ option csharp_namespace = "Protobuf.Messages";
   enum Stat {
     HEALTH = 0;
     ENERGY = 1;
-    DAMAGE = 2;
+    ATTACK = 2;
     DEFENSE = 3;
+    DAMAGE_REDUCTION = 4;
+    SPEED = 5;
   }
 
   message BattleResult {
@@ -372,7 +374,7 @@ option csharp_namespace = "Protobuf.Messages";
   message TagReceived {
     string skill_id = 1;
     string target_id = 2;
-    string tag_name = 3;
+    string tag = 3;
   }
 
   message ModifierExpired {
@@ -384,7 +386,7 @@ option csharp_namespace = "Protobuf.Messages";
   message TagExpired {
     string skill_id = 1;
     string target_id = 2;
-    string tag_name = 3;
+    string tag = 3;
   }
 
   message Death {

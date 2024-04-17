@@ -137,17 +137,18 @@ namespace Protobuf.Messages {
             "X2FjdGlvbl90eXBlGAQgASgOMhAuU2tpbGxBY3Rpb25UeXBlEiUKDnN0YXRz",
             "X2FmZmVjdGVkGAUgAygLMg0uU3RhdEFmZmVjdGVkIl0KEE1vZGlmaWVyUmVj",
             "ZWl2ZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEiQK",
-            "DXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5TdGF0QWZmZWN0ZWQiRAoLVGFnUmVj",
-            "ZWl2ZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEhAK",
-            "CHRhZ19uYW1lGAMgASgJIlwKD01vZGlmaWVyRXhwaXJlZBIQCghza2lsbF9p",
-            "ZBgBIAEoCRIRCgl0YXJnZXRfaWQYAiABKAkSJAoNc3RhdF9hZmZlY3RlZBgD",
-            "IAEoCzINLlN0YXRBZmZlY3RlZCJDCgpUYWdFeHBpcmVkEhAKCHNraWxsX2lk",
-            "GAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIQCgh0YWdfbmFtZRgDIAEoCSIY",
-            "CgVEZWF0aBIPCgd1bml0X2lkGAEgASgJKlsKD1NraWxsQWN0aW9uVHlwZRIT",
-            "Cg9BTklNQVRJT05fU1RBUlQQABISCg5FRkZFQ1RfVFJJR0dFUhABEg4KCkVG",
-            "RkVDVF9ISVQQAhIPCgtFRkZFQ1RfTUlTUxADKjcKBFN0YXQSCgoGSEVBTFRI",
-            "EAASCgoGRU5FUkdZEAESCgoGREFNQUdFEAISCwoHREVGRU5TRRADQhSqAhFQ",
-            "cm90b2J1Zi5NZXNzYWdlc2IGcHJvdG8z"));
+            "DXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5TdGF0QWZmZWN0ZWQiPwoLVGFnUmVj",
+            "ZWl2ZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEgsK",
+            "A3RhZxgDIAEoCSJcCg9Nb2RpZmllckV4cGlyZWQSEAoIc2tpbGxfaWQYASAB",
+            "KAkSEQoJdGFyZ2V0X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0ZWQYAyABKAsy",
+            "DS5TdGF0QWZmZWN0ZWQiPgoKVGFnRXhwaXJlZBIQCghza2lsbF9pZBgBIAEo",
+            "CRIRCgl0YXJnZXRfaWQYAiABKAkSCwoDdGFnGAMgASgJIhgKBURlYXRoEg8K",
+            "B3VuaXRfaWQYASABKAkqWwoPU2tpbGxBY3Rpb25UeXBlEhMKD0FOSU1BVElP",
+            "Tl9TVEFSVBAAEhIKDkVGRkVDVF9UUklHR0VSEAESDgoKRUZGRUNUX0hJVBAC",
+            "Eg8KC0VGRkVDVF9NSVNTEAMqWAoEU3RhdBIKCgZIRUFMVEgQABIKCgZFTkVS",
+            "R1kQARIKCgZBVFRBQ0sQAhILCgdERUZFTlNFEAMSFAoQREFNQUdFX1JFRFVD",
+            "VElPThAEEgkKBVNQRUVEEAVCFKoCEVByb3RvYnVmLk1lc3NhZ2VzYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuf.Messages.SkillActionType), typeof(global::Protobuf.Messages.Stat), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -207,9 +208,9 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.StatAffected), global::Protobuf.Messages.StatAffected.Parser, new[]{ "Stat", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.SkillAction), global::Protobuf.Messages.SkillAction.Parser, new[]{ "CasterId", "TargetIds", "SkillId", "SkillActionType", "StatsAffected" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierReceived), global::Protobuf.Messages.ModifierReceived.Parser, new[]{ "SkillId", "TargetId", "StatAffected" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagReceived), global::Protobuf.Messages.TagReceived.Parser, new[]{ "SkillId", "TargetId", "TagName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagReceived), global::Protobuf.Messages.TagReceived.Parser, new[]{ "SkillId", "TargetId", "Tag" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierExpired), global::Protobuf.Messages.ModifierExpired.Parser, new[]{ "SkillId", "TargetId", "StatAffected" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagExpired), global::Protobuf.Messages.TagExpired.Parser, new[]{ "SkillId", "TargetId", "TagName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagExpired), global::Protobuf.Messages.TagExpired.Parser, new[]{ "SkillId", "TargetId", "Tag" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Death), global::Protobuf.Messages.Death.Parser, new[]{ "UnitId" }, null, null, null, null)
           }));
     }
@@ -227,8 +228,10 @@ namespace Protobuf.Messages {
   public enum Stat {
     [pbr::OriginalName("HEALTH")] Health = 0,
     [pbr::OriginalName("ENERGY")] Energy = 1,
-    [pbr::OriginalName("DAMAGE")] Damage = 2,
+    [pbr::OriginalName("ATTACK")] Attack = 2,
     [pbr::OriginalName("DEFENSE")] Defense = 3,
+    [pbr::OriginalName("DAMAGE_REDUCTION")] DamageReduction = 4,
+    [pbr::OriginalName("SPEED")] Speed = 5,
   }
 
   #endregion
@@ -15929,7 +15932,7 @@ namespace Protobuf.Messages {
     public TagReceived(TagReceived other) : this() {
       skillId_ = other.skillId_;
       targetId_ = other.targetId_;
-      tagName_ = other.tagName_;
+      tag_ = other.tag_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -15963,15 +15966,15 @@ namespace Protobuf.Messages {
       }
     }
 
-    /// <summary>Field number for the "tag_name" field.</summary>
-    public const int TagNameFieldNumber = 3;
-    private string tagName_ = "";
+    /// <summary>Field number for the "tag" field.</summary>
+    public const int TagFieldNumber = 3;
+    private string tag_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string TagName {
-      get { return tagName_; }
+    public string Tag {
+      get { return tag_; }
       set {
-        tagName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tag_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -15992,7 +15995,7 @@ namespace Protobuf.Messages {
       }
       if (SkillId != other.SkillId) return false;
       if (TargetId != other.TargetId) return false;
-      if (TagName != other.TagName) return false;
+      if (Tag != other.Tag) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -16002,7 +16005,7 @@ namespace Protobuf.Messages {
       int hash = 1;
       if (SkillId.Length != 0) hash ^= SkillId.GetHashCode();
       if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
-      if (TagName.Length != 0) hash ^= TagName.GetHashCode();
+      if (Tag.Length != 0) hash ^= Tag.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -16029,9 +16032,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(18);
         output.WriteString(TargetId);
       }
-      if (TagName.Length != 0) {
+      if (Tag.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(TagName);
+        output.WriteString(Tag);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -16051,9 +16054,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(18);
         output.WriteString(TargetId);
       }
-      if (TagName.Length != 0) {
+      if (Tag.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(TagName);
+        output.WriteString(Tag);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -16071,8 +16074,8 @@ namespace Protobuf.Messages {
       if (TargetId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetId);
       }
-      if (TagName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TagName);
+      if (Tag.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Tag);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -16092,8 +16095,8 @@ namespace Protobuf.Messages {
       if (other.TargetId.Length != 0) {
         TargetId = other.TargetId;
       }
-      if (other.TagName.Length != 0) {
-        TagName = other.TagName;
+      if (other.Tag.Length != 0) {
+        Tag = other.Tag;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -16119,7 +16122,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 26: {
-            TagName = input.ReadString();
+            Tag = input.ReadString();
             break;
           }
         }
@@ -16146,7 +16149,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 26: {
-            TagName = input.ReadString();
+            Tag = input.ReadString();
             break;
           }
         }
@@ -16466,7 +16469,7 @@ namespace Protobuf.Messages {
     public TagExpired(TagExpired other) : this() {
       skillId_ = other.skillId_;
       targetId_ = other.targetId_;
-      tagName_ = other.tagName_;
+      tag_ = other.tag_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -16500,15 +16503,15 @@ namespace Protobuf.Messages {
       }
     }
 
-    /// <summary>Field number for the "tag_name" field.</summary>
-    public const int TagNameFieldNumber = 3;
-    private string tagName_ = "";
+    /// <summary>Field number for the "tag" field.</summary>
+    public const int TagFieldNumber = 3;
+    private string tag_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string TagName {
-      get { return tagName_; }
+    public string Tag {
+      get { return tag_; }
       set {
-        tagName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tag_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -16529,7 +16532,7 @@ namespace Protobuf.Messages {
       }
       if (SkillId != other.SkillId) return false;
       if (TargetId != other.TargetId) return false;
-      if (TagName != other.TagName) return false;
+      if (Tag != other.Tag) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -16539,7 +16542,7 @@ namespace Protobuf.Messages {
       int hash = 1;
       if (SkillId.Length != 0) hash ^= SkillId.GetHashCode();
       if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
-      if (TagName.Length != 0) hash ^= TagName.GetHashCode();
+      if (Tag.Length != 0) hash ^= Tag.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -16566,9 +16569,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(18);
         output.WriteString(TargetId);
       }
-      if (TagName.Length != 0) {
+      if (Tag.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(TagName);
+        output.WriteString(Tag);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -16588,9 +16591,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(18);
         output.WriteString(TargetId);
       }
-      if (TagName.Length != 0) {
+      if (Tag.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(TagName);
+        output.WriteString(Tag);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -16608,8 +16611,8 @@ namespace Protobuf.Messages {
       if (TargetId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetId);
       }
-      if (TagName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TagName);
+      if (Tag.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Tag);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -16629,8 +16632,8 @@ namespace Protobuf.Messages {
       if (other.TargetId.Length != 0) {
         TargetId = other.TargetId;
       }
-      if (other.TagName.Length != 0) {
-        TagName = other.TagName;
+      if (other.Tag.Length != 0) {
+        Tag = other.Tag;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -16656,7 +16659,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 26: {
-            TagName = input.ReadString();
+            Tag = input.ReadString();
             break;
           }
         }
@@ -16683,7 +16686,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 26: {
-            TagName = input.ReadString();
+            Tag = input.ReadString();
             break;
           }
         }
