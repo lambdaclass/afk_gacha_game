@@ -133,11 +133,17 @@ public class SocketConnection : MonoBehaviour {
 	{
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
 		List<Item> items = new List<Item>();
+        List<AfkRewardRate> afkRewardRates = new List<AfkRewardRate>();
 
 		foreach (var userItem in user.Items)
 		{
 			items.Add(CreateItemFromData(userItem));
 		}
+
+        foreach (var afkRewardRate in user.AfkRewardRates)
+        {
+            afkRewardRates.Add(CreateAfkRewardRateFromData(afkRewardRate));
+        }
 
 		Dictionary<Currency, int> currencies = new Dictionary<Currency, int>();
 
@@ -161,7 +167,8 @@ public class SocketConnection : MonoBehaviour {
 			items = items,
 			currencies = currencies,
 			level = (int)user.Level,
-			experience = (int)user.Experience
+			experience = (int)user.Experience,
+            afkRewardRates = afkRewardRates
 		};
 	}
 	
@@ -173,6 +180,16 @@ public class SocketConnection : MonoBehaviour {
             userId = itemData.UserId,
             unitId = itemData.UnitId,
             template = GlobalUserData.Instance.AvailableItemTemplates.Find(itemtemplate => itemtemplate.name.ToLower() == itemData.Template.Name.ToLower())
+        };
+    }
+
+    private AfkRewardRate CreateAfkRewardRateFromData(Protobuf.Messages.AfkRewardRate afkRewardRateData)
+    {
+        return new AfkRewardRate
+        {
+            userId = afkRewardRateData.UserId,
+            currency = Enum.Parse<Currency>(afkRewardRateData.Currency.Name),
+            rate = afkRewardRateData.Rate
         };
     }
 
@@ -721,4 +738,87 @@ public class SocketConnection : MonoBehaviour {
         rewards.Add(Currency.Experience, (int)level.ExperienceReward);
         return rewards;
     }
+
+    public void GetAfkRewards(string userId, Action<List<AfkReward>> onAfkRewardsReceived)
+    {
+        GetAfkRewards getAfkRewardsRequest = new GetAfkRewards
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            GetAfkRewards = getAfkRewardsRequest
+        };
+        currentMessageHandler = (data) => AwaitGetAfkRewardsResponse(data, onAfkRewardsReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitGetAfkRewardsResponse(byte[] data, Action<List<AfkReward>> onAfkRewardsReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.AfkRewards)
+            {
+                List<AfkReward> afkRewards = webSocketResponse.AfkRewards.AfkRewards_.Select(afkReward => new AfkReward
+                {
+                    currency = Enum.Parse<Currency>(afkReward.Currency.Name),
+                    amount = (int)afkReward.Amount
+                }).ToList();
+                onAfkRewardsReceived?.Invoke(afkRewards);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
+        public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
+    {
+        ClaimAfkRewards claimAfkRewardsRequest = new ClaimAfkRewards
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            ClaimAfkRewards = claimAfkRewardsRequest
+        };
+        currentMessageHandler = (data) => AwaitClaimAfkRewardsResponse(data, onAfkRewardsReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitClaimAfkRewardsResponse(byte[] data, Action<User> onAfkRewardsReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
+            {
+				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
+				onAfkRewardsReceived?.Invoke(user);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
 }

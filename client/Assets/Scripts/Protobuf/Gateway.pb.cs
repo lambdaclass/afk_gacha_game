@@ -86,69 +86,68 @@ namespace Protobuf.Messages {
             "ZXNzZXMYASADKAsyFi5TdXBlckNhbXBhaWduUHJvZ3Jlc3MiagoVU3VwZXJD",
             "YW1wYWlnblByb2dyZXNzEg8KB3VzZXJfaWQYASABKAkSEwoLY2FtcGFpZ25f",
             "aWQYAiABKAkSEAoIbGV2ZWxfaWQYAyABKAkSGQoRc3VwZXJfY2FtcGFpZ25f",
-            "aWQYBCABKAkiQwoNQWZrUmV3YXJkUmF0ZRIPCgd1c2VyX2lkGAEgASgJEhMK",
-            "C2N1cnJlbmN5X2lkGAIgASgJEgwKBHJhdGUYAyABKAIiOwoMVXNlckN1cnJl",
-            "bmN5EhsKCGN1cnJlbmN5GAEgASgLMgkuQ3VycmVuY3kSDgoGYW1vdW50GAIg",
-            "ASgNIhgKCEN1cnJlbmN5EgwKBG5hbWUYASABKAkivgEKBFVuaXQSCgoCaWQY",
-            "ASABKAkSDQoFbGV2ZWwYAiABKA0SDAoEdGllchgDIAEoDRIMCgRyYW5rGAQg",
-            "ASgNEhAKCHNlbGVjdGVkGAUgASgIEgwKBHNsb3QYBiABKA0SGQoRY2FtcGFp",
-            "Z25fbGV2ZWxfaWQYByABKAkSDwoHdXNlcl9pZBgIIAEoCRIdCgljaGFyYWN0",
-            "ZXIYCSABKAsyCi5DaGFyYWN0ZXISFAoFaXRlbXMYCiADKAsyBS5JdGVtIh0K",
-            "BVVuaXRzEhQKBXVuaXRzGAEgAygLMgUuVW5pdCJOChFVbml0QW5kQ3VycmVu",
-            "Y2llcxITCgR1bml0GAEgASgLMgUuVW5pdBIkCg11c2VyX2N1cnJlbmN5GAIg",
-            "AygLMg0uVXNlckN1cnJlbmN5IksKCUNoYXJhY3RlchIOCgZhY3RpdmUYASAB",
-            "KAgSDAoEbmFtZRgCIAEoCRIPCgdmYWN0aW9uGAMgASgJEg8KB3F1YWxpdHkY",
-            "BCABKA0iZAoESXRlbRIKCgJpZBgBIAEoCRINCgVsZXZlbBgCIAEoDRIfCgh0",
-            "ZW1wbGF0ZRgDIAEoCzINLkl0ZW1UZW1wbGF0ZRIPCgd1c2VyX2lkGAQgASgJ",
-            "Eg8KB3VuaXRfaWQYBSABKAkiNgoMSXRlbVRlbXBsYXRlEgoKAmlkGAEgASgJ",
-            "EgwKBG5hbWUYAiABKAkSDAoEdHlwZRgDIAEoCSIpCglDYW1wYWlnbnMSHAoJ",
-            "Y2FtcGFpZ25zGAEgAygLMgkuQ2FtcGFpZ24iYgoIQ2FtcGFpZ24SCgoCaWQY",
-            "ASABKAkSGQoRc3VwZXJfY2FtcGFpZ25faWQYAiABKAkSFwoPY2FtcGFpZ25f",
-            "bnVtYmVyGAMgASgNEhYKBmxldmVscxgEIAMoCzIGLkxldmVsIpoBCgVMZXZl",
-            "bBIKCgJpZBgBIAEoCRITCgtjYW1wYWlnbl9pZBgCIAEoCRIUCgxsZXZlbF9u",
-            "dW1iZXIYAyABKA0SFAoFdW5pdHMYBCADKAsyBS5Vbml0EikKEGN1cnJlbmN5",
-            "X3Jld2FyZHMYBSADKAsyDy5DdXJyZW5jeVJld2FyZBIZChFleHBlcmllbmNl",
-            "X3Jld2FyZBgGIAEoDSI9Cg5DdXJyZW5jeVJld2FyZBIbCghjdXJyZW5jeRgB",
-            "IAEoCzIJLkN1cnJlbmN5Eg4KBmFtb3VudBgDIAEoBCItCgpBZmtSZXdhcmRz",
-            "Eh8KC2Fma19yZXdhcmRzGAEgAygLMgouQWZrUmV3YXJkIjgKCUFma1Jld2Fy",
-            "ZBIbCghjdXJyZW5jeRgBIAEoCzIJLkN1cnJlbmN5Eg4KBmFtb3VudBgCIAEo",
-            "BCIXCgVFcnJvchIOCgZyZWFzb24YASABKAkiHAoFQm94ZXMSEwoFYm94ZXMY",
-            "ASADKAsyBC5Cb3gihwEKA0JveBIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJ",
-            "EhMKC2Rlc2NyaXB0aW9uGAMgASgJEhAKCGZhY3Rpb25zGAQgAygJEiIKDHJh",
-            "bmtfd2VpZ2h0cxgFIAMoCzIMLlJhbmtXZWlnaHRzEhsKBGNvc3QYBiADKAsy",
-            "DS5DdXJyZW5jeUNvc3QiKwoLUmFua1dlaWdodHMSDAoEcmFuaxgBIAEoBRIO",
-            "CgZ3ZWlnaHQYAiABKAUiOwoMQ3VycmVuY3lDb3N0EhsKCGN1cnJlbmN5GAEg",
-            "ASgLMgkuQ3VycmVuY3kSDgoGYW1vdW50GAIgASgFIjcKC1VzZXJBbmRVbml0",
-            "EhMKBHVzZXIYASABKAsyBS5Vc2VyEhMKBHVuaXQYAiABKAsyBS5Vbml0IlMK",
-            "DEJhdHRsZVJlc3VsdBIdCg1pbml0aWFsX3N0YXRlGAEgASgLMgYuU3RhdGUS",
-            "FAoFc3RlcHMYAiADKAsyBS5TdGVwEg4KBnJlc3VsdBgDIAEoCSIjCgVTdGF0",
-            "ZRIaCgV1bml0cxgBIAMoCzILLkJhdHRsZVVuaXQiWgoKQmF0dGxlVW5pdBIK",
-            "CgJpZBgBIAEoCRIOCgZoZWFsdGgYAiABKAUSDAoEc2xvdBgDIAEoBRIUCgxj",
-            "aGFyYWN0ZXJfaWQYBCABKAkSDAoEdGVhbRgFIAEoBSI1CgRTdGVwEhMKC3N0",
-            "ZXBfbnVtYmVyGAEgASgFEhgKB2FjdGlvbnMYAiADKAsyBy5BY3Rpb24i/gEK",
-            "BkFjdGlvbhIkCgxza2lsbF9hY3Rpb24YASABKAsyDC5Ta2lsbEFjdGlvbkgA",
-            "Ei4KEW1vZGlmaWVyX3JlY2VpdmVkGAIgASgLMhEuTW9kaWZpZXJSZWNlaXZl",
-            "ZEgAEiQKDHRhZ19yZWNlaXZlZBgDIAEoCzIMLlRhZ1JlY2VpdmVkSAASLAoQ",
-            "bW9kaWZpZXJfZXhwaXJlZBgEIAEoCzIQLk1vZGlmaWVyRXhwaXJlZEgAEiIK",
-            "C3RhZ19leHBpcmVkGAUgASgLMgsuVGFnRXhwaXJlZEgAEhcKBWRlYXRoGAYg",
-            "ASgLMgYuRGVhdGhIAEINCgthY3Rpb25fdHlwZSIzCgxTdGF0QWZmZWN0ZWQS",
-            "EwoEc3RhdBgBIAEoDjIFLlN0YXQSDgoGYW1vdW50GAIgASgCIpoBCgtTa2ls",
-            "bEFjdGlvbhIRCgljYXN0ZXJfaWQYASABKAkSEgoKdGFyZ2V0X2lkcxgCIAMo",
-            "CRIQCghza2lsbF9pZBgDIAEoCRIrChFza2lsbF9hY3Rpb25fdHlwZRgEIAEo",
-            "DjIQLlNraWxsQWN0aW9uVHlwZRIlCg5zdGF0c19hZmZlY3RlZBgFIAMoCzIN",
-            "LlN0YXRBZmZlY3RlZCJdChBNb2RpZmllclJlY2VpdmVkEhAKCHNraWxsX2lk",
-            "GAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIkCg1zdGF0X2FmZmVjdGVkGAMg",
-            "ASgLMg0uU3RhdEFmZmVjdGVkIkQKC1RhZ1JlY2VpdmVkEhAKCHNraWxsX2lk",
-            "GAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIQCgh0YWdfbmFtZRgDIAEoCSJc",
-            "Cg9Nb2RpZmllckV4cGlyZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0",
-            "X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5TdGF0QWZmZWN0",
-            "ZWQiQwoKVGFnRXhwaXJlZBIQCghza2lsbF9pZBgBIAEoCRIRCgl0YXJnZXRf",
-            "aWQYAiABKAkSEAoIdGFnX25hbWUYAyABKAkiGAoFRGVhdGgSDwoHdW5pdF9p",
-            "ZBgBIAEoCSpbCg9Ta2lsbEFjdGlvblR5cGUSEwoPQU5JTUFUSU9OX1NUQVJU",
-            "EAASEgoORUZGRUNUX1RSSUdHRVIQARIOCgpFRkZFQ1RfSElUEAISDwoLRUZG",
-            "RUNUX01JU1MQAyo3CgRTdGF0EgoKBkhFQUxUSBAAEgoKBkVORVJHWRABEgoK",
-            "BkRBTUFHRRACEgsKB0RFRkVOU0UQA0IUqgIRUHJvdG9idWYuTWVzc2FnZXNi",
-            "BnByb3RvMw=="));
+            "aWQYBCABKAkiSwoNQWZrUmV3YXJkUmF0ZRIPCgd1c2VyX2lkGAEgASgJEhsK",
+            "CGN1cnJlbmN5GAIgASgLMgkuQ3VycmVuY3kSDAoEcmF0ZRgDIAEoAiI7CgxV",
+            "c2VyQ3VycmVuY3kSGwoIY3VycmVuY3kYASABKAsyCS5DdXJyZW5jeRIOCgZh",
+            "bW91bnQYAiABKA0iGAoIQ3VycmVuY3kSDAoEbmFtZRgBIAEoCSK+AQoEVW5p",
+            "dBIKCgJpZBgBIAEoCRINCgVsZXZlbBgCIAEoDRIMCgR0aWVyGAMgASgNEgwK",
+            "BHJhbmsYBCABKA0SEAoIc2VsZWN0ZWQYBSABKAgSDAoEc2xvdBgGIAEoDRIZ",
+            "ChFjYW1wYWlnbl9sZXZlbF9pZBgHIAEoCRIPCgd1c2VyX2lkGAggASgJEh0K",
+            "CWNoYXJhY3RlchgJIAEoCzIKLkNoYXJhY3RlchIUCgVpdGVtcxgKIAMoCzIF",
+            "Lkl0ZW0iHQoFVW5pdHMSFAoFdW5pdHMYASADKAsyBS5Vbml0Ik4KEVVuaXRB",
+            "bmRDdXJyZW5jaWVzEhMKBHVuaXQYASABKAsyBS5Vbml0EiQKDXVzZXJfY3Vy",
+            "cmVuY3kYAiADKAsyDS5Vc2VyQ3VycmVuY3kiSwoJQ2hhcmFjdGVyEg4KBmFj",
+            "dGl2ZRgBIAEoCBIMCgRuYW1lGAIgASgJEg8KB2ZhY3Rpb24YAyABKAkSDwoH",
+            "cXVhbGl0eRgEIAEoDSJkCgRJdGVtEgoKAmlkGAEgASgJEg0KBWxldmVsGAIg",
+            "ASgNEh8KCHRlbXBsYXRlGAMgASgLMg0uSXRlbVRlbXBsYXRlEg8KB3VzZXJf",
+            "aWQYBCABKAkSDwoHdW5pdF9pZBgFIAEoCSI2CgxJdGVtVGVtcGxhdGUSCgoC",
+            "aWQYASABKAkSDAoEbmFtZRgCIAEoCRIMCgR0eXBlGAMgASgJIikKCUNhbXBh",
+            "aWducxIcCgljYW1wYWlnbnMYASADKAsyCS5DYW1wYWlnbiJiCghDYW1wYWln",
+            "bhIKCgJpZBgBIAEoCRIZChFzdXBlcl9jYW1wYWlnbl9pZBgCIAEoCRIXCg9j",
+            "YW1wYWlnbl9udW1iZXIYAyABKA0SFgoGbGV2ZWxzGAQgAygLMgYuTGV2ZWwi",
+            "fwoFTGV2ZWwSCgoCaWQYASABKAkSEwoLY2FtcGFpZ25faWQYAiABKAkSFAoM",
+            "bGV2ZWxfbnVtYmVyGAMgASgNEhQKBXVuaXRzGAQgAygLMgUuVW5pdBIpChBj",
+            "dXJyZW5jeV9yZXdhcmRzGAUgAygLMg8uQ3VycmVuY3lSZXdhcmQiPQoOQ3Vy",
+            "cmVuY3lSZXdhcmQSGwoIY3VycmVuY3kYASABKAsyCS5DdXJyZW5jeRIOCgZh",
+            "bW91bnQYAyABKAQiLQoKQWZrUmV3YXJkcxIfCgthZmtfcmV3YXJkcxgBIAMo",
+            "CzIKLkFma1Jld2FyZCI4CglBZmtSZXdhcmQSGwoIY3VycmVuY3kYASABKAsy",
+            "CS5DdXJyZW5jeRIOCgZhbW91bnQYAiABKAQiFwoFRXJyb3ISDgoGcmVhc29u",
+            "GAEgASgJIhwKBUJveGVzEhMKBWJveGVzGAEgAygLMgQuQm94IocBCgNCb3gS",
+            "CgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEo",
+            "CRIQCghmYWN0aW9ucxgEIAMoCRIiCgxyYW5rX3dlaWdodHMYBSADKAsyDC5S",
+            "YW5rV2VpZ2h0cxIbCgRjb3N0GAYgAygLMg0uQ3VycmVuY3lDb3N0IisKC1Jh",
+            "bmtXZWlnaHRzEgwKBHJhbmsYASABKAUSDgoGd2VpZ2h0GAIgASgFIjsKDEN1",
+            "cnJlbmN5Q29zdBIbCghjdXJyZW5jeRgBIAEoCzIJLkN1cnJlbmN5Eg4KBmFt",
+            "b3VudBgCIAEoBSI3CgtVc2VyQW5kVW5pdBITCgR1c2VyGAEgASgLMgUuVXNl",
+            "chITCgR1bml0GAIgASgLMgUuVW5pdCJTCgxCYXR0bGVSZXN1bHQSHQoNaW5p",
+            "dGlhbF9zdGF0ZRgBIAEoCzIGLlN0YXRlEhQKBXN0ZXBzGAIgAygLMgUuU3Rl",
+            "cBIOCgZyZXN1bHQYAyABKAkiIwoFU3RhdGUSGgoFdW5pdHMYASADKAsyCy5C",
+            "YXR0bGVVbml0IloKCkJhdHRsZVVuaXQSCgoCaWQYASABKAkSDgoGaGVhbHRo",
+            "GAIgASgFEgwKBHNsb3QYAyABKAUSFAoMY2hhcmFjdGVyX2lkGAQgASgJEgwK",
+            "BHRlYW0YBSABKAUiNQoEU3RlcBITCgtzdGVwX251bWJlchgBIAEoBRIYCgdh",
+            "Y3Rpb25zGAIgAygLMgcuQWN0aW9uIv4BCgZBY3Rpb24SJAoMc2tpbGxfYWN0",
+            "aW9uGAEgASgLMgwuU2tpbGxBY3Rpb25IABIuChFtb2RpZmllcl9yZWNlaXZl",
+            "ZBgCIAEoCzIRLk1vZGlmaWVyUmVjZWl2ZWRIABIkCgx0YWdfcmVjZWl2ZWQY",
+            "AyABKAsyDC5UYWdSZWNlaXZlZEgAEiwKEG1vZGlmaWVyX2V4cGlyZWQYBCAB",
+            "KAsyEC5Nb2RpZmllckV4cGlyZWRIABIiCgt0YWdfZXhwaXJlZBgFIAEoCzIL",
+            "LlRhZ0V4cGlyZWRIABIXCgVkZWF0aBgGIAEoCzIGLkRlYXRoSABCDQoLYWN0",
+            "aW9uX3R5cGUiMwoMU3RhdEFmZmVjdGVkEhMKBHN0YXQYASABKA4yBS5TdGF0",
+            "Eg4KBmFtb3VudBgCIAEoAiKaAQoLU2tpbGxBY3Rpb24SEQoJY2FzdGVyX2lk",
+            "GAEgASgJEhIKCnRhcmdldF9pZHMYAiADKAkSEAoIc2tpbGxfaWQYAyABKAkS",
+            "KwoRc2tpbGxfYWN0aW9uX3R5cGUYBCABKA4yEC5Ta2lsbEFjdGlvblR5cGUS",
+            "JQoOc3RhdHNfYWZmZWN0ZWQYBSADKAsyDS5TdGF0QWZmZWN0ZWQiXQoQTW9k",
+            "aWZpZXJSZWNlaXZlZBIQCghza2lsbF9pZBgBIAEoCRIRCgl0YXJnZXRfaWQY",
+            "AiABKAkSJAoNc3RhdF9hZmZlY3RlZBgDIAEoCzINLlN0YXRBZmZlY3RlZCJE",
+            "CgtUYWdSZWNlaXZlZBIQCghza2lsbF9pZBgBIAEoCRIRCgl0YXJnZXRfaWQY",
+            "AiABKAkSEAoIdGFnX25hbWUYAyABKAkiXAoPTW9kaWZpZXJFeHBpcmVkEhAK",
+            "CHNraWxsX2lkGAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIkCg1zdGF0X2Fm",
+            "ZmVjdGVkGAMgASgLMg0uU3RhdEFmZmVjdGVkIkMKClRhZ0V4cGlyZWQSEAoI",
+            "c2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEhAKCHRhZ19uYW1l",
+            "GAMgASgJIhgKBURlYXRoEg8KB3VuaXRfaWQYASABKAkqWwoPU2tpbGxBY3Rp",
+            "b25UeXBlEhMKD0FOSU1BVElPTl9TVEFSVBAAEhIKDkVGRkVDVF9UUklHR0VS",
+            "EAESDgoKRUZGRUNUX0hJVBACEg8KC0VGRkVDVF9NSVNTEAMqNwoEU3RhdBIK",
+            "CgZIRUFMVEgQABIKCgZFTkVSR1kQARIKCgZEQU1BR0UQAhILCgdERUZFTlNF",
+            "EANCFKoCEVByb3RvYnVmLk1lc3NhZ2VzYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuf.Messages.SkillActionType), typeof(global::Protobuf.Messages.Stat), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -179,7 +178,7 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.User), global::Protobuf.Messages.User.Parser, new[]{ "Id", "Username", "Level", "Experience", "Currencies", "Units", "Items", "AfkRewardRates" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.SuperCampaignProgresses), global::Protobuf.Messages.SuperCampaignProgresses.Parser, new[]{ "SuperCampaignProgresses_" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.SuperCampaignProgress), global::Protobuf.Messages.SuperCampaignProgress.Parser, new[]{ "UserId", "CampaignId", "LevelId", "SuperCampaignId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.AfkRewardRate), global::Protobuf.Messages.AfkRewardRate.Parser, new[]{ "UserId", "CurrencyId", "Rate" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.AfkRewardRate), global::Protobuf.Messages.AfkRewardRate.Parser, new[]{ "UserId", "Currency", "Rate" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.UserCurrency), global::Protobuf.Messages.UserCurrency.Parser, new[]{ "Currency", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Currency), global::Protobuf.Messages.Currency.Parser, new[]{ "Name" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Unit), global::Protobuf.Messages.Unit.Parser, new[]{ "Id", "Level", "Tier", "Rank", "Selected", "Slot", "CampaignLevelId", "UserId", "Character", "Items" }, null, null, null, null),
@@ -8238,7 +8237,7 @@ namespace Protobuf.Messages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public AfkRewardRate(AfkRewardRate other) : this() {
       userId_ = other.userId_;
-      currencyId_ = other.currencyId_;
+      currency_ = other.currency_ != null ? other.currency_.Clone() : null;
       rate_ = other.rate_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -8261,15 +8260,15 @@ namespace Protobuf.Messages {
       }
     }
 
-    /// <summary>Field number for the "currency_id" field.</summary>
-    public const int CurrencyIdFieldNumber = 2;
-    private string currencyId_ = "";
+    /// <summary>Field number for the "currency" field.</summary>
+    public const int CurrencyFieldNumber = 2;
+    private global::Protobuf.Messages.Currency currency_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string CurrencyId {
-      get { return currencyId_; }
+    public global::Protobuf.Messages.Currency Currency {
+      get { return currency_; }
       set {
-        currencyId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        currency_ = value;
       }
     }
 
@@ -8301,7 +8300,7 @@ namespace Protobuf.Messages {
         return true;
       }
       if (UserId != other.UserId) return false;
-      if (CurrencyId != other.CurrencyId) return false;
+      if (!object.Equals(Currency, other.Currency)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Rate, other.Rate)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -8311,7 +8310,7 @@ namespace Protobuf.Messages {
     public override int GetHashCode() {
       int hash = 1;
       if (UserId.Length != 0) hash ^= UserId.GetHashCode();
-      if (CurrencyId.Length != 0) hash ^= CurrencyId.GetHashCode();
+      if (currency_ != null) hash ^= Currency.GetHashCode();
       if (Rate != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Rate);
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -8335,9 +8334,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(10);
         output.WriteString(UserId);
       }
-      if (CurrencyId.Length != 0) {
+      if (currency_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(CurrencyId);
+        output.WriteMessage(Currency);
       }
       if (Rate != 0F) {
         output.WriteRawTag(29);
@@ -8357,9 +8356,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(10);
         output.WriteString(UserId);
       }
-      if (CurrencyId.Length != 0) {
+      if (currency_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(CurrencyId);
+        output.WriteMessage(Currency);
       }
       if (Rate != 0F) {
         output.WriteRawTag(29);
@@ -8378,8 +8377,8 @@ namespace Protobuf.Messages {
       if (UserId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(UserId);
       }
-      if (CurrencyId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(CurrencyId);
+      if (currency_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Currency);
       }
       if (Rate != 0F) {
         size += 1 + 4;
@@ -8399,8 +8398,11 @@ namespace Protobuf.Messages {
       if (other.UserId.Length != 0) {
         UserId = other.UserId;
       }
-      if (other.CurrencyId.Length != 0) {
-        CurrencyId = other.CurrencyId;
+      if (other.currency_ != null) {
+        if (currency_ == null) {
+          Currency = new global::Protobuf.Messages.Currency();
+        }
+        Currency.MergeFrom(other.Currency);
       }
       if (other.Rate != 0F) {
         Rate = other.Rate;
@@ -8425,7 +8427,10 @@ namespace Protobuf.Messages {
             break;
           }
           case 18: {
-            CurrencyId = input.ReadString();
+            if (currency_ == null) {
+              Currency = new global::Protobuf.Messages.Currency();
+            }
+            input.ReadMessage(Currency);
             break;
           }
           case 29: {
@@ -8452,7 +8457,10 @@ namespace Protobuf.Messages {
             break;
           }
           case 18: {
-            CurrencyId = input.ReadString();
+            if (currency_ == null) {
+              Currency = new global::Protobuf.Messages.Currency();
+            }
+            input.ReadMessage(Currency);
             break;
           }
           case 29: {
