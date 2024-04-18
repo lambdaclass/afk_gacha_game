@@ -29,10 +29,6 @@ option csharp_namespace = "Protobuf.Messages";
     }
   }
 
-  message BattleTest {
-    string user_id = 1;
-  }
-
  message GetUser {
     string user_id = 1;
  }
