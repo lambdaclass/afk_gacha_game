@@ -213,7 +213,10 @@ public class BattleManager : MonoBehaviour
         List<UIReward> rewards = new List<UIReward>();
 
         foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
-            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));            
+            if (currencyReward.Value > 0)
+            {
+                rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));            
+            }
         }
         return rewards;
     }
