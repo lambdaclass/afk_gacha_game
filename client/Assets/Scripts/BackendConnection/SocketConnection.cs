@@ -782,7 +782,7 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
-        public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
+    public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
     {
         ClaimAfkRewards claimAfkRewardsRequest = new ClaimAfkRewards
         {
