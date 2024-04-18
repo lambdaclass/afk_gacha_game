@@ -71,8 +71,6 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var unit in battleResult.InitialState.Units)
 		{
-			// Debug.Log($"{unit.Id}, {unit.Health}, team: {unit.Team}");
-
 			BattleUnit battleUnit;
 			if(unit.Team == 1) {
 				battleUnit = playerUnitsUI.First(unitPosition => unitPosition.SelectedUnit.id == unit.Id);
@@ -90,11 +88,13 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
-			// Debug.Log($"Step: {step.StepNumber}");
 			yield return new WaitForSeconds(.3f);
 
-			foreach (var action in step.Actions.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-													.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death)))
+			var actionsExcludingSkills = step.Actions
+				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+				.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death));
+
+			foreach (var action in actionsExcludingSkills)
 			{
 				switch (action.ActionTypeCase)
 				{
