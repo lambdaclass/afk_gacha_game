@@ -19,7 +19,7 @@ public class ProjectilesPooler : MonoBehaviour
 		}
 	}
 
-    public void ShootProjectile(Transform startTransform, Transform targetTransform, Color porjectileColor) {
+    public void ShootProjectile(Transform startTransform, Transform targetTransform, Color projectileColor) {
 		int availableIndex = lineRenderersList.FindIndex(l => !l.isBeingUsed);
         (bool isBeingUsed, LineRenderer lineRendererComponent) lineRenderer;
 
@@ -35,8 +35,8 @@ public class ProjectilesPooler : MonoBehaviour
         
         lineRenderer.lineRendererComponent.SetPosition(0, new Vector3(startTransform.localPosition.x, startTransform.localPosition.y, -100));
         lineRenderer.lineRendererComponent.SetPosition(1, new Vector3(targetTransform.localPosition.x, targetTransform.localPosition.y, -100));
-		lineRenderer.lineRendererComponent.startColor = porjectileColor;
-		lineRenderer.lineRendererComponent.endColor = porjectileColor;
+		lineRenderer.lineRendererComponent.startColor = projectileColor;
+		lineRenderer.lineRendererComponent.endColor = projectileColor;
         lineRenderer.lineRendererComponent.gameObject.SetActive(true);
         lineRenderersList[availableIndex] = (true, lineRenderer.lineRendererComponent);
 
