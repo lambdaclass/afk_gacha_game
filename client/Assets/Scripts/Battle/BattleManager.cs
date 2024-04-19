@@ -71,8 +71,6 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var unit in battleResult.InitialState.Units)
 		{
-			// Debug.Log($"{unit.Id}, {unit.Health}, team: {unit.Team}");
-
 			BattleUnit battleUnit;
 			if(unit.Team == 1) {
 				battleUnit = playerUnitsUI.First(unitPosition => unitPosition.SelectedUnit.id == unit.Id);
@@ -90,11 +88,13 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
-			// Debug.Log($"Step: {step.StepNumber}");
 			yield return new WaitForSeconds(.3f);
 
-			foreach (var action in step.Actions.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-													.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death)))
+			var actionsExcludingSkills = step.Actions
+				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+				.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death));
+
+			foreach (var action in actionsExcludingSkills)
 			{
 				switch (action.ActionTypeCase)
 				{
@@ -137,9 +137,7 @@ public class BattleManager : MonoBehaviour
 				Debug.LogError(ex.Message);
 			}
             GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrency(LevelProgress.selectedLevelData.rewards);
-            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
-            user.AccumulateAFKRewards();
+            user.AddCurrencies(GetLevelRewards());
             user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
@@ -164,6 +162,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private Dictionary<Currency, int> GetLevelRewards()
+    {
+        Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
+        if (LevelProgress.selectedLevelData.experienceReward > 0)
+        {
+            rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
+        }
+        return rewards;
+    }
+
 	private void SetUpNextButton()
 	{
 		GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
@@ -182,12 +190,12 @@ public class BattleManager : MonoBehaviour
     private List<UIReward> CreateRewardsList() {
         List<UIReward> rewards = new List<UIReward>();
 
-        if (LevelProgress.selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(LevelProgress.selectedLevelData.experienceReward)); }
-
         foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
-            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+            if (currencyReward.Value > 0)
+            {
+                rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));            
+            }
         }
-
         return rewards;
     }
 }
