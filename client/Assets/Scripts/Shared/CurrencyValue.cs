@@ -1,5 +1,3 @@
-using System;
-
 [System.Serializable]
 public struct CurrencyValue {
     public Currency currency;

@@ -95,12 +95,13 @@ public class BattleManager : MonoBehaviour
 		{
 			yield return new WaitForSeconds(.4f);
 
-			foreach(var action in step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-														.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger))
-			{
-				List<BattleUnit> targetUnits = GetSkillTargets(action.SkillAction.TargetIds.ToArray());
+			IEnumerable<Protobuf.Messages.Action> effectTriggerActions = step.Actions
+				.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+				.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger);
 
+			foreach(Protobuf.Messages.Action action in effectTriggerActions) {
 				BattleUnit casterUnit;
+				List<BattleUnit> targetUnits = GetSkillTargets(action.SkillAction.TargetIds.ToArray());
 
 				Color projectileColor = Color.red;
 				int casterTeam, targetTeam;
@@ -131,12 +132,13 @@ public class BattleManager : MonoBehaviour
 				}
 			}
 
-			foreach(var action in step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-														.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectHit || action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectMiss))
-			{
+			IEnumerable<Protobuf.Messages.Action> hitAndMissActions = step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+			.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectHit || action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectMiss);
+
+			foreach(Protobuf.Messages.Action action in hitAndMissActions) {
+				BattleUnit casterUnit;
 				List<BattleUnit> targetUnits = GetSkillTargets(action.SkillAction.TargetIds.ToArray());
 
-				BattleUnit casterUnit;
 				Color projectileColor = Color.red;
 				int casterTeam, targetTeam;
 				if (playerUnitsUI.Any(unit => unit.SelectedUnit.id == action.SkillAction.CasterId))
@@ -166,14 +168,13 @@ public class BattleManager : MonoBehaviour
 				}
 			}
 
-			foreach (var action in step.Actions.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-													.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death)))
-			{
+			var actionsExcludingSkills = step.Actions
+				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+				.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death));
+
+			foreach (var action in actionsExcludingSkills) {
 				switch (action.ActionTypeCase)
 				{
-					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
-						playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
-						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived:
 						BattleUnit target = playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
 						var statAffected = action.ExecutionReceived.StatAffected;
@@ -192,6 +193,9 @@ public class BattleManager : MonoBehaviour
 								Debug.Log(statAffected.Stat);
 								break;
 						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
+						playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
 					default:
 						break;
@@ -218,9 +222,7 @@ public class BattleManager : MonoBehaviour
 				Debug.LogError(ex.Message);
 			}
             GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrency(LevelProgress.selectedLevelData.rewards);
-            user.AddExperience(LevelProgress.selectedLevelData.experienceReward);
-            user.AccumulateAFKRewards();
+            user.AddCurrencies(GetLevelRewards());
             user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
             user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
@@ -245,6 +247,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    private Dictionary<Currency, int> GetLevelRewards()
+    {
+        Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
+        if (LevelProgress.selectedLevelData.experienceReward > 0)
+        {
+            rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
+        }
+        return rewards;
+    }
+
 	private void SetUpNextButton()
 	{
 		GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
@@ -263,12 +275,12 @@ public class BattleManager : MonoBehaviour
     private List<UIReward> CreateRewardsList() {
         List<UIReward> rewards = new List<UIReward>();
 
-        if (LevelProgress.selectedLevelData.experienceReward != 0) { rewards.Add(new ExperienceUIReward(LevelProgress.selectedLevelData.experienceReward)); }
-
         foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
-            rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+            if (currencyReward.Value > 0)
+            {
+                rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));            
+            }
         }
-
         return rewards;
     }
 }
