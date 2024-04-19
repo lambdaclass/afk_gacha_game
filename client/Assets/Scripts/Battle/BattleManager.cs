@@ -117,6 +117,9 @@ public class BattleManager : MonoBehaviour
 								break;
 						}
 						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
+						playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
+						break;
 					default:
 						break;
 				}
