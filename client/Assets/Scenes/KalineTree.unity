@@ -1379,7 +1379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 608112785236227938, guid: 80a0e36580b14449684c7d9d960c6ba2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AFKRewardManager, Assembly-CSharp
+      value: KalineTreeManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 635339837761848188, guid: 80a0e36580b14449684c7d9d960c6ba2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1578,7 +1578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5680396890292483277, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: AFKRewardManager, Assembly-CSharp
+      value: KalineTreeManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5680396890292483277, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
@@ -2763,7 +2763,7 @@ GameObject:
   - component: {fileID: 1664837463}
   - component: {fileID: 1664837462}
   m_Layer: 0
-  m_Name: AFKRewardManager
+  m_Name: KalineTreeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2778,7 +2778,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1664837461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08ada184343e546ab8797304bb98bd02, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c0878687cd3949bda9d6726dc424e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   confirmPopUp: {fileID: 514234978}
