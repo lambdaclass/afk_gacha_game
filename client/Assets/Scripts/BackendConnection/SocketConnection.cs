@@ -253,10 +253,11 @@ public class SocketConnection : MonoBehaviour {
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
-					rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount),
+					rewards = GetLevelCurrencyRewards(level),
                     status = levelStatus
                 });
 
+                
 				if(levelStatus == LevelProgress.Status.Unlocked) {
 					levelStatus = LevelProgress.Status.Locked;
 				}
@@ -731,6 +732,13 @@ public class SocketConnection : MonoBehaviour {
         }
 	}
 
+    private Dictionary<Currency, int> GetLevelCurrencyRewards(Level level)
+    {
+        Dictionary<Currency, int> rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount);
+        rewards.Add(Currency.Experience, (int)level.ExperienceReward);
+        return rewards;
+    }
+
     public void GetAfkRewards(string userId, Action<List<AfkReward>> onAfkRewardsReceived)
     {
         GetAfkRewards getAfkRewardsRequest = new GetAfkRewards
@@ -774,7 +782,7 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
-        public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
+    public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
     {
         ClaimAfkRewards claimAfkRewardsRequest = new ClaimAfkRewards
         {
