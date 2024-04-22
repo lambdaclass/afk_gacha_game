@@ -60,14 +60,10 @@ Hello, world!
 For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
 
 - **Flaticon:**
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/confuse" title="confuse icons">Confuse icons created by Freepik - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/fire" title="fire icons">Fire icons created by WR Graphic Garage - Flaticon</a>
-	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
-	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
-	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/nerf" title="nerf icons">Nerf icons created by WR Graphic Garage - Flaticon</a>
-	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
-	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/magic-potion" title="magic potion icons">Magic potion icons created by WR Graphic Garage - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/snowflake" title="snowflake icons">Snowflake icons created by Lumi - Flaticon</a>
 
