@@ -213,7 +213,6 @@ public class BattleManager : MonoBehaviour
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagReceived.TargetId)) {
-							Debug.Log($"tag applied: {action.TagReceived.Tag.ToLower()}", playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).gameObject);
 							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
 						}
 						break;
