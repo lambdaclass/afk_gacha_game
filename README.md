@@ -59,6 +59,18 @@ Hello, world!
 
 For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
 
+- **Flaticon:**
+	- <a href="https://www.flaticon.com/free-icons/confuse" title="confuse icons">Confuse icons created by Freepik - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/fire" title="fire icons">Fire icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/nerf" title="nerf icons">Nerf icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/magic-potion" title="magic potion icons">Magic potion icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/snowflake" title="snowflake icons">Snowflake icons created by Lumi - Flaticon</a>
+
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
   - Download the following Unity Store assets 
@@ -77,7 +89,6 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
 ### Unity Setup
 
 - In Unity Hub, click on the add project button and select the `client` folder.
-- Choose the correct editor version and download the [Top Down Engine](https://assetstore.unity.com/packages/templates/systems/topdown-engine-89636) by [More Mountains](https://moremountains.com). Include it in the `Assets/ThirdParty` folder after purchasing the license.
 - To test the game, select the scene in `Assets/Scenes/Overworld` and run it by clicking the play button.
 
 ## Suggested Development Environment
