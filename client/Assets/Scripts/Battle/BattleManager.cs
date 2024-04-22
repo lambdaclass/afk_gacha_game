@@ -88,7 +88,7 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
-			yield return new WaitForSeconds(.3f);
+			yield return new WaitForSeconds(.05f);
 
 			var actionsExcludingSkills = step.Actions
 				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
