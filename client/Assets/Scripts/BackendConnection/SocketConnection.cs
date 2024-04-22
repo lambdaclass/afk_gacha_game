@@ -821,4 +821,42 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
+    public void LevelUpKalineTree(string userId, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        LevelUpKalineTree levelUpKalineTreeRequest = new LevelUpKalineTree
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            LevelUpKalineTree = levelUpKalineTreeRequest
+        };
+        currentMessageHandler = (data) => AwaitLevelUpKalineTreeResponse(data, onLeveledUpUserReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitLevelUpKalineTreeResponse(byte[] data, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
+            {
+				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
+				onLeveledUpUserReceived?.Invoke(user);
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                Debug.Log(onError);
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
 }

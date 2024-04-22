@@ -3404,18 +3404,18 @@ PrefabInstance:
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1664837462}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LevelUp
+      value: LevelUpKalineTree
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnitDetail, Assembly-CSharp
+      value: KalineTreeManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3672,6 +3672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confirmPopUp: {fileID: 514234978}
+  insufficientCurrencyPopup: {fileID: 1915293362}
   gems: {fileID: 1328482321}
   gold: {fileID: 234308759}
   xp: {fileID: 138730027}
@@ -3948,6 +3949,11 @@ PrefabInstance:
 --- !u!224 &1915293361 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1805342863988975925, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+  m_PrefabInstance: {fileID: 1915293360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1915293362 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 133597137547516579, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
   m_PrefabInstance: {fileID: 1915293360}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2011782927

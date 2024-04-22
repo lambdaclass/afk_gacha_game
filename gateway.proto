@@ -26,6 +26,7 @@ option csharp_namespace = "Protobuf.Messages";
       GetAfkRewards get_afk_rewards = 21;
       ClaimAfkRewards claim_afk_rewards = 22;
       GetUserSuperCampaignProgresses get_user_super_campaign_progresses = 23;
+      LevelUpKalineTree level_up_kaline_tree = 24;
     }
   }
 
@@ -130,6 +131,10 @@ option csharp_namespace = "Protobuf.Messages";
   }
 
   message GetUserSuperCampaignProgresses {
+    string user_id = 1;
+  }
+
+  message LevelUpKalineTree {
     string user_id = 1;
   }
 
