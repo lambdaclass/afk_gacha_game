@@ -96,6 +96,7 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
+			// speed of steps
 			yield return new WaitForSeconds(.4f);
 
 			IEnumerable<Protobuf.Messages.Action> effectTriggerActions = step.Actions
@@ -218,7 +219,7 @@ public class BattleManager : MonoBehaviour
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagExpired:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagExpired.TargetId)) {
-							// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == action.TagExpired.Tag.ToLower()));
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == action.TagExpired.Tag.ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:

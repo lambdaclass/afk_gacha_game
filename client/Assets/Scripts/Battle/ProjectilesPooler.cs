@@ -54,9 +54,6 @@ public class ProjectilesPooler : MonoBehaviour
 			lineRenderer.lineRendererComponent.endColor = projectileColor;
 			StartCoroutine(DisappearAfterDelay(casterUnit.SelectedUnit.id, targetUnit.SelectedUnit.id, 0.2f));
 		} else {
-			foreach(var lr in lineRenderersList.Where(x => x.casterUnitId != null)) {
-				Debug.Log($"{lr.casterUnitId} - {lr.targetUnitId}");
-			}
 			Debug.LogError("Couldn't find line renderer for caster units: " + casterUnit.SelectedUnit.id + " and " + targetUnit.SelectedUnit.id);
 		}
 	}
