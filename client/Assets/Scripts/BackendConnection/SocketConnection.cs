@@ -18,6 +18,8 @@ public class SocketConnection : MonoBehaviour {
 
     private WebSocketMessageEventHandler currentMessageHandler;
 
+	public static string url = $"ws://localhost:4001/2";
+
     async void Awake()
     {
         await Init();
@@ -63,7 +65,6 @@ public class SocketConnection : MonoBehaviour {
 
     private void ConnectToSession()
     {
-        string url = $"ws://localhost:4001/2";
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnClose += OnWebsocketClose;
