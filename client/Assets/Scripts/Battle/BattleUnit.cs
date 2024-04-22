@@ -21,6 +21,9 @@ public class BattleUnit : MonoBehaviour
 	[SerializeField]
 	CanvasGroup canvasGroup;
 
+	[SerializeField]
+	StatusIndicators statusIndicators;
+
     private Unit selectedUnit;
 	public Unit SelectedUnit
     {
@@ -50,20 +53,15 @@ public class BattleUnit : MonoBehaviour
         {
             if (value != currentHealth)
             {
-				if(currentHealth > 0) {
-					GameObject indicatorGO = Instantiate(indicatorPrefab, gameObject.transform);
-					BattleIndicator indicator = indicatorGO.GetComponent<BattleIndicator>();
-					indicator.SetText((currentHealth - value).ToString());
-					indicator.FadeAnimation();
+				if(currentHealth > 0)
+				{
+					DisplayHealthIndicator(value);
 				}
-                currentHealth = value;
+				currentHealth = value;
                 healthBar.fillAmount = currentHealth / (float)maxHealth;
             }
         }
     }
-
-	Dictionary<string, int> statusCount = new Dictionary<string, int>();
-	Dictionary<string, BattleIndicator> statusIndicators = new Dictionary<string, BattleIndicator>();
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
@@ -80,35 +78,21 @@ public class BattleUnit : MonoBehaviour
 		sequence.Play();
 	}
 
-	public void ApplyStatus(string status)
+	private void DisplayHealthIndicator(int value)
 	{
-		if (!statusCount.ContainsKey(status))
-		{
-			statusCount.Add(status, 1);
-			GameObject indicatorGO = Instantiate(indicatorPrefab, gameObject.transform);
-			BattleIndicator indicator = indicatorGO.GetComponent<BattleIndicator>();
-			indicator.SetText(status);
-			statusIndicators.Add(status, indicator);
-			indicator.SetUpAnimation();
-		}
-		else
-		{
-			statusCount[status]++;
-		}
+		GameObject indicatorGO = Instantiate(indicatorPrefab, gameObject.transform);
+		BattleIndicator indicator = indicatorGO.GetComponent<BattleIndicator>();
+		indicator.SetText((currentHealth - value).ToString());
+		indicator.FadeAnimation();
 	}
 
-	public void RemoveStatus(string status)
+	public void ApplyStatus(Status status)
 	{
-		if (statusCount.ContainsKey(status))
-		{
-			statusCount[status]--;
-			if (statusCount[status] == 0)
-			{
-				BattleIndicator indicator = statusIndicators[status];
-				indicator.RemoveAnimation();
-				statusIndicators.Remove(status);
-				statusCount.Remove(status);
-			}
-		}
+		statusIndicators.SetStatus(status);
+	}
+
+	public void RemoveStatus(Status status)
+	{
+		statusIndicators.RemoveStatus(status);
 	}
 }

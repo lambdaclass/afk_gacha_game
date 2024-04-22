@@ -1904,6 +1904,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: fbb369977077e4f568586f50bc16c663, type: 3}
+    - target: {fileID: 5341647535329109189, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 33
+      objectReference: {fileID: 0}
     - target: {fileID: 5341647535329109191, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -4537,6 +4541,19 @@ MonoBehaviour:
   - {fileID: 1375078353}
   - {fileID: 110703994}
   projectilesPooler: {fileID: 1376801091}
+  statuses:
+  - {fileID: 11400000, guid: b6c68ef3618414d719eed0d66d4c6fd8, type: 2}
+  - {fileID: 11400000, guid: 404f2c361a7234a059eea24e337d1422, type: 2}
+  - {fileID: 11400000, guid: dff555b70a1a44ae9a7b0c32a5128ee0, type: 2}
+  - {fileID: 11400000, guid: b8e0c1ffff5c145e6bb0f02a59feda89, type: 2}
+  - {fileID: 11400000, guid: 397cc52395767447b925bd19425ac019, type: 2}
+  - {fileID: 11400000, guid: 1ecfd03082a1241f2b0a831d69bcf24c, type: 2}
+  - {fileID: 11400000, guid: 18c545b48249a4f3eaef2e2736b39735, type: 2}
+  - {fileID: 11400000, guid: 4fa47abdbf82b427d896774517f58b97, type: 2}
+  - {fileID: 11400000, guid: dccf6fbd73ffb41b6883c7d61f033880, type: 2}
+  - {fileID: 11400000, guid: ff1deca6a5c88444f999ac0b9e479e4a, type: 2}
+  - {fileID: 11400000, guid: c341c323258d5462083a1e99524f19bf, type: 2}
+  - {fileID: 11400000, guid: 4e3f04b14eefd4c509e96a36eb4d3034, type: 2}
 --- !u!4 &1419209956
 Transform:
   m_ObjectHideFlags: 0

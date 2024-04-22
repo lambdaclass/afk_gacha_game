@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Burn
   m_EditorClassIdentifier: 
   name: Burn
-  sprite: {fileID: 21300000, guid: 4a8b11548ae1ade4ba8602f9191f1807, type: 3}
+  sprite: {fileID: 21300000, guid: 23cf46eefa746478ebadc40c4a95425e, type: 3}

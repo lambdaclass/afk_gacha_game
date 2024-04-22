@@ -23,6 +23,9 @@ public class BattleManager : MonoBehaviour
 
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
+
+	[SerializeField]
+	List<Status> statuses;
 	
     void Start()
 	{
@@ -196,22 +199,27 @@ public class BattleManager : MonoBehaviour
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierReceived:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId)) {
-							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(action.ModifierReceived.StatAffected.Stat.ToString());
+							// Only applies to multiplications probably will break when other modifier type is implemented
+							string multiplication = action.ModifierReceived.StatAffected.Amount > 1 ? "higher_" : "lower_";
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierExpired:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId)) {
-							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(action.ModifierExpired.StatAffected.Stat.ToString());
+							// Only applies to multiplications probably will break when other modifier type is implemented
+							string multiplication = action.ModifierExpired.StatAffected.Amount > 1 ? "higher_" : "lower_";
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == multiplication + action.ModifierExpired.StatAffected.Stat.ToString().ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagReceived.TargetId)) {
-							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(action.TagReceived.Tag);
+							Debug.Log($"tag applied: {action.TagReceived.Tag.ToLower()}", playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).gameObject);
+							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagExpired:
 						if(playerUnitsUI.Concat(opponentUnitsUI).Any(unit => unit.SelectedUnit.id == action.TagExpired.TargetId)) {
-							playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(action.TagExpired.Tag);
+							// playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == action.TagExpired.Tag.ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
