@@ -61,9 +61,11 @@ public class KalineTreeManager : MonoBehaviour
                 currencies_to_add.Add(Currency.Experience, user_received.experience - user_to_update.User.experience);
                 user_to_update.AddCurrencies(currencies_to_add);
             },
-            (xxx) => {
-                Debug.Log("Received error: " + xxx);
-                insufficientCurrencyPopup.SetActive(true);
+            (reason) => {
+                Debug.Log(reason);
+                if(reason == "cant_afford") {
+                    insufficientCurrencyPopup.SetActive(true);
+                }
             }
         );
     }

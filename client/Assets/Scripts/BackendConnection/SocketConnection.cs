@@ -831,7 +831,7 @@ public class SocketConnection : MonoBehaviour {
         {
             LevelUpKalineTree = levelUpKalineTreeRequest
         };
-        currentMessageHandler = (data) => AwaitLevelUpKalineTreeResponse(data, onLeveledUpUserReceived);
+        currentMessageHandler = (data) => AwaitLevelUpKalineTreeResponse(data, onLeveledUpUserReceived, onError);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
@@ -850,7 +850,6 @@ public class SocketConnection : MonoBehaviour {
 				onLeveledUpUserReceived?.Invoke(user);
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
-                Debug.Log(onError);
                 onError?.Invoke(webSocketResponse.Error.Reason);
             }
         }
