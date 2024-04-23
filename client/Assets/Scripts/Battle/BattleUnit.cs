@@ -20,6 +20,9 @@ public class BattleUnit : MonoBehaviour
 	[SerializeField]
 	CanvasGroup canvasGroup;
 
+    [SerializeField]
+    AudioSource AttackSFX;
+
     private Unit selectedUnit;
 	public Unit SelectedUnit
     {
@@ -66,6 +69,9 @@ public class BattleUnit : MonoBehaviour
         unitImage.gameObject.SetActive(true);
     }
 
+    public void AttackTrigger() { 
+        AttackSFX.Play();
+    }
 	public void DeathFeedback()	{
 		Sequence sequence = DOTween.Sequence();
 		sequence.Append(unitImage.transform.DORotate(new Vector3(0, 180, 90), .5f));
