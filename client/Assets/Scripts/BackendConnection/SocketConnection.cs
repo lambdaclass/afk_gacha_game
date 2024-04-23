@@ -20,10 +20,10 @@ public class SocketConnection : MonoBehaviour {
 
 	public static string url = $"ws://localhost:4001/2";
 
-    async void Awake()
-    {
-        await Init();
-    }
+    // async void Awake()
+    // {
+    //     await Init();
+    // }
 
     public async Task Init()
     {
@@ -33,7 +33,7 @@ public class SocketConnection : MonoBehaviour {
             {
                 await this.ws.Close();
             }
-            Destroy(gameObject);
+            // Destroy(gameObject);
         }
         else
         {
@@ -60,11 +60,12 @@ public class SocketConnection : MonoBehaviour {
 
     private async void OnApplicationQuit()
     {
-        await this.ws.Close();
+        await this.CloseConnection();
     }
 
     private void ConnectToSession()
     {
+		string url = $"{ServerSelect.Domain}/2";
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnClose += OnWebsocketClose;
@@ -105,6 +106,13 @@ public class SocketConnection : MonoBehaviour {
             }
         }
     }
+
+	public async Task CloseConnection() {
+		if(connected && this.ws != null) {
+			await this.ws.Close();
+			connected = false;
+		}
+	}
     
     private void OnWebSocketMessage(byte[] data)
     {
