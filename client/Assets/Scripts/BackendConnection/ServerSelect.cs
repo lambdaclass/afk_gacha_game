@@ -5,32 +5,46 @@ using UnityEngine;
 
 public class ServerSelect : MonoBehaviour
 {
-	#if UNITY_EDITOR
-        private const string _defaultServerName = "LOCALHOST";
-        private const string _defaultServerDomain = "ws://localhost:4001";
-    #else
-        private const string _defaultServerName = "EUROPE";
-        private const string _defaultServerDomain = "wss://central-europe-testing.curseofmirra.com";
-    #endif
+	readonly Dictionary<string, string> servers = new Dictionary<string, string>
+	{
+		{"LOCALHOST", "ws://localhost:4001"},
+		{"EUROPE", "wss://central-europe-testing.curseofmirra.com"},
+	};
 
-	public static string Domain { get; private set; }
 	public static string Name { get; private set; }
+	public static string Domain { get; private set; }
 
 	[SerializeField]
 	SocketConnection socketConnection;
 
 	[SerializeField]
-	TMP_InputField serverAdress;
+	TMP_InputField customServerDomain;
 
 	[SerializeField]
 	TMP_Text serverButtonText;
 
 	void Start() {
-		ServerSelect.Domain = _defaultServerDomain;
+		#if UNITY_EDITOR
+			ServerSelect.Name = "LOCALHOST";
+			ServerSelect.Domain = servers["LOCALHOST"];
+		#else
+			ServerSelect.Name = "EUROPE";
+			ServerSelect.Domain = servers["EUROPE"];
+		#endif
+		serverButtonText.text = ServerSelect.Name;
 	}
 
 	public async void SelectServer(string domainName) {
-		ServerSelect.Domain = domainName;
+		ServerSelect.Name = domainName;
+		ServerSelect.Domain = servers[domainName];
+		serverButtonText.text = ServerSelect.Name;
+		await socketConnection.CloseConnection();
+		await socketConnection.Init();
+	}
+
+	public async void SelectCustomServer() {
+		ServerSelect.Name = "CUSTOM";
+		ServerSelect.Domain = customServerDomain.text;
 		await socketConnection.CloseConnection();
 		await socketConnection.Init();
 	}
