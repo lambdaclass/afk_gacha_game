@@ -128,6 +128,7 @@ public class BattleManager : MonoBehaviour
 						projectileColor = Color.green;
 					}
 
+					casterUnit.AttackTrigger();
 					projectilesPooler.TriggerProjectile(casterUnit, targetUnit, projectileColor);
 				}
 			}
@@ -166,14 +167,6 @@ public class BattleManager : MonoBehaviour
 
 					projectilesPooler.ProjectileHit(casterUnit, targetUnit, projectileColor);
 				}
-			}
-
-			IEnumerable<Protobuf.Messages.Action> skillActions = step.Actions
-				.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-				.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger);
-
-			foreach(Protobuf.Messages.Action action in skillActions) {
-				playerUnitsUI.Concat(opponentUnitsUI).First(unit => unit.SelectedUnit.id == action.SkillAction.CasterId).AttackTrigger();
 			}
 
 			var actionsExcludingSkills = step.Actions
