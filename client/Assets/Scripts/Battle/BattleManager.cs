@@ -80,73 +80,23 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-	private void ProcessSkillActions(IEnumerable<Protobuf.Messages.Action> actions, Action<BattleUnit, BattleUnit, Color> actionHandler)
-	{
-		foreach (Protobuf.Messages.Action action in actions)
-		{
-			BattleUnit casterUnit = battleUnitsUI.Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
-			List<BattleUnit> targetUnits = battleUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
-
-			foreach (BattleUnit targetUnit in targetUnits)
-			{
-				Color projectileColor = (casterUnit.IsPlayerTeam && targetUnit.IsPlayerTeam) ? Color.green : Color.red;
-
-				actionHandler(casterUnit, targetUnit, projectileColor);
-			}
-		}
-	}
-
 	private IEnumerator PlayOutSteps(RepeatedField<Protobuf.Messages.Step> steps)
 	{
 		foreach (var step in steps)
 		{
 			yield return new WaitForSeconds(.4f);
 
-			IEnumerable<Protobuf.Messages.Action> effectTriggerActions = step.Actions
-				.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-				.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger);
-
-			ProcessSkillActions(effectTriggerActions, (casterUnit, targetUnit, projectileColor) =>
-			{
-				projectilesPooler.TriggerProjectile(casterUnit, targetUnit, projectileColor);
-			});
-
-
-			IEnumerable<Protobuf.Messages.Action> hitAndMissActions = step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-			.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectHit || action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectMiss);
-
-			ProcessSkillActions(hitAndMissActions, (casterUnit, targetUnit, projectileColor) =>
-			{
-				casterUnit.AttackTrigger();
-				projectilesPooler.ProjectileHit(casterUnit, targetUnit, projectileColor);
-			});
+			ProcessEffectTriggers(step.Actions);
+			ProcessHitsAndMisses(step.Actions);
+			ProcessExecutionsReceived(step.Actions);
 
 			var actionsExcludingSkills = step.Actions
-				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
-				.Concat(step.Actions.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.Death));
+				.Where(action => 	action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction &&
+									action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived);
 
 			foreach (var action in actionsExcludingSkills) {
 				switch (action.ActionTypeCase)
 				{
-					case Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived:
-						BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
-						var statAffected = action.ExecutionReceived.StatAffected;
-						switch (statAffected.Stat)
-						{
-							case Protobuf.Messages.Stat.Health:
-								target.CurrentHealth = target.CurrentHealth + (int)(statAffected.Amount);
-								break;
-							case Protobuf.Messages.Stat.Energy:
-								break;
-							case Protobuf.Messages.Stat.Attack:
-								break;
-							case Protobuf.Messages.Stat.Defense:
-								break;
-							default:
-								Debug.Log(statAffected.Stat);
-								break;
-						}
-						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
 						battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
@@ -191,6 +141,72 @@ public class BattleManager : MonoBehaviour
             defeatSplash.GetComponent<AudioSource>().Play();
         }
     }
+
+	private void ProcessEffectTriggers(IEnumerable<Protobuf.Messages.Action> actions)
+	{
+		IEnumerable<Protobuf.Messages.Action> effectTriggerActions = actions
+			.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+			.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectTrigger);
+
+		foreach (Protobuf.Messages.Action action in effectTriggerActions)
+		{
+			BattleUnit casterUnit = battleUnitsUI.Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
+			List<BattleUnit> targetUnits = battleUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
+
+			foreach (BattleUnit targetUnit in targetUnits)
+			{
+				Color projectileColor = (casterUnit.IsPlayerTeam && targetUnit.IsPlayerTeam) ? Color.green : Color.red;
+				projectilesPooler.TriggerProjectile(casterUnit, targetUnit, projectileColor);
+			}
+		}
+	}
+
+	private void ProcessHitsAndMisses(IEnumerable<Protobuf.Messages.Action> actions)
+	{
+		IEnumerable<Protobuf.Messages.Action> hitAndMissActions = actions
+				.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction)
+				.Where(action => action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectHit || action.SkillAction.SkillActionType == Protobuf.Messages.SkillActionType.EffectMiss);
+
+		foreach (Protobuf.Messages.Action action in hitAndMissActions)
+		{
+			BattleUnit casterUnit = battleUnitsUI.Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
+			List<BattleUnit> targetUnits = battleUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
+
+			foreach (BattleUnit targetUnit in targetUnits)
+			{
+				Color projectileColor = (casterUnit.IsPlayerTeam && targetUnit.IsPlayerTeam) ? Color.green : Color.red;
+				casterUnit.AttackTrigger();
+				projectilesPooler.ProjectileHit(casterUnit, targetUnit, projectileColor);
+			}
+		}
+	}
+
+	private void ProcessExecutionsReceived(IEnumerable<Protobuf.Messages.Action> actions)
+	{
+		var executionReceivedActions = actions
+			.Where(action => action.ActionTypeCase == Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived);
+
+		foreach (Protobuf.Messages.Action action in executionReceivedActions)
+		{
+			BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
+			var statAffected = action.ExecutionReceived.StatAffected;
+			switch (statAffected.Stat)
+			{
+				case Protobuf.Messages.Stat.Health:
+					target.CurrentHealth = target.CurrentHealth + (int)(statAffected.Amount);
+					break;
+				case Protobuf.Messages.Stat.Energy:
+					break;
+				case Protobuf.Messages.Stat.Attack:
+					break;
+				case Protobuf.Messages.Stat.Defense:
+					break;
+				default:
+					Debug.Log(statAffected.Stat);
+					break;
+			}
+		}
+	}
 
     private Dictionary<Currency, int> GetLevelRewards()
     {
