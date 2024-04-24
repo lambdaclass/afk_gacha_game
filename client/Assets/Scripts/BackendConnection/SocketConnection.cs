@@ -18,12 +18,10 @@ public class SocketConnection : MonoBehaviour {
 
     private WebSocketMessageEventHandler currentMessageHandler;
 
-	public static string url = $"ws://localhost:4001/2";
-
-    // async void Awake()
-    // {
-    //     await Init();
-    // }
+    async void Start()
+    {
+        await Init();
+    }
 
     public async Task Init()
     {
@@ -296,8 +294,9 @@ public class SocketConnection : MonoBehaviour {
     {
 		string userId = PlayerPrefs.GetString("userId");
 		if(String.IsNullOrEmpty(userId)) {
-			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
-			CreateUser("testUser", (user) => {
+			string userName = $"testUser-{Guid.NewGuid()}";
+			Debug.Log($"No user in player prefs, creating user with username: \"{userName}\"");
+			CreateUser(userName, (user) => {
 				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
@@ -366,8 +365,9 @@ public class SocketConnection : MonoBehaviour {
 			{
                 switch(webSocketResponse.Error.Reason) {
                     case "not_found":
-                        Debug.Log("User not found, trying to create new user");
-                        CreateUser("testUser",  (user) => {
+						string userName = $"testUser-{Guid.NewGuid()}";
+                        Debug.Log($"User not found, trying to create new user with username: \"{userName}\"");
+						CreateUser(userName, (user) => {
                             onGetUserDataReceived?.Invoke(user);
                         });
                         break;

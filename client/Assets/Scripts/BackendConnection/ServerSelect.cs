@@ -23,7 +23,7 @@ public class ServerSelect : MonoBehaviour
 	[SerializeField]
 	TMP_Text serverButtonText;
 
-	void Start() {
+	void Awake() {
 		#if UNITY_EDITOR
 			ServerSelect.Name = "LOCALHOST";
 			ServerSelect.Domain = servers["LOCALHOST"];
