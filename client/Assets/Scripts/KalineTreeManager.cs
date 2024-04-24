@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class KalineTreeManager : MonoBehaviour
 {
+    [SerializeField] TMP_Text goldLevelUpCost;
+    [SerializeField] TMP_Text fertilizerLevelUpCost;
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] TextMeshProUGUI gems;
@@ -13,6 +15,13 @@ public class KalineTreeManager : MonoBehaviour
     
 
     private const string EMPTY_AFK_REWARD = "0 (0/m)";
+
+    void Start()
+    {
+        GlobalUserData user = GlobalUserData.Instance;
+        goldLevelUpCost.text = user.User.kalineTreeLevel.gold_level_up_cost.ToString();
+        fertilizerLevelUpCost.text = user.User.kalineTreeLevel.gold_level_up_cost.ToString();
+    }
     public void ShowRewards() {
         GlobalUserData user = GlobalUserData.Instance;
         SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) => {
@@ -54,19 +63,24 @@ public class KalineTreeManager : MonoBehaviour
                 Dictionary<Currency, int> currencies_to_add = new Dictionary<Currency, int>();
 
                 user_received.currencies.Select(c => c.Key).ToList().ForEach(c => {
-                    if (!currencies_to_add.ContainsKey(c)) {
-                        currencies_to_add.Add(c, user_received.currencies[c] - user_to_update.GetCurrency(c).Value);
+                    if (!currencies_to_add.ContainsKey(c))
+                    {
+                        user_to_update.SetCurrencyAmount(c, user_received.currencies[c]);
                     }
                 });
-                currencies_to_add.Add(Currency.Experience, user_received.experience - user_to_update.User.experience);
-                user_to_update.AddCurrencies(currencies_to_add);
+                UpdateLevelUpCosts(user_received);
             },
             (reason) => {
-                Debug.Log(reason);
                 if(reason == "cant_afford") {
                     insufficientCurrencyPopup.SetActive(true);
                 }
             }
         );
+    }
+
+    public void UpdateLevelUpCosts(User user)
+    {
+        goldLevelUpCost.text = user.kalineTreeLevel.gold_level_up_cost.ToString();
+        fertilizerLevelUpCost.text = user.kalineTreeLevel.gold_level_up_cost.ToString();
     }
 }

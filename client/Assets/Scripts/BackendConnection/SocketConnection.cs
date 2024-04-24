@@ -159,6 +159,12 @@ public class SocketConnection : MonoBehaviour {
 			}
 		}
 
+        KalineTreeLevel kalineTreeLevel = new KalineTreeLevel
+        {
+            gold_level_up_cost = ((int)user.KalineTreeLevel.GoldLevelUpCost),
+            fertilizer_level_up_cost = ((int)user.KalineTreeLevel.FertilizerLevelUpCost)
+        };
+
 		return new User
 		{
 			id = user.Id,
@@ -168,7 +174,8 @@ public class SocketConnection : MonoBehaviour {
 			currencies = currencies,
 			level = (int)user.Level,
 			experience = (int)user.Experience,
-            afkRewardRates = afkRewardRates
+            afkRewardRates = afkRewardRates,
+            kalineTreeLevel = kalineTreeLevel
 		};
 	}
 	
@@ -831,7 +838,7 @@ public class SocketConnection : MonoBehaviour {
         {
             LevelUpKalineTree = levelUpKalineTreeRequest
         };
-        currentMessageHandler = (data) => AwaitLevelUpKalineTreeResponse(data, onLeveledUpUserReceived, onError);
+        currentMessageHandler = (data) => AwaitLevelUpKalineTreeResponse(data, onLeveledUpUserReceived, onError); 
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
