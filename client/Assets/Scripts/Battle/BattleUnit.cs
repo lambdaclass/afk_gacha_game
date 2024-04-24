@@ -27,6 +27,13 @@ public class BattleUnit : MonoBehaviour
     [SerializeField]
     AudioSource AttackSFX;
 
+	[SerializeField]
+	bool isPlayerTeam;
+	public bool IsPlayerTeam
+	{
+		get { return isPlayerTeam; }
+	}
+
     private Unit selectedUnit;
 	public Unit SelectedUnit
     {
