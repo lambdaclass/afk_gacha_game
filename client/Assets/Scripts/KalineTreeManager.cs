@@ -19,8 +19,8 @@ public class KalineTreeManager : MonoBehaviour
     void Start()
     {
         GlobalUserData user = GlobalUserData.Instance;
-        goldLevelUpCost.text = user.User.kalineTreeLevel.gold_level_up_cost.ToString();
-        fertilizerLevelUpCost.text = user.User.kalineTreeLevel.gold_level_up_cost.ToString();
+        goldLevelUpCost.text = user.User.kalineTreeLevel.goldLevelUpCost.ToString();
+        fertilizerLevelUpCost.text = user.User.kalineTreeLevel.goldLevelUpCost.ToString();
     }
     public void ShowRewards() {
         GlobalUserData user = GlobalUserData.Instance;
@@ -39,17 +39,17 @@ public class KalineTreeManager : MonoBehaviour
     }
 
     public void ClaimRewards() {
-        SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (user_received) => {
-            GlobalUserData user_to_update = GlobalUserData.Instance;
-            Dictionary<Currency, int> currencies_to_add = new Dictionary<Currency, int>();
+        SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (userReceived) => {
+            GlobalUserData userToUpdate = GlobalUserData.Instance;
+            Dictionary<Currency, int> currenciesToAdd = new Dictionary<Currency, int>();
 
-            user_received.currencies.Select(c => c.Key).ToList().ForEach(c => {
-                if (!currencies_to_add.ContainsKey(c)) {
-                    currencies_to_add.Add(c, user_received.currencies[c] - user_to_update.GetCurrency(c).Value);
+            userReceived.currencies.Select(c => c.Key).ToList().ForEach(c => {
+                if (!currenciesToAdd.ContainsKey(c)) {
+                    currenciesToAdd.Add(c, userReceived.currencies[c] - userToUpdate.GetCurrency(c).Value);
                 }
             });
-            currencies_to_add.Add(Currency.Experience, user_received.experience - user_to_update.User.experience);
-            user_to_update.AddCurrencies(currencies_to_add);
+            currenciesToAdd.Add(Currency.Experience, userReceived.experience - userToUpdate.User.experience);
+            userToUpdate.AddCurrencies(currenciesToAdd);
         });
         confirmPopUp.SetActive(false);
     }
@@ -58,17 +58,17 @@ public class KalineTreeManager : MonoBehaviour
     {
         SocketConnection.Instance.LevelUpKalineTree(
             GlobalUserData.Instance.User.id, 
-            (user_received) => {
-                GlobalUserData user_to_update = GlobalUserData.Instance;
-                Dictionary<Currency, int> currencies_to_add = new Dictionary<Currency, int>();
+            (userReceived) => {
+                GlobalUserData userToUpdate = GlobalUserData.Instance;
+                Dictionary<Currency, int> currenciesToAdd = new Dictionary<Currency, int>();
 
-                user_received.currencies.Select(c => c.Key).ToList().ForEach(c => {
-                    if (!currencies_to_add.ContainsKey(c))
+                userReceived.currencies.Select(c => c.Key).ToList().ForEach(c => {
+                    if (!currenciesToAdd.ContainsKey(c))
                     {
-                        user_to_update.SetCurrencyAmount(c, user_received.currencies[c]);
+                        userToUpdate.SetCurrencyAmount(c, userReceived.currencies[c]);
                     }
                 });
-                UpdateLevelUpCosts(user_received);
+                UpdateLevelUpCosts(userReceived);
             },
             (reason) => {
                 if(reason == "cant_afford") {
@@ -80,7 +80,7 @@ public class KalineTreeManager : MonoBehaviour
 
     public void UpdateLevelUpCosts(User user)
     {
-        goldLevelUpCost.text = user.kalineTreeLevel.gold_level_up_cost.ToString();
-        fertilizerLevelUpCost.text = user.kalineTreeLevel.gold_level_up_cost.ToString();
+        goldLevelUpCost.text = user.kalineTreeLevel.goldLevelUpCost.ToString();
+        fertilizerLevelUpCost.text = user.kalineTreeLevel.goldLevelUpCost.ToString();
     }
 }
