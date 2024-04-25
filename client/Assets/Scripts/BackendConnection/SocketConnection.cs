@@ -855,6 +855,7 @@ public class SocketConnection : MonoBehaviour {
             {
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
 				onLeveledUpUserReceived?.Invoke(user);
+                GlobalUserData.Instance.User.kalineTreeLevel = user.kalineTreeLevel;
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
                 onError?.Invoke(webSocketResponse.Error.Reason);
