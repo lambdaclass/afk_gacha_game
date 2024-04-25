@@ -745,10 +745,10 @@ PrefabInstance:
     - target: {fileID: 1925175052478102993, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6592b916f86b19e428db6f6847c7b6dd, type: 3}
+      objectReference: {fileID: 21300000, guid: e7d29a79bc7fae248887c8a08a160303, type: 3}
     - target: {fileID: 5059324816927767173, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Name
-      value: FertilizerAfkRewardRate
+      value: ArcaneCrystalsAfkRewardRate
       objectReference: {fileID: 0}
     - target: {fileID: 8388630046764816501, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Pivot.x
@@ -2742,10 +2742,10 @@ PrefabInstance:
     - target: {fileID: 1925175052478102993, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f59401c5c79564fd1ae3bfb0876455a7, type: 3}
+      objectReference: {fileID: 21300000, guid: 1618cb37bcd5144fd923b9697be57d63, type: 3}
     - target: {fileID: 5059324816927767173, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Name
-      value: GemsAfkRewardRate
+      value: HeroSoulsAfkRewardRate
       objectReference: {fileID: 0}
     - target: {fileID: 8388630046764816501, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Pivot.x
@@ -3955,6 +3955,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldLevelUpCost: {fileID: 646895275}
   fertilizerLevelUpCost: {fileID: 246556281}
+  goldAfkRewardRate: {fileID: 0}
+  heroSoulsAfkRewardRate: {fileID: 0}
+  experienceAfkRewardRate: {fileID: 0}
+  arcaneCrystalsAfkRewardRate: {fileID: 0}
   confirmPopUp: {fileID: 514234978}
   insufficientCurrencyPopup: {fileID: 1915293362}
   gems: {fileID: 1328482321}
@@ -4323,6 +4327,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 711704828}
     m_Modifications:
+    - target: {fileID: 434118894513875648, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434118894513875648, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434118894513875648, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434118894513875648, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434118894513875648, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 434118894513875648, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5059324816927767173, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
       propertyPath: m_Name
       value: GoldAfkRewardRate

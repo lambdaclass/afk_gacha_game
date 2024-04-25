@@ -7,6 +7,10 @@ public class KalineTreeManager : MonoBehaviour
 {
     [SerializeField] TMP_Text goldLevelUpCost;
     [SerializeField] TMP_Text fertilizerLevelUpCost;
+    [SerializeField] TMP_Text goldAfkRewardRate;
+    [SerializeField] TMP_Text heroSoulsAfkRewardRate;
+    [SerializeField] TMP_Text experienceAfkRewardRate;
+    [SerializeField] TMP_Text arcaneCrystalsAfkRewardRate;
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] TextMeshProUGUI gems;
