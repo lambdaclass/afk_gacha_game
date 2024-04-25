@@ -11,6 +11,7 @@ public class KalineTreeManager : MonoBehaviour
     [SerializeField] TMP_Text heroSoulsAfkRewardRate;
     [SerializeField] TMP_Text experienceAfkRewardRate;
     [SerializeField] TMP_Text arcaneCrystalsAfkRewardRate;
+    [SerializeField] TMP_Text kalineTreeLevel;
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] TextMeshProUGUI gems;
@@ -26,6 +27,7 @@ public class KalineTreeManager : MonoBehaviour
         GlobalUserData user = GlobalUserData.Instance;
         goldLevelUpCost.text = user.User.kalineTreeLevel.goldLevelUpCost.ToString();
         fertilizerLevelUpCost.text = user.User.kalineTreeLevel.goldLevelUpCost.ToString();
+        kalineTreeLevel.text = $"Level {user.User.kalineTreeLevel.level}";
         SetAfkRewardRatesTexts(user.User);
     }
     public void ShowRewards() {
@@ -75,6 +77,7 @@ public class KalineTreeManager : MonoBehaviour
                     }
                 });
                 UpdateLevelUpCosts(userReceived);
+                kalineTreeLevel.text = $"Level {userReceived.kalineTreeLevel.level}";
             },
             (reason) => {
                 if(reason == "cant_afford") {

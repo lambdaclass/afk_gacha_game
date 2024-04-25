@@ -161,6 +161,7 @@ public class SocketConnection : MonoBehaviour {
 
         KalineTreeLevel kalineTreeLevel = new KalineTreeLevel
         {
+            level = (int)user.KalineTreeLevel.Level,
             goldLevelUpCost = ((int)user.KalineTreeLevel.GoldLevelUpCost),
             fertilizerLevelUpCost = ((int)user.KalineTreeLevel.FertilizerLevelUpCost)
         };
