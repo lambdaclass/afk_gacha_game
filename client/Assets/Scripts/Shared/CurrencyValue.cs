@@ -12,5 +12,6 @@ public enum Currency {
 	HeroSouls,
     SummonScrolls,
     HeroicScrolls,
-	MysticSummonScrolls
+	MysticSummonScrolls,
+    Fertilizer
 }
