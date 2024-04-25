@@ -19,12 +19,14 @@ public class KalineTreeManager : MonoBehaviour
     
 
     private const string EMPTY_AFK_REWARD = "0 (0/m)";
+    private const int SECONDS_IN_DAY = 86400;
 
     void Start()
     {
         GlobalUserData user = GlobalUserData.Instance;
         goldLevelUpCost.text = user.User.kalineTreeLevel.goldLevelUpCost.ToString();
         fertilizerLevelUpCost.text = user.User.kalineTreeLevel.goldLevelUpCost.ToString();
+        SetAfkRewardRatesTexts(user.User);
     }
     public void ShowRewards() {
         GlobalUserData user = GlobalUserData.Instance;
@@ -86,5 +88,31 @@ public class KalineTreeManager : MonoBehaviour
     {
         goldLevelUpCost.text = user.kalineTreeLevel.goldLevelUpCost.ToString();
         fertilizerLevelUpCost.text = user.kalineTreeLevel.goldLevelUpCost.ToString();
+    }
+
+    private void SetAfkRewardRatesTexts(User user)
+    {
+        foreach (AfkRewardRate afkRewardRate in user.afkRewardRates)
+        {
+            switch (afkRewardRate.currency)
+            {
+                case Currency.Gold:
+                    goldAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    break;
+                case Currency.HeroSouls:
+                    heroSoulsAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    break;
+                case Currency.Experience:
+                    experienceAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    break;
+                case Currency.ArcaneCrystals:
+                    arcaneCrystalsAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    break;
+            }
+        }
+    }
+
+    private string GetAfkRewardRateText(float rate) {
+        return $"{rate * SECONDS_IN_DAY}/day";
     }
 }

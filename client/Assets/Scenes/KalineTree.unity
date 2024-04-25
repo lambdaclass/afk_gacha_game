@@ -576,6 +576,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8388630046764816501, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
   m_PrefabInstance: {fileID: 114728713}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &114728715 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2015372941, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+  m_PrefabInstance: {fileID: 114728713}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &138730025
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +864,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8388630046764816501, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
   m_PrefabInstance: {fileID: 164074107}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &164074109 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2015372941, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+  m_PrefabInstance: {fileID: 164074107}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &234308757
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,6 +2872,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8388630046764816501, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
   m_PrefabInstance: {fileID: 793876882}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &793876884 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2015372941, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+  m_PrefabInstance: {fileID: 793876882}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &930869110
 GameObject:
   m_ObjectHideFlags: 0
@@ -3955,10 +3988,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldLevelUpCost: {fileID: 646895275}
   fertilizerLevelUpCost: {fileID: 246556281}
-  goldAfkRewardRate: {fileID: 0}
-  heroSoulsAfkRewardRate: {fileID: 0}
-  experienceAfkRewardRate: {fileID: 0}
-  arcaneCrystalsAfkRewardRate: {fileID: 0}
+  goldAfkRewardRate: {fileID: 2015372941}
+  heroSoulsAfkRewardRate: {fileID: 793876884}
+  experienceAfkRewardRate: {fileID: 114728715}
+  arcaneCrystalsAfkRewardRate: {fileID: 164074109}
   confirmPopUp: {fileID: 514234978}
   insufficientCurrencyPopup: {fileID: 1915293362}
   gems: {fileID: 1328482321}
@@ -4446,6 +4479,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8388630046764816501, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
   m_PrefabInstance: {fileID: 2015372938}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2015372941 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2015372941, guid: 9855328b6eec34dd88fa0bc3ecd920d7, type: 3}
+  m_PrefabInstance: {fileID: 2015372938}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2117596307
 GameObject:
   m_ObjectHideFlags: 0
