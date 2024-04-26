@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7da287c0c1f489bb08ac2dc595cac9, type: 3}
   m_Name: Silence
   m_EditorClassIdentifier: 
-  name: Silence
+  name: ControlEffect.Silence
   sprite: {fileID: 21300000, guid: 7e666620d72e96e48b03c1a3bcfe774e, type: 3}

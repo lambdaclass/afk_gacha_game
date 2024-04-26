@@ -87,7 +87,8 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
-			yield return new WaitForSeconds(.4f);
+			Debug.Log($"step: {step.StepNumber}");
+			yield return new WaitForSeconds(.02f);
 
 			ProcessEffectTriggers(step.Actions);
 			ProcessHitsAndMisses(step.Actions);
@@ -104,7 +105,13 @@ public class BattleManager : MonoBehaviour
 						if(battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId)) {
 							// Only applies to multiplications probably will break when other modifier type is implemented
 							string multiplication = action.ModifierReceived.StatAffected.Amount > 1 ? "higher_" : "lower_";
-							battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
+							if(!statuses.Any(status => status.name.ToLower() == multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower())){
+								Debug.LogError($"status not found on client: {multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()}");
+							}
+							else
+							{
+								battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
+							}
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierExpired:
@@ -116,7 +123,13 @@ public class BattleManager : MonoBehaviour
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
 						if(battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.TagReceived.TargetId)) {
-							battleUnitsUI.First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
+							if(!statuses.Any(status => status.name.ToLower() == action.TagReceived.Tag.ToLower())){
+								Debug.LogError($"status not found on client: {action.TagReceived.Tag.ToLower()}");
+							}
+							else
+							{
+								battleUnitsUI.First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
+							}
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagExpired:

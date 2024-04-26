@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7da287c0c1f489bb08ac2dc595cac9, type: 3}
   m_Name: Burn
   m_EditorClassIdentifier: 
-  name: Burn
+  name: ControlEffect.Burn
   sprite: {fileID: 21300000, guid: 23cf46eefa746478ebadc40c4a95425e, type: 3}
