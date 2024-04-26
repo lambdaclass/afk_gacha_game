@@ -106,3 +106,51 @@ We share our development and creative process in the open, follow us for frequen
 - **Reddit:** [r/curseofmirra](https://www.reddit.com/r/curseofmirra/)
 - **Discord:** [join link](https://discord.gg/hxDRsbCpzC)
 - **Telegram:** [t.me/curseofmirra](https://t.me/curseofmirra)
+
+```mermaid
+	sequenceDiagram
+		participant HeaderManager
+		participant GlobalUserData
+		participant SocketConnection
+		participant Backend
+
+		par SocketConnection Initializes
+			SocketConnection-)+Backend: Initialize Connection
+			Backend--)-SocketConnection: Connection Open
+			SocketConnection-)+Backend: GetUser
+			Backend--)-SocketConnection: User
+		and Header Gets User to Display
+			HeaderManager->>GlobalUserData: GetUser
+			GlobalUserData-)+SocketConnection: GetUser
+		end
+
+		SocketConnection--)-GlobalUserData: User
+		participant SocketConnectiona
+		GlobalUserData-->>HeaderManager: User
+		HeaderManager->>+GlobalUserData: Subscribe to user changes
+		loop On Every User Change
+			GlobalUserData-->>-HeaderManager: User change
+		end
+```
+
+```mermaid
+	sequenceDiagram
+		actor User
+		participant UI
+		participant SummonManager
+		participant SocketConnection
+		participant Backend
+
+		SummonManager-)+SocketConnection: GetBoxes
+		SocketConnection-)+Backend: GetBoxes
+		Backend --)-SocketConnection: Boxes
+		SocketConnection --)-SummonManager: Boxes
+		SummonManager->>UI: Instantiate Boxes
+		User->>UI: Buy Box
+		UI->>SummonManager: Summon
+		SummonManager-)+SocketConnection: Summon
+		SocketConnection-)+Backend: Summon
+		Backend-)-SocketConnection: New Unit
+		SocketConnection-)-SummonManager: New Unit
+		SummonManager->>UI: Display New Unit
+```
