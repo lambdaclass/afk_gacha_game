@@ -111,11 +111,13 @@ We share our development and creative process in the open, follow us for frequen
 ## Documentation
 ### Client Paths
 
-On the start of the application, the SocketConnection, which is a game object in the scene, tries to establish a websocket connection with the backend. If and when the connection is opened, SocketConnection asks the backend for the current user (the register/login logic is not shown in this diagram).
+The following diagram outlines the initialization process of a connection between the client and the backend, as well as the retrieval of the user's data to be displayed on the header.
 
-In parallel, the HeaderManager waits for the user information to be retrived via the GlobalUserData, which is the class that contains the user information.
+On the start of the application, the SocketConnection, which is a game object in the scene, tries to establish a websocket connection with the backend. Upon successful establishment of the connection, the SocketConnection requests the current user data from the backend (note: the register/login logic is not shown in this diagram).
 
-Once the user is retreived from the backend, it is sent to the HeaderManger, where the relevant information is displayed in the UI. Also the HeaderManager subscribes to changes from the GlobalUserData, to receive the new values and update the ones on the UI. 
+In parallel, the HeaderManager waits for the user information to be retrieved via the GlobalUserData, which is the class that contains the user information.
+
+Once the user data is retrieved from the backend, it is sent to the HeaderManager, where the relevant information is displayed in the UI. Additionally, the HeaderManager subscribes to updates from the GlobalUserData, ensuring that any changes are promptly reflected in the UI. 
 
 ```mermaid
 	sequenceDiagram
