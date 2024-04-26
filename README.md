@@ -149,9 +149,11 @@ Once the user data is retrieved from the backend, it is sent to the HeaderManage
 
 ___
 
-When entering the Summon scene, the SummonManager script is responsible to retrive the summon boxes from the backend through SocketConnection, when these are returned, the manager instantiates an UI element for each box.
+The next diagram depicts the actions that take place when a user enters the Summon scene.
 
-The user then can buy one of these boxes, causing a chain comunication all the way to the backend, passing through currency availability checks first. Once the backend processes the request, it returns the summoned unit so the summon manager can display it in the UI.
+When entering the Summon scene, the SummonManager script is responsible of fetching the summon boxes from the backend via the SocketConnection. When these are returned, the manager instantiates a UI element for each box.
+
+The user can then buy one of these boxes, triggering a chain communication that traverses all the way to the backend, passing through currency availability checks first. Once the backend processes the user's request, it returns the summoned unit so the summon manager can display it in the UI.
 
 ```mermaid
 	sequenceDiagram
