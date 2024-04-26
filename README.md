@@ -14,6 +14,7 @@
   - [Suggested Development Environment](#suggested-development-environment)
   - [Useful Commands](#useful-commands)
   - [Contact and Socials](#contact-and-socials)
+  - [Tecnical Documentation](#documentation)
 
 ## About
 
@@ -107,8 +108,18 @@ We share our development and creative process in the open, follow us for frequen
 - **Discord:** [join link](https://discord.gg/hxDRsbCpzC)
 - **Telegram:** [t.me/curseofmirra](https://t.me/curseofmirra)
 
+## Documentation
+### Client Paths
+
+On the start of the application, the SocketConnection, which is a game object in the scene, tries to establish a websocket connection with the backend. If and when the connection is opened, SocketConnection asks the backend for the current user (the register/login logic is not shown in this diagram).
+
+In parallel, the HeaderManager waits for the user information to be retrived via the GlobalUserData, which is the class that contains the user information.
+
+Once the user is retreived from the backend, it is sent to the HeaderManger, where the relevant information is displayed in the UI. Also the HeaderManager subscribes to changes from the GlobalUserData, to receive the new values and update the ones on the UI. 
+
 ```mermaid
 	sequenceDiagram
+		participant UI
 		participant HeaderManager
 		participant GlobalUserData
 		participant SocketConnection
@@ -125,13 +136,20 @@ We share our development and creative process in the open, follow us for frequen
 		end
 
 		SocketConnection--)-GlobalUserData: User
-		participant SocketConnectiona
 		GlobalUserData-->>HeaderManager: User
+		HeaderManager->>UI: User Data to Display
 		HeaderManager->>+GlobalUserData: Subscribe to user changes
 		loop On Every User Change
 			GlobalUserData-->>-HeaderManager: User change
+			HeaderManager->>UI: User Data to Display
 		end
 ```
+
+___
+
+When entering the Summon scene, the SummonManager script is responsible to retrive the summon boxes from the backend through SocketConnection, when these are returned, the manager instantiates an UI element for each box.
+
+The user then can buy one of these boxes, causing a chain comunication all the way to the backend, passing through currency availability checks first. Once the backend processes the request, it returns the summoned unit so the summon manager can display it in the UI.
 
 ```mermaid
 	sequenceDiagram
@@ -145,7 +163,9 @@ We share our development and creative process in the open, follow us for frequen
 		SocketConnection-)+Backend: GetBoxes
 		Backend --)-SocketConnection: Boxes
 		SocketConnection --)-SummonManager: Boxes
-		SummonManager->>UI: Instantiate Boxes
+		loop For Every Box
+			SummonManager->>UI: Instantiate Boxes
+		end
 		User->>UI: Buy Box
 		UI->>SummonManager: Summon
 		SummonManager-)+SocketConnection: Summon
