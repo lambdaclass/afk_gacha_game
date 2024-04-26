@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using System.Collections.Specialized;
 
 [Serializable]
 public class User
@@ -18,6 +15,8 @@ public class User
     public int next_unit_id;
 
     public Dictionary<Currency, int> currencies;
+
+    public KalineTreeLevel kalineTreeLevel;
 
     public int level = 1;
 
