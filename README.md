@@ -14,7 +14,7 @@
   - [Suggested Development Environment](#suggested-development-environment)
   - [Useful Commands](#useful-commands)
   - [Contact and Socials](#contact-and-socials)
-  - [Tecnical Documentation](#documentation)
+  - [Technical Documentation](#documentation)
 
 ## About
 
