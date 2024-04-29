@@ -1,5 +1,5 @@
 .PHONY: generate-protos
 
-generate-protos: 
-    protoc --csharp_out=./ messages.proto \
-    mv Messages.cs client/Assets/Scripts/Messages.pb.cs
+generate-protos:
+	protoc --csharp_out=./ gateway.proto
+	mv Gateway.cs client/Assets/Scripts/Protobuf/Gateway.pb.cs
