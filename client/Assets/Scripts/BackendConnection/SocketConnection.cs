@@ -196,7 +196,7 @@ public class SocketConnection : MonoBehaviour {
         return new AfkRewardRate
         {
             userId = afkRewardRateData.UserId,
-            currency = Enum.Parse<Currency>(afkRewardRateData.Currency.Name),
+            currency = Enum.Parse<Currency>(afkRewardRateData.Currency.Name.Replace(" ", "")),
             rate = afkRewardRateData.Rate
         };
     }
@@ -774,7 +774,7 @@ public class SocketConnection : MonoBehaviour {
             {
                 List<AfkReward> afkRewards = webSocketResponse.AfkRewards.AfkRewards_.Select(afkReward => new AfkReward
                 {
-                    currency = Enum.Parse<Currency>(afkReward.Currency.Name),
+                    currency = Enum.Parse<Currency>(afkReward.Currency.Name.Replace(" ", "")),
                     amount = (int)afkReward.Amount
                 }).ToList();
                 onAfkRewardsReceived?.Invoke(afkRewards);
@@ -855,7 +855,7 @@ public class SocketConnection : MonoBehaviour {
             if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
             {
 				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
-				onLeveledUpUserReceived?.Invoke(user);
+                onLeveledUpUserReceived?.Invoke(user);
                 GlobalUserData.Instance.User.kalineTreeLevel = user.kalineTreeLevel;
             }
             else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {

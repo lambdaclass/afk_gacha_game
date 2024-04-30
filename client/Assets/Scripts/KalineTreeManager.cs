@@ -14,8 +14,9 @@ public class KalineTreeManager : MonoBehaviour
     [SerializeField] TMP_Text kalineTreeLevel;
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
-    [SerializeField] TextMeshProUGUI gems;
+    [SerializeField] TextMeshProUGUI heroSouls;
     [SerializeField] TextMeshProUGUI gold;
+    [SerializeField] TextMeshProUGUI arcaneCrystals;
     [SerializeField] TextMeshProUGUI xp;
     
 
@@ -35,12 +36,14 @@ public class KalineTreeManager : MonoBehaviour
         SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) => {
             confirmPopUp.SetActive(true);
             if (afkRewards.Count == 0) {
-                gems.text = EMPTY_AFK_REWARD;
+                heroSouls.text = EMPTY_AFK_REWARD;
                 gold.text = EMPTY_AFK_REWARD;
+                arcaneCrystals.text = EMPTY_AFK_REWARD;
                 xp.text = EMPTY_AFK_REWARD;
             } else {
-                gems.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gems).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gems).rate * 60}/m)";
+                heroSouls.text = $"{afkRewards.Single(ar => ar.currency == Currency.HeroSouls).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.HeroSouls).rate * 60}/m)";
                 gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate * 60}/m)";
+                arcaneCrystals.text = $"{afkRewards.Single(ar => ar.currency == Currency.ArcaneCrystals).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.ArcaneCrystals).rate * 60}/m)";
                 //xp.text = $"{afkRewards.Single(ar => ar.currency == Currency.Experience).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Experience)}/m)";
             }
         });
@@ -76,7 +79,10 @@ public class KalineTreeManager : MonoBehaviour
                         userToUpdate.SetCurrencyAmount(c, userReceived.currencies[c]);
                     }
                 });
-                UpdateLevelUpCosts(userReceived);
+                userReceived.afkRewardRates.ForEach(afkRewardRate => {
+                    userToUpdate.User.afkRewardRates.Add(afkRewardRate);
+                });
+                UpdateRatesAndLevelUpCosts(userReceived);
                 kalineTreeLevel.text = $"Level {userReceived.kalineTreeLevel.level}";
             },
             (reason) => {
@@ -87,10 +93,11 @@ public class KalineTreeManager : MonoBehaviour
         );
     }
 
-    public void UpdateLevelUpCosts(User user)
+    public void UpdateRatesAndLevelUpCosts(User user)
     {
         goldLevelUpCost.text = user.kalineTreeLevel.goldLevelUpCost.ToString();
         fertilizerLevelUpCost.text = user.kalineTreeLevel.goldLevelUpCost.ToString();
+        SetAfkRewardRatesTexts(user);
     }
 
     private void SetAfkRewardRatesTexts(User user)
