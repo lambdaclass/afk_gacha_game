@@ -85,7 +85,7 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
-			yield return new WaitForSeconds(.04f);
+			yield return new WaitForSeconds(.4f);
 
 			ProcessEffectTriggers(step.Actions);
 			ProcessHitsAndMisses(step.Actions);
