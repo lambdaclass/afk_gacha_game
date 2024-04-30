@@ -24,13 +24,15 @@ public class ServerSelect : MonoBehaviour
 	TMP_Text serverButtonText;
 
 	void Awake() {
-		#if UNITY_EDITOR
-			ServerSelect.Name = "LOCALHOST";
-			ServerSelect.Domain = servers["LOCALHOST"];
-		#else
-			ServerSelect.Name = "EUROPE";
-			ServerSelect.Domain = servers["EUROPE"];
-		#endif
+		if(string.IsNullOrEmpty(ServerSelect.Name) || string.IsNullOrEmpty(ServerSelect.Domain)) {
+			#if UNITY_EDITOR
+				ServerSelect.Name = "LOCALHOST";
+				ServerSelect.Domain = servers["LOCALHOST"];
+			#else
+				ServerSelect.Name = "EUROPE";
+				ServerSelect.Domain = servers["EUROPE"];
+			#endif
+		}
 		serverButtonText.text = ServerSelect.Name;
 	}
 
