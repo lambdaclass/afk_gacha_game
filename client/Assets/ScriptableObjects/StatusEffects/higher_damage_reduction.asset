@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7da287c0c1f489bb08ac2dc595cac9, type: 3}
   m_Name: higher_damage_reduction
   m_EditorClassIdentifier: 
-  name: lower_damage_reduction
-  sprite: {fileID: 21300000, guid: f0910b8db4d08407b94a903805fe94d7, type: 3}
+  name: higher_damage_reduction
+  sprite: {fileID: 21300000, guid: 7280e744ca21b46f9a744ecb3aa7867b, type: 3}

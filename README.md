@@ -66,6 +66,7 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
 	- <a href="https://www.flaticon.com/free-icons/nerf" title="nerf icons">Nerf icons created by WR Graphic Garage - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/magic-potion" title="magic potion icons">Magic potion icons created by WR Graphic Garage - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/snowflake" title="snowflake icons">Snowflake icons created by Lumi - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/armor" title="armor icons">Armor icons created by max.icons - Flaticon</a>
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)

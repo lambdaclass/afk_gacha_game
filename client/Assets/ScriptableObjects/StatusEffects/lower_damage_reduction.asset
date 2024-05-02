@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: lower_damage_reduction
   m_EditorClassIdentifier: 
   name: lower_damage_reduction
-  sprite: {fileID: 21300000, guid: f0910b8db4d08407b94a903805fe94d7, type: 3}
+  sprite: {fileID: 21300000, guid: 33d091547c5fe4f85879eb88a967afe6, type: 3}
