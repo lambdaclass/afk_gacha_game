@@ -133,17 +133,11 @@ public class SocketConnection : MonoBehaviour {
 	{
 		List<Unit> units = CreateUnitsFromData(user.Units, availableCharacters);
 		List<Item> items = new List<Item>();
-        List<AfkRewardRate> afkRewardRates = new List<AfkRewardRate>();
 
 		foreach (var userItem in user.Items)
 		{
 			items.Add(CreateItemFromData(userItem));
 		}
-
-        foreach (var afkRewardRate in user.AfkRewardRates)
-        {
-            afkRewardRates.Add(CreateAfkRewardRateFromData(afkRewardRate));
-        }
 
 		Dictionary<Currency, int> currencies = new Dictionary<Currency, int>();
 
@@ -163,7 +157,8 @@ public class SocketConnection : MonoBehaviour {
         {
             level = (int)user.KalineTreeLevel.Level,
             goldLevelUpCost = ((int)user.KalineTreeLevel.GoldLevelUpCost),
-            fertilizerLevelUpCost = ((int)user.KalineTreeLevel.FertilizerLevelUpCost)
+            fertilizerLevelUpCost = ((int)user.KalineTreeLevel.FertilizerLevelUpCost),
+            afkRewardRates = user.KalineTreeLevel.AfkRewardRates.Select(afkRewardRate => CreateAfkRewardRateFromData(afkRewardRate)).ToList()
         };
 
 		return new User
@@ -175,11 +170,9 @@ public class SocketConnection : MonoBehaviour {
 			currencies = currencies,
 			level = (int)user.Level,
 			experience = (int)user.Experience,
-            afkRewardRates = afkRewardRates,
             kalineTreeLevel = kalineTreeLevel
 		};
 	}
-	
     private Item CreateItemFromData(Protobuf.Messages.Item itemData) {
         return new Item
         {
@@ -195,7 +188,7 @@ public class SocketConnection : MonoBehaviour {
     {
         return new AfkRewardRate
         {
-            userId = afkRewardRateData.UserId,
+            kalineTreeLevelId = afkRewardRateData.KalineTreeLevelId,
             currency = Enum.Parse<Currency>(afkRewardRateData.Currency.Name.Replace(" ", "")),
             rate = afkRewardRateData.Rate
         };

@@ -41,9 +41,9 @@ public class KalineTreeManager : MonoBehaviour
                 arcaneCrystals.text = EMPTY_AFK_REWARD;
                 xp.text = EMPTY_AFK_REWARD;
             } else {
-                heroSouls.text = $"{afkRewards.Single(ar => ar.currency == Currency.HeroSouls).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.HeroSouls).rate * 60}/m)";
-                gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate * 60}/m)";
-                arcaneCrystals.text = $"{afkRewards.Single(ar => ar.currency == Currency.ArcaneCrystals).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.ArcaneCrystals).rate * 60}/m)";
+                heroSouls.text = $"{afkRewards.Single(ar => ar.currency == Currency.HeroSouls).amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == Currency.HeroSouls).rate * 60}/m)";
+                gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate * 60}/m)";
+                arcaneCrystals.text = $"{afkRewards.Single(ar => ar.currency == Currency.ArcaneCrystals).amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == Currency.ArcaneCrystals).rate * 60}/m)";
                 //xp.text = $"{afkRewards.Single(ar => ar.currency == Currency.Experience).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Experience)}/m)";
             }
         });
@@ -79,8 +79,8 @@ public class KalineTreeManager : MonoBehaviour
                         userToUpdate.SetCurrencyAmount(c, userReceived.currencies[c]);
                     }
                 });
-                userReceived.afkRewardRates.ForEach(afkRewardRate => {
-                    userToUpdate.User.afkRewardRates.Add(afkRewardRate);
+                userReceived.kalineTreeLevel.afkRewardRates.ForEach(afkRewardRate => {
+                    userToUpdate.User.kalineTreeLevel.afkRewardRates.Add(afkRewardRate);
                 });
                 UpdateRatesAndLevelUpCosts(userReceived);
                 kalineTreeLevel.text = $"Level {userReceived.kalineTreeLevel.level}";
@@ -102,7 +102,7 @@ public class KalineTreeManager : MonoBehaviour
 
     private void SetAfkRewardRatesTexts(User user)
     {
-        foreach (AfkRewardRate afkRewardRate in user.afkRewardRates)
+        foreach (AfkRewardRate afkRewardRate in user.kalineTreeLevel.afkRewardRates)
         {
             switch (afkRewardRate.currency)
             {
