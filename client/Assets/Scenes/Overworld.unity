@@ -3518,7 +3518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7daa4c0695f574ee9b7c94144890ff8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketConnection: {fileID: 1374488461}
   customServerDomain: {fileID: 269666153}
   serverButtonText: {fileID: 1648520155}
 --- !u!224 &1884389181

@@ -15,9 +15,6 @@ public class ServerSelect : MonoBehaviour
 	public static string Domain { get; private set; }
 
 	[SerializeField]
-	SocketConnection socketConnection;
-
-	[SerializeField]
 	TMP_InputField customServerDomain;
 
 	[SerializeField]
@@ -32,6 +29,8 @@ public class ServerSelect : MonoBehaviour
 				ServerSelect.Name = "EUROPE";
 				ServerSelect.Domain = servers["EUROPE"];
 			#endif
+			// ServerSelect.Name = "EUROPE";
+			// ServerSelect.Domain = servers["EUROPE"];
 		}
 		serverButtonText.text = ServerSelect.Name;
 	}
@@ -40,14 +39,14 @@ public class ServerSelect : MonoBehaviour
 		ServerSelect.Name = domainName;
 		ServerSelect.Domain = servers[domainName];
 		serverButtonText.text = ServerSelect.Name;
-		await socketConnection.CloseConnection();
-		await socketConnection.Init();
+		await SocketConnection.Instance.CloseConnection();
+		await SocketConnection.Instance.Init();
 	}
 
 	public async void SelectCustomServer() {
 		ServerSelect.Name = "CUSTOM";
 		ServerSelect.Domain = customServerDomain.text;
-		await socketConnection.CloseConnection();
-		await socketConnection.Init();
+		await SocketConnection.Instance.CloseConnection();
+		await SocketConnection.Instance.Init();
 	}
 }
