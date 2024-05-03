@@ -223,7 +223,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.783
+  m_FillAmount: 0.685
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -287,19 +287,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6784314, g: 0.8509804, b: 0.13333334, a: 1}
+  m_Color: {r: 0, g: 0.40392157, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 2b3bf358c789944f5bd2cf46db94ae9e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9473d13d17cfd594cb938b0234fec104, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.783
+  m_FillAmount: 0.27
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -490,7 +490,7 @@ MonoBehaviour:
   m_FillSizing: 0
   m_MinWidth: 0
   m_MaxWidth: 100
-  m_FillAmount: 0
+  m_FillAmount: 0.685
   m_Steps: 0
   onChange:
     m_PersistentCalls:

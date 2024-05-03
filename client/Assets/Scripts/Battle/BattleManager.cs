@@ -20,6 +20,8 @@ public class BattleManager : MonoBehaviour
 
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
+
+	private const int MAX_ENERGY = 500;
 	
     void Start()
 	{
@@ -78,7 +80,7 @@ public class BattleManager : MonoBehaviour
 			battleUnit.gameObject.SetActive(true);
 			battleUnit.MaxHealth = unit.Health;
 			battleUnit.CurrentHealth = unit.Health;
-			battleUnit.MaxEnergy = 500;
+			battleUnit.MaxEnergy = MAX_ENERGY;
 			battleUnit.CurrentEnergy = unit.Energy;
 		}
 	}
