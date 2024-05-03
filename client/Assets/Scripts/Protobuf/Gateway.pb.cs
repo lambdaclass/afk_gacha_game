@@ -128,35 +128,41 @@ namespace Protobuf.Messages {
             "QW5kVW5pdBITCgR1c2VyGAEgASgLMgUuVXNlchITCgR1bml0GAIgASgLMgUu",
             "VW5pdCJTCgxCYXR0bGVSZXN1bHQSHQoNaW5pdGlhbF9zdGF0ZRgBIAEoCzIG",
             "LlN0YXRlEhQKBXN0ZXBzGAIgAygLMgUuU3RlcBIOCgZyZXN1bHQYAyABKAki",
-            "IwoFU3RhdGUSGgoFdW5pdHMYASADKAsyCy5CYXR0bGVVbml0IloKCkJhdHRs",
-            "ZVVuaXQSCgoCaWQYASABKAkSDgoGaGVhbHRoGAIgASgFEgwKBHNsb3QYAyAB",
-            "KAUSFAoMY2hhcmFjdGVyX2lkGAQgASgJEgwKBHRlYW0YBSABKAUiNQoEU3Rl",
-            "cBITCgtzdGVwX251bWJlchgBIAEoBRIYCgdhY3Rpb25zGAIgAygLMgcuQWN0",
-            "aW9uIrACCgZBY3Rpb24SJAoMc2tpbGxfYWN0aW9uGAEgASgLMgwuU2tpbGxB",
-            "Y3Rpb25IABIuChFtb2RpZmllcl9yZWNlaXZlZBgCIAEoCzIRLk1vZGlmaWVy",
-            "UmVjZWl2ZWRIABIkCgx0YWdfcmVjZWl2ZWQYAyABKAsyDC5UYWdSZWNlaXZl",
-            "ZEgAEiwKEG1vZGlmaWVyX2V4cGlyZWQYBCABKAsyEC5Nb2RpZmllckV4cGly",
-            "ZWRIABIiCgt0YWdfZXhwaXJlZBgFIAEoCzILLlRhZ0V4cGlyZWRIABIXCgVk",
-            "ZWF0aBgGIAEoCzIGLkRlYXRoSAASMAoSZXhlY3V0aW9uX3JlY2VpdmVkGAcg",
-            "ASgLMhIuRXhlY3V0aW9uUmVjZWl2ZWRIAEINCgthY3Rpb25fdHlwZSIzCgxT",
-            "dGF0QWZmZWN0ZWQSEwoEc3RhdBgBIAEoDjIFLlN0YXQSDgoGYW1vdW50GAIg",
-            "ASgCInMKC1NraWxsQWN0aW9uEhEKCWNhc3Rlcl9pZBgBIAEoCRISCgp0YXJn",
-            "ZXRfaWRzGAIgAygJEhAKCHNraWxsX2lkGAMgASgJEisKEXNraWxsX2FjdGlv",
-            "bl90eXBlGAQgASgOMhAuU2tpbGxBY3Rpb25UeXBlIkwKEUV4ZWN1dGlvblJl",
-            "Y2VpdmVkEhEKCXRhcmdldF9pZBgBIAEoCRIkCg1zdGF0X2FmZmVjdGVkGAIg",
-            "ASgLMg0uU3RhdEFmZmVjdGVkIl0KEE1vZGlmaWVyUmVjZWl2ZWQSEAoIc2tp",
-            "bGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0",
-            "ZWQYAyABKAsyDS5TdGF0QWZmZWN0ZWQiRAoLVGFnUmVjZWl2ZWQSEAoIc2tp",
-            "bGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEhAKCHRhZ19uYW1lGAMg",
-            "ASgJIlwKD01vZGlmaWVyRXhwaXJlZBIQCghza2lsbF9pZBgBIAEoCRIRCgl0",
-            "YXJnZXRfaWQYAiABKAkSJAoNc3RhdF9hZmZlY3RlZBgDIAEoCzINLlN0YXRB",
-            "ZmZlY3RlZCJDCgpUYWdFeHBpcmVkEhAKCHNraWxsX2lkGAEgASgJEhEKCXRh",
-            "cmdldF9pZBgCIAEoCRIQCgh0YWdfbmFtZRgDIAEoCSIYCgVEZWF0aBIPCgd1",
-            "bml0X2lkGAEgASgJKlsKD1NraWxsQWN0aW9uVHlwZRITCg9BTklNQVRJT05f",
-            "U1RBUlQQABISCg5FRkZFQ1RfVFJJR0dFUhABEg4KCkVGRkVDVF9ISVQQAhIP",
-            "CgtFRkZFQ1RfTUlTUxADKlgKBFN0YXQSCgoGSEVBTFRIEAASCgoGRU5FUkdZ",
-            "EAESCgoGQVRUQUNLEAISCwoHREVGRU5TRRADEhQKEERBTUFHRV9SRURVQ1RJ",
-            "T04QBBIJCgVTUEVFRBAFQhSqAhFQcm90b2J1Zi5NZXNzYWdlc2IGcHJvdG8z"));
+            "IwoFU3RhdGUSGgoFdW5pdHMYASADKAsyCy5CYXR0bGVVbml0ImoKCkJhdHRs",
+            "ZVVuaXQSCgoCaWQYASABKAkSDgoGaGVhbHRoGAIgASgFEg4KBmVuZXJneRgD",
+            "IAEoBRIMCgRzbG90GAQgASgFEhQKDGNoYXJhY3Rlcl9pZBgFIAEoCRIMCgR0",
+            "ZWFtGAYgASgFIjUKBFN0ZXASEwoLc3RlcF9udW1iZXIYASABKAUSGAoHYWN0",
+            "aW9ucxgCIAMoCzIHLkFjdGlvbiL+AgoGQWN0aW9uEiQKDHNraWxsX2FjdGlv",
+            "bhgBIAEoCzIMLlNraWxsQWN0aW9uSAASLgoRbW9kaWZpZXJfcmVjZWl2ZWQY",
+            "AiABKAsyES5Nb2RpZmllclJlY2VpdmVkSAASJAoMdGFnX3JlY2VpdmVkGAMg",
+            "ASgLMgwuVGFnUmVjZWl2ZWRIABIsChBtb2RpZmllcl9leHBpcmVkGAQgASgL",
+            "MhAuTW9kaWZpZXJFeHBpcmVkSAASIgoLdGFnX2V4cGlyZWQYBSABKAsyCy5U",
+            "YWdFeHBpcmVkSAASFwoFZGVhdGgYBiABKAsyBi5EZWF0aEgAEjAKEmV4ZWN1",
+            "dGlvbl9yZWNlaXZlZBgHIAEoCzISLkV4ZWN1dGlvblJlY2VpdmVkSAASJAoM",
+            "ZW5lcmd5X3JlZ2VuGAggASgLMgwuRW5lcmd5UmVnZW5IABImCg1zdGF0X292",
+            "ZXJyaWRlGAkgASgLMg0uU3RhdE92ZXJyaWRlSABCDQoLYWN0aW9uX3R5cGUi",
+            "MwoMU3RhdEFmZmVjdGVkEhMKBHN0YXQYASABKA4yBS5TdGF0Eg4KBmFtb3Vu",
+            "dBgCIAEoAiJzCgtTa2lsbEFjdGlvbhIRCgljYXN0ZXJfaWQYASABKAkSEgoK",
+            "dGFyZ2V0X2lkcxgCIAMoCRIQCghza2lsbF9pZBgDIAEoCRIrChFza2lsbF9h",
+            "Y3Rpb25fdHlwZRgEIAEoDjIQLlNraWxsQWN0aW9uVHlwZSJMChFFeGVjdXRp",
+            "b25SZWNlaXZlZBIRCgl0YXJnZXRfaWQYASABKAkSJAoNc3RhdF9hZmZlY3Rl",
+            "ZBgCIAEoCzINLlN0YXRBZmZlY3RlZCJdChBNb2RpZmllclJlY2VpdmVkEhAK",
+            "CHNraWxsX2lkGAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIkCg1zdGF0X2Fm",
+            "ZmVjdGVkGAMgASgLMg0uU3RhdEFmZmVjdGVkIkQKC1RhZ1JlY2VpdmVkEhAK",
+            "CHNraWxsX2lkGAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIQCgh0YWdfbmFt",
+            "ZRgDIAEoCSJcCg9Nb2RpZmllckV4cGlyZWQSEAoIc2tpbGxfaWQYASABKAkS",
+            "EQoJdGFyZ2V0X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5T",
+            "dGF0QWZmZWN0ZWQiQwoKVGFnRXhwaXJlZBIQCghza2lsbF9pZBgBIAEoCRIR",
+            "Cgl0YXJnZXRfaWQYAiABKAkSEAoIdGFnX25hbWUYAyABKAkiGAoFRGVhdGgS",
+            "DwoHdW5pdF9pZBgBIAEoCSJCCgtFbmVyZ3lSZWdlbhIRCgl0YXJnZXRfaWQY",
+            "ASABKAkSEAoIc2tpbGxfaWQYAiABKAkSDgoGYW1vdW50GAMgASgCIkcKDFN0",
+            "YXRPdmVycmlkZRIRCgl0YXJnZXRfaWQYASABKAkSJAoNc3RhdF9hZmZlY3Rl",
+            "ZBgCIAEoCzINLlN0YXRBZmZlY3RlZCpbCg9Ta2lsbEFjdGlvblR5cGUSEwoP",
+            "QU5JTUFUSU9OX1NUQVJUEAASEgoORUZGRUNUX1RSSUdHRVIQARIOCgpFRkZF",
+            "Q1RfSElUEAISDwoLRUZGRUNUX01JU1MQAypYCgRTdGF0EgoKBkhFQUxUSBAA",
+            "EgoKBkVORVJHWRABEgoKBkFUVEFDSxACEgsKB0RFRkVOU0UQAxIUChBEQU1B",
+            "R0VfUkVEVUNUSU9OEAQSCQoFU1BFRUQQBUIUqgIRUHJvdG9idWYuTWVzc2Fn",
+            "ZXNiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuf.Messages.SkillActionType), typeof(global::Protobuf.Messages.Stat), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -212,9 +218,9 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.UserAndUnit), global::Protobuf.Messages.UserAndUnit.Parser, new[]{ "User", "Unit" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.BattleResult), global::Protobuf.Messages.BattleResult.Parser, new[]{ "InitialState", "Steps", "Result" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.State), global::Protobuf.Messages.State.Parser, new[]{ "Units" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.BattleUnit), global::Protobuf.Messages.BattleUnit.Parser, new[]{ "Id", "Health", "Slot", "CharacterId", "Team" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.BattleUnit), global::Protobuf.Messages.BattleUnit.Parser, new[]{ "Id", "Health", "Energy", "Slot", "CharacterId", "Team" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Step), global::Protobuf.Messages.Step.Parser, new[]{ "StepNumber", "Actions" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Action), global::Protobuf.Messages.Action.Parser, new[]{ "SkillAction", "ModifierReceived", "TagReceived", "ModifierExpired", "TagExpired", "Death", "ExecutionReceived" }, new[]{ "ActionType" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Action), global::Protobuf.Messages.Action.Parser, new[]{ "SkillAction", "ModifierReceived", "TagReceived", "ModifierExpired", "TagExpired", "Death", "ExecutionReceived", "EnergyRegen", "StatOverride" }, new[]{ "ActionType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.StatAffected), global::Protobuf.Messages.StatAffected.Parser, new[]{ "Stat", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.SkillAction), global::Protobuf.Messages.SkillAction.Parser, new[]{ "CasterId", "TargetIds", "SkillId", "SkillActionType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ExecutionReceived), global::Protobuf.Messages.ExecutionReceived.Parser, new[]{ "TargetId", "StatAffected" }, null, null, null, null),
@@ -222,7 +228,9 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagReceived), global::Protobuf.Messages.TagReceived.Parser, new[]{ "SkillId", "TargetId", "TagName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierExpired), global::Protobuf.Messages.ModifierExpired.Parser, new[]{ "SkillId", "TargetId", "StatAffected" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagExpired), global::Protobuf.Messages.TagExpired.Parser, new[]{ "SkillId", "TargetId", "TagName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Death), global::Protobuf.Messages.Death.Parser, new[]{ "UnitId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Death), global::Protobuf.Messages.Death.Parser, new[]{ "UnitId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.EnergyRegen), global::Protobuf.Messages.EnergyRegen.Parser, new[]{ "TargetId", "SkillId", "Amount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.StatOverride), global::Protobuf.Messages.StatOverride.Parser, new[]{ "TargetId", "StatAffected" }, null, null, null, null)
           }));
     }
     #endregion
@@ -14737,6 +14745,7 @@ namespace Protobuf.Messages {
     public BattleUnit(BattleUnit other) : this() {
       id_ = other.id_;
       health_ = other.health_;
+      energy_ = other.energy_;
       slot_ = other.slot_;
       characterId_ = other.characterId_;
       team_ = other.team_;
@@ -14773,8 +14782,20 @@ namespace Protobuf.Messages {
       }
     }
 
+    /// <summary>Field number for the "energy" field.</summary>
+    public const int EnergyFieldNumber = 3;
+    private int energy_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Energy {
+      get { return energy_; }
+      set {
+        energy_ = value;
+      }
+    }
+
     /// <summary>Field number for the "slot" field.</summary>
-    public const int SlotFieldNumber = 3;
+    public const int SlotFieldNumber = 4;
     private int slot_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -14786,7 +14807,7 @@ namespace Protobuf.Messages {
     }
 
     /// <summary>Field number for the "character_id" field.</summary>
-    public const int CharacterIdFieldNumber = 4;
+    public const int CharacterIdFieldNumber = 5;
     private string characterId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -14798,7 +14819,7 @@ namespace Protobuf.Messages {
     }
 
     /// <summary>Field number for the "team" field.</summary>
-    public const int TeamFieldNumber = 5;
+    public const int TeamFieldNumber = 6;
     private int team_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -14826,6 +14847,7 @@ namespace Protobuf.Messages {
       }
       if (Id != other.Id) return false;
       if (Health != other.Health) return false;
+      if (Energy != other.Energy) return false;
       if (Slot != other.Slot) return false;
       if (CharacterId != other.CharacterId) return false;
       if (Team != other.Team) return false;
@@ -14838,6 +14860,7 @@ namespace Protobuf.Messages {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
       if (Health != 0) hash ^= Health.GetHashCode();
+      if (Energy != 0) hash ^= Energy.GetHashCode();
       if (Slot != 0) hash ^= Slot.GetHashCode();
       if (CharacterId.Length != 0) hash ^= CharacterId.GetHashCode();
       if (Team != 0) hash ^= Team.GetHashCode();
@@ -14867,16 +14890,20 @@ namespace Protobuf.Messages {
         output.WriteRawTag(16);
         output.WriteInt32(Health);
       }
-      if (Slot != 0) {
+      if (Energy != 0) {
         output.WriteRawTag(24);
+        output.WriteInt32(Energy);
+      }
+      if (Slot != 0) {
+        output.WriteRawTag(32);
         output.WriteInt32(Slot);
       }
       if (CharacterId.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(CharacterId);
       }
       if (Team != 0) {
-        output.WriteRawTag(40);
+        output.WriteRawTag(48);
         output.WriteInt32(Team);
       }
       if (_unknownFields != null) {
@@ -14897,16 +14924,20 @@ namespace Protobuf.Messages {
         output.WriteRawTag(16);
         output.WriteInt32(Health);
       }
-      if (Slot != 0) {
+      if (Energy != 0) {
         output.WriteRawTag(24);
+        output.WriteInt32(Energy);
+      }
+      if (Slot != 0) {
+        output.WriteRawTag(32);
         output.WriteInt32(Slot);
       }
       if (CharacterId.Length != 0) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(CharacterId);
       }
       if (Team != 0) {
-        output.WriteRawTag(40);
+        output.WriteRawTag(48);
         output.WriteInt32(Team);
       }
       if (_unknownFields != null) {
@@ -14924,6 +14955,9 @@ namespace Protobuf.Messages {
       }
       if (Health != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Health);
+      }
+      if (Energy != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Energy);
       }
       if (Slot != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Slot);
@@ -14951,6 +14985,9 @@ namespace Protobuf.Messages {
       }
       if (other.Health != 0) {
         Health = other.Health;
+      }
+      if (other.Energy != 0) {
+        Energy = other.Energy;
       }
       if (other.Slot != 0) {
         Slot = other.Slot;
@@ -14985,14 +15022,18 @@ namespace Protobuf.Messages {
             break;
           }
           case 24: {
+            Energy = input.ReadInt32();
+            break;
+          }
+          case 32: {
             Slot = input.ReadInt32();
             break;
           }
-          case 34: {
+          case 42: {
             CharacterId = input.ReadString();
             break;
           }
-          case 40: {
+          case 48: {
             Team = input.ReadInt32();
             break;
           }
@@ -15020,14 +15061,18 @@ namespace Protobuf.Messages {
             break;
           }
           case 24: {
+            Energy = input.ReadInt32();
+            break;
+          }
+          case 32: {
             Slot = input.ReadInt32();
             break;
           }
-          case 34: {
+          case 42: {
             CharacterId = input.ReadString();
             break;
           }
-          case 40: {
+          case 48: {
             Team = input.ReadInt32();
             break;
           }
@@ -15311,6 +15356,12 @@ namespace Protobuf.Messages {
         case ActionTypeOneofCase.ExecutionReceived:
           ExecutionReceived = other.ExecutionReceived.Clone();
           break;
+        case ActionTypeOneofCase.EnergyRegen:
+          EnergyRegen = other.EnergyRegen.Clone();
+          break;
+        case ActionTypeOneofCase.StatOverride:
+          StatOverride = other.StatOverride.Clone();
+          break;
       }
 
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -15406,6 +15457,30 @@ namespace Protobuf.Messages {
       }
     }
 
+    /// <summary>Field number for the "energy_regen" field.</summary>
+    public const int EnergyRegenFieldNumber = 8;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Protobuf.Messages.EnergyRegen EnergyRegen {
+      get { return actionTypeCase_ == ActionTypeOneofCase.EnergyRegen ? (global::Protobuf.Messages.EnergyRegen) actionType_ : null; }
+      set {
+        actionType_ = value;
+        actionTypeCase_ = value == null ? ActionTypeOneofCase.None : ActionTypeOneofCase.EnergyRegen;
+      }
+    }
+
+    /// <summary>Field number for the "stat_override" field.</summary>
+    public const int StatOverrideFieldNumber = 9;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Protobuf.Messages.StatOverride StatOverride {
+      get { return actionTypeCase_ == ActionTypeOneofCase.StatOverride ? (global::Protobuf.Messages.StatOverride) actionType_ : null; }
+      set {
+        actionType_ = value;
+        actionTypeCase_ = value == null ? ActionTypeOneofCase.None : ActionTypeOneofCase.StatOverride;
+      }
+    }
+
     private object actionType_;
     /// <summary>Enum of possible cases for the "action_type" oneof.</summary>
     public enum ActionTypeOneofCase {
@@ -15417,6 +15492,8 @@ namespace Protobuf.Messages {
       TagExpired = 5,
       Death = 6,
       ExecutionReceived = 7,
+      EnergyRegen = 8,
+      StatOverride = 9,
     }
     private ActionTypeOneofCase actionTypeCase_ = ActionTypeOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15454,6 +15531,8 @@ namespace Protobuf.Messages {
       if (!object.Equals(TagExpired, other.TagExpired)) return false;
       if (!object.Equals(Death, other.Death)) return false;
       if (!object.Equals(ExecutionReceived, other.ExecutionReceived)) return false;
+      if (!object.Equals(EnergyRegen, other.EnergyRegen)) return false;
+      if (!object.Equals(StatOverride, other.StatOverride)) return false;
       if (ActionTypeCase != other.ActionTypeCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -15469,6 +15548,8 @@ namespace Protobuf.Messages {
       if (actionTypeCase_ == ActionTypeOneofCase.TagExpired) hash ^= TagExpired.GetHashCode();
       if (actionTypeCase_ == ActionTypeOneofCase.Death) hash ^= Death.GetHashCode();
       if (actionTypeCase_ == ActionTypeOneofCase.ExecutionReceived) hash ^= ExecutionReceived.GetHashCode();
+      if (actionTypeCase_ == ActionTypeOneofCase.EnergyRegen) hash ^= EnergyRegen.GetHashCode();
+      if (actionTypeCase_ == ActionTypeOneofCase.StatOverride) hash ^= StatOverride.GetHashCode();
       hash ^= (int) actionTypeCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -15516,6 +15597,14 @@ namespace Protobuf.Messages {
         output.WriteRawTag(58);
         output.WriteMessage(ExecutionReceived);
       }
+      if (actionTypeCase_ == ActionTypeOneofCase.EnergyRegen) {
+        output.WriteRawTag(66);
+        output.WriteMessage(EnergyRegen);
+      }
+      if (actionTypeCase_ == ActionTypeOneofCase.StatOverride) {
+        output.WriteRawTag(74);
+        output.WriteMessage(StatOverride);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -15554,6 +15643,14 @@ namespace Protobuf.Messages {
         output.WriteRawTag(58);
         output.WriteMessage(ExecutionReceived);
       }
+      if (actionTypeCase_ == ActionTypeOneofCase.EnergyRegen) {
+        output.WriteRawTag(66);
+        output.WriteMessage(EnergyRegen);
+      }
+      if (actionTypeCase_ == ActionTypeOneofCase.StatOverride) {
+        output.WriteRawTag(74);
+        output.WriteMessage(StatOverride);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -15584,6 +15681,12 @@ namespace Protobuf.Messages {
       }
       if (actionTypeCase_ == ActionTypeOneofCase.ExecutionReceived) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ExecutionReceived);
+      }
+      if (actionTypeCase_ == ActionTypeOneofCase.EnergyRegen) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EnergyRegen);
+      }
+      if (actionTypeCase_ == ActionTypeOneofCase.StatOverride) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StatOverride);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -15639,6 +15742,18 @@ namespace Protobuf.Messages {
             ExecutionReceived = new global::Protobuf.Messages.ExecutionReceived();
           }
           ExecutionReceived.MergeFrom(other.ExecutionReceived);
+          break;
+        case ActionTypeOneofCase.EnergyRegen:
+          if (EnergyRegen == null) {
+            EnergyRegen = new global::Protobuf.Messages.EnergyRegen();
+          }
+          EnergyRegen.MergeFrom(other.EnergyRegen);
+          break;
+        case ActionTypeOneofCase.StatOverride:
+          if (StatOverride == null) {
+            StatOverride = new global::Protobuf.Messages.StatOverride();
+          }
+          StatOverride.MergeFrom(other.StatOverride);
           break;
       }
 
@@ -15720,6 +15835,24 @@ namespace Protobuf.Messages {
             ExecutionReceived = subBuilder;
             break;
           }
+          case 66: {
+            global::Protobuf.Messages.EnergyRegen subBuilder = new global::Protobuf.Messages.EnergyRegen();
+            if (actionTypeCase_ == ActionTypeOneofCase.EnergyRegen) {
+              subBuilder.MergeFrom(EnergyRegen);
+            }
+            input.ReadMessage(subBuilder);
+            EnergyRegen = subBuilder;
+            break;
+          }
+          case 74: {
+            global::Protobuf.Messages.StatOverride subBuilder = new global::Protobuf.Messages.StatOverride();
+            if (actionTypeCase_ == ActionTypeOneofCase.StatOverride) {
+              subBuilder.MergeFrom(StatOverride);
+            }
+            input.ReadMessage(subBuilder);
+            StatOverride = subBuilder;
+            break;
+          }
         }
       }
     #endif
@@ -15796,6 +15929,24 @@ namespace Protobuf.Messages {
             }
             input.ReadMessage(subBuilder);
             ExecutionReceived = subBuilder;
+            break;
+          }
+          case 66: {
+            global::Protobuf.Messages.EnergyRegen subBuilder = new global::Protobuf.Messages.EnergyRegen();
+            if (actionTypeCase_ == ActionTypeOneofCase.EnergyRegen) {
+              subBuilder.MergeFrom(EnergyRegen);
+            }
+            input.ReadMessage(subBuilder);
+            EnergyRegen = subBuilder;
+            break;
+          }
+          case 74: {
+            global::Protobuf.Messages.StatOverride subBuilder = new global::Protobuf.Messages.StatOverride();
+            if (actionTypeCase_ == ActionTypeOneofCase.StatOverride) {
+              subBuilder.MergeFrom(StatOverride);
+            }
+            input.ReadMessage(subBuilder);
+            StatOverride = subBuilder;
             break;
           }
         }
@@ -17813,6 +17964,506 @@ namespace Protobuf.Messages {
             break;
           case 10: {
             UnitId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class EnergyRegen : pb::IMessage<EnergyRegen>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<EnergyRegen> _parser = new pb::MessageParser<EnergyRegen>(() => new EnergyRegen());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<EnergyRegen> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.Messages.GatewayReflection.Descriptor.MessageTypes[63]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public EnergyRegen() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public EnergyRegen(EnergyRegen other) : this() {
+      targetId_ = other.targetId_;
+      skillId_ = other.skillId_;
+      amount_ = other.amount_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public EnergyRegen Clone() {
+      return new EnergyRegen(this);
+    }
+
+    /// <summary>Field number for the "target_id" field.</summary>
+    public const int TargetIdFieldNumber = 1;
+    private string targetId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string TargetId {
+      get { return targetId_; }
+      set {
+        targetId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "skill_id" field.</summary>
+    public const int SkillIdFieldNumber = 2;
+    private string skillId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string SkillId {
+      get { return skillId_; }
+      set {
+        skillId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "amount" field.</summary>
+    public const int AmountFieldNumber = 3;
+    private float amount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Amount {
+      get { return amount_; }
+      set {
+        amount_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as EnergyRegen);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(EnergyRegen other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TargetId != other.TargetId) return false;
+      if (SkillId != other.SkillId) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Amount, other.Amount)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
+      if (SkillId.Length != 0) hash ^= SkillId.GetHashCode();
+      if (Amount != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Amount);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (TargetId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(TargetId);
+      }
+      if (SkillId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(SkillId);
+      }
+      if (Amount != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(Amount);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (TargetId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(TargetId);
+      }
+      if (SkillId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(SkillId);
+      }
+      if (Amount != 0F) {
+        output.WriteRawTag(29);
+        output.WriteFloat(Amount);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (TargetId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetId);
+      }
+      if (SkillId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SkillId);
+      }
+      if (Amount != 0F) {
+        size += 1 + 4;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(EnergyRegen other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TargetId.Length != 0) {
+        TargetId = other.TargetId;
+      }
+      if (other.SkillId.Length != 0) {
+        SkillId = other.SkillId;
+      }
+      if (other.Amount != 0F) {
+        Amount = other.Amount;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            TargetId = input.ReadString();
+            break;
+          }
+          case 18: {
+            SkillId = input.ReadString();
+            break;
+          }
+          case 29: {
+            Amount = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            TargetId = input.ReadString();
+            break;
+          }
+          case 18: {
+            SkillId = input.ReadString();
+            break;
+          }
+          case 29: {
+            Amount = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class StatOverride : pb::IMessage<StatOverride>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<StatOverride> _parser = new pb::MessageParser<StatOverride>(() => new StatOverride());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<StatOverride> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuf.Messages.GatewayReflection.Descriptor.MessageTypes[64]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public StatOverride() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public StatOverride(StatOverride other) : this() {
+      targetId_ = other.targetId_;
+      statAffected_ = other.statAffected_ != null ? other.statAffected_.Clone() : null;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public StatOverride Clone() {
+      return new StatOverride(this);
+    }
+
+    /// <summary>Field number for the "target_id" field.</summary>
+    public const int TargetIdFieldNumber = 1;
+    private string targetId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string TargetId {
+      get { return targetId_; }
+      set {
+        targetId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "stat_affected" field.</summary>
+    public const int StatAffectedFieldNumber = 2;
+    private global::Protobuf.Messages.StatAffected statAffected_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Protobuf.Messages.StatAffected StatAffected {
+      get { return statAffected_; }
+      set {
+        statAffected_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as StatOverride);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(StatOverride other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (TargetId != other.TargetId) return false;
+      if (!object.Equals(StatAffected, other.StatAffected)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
+      if (statAffected_ != null) hash ^= StatAffected.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (TargetId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(TargetId);
+      }
+      if (statAffected_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StatAffected);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (TargetId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(TargetId);
+      }
+      if (statAffected_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(StatAffected);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (TargetId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetId);
+      }
+      if (statAffected_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(StatAffected);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(StatOverride other) {
+      if (other == null) {
+        return;
+      }
+      if (other.TargetId.Length != 0) {
+        TargetId = other.TargetId;
+      }
+      if (other.statAffected_ != null) {
+        if (statAffected_ == null) {
+          StatAffected = new global::Protobuf.Messages.StatAffected();
+        }
+        StatAffected.MergeFrom(other.StatAffected);
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            TargetId = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (statAffected_ == null) {
+              StatAffected = new global::Protobuf.Messages.StatAffected();
+            }
+            input.ReadMessage(StatAffected);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            TargetId = input.ReadString();
+            break;
+          }
+          case 18: {
+            if (statAffected_ == null) {
+              StatAffected = new global::Protobuf.Messages.StatAffected();
+            }
+            input.ReadMessage(StatAffected);
             break;
           }
         }

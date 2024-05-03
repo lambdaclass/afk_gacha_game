@@ -507,9 +507,11 @@ public class SocketConnection : MonoBehaviour {
 			UserId = userId,
 			LevelId = levelId
 		};
+        
 		WebSocketRequest request = new WebSocketRequest {
 			FightLevel = fightLevelRequest
 		};
+
 		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;

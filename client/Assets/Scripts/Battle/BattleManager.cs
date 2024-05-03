@@ -59,8 +59,9 @@ public class BattleManager : MonoBehaviour
 		}));
 
 		yield return new WaitUntil(() => battleResult != null);
-
+		
 		SetUpInitialState(battleResult);
+		
 		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
 		
 		projectilesPooler.ClearProjectiles();
@@ -77,6 +78,8 @@ public class BattleManager : MonoBehaviour
 			battleUnit.gameObject.SetActive(true);
 			battleUnit.MaxHealth = unit.Health;
 			battleUnit.CurrentHealth = unit.Health;
+			battleUnit.MaxEnergy = 500;
+			battleUnit.CurrentEnergy = unit.Energy;
 		}
 	}
 
@@ -100,7 +103,14 @@ public class BattleManager : MonoBehaviour
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
 						battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
-					default:
+					case Protobuf.Messages.Action.ActionTypeOneofCase.EnergyRegen:
+                        BattleUnit unit = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.EnergyRegen.TargetId);
+						unit.CurrentEnergy += ((int)action.EnergyRegen.Amount);
+                        break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.StatOverride:
+                        StatOverride(action);
+                        break;
+                    default:
 						break;
 				}
 			}
@@ -206,7 +216,7 @@ public class BattleManager : MonoBehaviour
 					break;
 			}
 		}
-	}
+	} 
 
     private Dictionary<Currency, int> GetLevelRewards()
     {
@@ -244,4 +254,20 @@ public class BattleManager : MonoBehaviour
         }
         return rewards;
     }
+
+	private void StatOverride(Protobuf.Messages.Action action)
+	{
+		BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.StatOverride.TargetId);
+		switch (action.StatOverride.StatAffected.Stat)
+		{
+			case Protobuf.Messages.Stat.Health:
+				target.CurrentHealth = (int)action.StatOverride.StatAffected.Amount;
+				break;
+			case Protobuf.Messages.Stat.Energy:
+				target.CurrentEnergy = (int)action.StatOverride.StatAffected.Amount;
+				break;
+			default:
+				break;
+		}
+	}
 }

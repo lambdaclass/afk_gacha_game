@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8745098, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.6784314, g: 0.8509804, b: 0.13333334, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1222,6 +1222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitImage: {fileID: 8328940659209088198}
   healthBar: {fileID: 994135883094543766}
+  energyBar: {fileID: 3482965783341462380}
   indicatorPrefab: {fileID: 8573289930963585773, guid: 5928aa16c7d1040f082d680abccbf5b3, type: 3}
   canvasGroup: {fileID: 5847183632047591615}
   AttackSFX: {fileID: 3092753279982904866}
