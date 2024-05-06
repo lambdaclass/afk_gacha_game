@@ -26,7 +26,7 @@ public class HeaderManager : MonoBehaviour
 	TextMeshProUGUI scrolls;
 
 	[SerializeField]
-	TextMeshProUGUI fertalizer;
+	TextMeshProUGUI fertilizer;
 
     static GlobalUserData user;
 
