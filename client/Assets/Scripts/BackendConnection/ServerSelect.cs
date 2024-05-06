@@ -29,8 +29,6 @@ public class ServerSelect : MonoBehaviour
 				ServerSelect.Name = "EUROPE";
 				ServerSelect.Domain = servers["EUROPE"];
 			#endif
-			// ServerSelect.Name = "EUROPE";
-			// ServerSelect.Domain = servers["EUROPE"];
 		}
 		serverButtonText.text = ServerSelect.Name;
 	}
