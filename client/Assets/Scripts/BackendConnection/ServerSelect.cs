@@ -40,13 +40,13 @@ public class ServerSelect : MonoBehaviour
 		ServerSelect.Domain = servers[domainName];
 		serverButtonText.text = ServerSelect.Name;
 		await SocketConnection.Instance.CloseConnection();
-		await SocketConnection.Instance.Init();
+		SocketConnection.Instance.Init();
 	}
 
 	public async void SelectCustomServer() {
 		ServerSelect.Name = "CUSTOM";
 		ServerSelect.Domain = customServerDomain.text;
 		await SocketConnection.Instance.CloseConnection();
-		await SocketConnection.Instance.Init();
+		SocketConnection.Instance.Init();
 	}
 }

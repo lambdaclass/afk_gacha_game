@@ -20,39 +20,22 @@ public class SocketConnection : MonoBehaviour {
 
     async void Start()
     {
-        await Init();
+        Init();
     }
 
-    public async Task Init()
-    {
-		// RVISE THIS
-        // if (Instance != null)
-        // {
-		// 	Debug.Log("Instance != null");
-        //     if (this.ws != null)
-        //     {
-        //         await this.ws.Close();
-        //     }
-        //     Destroy(gameObject);
-        // }
-        // else
-        // {
-		// 	Debug.Log("Instance == null");
-        //     Instance = this;
-        //     DontDestroyOnLoad(gameObject);
-        // }
-
+	public void Init()
+	{
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
 
-        if(!connected)
-        {
-            connected = true;
-            ConnectToSession();
-        }
-    }
+		if (!connected)
+		{
+			connected = true;
+			ConnectToSession();
+		}
+	}
 
-    void Update()
+	void Update()
     {
 #if !UNITY_WEBGL || UNITY_EDITOR
         if (ws != null)
