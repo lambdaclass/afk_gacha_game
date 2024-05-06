@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Google.Protobuf.Collections;
 using TMPro;
 using UnityEngine;
@@ -30,7 +31,8 @@ public class BattleManager : MonoBehaviour
 
 		SetUpUnits(userUnits, opponentUnits);
 
-		StartCoroutine(Battle());
+		// StartCoroutine(Battle());
+		Battle();
 	}
 
 	private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
@@ -49,24 +51,19 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-	private IEnumerator Battle()
+	private async void Battle()
 	{
-		Protobuf.Messages.BattleResult battleResult = null;
+		Protobuf.Messages.BattleResult battleReplay = await SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id);
 
-		yield return StartCoroutine(SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (replay) =>
-		{
-			battleResult = replay;
-		}));
+		SetUpInitialState(battleReplay);
 
-		yield return new WaitUntil(() => battleResult != null);
-
-		SetUpInitialState(battleResult);
-		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
+		await PlayOutSteps(battleReplay.Steps);
 		
 		projectilesPooler.ClearProjectiles();
 		
-		yield return new WaitForSeconds(2f);
-		HandleBattleResult(battleResult.Result == "team_1");
+		await Task.Delay(2000);
+
+		HandleBattleResult(battleReplay.Result == "team_1");
 	}
 
 	private void SetUpInitialState(Protobuf.Messages.BattleResult battleResult)
@@ -80,11 +77,11 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-	private IEnumerator PlayOutSteps(RepeatedField<Protobuf.Messages.Step> steps)
+	private async Task PlayOutSteps(RepeatedField<Protobuf.Messages.Step> steps)
 	{
 		foreach (var step in steps)
 		{
-			yield return new WaitForSeconds(.05f);
+			await Task.Delay(50);
 
 			ProcessEffectTriggers(step.Actions);
 			ProcessHitsAndMisses(step.Actions);

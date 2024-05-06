@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using NativeWebSocket;
@@ -484,24 +485,7 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-	private void AwaitBattleResponse(byte[] data, Action<BattleResult> onBattleResultReceived)
-    {
-        try
-        {
-			ws.OnMessage -= currentMessageHandler;
-            ws.OnMessage += OnWebSocketMessage;
-            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
-            if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult) {
-                onBattleResultReceived?.Invoke(webSocketResponse.BattleResult);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(e.Message);
-        }
-    }
-
-	public IEnumerator Battle(string userId, string levelId, Action<BattleResult> onBattleResultReceived)
+	public async Task<BattleResult> Battle(string userId, string levelId)
 	{
 		FightLevel fightLevelRequest = new FightLevel {
 			UserId = userId,
@@ -510,11 +494,37 @@ public class SocketConnection : MonoBehaviour {
 		WebSocketRequest request = new WebSocketRequest {
 			FightLevel = fightLevelRequest
 		};
-		currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
-        ws.OnMessage += currentMessageHandler;
-        ws.OnMessage -= OnWebSocketMessage;
-        SendWebSocketMessage(request);
-		yield return null;
+
+		TaskCompletionSource<BattleResult> taskCompletionSource = new TaskCompletionSource<BattleResult>();
+
+		void currentMessageHandler(byte[] data)
+		{
+			try
+			{
+				WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+				if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.BattleResult)
+				{
+					taskCompletionSource.TrySetResult(webSocketResponse.BattleResult);
+				}
+			}
+			catch (Exception e)
+			{
+				taskCompletionSource.TrySetException(e);
+			}
+		}
+		ws.OnMessage -= OnWebSocketMessage;
+		ws.OnMessage += currentMessageHandler;
+
+		try
+		{
+			SendWebSocketMessage(request);
+			return await taskCompletionSource.Task;
+		}
+		finally
+		{
+			ws.OnMessage += OnWebSocketMessage;
+			ws.OnMessage -= currentMessageHandler;
+		}
 	}
 
     public void EquipItem(string userId, string itemId, string unitId, Action<Item> onItemDataReceived) {
