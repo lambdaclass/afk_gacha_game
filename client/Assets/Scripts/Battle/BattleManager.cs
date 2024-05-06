@@ -53,7 +53,7 @@ public class BattleManager : MonoBehaviour
 
 	private async void Battle()
 	{
-		Protobuf.Messages.BattleResult battleReplay = await SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id);
+		Protobuf.Messages.BattleResult battleReplay = await Task.Run(() => SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id));
 
 		SetUpInitialState(battleReplay);
 
