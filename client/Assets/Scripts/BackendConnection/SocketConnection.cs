@@ -288,7 +288,7 @@ public class SocketConnection : MonoBehaviour {
     // This should be refactored, assigning player prefs should not be handled here
     public void GetUserAndContinue()
     {
-		string userId = PlayerPrefs.GetString("userId");
+		string userId = PlayerPrefs.GetString($"userId_{ServerSelect.Name}");
 		if(String.IsNullOrEmpty(userId)) {
 			string userName = $"testUser-{Guid.NewGuid()}";
 			Debug.Log($"No user in player prefs, creating user with username: \"{userName}\"");
@@ -296,7 +296,7 @@ public class SocketConnection : MonoBehaviour {
 				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
-				PlayerPrefs.SetString("userId", user.id);
+				PlayerPrefs.SetString($"userId_{ServerSelect.Name}", user.id);
 				GlobalUserData.Instance.User = user;
 				Debug.Log("User created correctly");
 			});
@@ -307,7 +307,7 @@ public class SocketConnection : MonoBehaviour {
 				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
-				PlayerPrefs.SetString("userId", user.id);
+				PlayerPrefs.SetString($"userId_{ServerSelect.Name}", user.id);
 				GlobalUserData.Instance.User = user;
 			});
 		}
