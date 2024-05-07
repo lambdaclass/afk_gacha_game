@@ -74,9 +74,10 @@ public class BattleManager : MonoBehaviour
 
 	private void SetUpInitialState(Protobuf.Messages.BattleResult battleResult)
 	{
+
 		foreach (var unit in battleResult.InitialState.Units)
 		{
-			BattleUnit battleUnit = battleUnitsUI.Single(battleUnit => battleUnit.SelectedUnit.id == unit.Id);
+			BattleUnit battleUnit = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(battleUnit => battleUnit.SelectedUnit.id == unit.Id);
 			battleUnit.gameObject.SetActive(true);
 			battleUnit.MaxHealth = unit.Health;
 			battleUnit.CurrentHealth = unit.Health;
@@ -145,7 +146,7 @@ public class BattleManager : MonoBehaviour
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
-						battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
+						battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
 					default:
 						break;
@@ -197,8 +198,8 @@ public class BattleManager : MonoBehaviour
 
 		foreach (Protobuf.Messages.Action action in effectTriggerActions)
 		{
-			BattleUnit casterUnit = battleUnitsUI.Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
-			List<BattleUnit> targetUnits = battleUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
+			BattleUnit casterUnit = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
+			List<BattleUnit> targetUnits = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
 
 			foreach (BattleUnit targetUnit in targetUnits)
 			{
@@ -216,8 +217,8 @@ public class BattleManager : MonoBehaviour
 
 		foreach (Protobuf.Messages.Action action in hitAndMissActions)
 		{
-			BattleUnit casterUnit = battleUnitsUI.Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
-			List<BattleUnit> targetUnits = battleUnitsUI.Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
+			BattleUnit casterUnit = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(battleUnit => battleUnit.SelectedUnit.id == action.SkillAction.CasterId);
+			List<BattleUnit> targetUnits = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Where(unit => action.SkillAction.TargetIds.Contains(unit.SelectedUnit.id)).ToList();
 
 			foreach (BattleUnit targetUnit in targetUnits)
 			{
@@ -235,7 +236,7 @@ public class BattleManager : MonoBehaviour
 
 		foreach (Protobuf.Messages.Action action in executionReceivedActions)
 		{
-			BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
+			BattleUnit target = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(unit => unit.SelectedUnit.id == action.ExecutionReceived.TargetId);
 			var statAffected = action.ExecutionReceived.StatAffected;
 			switch (statAffected.Stat)
 			{
