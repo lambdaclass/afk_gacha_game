@@ -108,7 +108,7 @@ public class BattleManager : MonoBehaviour
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.EnergyRegen:
                         BattleUnit unit = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.EnergyRegen.TargetId);
-						unit.CurrentEnergy += ((int)action.EnergyRegen.Amount);
+						unit.CurrentEnergy = Math.Min(unit.CurrentEnergy + (int)action.EnergyRegen.Amount, MAX_ENERGY);
                         break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.StatOverride:
                         StatOverride(action);
@@ -267,7 +267,7 @@ public class BattleManager : MonoBehaviour
 				target.CurrentHealth = (int)action.StatOverride.StatAffected.Amount;
 				break;
 			case Protobuf.Messages.Stat.Energy:
-				target.CurrentEnergy = (int)action.StatOverride.StatAffected.Amount;
+                target.CurrentEnergy = Math.Max(0, (int)action.StatOverride.StatAffected.Amount);
 				break;
 			default:
 				break;
