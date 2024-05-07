@@ -144,19 +144,20 @@ namespace Protobuf.Messages {
             "ZXRfaWRzGAIgAygJEhAKCHNraWxsX2lkGAMgASgJEisKEXNraWxsX2FjdGlv",
             "bl90eXBlGAQgASgOMhAuU2tpbGxBY3Rpb25UeXBlIkwKEUV4ZWN1dGlvblJl",
             "Y2VpdmVkEhEKCXRhcmdldF9pZBgBIAEoCRIkCg1zdGF0X2FmZmVjdGVkGAIg",
-            "ASgLMg0uU3RhdEFmZmVjdGVkIl0KEE1vZGlmaWVyUmVjZWl2ZWQSEAoIc2tp",
+            "ASgLMg0uU3RhdEFmZmVjdGVkInAKEE1vZGlmaWVyUmVjZWl2ZWQSEAoIc2tp",
             "bGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0",
-            "ZWQYAyABKAsyDS5TdGF0QWZmZWN0ZWQiPwoLVGFnUmVjZWl2ZWQSEAoIc2tp",
-            "bGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEgsKA3RhZxgDIAEoCSJc",
-            "Cg9Nb2RpZmllckV4cGlyZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0",
-            "X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5TdGF0QWZmZWN0",
-            "ZWQiPgoKVGFnRXhwaXJlZBIQCghza2lsbF9pZBgBIAEoCRIRCgl0YXJnZXRf",
-            "aWQYAiABKAkSCwoDdGFnGAMgASgJIhgKBURlYXRoEg8KB3VuaXRfaWQYASAB",
-            "KAkqWwoPU2tpbGxBY3Rpb25UeXBlEhMKD0FOSU1BVElPTl9TVEFSVBAAEhIK",
-            "DkVGRkVDVF9UUklHR0VSEAESDgoKRUZGRUNUX0hJVBACEg8KC0VGRkVDVF9N",
-            "SVNTEAMqWAoEU3RhdBIKCgZIRUFMVEgQABIKCgZFTkVSR1kQARIKCgZBVFRB",
-            "Q0sQAhILCgdERUZFTlNFEAMSFAoQREFNQUdFX1JFRFVDVElPThAEEgkKBVNQ",
-            "RUVEEAVCFKoCEVByb3RvYnVmLk1lc3NhZ2VzYgZwcm90bzM="));
+            "ZWQYAyABKAsyDS5TdGF0QWZmZWN0ZWQSEQoJb3BlcmF0aW9uGAQgASgJIj8K",
+            "C1RhZ1JlY2VpdmVkEhAKCHNraWxsX2lkGAEgASgJEhEKCXRhcmdldF9pZBgC",
+            "IAEoCRILCgN0YWcYAyABKAkibwoPTW9kaWZpZXJFeHBpcmVkEhAKCHNraWxs",
+            "X2lkGAEgASgJEhEKCXRhcmdldF9pZBgCIAEoCRIkCg1zdGF0X2FmZmVjdGVk",
+            "GAMgASgLMg0uU3RhdEFmZmVjdGVkEhEKCW9wZXJhdGlvbhgEIAEoCSI+CgpU",
+            "YWdFeHBpcmVkEhAKCHNraWxsX2lkGAEgASgJEhEKCXRhcmdldF9pZBgCIAEo",
+            "CRILCgN0YWcYAyABKAkiGAoFRGVhdGgSDwoHdW5pdF9pZBgBIAEoCSpbCg9T",
+            "a2lsbEFjdGlvblR5cGUSEwoPQU5JTUFUSU9OX1NUQVJUEAASEgoORUZGRUNU",
+            "X1RSSUdHRVIQARIOCgpFRkZFQ1RfSElUEAISDwoLRUZGRUNUX01JU1MQAypY",
+            "CgRTdGF0EgoKBkhFQUxUSBAAEgoKBkVORVJHWRABEgoKBkFUVEFDSxACEgsK",
+            "B0RFRkVOU0UQAxIUChBEQU1BR0VfUkVEVUNUSU9OEAQSCQoFU1BFRUQQBUIU",
+            "qgIRUHJvdG9idWYuTWVzc2FnZXNiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuf.Messages.SkillActionType), typeof(global::Protobuf.Messages.Stat), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -218,9 +219,9 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.StatAffected), global::Protobuf.Messages.StatAffected.Parser, new[]{ "Stat", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.SkillAction), global::Protobuf.Messages.SkillAction.Parser, new[]{ "CasterId", "TargetIds", "SkillId", "SkillActionType" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ExecutionReceived), global::Protobuf.Messages.ExecutionReceived.Parser, new[]{ "TargetId", "StatAffected" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierReceived), global::Protobuf.Messages.ModifierReceived.Parser, new[]{ "SkillId", "TargetId", "StatAffected" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierReceived), global::Protobuf.Messages.ModifierReceived.Parser, new[]{ "SkillId", "TargetId", "StatAffected", "Operation" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagReceived), global::Protobuf.Messages.TagReceived.Parser, new[]{ "SkillId", "TargetId", "Tag" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierExpired), global::Protobuf.Messages.ModifierExpired.Parser, new[]{ "SkillId", "TargetId", "StatAffected" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ModifierExpired), global::Protobuf.Messages.ModifierExpired.Parser, new[]{ "SkillId", "TargetId", "StatAffected", "Operation" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.TagExpired), global::Protobuf.Messages.TagExpired.Parser, new[]{ "SkillId", "TargetId", "Tag" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Death), global::Protobuf.Messages.Death.Parser, new[]{ "UnitId" }, null, null, null, null)
           }));
@@ -16596,6 +16597,7 @@ namespace Protobuf.Messages {
       skillId_ = other.skillId_;
       targetId_ = other.targetId_;
       statAffected_ = other.statAffected_ != null ? other.statAffected_.Clone() : null;
+      operation_ = other.operation_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -16641,6 +16643,18 @@ namespace Protobuf.Messages {
       }
     }
 
+    /// <summary>Field number for the "operation" field.</summary>
+    public const int OperationFieldNumber = 4;
+    private string operation_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Operation {
+      get { return operation_; }
+      set {
+        operation_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -16659,6 +16673,7 @@ namespace Protobuf.Messages {
       if (SkillId != other.SkillId) return false;
       if (TargetId != other.TargetId) return false;
       if (!object.Equals(StatAffected, other.StatAffected)) return false;
+      if (Operation != other.Operation) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -16669,6 +16684,7 @@ namespace Protobuf.Messages {
       if (SkillId.Length != 0) hash ^= SkillId.GetHashCode();
       if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
       if (statAffected_ != null) hash ^= StatAffected.GetHashCode();
+      if (Operation.Length != 0) hash ^= Operation.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -16699,6 +16715,10 @@ namespace Protobuf.Messages {
         output.WriteRawTag(26);
         output.WriteMessage(StatAffected);
       }
+      if (Operation.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Operation);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -16721,6 +16741,10 @@ namespace Protobuf.Messages {
         output.WriteRawTag(26);
         output.WriteMessage(StatAffected);
       }
+      if (Operation.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Operation);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -16739,6 +16763,9 @@ namespace Protobuf.Messages {
       }
       if (statAffected_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(StatAffected);
+      }
+      if (Operation.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Operation);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -16763,6 +16790,9 @@ namespace Protobuf.Messages {
           StatAffected = new global::Protobuf.Messages.StatAffected();
         }
         StatAffected.MergeFrom(other.StatAffected);
+      }
+      if (other.Operation.Length != 0) {
+        Operation = other.Operation;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -16794,6 +16824,10 @@ namespace Protobuf.Messages {
             input.ReadMessage(StatAffected);
             break;
           }
+          case 34: {
+            Operation = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -16822,6 +16856,10 @@ namespace Protobuf.Messages {
               StatAffected = new global::Protobuf.Messages.StatAffected();
             }
             input.ReadMessage(StatAffected);
+            break;
+          }
+          case 34: {
+            Operation = input.ReadString();
             break;
           }
         }
@@ -17133,6 +17171,7 @@ namespace Protobuf.Messages {
       skillId_ = other.skillId_;
       targetId_ = other.targetId_;
       statAffected_ = other.statAffected_ != null ? other.statAffected_.Clone() : null;
+      operation_ = other.operation_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -17178,6 +17217,18 @@ namespace Protobuf.Messages {
       }
     }
 
+    /// <summary>Field number for the "operation" field.</summary>
+    public const int OperationFieldNumber = 4;
+    private string operation_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Operation {
+      get { return operation_; }
+      set {
+        operation_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -17196,6 +17247,7 @@ namespace Protobuf.Messages {
       if (SkillId != other.SkillId) return false;
       if (TargetId != other.TargetId) return false;
       if (!object.Equals(StatAffected, other.StatAffected)) return false;
+      if (Operation != other.Operation) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -17206,6 +17258,7 @@ namespace Protobuf.Messages {
       if (SkillId.Length != 0) hash ^= SkillId.GetHashCode();
       if (TargetId.Length != 0) hash ^= TargetId.GetHashCode();
       if (statAffected_ != null) hash ^= StatAffected.GetHashCode();
+      if (Operation.Length != 0) hash ^= Operation.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -17236,6 +17289,10 @@ namespace Protobuf.Messages {
         output.WriteRawTag(26);
         output.WriteMessage(StatAffected);
       }
+      if (Operation.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Operation);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -17258,6 +17315,10 @@ namespace Protobuf.Messages {
         output.WriteRawTag(26);
         output.WriteMessage(StatAffected);
       }
+      if (Operation.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Operation);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -17276,6 +17337,9 @@ namespace Protobuf.Messages {
       }
       if (statAffected_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(StatAffected);
+      }
+      if (Operation.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Operation);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -17300,6 +17364,9 @@ namespace Protobuf.Messages {
           StatAffected = new global::Protobuf.Messages.StatAffected();
         }
         StatAffected.MergeFrom(other.StatAffected);
+      }
+      if (other.Operation.Length != 0) {
+        Operation = other.Operation;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -17331,6 +17398,10 @@ namespace Protobuf.Messages {
             input.ReadMessage(StatAffected);
             break;
           }
+          case 34: {
+            Operation = input.ReadString();
+            break;
+          }
         }
       }
     #endif
@@ -17359,6 +17430,10 @@ namespace Protobuf.Messages {
               StatAffected = new global::Protobuf.Messages.StatAffected();
             }
             input.ReadMessage(StatAffected);
+            break;
+          }
+          case 34: {
+            Operation = input.ReadString();
             break;
           }
         }

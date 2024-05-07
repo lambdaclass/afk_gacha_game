@@ -102,22 +102,30 @@ public class BattleManager : MonoBehaviour
 				{
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierReceived:
 						if(battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId)) {
-							// Only applies to multiplications probably will break when other modifier type is implemented
-							string multiplication = action.ModifierReceived.StatAffected.Amount > 1 ? "higher_" : "lower_";
-							if(!statuses.Any(status => status.name.ToLower() == multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower())){
-								Debug.LogError($"status not found on client: {multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()}");
+							string prefix = "";
+							if (action.ModifierReceived.Operation == "Add") {
+								prefix = action.ModifierReceived.StatAffected.Amount > 0 ? "higher_" : "lower_";
+							} else if (action.ModifierReceived.Operation == "Multiply") {
+								prefix = action.ModifierReceived.StatAffected.Amount > 1 ? "higher_" : "lower_";
+							}
+							if(!statuses.Any(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower())){
+								Debug.LogError($"status not found on client: {prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()}");
 							}
 							else
 							{
-								battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == multiplication + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
+								battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
 							}
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierExpired:
 						if(battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId)) {
-							// Only applies to multiplications probably will break when other modifier type is implemented
-							string multiplication = action.ModifierExpired.StatAffected.Amount > 1 ? "higher_" : "lower_";
-							battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == multiplication + action.ModifierExpired.StatAffected.Stat.ToString().ToLower()));
+							string prefix = "";
+							if (action.ModifierExpired.Operation == "Add") {
+								prefix = action.ModifierExpired.StatAffected.Amount > 0 ? "higher_" : "lower_";
+							} else if (action.ModifierExpired.Operation == "Multiply") {
+								prefix = action.ModifierExpired.StatAffected.Amount > 1 ? "higher_" : "lower_";
+							}
+							battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierExpired.StatAffected.Stat.ToString().ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:

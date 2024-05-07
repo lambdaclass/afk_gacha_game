@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd7da287c0c1f489bb08ac2dc595cac9, type: 3}
-  m_Name: higher_damage_reduction
+  m_Name: lower_damagereduction
   m_EditorClassIdentifier: 
-  name: higher_damage_reduction
-  sprite: {fileID: 21300000, guid: 7280e744ca21b46f9a744ecb3aa7867b, type: 3}
+  name: lower_damagereduction
+  sprite: {fileID: 21300000, guid: 33d091547c5fe4f85879eb88a967afe6, type: 3}
