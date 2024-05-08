@@ -159,6 +159,12 @@ public class SocketConnection : MonoBehaviour {
 			}
 		}
 
+        KalineTreeLevel kalineTreeLevel = new KalineTreeLevel
+        {
+            goldLevelUpCost = ((int)user.KalineTreeLevel.GoldLevelUpCost),
+            fertilizerLevelUpCost = ((int)user.KalineTreeLevel.FertilizerLevelUpCost)
+        };
+
 		return new User
 		{
 			id = user.Id,
@@ -168,7 +174,8 @@ public class SocketConnection : MonoBehaviour {
 			currencies = currencies,
 			level = (int)user.Level,
 			experience = (int)user.Experience,
-            afkRewardRates = afkRewardRates
+            afkRewardRates = afkRewardRates,
+            kalineTreeLevel = kalineTreeLevel
 		};
 	}
 	
@@ -821,4 +828,42 @@ public class SocketConnection : MonoBehaviour {
         }
     }
 
+    public void LevelUpKalineTree(string userId, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        LevelUpKalineTree levelUpKalineTreeRequest = new LevelUpKalineTree
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            LevelUpKalineTree = levelUpKalineTreeRequest
+        };
+        currentMessageHandler = (data) => AwaitLevelUpKalineTreeResponse(data, onLeveledUpUserReceived, onError); 
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitLevelUpKalineTreeResponse(byte[] data, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
+            {
+				User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
+				onLeveledUpUserReceived?.Invoke(user);
+                GlobalUserData.Instance.User.kalineTreeLevel = user.kalineTreeLevel;
+            }
+            else if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error) {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
 }

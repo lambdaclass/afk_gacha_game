@@ -20,8 +20,15 @@ public class BattleUnit : MonoBehaviour
 	[SerializeField]
 	CanvasGroup canvasGroup;
 
+    [SerializeField]
+    AudioSource AttackSFX;
+
 	[SerializeField]
-	LineRenderer lineRenderer;
+	bool isPlayerTeam;
+	public bool IsPlayerTeam
+	{
+		get { return isPlayerTeam; }
+	}
 
     private Unit selectedUnit;
 	public Unit SelectedUnit
@@ -69,28 +76,14 @@ public class BattleUnit : MonoBehaviour
         unitImage.gameObject.SetActive(true);
     }
 
+    public void AttackTrigger() { 
+        AttackSFX.Play();
+    }
 	public void DeathFeedback()	{
 		Sequence sequence = DOTween.Sequence();
 		sequence.Append(unitImage.transform.DORotate(new Vector3(0, 180, 90), .5f));
 		sequence.Append(unitImage.DOFade(0, 2f));
 		sequence.Join(canvasGroup.DOFade(0, 2f));
 		sequence.Play();
-	}
-
-	public void AttackFeedback(Vector3 target) {
-		StartCoroutine(DrawProjectile(target));
-	}
-
-	IEnumerator DrawProjectile(Vector3 target)
-	{
-		lineRenderer.startColor = Color.white;
-        lineRenderer.endColor = Color.white;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
-		lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, target);
-		lineRenderer.enabled = true;
-		yield return new WaitForSeconds(.3f);
-		lineRenderer.enabled = false;
 	}
 }
