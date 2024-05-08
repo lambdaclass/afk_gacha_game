@@ -2,24 +2,15 @@ name: Daily PR Summary
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Runs every day at 8:00 AM UTC. Adjust as needed.
+    # Run this every day at 9am and 6pm
+    - cron:  '0 9,18 * * *'
 
 jobs:
-  generate-summary:
+  pr-reporter-slack:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.12'  # Choose a suitable Python version
-
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-         # pip install -r requirements.txt  # If you have any Python dependencies
-
-      - name: Run Script
-        run: python daily_pr_summary.py  
+    - uses: actions/checkout@v2
+    - uses: SeanReece/pr-reporter-slack@v1
+      with: 
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        slack-webhook: ${{ secrets.SLACK_WEBHOOK }}
