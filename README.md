@@ -119,33 +119,7 @@ In parallel, the HeaderManager waits for the user information to be retrieved vi
 
 Once the user data is retrieved from the backend, it is sent to the HeaderManager, where the relevant information is displayed in the UI. Additionally, the HeaderManager subscribes to updates from the GlobalUserData, ensuring that any changes are promptly reflected in the UI. 
 
-```mermaid
-	sequenceDiagram
-		participant UI
-		participant HeaderManager
-		participant GlobalUserData
-		participant SocketConnection
-		participant Backend
-
-		par SocketConnection Initializes
-			SocketConnection-)+Backend: Initialize Connection
-			Backend--)-SocketConnection: Connection Open
-			SocketConnection-)+Backend: GetUser
-			Backend--)-SocketConnection: User
-		and Header Gets User to Display
-			HeaderManager->>GlobalUserData: GetUser
-			GlobalUserData-)+SocketConnection: GetUser
-		end
-
-		SocketConnection--)-GlobalUserData: User
-		GlobalUserData-->>HeaderManager: User
-		HeaderManager->>UI: User Data to Display
-		HeaderManager->>+GlobalUserData: Subscribe to user changes
-		loop On Every User Change
-			GlobalUserData-->>-HeaderManager: User change
-			HeaderManager->>UI: User Data to Display
-		end
-```
+<img src="docs/Header Sequence Diagram.jpg" alt="Header Sequence Diagram">
 
 ___
 
@@ -155,26 +129,4 @@ When entering the Summon scene, the SummonManager script is responsible of fetch
 
 The user can then buy one of these boxes, triggering a chain communication that traverses all the way to the backend, passing through currency availability checks first. Once the backend processes the user's request, it returns the summoned unit so the summon manager can display it in the UI.
 
-```mermaid
-	sequenceDiagram
-		actor User
-		participant UI
-		participant SummonManager
-		participant SocketConnection
-		participant Backend
-
-		SummonManager-)+SocketConnection: GetBoxes
-		SocketConnection-)+Backend: GetBoxes
-		Backend --)-SocketConnection: Boxes
-		SocketConnection --)-SummonManager: Boxes
-		loop For Every Box
-			SummonManager->>UI: Instantiate Boxes
-		end
-		User->>UI: Buy Box
-		UI->>SummonManager: Summon
-		SummonManager-)+SocketConnection: Summon
-		SocketConnection-)+Backend: Summon
-		Backend-)-SocketConnection: New Unit
-		SocketConnection-)-SummonManager: New Unit
-		SummonManager->>UI: Display New Unit
-```
+<img src="docs/Summon Sequence Diagram.jpg" alt="Summon Sequence Diagram">
