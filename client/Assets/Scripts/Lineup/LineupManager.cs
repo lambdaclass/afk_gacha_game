@@ -19,6 +19,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
+	[SerializeField]
+	Button battleButton;
+
     void Start()
     {
         StartCoroutine(GetUser());
@@ -46,6 +49,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
+
+			if(isPlayer) {
+				battleButton.interactable = true;
+			}
         }
     }
 
@@ -62,6 +69,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
             SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
             unitsContainer.SetUnitUIActiveById(unit.id, false);
+			battleButton.interactable = true;
         }
     }
 
@@ -73,6 +81,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         unit.slot = null;
         SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
         unitsContainer.SetUnitUIActiveById(unit.id, true);
+
+		if(!playerUnitPositions.Any(unit => unit.IsOccupied)) {
+			battleButton.interactable = false;
+		}
     }
 
     private bool CompareUnitId(UnitPosition unitPosition, Unit unit)

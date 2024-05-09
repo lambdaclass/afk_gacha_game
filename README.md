@@ -14,6 +14,7 @@
   - [Suggested Development Environment](#suggested-development-environment)
   - [Useful Commands](#useful-commands)
   - [Contact and Socials](#contact-and-socials)
+  - [Technical Documentation](#documentation)
 
 ## About
 
@@ -106,3 +107,26 @@ We share our development and creative process in the open, follow us for frequen
 - **Reddit:** [r/curseofmirra](https://www.reddit.com/r/curseofmirra/)
 - **Discord:** [join link](https://discord.gg/hxDRsbCpzC)
 - **Telegram:** [t.me/curseofmirra](https://t.me/curseofmirra)
+
+## Documentation
+### Client Paths
+
+The following diagram outlines the initialization process of a connection between the client and the backend, as well as the retrieval of the user's data to be displayed on the header.
+
+On the start of the application, the SocketConnection, which is a game object in the scene, tries to establish a websocket connection with the backend. Upon successful establishment of the connection, the SocketConnection requests the current user data from the backend (note: the register/login logic is not shown in this diagram).
+
+In parallel, the HeaderManager waits for the user information to be retrieved via the GlobalUserData, which is the class that contains the user information.
+
+Once the user data is retrieved from the backend, it is sent to the HeaderManager, where the relevant information is displayed in the UI. Additionally, the HeaderManager subscribes to updates from the GlobalUserData, ensuring that any changes are promptly reflected in the UI. 
+
+<img src="docs/Header Sequence Diagram.jpg" alt="Header Sequence Diagram">
+
+___
+
+The next diagram depicts the actions that take place when a user enters the Summon scene.
+
+When entering the Summon scene, the SummonManager script is responsible of fetching the summon boxes from the backend via the SocketConnection. When these are returned, the manager instantiates a UI element for each box.
+
+The user can then buy one of these boxes, triggering a chain communication that traverses all the way to the backend, passing through currency availability checks first. Once the backend processes the user's request, it returns the summoned unit so the summon manager can display it in the UI.
+
+<img src="docs/Summon Sequence Diagram.jpg" alt="Summon Sequence Diagram">
