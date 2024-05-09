@@ -192,7 +192,7 @@ MonoBehaviour:
   gold: {fileID: 4720642629609782312}
   gems: {fileID: 7071573297407696958}
   scrolls: {fileID: 3718164791782398575}
-  fertalizer: {fileID: 45067436195482694}
+  fertilizer: {fileID: 45067436195482694}
 --- !u!1 &852510989775162454
 GameObject:
   m_ObjectHideFlags: 0
