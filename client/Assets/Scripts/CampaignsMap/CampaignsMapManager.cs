@@ -9,7 +9,7 @@ public class CampaignsMapManager : MonoBehaviour
     private List<CampaignItem> campaignItems;
 
     [SerializeField]
-    LevelManager sceneManager;
+    SceneNavigation sceneManager;
 
     void Start()
     {
