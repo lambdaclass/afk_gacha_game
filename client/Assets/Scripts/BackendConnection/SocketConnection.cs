@@ -232,7 +232,7 @@ public class SocketConnection : MonoBehaviour {
 
 	private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
     {
-		List<(string superCampaignId, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgresses;
+		List<(string superCampaignId, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.supercampaignsProgresses;
         List<Campaign> campaigns = new List<Campaign>();
 		LevelProgress.Status campaignStatus = LevelProgress.Status.Completed;
 
@@ -290,8 +290,8 @@ public class SocketConnection : MonoBehaviour {
 		if(String.IsNullOrEmpty(userId)) {
 			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
 			CreateUser("testUser", (user) => {
-				GetCampaignProgresses(user.id, (progresses) => {
-					user.campaignsProgresses = progresses;
+				GetSupercampaignProgresses(user.id, (progresses) => {
+					user.supercampaignsProgresses = progresses;
 				});
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
@@ -301,8 +301,8 @@ public class SocketConnection : MonoBehaviour {
 		else {
 			Debug.Log($"Found userid: \"{userId}\" in playerprefs, getting the user");
 			GetUser(userId, (user) => {
-				GetCampaignProgresses(user.id, (progresses) => {
-					user.campaignsProgresses = progresses;
+				GetSupercampaignProgresses(user.id, (progresses) => {
+					user.supercampaignsProgresses = progresses;
 				});
 				PlayerPrefs.SetString("userId", user.id);
 				GlobalUserData.Instance.User = user;
@@ -390,28 +390,28 @@ public class SocketConnection : MonoBehaviour {
         SendWebSocketMessage(request);
     }
 
-	public void GetCampaignProgresses(string userId, Action<List<(string, string, string)>> onCampaignProgressReceived)
+	public void GetSupercampaignProgresses(string userId, Action<List<(string, string, string)>> onSupercampaignProgressesReceived)
     {
-        GetUserSuperCampaignProgresses getCampaignsProgressRequest = new GetUserSuperCampaignProgresses{
+        GetUserSuperCampaignProgresses getSupercampaignsProgressesRequest = new GetUserSuperCampaignProgresses{
             UserId = userId
         };
         WebSocketRequest request = new WebSocketRequest{
-            GetUserSuperCampaignProgresses = getCampaignsProgressRequest
+            GetUserSuperCampaignProgresses = getSupercampaignsProgressesRequest
         };
-        currentMessageHandler = (data) => AwaitCampaignsProgressResponse(data, onCampaignProgressReceived);
+        currentMessageHandler = (data) => AwaitSupercampaignsProgressesResponse(data, onSupercampaignProgressesReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
 
-	private void AwaitCampaignsProgressResponse(byte[] data, Action<List<(string, string, string)>> onCampaignProgressReceived)
+	private void AwaitSupercampaignsProgressesResponse(byte[] data, Action<List<(string, string, string)>> onSupercampaignProgressReceived)
     {
         try
         {
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if(webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses) {
 				List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignId, cp.CampaignId, cp.LevelId)).ToList();
-                onCampaignProgressReceived?.Invoke(campaignProgresses);
+                onSupercampaignProgressReceived?.Invoke(campaignProgresses);
             }
         }
         catch (Exception e)

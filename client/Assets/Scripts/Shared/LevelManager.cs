@@ -16,4 +16,10 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         ChangeToScene(sceneName);
     }
+
+    // public IEnumerator ChangeToSupercampaignMap(string supercampaignName)
+    // {
+    //     SupercampaignsMapManager.selectedSuperCampaignData = GlobalUserData.Instance.User.supercampaignsProgresses.Find(s => s.superCampaignId == supercampaignName).superCampaign;
+    //     StartCoroutine(ChangeToSceneAfterSeconds("SupercampaignsMap", 0.1f));
+    // }
 }

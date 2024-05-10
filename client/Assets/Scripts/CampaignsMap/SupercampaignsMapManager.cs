@@ -9,6 +9,8 @@ public class SupercampaignsMapManager : MonoBehaviour
     [SerializeField]
     LevelManager sceneManager;
 
+    public static Supercampaign selectedSuperCampaignData;
+
     void Start()
     {
         SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) => {
