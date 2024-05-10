@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CampaignsMapManager : MonoBehaviour
+public class SupercampaignsMapManager : MonoBehaviour
 {
     [SerializeField]
     private List<CampaignItem> campaignItems;
