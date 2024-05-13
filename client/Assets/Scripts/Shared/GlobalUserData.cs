@@ -33,7 +33,10 @@ public class GlobalUserData : MonoBehaviour
     public User User
     {
         get { return user; }
-        set { user = value; }
+        set {
+			user = value;
+			OnChangeUser.Invoke();
+		}
     }
 
     // Public property to access the user's units
@@ -48,7 +51,7 @@ public class GlobalUserData : MonoBehaviour
         get { return user.units.FindAll(unit => unit.selected); }
     }
 
-
+	public UnityEvent OnChangeUser = new UnityEvent();
     public UnityEvent OnCurrencyModified = new UnityEvent();
     public UnityEvent OnLevelModified = new UnityEvent();
 
