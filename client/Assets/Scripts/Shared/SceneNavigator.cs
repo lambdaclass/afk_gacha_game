@@ -26,15 +26,12 @@ public class SceneNavigator : MonoBehaviour
 		else {
 			sceneHistory.Push(SceneManager.GetActiveScene().name); 
 		}
-
-		Debug.Log($"[{string.Join(", ", sceneHistory)}]", gameObject);
-
+		
         SceneManager.LoadScene(targetSceneName);
     }
 
 	public void BackToPreviousScene() {
 		SceneManager.LoadScene(sceneHistory.Pop());
-		Debug.Log($"[{string.Join(", ", sceneHistory)}]", gameObject);
 	}
 
     // This is a workaround to avoid killing the sound effect when changing scenes.
