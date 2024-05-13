@@ -32,33 +32,10 @@ Champions of Mirra is more than a game; it's an adventure into a world where str
 
 The code is licensed under the Apache 2 license, while the music and graphics are licensed under a CC attribution and share-alike license.
 
-Find our open-source 3D models, concept art, music, lore, and more in our [Curse of Mirra Open Game Assets](https://github.com/lambdaclass/curse_of_myrra_assets) repository.
-
 ## Requirements
 
-Ensure you have the following dependencies installed:
-
-- **Nix:**
-You can install the Nix package manager by running the following command in your terminal:
-```bash
-$ curl \
-  --proto '=https' \
-  --tlsv1.2 \
-  -sSf \
-  -L https://install.determinate.systems/nix \
-  | sh -s -- install
-```
-The installer will ask you for the sudo password, and then print the details about what steps it will perform to install Nix. You have to accept this to proceed with the installation.
-
-Make sure there weren't any errors during the installation and, if there are none, close the shell and start a new one.
-
-To test if Nix generally works, just run GNU hello or any other package:
-```bash
-$ nix run nixpkgs#hello
-Hello, world!
-```
-
-For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
+- **Backend:**
+Make sure you have Mirra Backend installed and running. This can be found here: https://github.com/lambdaclass/mirra_backend
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
