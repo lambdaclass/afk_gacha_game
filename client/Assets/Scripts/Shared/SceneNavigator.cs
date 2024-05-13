@@ -7,6 +7,14 @@ public class SceneNavigator : MonoBehaviour
 {
     public static Stack<string> sceneHistory = new Stack<string>();
 
+	void Update() {
+		if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer) {
+			if(Input.GetKey(KeyCode.Escape)) {
+				BackToPreviousScene	();
+			}
+		}
+	}
+
     public void ChangeToScene(string targetSceneName) {
 
 		if(sceneHistory.Contains(targetSceneName)) {
