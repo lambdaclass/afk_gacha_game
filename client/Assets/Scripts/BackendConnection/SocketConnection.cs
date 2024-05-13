@@ -18,35 +18,24 @@ public class SocketConnection : MonoBehaviour {
 
     private WebSocketMessageEventHandler currentMessageHandler;
 
-    async void Awake()
+    async void Start()
     {
-        await Init();
+        Init();
     }
 
-    public async Task Init()
-    {
-        if (Instance != null)
-        {
-            if (this.ws != null)
-            {
-                await this.ws.Close();
-            }
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+	public void Init()
+	{
+		Instance = this;
+		DontDestroyOnLoad(gameObject);
 
-        if(!connected)
-        {
-            connected = true;
-            ConnectToSession();
-        }
-    }
+		if (!connected)
+		{
+			connected = true;
+			ConnectToSession();
+		}
+	}
 
-    void Update()
+	void Update()
     {
 #if !UNITY_WEBGL || UNITY_EDITOR
         if (ws != null)
@@ -58,12 +47,12 @@ public class SocketConnection : MonoBehaviour {
 
     private async void OnApplicationQuit()
     {
-        await this.ws.Close();
+        await this.CloseConnection();
     }
 
     private void ConnectToSession()
     {
-        string url = $"ws://localhost:4001/2";
+		string url = $"{ServerSelect.Domain}/2";
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
         ws.OnClose += OnWebsocketClose;
@@ -104,6 +93,13 @@ public class SocketConnection : MonoBehaviour {
             }
         }
     }
+
+	public async Task CloseConnection() {
+		if(connected && this.ws != null) {
+			await this.ws.Close();
+			connected = false;
+		}
+	}
     
     private void OnWebSocketMessage(byte[] data)
     {
@@ -286,14 +282,15 @@ public class SocketConnection : MonoBehaviour {
     // This should be refactored, assigning player prefs should not be handled here
     public void GetUserAndContinue()
     {
-		string userId = PlayerPrefs.GetString("userId");
+		string userId = PlayerPrefs.GetString($"userId_{ServerSelect.Name}");
 		if(String.IsNullOrEmpty(userId)) {
-			Debug.Log("No user in player prefs, creating user with username \"testUser\"");
-			CreateUser("testUser", (user) => {
+			string userName = $"testUser-{Guid.NewGuid()}";
+			Debug.Log($"No user in player prefs, creating user with username: \"{userName}\"");
+			CreateUser(userName, (user) => {
 				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
-				PlayerPrefs.SetString("userId", user.id);
+				PlayerPrefs.SetString($"userId_{ServerSelect.Name}", user.id);
 				GlobalUserData.Instance.User = user;
 				Debug.Log("User created correctly");
 			});
@@ -304,7 +301,7 @@ public class SocketConnection : MonoBehaviour {
 				GetCampaignProgresses(user.id, (progresses) => {
 					user.campaignsProgresses = progresses;
 				});
-				PlayerPrefs.SetString("userId", user.id);
+				PlayerPrefs.SetString($"userId_{ServerSelect.Name}", user.id);
 				GlobalUserData.Instance.User = user;
 			});
 		}
@@ -358,8 +355,9 @@ public class SocketConnection : MonoBehaviour {
 			{
                 switch(webSocketResponse.Error.Reason) {
                     case "not_found":
-                        Debug.Log("User not found, trying to create new user");
-                        CreateUser("testUser",  (user) => {
+						string userName = $"testUser-{Guid.NewGuid()}";
+                        Debug.Log($"User not found, trying to create new user with username: \"{userName}\"");
+						CreateUser(userName, (user) => {
                             onGetUserDataReceived?.Invoke(user);
                         });
                         break;

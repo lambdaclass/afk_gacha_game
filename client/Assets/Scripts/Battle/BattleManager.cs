@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Google.Protobuf.Collections;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class BattleManager : MonoBehaviour
 
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
+
+	private bool continuePlayback = true;
 	
     void Start()
 	{
@@ -62,16 +65,18 @@ public class BattleManager : MonoBehaviour
 
 		SetUpInitialState(battleResult);
 		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
-		
+
 		projectilesPooler.ClearProjectiles();
 		
-		yield return new WaitForSeconds(2f);
+		if(continuePlayback) {
+			yield return new WaitForSeconds(2f);
+		}
+		
 		HandleBattleResult(battleResult.Result == "team_1");
 	}
 
 	private void SetUpInitialState(Protobuf.Messages.BattleResult battleResult)
 	{
-
 		foreach (var unit in battleResult.InitialState.Units)
 		{
 			BattleUnit battleUnit = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(battleUnit => battleUnit.SelectedUnit.id == unit.Id);
@@ -85,6 +90,10 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
+			if(!continuePlayback) {
+				yield break;
+			}
+
 			yield return new WaitForSeconds(.05f);
 
 			ProcessEffectTriggers(step.Actions);
@@ -106,6 +115,10 @@ public class BattleManager : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void CancelBattlePlayback() {
+		continuePlayback = false;
 	}
 
 	private void HandleBattleResult(bool result)
