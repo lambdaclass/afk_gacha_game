@@ -370,8 +370,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+      - m_Target: {fileID: 1256287885}
+        m_TargetAssemblyTypeName: SceneNavigator, Assembly-CSharp
         m_MethodName: ChangeToScene
         m_Mode: 5
         m_Arguments:
@@ -1341,8 +1341,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+      - m_Target: {fileID: 1256287885}
+        m_TargetAssemblyTypeName: SceneNavigator, Assembly-CSharp
         m_MethodName: ChangeToScene
         m_Mode: 5
         m_Arguments:
@@ -3770,7 +3770,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 0e2bc08e4a6364dfdb0aa8ea9eeb0d4d, type: 3}
 --- !u!114 &1256287885 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8273298119253047643, guid: 0e2bc08e4a6364dfdb0aa8ea9eeb0d4d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1915370923362436002, guid: 0e2bc08e4a6364dfdb0aa8ea9eeb0d4d, type: 3}
   m_PrefabInstance: {fileID: 1256287884}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -5407,7 +5407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneNavigation, Assembly-CSharp
+      value: SceneNavigator, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
@@ -5961,7 +5961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SceneNavigation, Assembly-CSharp
+      value: SceneNavigator, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460245, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
@@ -5973,7 +5973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8811879872254460255, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
       propertyPath: m_Name
-      value: PrimaryButton
+      value: TryAgain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}

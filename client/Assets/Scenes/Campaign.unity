@@ -567,18 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenLocker: {fileID: 2041076731}
---- !u!114 &536687281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 536687279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ecea33205204bf99fab8c779ea6abc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  sceneNavigator: {fileID: 1806820181}
 --- !u!1001 &1525894538
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,13 +7,26 @@ public class SceneNavigator : MonoBehaviour
 {
     public static Stack<string> sceneHistory = new Stack<string>();
 
-    public void ChangeToScene(string sceneName) {
-		sceneHistory.Push(SceneManager.GetActiveScene().name); 
-        SceneManager.LoadScene(sceneName);
+    public void ChangeToScene(string targetSceneName) {
+
+		if(sceneHistory.Contains(targetSceneName)) {
+			while(targetSceneName != sceneHistory.Peek()) {
+				sceneHistory.Pop();
+			}
+			sceneHistory.Pop();
+		}
+		else {
+			sceneHistory.Push(SceneManager.GetActiveScene().name); 
+		}
+
+		Debug.Log($"[{string.Join(", ", sceneHistory)}]", gameObject);
+
+        SceneManager.LoadScene(targetSceneName);
     }
 
 	public void BackToPreviousScene() {
 		SceneManager.LoadScene(sceneHistory.Pop());
+		Debug.Log($"[{string.Join(", ", sceneHistory)}]", gameObject);
 	}
 
     // This is a workaround to avoid killing the sound effect when changing scenes.

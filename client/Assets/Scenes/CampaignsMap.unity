@@ -156,7 +156,7 @@ MonoBehaviour:
   - {fileID: 1069111804}
   - {fileID: 504427597}
   - {fileID: 1540271240}
-  sceneManager: {fileID: 1045099589}
+  sceneNavigator: {fileID: 1045099589}
 --- !u!4 &6749145
 Transform:
   m_ObjectHideFlags: 0
@@ -181,6 +181,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: sceneManager
+      value: 
+      objectReference: {fileID: 1045099589}
+    - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+      propertyPath: sceneNavigator
       value: 
       objectReference: {fileID: 1045099589}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
@@ -834,6 +838,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1045099589}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+      propertyPath: sceneNavigator
+      value: 
+      objectReference: {fileID: 1045099589}
+    - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: campaignToShowPrefab
       value: 
       objectReference: {fileID: 3035669641798519435, guid: 0411da3e258cc4bbe9ac720eeb1e85fc, type: 3}
@@ -1026,6 +1034,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
+      propertyPath: sceneNavigator
+      value: 
+      objectReference: {fileID: 1045099589}
     - target: {fileID: 3918512608832285016, guid: b976b0f1477c04167ab8adef6b5cfa20, type: 3}
       propertyPath: campaignToShowPrefab
       value: 
