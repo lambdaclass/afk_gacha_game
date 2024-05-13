@@ -17,9 +17,9 @@ public class LevelManager : MonoBehaviour
         ChangeToScene(sceneName);
     }
 
-    // public IEnumerator ChangeToSupercampaignMap(string supercampaignName)
-    // {
-    //     SupercampaignsMapManager.selectedSuperCampaignData = GlobalUserData.Instance.User.supercampaignsProgresses.Find(s => s.superCampaignId == supercampaignName).superCampaign;
-    //     StartCoroutine(ChangeToSceneAfterSeconds("SupercampaignsMap", 0.1f));
-    // }
+    public void ChangeToSupercampaignMap(string supercampaignName)
+    {
+        SupercampaignsMapManager.selectedSuperCampaignName = supercampaignName;
+        ChangeToScene("SupercampaignsMap");
+    }
 }
