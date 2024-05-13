@@ -62,7 +62,7 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
-  - Download the following Unity Store assets 
+  - Download the following Unity Store assets and add them to `client/Assets/ThirdParty`
     - [RPG & MMO UI 6](https://assetstore.unity.com/packages/2d/gui/rpg-mmo-ui-6-99450)
     - [Map Maker](https://assetstore.unity.com/packages/2d/environments/map-maker-249063)
     - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
@@ -78,7 +78,6 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
 ### Unity Setup
 
 - In Unity Hub, click on the add project button and select the `client` folder.
-- Choose the correct editor version and download the [Top Down Engine](https://assetstore.unity.com/packages/templates/systems/topdown-engine-89636) by [More Mountains](https://moremountains.com). Include it in the `Assets/ThirdParty` folder after purchasing the license.
 - To test the game, select the scene in `Assets/Scenes/Overworld` and run it by clicking the play button.
 
 ## Suggested Development Environment
