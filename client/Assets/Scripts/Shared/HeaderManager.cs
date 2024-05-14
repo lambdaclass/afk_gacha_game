@@ -42,24 +42,26 @@ public class HeaderManager : MonoBehaviour
             user = GlobalUserData.Instance;
         }
 
-        username.text = user.User.username;
-
+		user.OnChangeUser.AddListener(UpdateUsername);
         user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
         user.OnLevelModified.AddListener(UpdateLevelValues);
 
+		UpdateUsername();
         UpdateCurrencyValues();
         UpdateLevelValues();
     }
 
-    void UpdateCurrencyValues()
-    {
+	void UpdateUsername() {
+        username.text = user.User.username;
+	}
+
+    void UpdateCurrencyValues() {
         gold.text = user.GetCurrency(Currency.Gold).ToString();
         gems.text = user.GetCurrency(Currency.Gems).ToString();
 		scrolls.text = user.GetCurrency(Currency.SummonScrolls).ToString();
     }
 
-    void UpdateLevelValues()
-    {
+    void UpdateLevelValues() {
         level.text = "Level " + user.User.level.ToString();
 		progressBarXp.fillAmount = user.User.experience / (float)user.User.experienceToNextLevel;
     }
