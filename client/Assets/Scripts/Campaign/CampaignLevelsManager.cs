@@ -1,20 +1,21 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
 
 public class CampaignLevelsManager : MonoBehaviour
 {
     [SerializeField]
-    GameObject PlayButton;
+    GameObject playButton;
 
     [SerializeField]
     List<CampaignLevelIndicator> levelIndicators;
 
     public void LevelSelected() {
-        PlayButton.SetActive(true);
+        playButton.SetActive(true);
     }
 
-    public void AssignLevelsData(List<LevelData> levelsData)
+    public void AssignLevelsData(List<LevelData> levelsData, SceneNavigator sceneNavigator)
     {
 		// The campaign prefabs need to match the number of levels with the levels brought with the backend, if not this will break.
 		if(levelsData.Count != levelIndicators.Count) {
@@ -32,5 +33,7 @@ public class CampaignLevelsManager : MonoBehaviour
 			
             levelIndicators[levelIndex - 1].Init();
         }
+
+		playButton.GetComponent<Button>().onClick.AddListener(() => sceneNavigator.ChangeToScene("Lineup"));
     }
 }

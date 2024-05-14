@@ -76,7 +76,6 @@ public class UnitDetail : MonoBehaviour
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
     public static void SelectUnit(Unit unit) {
         selectedUnit = unit;
-        SceneManager.LoadScene("UnitDetail");
     }
 
     public static Unit GetSelectedUnit() {
