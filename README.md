@@ -32,40 +32,17 @@ Champions of Mirra is more than a game; it's an adventure into a world where str
 
 The code is licensed under the Apache 2 license, while the music and graphics are licensed under a CC attribution and share-alike license.
 
-Find our open-source 3D models, concept art, music, lore, and more in our [Curse of Mirra Open Game Assets](https://github.com/lambdaclass/curse_of_myrra_assets) repository.
-
 ## Requirements
 
-Ensure you have the following dependencies installed:
-
-- **Nix:**
-You can install the Nix package manager by running the following command in your terminal:
-```bash
-$ curl \
-  --proto '=https' \
-  --tlsv1.2 \
-  -sSf \
-  -L https://install.determinate.systems/nix \
-  | sh -s -- install
-```
-The installer will ask you for the sudo password, and then print the details about what steps it will perform to install Nix. You have to accept this to proceed with the installation.
-
-Make sure there weren't any errors during the installation and, if there are none, close the shell and start a new one.
-
-To test if Nix generally works, just run GNU hello or any other package:
-```bash
-$ nix run nixpkgs#hello
-Hello, world!
-```
-
-For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
+- **Backend:**
+Make sure you have Mirra Backend installed and running. This can be found here: https://github.com/lambdaclass/mirra_backend
 
 - **Flaticon:**
 	- <a href="https://www.flaticon.com/free-icons/blueprint" title="blueprint icons">Blueprint icons created by Freepik - Flaticon</a>
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
-  - Download the following Unity Store assets 
+  - Download the following Unity Store assets and add them to `client/Assets/ThirdParty`
     - [RPG & MMO UI 6](https://assetstore.unity.com/packages/2d/gui/rpg-mmo-ui-6-99450)
     - [Map Maker](https://assetstore.unity.com/packages/2d/environments/map-maker-249063)
     - [RPG inventory icons](https://assetstore.unity.com/packages/2d/gui/icons/rpg-inventory-icons-56687#version-current)
@@ -81,7 +58,6 @@ For a more detailed explanation, visit the [Nixcademy installation guide](https:
 ### Unity Setup
 
 - In Unity Hub, click on the add project button and select the `client` folder.
-- Choose the correct editor version and download the [Top Down Engine](https://assetstore.unity.com/packages/templates/systems/topdown-engine-89636) by [More Mountains](https://moremountains.com). Include it in the `Assets/ThirdParty` folder after purchasing the license.
 - To test the game, select the scene in `Assets/Scenes/Overworld` and run it by clicking the play button.
 
 ## Suggested Development Environment
@@ -91,12 +67,6 @@ Set up your environment with the following steps:
 - Download the [.NET SDK](https://dotnet.microsoft.com/es-es/download/dotnet/thank-you/sdk-7.0.403-macos-arm64-installer) for your operating system.
 - In VSCode, download the .NET extension. After installation, change the version to 1.26 (locate the version dropdown next to the Uninstall button in the extension window).
 - To check if the setup is successful, go to VSCode's console, select the Output tab, and pick Omnisharp Log in the dropdown. If there are no error logs and Omnisharp is scanning the project, the configuration is correct.
-
-## Useful Commands
-
-```bash
-make tests
-```
 
 ## Contact and Socials
 
