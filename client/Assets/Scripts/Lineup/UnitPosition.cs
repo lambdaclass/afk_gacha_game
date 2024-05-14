@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class UnitPosition : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text unitName;
+    TMP_Text unitNameText;
+
+	[SerializeField]
+    TMP_Text unitLevelText;
     
     [SerializeField]
     GameObject removeSign;
@@ -23,9 +26,11 @@ public class UnitPosition : MonoBehaviour
 
     public void SetUnit(Unit unit, bool isPlayer) {
         selectedUnit = unit;
-        // Uncomment to display unit name and level
-        // unitName.text = $"{unit.character.name} LVL: {unit.level}";
-        // unitName.transform.parent.gameObject.SetActive(true);
+
+        unitNameText.text = $"{unit.character.name}";
+        unitNameText.transform.parent.gameObject.SetActive(true);
+		unitLevelText.text = $"LVL: {unit.level}";
+        unitLevelText.transform.parent.gameObject.SetActive(true);
         isOccupied = true;
 
 		// Uncomment to show the remove unit sign
@@ -33,15 +38,15 @@ public class UnitPosition : MonoBehaviour
 		
         GetComponent<Button>().interactable = isPlayer;
 
-        // Instantiate(unit.character.prefab, modelContainer.transform);
         unitImage.sprite = selectedUnit.character.inGameSprite;
         unitImage.gameObject.SetActive(true);
     }
 
     public void UnselectUnit() {
-        // Uncomment to display unit name and level
-        // unitName.transform.parent.gameObject.SetActive(false);
-        // unitName.text = String.Empty;
+        unitNameText.transform.parent.gameObject.SetActive(false);
+		unitNameText.text = String.Empty;
+        unitLevelText.transform.parent.gameObject.SetActive(false);
+		unitLevelText.text = String.Empty;
         isOccupied = false;
 
 		// Uncomment to show the remove unit sign
