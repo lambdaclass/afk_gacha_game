@@ -32,7 +32,8 @@ public class UIEquipmentSlot : MonoBehaviour
 
     public static UIEquipmentSlot selctedEquipmentSlot;
 
-    public void OpenItemListPopup() {
+    public void OpenItemListPopup()
+    {
         selctedEquipmentSlot = this;
         ItemListPopup.SetActive(true);
     }
@@ -40,13 +41,15 @@ public class UIEquipmentSlot : MonoBehaviour
     public void SetEquippedItem(Item item)
     {
         this.equippedItem = item;
-        if(item != null) {
+        if (item != null)
+        {
             equipmentIcon.sprite = item.template.icon;
             equipmentIcon.gameObject.SetActive(true);
             slotIcon.gameObject.SetActive(false);
             actionIcon.sprite = removeIconSprite;
         }
-        else {
+        else
+        {
             equipmentIcon.sprite = null;
             equipmentIcon.gameObject.SetActive(false);
             slotIcon.gameObject.SetActive(true);

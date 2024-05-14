@@ -11,13 +11,15 @@ public class Character : ScriptableObject
     public Rarity rarity;
 }
 
-public enum Rarity{
+public enum Rarity
+{
     Common,
     Rare,
     Elite
 }
 
-public enum Faction {
+public enum Faction
+{
     Araban,
     Otobi,
     Kaline,

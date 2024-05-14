@@ -18,7 +18,7 @@ public class KalineTreeManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI gold;
     [SerializeField] TextMeshProUGUI arcaneCrystals;
     [SerializeField] TextMeshProUGUI xp;
-    
+
 
     private const string EMPTY_AFK_REWARD = "0 (0/m)";
     private const int SECONDS_IN_DAY = 86400;
@@ -31,16 +31,21 @@ public class KalineTreeManager : MonoBehaviour
         kalineTreeLevel.text = $"Level {user.User.kalineTreeLevel.level}";
         SetAfkRewardRatesTexts(user.User);
     }
-    public void ShowRewards() {
+    public void ShowRewards()
+    {
         GlobalUserData user = GlobalUserData.Instance;
-        SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) => {
+        SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) =>
+        {
             confirmPopUp.SetActive(true);
-            if (afkRewards.Count == 0) {
+            if (afkRewards.Count == 0)
+            {
                 heroSouls.text = EMPTY_AFK_REWARD;
                 gold.text = EMPTY_AFK_REWARD;
                 arcaneCrystals.text = EMPTY_AFK_REWARD;
                 xp.text = EMPTY_AFK_REWARD;
-            } else {
+            }
+            else
+            {
                 heroSouls.text = $"{afkRewards.Single(ar => ar.currency == Currency.HeroSouls).amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == Currency.HeroSouls).rate * 60}/m)";
                 gold.text = $"{afkRewards.Single(ar => ar.currency == Currency.Gold).amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == Currency.Gold).rate * 60}/m)";
                 arcaneCrystals.text = $"{afkRewards.Single(ar => ar.currency == Currency.ArcaneCrystals).amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == Currency.ArcaneCrystals).rate * 60}/m)";
@@ -49,13 +54,17 @@ public class KalineTreeManager : MonoBehaviour
         });
     }
 
-    public void ClaimRewards() {
-        SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (userReceived) => {
+    public void ClaimRewards()
+    {
+        SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (userReceived) =>
+        {
             GlobalUserData userToUpdate = GlobalUserData.Instance;
             Dictionary<Currency, int> currenciesToAdd = new Dictionary<Currency, int>();
 
-            userReceived.currencies.Select(c => c.Key).ToList().ForEach(c => {
-                if (!currenciesToAdd.ContainsKey(c)) {
+            userReceived.currencies.Select(c => c.Key).ToList().ForEach(c =>
+            {
+                if (!currenciesToAdd.ContainsKey(c))
+                {
                     currenciesToAdd.Add(c, userReceived.currencies[c] - userToUpdate.GetCurrency(c).Value);
                 }
             });
@@ -68,25 +77,30 @@ public class KalineTreeManager : MonoBehaviour
     public void LevelUpKalineTree()
     {
         SocketConnection.Instance.LevelUpKalineTree(
-            GlobalUserData.Instance.User.id, 
-            (userReceived) => {
+            GlobalUserData.Instance.User.id,
+            (userReceived) =>
+            {
                 GlobalUserData userToUpdate = GlobalUserData.Instance;
                 Dictionary<Currency, int> currenciesToAdd = new Dictionary<Currency, int>();
 
-                userReceived.currencies.Select(c => c.Key).ToList().ForEach(c => {
+                userReceived.currencies.Select(c => c.Key).ToList().ForEach(c =>
+                {
                     if (!currenciesToAdd.ContainsKey(c))
                     {
                         userToUpdate.SetCurrencyAmount(c, userReceived.currencies[c]);
                     }
                 });
-                userReceived.kalineTreeLevel.afkRewardRates.ForEach(afkRewardRate => {
+                userReceived.kalineTreeLevel.afkRewardRates.ForEach(afkRewardRate =>
+                {
                     userToUpdate.User.kalineTreeLevel.afkRewardRates.Add(afkRewardRate);
                 });
                 UpdateRatesAndLevelUpCosts(userReceived);
                 kalineTreeLevel.text = $"Level {userReceived.kalineTreeLevel.level}";
             },
-            (reason) => {
-                if(reason == "cant_afford") {
+            (reason) =>
+            {
+                if (reason == "cant_afford")
+                {
                     insufficientCurrencyPopup.SetActive(true);
                 }
             }
@@ -122,7 +136,8 @@ public class KalineTreeManager : MonoBehaviour
         }
     }
 
-    private string GetAfkRewardRateText(float rate) {
+    private string GetAfkRewardRateText(float rate)
+    {
         return $"{rate * SECONDS_IN_DAY}/day";
     }
 }

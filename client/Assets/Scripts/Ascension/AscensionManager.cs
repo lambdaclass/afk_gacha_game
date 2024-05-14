@@ -14,8 +14,8 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     GameObject characterNameContainer;
     [SerializeField]
     Image selectedCharacterImage;
-	[SerializeField]
-	GameObject errorPopup;
+    [SerializeField]
+    GameObject errorPopup;
 
     private List<Unit> selectedUnits;
 
@@ -30,7 +30,8 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
     {
         unitItem.GetComponent<UnitItemUI>().SetUpUnitItemUI(unit);
         Button unitItemButton = unitItem.GetComponent<Button>();
-        unitItemButton.onClick.AddListener(() => {
+        unitItemButton.onClick.AddListener(() =>
+        {
             if (selectedUnits.Contains(unit))
             {
                 UnselectUnit(unit);
@@ -79,22 +80,26 @@ public class AscensionManager : MonoBehaviour, IUnitPopulator
         selectedCharacterImage.transform.parent.gameObject.SetActive(false);
     }
 
-    public void Fusion() {
+    public void Fusion()
+    {
         SocketConnection.Instance.FuseUnits(GlobalUserData.Instance.User.id, selectedUnits.First().id, selectedUnits.Skip(1).Select(unit => unit.id).ToArray(),
-			(unit) => {
-				foreach(Unit selectedUnit in selectedUnits) {
-					GlobalUserData.Instance.Units.Remove(selectedUnit);
-				}
-				GlobalUserData.Instance.Units.Add(unit);
-				this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
-				selectedUnits.Clear();
-				fusionButton.gameObject.SetActive(false);
-				selectedCharacterImage.transform.parent.gameObject.SetActive(false);
-			},
-			(error) => {
-				Debug.LogError(error);
-				errorPopup.SetActive(true);
-			}
-		);
+            (unit) =>
+            {
+                foreach (Unit selectedUnit in selectedUnits)
+                {
+                    GlobalUserData.Instance.Units.Remove(selectedUnit);
+                }
+                GlobalUserData.Instance.Units.Add(unit);
+                this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
+                selectedUnits.Clear();
+                fusionButton.gameObject.SetActive(false);
+                selectedCharacterImage.transform.parent.gameObject.SetActive(false);
+            },
+            (error) =>
+            {
+                Debug.LogError(error);
+                errorPopup.SetActive(true);
+            }
+        );
     }
 }

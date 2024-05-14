@@ -21,7 +21,7 @@ public class ButtonAnimations : Selectable
     /// <summary>
     /// Function definition for a button click event.
     /// </summary>
-    public class ButtonClickedEvent : UnityEvent {}
+    public class ButtonClickedEvent : UnityEvent { }
 
     // Event delegates triggered on click.
     [FormerlySerializedAs("onClick")]
