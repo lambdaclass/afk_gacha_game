@@ -60,6 +60,9 @@ Hello, world!
 
 For a more detailed explanation, visit the [Nixcademy installation guide](https://nixcademy.com/2024/01/15/nix-on-macos/).
 
+- **Flaticon:**
+	- <a href="https://www.flaticon.com/free-icons/blueprint" title="blueprint icons">Blueprint icons created by Freepik - Flaticon</a>
+
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
   - Download the following Unity Store assets 
