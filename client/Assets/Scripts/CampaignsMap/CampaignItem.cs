@@ -26,7 +26,6 @@ public class CampaignItem : MonoBehaviour
         if (campaignData.status == LevelProgress.Status.Unlocked) {
             CampaignManager.selectedCampaignData = campaignData;
             CampaignManager.campaignPrefab = campaignToShowPrefab;
-            // sceneNavigator.ChangeToSceneWithDelay("Campaign");
 			sceneNavigator.ChangeToScene("Campaign");
         }
     }
