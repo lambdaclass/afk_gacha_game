@@ -115,7 +115,7 @@ public class BattleManager : MonoBehaviour
 				switch (action.ActionTypeCase)
 				{
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierReceived:
-						if (battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId))
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierReceived.TargetId))
 						{
 							string prefix = "";
 							if (action.ModifierReceived.Operation == "Add")
@@ -132,12 +132,12 @@ public class BattleManager : MonoBehaviour
 							}
 							else
 							{
-								battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
+								battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
 							}
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierExpired:
-						if (battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId))
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierExpired.TargetId))
 						{
 							string prefix = "";
 							if (action.ModifierExpired.Operation == "Add")
@@ -148,11 +148,11 @@ public class BattleManager : MonoBehaviour
 							{
 								prefix = action.ModifierExpired.StatAffected.Amount > 1 ? "higher_" : "lower_";
 							}
-							battleUnitsUI.First(unit => unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierExpired.StatAffected.Stat.ToString().ToLower()));
+							battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierExpired.StatAffected.Stat.ToString().ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
-						if (battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.TagReceived.TargetId))
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagReceived.TargetId))
 						{
 							if (!statuses.Any(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()))
 							{
@@ -160,14 +160,14 @@ public class BattleManager : MonoBehaviour
 							}
 							else
 							{
-								battleUnitsUI.First(unit => unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
+								battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
 							}
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.TagExpired:
-						if (battleUnitsUI.Any(unit => unit.SelectedUnit.id == action.TagExpired.TargetId))
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagExpired.TargetId))
 						{
-							battleUnitsUI.First(unit => unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == action.TagExpired.Tag.ToLower()));
+							battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == action.TagExpired.Tag.ToLower()));
 						}
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
