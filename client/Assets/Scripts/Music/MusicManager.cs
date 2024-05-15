@@ -5,15 +5,15 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager Instance { get; private set; }
 
-	[SerializeField]
-	AudioSource audioSource;
-    
+    [SerializeField]
+    AudioSource audioSource;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);            
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -21,10 +21,12 @@ public class MusicManager : MonoBehaviour
         }
     }
 
-	public void Play(AudioClip audioClip) {
-		if(audioSource.clip != audioClip) {
-			audioSource.clip = audioClip;
-			audioSource.Play();
-		}
-	}
+    public void Play(AudioClip audioClip)
+    {
+        if (audioSource.clip != audioClip)
+        {
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+    }
 }
