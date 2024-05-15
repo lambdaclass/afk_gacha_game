@@ -3,7 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardsUIContainer : MonoBehaviour {
+public class RewardsUIContainer : MonoBehaviour
+{
     [SerializeField] protected GameObject rewardItemUIPrefab;
 
     protected Dictionary<string, GameObject> rewardUIItemDictionary = new Dictionary<string, GameObject>();
@@ -22,7 +23,8 @@ public class RewardsUIContainer : MonoBehaviour {
         gameObject.SetActive(true);
     }
 
-    public void Clear() {
+    public void Clear()
+    {
         foreach (Transform child in gameObject.transform)
         {
             Destroy(child.gameObject);

@@ -7,23 +7,23 @@ using UnityEngine.UIElements;
 
 public class HeaderManager : MonoBehaviour
 {
-	[SerializeField]
-	TextMeshProUGUI username;
-    
-	[SerializeField]
-	TextMeshProUGUI level;
-    
-	[SerializeField]
-	UIProgressBar progressBarXp;
-    
-	[SerializeField]
-	TextMeshProUGUI gold;
-    
-	[SerializeField]
-	TextMeshProUGUI gems;
-	
-	[SerializeField]
-	TextMeshProUGUI scrolls;
+    [SerializeField]
+    TextMeshProUGUI username;
+
+    [SerializeField]
+    TextMeshProUGUI level;
+
+    [SerializeField]
+    UIProgressBar progressBarXp;
+
+    [SerializeField]
+    TextMeshProUGUI gold;
+
+    [SerializeField]
+    TextMeshProUGUI gems;
+
+    [SerializeField]
+    TextMeshProUGUI scrolls;
 
     static GlobalUserData user;
 
@@ -37,32 +37,36 @@ public class HeaderManager : MonoBehaviour
 
     private IEnumerator GetUserAndContinue()
     {
-        if(user == null) {
+        if (user == null)
+        {
             yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
             user = GlobalUserData.Instance;
         }
 
-		user.OnChangeUser.AddListener(UpdateUsername);
+        user.OnChangeUser.AddListener(UpdateUsername);
         user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
         user.OnLevelModified.AddListener(UpdateLevelValues);
 
-		UpdateUsername();
+        UpdateUsername();
         UpdateCurrencyValues();
         UpdateLevelValues();
     }
 
-	void UpdateUsername() {
+    void UpdateUsername()
+    {
         username.text = user.User.username;
-	}
-
-    void UpdateCurrencyValues() {
-        gold.text = user.GetCurrency(Currency.Gold).ToString();
-        gems.text = user.GetCurrency(Currency.Gems).ToString();
-		scrolls.text = user.GetCurrency(Currency.SummonScrolls).ToString();
     }
 
-    void UpdateLevelValues() {
+    void UpdateCurrencyValues()
+    {
+        gold.text = user.GetCurrency(Currency.Gold).ToString();
+        gems.text = user.GetCurrency(Currency.Gems).ToString();
+        scrolls.text = user.GetCurrency(Currency.SummonScrolls).ToString();
+    }
+
+    void UpdateLevelValues()
+    {
         level.text = "Level " + user.User.level.ToString();
-		progressBarXp.fillAmount = user.User.experience / (float)user.User.experienceToNextLevel;
+        progressBarXp.fillAmount = user.User.experience / (float)user.User.experienceToNextLevel;
     }
 }
