@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MusicSetter : MonoBehaviour
 {
-	[SerializeField]
-	AudioClip audioClip;
+    [SerializeField]
+    AudioClip audioClip;
 
     void Start()
     {

@@ -24,7 +24,8 @@ public class ChangeItemUnitPopup : MonoBehaviour
         currentUnitIconUI.SetUpUnitItemUI(currentUnit);
         targetUnitIconUI.SetUpUnitItemUI(targetUnit);
         confirmButtonUI.onClick.RemoveAllListeners();
-        confirmButtonUI.onClick.AddListener(() => {
+        confirmButtonUI.onClick.AddListener(() =>
+        {
             equipItem();
             this.gameObject.SetActive(false);
         });

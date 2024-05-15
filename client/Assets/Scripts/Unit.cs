@@ -12,7 +12,8 @@ public class Unit
     public Rank rank { get; set; } = Rank.Star1;
 }
 
-public enum Rank{
+public enum Rank
+{
     Star1,
     Star2,
     Star3,

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LineUpUnitsUIContainer : UnitsUIContainer
 {
-	// solve this, this shouldn't be a constant, this should all be refactored
+    // solve this, this shouldn't be a constant, this should all be refactored
     public const int numberOfPositions = 6;
 
     public override void Populate(List<Unit> units, IUnitPopulator unitPopulator = null)

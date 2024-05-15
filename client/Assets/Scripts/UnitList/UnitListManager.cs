@@ -7,16 +7,19 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitsUIContainer unitsContainer;
 
-    void Start() {
+    void Start()
+    {
         this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
         unitsContainer.OnUnitSelected.AddListener(SelectUnit);
     }
 
-    void SelectUnit(Unit unit) {
+    void SelectUnit(Unit unit)
+    {
         UnitDetail.SelectUnit(unit);
     }
 
-    public void Populate(Unit unit, GameObject unitUIItem) {
+    public void Populate(Unit unit, GameObject unitUIItem)
+    {
         UnitItemUI unitItemUI = unitUIItem.GetComponent<UnitItemUI>();
         unitItemUI.SetUpUnitItemUI(unit);
         Button unitItemButton = unitUIItem.GetComponent<Button>();

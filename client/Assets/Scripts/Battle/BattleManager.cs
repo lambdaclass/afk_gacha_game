@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Google.Protobuf.Collections;
 using TMPro;
 using UnityEngine;
@@ -9,19 +10,21 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
-    [SerializeField]
-    GameObject victorySplash;
-
-    [SerializeField]
-    GameObject defeatSplash;
+	[SerializeField]
+	GameObject victorySplash;
 
 	[SerializeField]
-    BattleUnit[] battleUnitsUI;
+	GameObject defeatSplash;
+
+	[SerializeField]
+	BattleUnit[] battleUnitsUI;
 
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
-	
-    void Start()
+
+	private bool continuePlayback = true;
+
+	void Start()
 	{
 		victorySplash.SetActive(false);
 		defeatSplash.SetActive(false);
@@ -34,20 +37,21 @@ public class BattleManager : MonoBehaviour
 	}
 
 	private void SetUpUnits(List<Unit> userUnits, List<Unit> opponentUnits)
-    {
-        SetUpUserUnits(userUnits, true);
-        SetUpUserUnits(opponentUnits, false);
-    }
+	{
+		SetUpUserUnits(userUnits, true);
+		SetUpUserUnits(opponentUnits, false);
+	}
 
-    private void SetUpUserUnits(List<Unit> units, bool isPlayer)
-    {
+	private void SetUpUserUnits(List<Unit> units, bool isPlayer)
+	{
 		BattleUnit[] unitPositions = battleUnitsUI.Where(battleUnit => battleUnit.IsPlayerTeam == isPlayer).ToArray();
 		// The -1 are since the indexes of the slots in the database go from 1 to 6, and the indexes of the unit position game objects range from 0 to 5
-        foreach(Unit unit in units.Where(unit => unit.selected)) {
-            BattleUnit unitPosition = unitPositions[unit.slot.Value - 1];
-            unitPosition.SetUnit(unit, isPlayer);
-        }
-    }
+		foreach (Unit unit in units.Where(unit => unit.selected))
+		{
+			BattleUnit unitPosition = unitPositions[unit.slot.Value - 1];
+			unitPosition.SetUnit(unit, isPlayer);
+		}
+	}
 
 	private IEnumerator Battle()
 	{
@@ -62,16 +66,19 @@ public class BattleManager : MonoBehaviour
 
 		SetUpInitialState(battleResult);
 		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
-		
+
 		projectilesPooler.ClearProjectiles();
-		
-		yield return new WaitForSeconds(2f);
+
+		if (continuePlayback)
+		{
+			yield return new WaitForSeconds(2f);
+		}
+
 		HandleBattleResult(battleResult.Result == "team_1");
 	}
 
 	private void SetUpInitialState(Protobuf.Messages.BattleResult battleResult)
 	{
-
 		foreach (var unit in battleResult.InitialState.Units)
 		{
 			BattleUnit battleUnit = battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(battleUnit => battleUnit.SelectedUnit.id == unit.Id);
@@ -85,6 +92,11 @@ public class BattleManager : MonoBehaviour
 	{
 		foreach (var step in steps)
 		{
+			if (!continuePlayback)
+			{
+				yield break;
+			}
+
 			yield return new WaitForSeconds(.05f);
 
 			ProcessEffectTriggers(step.Actions);
@@ -92,10 +104,11 @@ public class BattleManager : MonoBehaviour
 			ProcessExecutionsReceived(step.Actions);
 
 			var actionsExcludingSkills = step.Actions
-				.Where(action => 	action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction &&
+				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction &&
 									action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived);
 
-			foreach (var action in actionsExcludingSkills) {
+			foreach (var action in actionsExcludingSkills)
+			{
 				switch (action.ActionTypeCase)
 				{
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
@@ -108,40 +121,52 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
+	public void CancelBattlePlayback()
+	{
+		continuePlayback = false;
+	}
+
 	private void HandleBattleResult(bool result)
-    {
-        if(result) {
+	{
+		if (result)
+		{
 			// Should this be here? refactor after demo?
-			try {
+			try
+			{
 				SocketConnection.Instance.GetUserAndContinue();
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 				Debug.LogError(ex.Message);
 			}
-            GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrencies(GetLevelRewards());
-            user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
-            user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
-            victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
-            victorySplash.SetActive(true);
-            victorySplash.GetComponent<AudioSource>().Play();
+			GlobalUserData user = GlobalUserData.Instance;
+			user.AddCurrencies(GetLevelRewards());
+			user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
+			user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
+			victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
+			victorySplash.SetActive(true);
+			victorySplash.GetComponent<AudioSource>().Play();
 
-            GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
+			GameObject victoryText = victorySplash.transform.Find("CenterContainer").transform.Find("Sign").transform.Find("Text").gameObject;
 
-            // Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
-            victoryText.GetComponent<Text>().text = "Victory!";
+			// Always shows the same texts when a win is achieved, but they should change based on if it was the last level of the campaign and if there are other campaigns after that
+			victoryText.GetComponent<Text>().text = "Victory!";
 
 			SetUpNextButton();
-			
+
 			// This should be handled differently
 			CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
-			if(CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id)) {
+			if (CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id))
+			{
 				CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
 			}
-        } else {
-            defeatSplash.SetActive(true);
-            defeatSplash.GetComponent<AudioSource>().Play();
-        }
-    }
+		}
+		else
+		{
+			defeatSplash.SetActive(true);
+			defeatSplash.GetComponent<AudioSource>().Play();
+		}
+	}
 
 	private void ProcessEffectTriggers(IEnumerable<Protobuf.Messages.Action> actions)
 	{
@@ -209,24 +234,28 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-    private Dictionary<Currency, int> GetLevelRewards()
-    {
-        Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
-        if (LevelProgress.selectedLevelData.experienceReward > 0)
-        {
-            rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
-        }
-        return rewards;
-    }
+	private Dictionary<Currency, int> GetLevelRewards()
+	{
+		Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
+		if (LevelProgress.selectedLevelData.experienceReward > 0)
+		{
+			rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
+		}
+		return rewards;
+	}
 
 	private void SetUpNextButton()
 	{
 		GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
-		if(LevelProgress.selectedLevelData.campaignId != LevelProgress.nextLevelData.campaignId) {
+		if (LevelProgress.selectedLevelData.campaignId != LevelProgress.nextLevelData.campaignId)
+		{
 			nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT CAMPAIGN";
-		} else {
+		}
+		else
+		{
 			nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT LEVEL";
-			nextButton.GetComponent<Button>().onClick.AddListener(() => {
+			nextButton.GetComponent<Button>().onClick.AddListener(() =>
+			{
 				LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
 				LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
 				gameObject.GetComponent<LevelManager>().ChangeToScene("Lineup");
@@ -234,15 +263,17 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-    private List<UIReward> CreateRewardsList() {
-        List<UIReward> rewards = new List<UIReward>();
+	private List<UIReward> CreateRewardsList()
+	{
+		List<UIReward> rewards = new List<UIReward>();
 
-        foreach (var currencyReward in LevelProgress.selectedLevelData.rewards) {
-            if (currencyReward.Value > 0)
-            {
-                rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));            
-            }
-        }
-        return rewards;
-    }
+		foreach (var currencyReward in LevelProgress.selectedLevelData.rewards)
+		{
+			if (currencyReward.Value > 0)
+			{
+				rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
+			}
+		}
+		return rewards;
+	}
 }

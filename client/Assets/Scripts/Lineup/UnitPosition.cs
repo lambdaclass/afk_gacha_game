@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class UnitPosition : MonoBehaviour
 {
     [SerializeField]
-    TMP_Text unitName;
-    
+    TMP_Text unitNameText;
+
+    [SerializeField]
+    TMP_Text unitLevelText;
+
     [SerializeField]
     GameObject removeSign;
 
@@ -21,30 +24,34 @@ public class UnitPosition : MonoBehaviour
 
     private Unit selectedUnit;
 
-    public void SetUnit(Unit unit, bool isPlayer) {
+    public void SetUnit(Unit unit, bool isPlayer)
+    {
         selectedUnit = unit;
-        // Uncomment to display unit name and level
-        // unitName.text = $"{unit.character.name} LVL: {unit.level}";
-        // unitName.transform.parent.gameObject.SetActive(true);
+
+        unitNameText.text = $"{unit.character.name}";
+        unitNameText.transform.parent.gameObject.SetActive(true);
+        unitLevelText.text = $"LVL: {unit.level}";
+        unitLevelText.transform.parent.gameObject.SetActive(true);
         isOccupied = true;
 
-		// Uncomment to show the remove unit sign
+        // Uncomment to show the remove unit sign
         // removeSign.SetActive(isPlayer);
-		
+
         GetComponent<Button>().interactable = isPlayer;
 
-        // Instantiate(unit.character.prefab, modelContainer.transform);
         unitImage.sprite = selectedUnit.character.inGameSprite;
         unitImage.gameObject.SetActive(true);
     }
 
-    public void UnselectUnit() {
-        // Uncomment to display unit name and level
-        // unitName.transform.parent.gameObject.SetActive(false);
-        // unitName.text = String.Empty;
+    public void UnselectUnit()
+    {
+        unitNameText.transform.parent.gameObject.SetActive(false);
+        unitNameText.text = String.Empty;
+        unitLevelText.transform.parent.gameObject.SetActive(false);
+        unitLevelText.text = String.Empty;
         isOccupied = false;
 
-		// Uncomment to show the remove unit sign
+        // Uncomment to show the remove unit sign
         // removeSign.SetActive(false);
 
         unitImage.gameObject.SetActive(false);
@@ -54,7 +61,8 @@ public class UnitPosition : MonoBehaviour
         selectedUnit = null;
     }
 
-    public Unit GetSelectedUnit() {
+    public Unit GetSelectedUnit()
+    {
         return selectedUnit;
     }
 }
