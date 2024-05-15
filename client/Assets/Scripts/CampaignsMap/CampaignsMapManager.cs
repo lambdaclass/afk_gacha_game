@@ -28,10 +28,8 @@ public class CampaignsMapManager : MonoBehaviour
         // Currently we have 2 campaigns and the client is hardcoded to only manage 2 campaigns, TODO: variable number of campaigns
         for (int campaignsIndex = 0; campaignsIndex < 2; campaignsIndex++)
         {
-            for (int campaignsIndex = 0; campaignsIndex < 2; campaignsIndex++)
-            {
-                campaignItems[campaignsIndex].sceneManager = sceneManager;
-                campaignItems[campaignsIndex].SetCampaignData(campaigns[campaignsIndex]);
-            }
+            campaignItems[campaignsIndex].sceneManager = sceneManager;
+            campaignItems[campaignsIndex].SetCampaignData(campaigns[campaignsIndex]);
         }
     }
+}
