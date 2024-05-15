@@ -291,7 +291,7 @@ public class BattleManager : MonoBehaviour
 
 	private void StatOverride(Protobuf.Messages.Action action)
 	{
-		BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.StatOverride.TargetId);
+		BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.StatOverride.TargetId);
 		switch (action.StatOverride.StatAffected.Stat)
 		{
 			case Protobuf.Messages.Stat.Health:
