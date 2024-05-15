@@ -16,7 +16,8 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        foreach(var group in GlobalUserData.Instance.User.items.GroupBy(item => item.template.name)) {
+        foreach (var group in GlobalUserData.Instance.User.items.GroupBy(item => item.template.name))
+        {
             GameObject itemUIObject = Instantiate(itemPrefab, itemsContainer.transform);
             itemUIObject.GetComponent<InventoryItemUI>().SetUpItem(group.First(), group.Count());
             Button unitItemButton = itemUIObject.GetComponent<Button>();
