@@ -9,8 +9,8 @@ using System.Collections.Generic;
 
 public class BattleUnit : MonoBehaviour
 {
-    [SerializeField]
-    Image unitImage;
+	[SerializeField]
+	Image unitImage;
 
 	[SerializeField]
 	UIProgressBar healthBar;
@@ -23,9 +23,9 @@ public class BattleUnit : MonoBehaviour
 
 	[SerializeField]
 	StatusIndicators statusIndicators;
-	
-    [SerializeField]
-    AudioSource AttackSFX;
+
+	[SerializeField]
+	AudioSource AttackSFX;
 
 	[SerializeField]
 	bool isPlayerTeam;
@@ -34,56 +34,59 @@ public class BattleUnit : MonoBehaviour
 		get { return isPlayerTeam; }
 	}
 
-    private Unit selectedUnit;
+	private Unit selectedUnit;
 	public Unit SelectedUnit
-    {
-        get { return selectedUnit; }
-        private set { selectedUnit = value; }
-    }
+	{
+		get { return selectedUnit; }
+		private set { selectedUnit = value; }
+	}
 
 	private int maxHealth;
-    public int MaxHealth
-    {
-        get { return maxHealth; }
-        set
-        {
-            if (value != maxHealth)
-            {
-                maxHealth = value;
-                healthBar.fillAmount = currentHealth / (float)maxHealth;
-            }
-        }
-    }
+	public int MaxHealth
+	{
+		get { return maxHealth; }
+		set
+		{
+			if (value != maxHealth)
+			{
+				maxHealth = value;
+				healthBar.fillAmount = currentHealth / (float)maxHealth;
+			}
+		}
+	}
 
 	private int currentHealth;
-    public int CurrentHealth
-    {
-        get { return currentHealth; }
-        set
-        {
-            if (value != currentHealth)
-            {
-				if(currentHealth > 0)
+	public int CurrentHealth
+	{
+		get { return currentHealth; }
+		set
+		{
+			if (value != currentHealth)
+			{
+				if (currentHealth > 0)
 				{
 					DisplayHealthIndicator(value);
 				}
 				currentHealth = value;
-                healthBar.fillAmount = currentHealth / (float)maxHealth;
-            }
-        }
-    }
+				healthBar.fillAmount = currentHealth / (float)maxHealth;
+			}
+		}
+	}
 
-    public void SetUnit(Unit unit, bool isPlayer) {
-        selectedUnit = unit;
-        GetComponent<Button>().interactable = isPlayer;
-        unitImage.sprite = selectedUnit.character.inGameSprite;
-        unitImage.gameObject.SetActive(true);
-    }
+	public void SetUnit(Unit unit, bool isPlayer)
+	{
+		selectedUnit = unit;
+		GetComponent<Button>().interactable = isPlayer;
+		unitImage.sprite = selectedUnit.character.inGameSprite;
+		unitImage.gameObject.SetActive(true);
+	}
 
-    public void AttackTrigger() { 
-        AttackSFX.Play();
-    }
-	public void DeathFeedback()	{
+	public void AttackTrigger()
+	{
+		AttackSFX.Play();
+	}
+	public void DeathFeedback()
+	{
 		Sequence sequence = DOTween.Sequence();
 		sequence.Append(unitImage.transform.DORotate(new Vector3(0, 180, 90), .5f));
 		sequence.Append(unitImage.DOFade(0, 2f));

@@ -6,41 +6,44 @@ using UnityEngine.UI;
 public class CampaignLevelIndicator : MonoBehaviour
 {
     public LevelData levelData;
-	public LevelData nextLevelData;
+    public LevelData nextLevelData;
 
     [SerializeField]
-	GameObject lockObject;
+    GameObject lockObject;
 
     [SerializeField]
-	GameObject completedCrossObject;
+    GameObject completedCrossObject;
 
-	[SerializeField]
-	CampaignLevelsManager campaignLevelManager;
+    [SerializeField]
+    CampaignLevelsManager campaignLevelManager;
 
-    public void Init() {
-        switch(levelData.status) 
+    public void Init()
+    {
+        switch (levelData.status)
         {
             case LevelProgress.Status.Locked:
                 break;
             case LevelProgress.Status.Unlocked:
-				lockObject.SetActive(false);
-				GetComponent<Button>().enabled = true;
+                lockObject.SetActive(false);
+                GetComponent<Button>().enabled = true;
                 break;
             case LevelProgress.Status.Completed:
                 completedCrossObject.SetActive(true);
-				lockObject.SetActive(false);
+                lockObject.SetActive(false);
                 break;
         }
     }
 
-    public void SelectLevel(){
-		campaignLevelManager.LevelSelected();
-        
+    public void SelectLevel()
+    {
+        campaignLevelManager.LevelSelected();
+
         SetLevel();
     }
 
-    private void SetLevel() {
+    private void SetLevel()
+    {
         LevelProgress.selectedLevelData = levelData;
-		LevelProgress.nextLevelData = nextLevelData;
+        LevelProgress.nextLevelData = nextLevelData;
     }
 }

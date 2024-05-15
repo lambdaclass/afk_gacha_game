@@ -106,11 +106,11 @@ public class BattleManager : MonoBehaviour
 			ProcessHitsAndMisses(step.Actions);
 			ProcessExecutionsReceived(step.Actions);
 
-			var remainingActions = step.Actions
+			var actionsExcludingSkills = step.Actions
 				.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction &&
 									action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived);
 
-			foreach (var action in remainingActions)
+			foreach (var action in actionsExcludingSkills)
 			{
 				switch (action.ActionTypeCase)
 				{
