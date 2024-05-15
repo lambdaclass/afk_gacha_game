@@ -19,10 +19,8 @@ public class KalineTreeManager : MonoBehaviour
 	[SerializeField] TextMeshProUGUI arcaneCrystals;
 	[SerializeField] TextMeshProUGUI xp;
 
-
 	private const string EMPTY_AFK_REWARD = "0 (0/m)";
 	private const int SECONDS_IN_DAY = 86400;
-
 	void Start()
 	{
 		GlobalUserData user = GlobalUserData.Instance;
@@ -31,6 +29,7 @@ public class KalineTreeManager : MonoBehaviour
 		kalineTreeLevel.text = $"Level {user.User.kalineTreeLevel.level}";
 		SetAfkRewardRatesTexts(user.User);
 	}
+
 	public void ShowRewards()
 	{
 		GlobalUserData user = GlobalUserData.Instance;

@@ -19,8 +19,8 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitPosition[] opponentUnitPositions;
 
-	[SerializeField]
-	Button battleButton;
+    [SerializeField]
+    Button battleButton;
 
     void Start()
     {
@@ -37,7 +37,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         SetUpSelectedUnits(playerAvailableUnits, true);
 
         unitsContainer.OnUnitSelected.AddListener(AddUnitToLineup);
-        
+
         LevelData levelData = LevelProgress.selectedLevelData;
         SetUpSelectedUnits(levelData.units, false);
     }
@@ -45,14 +45,16 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     private void SetUpSelectedUnits(List<Unit> units, bool isPlayer)
     {
         UnitPosition[] unitPositions = isPlayer ? playerUnitPositions : opponentUnitPositions;
-        foreach(Unit unit in units.Where(unit => unit.selected)) {
+        foreach (Unit unit in units.Where(unit => unit.selected))
+        {
             UnitPosition unitPosition = unitPositions[unit.slot.Value - 1];
             unitPosition.SetUnit(unit, isPlayer);
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
 
-			if(isPlayer) {
-				battleButton.interactable = true;
-			}
+            if (isPlayer)
+            {
+                battleButton.interactable = true;
+            }
         }
     }
 
@@ -60,7 +62,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     {
         UnitPosition unitPosition = playerUnitPositions.FirstOrDefault(unitPosition => !unitPosition.IsOccupied);
 
-        if(unitPosition != null)
+        if (unitPosition != null)
         {
             int slot = Array.FindIndex(playerUnitPositions, up => !up.IsOccupied) + 1;
             unit.selected = true;
@@ -69,7 +71,7 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             unitPosition.OnUnitRemoved += RemoveUnitFromLineup;
             SocketConnection.Instance.SelectUnit(unit.id, GlobalUserData.Instance.User.id, slot);
             unitsContainer.SetUnitUIActiveById(unit.id, false);
-			battleButton.interactable = true;
+            battleButton.interactable = true;
         }
     }
 
@@ -82,15 +84,16 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         SocketConnection.Instance.UnselectUnit(unit.id, GlobalUserData.Instance.User.id);
         unitsContainer.SetUnitUIActiveById(unit.id, true);
 
-		if(!playerUnitPositions.Any(unit => unit.IsOccupied)) {
-			battleButton.interactable = false;
-		}
+        if (!playerUnitPositions.Any(unit => unit.IsOccupied))
+        {
+            battleButton.interactable = false;
+        }
     }
 
     private bool CompareUnitId(UnitPosition unitPosition, Unit unit)
     {
         Unit selectedUnit = unitPosition.GetSelectedUnit();
-        if(selectedUnit != null)
+        if (selectedUnit != null)
         {
             return selectedUnit.id == unit.id;
         }
@@ -102,10 +105,13 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         UnitItemUI unitItemUI = unitItem.GetComponent<UnitItemUI>();
         unitItemUI.SetUpUnitItemUI(unit);
         Button unitItemButton = unitItem.GetComponent<Button>();
-        if(unit.selected) {
+        if (unit.selected)
+        {
             unitItemUI.SetSelectedChampionMark(true);
             unitItemButton.interactable = false;
-        } else if (playerAvailableUnits.Where(unit => unit.selected).Count() >= LineUpUnitsUIContainer.numberOfPositions) {
+        }
+        else if (playerAvailableUnits.Where(unit => unit.selected).Count() >= LineUpUnitsUIContainer.numberOfPositions)
+        {
             unitItemUI.SetLocked(true);
             unitItemButton.interactable = false;
         }

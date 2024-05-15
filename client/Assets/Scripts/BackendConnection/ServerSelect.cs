@@ -20,20 +20,23 @@ public class ServerSelect : MonoBehaviour
 	[SerializeField]
 	TMP_Text serverButtonText;
 
-	void Awake() {
-		if(string.IsNullOrEmpty(ServerSelect.Name) || string.IsNullOrEmpty(ServerSelect.Domain)) {
-			#if UNITY_EDITOR
+	void Awake()
+	{
+		if (string.IsNullOrEmpty(ServerSelect.Name) || string.IsNullOrEmpty(ServerSelect.Domain))
+		{
+#if UNITY_EDITOR
 				ServerSelect.Name = "LOCALHOST";
 				ServerSelect.Domain = servers["LOCALHOST"];
-			#else
-				ServerSelect.Name = "EUROPE";
-				ServerSelect.Domain = servers["EUROPE"];
-			#endif
+#else
+			ServerSelect.Name = "EUROPE";
+			ServerSelect.Domain = servers["EUROPE"];
+#endif
 		}
 		serverButtonText.text = ServerSelect.Name;
 	}
 
-	public async void SelectServer(string domainName) {
+	public async void SelectServer(string domainName)
+	{
 		ServerSelect.Name = domainName;
 		ServerSelect.Domain = servers[domainName];
 		serverButtonText.text = ServerSelect.Name;
@@ -41,7 +44,8 @@ public class ServerSelect : MonoBehaviour
 		SocketConnection.Instance.Init();
 	}
 
-	public async void SelectCustomServer() {
+	public async void SelectCustomServer()
+	{
 		ServerSelect.Name = "CUSTOM";
 		ServerSelect.Domain = customServerDomain.text;
 		await SocketConnection.Instance.CloseConnection();
