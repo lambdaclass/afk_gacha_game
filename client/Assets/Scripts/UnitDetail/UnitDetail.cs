@@ -34,32 +34,38 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     TMP_Text levelUpGoldCostText;
 
-	[SerializeField]
-	AudioSource levelUpSound;
+    [SerializeField]
+    AudioSource levelUpSound;
 
     // true if we're leveling up, false if we're tiering up
     private bool actionLevelUp;
 
-    void Start() {
+    void Start()
+    {
         SetUpEquipment();
         SetBackgroundImage();
         DisplayUnit();
     }
 
-    public void LevelUp() {
+    public void LevelUp()
+    {
         SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
-        (unitAndCurrencies) => {
-            foreach(var userCurrency in unitAndCurrencies.UserCurrency) {
+        (unitAndCurrencies) =>
+        {
+            foreach (var userCurrency in unitAndCurrencies.UserCurrency)
+            {
                 GlobalUserData.Instance.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
             }
-			levelUpSound.Play();
+            levelUpSound.Play();
             // Should this be encapsulated somewhere?
-            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;;
+            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++; ;
             unitLevelText.text = $"Level: {selectedUnit.level}";
             levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
         },
-        (reason) => {
-            switch(reason) {
+        (reason) =>
+        {
+            switch (reason)
+            {
                 case "cant_afford":
                     insufficientCurrencyPopup.SetActive(true);
                     break;
@@ -74,17 +80,20 @@ public class UnitDetail : MonoBehaviour
     }
 
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
-    public static void SelectUnit(Unit unit) {
+    public static void SelectUnit(Unit unit)
+    {
         selectedUnit = unit;
     }
 
-    public static Unit GetSelectedUnit() {
+    public static Unit GetSelectedUnit()
+    {
         return selectedUnit;
     }
 
     public void EquipItem(string itemId, string unitId)
     {
-        SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) => {
+        SocketConnection.Instance.EquipItem(GlobalUserData.Instance.User.id, itemId, unitId, (item) =>
+        {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(item);
             // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = unitId;
@@ -93,23 +102,29 @@ public class UnitDetail : MonoBehaviour
 
     public void UnequipItem(string itemId)
     {
-        SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) => {
+        SocketConnection.Instance.UnequipItem(GlobalUserData.Instance.User.id, itemId, (item) =>
+        {
             UIEquipmentSlot.selctedEquipmentSlot.SetEquippedItem(null);
             // Should this be encapsulated somewhere?
             GlobalUserData.Instance.User.items.Find(item => item.id == itemId).unitId = null;
         });
     }
 
-    public void LevelUpItem(Item item, Action<Item> onItemDataReceived) {
+    public void LevelUpItem(Item item, Action<Item> onItemDataReceived)
+    {
         // Hardcoded to check for gold
-        if(item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency(Currency.Gold)) {
+        if (item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency(Currency.Gold))
+        {
             insufficientCurrencyPopup.SetActive(true);
             return;
         }
-        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) => {
+        SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) =>
+        {
             onItemDataReceived?.Invoke(item);
-        }, (reason) => {
-            if(reason == "cant_afford") {
+        }, (reason) =>
+        {
+            if (reason == "cant_afford")
+            {
                 insufficientCurrencyPopup.SetActive(true);
             }
         });
@@ -117,14 +132,15 @@ public class UnitDetail : MonoBehaviour
 
     private void SetUpEquipment()
     {
-        foreach(Item item in GlobalUserData.Instance.User.items.Where(item => item.unitId == selectedUnit.id)) {
+        foreach (Item item in GlobalUserData.Instance.User.items.Where(item => item.unitId == selectedUnit.id))
+        {
             equipmentSlots.Find(slot => slot.EquipmentType == item.template.type).SetEquippedItem(item);
         }
     }
-	
-    private void SetBackgroundImage() 
+
+    private void SetBackgroundImage()
     {
-        switch (selectedUnit.character.faction) 
+        switch (selectedUnit.character.faction)
         {
             case Faction.Araban:
                 backgroundImage.sprite = Resources.Load<Sprite>("UI/UnitDetailBackgrounds/ArabanBackground");
@@ -154,12 +170,14 @@ public class UnitDetail : MonoBehaviour
         levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
     }
 
-    public void PreviousUnit() {
+    public void PreviousUnit()
+    {
         List<Unit> userUnits = GlobalUserData.Instance.User.units;
         int currentIndex = userUnits.IndexOf(selectedUnit);
-        
+
         int previousIndex = currentIndex - 1;
-        if (previousIndex < 0) {
+        if (previousIndex < 0)
+        {
             previousIndex = userUnits.Count - 1;
         }
 
@@ -167,12 +185,14 @@ public class UnitDetail : MonoBehaviour
         SelectUnit(previousUnit);
     }
 
-    public void NextUnit() {
+    public void NextUnit()
+    {
         List<Unit> userUnits = GlobalUserData.Instance.User.units;
         int currentIndex = userUnits.IndexOf(selectedUnit);
-        
+
         int nextIndex = currentIndex + 1;
-        if (nextIndex >= userUnits.Count) {
+        if (nextIndex >= userUnits.Count)
+        {
             nextIndex = 0;
         }
 

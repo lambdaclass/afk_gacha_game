@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class ClosePopupWithSound : MonoBehaviour
 {
-	[SerializeField]
-	Button confirmButton;
+    [SerializeField]
+    Button confirmButton;
 
-	public Button ConfirmButton {
-		get { return confirmButton; }
-	}
+    public Button ConfirmButton
+    {
+        get { return confirmButton; }
+    }
 
     public AudioSource audioSource;
 
