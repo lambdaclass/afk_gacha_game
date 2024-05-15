@@ -133,7 +133,8 @@ private IEnumerator Battle()
 
 				var actionsExcludingSkills = step.Actions
 					.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction &&
-	
+
+
 					.Where(action => action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.SkillAction &&
 										action.ActionTypeCase != Protobuf.Messages.Action.ActionTypeOneofCase.ExecutionReceived);
 
@@ -341,10 +342,10 @@ private IEnumerator Battle()
 									{
 										nextButton.GetComponent<Button>().onClick.AddListener(() =>
 				{
-										LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
-										LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
-										gameObject.GetComponent<LevelManager>().ChangeToScene("Lineup");
-									});
+					LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
+					LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
+					gameObject.GetComponent<LevelManager>().ChangeToScene("Lineup");
+				});
 									}
 	}
 
