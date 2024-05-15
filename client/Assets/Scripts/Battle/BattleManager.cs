@@ -120,7 +120,7 @@ public class BattleManager : MonoBehaviour
 						battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.EnergyRegen:
-						BattleUnit unit = battleUnitsUI.Single(unit => unit.SelectedUnit.id == action.EnergyRegen.TargetId);
+						BattleUnit unit = battleUnitsUI.Single(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.EnergyRegen.TargetId);
 						unit.CurrentEnergy = Math.Min(unit.CurrentEnergy + (int)action.EnergyRegen.Amount, MAX_ENERGY);
 						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.StatOverride:
