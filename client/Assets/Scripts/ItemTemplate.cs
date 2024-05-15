@@ -9,4 +9,3 @@ public class ItemTemplate : ScriptableObject
     public string type;
     public Sprite icon;
 }
-
