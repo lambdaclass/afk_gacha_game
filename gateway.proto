@@ -255,7 +255,7 @@ option csharp_namespace = "Protobuf.Messages";
 
   message Campaign {
     string id = 1;
-    string super_campaign_id = 2;
+    string super_campaign_name = 2;
     uint32 campaign_number = 3;
     repeated Level levels = 4;
   }
