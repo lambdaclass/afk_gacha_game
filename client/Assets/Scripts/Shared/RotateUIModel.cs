@@ -34,7 +34,7 @@ public class RotateUIModel : MonoBehaviour, IDragHandler
     IEnumerator RotateModel(Touch touch)
     {
         yield return GetModel();
-        
+
         if (touch.phase == TouchPhase.Moved)
         {
             rotationX = Quaternion.Euler(0f, -touch.deltaPosition.x * rotationSpeed, 0f);

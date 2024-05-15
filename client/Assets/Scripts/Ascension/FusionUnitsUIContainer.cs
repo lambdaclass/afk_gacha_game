@@ -28,8 +28,8 @@ public class FusionUnitsUIContainer : UnitsUIContainer
         if (UISelector.GetComponent<UnitItemUI>().IsSelected())
         {
             UISelector.GetComponent<UnitItemUI>().SetSelectedChampionMark(false);
-        } 
-        else 
+        }
+        else
         {
             UISelector.GetComponent<UnitItemUI>().SetSelectedChampionMark(true);
         }

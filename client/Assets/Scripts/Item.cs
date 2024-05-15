@@ -11,7 +11,8 @@ public class Item
     public ItemTemplate template;
     public string userId;
     public string unitId;
-    public int GetLevelUpCost() {
+    public int GetLevelUpCost()
+    {
         return (int)Math.Pow(level, 2);
     }
 }
