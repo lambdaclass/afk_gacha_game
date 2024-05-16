@@ -68,7 +68,7 @@ public class KalineTreeManager : MonoBehaviour
 					currenciesToAdd.Add(c, userReceived.currencies[c] - userToUpdate.GetCurrency(c).Value);
 				}
 			});
-			currenciesToAdd.Add("experience", userReceived.experience - userToUpdate.User.experience);
+			currenciesToAdd.Add("Experience", userReceived.experience - userToUpdate.User.experience);
 			userToUpdate.AddCurrencies(currenciesToAdd);
 		});
 		confirmPopUp.SetActive(false);

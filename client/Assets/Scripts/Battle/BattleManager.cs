@@ -239,7 +239,7 @@ public class BattleManager : MonoBehaviour
 		Dictionary<string, int> rewards = LevelProgress.selectedLevelData.rewards;
 		if (LevelProgress.selectedLevelData.experienceReward > 0)
 		{
-			rewards.Add("experience", LevelProgress.selectedLevelData.experienceReward);
+			rewards.Add("Experience", LevelProgress.selectedLevelData.experienceReward);
 		}
 		return rewards;
 	}
@@ -274,6 +274,7 @@ public class BattleManager : MonoBehaviour
 				rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
 			}
 		}
+
 		return rewards;
 	}
 }

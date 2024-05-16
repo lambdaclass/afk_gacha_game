@@ -129,7 +129,7 @@ public class GlobalUserData : MonoBehaviour
 
 	public void AddCurrency(string currency, int amount)
 	{
-		if (currency == "experience")
+		if (currency == "Experience")
 		{
 			AddExperience(amount);
 			return;

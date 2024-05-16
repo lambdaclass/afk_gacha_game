@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Hero Souls
   m_EditorClassIdentifier: 
   name: Hero Souls
-  image: {fileID: 21300000, guid: 222f132f3bdb54cbab211b76f28d3277, type: 3}
+  image: {fileID: 21300000, guid: 270128b280104457d88ba7273bbe3bec, type: 3}

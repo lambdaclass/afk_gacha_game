@@ -6,6 +6,7 @@ public abstract class UIReward
 	public Sprite Sprite()
 	{
 		// return Resources.Load<Sprite>("UI/Rewards/" + RewardType());
+		Debug.Log($"reward type: {RewardType()}");
 		return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
 	}
 
@@ -40,7 +41,7 @@ public class ExperienceUIReward : UIReward
 	}
 
 	public override int Amount() { return value; }
-	public override string RewardType() { return "experience"; }
+	public override string RewardType() { return "Experience"; }
 }
 
 //// When we implement item rewards:

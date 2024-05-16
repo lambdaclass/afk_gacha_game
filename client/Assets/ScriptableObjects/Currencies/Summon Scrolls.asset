@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Summon Scrolls
   m_EditorClassIdentifier: 
   name: Summon Scrolls
-  image: {fileID: 21300000, guid: 60b31c217c5774df58af6ad4315670af, type: 3}
+  image: {fileID: 21300000, guid: db427fab3e94daf4caa704d9314a77a1, type: 3}

@@ -804,7 +804,7 @@ public class SocketConnection : MonoBehaviour
 	private Dictionary<string, int> GetLevelCurrencyRewards(Level level)
 	{
 		Dictionary<string, int> rewards = level.CurrencyRewards.ToDictionary(currencyReward => currencyReward.Currency.Name, currencyReward => (int)currencyReward.Amount);
-		rewards.Add("experience", (int)level.ExperienceReward);
+		rewards.Add("Experience", (int)level.ExperienceReward);
 		return rewards;
 	}
 

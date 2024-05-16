@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Gems
   m_EditorClassIdentifier: 
   name: Gems
-  image: {fileID: 21300000, guid: 4abec9693f1a8491fbada9d9f609916d, type: 3}
+  image: {fileID: 21300000, guid: b40d595ba39314f6788ac2f838753fe5, type: 3}
