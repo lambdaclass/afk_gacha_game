@@ -14,11 +14,8 @@ public class KalineTreeManager : MonoBehaviour
 	[SerializeField] TMP_Text kalineTreeLevel;
 	[SerializeField] GameObject confirmPopUp;
 	[SerializeField] GameObject insufficientCurrencyPopup;
-	[SerializeField] TextMeshProUGUI heroSouls;
-	[SerializeField] TextMeshProUGUI gold;
-	[SerializeField] TextMeshProUGUI arcaneCrystals;
-	[SerializeField] TextMeshProUGUI xp;
-
+	[SerializeField] GameObject afkRewardDetailUI;
+	[SerializeField] GameObject afkRewardsContainer;
 
 	private const string EMPTY_AFK_REWARD = "0 (0/m)";
 	private const int SECONDS_IN_DAY = 86400;
@@ -36,21 +33,19 @@ public class KalineTreeManager : MonoBehaviour
 		GlobalUserData user = GlobalUserData.Instance;
 		SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) =>
 		{
+			foreach (Transform child in afkRewardsContainer.transform)
+			{
+				Destroy(child.gameObject);
+			}
+
+			foreach (var afkReward in afkRewards)
+			{
+				GameObject afkRewardGO = Instantiate(afkRewardDetailUI, afkRewardsContainer.transform);
+				AfkRewardDetail afkRewardDetail = afkRewardGO.GetComponent<AfkRewardDetail>();
+				afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).rate * 60}/m)");
+			}
+
 			confirmPopUp.SetActive(true);
-			if (afkRewards.Count == 0)
-			{
-				heroSouls.text = EMPTY_AFK_REWARD;
-				gold.text = EMPTY_AFK_REWARD;
-				arcaneCrystals.text = EMPTY_AFK_REWARD;
-				xp.text = EMPTY_AFK_REWARD;
-			}
-			else
-			{
-				heroSouls.text = $"{afkRewards.Single(ar => ar.currency == "Hero Souls").amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == "Hero Souls").rate * 60}/m)";
-				gold.text = $"{afkRewards.Single(ar => ar.currency == "Gold").amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == "Gold").rate * 60}/m)";
-				arcaneCrystals.text = $"{afkRewards.Single(ar => ar.currency == "Arcane Crystals").amount.ToString()} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == "Arcane Crystals").rate * 60}/m)";
-				//xp.text = $"{afkRewards.Single(ar => ar.currency == Currency.Experience).amount.ToString()} ({user.User.afkRewardRates.Single(arr => arr.currency == Currency.Experience)}/m)";
-			}
 		});
 	}
 
