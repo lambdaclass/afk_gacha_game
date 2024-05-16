@@ -298,7 +298,7 @@ public class BattleManager : MonoBehaviour
 				target.CurrentHealth = (int)action.StatOverride.StatAffected.Amount;
 				break;
 			case Protobuf.Messages.Stat.Energy:
-				target.CurrentEnergy = Math.Max(0, (int)action.StatOverride.StatAffected.Amount);
+				target.CurrentEnergy = (int)action.StatOverride.StatAffected.Amount;
 				break;
 			default:
 				break;
