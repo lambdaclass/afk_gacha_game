@@ -1,17 +1,19 @@
 [System.Serializable]
-public struct CurrencyValue {
+public struct CurrencyValue
+{
     public Currency currency;
     public int value;
 }
 
-public enum Currency {
+public enum Currency
+{
     Experience,
     Gold,
     Gems,
-	ArcaneCrystals,
-	HeroSouls,
+    ArcaneCrystals,
+    HeroSouls,
     SummonScrolls,
     HeroicScrolls,
-	MysticSummonScrolls,
+    MysticSummonScrolls,
     Fertilizer
 }
