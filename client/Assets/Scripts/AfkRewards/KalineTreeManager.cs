@@ -16,8 +16,6 @@ public class KalineTreeManager : MonoBehaviour
 	[SerializeField] GameObject insufficientCurrencyPopup;
 	[SerializeField] GameObject afkRewardDetailUI;
 	[SerializeField] GameObject afkRewardsContainer;
-
-	private const string EMPTY_AFK_REWARD = "0 (0/m)";
 	private const int SECONDS_IN_DAY = 86400;
 
 	void Start()
