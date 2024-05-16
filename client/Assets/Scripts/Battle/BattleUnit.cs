@@ -1,10 +1,7 @@
-using System;
-using TMPro;
+using DG.Tweening;
+using DuloGames.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using DuloGames.UI;
-using DG.Tweening;
-using System.Collections;
 
 public class BattleUnit : MonoBehaviour
 {
@@ -13,6 +10,9 @@ public class BattleUnit : MonoBehaviour
 
     [SerializeField]
     UIProgressBar healthBar;
+
+    [SerializeField]
+    UIProgressBar energyBar;
 
     [SerializeField]
     GameObject indicatorPrefab;
@@ -66,6 +66,34 @@ public class BattleUnit : MonoBehaviour
                 }
                 currentHealth = value;
                 healthBar.fillAmount = currentHealth / (float)maxHealth;
+            }
+        }
+    }
+
+    private int maxEnergy;
+    public int MaxEnergy
+    {
+        get { return maxEnergy; }
+        set
+        {
+            if (value != maxEnergy)
+            {
+                maxEnergy = value;
+                energyBar.fillAmount = currentEnergy / (float)maxEnergy;
+            }
+        }
+    }
+
+    private int currentEnergy;
+    public int CurrentEnergy
+    {
+        get { return currentEnergy; }
+        set
+        {
+            if (value != currentEnergy)
+            {
+                currentEnergy = value;
+                energyBar.fillAmount = currentEnergy / (float)maxEnergy;
             }
         }
     }
