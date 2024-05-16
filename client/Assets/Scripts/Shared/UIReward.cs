@@ -5,8 +5,6 @@ public abstract class UIReward
 {
 	public Sprite Sprite()
 	{
-		// return Resources.Load<Sprite>("UI/Rewards/" + RewardType());
-		Debug.Log($"reward type: {RewardType()}");
 		return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
 	}
 
