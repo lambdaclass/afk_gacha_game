@@ -2181,6 +2181,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7ddb59d68c78b4ccf8b784f37f79dbc6, type: 2}
   - {fileID: 11400000, guid: 2cc4d05bb9b5d431884bd703bda60e73, type: 2}
   - {fileID: 11400000, guid: 28a81630246324598866b34de6a45b39, type: 2}
+  currencies:
+  - {fileID: 11400000, guid: b4559271c021a4d869471650ca57c339, type: 2}
+  - {fileID: 11400000, guid: 84ea6746439974f0d91ec3dab5cba1eb, type: 2}
+  - {fileID: 11400000, guid: 0534e18af7fe541b6a2799866fadb361, type: 2}
+  - {fileID: 11400000, guid: 33b3cfe2fbbc745b5b28b99cbefa43a9, type: 2}
+  - {fileID: 11400000, guid: d134cca85ecce4ce98c99c937a8c394e, type: 2}
+  - {fileID: 11400000, guid: bef3c014bd53349f38fea5dc410a646e, type: 2}
+  - {fileID: 11400000, guid: a3219f9e59e5d4876a6d7c226368a612, type: 2}
+  - {fileID: 11400000, guid: 066da29ffd5104676b287362309c4eea, type: 2}
+  - {fileID: 11400000, guid: 26754a5bb52f144a597dd1deed9c3062, type: 2}
   OnChangeUser:
     m_PersistentCalls:
       m_Calls: []

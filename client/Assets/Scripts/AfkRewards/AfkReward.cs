@@ -1,5 +1,5 @@
 public class AfkReward
 {
-	public Currency currency;
-    public int amount;
+	public string currency;
+	public int amount;
 }

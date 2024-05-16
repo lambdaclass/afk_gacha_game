@@ -12,7 +12,7 @@ public class BoxUI : MonoBehaviour
 
 	[SerializeField]
 	Image icon;
-	
+
 	[SerializeField]
 	TMP_Text title;
 
@@ -22,13 +22,14 @@ public class BoxUI : MonoBehaviour
 	[SerializeField]
 	Button button;
 
-	public void SetBox(Box box, Sprite boxSprite, Action<string, string> onClick) {
+	public void SetBox(Box box, Sprite boxSprite, Action<string, string> onClick)
+	{
 		this.box = box;
 		title.text = this.box.name;
 		icon.sprite = boxSprite;
 
-		// Only shows the first cost
-		KeyValuePair<Currency, int> firstCost = this.box.costs.First();
+		// Only shows the first cost, hardcoded
+		KeyValuePair<string, int> firstCost = this.box.costs.First();
 		cost.text = $"{firstCost.Key.ToString()}: {firstCost.Value}";
 
 		button.onClick.AddListener(() => onClick.Invoke(GlobalUserData.Instance.User.id, box.id));

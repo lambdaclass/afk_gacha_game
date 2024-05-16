@@ -1,40 +1,46 @@
 using UnityEngine;
+using System.Linq;
 
-public abstract class UIReward {
-    public Sprite Sprite() {
-        return Resources.Load<Sprite>("UI/Rewards/" + RewardType());
-    }
+public abstract class UIReward
+{
+	public Sprite Sprite()
+	{
+		// return Resources.Load<Sprite>("UI/Rewards/" + RewardType());
+		return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
+	}
 
-    public abstract int Amount();
+	public abstract int Amount();
 
-    public abstract string RewardType();
+	public abstract string RewardType();
 }
 
-public class CurrencyUIReward : UIReward {
-    private CurrencyValue value;
+public class CurrencyUIReward : UIReward
+{
+	private string currency;
+	private int amount;
 
-    public CurrencyUIReward(Currency currencyName, int currencyAmount) {
-        CurrencyValue currencyValue = new CurrencyValue();
-        currencyValue.currency = currencyName;
-        currencyValue.value = currencyAmount;
+	public CurrencyUIReward(string currency, int amount)
+	{
+		this.currency = currency;
+		this.amount = amount;
+	}
 
-        value = currencyValue;
-    }
+	public override int Amount() { return amount; }
 
-    public override int Amount() { return value.value; }
-
-    public override string RewardType() { return value.currency.ToString(); }
+	public override string RewardType() { return currency; }
 }
 
-public class ExperienceUIReward : UIReward {
-    private int value;
+public class ExperienceUIReward : UIReward
+{
+	private int value;
 
-    public ExperienceUIReward(int amount) {
-        value = amount;
-    }
+	public ExperienceUIReward(int amount)
+	{
+		value = amount;
+	}
 
-    public override int Amount() { return value; }
-    public override string RewardType() { return "experience"; }
+	public override int Amount() { return value; }
+	public override string RewardType() { return "experience"; }
 }
 
 //// When we implement item rewards:
