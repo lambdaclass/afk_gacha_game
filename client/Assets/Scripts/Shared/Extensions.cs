@@ -10,6 +10,6 @@ public static class Extensions
 
         T[] Arr = (T[])Enum.GetValues(src.GetType());
         int j = Array.IndexOf<T>(Arr, src) + 1;
-        return (Arr.Length == j) ? Arr[0] : Arr[j];
+        return (Arr.Length == j) ? Arr[0] : Arr[j]
     }
 }
