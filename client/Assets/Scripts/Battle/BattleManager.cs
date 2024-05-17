@@ -133,7 +133,7 @@ public class BattleManager : MonoBehaviour
 							}
 							if (!statuses.Any(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()))
 							{
-								Debug.LogError($"status not found on client: {prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()}");
+								Debug.LogWarning($"status not found on client: {prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()}");
 							}
 							else
 							{
@@ -161,7 +161,7 @@ public class BattleManager : MonoBehaviour
 						{
 							if (!statuses.Any(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()))
 							{
-								Debug.LogError($"status not found on client: {action.TagReceived.Tag.ToLower()}");
+								Debug.LogWarning($"status not found on client: {action.TagReceived.Tag.ToLower()}");
 							}
 							else
 							{
