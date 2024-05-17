@@ -8,30 +8,30 @@ using UnityEngine.UI;
 
 public class BoxUI : MonoBehaviour
 {
-	Box box;
+    Box box;
 
-	[SerializeField]
-	Image icon;
+    [SerializeField]
+    Image icon;
 
-	[SerializeField]
-	TMP_Text title;
+    [SerializeField]
+    TMP_Text title;
 
-	[SerializeField]
-	TMP_Text cost;
+    [SerializeField]
+    TMP_Text cost;
 
-	[SerializeField]
-	Button button;
+    [SerializeField]
+    Button button;
 
-	public void SetBox(Box box, Sprite boxSprite, Action<string, string> onClick)
-	{
-		this.box = box;
-		title.text = this.box.name;
-		icon.sprite = boxSprite;
+    public void SetBox(Box box, Sprite boxSprite, Action<string, string> onClick)
+    {
+        this.box = box;
+        title.text = this.box.name;
+        icon.sprite = boxSprite;
 
-		// Only shows the first cost
-		KeyValuePair<Currency, int> firstCost = this.box.costs.First();
-		cost.text = $"{firstCost.Key.ToString()}: {firstCost.Value}";
+        // Only shows the first cost
+        KeyValuePair<Currency, int> firstCost = this.box.costs.First();
+        cost.text = $"{firstCost.Key.ToString()}: {firstCost.Value}";
 
-		button.onClick.AddListener(() => onClick.Invoke(GlobalUserData.Instance.User.id, box.id));
-	}
+        button.onClick.AddListener(() => onClick.Invoke(GlobalUserData.Instance.User.id, box.id));
+    }
 }

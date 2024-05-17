@@ -132,7 +132,8 @@ public class GlobalUserData : MonoBehaviour
         else
         {
             // User doesn't have this currency.
-            if (amount < 0) { throw new InvalidOperationException("AddCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
+            if (amount < 0)
+            { throw new InvalidOperationException("AddCurrency received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
 
             // Create it for him with the given amount.
             user.currencies.Add(name, amount);
@@ -163,7 +164,8 @@ public class GlobalUserData : MonoBehaviour
         else
         {
             // User doesn't have this currency.
-            if (amount < 0) { throw new InvalidOperationException("SetCurrencyAmount received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
+            if (amount < 0)
+            { throw new InvalidOperationException("SetCurrencyAmount received a negative value of a currency the user does not have. This should never happen, otherwise we'd create the currency with a negative value. Possibly an issue with User.CanAfford()"); }
 
             // Create it for him with the given amount.
             user.currencies.Add(currency, amount);
