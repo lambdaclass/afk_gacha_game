@@ -720,7 +720,7 @@ public class SocketConnection : MonoBehaviour
         Summon summonRequest = new Summon
         {
             UserId = userId,
-            BoxId = boxId
+            BoxId = boxId,
         };
         WebSocketRequest request = new WebSocketRequest
         {
