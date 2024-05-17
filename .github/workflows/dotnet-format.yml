@@ -23,4 +23,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run dotnet format
-        run: pwd
+        run: dotnet-format --folder .\client/Assets/Scripts --check --verbosity n
