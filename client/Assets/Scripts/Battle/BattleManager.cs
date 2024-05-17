@@ -24,6 +24,8 @@ public class BattleManager : MonoBehaviour
 
 	private bool continuePlayback = true;
 
+	private const int MAX_ENERGY = 500;
+
 	void Start()
 	{
 		victorySplash.SetActive(false);
@@ -65,6 +67,7 @@ public class BattleManager : MonoBehaviour
 		yield return new WaitUntil(() => battleResult != null);
 
 		SetUpInitialState(battleResult);
+
 		yield return StartCoroutine(PlayOutSteps(battleResult.Steps));
 
 		projectilesPooler.ClearProjectiles();
@@ -85,6 +88,8 @@ public class BattleManager : MonoBehaviour
 			battleUnit.gameObject.SetActive(true);
 			battleUnit.MaxHealth = unit.Health;
 			battleUnit.CurrentHealth = unit.Health;
+			battleUnit.MaxEnergy = MAX_ENERGY;
+			battleUnit.CurrentEnergy = unit.Energy;
 		}
 	}
 
@@ -113,6 +118,13 @@ public class BattleManager : MonoBehaviour
 				{
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
 						battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.EnergyRegen:
+						BattleUnit unit = battleUnitsUI.Single(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.EnergyRegen.TargetId);
+						unit.CurrentEnergy = Math.Min(unit.CurrentEnergy + (int)action.EnergyRegen.Amount, MAX_ENERGY);
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.StatOverride:
+						StatOverride(action);
 						break;
 					default:
 						break;
@@ -274,5 +286,21 @@ public class BattleManager : MonoBehaviour
 			}
 		}
 		return rewards;
+	}
+
+	private void StatOverride(Protobuf.Messages.Action action)
+	{
+		BattleUnit target = battleUnitsUI.Single(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.StatOverride.TargetId);
+		switch (action.StatOverride.StatAffected.Stat)
+		{
+			case Protobuf.Messages.Stat.Health:
+				target.CurrentHealth = (int)action.StatOverride.StatAffected.Amount;
+				break;
+			case Protobuf.Messages.Stat.Energy:
+				target.CurrentEnergy = (int)action.StatOverride.StatAffected.Amount;
+				break;
+			default:
+				break;
+		}
 	}
 }
