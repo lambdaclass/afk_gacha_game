@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Paralyze
   m_EditorClassIdentifier: 
   name: ControlEffect.Paralyze
-  sprite: {fileID: 21300000, guid: a4048fc02a20a464f92bcaaccf4bf8c5, type: 3}
+  sprite: {fileID: 21300000, guid: 243b6912380ee48f0ac758dc6adf8c78, type: 3}
