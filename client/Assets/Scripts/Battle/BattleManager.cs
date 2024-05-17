@@ -99,7 +99,7 @@ public class BattleManager : MonoBehaviour
         {
             if (!continuePlayback)
             {
-                yield break
+                yield break;
             }
 
             yield return new WaitForSeconds(.05f);
