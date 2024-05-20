@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
 
     public void ChangeToSuperCampaign(string superCampaignName)
     {
-        CampaignsMapManager.selectedSuperCampaign = superCampaignName;
+        SupercampaignsMapManager.selectedSuperCampaignName = superCampaignName;
         StartCoroutine(ChangeToSceneAfterSeconds("CampaignsMap", 0.1f));
     }
 
