@@ -13,8 +13,6 @@ public class CampaignsMapManager : MonoBehaviour
 
     public static string selectedSuperCampaign;
 
-    public static string selectedSuperCampaign;
-
     void Start()
     {
         SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, selectedSuperCampaign, (campaigns) =>
