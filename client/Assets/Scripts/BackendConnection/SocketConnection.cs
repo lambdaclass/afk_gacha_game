@@ -234,7 +234,7 @@ public class SocketConnection : MonoBehaviour
 
     private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, string superCampaignName, List<Character> availableCharacters)
     {
-        List<(string superCampaignName, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgresses;
+        List<(string superCampaignName, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.supercampaignsProgresses;
         List<Campaign> campaigns = new List<Campaign>();
         LevelProgress.Status campaignStatus = LevelProgress.Status.Completed;
 
@@ -441,7 +441,7 @@ public class SocketConnection : MonoBehaviour
             if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses)
             {
                 List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignName, cp.CampaignId, cp.LevelId)).ToList();
-                onCampaignProgressReceived?.Invoke(campaignProgresses);
+                onSupercampaignProgressReceived?.Invoke(campaignProgresses);
             }
         }
         catch (Exception e)

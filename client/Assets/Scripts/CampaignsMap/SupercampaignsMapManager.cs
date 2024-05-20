@@ -19,7 +19,7 @@ public class SupercampaignsMapManager : MonoBehaviour
     async void Start()
     {
         await InstantiateSupercampaign();
-        SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) =>
+        SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, selectedSuperCampaignName, (campaigns) =>
         {
             // this needs to be refactored, the campaigns have two parallel "paths" that do different things, they should be unified into the static class
             LevelProgress.campaigns = campaigns;
@@ -39,7 +39,7 @@ public class SupercampaignsMapManager : MonoBehaviour
 
     private async Task InstantiateSupercampaign()
     {
-        if (selectedSuperCampaignName == "Main")
+        if (selectedSuperCampaignName == "Main Campaign")
         {
             supercampaignInstance = await addressableInstantiator.InstantiateMainSupercampaign();
             supercampaignInstance.transform.SetParent(supercampaignContainer.transform, false);
