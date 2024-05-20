@@ -7,40 +7,55 @@ public class SceneNavigator : MonoBehaviour
 {
     public static Stack<string> sceneHistory = new Stack<string>();
 
-	void Update() {
-		if(Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer) {
-			if(Input.GetKey(KeyCode.Escape)) {
-				BackToPreviousScene	();
-			}
-		}
-	}
+    void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                BackToPreviousScene();
+            }
+        }
+    }
 
-    public void ChangeToScene(string targetSceneName) {
+    public void ChangeToScene(string targetSceneName)
+    {
+        if (sceneHistory.Contains(targetSceneName))
+        {
+            while (targetSceneName != sceneHistory.Peek())
+            {
+                sceneHistory.Pop();
+            }
+            sceneHistory.Pop();
+        }
+        else if (targetSceneName != SceneManager.GetActiveScene().name)
+        {
+            sceneHistory.Push(SceneManager.GetActiveScene().name);
+        }
 
-		if(sceneHistory.Contains(targetSceneName)) {
-			while(targetSceneName != sceneHistory.Peek()) {
-				sceneHistory.Pop();
-			}
-			sceneHistory.Pop();
-		}
-		else {
-			sceneHistory.Push(SceneManager.GetActiveScene().name); 
-		}
-		
         SceneManager.LoadScene(targetSceneName);
     }
 
-	public void BackToPreviousScene() {
-		SceneManager.LoadScene(sceneHistory.Pop());
-	}
+    public void BackToPreviousScene()
+    {
+        SceneManager.LoadScene(sceneHistory.Pop());
+    }
 
     // This is a workaround to avoid killing the sound effect when changing scenes.
-    public void ChangeToSceneWithDelay(string sceneName) {
+    public void ChangeToSceneWithDelay(string sceneName)
+    {
         StartCoroutine(ChangeToSceneAfterSeconds(sceneName, 0.1f));
     }
 
-    public IEnumerator ChangeToSceneAfterSeconds(string sceneName, float seconds) {
+    public IEnumerator ChangeToSceneAfterSeconds(string sceneName, float seconds)
+    {
         yield return new WaitForSeconds(seconds);
         ChangeToScene(sceneName);
+    }
+
+    public void ChangeToSuperCampaign(string superCampaignName)
+    {
+        CampaignsMapManager.selectedSuperCampaign = superCampaignName;
+        StartCoroutine(ChangeToSceneAfterSeconds("CampaignsMap", 0.1f));
     }
 }
