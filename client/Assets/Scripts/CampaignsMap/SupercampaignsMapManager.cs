@@ -10,6 +10,9 @@ public class SupercampaignsMapManager : MonoBehaviour
     [SerializeField]
     AddressableInstantiator addressableInstantiator;
 
+    [SerializeField]
+    GameObject supercampaignContainer;
+
     private GameObject supercampaignInstance;
     public static string selectedSuperCampaignName;
 
@@ -39,6 +42,8 @@ public class SupercampaignsMapManager : MonoBehaviour
         if (selectedSuperCampaignName == "Main")
         {
             supercampaignInstance = await addressableInstantiator.InstantiateMainSupercampaign();
+            supercampaignInstance.transform.SetParent(supercampaignContainer.transform, false);
+            supercampaignInstance.transform.SetSiblingIndex(0);
         }
         else
         {

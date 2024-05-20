@@ -705,6 +705,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5341647534015625711, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
   m_PrefabInstance: {fileID: 785001079}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &785001081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5341647534015625710, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+  m_PrefabInstance: {fileID: 785001079}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &821638572
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneManager: {fileID: 2074437557}
   addressableInstantiator: {fileID: 863542535}
+  supercampaignContainer: {fileID: 785001081}
 --- !u!4 &821638574
 Transform:
   m_ObjectHideFlags: 0
