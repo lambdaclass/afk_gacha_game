@@ -3120,7 +3120,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1071098917}
-  - {fileID: 1107976342}
   - {fileID: 401277741}
   - {fileID: 2007236969}
   m_Father: {fileID: 260783023}
