@@ -1,4 +1,4 @@
-.PHONY: generate-protos setup
+.PHONY: generate-protos setup format
 
 generate-protos:
 	protoc --csharp_out=./ gateway.proto
