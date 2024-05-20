@@ -11,9 +11,11 @@ public class CampaignsMapManager : MonoBehaviour
     [SerializeField]
     SceneNavigator sceneNavigator;
 
+    public static string selectedSuperCampaign;
+
     void Start()
     {
-        SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, (campaigns) =>
+        SocketConnection.Instance.GetCampaigns(GlobalUserData.Instance.User.id, selectedSuperCampaign, (campaigns) =>
         {
             // this needs to be refactored, the campaigns have two parallel "paths" that do different things, they should be unified into the static class
             LevelProgress.campaigns = campaigns;

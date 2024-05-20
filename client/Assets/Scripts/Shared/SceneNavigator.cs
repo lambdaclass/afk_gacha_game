@@ -52,4 +52,10 @@ public class SceneNavigator : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         ChangeToScene(sceneName);
     }
+
+    public void ChangeToSuperCampaign(string superCampaignName)
+    {
+        CampaignsMapManager.selectedSuperCampaign = superCampaignName;
+        StartCoroutine(ChangeToSceneAfterSeconds("CampaignsMap", 0.1f));
+    }
 }
