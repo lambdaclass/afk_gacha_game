@@ -232,14 +232,16 @@ public class SocketConnection : MonoBehaviour
         return createdUnits;
     }
 
-    private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, List<Character> availableCharacters)
+    private List<Campaign> ParseCampaignsFromResponse(Protobuf.Messages.Campaigns campaignsData, string superCampaignName, List<Character> availableCharacters)
     {
-        List<(string superCampaignId, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgresses;
+        List<(string superCampaignName, string campaignId, string levelId)> userCampaignsProgress = GlobalUserData.Instance.User.campaignsProgresses;
         List<Campaign> campaigns = new List<Campaign>();
         LevelProgress.Status campaignStatus = LevelProgress.Status.Completed;
 
-        // Currently looping through all the campaigns like they all belong to the same super campaign
-        foreach (Protobuf.Messages.Campaign campaignData in campaignsData.Campaigns_)
+        // Filter campaigns by supercampaign name
+        var superCampaignCampaigns = campaignsData.Campaigns_.Where(campaign => campaign.SuperCampaignName == superCampaignName).ToList();
+
+        foreach (Protobuf.Messages.Campaign campaignData in superCampaignCampaigns)
         {
             LevelProgress.Status levelStatus = LevelProgress.Status.Completed;
             List<LevelData> levels = new List<LevelData>();
@@ -438,7 +440,7 @@ public class SocketConnection : MonoBehaviour
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.SuperCampaignProgresses)
             {
-                List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignId, cp.CampaignId, cp.LevelId)).ToList();
+                List<(string, string, string)> campaignProgresses = webSocketResponse.SuperCampaignProgresses.SuperCampaignProgresses_.Select(cp => (cp.SuperCampaignName, cp.CampaignId, cp.LevelId)).ToList();
                 onCampaignProgressReceived?.Invoke(campaignProgresses);
             }
         }
@@ -448,7 +450,7 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-    public void GetCampaigns(string userId, Action<List<Campaign>> onCampaignDataReceived)
+    public void GetCampaigns(string userId, string superCampaignName, Action<List<Campaign>> onCampaignDataReceived)
     {
         GetCampaigns getCampaignsRequest = new GetCampaigns
         {
@@ -458,13 +460,13 @@ public class SocketConnection : MonoBehaviour
         {
             GetCampaigns = getCampaignsRequest
         };
-        currentMessageHandler = (data) => AwaitGetCampaignsResponse(data, onCampaignDataReceived);
+        currentMessageHandler = (data) => AwaitGetCampaignsResponse(data, onCampaignDataReceived, superCampaignName);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
 
-    private void AwaitGetCampaignsResponse(byte[] data, Action<List<Campaign>> onCampaignDataReceived)
+    private void AwaitGetCampaignsResponse(byte[] data, Action<List<Campaign>> onCampaignDataReceived, string superCampaignName)
     {
         try
         {
@@ -474,7 +476,7 @@ public class SocketConnection : MonoBehaviour
             if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Campaigns)
             {
                 List<Character> availableCharacters = GlobalUserData.Instance.AvailableCharacters;
-                List<Campaign> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, availableCharacters);
+                List<Campaign> campaigns = ParseCampaignsFromResponse(webSocketResponse.Campaigns, superCampaignName, availableCharacters);
                 onCampaignDataReceived?.Invoke(campaigns);
             }
         }
