@@ -41,4 +41,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/KalineTree.unity
     guid: 6484ff5f98f3b44f4b3e8457919825e6
+  - enabled: 1
+    path: Assets/Scenes/Dungeon.unity
+    guid: 509e9f4f1d4e143d0aae64ee8d299ee9
+  - enabled: 1
+    path: Assets/Scenes/DungeonSettlement.unity
+    guid: ec3613bc4d83e4110bb38b230767a14b
   m_configObjects: {}
