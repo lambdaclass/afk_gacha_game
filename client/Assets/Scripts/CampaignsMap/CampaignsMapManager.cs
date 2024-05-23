@@ -9,7 +9,7 @@ public class CampaignsMapManager : MonoBehaviour
     private List<CampaignItem> campaignItems;
 
     [SerializeField]
-    LevelManager sceneManager;
+    SceneNavigator sceneNavigator;
 
     public static string selectedSuperCampaign;
 
@@ -28,7 +28,7 @@ public class CampaignsMapManager : MonoBehaviour
         // Currently we have 2 campaigns and the client is hardcoded to only manage 2 campaigns, TODO: variable number of campaigns
         for (int campaignsIndex = 0; campaignsIndex < 2; campaignsIndex++)
         {
-            campaignItems[campaignsIndex].sceneManager = sceneManager;
+            campaignItems[campaignsIndex].sceneNavigator = sceneNavigator;
             campaignItems[campaignsIndex].SetCampaignData(campaigns[campaignsIndex]);
         }
     }

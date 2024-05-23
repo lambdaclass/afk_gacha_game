@@ -17,7 +17,7 @@ public class CampaignItem : MonoBehaviour
 
     private Campaign campaignData;
 
-    public LevelManager sceneManager;
+    public SceneNavigator sceneNavigator;
 
     // Load campaign scene if its unlocked. Scene needs to have the same name as our campaign object.
     public void SelectCampaign()
@@ -26,7 +26,7 @@ public class CampaignItem : MonoBehaviour
         {
             CampaignManager.selectedCampaignData = campaignData;
             CampaignManager.campaignPrefab = campaignToShowPrefab;
-            sceneManager.ChangeToSceneWithDelay("Campaign");
+            sceneNavigator.ChangeToScene("Campaign");
         }
     }
 
