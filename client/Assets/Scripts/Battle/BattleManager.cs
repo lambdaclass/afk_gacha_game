@@ -22,6 +22,9 @@ public class BattleManager : MonoBehaviour
 	[SerializeField]
 	ProjectilesPooler projectilesPooler;
 
+	[SerializeField]
+	List<Status> statuses;
+
 	private bool continuePlayback = true;
 
 	private const int MAX_ENERGY = 500;
@@ -116,6 +119,62 @@ public class BattleManager : MonoBehaviour
 			{
 				switch (action.ActionTypeCase)
 				{
+					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierReceived:
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierReceived.TargetId))
+						{
+							string prefix = "";
+							if (action.ModifierReceived.Operation == "Add")
+							{
+								prefix = action.ModifierReceived.StatAffected.Amount > 0 ? "higher_" : "lower_";
+							}
+							else if (action.ModifierReceived.Operation == "Multiply")
+							{
+								prefix = action.ModifierReceived.StatAffected.Amount > 1 ? "higher_" : "lower_";
+							}
+							if (!statuses.Any(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()))
+							{
+								Debug.LogWarning($"status not found on client: {prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()}");
+							}
+							else
+							{
+								battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierReceived.StatAffected.Stat.ToString().ToLower()));
+							}
+						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.ModifierExpired:
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierExpired.TargetId))
+						{
+							string prefix = "";
+							if (action.ModifierExpired.Operation == "Add")
+							{
+								prefix = action.ModifierExpired.StatAffected.Amount > 0 ? "higher_" : "lower_";
+							}
+							else if (action.ModifierExpired.Operation == "Multiply")
+							{
+								prefix = action.ModifierExpired.StatAffected.Amount > 1 ? "higher_" : "lower_";
+							}
+							battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.ModifierExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == prefix + action.ModifierExpired.StatAffected.Stat.ToString().ToLower()));
+						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.TagReceived:
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagReceived.TargetId))
+						{
+							if (!statuses.Any(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()))
+							{
+								Debug.LogWarning($"status not found on client: {action.TagReceived.Tag.ToLower()}");
+							}
+							else
+							{
+								battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagReceived.TargetId).ApplyStatus(statuses.Single(status => status.name.ToLower() == action.TagReceived.Tag.ToLower()));
+							}
+						}
+						break;
+					case Protobuf.Messages.Action.ActionTypeOneofCase.TagExpired:
+						if (battleUnitsUI.Any(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagExpired.TargetId))
+						{
+							battleUnitsUI.First(unit => unit.SelectedUnit != null && unit.SelectedUnit.id == action.TagExpired.TargetId).RemoveStatus(statuses.Single(status => status.name.ToLower() == action.TagExpired.Tag.ToLower()));
+						}
+						break;
 					case Protobuf.Messages.Action.ActionTypeOneofCase.Death:
 						battleUnitsUI.Where(battleUnit => battleUnit.SelectedUnit != null).Single(unit => unit.SelectedUnit.id == action.Death.UnitId).DeathFeedback();
 						break;
