@@ -26,6 +26,7 @@ public class KalineTreeManager : MonoBehaviour
 		kalineTreeLevel.text = $"Level {user.User.kalineTreeLevel.level}";
 		SetAfkRewardRatesTexts(user.User);
 	}
+
 	public void ShowRewards()
 	{
 		GlobalUserData user = GlobalUserData.Instance;
@@ -36,7 +37,7 @@ public class KalineTreeManager : MonoBehaviour
 				Destroy(child.gameObject);
 			}
 
-			foreach (var afkReward in afkRewards)
+			foreach (var afkReward in afkRewards.Where(reward => user.User.kalineTreeLevel.afkRewardRates.Any(rewardRate => rewardRate.rate > 0 && rewardRate.currency == reward.currency)))
 			{
 				GameObject afkRewardGO = Instantiate(afkRewardDetailUI, afkRewardsContainer.transform);
 				AfkRewardDetail afkRewardDetail = afkRewardGO.GetComponent<AfkRewardDetail>();
