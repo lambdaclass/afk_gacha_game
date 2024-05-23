@@ -38,7 +38,15 @@ The code is licensed under the Apache 2 license, while the music and graphics ar
 Make sure you have Mirra Backend installed and running. This can be found here: https://github.com/lambdaclass/mirra_backend
 
 - **Flaticon:**
-	- <a href="https://www.flaticon.com/free-icons/blueprint" title="blueprint icons">Blueprint icons created by Freepik - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/rpg" title="rpg icons">Rpg icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/confuse" title="confuse icons">Confuse icons created by Freepik - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/fire" title="fire icons">Fire icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/nerf" title="nerf icons">Nerf icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/magic-potion" title="magic potion icons">Magic potion icons created by WR Graphic Garage - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/snowflake" title="snowflake icons">Snowflake icons created by Lumi - Flaticon</a>
+	- <a href="https://www.flaticon.com/free-icons/armor" title="armor icons">Armor icons created by max.icons - Flaticon</a>
+  - <a href="https://www.flaticon.com/free-icons/electric-shock" title="electric shock icons">Electric shock icons created by Prosymbols Premium - Flaticon</a>
+  - <a href="https://www.flaticon.com/free-icons/blueprint" title="blueprint icons">Blueprint icons created by Freepik - Flaticon</a>
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
