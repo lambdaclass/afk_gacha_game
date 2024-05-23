@@ -83,7 +83,6 @@ public class UnitDetail : MonoBehaviour
     public static void SelectUnit(Unit unit)
     {
         selectedUnit = unit;
-        SceneManager.LoadScene("UnitDetail");
     }
 
     public static Unit GetSelectedUnit()

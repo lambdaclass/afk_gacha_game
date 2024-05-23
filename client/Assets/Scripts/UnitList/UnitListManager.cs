@@ -7,6 +7,9 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     UnitsUIContainer unitsContainer;
 
+    [SerializeField]
+    SceneNavigator sceneNavigator;
+
     void Start()
     {
         this.unitsContainer.Populate(GlobalUserData.Instance.Units, this);
@@ -16,6 +19,7 @@ public class UnitListManager : MonoBehaviour, IUnitPopulator
     void SelectUnit(Unit unit)
     {
         UnitDetail.SelectUnit(unit);
+        sceneNavigator.ChangeToScene("UnitDetail");
     }
 
     public void Populate(Unit unit, GameObject unitUIItem)
