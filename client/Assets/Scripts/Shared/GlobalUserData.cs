@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class GlobalUserData : MonoBehaviour
 {
-    // This should be in it's own manager like of Curse of Mirra, not a list in the user singleton (should there be a user singleton?)
+    // This should be in it's own manager like of Champions of Mirra, not a list in the user singleton (should there be a user singleton?)
     [SerializeField]
     List<Character> characters;
 
