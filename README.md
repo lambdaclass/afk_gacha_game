@@ -45,6 +45,7 @@ Make sure you have Mirra Backend installed and running. This can be found here: 
 	- <a href="https://www.flaticon.com/free-icons/snowflake" title="snowflake icons">Snowflake icons created by Lumi - Flaticon</a>
 	- <a href="https://www.flaticon.com/free-icons/armor" title="armor icons">Armor icons created by max.icons - Flaticon</a>
   - <a href="https://www.flaticon.com/free-icons/electric-shock" title="electric shock icons">Electric shock icons created by Prosymbols Premium - Flaticon</a>
+  - <a href="https://www.flaticon.com/free-icons/blueprint" title="blueprint icons">Blueprint icons created by Freepik - Flaticon</a>
 
 - **Unity:**
   - [Download Unity](https://unity.com/unity-hub)
