@@ -305,12 +305,12 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-	private Dictionary<Currency, int> GetLevelRewards()
+	private Dictionary<string, int> GetLevelRewards()
 	{
-		Dictionary<Currency, int> rewards = LevelProgress.selectedLevelData.rewards;
+		Dictionary<string, int> rewards = LevelProgress.selectedLevelData.rewards;
 		if (LevelProgress.selectedLevelData.experienceReward > 0)
 		{
-			rewards.Add(Currency.Experience, LevelProgress.selectedLevelData.experienceReward);
+			rewards.Add("Experience", LevelProgress.selectedLevelData.experienceReward);
 		}
 		return rewards;
 	}
