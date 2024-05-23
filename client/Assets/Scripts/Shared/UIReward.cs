@@ -3,43 +3,43 @@ using System.Linq;
 
 public abstract class UIReward
 {
-	public Sprite Sprite()
-	{
-		return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
-	}
+    public Sprite Sprite()
+    {
+        return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
+    }
 
-	public abstract int Amount();
+    public abstract int Amount();
 
-	public abstract string RewardType();
+    public abstract string RewardType();
 }
 
 public class CurrencyUIReward : UIReward
 {
-	private string currency;
-	private int amount;
+    private string currency;
+    private int amount;
 
-	public CurrencyUIReward(string currency, int amount)
-	{
-		this.currency = currency;
-		this.amount = amount;
-	}
+    public CurrencyUIReward(string currency, int amount)
+    {
+        this.currency = currency;
+        this.amount = amount;
+    }
 
-	public override int Amount() { return amount; }
+    public override int Amount() { return amount; }
 
-	public override string RewardType() { return currency; }
+    public override string RewardType() { return currency; }
 }
 
 public class ExperienceUIReward : UIReward
 {
-	private int value;
+    private int value;
 
-	public ExperienceUIReward(int amount)
-	{
-		value = amount;
-	}
+    public ExperienceUIReward(int amount)
+    {
+        value = amount;
+    }
 
-	public override int Amount() { return value; }
-	public override string RewardType() { return "Experience"; }
+    public override int Amount() { return value; }
+    public override string RewardType() { return "experience"; }
 }
 
 //// When we implement item rewards:

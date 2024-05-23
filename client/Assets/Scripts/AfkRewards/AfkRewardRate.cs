@@ -1,6 +1,6 @@
 public class AfkRewardRate
 {
-	public string kalineTreeLevelId;
-	public string currency;
-	public float rate;
+    public string kalineTreeLevelId;
+    public string currency;
+    public float rate;
 }

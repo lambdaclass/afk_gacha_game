@@ -7,66 +7,66 @@ using UnityEngine.UIElements;
 
 public class HeaderManager : MonoBehaviour
 {
-	[SerializeField]
-	TextMeshProUGUI username;
+    [SerializeField]
+    TextMeshProUGUI username;
 
-	[SerializeField]
-	TextMeshProUGUI level;
+    [SerializeField]
+    TextMeshProUGUI level;
 
-	[SerializeField]
-	UIProgressBar progressBarXp;
+    [SerializeField]
+    UIProgressBar progressBarXp;
 
-	[SerializeField]
-	TextMeshProUGUI gold;
+    [SerializeField]
+    TextMeshProUGUI gold;
 
-	[SerializeField]
-	TextMeshProUGUI gems;
+    [SerializeField]
+    TextMeshProUGUI gems;
 
-	[SerializeField]
-	TextMeshProUGUI scrolls;
+    [SerializeField]
+    TextMeshProUGUI scrolls;
 
-	static GlobalUserData user;
+    static GlobalUserData user;
 
-	// static bool infoHasBeenSet = false;
+    // static bool infoHasBeenSet = false;
 
-	// Start is called before the first frame update
-	void Start()
-	{
-		StartCoroutine(GetUserAndContinue());
-	}
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(GetUserAndContinue());
+    }
 
-	private IEnumerator GetUserAndContinue()
-	{
-		if (user == null)
-		{
-			yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
-			user = GlobalUserData.Instance;
-		}
+    private IEnumerator GetUserAndContinue()
+    {
+        if (user == null)
+        {
+            yield return new WaitUntil(() => GlobalUserData.Instance.User != null);
+            user = GlobalUserData.Instance;
+        }
 
-		user.OnChangeUser.AddListener(UpdateUsername);
-		user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
-		user.OnLevelModified.AddListener(UpdateLevelValues);
+        user.OnChangeUser.AddListener(UpdateUsername);
+        user.OnCurrencyModified.AddListener(UpdateCurrencyValues);
+        user.OnLevelModified.AddListener(UpdateLevelValues);
 
-		UpdateUsername();
-		UpdateCurrencyValues();
-		UpdateLevelValues();
-	}
+        UpdateUsername();
+        UpdateCurrencyValues();
+        UpdateLevelValues();
+    }
 
-	void UpdateUsername()
-	{
-		username.text = user.User.username;
-	}
+    void UpdateUsername()
+    {
+        username.text = user.User.username;
+    }
 
-	void UpdateCurrencyValues()
-	{
-		gold.text = user.GetCurrency("Gold").ToString();
-		gems.text = user.GetCurrency("Gems").ToString();
-		scrolls.text = user.GetCurrency("Summon Scrolls").ToString();
-	}
+    void UpdateCurrencyValues()
+    {
+        gold.text = user.GetCurrency("Gold").ToString();
+        gems.text = user.GetCurrency("Gems").ToString();
+        scrolls.text = user.GetCurrency("SummonScrolls").ToString();
+    }
 
-	void UpdateLevelValues()
-	{
-		level.text = "Level " + user.User.level.ToString();
-		progressBarXp.fillAmount = user.User.experience / (float)user.User.experienceToNextLevel;
-	}
+    void UpdateLevelValues()
+    {
+        level.text = "Level " + user.User.level.ToString();
+        progressBarXp.fillAmount = user.User.experience / (float)user.User.experienceToNextLevel;
+    }
 }
