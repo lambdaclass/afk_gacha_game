@@ -14,7 +14,7 @@ public class User
 
     public int next_unit_id;
 
-    public Dictionary<Currency, int> currencies;
+    public Dictionary<string, int> currencies;
 
     public KalineTreeLevel kalineTreeLevel;
 

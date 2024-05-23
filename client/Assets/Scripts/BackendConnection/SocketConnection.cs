@@ -139,13 +139,13 @@ public class SocketConnection : MonoBehaviour
             items.Add(CreateItemFromData(userItem));
         }
 
-        Dictionary<Currency, int> currencies = new Dictionary<Currency, int>();
+        Dictionary<string, int> currencies = new Dictionary<string, int>();
 
         foreach (var currency in user.Currencies)
         {
-            if (Enum.TryParse<Currency>(currency.Currency.Name.Replace(" ", ""), out Currency currencyValue))
+            if (GlobalUserData.Instance.AvailableCurrencies.Any(availableCurrency => availableCurrency.name == currency.Currency.Name))
             {
-                currencies.Add(currencyValue, (int)currency.Amount);
+                currencies.Add(currency.Currency.Name, (int)currency.Amount);
             }
             else
             {
@@ -190,7 +190,7 @@ public class SocketConnection : MonoBehaviour
         return new AfkRewardRate
         {
             kalineTreeLevelId = afkRewardRateData.KalineTreeLevelId,
-            currency = Enum.Parse<Currency>(afkRewardRateData.Currency.Name.Replace(" ", "")),
+            currency = afkRewardRateData.Currency.Name,
             rate = afkRewardRateData.Rate
         };
     }
@@ -712,7 +712,7 @@ public class SocketConnection : MonoBehaviour
                 description = box.Description,
                 factions = box.Factions.ToList(),
                 rankWeights = box.RankWeights.ToDictionary(rankWeight => rankWeight.Rank, rankWeight => rankWeight.Weight),
-                costs = box.Cost.ToDictionary(cost => Enum.Parse<Currency>(cost.Currency.Name.Replace(" ", "")), cost => cost.Amount)
+                costs = box.Cost.ToDictionary(cost => cost.Currency.Name, cost => cost.Amount)
             };
         }).ToList();
     }
@@ -803,10 +803,10 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-    private Dictionary<Currency, int> GetLevelCurrencyRewards(Level level)
+    private Dictionary<string, int> GetLevelCurrencyRewards(Level level)
     {
-        Dictionary<Currency, int> rewards = level.CurrencyRewards.ToDictionary(currencyReward => Enum.Parse<Currency>(currencyReward.Currency.Name.Replace(" ", "")), currencyReward => (int)currencyReward.Amount);
-        rewards.Add(Currency.Experience, (int)level.ExperienceReward);
+        Dictionary<string, int> rewards = level.CurrencyRewards.ToDictionary(currencyReward => currencyReward.Currency.Name, currencyReward => (int)currencyReward.Amount);
+        rewards.Add("Experience", (int)level.ExperienceReward);
         return rewards;
     }
 
@@ -837,7 +837,7 @@ public class SocketConnection : MonoBehaviour
             {
                 List<AfkReward> afkRewards = webSocketResponse.AfkRewards.AfkRewards_.Select(afkReward => new AfkReward
                 {
-                    currency = Enum.Parse<Currency>(afkReward.Currency.Name.Replace(" ", "")),
+                    currency = afkReward.Currency.Name,
                     amount = (int)afkReward.Amount
                 }).ToList();
                 onAfkRewardsReceived?.Invoke(afkRewards);
