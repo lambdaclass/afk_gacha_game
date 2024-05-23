@@ -27,6 +27,16 @@ public class GlobalUserData : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    List<Currency> currencies;
+    public List<Currency> AvailableCurrencies
+    {
+        get
+        {
+            return this.currencies;
+        }
+    }
+
     // Singleton instance
     private static GlobalUserData instance;
 
@@ -102,7 +112,7 @@ public class GlobalUserData : MonoBehaviour
         OnLevelModified.Invoke();
     }
 
-    public int? GetCurrency(Currency currency)
+    public int? GetCurrency(string currency)
     {
         return user.currencies.ContainsKey(currency) ? user.currencies[currency] : null;
     }
@@ -117,9 +127,9 @@ public class GlobalUserData : MonoBehaviour
         return user.afkMaxCurrencyReward.ContainsKey(name) ? user.afkMaxCurrencyReward[name] : 0;
     }
 
-    public void AddCurrency(Currency name, int amount)
+    public void AddCurrency(string name, int amount)
     {
-        if (name == Currency.Experience)
+        if (name == "Experience")
         {
             AddExperience(amount);
             return;
@@ -140,21 +150,16 @@ public class GlobalUserData : MonoBehaviour
         OnCurrencyModified.Invoke();
     }
 
-    public void AddCurrencies(Dictionary<Currency, int> currencies)
+    public void AddCurrencies(Dictionary<string, int> currencies)
     {
-        User user = GlobalUserData.Instance.User;
-
         foreach (var currencyValue in currencies)
         {
-            Currency currency = currencyValue.Key;
-            int addAmount = currencyValue.Value;
-
-            AddCurrency(currency, addAmount);
+            AddCurrency(currencyValue.Key, currencyValue.Value);
         }
     }
 
     // This method should be unified with AddCurrency, only one of these should exist
-    public void SetCurrencyAmount(Currency currency, int amount)
+    public void SetCurrencyAmount(string currency, int amount)
     {
         if (user.currencies.ContainsKey(currency))
         {

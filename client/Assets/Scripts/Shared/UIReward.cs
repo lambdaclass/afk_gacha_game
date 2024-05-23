@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Linq;
 
 public abstract class UIReward
 {
     public Sprite Sprite()
     {
-        return Resources.Load<Sprite>("UI/Rewards/" + RewardType());
+        return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
     }
 
     public abstract int Amount();
@@ -14,20 +15,18 @@ public abstract class UIReward
 
 public class CurrencyUIReward : UIReward
 {
-    private CurrencyValue value;
+    private string currency;
+    private int amount;
 
-    public CurrencyUIReward(Currency currencyName, int currencyAmount)
+    public CurrencyUIReward(string currency, int amount)
     {
-        CurrencyValue currencyValue = new CurrencyValue();
-        currencyValue.currency = currencyName;
-        currencyValue.value = currencyAmount;
-
-        value = currencyValue;
+        this.currency = currency;
+        this.amount = amount;
     }
 
-    public override int Amount() { return value.value; }
+    public override int Amount() { return amount; }
 
-    public override string RewardType() { return value.currency.ToString(); }
+    public override string RewardType() { return currency; }
 }
 
 public class ExperienceUIReward : UIReward

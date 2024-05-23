@@ -70,7 +70,7 @@ public class SummonManager : MonoBehaviour
 
 	private void Summon(string userId, Box box)
 	{
-		foreach (KeyValuePair<Currency, int> cost in box.costs)
+		foreach (KeyValuePair<string, int> cost in box.costs)
 		{
 			if (cost.Value > GlobalUserData.Instance.GetCurrency(cost.Key))
 			{
@@ -83,7 +83,7 @@ public class SummonManager : MonoBehaviour
 		SocketConnection.Instance.Summon(userId, box.id,
 			(user, unit) =>
 			{
-				foreach (KeyValuePair<Currency, int> userCurrency in user.currencies)
+				foreach (KeyValuePair<string, int> userCurrency in user.currencies)
 				{
 					GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
 				}
