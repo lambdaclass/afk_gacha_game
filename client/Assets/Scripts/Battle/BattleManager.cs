@@ -270,7 +270,6 @@ public class BattleManager : MonoBehaviour
 			{
 				LevelProgress.selectedLevelData = LevelProgress.nextLevelData;
 				LevelProgress.nextLevelData = LevelProgress.NextLevel(LevelProgress.nextLevelData);
-				gameObject.GetComponent<LevelManager>().ChangeToScene("Lineup");
 			});
 		}
 	}
