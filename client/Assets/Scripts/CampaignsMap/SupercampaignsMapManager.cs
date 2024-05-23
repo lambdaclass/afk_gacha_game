@@ -5,7 +5,7 @@ using UnityEngine;
 public class SupercampaignsMapManager : MonoBehaviour
 {
     [SerializeField]
-    LevelManager sceneManager;
+    SceneNavigator sceneNavigator;
 
     [SerializeField]
     AddressableInstantiator addressableInstantiator;
@@ -32,7 +32,7 @@ public class SupercampaignsMapManager : MonoBehaviour
     {
         for (int campaignsIndex = 0; campaignsIndex < campaigns.Count; campaignsIndex++)
         {
-            campaignItems[campaignsIndex].sceneManager = sceneManager;
+            campaignItems[campaignsIndex].sceneNavigator = sceneNavigator;
             campaignItems[campaignsIndex].SetCampaignData(campaigns[campaignsIndex]);
         }
     }
