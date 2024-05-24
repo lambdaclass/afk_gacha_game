@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Campaign.unity
     guid: 288c57116737844cb974920c5ce8dd2e
   - enabled: 1
-    path: Assets/Scenes/CampaignsMap.unity
+    path: Assets/Scenes/SupercampaignsMap.unity
     guid: 30b663d8f564c491a8477d1800d6655f
   - enabled: 1
     path: Assets/Scenes/Lineup.unity
@@ -47,4 +47,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DungeonSettlement.unity
     guid: ec3613bc4d83e4110bb38b230767a14b
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 4d0117ccfbc634cf1bf81488eeabd16f, type: 2}
