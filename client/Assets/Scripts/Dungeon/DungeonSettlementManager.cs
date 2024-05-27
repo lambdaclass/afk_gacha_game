@@ -68,11 +68,13 @@ public class DungeonSettlementManager : MonoBehaviour
     {
         foreach (AfkRewardRate afkRewardRate in user.dungeonSettlementLevel.afkRewardRates)
         {
-            switch (afkRewardRate.currency)
+            if (afkRewardRate.currency == "Supplies")
             {
-                case "Supplies":
-                    suppliesAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
-                    break;
+                suppliesAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+            }
+            else
+            {
+                Debug.LogError($"Unhandled currency: {afkRewardRate.currency}");
             }
         }
     }
