@@ -7,5 +7,5 @@ public class Box
     public string description;
     public List<string> factions;
     public Dictionary<int, int> rankWeights;
-    public Dictionary<Currency, int> costs;
+    public Dictionary<string, int> costs;
 }

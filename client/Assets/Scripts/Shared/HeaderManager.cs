@@ -25,6 +25,9 @@ public class HeaderManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI scrolls;
 
+    [SerializeField]
+    TextMeshProUGUI fertilizer;
+
     static GlobalUserData user;
 
     // static bool infoHasBeenSet = false;
@@ -59,9 +62,11 @@ public class HeaderManager : MonoBehaviour
 
     void UpdateCurrencyValues()
     {
-        gold.text = user.GetCurrency(Currency.Gold).ToString();
-        gems.text = user.GetCurrency(Currency.Gems).ToString();
-        scrolls.text = user.GetCurrency(Currency.SummonScrolls).ToString();
+        gold.text = user.GetCurrency("Gold").ToString();
+        gems.text = user.GetCurrency("Gems").ToString();
+        scrolls.text = user.GetCurrency("SummonScrolls").ToString();
+        fertilizer.text = user.GetCurrency("Fertilizer").ToString();
+        scrolls.text = user.GetCurrency("SummonScrolls").ToString();
     }
 
     void UpdateLevelValues()

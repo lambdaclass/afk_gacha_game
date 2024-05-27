@@ -28,8 +28,8 @@ public class BoxUI : MonoBehaviour
         title.text = this.box.name;
         icon.sprite = boxSprite;
 
-        // Only shows the first cost
-        KeyValuePair<Currency, int> firstCost = this.box.costs.First();
+        // Only shows the first cost, hardcoded
+        KeyValuePair<string, int> firstCost = this.box.costs.First();
         cost.text = $"{firstCost.Key.ToString()}: {firstCost.Value}";
 
         button.onClick.AddListener(() => onClick.Invoke(GlobalUserData.Instance.User.id, box.id));

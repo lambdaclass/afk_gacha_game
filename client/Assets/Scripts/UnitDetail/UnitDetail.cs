@@ -54,7 +54,7 @@ public class UnitDetail : MonoBehaviour
         {
             foreach (var userCurrency in unitAndCurrencies.UserCurrency)
             {
-                GlobalUserData.Instance.SetCurrencyAmount((Currency)Enum.Parse(typeof(Currency), userCurrency.Currency.Name.Replace(" ", "")), (int)userCurrency.Amount);
+                GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Currency.Name, (int)userCurrency.Amount);
             }
             levelUpSound.Play();
             // Should this be encapsulated somewhere?
@@ -84,7 +84,6 @@ public class UnitDetail : MonoBehaviour
     public static void SelectUnit(Unit unit)
     {
         selectedUnit = unit;
-        SceneManager.LoadScene("UnitDetail");
     }
 
     public static Unit GetSelectedUnit()
@@ -115,7 +114,7 @@ public class UnitDetail : MonoBehaviour
     public void LevelUpItem(Item item, Action<Item> onItemDataReceived)
     {
         // Hardcoded to check for gold
-        if (item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency(Currency.Gold))
+        if (item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency("Gold"))
         {
             insufficientCurrencyPopup.SetActive(true);
             return;
