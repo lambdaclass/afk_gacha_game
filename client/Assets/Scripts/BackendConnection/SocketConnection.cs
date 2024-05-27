@@ -162,9 +162,6 @@ public class SocketConnection : MonoBehaviour
             afkRewardRates = user.KalineTreeLevel.AfkRewardRates.Select(afkRewardRate => CreateAfkRewardRateFromData(afkRewardRate)).ToList()
         };
 
-        Debug.Log(user.DungeonSettlementLevel.LevelUpCosts.Count);
-        Debug.Log(user.DungeonSettlementLevel.LevelUpCosts);
-
         DungeonSettlementLevel dungeonSettlementLevel = new DungeonSettlementLevel
         {
             level = (int)user.DungeonSettlementLevel.Level,

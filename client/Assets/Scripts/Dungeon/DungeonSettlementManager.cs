@@ -18,10 +18,6 @@ public class DungeonSettlementManager : MonoBehaviour
     void Start()
     {
         GlobalUserData user = GlobalUserData.Instance;
-        user.User.dungeonSettlementLevel.levelUpCosts.ForEach(cost =>
-        {
-            Debug.Log(cost.currency.name);
-        });
         goldLevelUpCost.text = user.User.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Gold").amount.ToString();
         blueprintsLevelUpCost.text = user.User.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Blueprints").amount.ToString();
         dungeonSettlementLevel.text = $"Level {user.User.dungeonSettlementLevel.level}";
