@@ -80,10 +80,9 @@ Set up your environment with the following steps:
   ```bash
   cat << \EOF >> ~/.zprofile
   # Add .NET Core SDK tools
-  export PATH="$PATH:/Users/YOUR_USERNAME/.dotnet/tools"
+  export PATH="$PATH:/Users/$USER/.dotnet/tools"
   EOF
   ```
-  If you don't know your username, run `whoami` in your terminal.
 
 ## Contact and Socials
 
