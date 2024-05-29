@@ -77,12 +77,12 @@ Set up your environment with the following steps:
 - To check if the setup is successful, go to VSCode's console, select the Output tab, and pick Omnisharp Log in the dropdown. If there are no error logs and Omnisharp is scanning the project, the configuration is correct.
 - Run `make setup` to install the necessary dependencies to format and lint the code.
 - Add dotnet-format to your PATH by replacing your username in the following command and running it in your terminal:
-  ```bash
-  cat << \EOF >> ~/.zprofile
-  # Add .NET Core SDK tools
-  export PATH="$PATH:/Users/$USER/.dotnet/tools"
-  EOF
-  ```
+```bash
+cat << \EOF >> ~/.zprofile
+# Add .NET Core SDK tools
+export PATH="$PATH:/Users/$USER/.dotnet/tools"
+EOF
+```
 
 ## Contact and Socials
 
