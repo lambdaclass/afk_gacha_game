@@ -53,9 +53,10 @@ public class SceneNavigator : MonoBehaviour
         ChangeToScene(sceneName);
     }
 
-    public void ChangeToSuperCampaign(string superCampaignName)
+    public void ChangeToSupercampaignMap(string supercampaignName)
     {
-        CampaignsMapManager.selectedSuperCampaign = superCampaignName;
-        StartCoroutine(ChangeToSceneAfterSeconds("CampaignsMap", 0.1f));
+        SupercampaignsMapManager.selectedSuperCampaignName = supercampaignName;
+        StartCoroutine(ChangeToSceneAfterSeconds("SupercampaignsMap", 0.1f));
     }
+
 }
