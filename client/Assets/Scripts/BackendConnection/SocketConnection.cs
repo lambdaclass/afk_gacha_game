@@ -1,12 +1,12 @@
+using Google.Protobuf;
+using NativeWebSocket;
+using Protobuf.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Google.Protobuf;
-using NativeWebSocket;
-using Protobuf.Messages;
 using UnityEngine;
 
 public class SocketConnection : MonoBehaviour

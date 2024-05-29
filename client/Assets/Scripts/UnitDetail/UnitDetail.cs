@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
 using UnityEngine.SceneManagement;
-using System;
+using UnityEngine.UI;
 
 public class UnitDetail : MonoBehaviour
 {
@@ -58,7 +58,8 @@ public class UnitDetail : MonoBehaviour
             }
             levelUpSound.Play();
             // Should this be encapsulated somewhere?
-            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++; ;
+            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;
+            ;
             unitLevelText.text = $"Level: {selectedUnit.level}";
             levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
         },

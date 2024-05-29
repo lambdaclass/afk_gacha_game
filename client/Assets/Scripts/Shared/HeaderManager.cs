@@ -1,6 +1,6 @@
+using DuloGames.UI;
 using System.Collections;
 using System.Collections.Generic;
-using DuloGames.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -25,8 +25,8 @@ public class HeaderManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI scrolls;
 
-	[SerializeField]
-	TextMeshProUGUI fertilizer;
+    [SerializeField]
+    TextMeshProUGUI fertilizer;
 
     static GlobalUserData user;
 

@@ -9,102 +9,102 @@ using UnityEngine.UI;
 
 public class SummonManager : MonoBehaviour
 {
-	[SerializeField]
-	BoxUI boxPrefab;
+    [SerializeField]
+    BoxUI boxPrefab;
 
-	[SerializeField]
-	GameObject boxesContainer;
+    [SerializeField]
+    GameObject boxesContainer;
 
-	[SerializeField]
-	GameObject confirmPopup;
+    [SerializeField]
+    GameObject confirmPopup;
 
-	[SerializeField]
-	Button confirmPopupButton;
+    [SerializeField]
+    Button confirmPopupButton;
 
-	[SerializeField]
-	GameObject newCharacterContainer;
+    [SerializeField]
+    GameObject newCharacterContainer;
 
-	[SerializeField]
-	TMP_Text newUnitName;
+    [SerializeField]
+    TMP_Text newUnitName;
 
-	[SerializeField]
-	Image newUnitImage;
+    [SerializeField]
+    Image newUnitImage;
 
-	[SerializeField]
-	GameObject insufficientCurrencyPopup;
+    [SerializeField]
+    GameObject insufficientCurrencyPopup;
 
-	// remove this
-	[SerializeField]
-	Sprite[] boxesSprites;
+    // remove this
+    [SerializeField]
+    Sprite[] boxesSprites;
 
-	void Start()
-	{
-		SocketConnection.Instance.GetBoxes(
-			(boxes) =>
-			{
-				int imageIndex = 0;
-				foreach (Box box in boxes)
-				{
-					BoxUI boxUI = Instantiate(boxPrefab, boxesContainer.transform);
-					Action<string, string> onClick = (userId, boxId) => ShowConfirmPopup(userId, box);
+    void Start()
+    {
+        SocketConnection.Instance.GetBoxes(
+            (boxes) =>
+            {
+                int imageIndex = 0;
+                foreach (Box box in boxes)
+                {
+                    BoxUI boxUI = Instantiate(boxPrefab, boxesContainer.transform);
+                    Action<string, string> onClick = (userId, boxId) => ShowConfirmPopup(userId, box);
 
-					// fix how boxes images are handled
-					boxUI.SetBox(box, boxesSprites[imageIndex], onClick);
-					imageIndex = imageIndex < boxesSprites.Length ? imageIndex + 1 : 0;
-				}
-			},
-			(reason) =>
-			{
-				Debug.LogError(reason);
-			}
-		);
-	}
+                    // fix how boxes images are handled
+                    boxUI.SetBox(box, boxesSprites[imageIndex], onClick);
+                    imageIndex = imageIndex < boxesSprites.Length ? imageIndex + 1 : 0;
+                }
+            },
+            (reason) =>
+            {
+                Debug.LogError(reason);
+            }
+        );
+    }
 
-	void ShowConfirmPopup(string userId, Box box)
-	{
-		confirmPopupButton.onClick.RemoveAllListeners();
-		UnityAction onClickAction = () => Summon(userId, box);
-		confirmPopupButton.onClick.AddListener(onClickAction);
-		confirmPopup.gameObject.SetActive(true);
-	}
+    void ShowConfirmPopup(string userId, Box box)
+    {
+        confirmPopupButton.onClick.RemoveAllListeners();
+        UnityAction onClickAction = () => Summon(userId, box);
+        confirmPopupButton.onClick.AddListener(onClickAction);
+        confirmPopup.gameObject.SetActive(true);
+    }
 
-	private void Summon(string userId, Box box)
-	{
-		foreach (KeyValuePair<string, int> cost in box.costs)
-		{
-			if (cost.Value > GlobalUserData.Instance.GetCurrency(cost.Key))
-			{
-				// Need to specify which currency
-				insufficientCurrencyPopup.SetActive(true);
-				return;
-			}
-		}
+    private void Summon(string userId, Box box)
+    {
+        foreach (KeyValuePair<string, int> cost in box.costs)
+        {
+            if (cost.Value > GlobalUserData.Instance.GetCurrency(cost.Key))
+            {
+                // Need to specify which currency
+                insufficientCurrencyPopup.SetActive(true);
+                return;
+            }
+        }
 
-		SocketConnection.Instance.Summon(userId, box.id,
-			(user, unit) =>
-			{
-				foreach (KeyValuePair<string, int> userCurrency in user.currencies)
-				{
-					GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
-				}
-				GlobalUserData.Instance.User.units.Add(unit);
-				newUnitName.text = unit.character.name;
-				newUnitImage.sprite = unit.character.inGameSprite;
-				newCharacterContainer.SetActive(true);
-			},
-			reason =>
-			{
-				switch (reason)
-				{
-					case "cant_afford":
-						// Need to specify which currency
-						insufficientCurrencyPopup.SetActive(true);
-						break;
-					default:
-						Debug.LogError(reason);
-						break;
-				}
-			}
-		);
-	}
+        SocketConnection.Instance.Summon(userId, box.id,
+            (user, unit) =>
+            {
+                foreach (KeyValuePair<string, int> userCurrency in user.currencies)
+                {
+                    GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Key, userCurrency.Value);
+                }
+                GlobalUserData.Instance.User.units.Add(unit);
+                newUnitName.text = unit.character.name;
+                newUnitImage.sprite = unit.character.inGameSprite;
+                newCharacterContainer.SetActive(true);
+            },
+            reason =>
+            {
+                switch (reason)
+                {
+                    case "cant_afford":
+                        // Need to specify which currency
+                        insufficientCurrencyPopup.SetActive(true);
+                        break;
+                    default:
+                        Debug.LogError(reason);
+                        break;
+                }
+            }
+        );
+    }
 }
