@@ -5,6 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Currency", menuName = "Currency")]
 public class Currency : ScriptableObject
 {
-	public new string name;
-	public Sprite image;
+    public new string name;
+    public Sprite image;
 }

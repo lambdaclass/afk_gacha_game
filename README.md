@@ -74,6 +74,14 @@ Set up your environment with the following steps:
 - Download the [.NET SDK](https://dotnet.microsoft.com/es-es/download/dotnet/thank-you/sdk-7.0.403-macos-arm64-installer) for your operating system.
 - In VSCode, download the .NET extension. After installation, change the version to 1.26 (locate the version dropdown next to the Uninstall button in the extension window).
 - To check if the setup is successful, go to VSCode's console, select the Output tab, and pick Omnisharp Log in the dropdown. If there are no error logs and Omnisharp is scanning the project, the configuration is correct.
+- Run `make setup` to install the necessary dependencies to format and lint the code.
+- Add dotnet-format to your PATH by running the following command in your terminal:
+```bash
+cat << \EOF >> ~/.zprofile
+# Add .NET Core SDK tools
+export PATH="$PATH:/Users/$USER/.dotnet/tools"
+EOF
+```
 
 ## Contact and Socials
 
