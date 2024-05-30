@@ -834,7 +834,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8610322166662081392}
-        m_TargetAssemblyTypeName: UnitPosition, ChampionsOfMyrra
+        m_TargetAssemblyTypeName: UnitPosition
         m_MethodName: UnselectUnit
         m_Mode: 1
         m_Arguments:
