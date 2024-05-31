@@ -20,4 +20,6 @@ public class LevelData
     public int experienceReward;
 
     public LevelProgress.Status status;
+    public Dictionary<string, int> attempt_costs = new Dictionary<string, int>();
+
 }

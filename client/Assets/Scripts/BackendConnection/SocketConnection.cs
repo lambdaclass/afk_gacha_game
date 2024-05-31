@@ -259,9 +259,9 @@ public class SocketConnection : MonoBehaviour
                     campaignId = level.CampaignId,
                     units = levelUnits,
                     rewards = GetLevelCurrencyRewards(level),
-                    status = levelStatus
+                    status = levelStatus,
+                    attempt_costs = level.AttemptCost.ToDictionary(cost => cost.Currency.Name, cost => cost.Amount)
                 });
-
 
                 if (levelStatus == LevelProgress.Status.Unlocked)
                 {
