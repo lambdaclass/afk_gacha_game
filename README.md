@@ -1,11 +1,10 @@
-# Champions of Mirra
+# AFK Gacha Game
 
-<img src="docs/ChampionsBattle.PNG" alt="ChampionsBattle">
-
+<img src="docs/AFKGachaBattle.PNG" alt="AFKGachaBattle">
 
 ## Table of Contents
 
-- [Champions of Mirra](#champions-of-mirra)
+- [AFK Gacha Game](#afk-gacha-game)
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Licensing](#licensing)
@@ -18,13 +17,13 @@
 
 ## About
 
-Welcome to the realm of Champions of Mirra, crafted by LambdaClass.
+Welcome to the realm of AFK Gacha Game, crafted by LambdaClass.
 
-Champions of Mirra is the second game that utilizes our groundbreaking [Game Backend](https://github.com/lambdaclass/game_backend). This open-source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
+AFK Gacha Game is the second game that utilizes our groundbreaking [Game Backend](https://github.com/lambdaclass/game_backend). This open-source backend, meticulously developed by Lambda, ensures seamless and reliable gameplay.
 
 Step into a universe where you, the player, get to turn the tides on an all-out war between the forces of good and evil. Side together with Mirra, the capricious deity known for manipulating entire societies by exploiting their deepest desires, or choose to rebel against its advances instead.
 
-Champions of Mirra is more than a game; it's an adventure into a world where strategy, skill, and a dash of chaos converge. Join the battle and confront the challenges that lie ahead in this captivating and dynamic gaming experience. The stage is set, and the Champions of Kaline await your commands—embrace the challenge and become a legend!
+AFK Gacha Game is more than a game; it's an adventure into a world where strategy, skill, and a dash of chaos converge. Join the battle and confront the challenges that lie ahead in this captivating and dynamic gaming experience. The stage is set, and the Champions of Kaline await your commands—embrace the challenge and become a legend!
 
 
 
