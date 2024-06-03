@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,13 +34,14 @@ public class CampaignLevelIndicator : MonoBehaviour
 
     public void SelectLevel()
     {
-        campaignLevelManager.LevelSelected();
-
         SetLevel();
+        LineupManager.levelAttemptCost = levelData.attempt_costs;
+        campaignLevelManager.LevelSelected();
     }
 
     private void SetLevel()
     {
+
         LevelProgress.selectedLevelData = levelData;
         LevelProgress.nextLevelData = nextLevelData;
     }

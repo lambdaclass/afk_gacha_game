@@ -1,9 +1,7 @@
 using DuloGames.UI;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class HeaderManager : MonoBehaviour
 {
@@ -27,6 +25,9 @@ public class HeaderManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI fertilizer;
+
+    [SerializeField]
+    TextMeshProUGUI supplies;
 
     static GlobalUserData user;
 
@@ -66,7 +67,8 @@ public class HeaderManager : MonoBehaviour
         gems.text = user.GetCurrency("Gems").ToString();
         scrolls.text = user.GetCurrency("SummonScrolls").ToString();
         fertilizer.text = user.GetCurrency("Fertilizer").ToString();
-        scrolls.text = user.GetCurrency("SummonScrolls").ToString();
+        supplies.text = user.GetCurrency("Supplies").ToString();
+
     }
 
     void UpdateLevelValues()

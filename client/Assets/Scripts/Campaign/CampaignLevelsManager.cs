@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,10 @@ public class CampaignLevelsManager : MonoBehaviour
 
     [SerializeField]
     List<CampaignLevelIndicator> levelIndicators;
+
+    [SerializeField]
+    GameObject insufficientCurrenciesPopup;
+
 
     public void LevelSelected()
     {

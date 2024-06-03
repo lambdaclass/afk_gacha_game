@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Protobuf.Messages;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,8 +23,47 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     Button battleButton;
 
+    [SerializeField]
+    GameObject insufficientCurrenciesPopup;
+
+    [SerializeField]
+    SceneNavigator sceneNavigator;
+
+    public static Dictionary<string, int> levelAttemptCost;
+
+
     void Start()
     {
+        SocketConnection.Instance.GetUserAndContinue();
+
+
+
+
+
+
+
+        battleButton.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            // if (GlobalUserData.Instance.User.currencies["Supplies"] < 1)
+            // {
+            //     insufficientCurrenciesPopup.SetActive(true);
+            // }
+            // else
+            // {
+            //     sceneNavigator.ChangeToScene("Battle");
+            // }
+
+            bool userCanAffordAttempt = levelAttemptCost.All(cost => GlobalUserData.Instance.User.currencies[cost.Key] >= cost.Value);
+            if (userCanAffordAttempt)
+            {
+                sceneNavigator.ChangeToScene("Battle");
+            }
+            else
+            {
+                insufficientCurrenciesPopup.SetActive(true);
+            }
+
+        });
         StartCoroutine(GetUser());
     }
 
