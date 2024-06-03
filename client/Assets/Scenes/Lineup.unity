@@ -2754,6 +2754,8 @@ MonoBehaviour:
   sceneNavigator: {fileID: 408215603}
   levelAttemptCostsUIContainer: {fileID: 253007722}
   levelAttemptCostUIPrefab: {fileID: 4962091247838370780, guid: 9acd5fef74ff440ae9d19268a45c5dc4, type: 3}
+  suppliesHeaderResourceUI: {fileID: 1607100096}
+  gemsHeaderResourceUI: {fileID: 1607100095}
 --- !u!4 &1606196172
 Transform:
   m_ObjectHideFlags: 0
@@ -2952,6 +2954,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1960125369243707596, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2025439445525780713, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3088,6 +3094,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5499892674598493914, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5726480245935408802, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3201,6 +3211,16 @@ PrefabInstance:
 --- !u!224 &1607100094 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5341647534015625711, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+  m_PrefabInstance: {fileID: 1607100093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1607100095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1960125369243707596, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
+  m_PrefabInstance: {fileID: 1607100093}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1607100096 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5499892674598493914, guid: 580c190a426d64bc2adb1771024b893c, type: 3}
   m_PrefabInstance: {fileID: 1607100093}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1671266584

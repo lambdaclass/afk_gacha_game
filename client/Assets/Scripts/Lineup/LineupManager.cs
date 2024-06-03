@@ -32,6 +32,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     GameObject levelAttemptCostsUIContainer;
     [SerializeField]
     GameObject levelAttemptCostUIPrefab;
+    [SerializeField]
+    GameObject suppliesHeaderResourceUI;
+    [SerializeField]
+    GameObject gemsHeaderResourceUI;
     public static Dictionary<string, int> levelAttemptCosts;
 
     void Start()
@@ -59,6 +63,12 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             costUI.GetComponent<Image>().sprite = GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == cost.Key).image;
             costUI.GetComponentInChildren<TextMeshProUGUI>().text = cost.Value.ToString();
 
+        }
+
+        if (levelAttemptCosts.ContainsKey("Supplies"))
+        {
+            gemsHeaderResourceUI.SetActive(false);
+            suppliesHeaderResourceUI.SetActive(true);
         }
 
         StartCoroutine(GetUser());

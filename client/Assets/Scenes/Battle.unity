@@ -5518,7 +5518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30c6fc95016a430a8701756ff615071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rewardItemUIPrefab: {fileID: 4962091247838370780, guid: 9acd5fef74ff440ae9d19268a45c5dc4, type: 3}
+  rewardItemUIPrefab: {fileID: 4962091247838370780, guid: 854fad317e295478493f374d8a09890c, type: 3}
 --- !u!114 &1864115998
 MonoBehaviour:
   m_ObjectHideFlags: 0
