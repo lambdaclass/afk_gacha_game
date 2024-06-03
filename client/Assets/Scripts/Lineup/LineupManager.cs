@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Protobuf.Messages;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LineupManager : MonoBehaviour, IUnitPopulator
@@ -29,31 +28,18 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     [SerializeField]
     SceneNavigator sceneNavigator;
 
-    public static Dictionary<string, int> levelAttemptCost;
-
+    [SerializeField]
+    GameObject levelAttemptCostsUIContainer;
+    [SerializeField]
+    GameObject levelAttemptCostUIPrefab;
+    public static Dictionary<string, int> levelAttemptCosts;
 
     void Start()
     {
         SocketConnection.Instance.GetUserAndContinue();
-
-
-
-
-
-
-
         battleButton.GetComponent<Button>().onClick.AddListener(() =>
         {
-            // if (GlobalUserData.Instance.User.currencies["Supplies"] < 1)
-            // {
-            //     insufficientCurrenciesPopup.SetActive(true);
-            // }
-            // else
-            // {
-            //     sceneNavigator.ChangeToScene("Battle");
-            // }
-
-            bool userCanAffordAttempt = levelAttemptCost.All(cost => GlobalUserData.Instance.User.currencies[cost.Key] >= cost.Value);
+            bool userCanAffordAttempt = levelAttemptCosts.All(cost => GlobalUserData.Instance.User.currencies[cost.Key] >= cost.Value);
             if (userCanAffordAttempt)
             {
                 sceneNavigator.ChangeToScene("Battle");
@@ -64,6 +50,17 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
             }
 
         });
+        foreach (KeyValuePair<string, int> cost in levelAttemptCosts)
+        {
+            GameObject costUI = Instantiate(levelAttemptCostUIPrefab, levelAttemptCostsUIContainer.transform.parent);
+            costUI.transform.SetParent(levelAttemptCostsUIContainer.transform, false);
+            costUI.transform.SetSiblingIndex(0);
+
+            costUI.GetComponent<Image>().sprite = GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == cost.Key).image;
+            costUI.GetComponentInChildren<TextMeshProUGUI>().text = cost.Value.ToString();
+
+        }
+
         StartCoroutine(GetUser());
     }
 

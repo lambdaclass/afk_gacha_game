@@ -35,7 +35,7 @@ public class CampaignLevelIndicator : MonoBehaviour
     public void SelectLevel()
     {
         SetLevel();
-        LineupManager.levelAttemptCost = levelData.attempt_costs;
+        LineupManager.levelAttemptCosts = levelData.attempt_costs;
         campaignLevelManager.LevelSelected();
     }
 

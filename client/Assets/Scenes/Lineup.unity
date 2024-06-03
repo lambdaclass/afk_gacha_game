@@ -456,6 +456,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248698612}
   m_CullTransparentMesh: 1
+--- !u!1 &253007722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 253007723}
+  m_Layer: 5
+  m_Name: LevelAttemptCostsUIContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &253007723
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253007722}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1207190442}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -34, y: -162}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &254174894
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -610,7 +646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224490779682924790, guid: 6db24e4df50936a44880ca7f7f3654c6, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224490779682924790, guid: 6db24e4df50936a44880ca7f7f3654c6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2028,6 +2064,7 @@ RectTransform:
   - {fileID: 520723311}
   - {fileID: 1447194990}
   - {fileID: 1297184651}
+  - {fileID: 253007723}
   - {fileID: 277049918}
   m_Father: {fileID: 1607100094}
   m_RootOrder: 2
@@ -2715,6 +2752,8 @@ MonoBehaviour:
   battleButton: {fileID: 1297184653}
   insufficientCurrenciesPopup: {fileID: 538296280}
   sceneNavigator: {fileID: 408215603}
+  levelAttemptCostsUIContainer: {fileID: 253007722}
+  levelAttemptCostUIPrefab: {fileID: 4962091247838370780, guid: 9acd5fef74ff440ae9d19268a45c5dc4, type: 3}
 --- !u!4 &1606196172
 Transform:
   m_ObjectHideFlags: 0
@@ -3745,7 +3784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -50.000122
+      value: -52.000122
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3781,7 +3820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50.000122
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 8208938248351529351, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3879,6 +3918,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8208938248466631592, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 8208938248466631593, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
       propertyPath: m_Horizontal
       value: 0
@@ -3890,6 +3933,10 @@ PrefabInstance:
     - target: {fileID: 8208938248466631593, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
       propertyPath: m_VerticalScrollbarVisibility
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208938249842387037, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
+      propertyPath: m_CellSize.y
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8208938248351529370, guid: 75c00fda9ec0141b08e82a69670f4fc6, type: 3}
