@@ -41,36 +41,9 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
     void Start()
     {
         SocketConnection.Instance.GetUserAndContinue();
-        battleButton.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            bool userCanAffordAttempt = levelAttemptCosts.All(cost => GlobalUserData.Instance.User.currencies[cost.Key] >= cost.Value);
-            if (userCanAffordAttempt)
-            {
-                sceneNavigator.ChangeToScene("Battle");
-            }
-            else
-            {
-                insufficientCurrenciesPopup.SetActive(true);
-            }
-
-        });
-        foreach (KeyValuePair<string, int> cost in levelAttemptCosts)
-        {
-            GameObject costUI = Instantiate(levelAttemptCostUIPrefab, levelAttemptCostsUIContainer.transform.parent);
-            costUI.transform.SetParent(levelAttemptCostsUIContainer.transform, false);
-            costUI.transform.SetSiblingIndex(0);
-
-            costUI.GetComponent<Image>().sprite = GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == cost.Key).image;
-            costUI.GetComponentInChildren<TextMeshProUGUI>().text = cost.Value.ToString();
-
-        }
-
-        if (levelAttemptCosts.ContainsKey("Supplies"))
-        {
-            gemsHeaderResourceUI.SetActive(false);
-            suppliesHeaderResourceUI.SetActive(true);
-        }
-
+        SetUpBattleButtonBehaviour();
+        InstantiateLevelAttemptCostsUI();
+        UpdateHeaderResources();
         StartCoroutine(GetUser());
     }
 
@@ -161,6 +134,46 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         {
             unitItemUI.SetLocked(true);
             unitItemButton.interactable = false;
+        }
+    }
+
+    private void SetUpBattleButtonBehaviour()
+    {
+        Dictionary<string, int> userCurrencies = GlobalUserData.Instance.User.currencies;
+        battleButton.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            bool userCanAffordAttempt = levelAttemptCosts.All(cost => userCurrencies[cost.Key] >= cost.Value);
+            if (userCanAffordAttempt)
+            {
+                sceneNavigator.ChangeToScene("Battle");
+            }
+            else
+            {
+                insufficientCurrenciesPopup.SetActive(true);
+            }
+        });
+    }
+
+    private void InstantiateLevelAttemptCostsUI()
+    {
+        foreach (KeyValuePair<string, int> cost in levelAttemptCosts)
+        {
+            GameObject costUI = Instantiate(levelAttemptCostUIPrefab, levelAttemptCostsUIContainer.transform.parent);
+            costUI.transform.SetParent(levelAttemptCostsUIContainer.transform, false);
+            costUI.transform.SetSiblingIndex(0);
+
+            costUI.GetComponent<Image>().sprite = GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == cost.Key).image;
+            costUI.GetComponentInChildren<TextMeshProUGUI>().text = cost.Value.ToString();
+
+        }
+    }
+
+    private void UpdateHeaderResources()
+    {
+        if (levelAttemptCosts.ContainsKey("Supplies"))
+        {
+            gemsHeaderResourceUI.SetActive(false);
+            suppliesHeaderResourceUI.SetActive(true);
         }
     }
 }
