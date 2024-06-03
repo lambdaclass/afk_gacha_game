@@ -45,6 +45,12 @@ public class SupercampaignsMapManager : MonoBehaviour
             supercampaignInstance.transform.SetParent(supercampaignContainer.transform, false);
             supercampaignInstance.transform.SetSiblingIndex(0);
         }
+        else if (selectedSuperCampaignName == "Dungeon Campaign")
+        {
+            supercampaignInstance = await addressableInstantiator.InstantiateDungeonSupercampaign();
+            supercampaignInstance.transform.SetParent(supercampaignContainer.transform, false);
+            supercampaignInstance.transform.SetSiblingIndex(0);
+        }
         else
         {
             Debug.LogError("Supercampaign not found: " + selectedSuperCampaignName);
