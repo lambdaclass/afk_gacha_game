@@ -24,6 +24,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     List<Status> statuses;
 
+    [SerializeField]
+    GameObject maxUnitsExceededPopup;
+
     private bool continuePlayback = true;
 
     private const int MAX_ENERGY = 500;
@@ -64,6 +67,13 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (replay) =>
         {
             battleResult = replay;
+        },
+        (reason) =>
+        {
+            if (reason == "max_units_exceeded")
+            {
+                maxUnitsExceededPopup.SetActive(true);
+            }
         }));
 
         yield return new WaitUntil(() => battleResult != null);
