@@ -257,7 +257,7 @@ public class SocketConnection : MonoBehaviour
                     id = level.Id,
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
-                    maxUnits = (int)level.MaxUnits,
+                    maxUnits = (int)level.MaxUnits == 0 ? 6 : (int)level.MaxUnits,
                     units = levelUnits,
                     rewards = GetLevelCurrencyRewards(level),
                     status = levelStatus,
