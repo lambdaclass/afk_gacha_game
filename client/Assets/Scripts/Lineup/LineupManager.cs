@@ -44,10 +44,10 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
         SetUpBattleButtonBehaviour();
         InstantiateLevelAttemptCostsUI();
         UpdateHeaderResources();
-        StartCoroutine(GetUser());
+        StartCoroutine(SetUpUserUnits());
     }
 
-    private IEnumerator GetUser()
+    private IEnumerator SetUpUserUnits()
     {
         yield return new WaitUntil(() => GlobalUserData.Instance != null);
 
@@ -139,12 +139,13 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
     private void SetUpBattleButtonBehaviour()
     {
-        Dictionary<string, int> userCurrencies = GlobalUserData.Instance.User.currencies;
         battleButton.GetComponent<Button>().onClick.AddListener(() =>
         {
+            Dictionary<string, int> userCurrencies = GlobalUserData.Instance.User.currencies;
             bool userCanAffordAttempt = levelAttemptCosts.All(cost => userCurrencies[cost.Key] >= cost.Value);
             if (userCanAffordAttempt)
             {
+                DecrementAttemptCostsInHeader(userCurrencies);
                 sceneNavigator.ChangeToScene("Battle");
             }
             else
@@ -164,16 +165,29 @@ public class LineupManager : MonoBehaviour, IUnitPopulator
 
             costUI.GetComponent<Image>().sprite = GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == cost.Key).image;
             costUI.GetComponentInChildren<TextMeshProUGUI>().text = cost.Value.ToString();
-
         }
     }
 
     private void UpdateHeaderResources()
     {
-        if (levelAttemptCosts.ContainsKey("Supplies"))
+        if (IsDungeonMode())
         {
+            GlobalUserData.Instance.SetCurrencyAmount("Supplies", GlobalUserData.Instance.User.currencies["Supplies"]);
             gemsHeaderResourceUI.SetActive(false);
             suppliesHeaderResourceUI.SetActive(true);
         }
+    }
+
+    private void DecrementAttemptCostsInHeader(Dictionary<string, int> userCurrencies)
+    {
+        if (IsDungeonMode())
+        {
+            GlobalUserData.Instance.SetCurrencyAmount("Supplies", userCurrencies["Supplies"] - levelAttemptCosts["Supplies"]);
+        }
+    }
+
+    private bool IsDungeonMode()
+    {
+        return levelAttemptCosts.ContainsKey("Supplies");
     }
 }
