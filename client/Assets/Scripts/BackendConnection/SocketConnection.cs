@@ -257,11 +257,12 @@ public class SocketConnection : MonoBehaviour
                     id = level.Id,
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
+                    maxUnits = (int)level.MaxUnits == 0 ? 6 : (int)level.MaxUnits,
                     units = levelUnits,
                     rewards = GetLevelCurrencyRewards(level),
-                    status = levelStatus
+                    status = levelStatus,
+                    attempt_costs = level.AttemptCost.ToDictionary(cost => cost.Currency.Name, cost => cost.Amount)
                 });
-
 
                 if (levelStatus == LevelProgress.Status.Unlocked)
                 {
@@ -515,7 +516,7 @@ public class SocketConnection : MonoBehaviour
         SendWebSocketMessage(request);
     }
 
-    private void AwaitBattleResponse(byte[] data, Action<BattleResult> onBattleResultReceived)
+    private void AwaitBattleResponse(byte[] data, Action<BattleResult> onBattleResultReceived, Action<string> onError = null)
     {
         try
         {
@@ -526,6 +527,10 @@ public class SocketConnection : MonoBehaviour
             {
                 onBattleResultReceived?.Invoke(webSocketResponse.BattleResult);
             }
+            else if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error)
+            {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
         }
         catch (Exception e)
         {
@@ -533,7 +538,7 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-    public IEnumerator Battle(string userId, string levelId, Action<BattleResult> onBattleResultReceived)
+    public IEnumerator Battle(string userId, string levelId, Action<BattleResult> onBattleResultReceived, Action<string> onError = null)
     {
         FightLevel fightLevelRequest = new FightLevel
         {
@@ -544,7 +549,7 @@ public class SocketConnection : MonoBehaviour
         {
             FightLevel = fightLevelRequest
         };
-        currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived);
+        currentMessageHandler = (data) => AwaitBattleResponse(data, onBattleResultReceived, onError);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);

@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +23,9 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField]
     List<Status> statuses;
+
+    [SerializeField]
+    GameObject maxUnitsExceededPopup;
 
     private bool continuePlayback = true;
 
@@ -65,6 +67,13 @@ public class BattleManager : MonoBehaviour
         yield return StartCoroutine(SocketConnection.Instance.Battle(GlobalUserData.Instance.User.id, LevelProgress.selectedLevelData.id, (replay) =>
         {
             battleResult = replay;
+        },
+        (reason) =>
+        {
+            if (reason == "max_units_exceeded")
+            {
+                maxUnitsExceededPopup.SetActive(true);
+            }
         }));
 
         yield return new WaitUntil(() => battleResult != null);
