@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UnitDetail : MonoBehaviour
@@ -20,7 +19,10 @@ public class UnitDetail : MonoBehaviour
     GameObject characterNameContainer;
 
     [SerializeField]
-    GameObject insufficientCurrencyPopup;
+    GameObject errorPopUp;
+
+    [SerializeField]
+    TextMeshProUGUI errorPopUpText;
 
     [SerializeField]
     GameObject needToTierUpPopup;
@@ -37,9 +39,6 @@ public class UnitDetail : MonoBehaviour
     [SerializeField]
     AudioSource levelUpSound;
 
-    // true if we're leveling up, false if we're tiering up
-    private bool actionLevelUp;
-
     void Start()
     {
         SetUpEquipment();
@@ -52,23 +51,15 @@ public class UnitDetail : MonoBehaviour
         SocketConnection.Instance.LevelUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
         (unitAndCurrencies) =>
         {
-            foreach (var userCurrency in unitAndCurrencies.UserCurrency)
-            {
-                GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Currency.Name, (int)userCurrency.Amount);
-            }
-            levelUpSound.Play();
-            // Should this be encapsulated somewhere?
-            GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level++;
-            ;
-            unitLevelText.text = $"Level: {selectedUnit.level}";
-            levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
+            UpdateUserCurrenciesAndCosts(unitAndCurrencies);
         },
         (reason) =>
         {
             switch (reason)
             {
                 case "cant_afford":
-                    insufficientCurrencyPopup.SetActive(true);
+                    errorPopUpText.text = "Not enough currency";
+                    errorPopUp.SetActive(true);
                     break;
                 case "cant_level_up":
                     needToTierUpPopup.SetActive(true);
@@ -79,6 +70,33 @@ public class UnitDetail : MonoBehaviour
             }
         });
     }
+
+    public void TierUp()
+    {
+        SocketConnection.Instance.TierUpUnit(GlobalUserData.Instance.User.id, selectedUnit.id,
+        (unitAndCurrencies) =>
+        {
+            UpdateUserCurrenciesAndCosts(unitAndCurrencies);
+        },
+        (reason) =>
+        {
+            switch (reason)
+            {
+                case "cant_afford":
+                    errorPopUpText.text = "Not enough currency";
+                    errorPopUp.SetActive(true);
+                    break;
+                case "cant_tier_up":
+                    errorPopUpText.text = "Need to rank up first";
+                    errorPopUp.SetActive(true);
+                    break;
+                default:
+                    Debug.LogError(reason);
+                    break;
+            }
+        });
+    }
+
 
     // I think both SelectUnit and GetSelectedUnit should be removed and the selectedUnit field be made public
     public static void SelectUnit(Unit unit)
@@ -116,7 +134,7 @@ public class UnitDetail : MonoBehaviour
         // Hardcoded to check for gold
         if (item.GetLevelUpCost() > GlobalUserData.Instance.GetCurrency("Gold"))
         {
-            insufficientCurrencyPopup.SetActive(true);
+            errorPopUp.SetActive(true);
             return;
         }
         SocketConnection.Instance.LevelUpItem(GlobalUserData.Instance.User.id, item.id, (item) =>
@@ -126,7 +144,7 @@ public class UnitDetail : MonoBehaviour
         {
             if (reason == "cant_afford")
             {
-                insufficientCurrencyPopup.SetActive(true);
+                errorPopUp.SetActive(true);
             }
         });
     }
@@ -199,5 +217,18 @@ public class UnitDetail : MonoBehaviour
 
         Unit nextUnit = userUnits[nextIndex];
         SelectUnit(nextUnit);
+    }
+
+    private void UpdateUserCurrenciesAndCosts(Protobuf.Messages.UnitAndCurrencies unitAndCurrencies)
+    {
+        foreach (var userCurrency in unitAndCurrencies.UserCurrency)
+        {
+            GlobalUserData.Instance.SetCurrencyAmount(userCurrency.Currency.Name, (int)userCurrency.Amount);
+        }
+        levelUpSound.Play();
+        GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level = (int)unitAndCurrencies.Unit.Level;
+
+        unitLevelText.text = $"Level: {unitAndCurrencies.Unit.Level}";
+        levelUpGoldCostText.text = ((int)Math.Pow(unitAndCurrencies.Unit.Level, 2)).ToString();
     }
 }

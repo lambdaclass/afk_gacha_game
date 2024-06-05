@@ -643,6 +643,24 @@ public class SocketConnection : MonoBehaviour
         SendWebSocketMessage(request);
     }
 
+    public void TierUpUnit(string userId, string unitId, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError)
+    {
+        TierUpUnit tierUpUnitRequest = new TierUpUnit
+        {
+            UserId = userId,
+            UnitId = unitId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            TierUpUnit = tierUpUnitRequest
+        };
+        currentMessageHandler = (data) => AwaitUnitAndCurrenciesReponse(data, onUnitAndCurrenciesDataReceived, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+
     private void AwaitUnitAndCurrenciesReponse(byte[] data, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError = null)
     {
         try

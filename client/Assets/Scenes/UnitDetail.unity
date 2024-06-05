@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2123,7 +2123,8 @@ MonoBehaviour:
   backgroundImage: {fileID: 653320918}
   selectedCharacterImage: {fileID: 1853082264}
   characterNameContainer: {fileID: 742182412}
-  insufficientCurrencyPopup: {fileID: 1380309362}
+  errorPopUp: {fileID: 1380309362}
+  errorPopUpText: {fileID: 655376734}
   needToTierUpPopup: {fileID: 1680039526}
   equipmentSlots:
   - {fileID: 247723784}
@@ -4015,7 +4016,7 @@ GameObject:
   - component: {fileID: 951611636}
   - component: {fileID: 951611635}
   m_Layer: 0
-  m_Name: ErrorMessage
+  m_Name: Message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5042,7 +5043,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 133597137547516579, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_Name
-      value: InsufficientCurrencyPopup
+      value: ErrorPopup
       objectReference: {fileID: 0}
     - target: {fileID: 133597137547516579, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_IsActive
@@ -5178,7 +5179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6992527488023465669, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_text
-      value: buy more
+      value: continue
       objectReference: {fileID: 0}
     - target: {fileID: 8504881325326043790, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6505,7 +6506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1034708200250406556, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_text
-      value: Error
+      value: Tier Up
       objectReference: {fileID: 0}
     - target: {fileID: 1374520013353734708, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6518,6 +6519,34 @@ PrefabInstance:
     - target: {fileID: 1374520013353734708, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_SizeDelta.x
       value: 328.34338
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 625935470}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: TierUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnitDetail, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1419227374130472490, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1820677119451765637, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6535,9 +6564,41 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 328.34338
       objectReference: {fileID: 0}
+    - target: {fileID: 3365691818372835219, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Name
+      value: CloseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4304672702860395076, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.b
+      value: 0.38039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 4304672702860395076, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.g
+      value: 0.43529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 4304672702860395076, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.r
+      value: 0.078431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344732989564027012, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344732989564027012, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.b
+      value: 0.38431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344732989564027012, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.g
+      value: 0.43529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344732989564027012, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
+      propertyPath: m_Color.r
+      value: 0.078431375
+      objectReference: {fileID: 0}
     - target: {fileID: 6992527488023465669, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_text
-      value: Ok
+      value: Tier Up
       objectReference: {fileID: 0}
     - target: {fileID: 8504881325326043790, guid: 376fe761576f5457bb52f16e42ab2860, type: 3}
       propertyPath: m_AnchorMax.y
