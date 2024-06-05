@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2232,6 +2232,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
+--- !u!1 &1279880158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8811879872254460255, guid: b00fb03a1acae45d3aefc817547b517c, type: 3}
+  m_PrefabInstance: {fileID: 1279880157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1328482319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,8 +2407,7 @@ MonoBehaviour:
   dungeonSettlementLevel: {fileID: 1874272259}
   confirmPopUp: {fileID: 514234978}
   insufficientCurrencyPopup: {fileID: 1915293362}
-  afkRewardDetailUI: {fileID: 0}
-  afkRewardsContainer: {fileID: 0}
+  levelUpButton: {fileID: 1279880158}
 --- !u!4 &1404834016
 Transform:
   m_ObjectHideFlags: 0

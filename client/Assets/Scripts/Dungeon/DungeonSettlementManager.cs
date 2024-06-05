@@ -11,17 +11,13 @@ public class DungeonSettlementManager : MonoBehaviour
     [SerializeField] TMP_Text dungeonSettlementLevel;
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
-    [SerializeField] GameObject afkRewardDetailUI;
-    [SerializeField] GameObject afkRewardsContainer;
+    [SerializeField] GameObject levelUpButton;
     private const int SECONDS_IN_DAY = 86400;
 
     void Start()
     {
         GlobalUserData user = GlobalUserData.Instance;
-        goldLevelUpCost.text = user.User.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Gold").amount.ToString();
-        blueprintsLevelUpCost.text = user.User.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Blueprints").amount.ToString();
-        dungeonSettlementLevel.text = $"Level {user.User.dungeonSettlementLevel.level}";
-        SetAfkRewardRatesTexts(user.User);
+        SetSceneTexts(user.User);
     }
 
     public void LevelUpDungeonSettlement()
@@ -44,8 +40,7 @@ public class DungeonSettlementManager : MonoBehaviour
                 {
                     userToUpdate.User.dungeonSettlementLevel.afkRewardRates.Add(afkRewardRate);
                 });
-                UpdateRatesAndLevelUpCosts(userReceived);
-                dungeonSettlementLevel.text = $"Level {userReceived.dungeonSettlementLevel.level}";
+                SetSceneTexts(userReceived);
             },
             (reason) =>
             {
@@ -57,10 +52,21 @@ public class DungeonSettlementManager : MonoBehaviour
         );
     }
 
-    public void UpdateRatesAndLevelUpCosts(User user)
+    private void SetSceneTexts(User user)
     {
-        goldLevelUpCost.text = user.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Gold").amount.ToString();
-        blueprintsLevelUpCost.text = user.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Blueprints").amount.ToString();
+
+        if (user.dungeonSettlementLevel.levelUpCosts.Any())
+        {
+            goldLevelUpCost.text = user.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Gold").amount.ToString();
+            blueprintsLevelUpCost.text = user.dungeonSettlementLevel.levelUpCosts.Single(cost => cost.currency.name == "Blueprints").amount.ToString();
+        }
+        else
+        {
+            levelUpButton.SetActive(false);
+            goldLevelUpCost.transform.parent.gameObject.SetActive(false);
+            blueprintsLevelUpCost.transform.parent.gameObject.SetActive(false);
+        }
+        dungeonSettlementLevel.text = $"Level {user.dungeonSettlementLevel.level}";
         SetAfkRewardRatesTexts(user);
     }
 
