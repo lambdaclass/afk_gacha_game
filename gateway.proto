@@ -194,7 +194,7 @@ option csharp_namespace = "Protobuf.Messages";
   message AfkRewardRate {
     string kaline_tree_level_id = 1;
     Currency currency = 2;
-    float rate = 3;
+    float daily_rate = 3;
   }
 
   message UserCurrency {

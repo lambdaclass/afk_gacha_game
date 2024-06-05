@@ -191,7 +191,7 @@ public class SocketConnection : MonoBehaviour
         {
             kalineTreeLevelId = afkRewardRateData.KalineTreeLevelId,
             currency = afkRewardRateData.Currency.Name,
-            rate = afkRewardRateData.Rate
+            daily_rate = afkRewardRateData.daily_rate
         };
     }
 
