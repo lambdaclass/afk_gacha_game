@@ -7,6 +7,7 @@ public class LevelData
     public string id;
     public int levelNumber;
     public string campaignId;
+    public int maxUnits;
     public List<Unit> units;
 
     public Dictionary<string, int> rewards = new Dictionary<string, int>();
