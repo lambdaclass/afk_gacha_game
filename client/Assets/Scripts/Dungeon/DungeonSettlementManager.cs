@@ -85,8 +85,8 @@ public class DungeonSettlementManager : MonoBehaviour
         }
     }
 
-    private string GetAfkRewardRateText(float rate)
+    private string GetAfkRewardRateText(float daily_rate)
     {
-        return $"{rate * SECONDS_IN_DAY}/day";
+        return $"{daily_rate}/day";
     }
 }
