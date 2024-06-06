@@ -40,6 +40,12 @@ public class UnitDetail : MonoBehaviour
     TMP_Text levelUpGoldCostText;
 
     [SerializeField]
+    TMP_Text tierUpGemsCostText;
+
+    [SerializeField]
+    TMP_Text tierUpGoldCostText;
+
+    [SerializeField]
     AudioSource levelUpSound;
 
     void Start()
@@ -65,6 +71,8 @@ public class UnitDetail : MonoBehaviour
                     errorPopUp.SetActive(true);
                     break;
                 case "cant_level_up":
+                    tierUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
+                    tierUpGemsCostText.text = "50";
                     needToTierUpPopup.SetActive(true);
                     break;
                 default:
