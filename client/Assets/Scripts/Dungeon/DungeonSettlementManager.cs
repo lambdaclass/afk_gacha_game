@@ -76,7 +76,7 @@ public class DungeonSettlementManager : MonoBehaviour
         {
             if (afkRewardRate.currency == "Supplies")
             {
-                suppliesAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                suppliesAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.daily_rate);
             }
             else
             {
