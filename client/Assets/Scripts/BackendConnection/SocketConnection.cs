@@ -161,6 +161,16 @@ public class SocketConnection : MonoBehaviour
             afkRewardRates = user.KalineTreeLevel.AfkRewardRates.Select(afkRewardRate => CreateAfkRewardRateFromData(afkRewardRate)).ToList()
         };
 
+        DungeonSettlementLevel dungeonSettlementLevel = new DungeonSettlementLevel
+        {
+            level = (int)user.DungeonSettlementLevel.Level,
+            levelUpCosts = user.DungeonSettlementLevel.LevelUpCosts.Select(cost => new CurrencyCost { currency = new Currency { name = cost.Currency.Name }, amount = (int)cost.Amount }).ToList(),
+            maxDungeon = (int)user.DungeonSettlementLevel.MaxDungeon,
+            maxFactional = (int)user.DungeonSettlementLevel.MaxFactional,
+            supplyLimit = (int)user.DungeonSettlementLevel.SupplyLimit,
+            afkRewardRates = user.DungeonSettlementLevel.AfkRewardRates.Select(afkRewardRate => CreateAfkRewardRateFromData(afkRewardRate)).ToList()
+        };
+
         return new User
         {
             id = user.Id,
@@ -170,7 +180,8 @@ public class SocketConnection : MonoBehaviour
             currencies = currencies,
             level = (int)user.Level,
             experience = (int)user.Experience,
-            kalineTreeLevel = kalineTreeLevel
+            kalineTreeLevel = kalineTreeLevel,
+            dungeonSettlementLevel = dungeonSettlementLevel
         };
     }
     private Item CreateItemFromData(Protobuf.Messages.Item itemData)
@@ -938,4 +949,45 @@ public class SocketConnection : MonoBehaviour
             Debug.LogError(e.Message);
         }
     }
+
+    public void LevelUpDungeonSettlement(string userId, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        LevelUpDungeonSettlement levelUpDungeonSettlement = new LevelUpDungeonSettlement
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            LevelUpDungeonSettlement = levelUpDungeonSettlement
+        };
+        currentMessageHandler = (data) => AwaitLevelUpDungeonSettlementResponse(data, onLeveledUpUserReceived, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitLevelUpDungeonSettlementResponse(byte[] data, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.User)
+            {
+                User user = CreateUserFromData(webSocketResponse.User, GlobalUserData.Instance.AvailableCharacters);
+                onLeveledUpUserReceived?.Invoke(user);
+                GlobalUserData.Instance.User.dungeonSettlementLevel = user.dungeonSettlementLevel;
+            }
+            else if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Error)
+            {
+                onError?.Invoke(webSocketResponse.Error.Reason);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
 }

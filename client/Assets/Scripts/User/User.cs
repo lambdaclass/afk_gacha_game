@@ -17,6 +17,7 @@ public class User
     public Dictionary<string, int> currencies;
 
     public KalineTreeLevel kalineTreeLevel;
+    public DungeonSettlementLevel dungeonSettlementLevel;
 
     public int level = 1;
 
