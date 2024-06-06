@@ -34,6 +34,9 @@ public class UnitDetail : MonoBehaviour
     TMP_Text unitLevelText;
 
     [SerializeField]
+    TMP_Text unitTierText;
+
+    [SerializeField]
     TMP_Text levelUpGoldCostText;
 
     [SerializeField]
@@ -186,6 +189,7 @@ public class UnitDetail : MonoBehaviour
         characterNameContainer.GetComponentInChildren<TextMeshProUGUI>().text = selectedUnit.character.name;
         characterNameContainer.SetActive(true);
         unitLevelText.text = $"Level: {selectedUnit.level}";
+        unitTierText.text = $"Tier: {selectedUnit.tier}";
         levelUpGoldCostText.text = ((int)Math.Pow(selectedUnit.level, 2)).ToString();
     }
 
@@ -229,6 +233,7 @@ public class UnitDetail : MonoBehaviour
         GlobalUserData.Instance.User.units.Find(unit => unit.id == unitAndCurrencies.Unit.Id).level = (int)unitAndCurrencies.Unit.Level;
 
         unitLevelText.text = $"Level: {unitAndCurrencies.Unit.Level}";
+        unitTierText.text = $"Tier: {unitAndCurrencies.Unit.Tier}";
         levelUpGoldCostText.text = ((int)Math.Pow(unitAndCurrencies.Unit.Level, 2)).ToString();
     }
 }

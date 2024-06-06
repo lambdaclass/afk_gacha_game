@@ -221,6 +221,7 @@ public class SocketConnection : MonoBehaviour
             character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
             rank = (Rank)unitData.Rank,
             level = (int)unitData.Level,
+            tier = (int)unitData.Tier,
             slot = (int?)unitData.Slot,
             selected = unitData.Selected
         };
