@@ -17,6 +17,8 @@ public class KalineTreeManager : MonoBehaviour
     [SerializeField] GameObject afkRewardDetailUI;
     [SerializeField] GameObject afkRewardsContainer;
 
+    private const int MINUTES_IN_DAY = 1440;
+
     void Start()
     {
         GlobalUserData user = GlobalUserData.Instance;
@@ -40,7 +42,7 @@ public class KalineTreeManager : MonoBehaviour
             {
                 GameObject afkRewardGO = Instantiate(afkRewardDetailUI, afkRewardsContainer.transform);
                 AfkRewardDetail afkRewardDetail = afkRewardGO.GetComponent<AfkRewardDetail>();
-                afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).daily_rate * 60}/m)");
+                afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).daily_rate / (MINUTES_IN_DAY)}/m)");
             }
 
             confirmPopUp.SetActive(true);
