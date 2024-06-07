@@ -16,7 +16,6 @@ public class KalineTreeManager : MonoBehaviour
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] GameObject afkRewardDetailUI;
     [SerializeField] GameObject afkRewardsContainer;
-    private const int SECONDS_IN_DAY = 86400;
 
     void Start()
     {
@@ -132,6 +131,6 @@ public class KalineTreeManager : MonoBehaviour
 
     private string GetAfkRewardRateText(float daily_rate)
     {
-        return $"{daily_rate * SECONDS_IN_DAY}/day";
+        return $"{daily_rate}/day";
     }
 }

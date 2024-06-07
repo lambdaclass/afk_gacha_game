@@ -12,7 +12,6 @@ public class DungeonSettlementManager : MonoBehaviour
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] GameObject levelUpButton;
-    private const int SECONDS_IN_DAY = 86400;
 
     void Start()
     {
