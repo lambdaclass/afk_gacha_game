@@ -221,6 +221,7 @@ public class SocketConnection : MonoBehaviour
             character = availableCharacters.Find(character => character.name.ToLower() == unitData.Character.Name.ToLower()),
             rank = (Rank)unitData.Rank,
             level = (int)unitData.Level,
+            tier = (int)unitData.Tier,
             slot = (int?)unitData.Slot,
             selected = unitData.Selected
         };
@@ -658,6 +659,24 @@ public class SocketConnection : MonoBehaviour
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
+
+    public void TierUpUnit(string userId, string unitId, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError)
+    {
+        TierUpUnit tierUpUnitRequest = new TierUpUnit
+        {
+            UserId = userId,
+            UnitId = unitId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            TierUpUnit = tierUpUnitRequest
+        };
+        currentMessageHandler = (data) => AwaitUnitAndCurrenciesReponse(data, onUnitAndCurrenciesDataReceived, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
 
     private void AwaitUnitAndCurrenciesReponse(byte[] data, Action<Protobuf.Messages.UnitAndCurrencies> onUnitAndCurrenciesDataReceived, Action<string> onError = null)
     {
