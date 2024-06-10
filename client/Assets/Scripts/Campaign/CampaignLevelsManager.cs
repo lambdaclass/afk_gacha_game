@@ -18,6 +18,8 @@ public class CampaignLevelsManager : MonoBehaviour
 
     public void AssignLevelsData(List<LevelData> levelsData, SceneNavigator sceneNavigator)
     {
+        Debug.Log(levelsData.Count);
+        Debug.Log(levelIndicators.Count);
         // The campaign prefabs need to match the number of levels with the levels brought with the backend, if not this will break.
         if (levelsData.Count != levelIndicators.Count)
         {
