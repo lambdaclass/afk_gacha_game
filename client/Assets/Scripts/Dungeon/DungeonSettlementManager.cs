@@ -9,9 +9,11 @@ public class DungeonSettlementManager : MonoBehaviour
     [SerializeField] TMP_Text blueprintsLevelUpCost;
     [SerializeField] TMP_Text suppliesAfkRewardRate;
     [SerializeField] TMP_Text dungeonSettlementLevel;
-    [SerializeField] GameObject confirmPopUp;
+    [SerializeField] GameObject afkRewardsPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] GameObject levelUpButton;
+    [SerializeField] GameObject afkRewardDetailUI;
+    [SerializeField] GameObject afkRewardsContainer;
 
     void Start()
     {
@@ -82,6 +84,49 @@ public class DungeonSettlementManager : MonoBehaviour
                 Debug.LogError($"Unhandled currency: {afkRewardRate.currency}");
             }
         }
+    }
+
+    public void ShowRewards()
+    {
+        GlobalUserData user = GlobalUserData.Instance;
+        SocketConnection.Instance.GetDungeonAfkRewards(user.User.id, (afkRewards) =>
+        {
+            Debug.Log(afkRewards.Count);
+            foreach (Transform child in afkRewardsContainer.transform)
+            {
+                Debug.Log("Destroying child");
+                Destroy(child.gameObject);
+            }
+
+            foreach (var afkReward in afkRewards.Where(reward => user.User.dungeonSettlementLevel.afkRewardRates.Any(rewardRate => rewardRate.daily_rate > 0 && rewardRate.currency == reward.currency)))
+            {
+                Debug.Log("Instantiating afk reward");
+                GameObject afkRewardGO = Instantiate(afkRewardDetailUI, afkRewardsContainer.transform);
+                AfkRewardDetail afkRewardDetail = afkRewardGO.GetComponent<AfkRewardDetail>();
+                afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.dungeonSettlementLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).daily_rate}/day)");
+            }
+
+            afkRewardsPopUp.SetActive(true);
+        });
+    }
+
+    public void ClaimRewards()
+    {
+        SocketConnection.Instance.ClaimDungeonAfkRewards(GlobalUserData.Instance.User.id, (userReceived) =>
+        {
+            GlobalUserData userToUpdate = GlobalUserData.Instance;
+            Dictionary<string, int> currenciesToAdd = new Dictionary<string, int>();
+
+            userReceived.currencies.Select(c => c.Key).ToList().ForEach(c =>
+            {
+                if (!currenciesToAdd.ContainsKey(c))
+                {
+                    currenciesToAdd.Add(c, userReceived.currencies[c] - userToUpdate.GetCurrency(c).Value);
+                }
+            });
+            userToUpdate.AddCurrencies(currenciesToAdd);
+        });
+        afkRewardsPopUp.SetActive(false);
     }
 
     private string GetAfkRewardRateText(float daily_rate)
