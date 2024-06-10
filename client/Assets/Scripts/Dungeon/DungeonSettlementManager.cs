@@ -91,16 +91,13 @@ public class DungeonSettlementManager : MonoBehaviour
         GlobalUserData user = GlobalUserData.Instance;
         SocketConnection.Instance.GetDungeonAfkRewards(user.User.id, (afkRewards) =>
         {
-            Debug.Log(afkRewards.Count);
             foreach (Transform child in afkRewardsContainer.transform)
             {
-                Debug.Log("Destroying child");
                 Destroy(child.gameObject);
             }
 
             foreach (var afkReward in afkRewards.Where(reward => user.User.dungeonSettlementLevel.afkRewardRates.Any(rewardRate => rewardRate.daily_rate > 0 && rewardRate.currency == reward.currency)))
             {
-                Debug.Log("Instantiating afk reward");
                 GameObject afkRewardGO = Instantiate(afkRewardDetailUI, afkRewardsContainer.transform);
                 AfkRewardDetail afkRewardDetail = afkRewardGO.GetComponent<AfkRewardDetail>();
                 afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.dungeonSettlementLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).daily_rate}/day)");
