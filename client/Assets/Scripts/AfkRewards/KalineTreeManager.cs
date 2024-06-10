@@ -16,7 +16,8 @@ public class KalineTreeManager : MonoBehaviour
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] GameObject afkRewardDetailUI;
     [SerializeField] GameObject afkRewardsContainer;
-    private const int SECONDS_IN_DAY = 86400;
+
+    private const int MINUTES_IN_DAY = 1440;
 
     void Start()
     {
@@ -37,11 +38,11 @@ public class KalineTreeManager : MonoBehaviour
                 Destroy(child.gameObject);
             }
 
-            foreach (var afkReward in afkRewards.Where(reward => user.User.kalineTreeLevel.afkRewardRates.Any(rewardRate => rewardRate.rate > 0 && rewardRate.currency == reward.currency)))
+            foreach (var afkReward in afkRewards.Where(reward => user.User.kalineTreeLevel.afkRewardRates.Any(rewardRate => rewardRate.daily_rate > 0 && rewardRate.currency == reward.currency)))
             {
                 GameObject afkRewardGO = Instantiate(afkRewardDetailUI, afkRewardsContainer.transform);
                 AfkRewardDetail afkRewardDetail = afkRewardGO.GetComponent<AfkRewardDetail>();
-                afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).rate * 60}/m)");
+                afkRewardDetail.SetData(GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == afkReward.currency).image, $"{afkReward.amount} ({user.User.kalineTreeLevel.afkRewardRates.Single(arr => arr.currency == afkReward.currency).daily_rate / (MINUTES_IN_DAY)}/m)");
             }
 
             confirmPopUp.SetActive(true);
@@ -115,23 +116,23 @@ public class KalineTreeManager : MonoBehaviour
             switch (afkRewardRate.currency)
             {
                 case "Gold":
-                    goldAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    goldAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.daily_rate);
                     break;
                 case "Hero Souls":
-                    heroSoulsAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    heroSoulsAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.daily_rate);
                     break;
                 case "Experience":
-                    experienceAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    experienceAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.daily_rate);
                     break;
                 case "Arcane Crystals":
-                    arcaneCrystalsAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                    arcaneCrystalsAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.daily_rate);
                     break;
             }
         }
     }
 
-    private string GetAfkRewardRateText(float rate)
+    private string GetAfkRewardRateText(float daily_rate)
     {
-        return $"{rate * SECONDS_IN_DAY}/day";
+        return $"{daily_rate}/day";
     }
 }

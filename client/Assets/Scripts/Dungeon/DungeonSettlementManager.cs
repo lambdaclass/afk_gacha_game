@@ -12,7 +12,6 @@ public class DungeonSettlementManager : MonoBehaviour
     [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] GameObject levelUpButton;
-    private const int SECONDS_IN_DAY = 86400;
 
     void Start()
     {
@@ -76,7 +75,7 @@ public class DungeonSettlementManager : MonoBehaviour
         {
             if (afkRewardRate.currency == "Supplies")
             {
-                suppliesAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.rate);
+                suppliesAfkRewardRate.text = GetAfkRewardRateText(afkRewardRate.daily_rate);
             }
             else
             {
@@ -85,8 +84,8 @@ public class DungeonSettlementManager : MonoBehaviour
         }
     }
 
-    private string GetAfkRewardRateText(float rate)
+    private string GetAfkRewardRateText(float daily_rate)
     {
-        return $"{rate * SECONDS_IN_DAY}/day";
+        return $"{daily_rate}/day";
     }
 }
