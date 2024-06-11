@@ -12,7 +12,7 @@ public class LevelData
 
     public Dictionary<string, int> rewards = new Dictionary<string, int>();
 
-    // AFK Rewards rate granted
+    // AFK Rewards daily_rate granted
     // These are how many a player makes in the maximum timespan available (12h now)
     public Dictionary<Currency, int> afkCurrencyRate = new Dictionary<Currency, int>();
 
