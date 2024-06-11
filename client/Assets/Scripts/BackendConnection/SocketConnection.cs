@@ -26,13 +26,19 @@ public class SocketConnection : MonoBehaviour
 
     public void Init()
     {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        if (!connected)
+        if (Instance == null)
         {
-            connected = true;
-            ConnectToSession();
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            if (!connected)
+            {
+                ConnectToSession();
+            }
+        }
+        else
+        {
+            // Destroy this instance if another one already exists
+            Destroy(gameObject);
         }
     }
 
@@ -51,8 +57,9 @@ public class SocketConnection : MonoBehaviour
         await this.CloseConnection();
     }
 
-    private void ConnectToSession()
+    public void ConnectToSession()
     {
+        Debug.Log("SocketConnection ConnectToSession");
         string url = $"{ServerSelect.Domain}/2";
         ws = new WebSocket(url);
         ws.OnMessage += OnWebSocketMessage;
@@ -66,6 +73,7 @@ public class SocketConnection : MonoBehaviour
             Debug.LogError("Received error: " + e);
         };
         ws.Connect();
+        connected = true;
     }
 
     private void OnWebsocketClose(WebSocketCloseCode closeCode)
