@@ -212,8 +212,6 @@ public class BattleManager : MonoBehaviour
             }
             GlobalUserData user = GlobalUserData.Instance;
             user.AddCurrencies(GetLevelRewards());
-            user.User.afkMaxCurrencyReward = LevelProgress.selectedLevelData.afkCurrencyRate;
-            user.User.afkMaxExperienceReward = LevelProgress.selectedLevelData.afkExperienceRate;
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
@@ -307,7 +305,7 @@ public class BattleManager : MonoBehaviour
 
     private Dictionary<string, int> GetLevelRewards()
     {
-        Dictionary<string, int> rewards = LevelProgress.selectedLevelData.rewards;
+        Dictionary<string, int> rewards = LevelProgress.selectedLevelData.currencyRewards;
         if (LevelProgress.selectedLevelData.experienceReward > 0)
         {
             rewards.Add("Experience", LevelProgress.selectedLevelData.experienceReward);
@@ -337,13 +335,24 @@ public class BattleManager : MonoBehaviour
     {
         List<UIReward> rewards = new List<UIReward>();
 
-        foreach (var currencyReward in LevelProgress.selectedLevelData.rewards)
+        foreach (var currencyReward in LevelProgress.selectedLevelData.currencyRewards)
         {
             if (currencyReward.Value > 0)
             {
                 rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
             }
         }
+
+        foreach (var unitReward in LevelProgress.selectedLevelData.unitRewards)
+        {
+            rewards.Add(new UnitUIReward(unitReward));
+        }
+
+        foreach (var itemReward in LevelProgress.selectedLevelData.itemRewards)
+        {
+            rewards.Add(new ItemUIReward(itemReward));
+        }
+
         return rewards;
     }
 

@@ -270,7 +270,17 @@ public class SocketConnection : MonoBehaviour
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
-                    rewards = GetLevelCurrencyRewards(level),
+                    currencyRewards = GetLevelCurrencyRewards(level),
+                    itemRewards = level.ItemRewards.Select(itemReward => new ItemReward
+                    {
+                        itemTemplate = GlobalUserData.Instance.AvailableItemTemplates.Find(itemTemplate => itemTemplate.name.ToLower() == itemReward.ItemTemplateName.ToLower()),
+                        level = (int)itemReward.Level
+                    }).ToList(),
+                    unitRewards = level.UnitRewards.Select(unitReward => new UnitReward
+                    {
+                        character = availableCharacters.Find(character => character.name.ToLower() == unitReward.CharacterName.ToLower()),
+                        rank = (int)unitReward.Rank
+                    }).ToList(),
                     status = levelStatus
                 });
 

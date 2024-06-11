@@ -5,7 +5,14 @@ public abstract class UIReward
 {
     public Sprite Sprite()
     {
-        return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
+        return RewardType() switch
+        {
+            "experience" => GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == "experience").image,
+            "item" => ((ItemUIReward)this).itemReward.itemTemplate.icon,
+            "unit" => ((UnitUIReward)this).unitReward.character.defaultSprite,
+            // If it's not any of the other 3, then it's a Currency
+            _ => GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image
+        };
     }
 
     public abstract int Amount();
@@ -42,8 +49,29 @@ public class ExperienceUIReward : UIReward
     public override string RewardType() { return "experience"; }
 }
 
-//// When we implement item rewards:
-// public class ItemUIReward : UIReward {
-//     public Item item;
-//     public int amount;
-// }
+public class ItemUIReward : UIReward
+{
+    public ItemReward itemReward;
+
+    public ItemUIReward(ItemReward itemReward)
+    {
+        this.itemReward = itemReward;
+    }
+
+    public override int Amount() { return 1; }
+
+    public override string RewardType() { return "item"; }
+}
+
+public class UnitUIReward : UIReward
+{
+    public UnitReward unitReward;
+    public UnitUIReward(UnitReward unitReward)
+    {
+        this.unitReward = unitReward;
+    }
+
+    public override int Amount() { return 1; }
+
+    public override string RewardType() { return "unit"; }
+}
