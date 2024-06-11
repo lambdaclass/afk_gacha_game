@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3710032, g: 0.3785125, b: 0.35738343, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1253,7 +1253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 369244518475764641, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
       propertyPath: m_Name
-      value: helmet
+      value: amulet
       objectReference: {fileID: 0}
     - target: {fileID: 4870484125647559004, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
       propertyPath: m_IsActive
@@ -1281,7 +1281,7 @@ PrefabInstance:
       objectReference: {fileID: 235683619}
     - target: {fileID: 7427165014804456999, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
       propertyPath: equipmentType
-      value: helmet
+      value: amulet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf431a15a4f3541f490bee16365a1889, type: 3}
