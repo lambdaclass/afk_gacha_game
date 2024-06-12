@@ -33,4 +33,5 @@ public class User
     public int afkMaxExperienceReward = 0;
 
     public List<(string superCampaignName, string campaignId, string levelId)> supercampaignsProgresses = new List<(string, string, string)>();
+    public List<Upgrade> upgrades = new List<Upgrade>();
 }

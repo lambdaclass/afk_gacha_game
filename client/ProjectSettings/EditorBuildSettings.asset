@@ -47,5 +47,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DungeonSettlement.unity
     guid: ec3613bc4d83e4110bb38b230767a14b
+  - enabled: 1
+    path: Assets/Scenes/DungeonUpgrades.unity
+    guid: 000214765e7bd4312bde641073c4e808
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4d0117ccfbc634cf1bf81488eeabd16f, type: 2}
