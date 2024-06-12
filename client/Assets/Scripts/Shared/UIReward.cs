@@ -5,33 +5,38 @@ public abstract class UIReward
 {
     public Sprite Sprite()
     {
-        return GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == RewardType()).image;
+        return RewardType() switch
+        {
+            "experience" => GlobalUserData.Instance.AvailableCurrencies.Single(currency => currency.name == "Experience").image,
+            "item" => ((ItemUIReward)this).itemReward.itemTemplate.icon,
+            "unit" => ((UnitUIReward)this).unitReward.character.defaultSprite,
+            "currency" => ((CurrencyUIReward)this).currencyReward.currency.image,
+            _ => throw new System.Exception("Reward type " + RewardType() + " not recognized")
+        };
     }
 
     public abstract int Amount();
-
     public abstract string RewardType();
+    public abstract string GetName();
 }
 
 public class CurrencyUIReward : UIReward
 {
-    private string currency;
-    private int amount;
+    public CurrencyReward currencyReward;
 
-    public CurrencyUIReward(string currency, int amount)
+    public CurrencyUIReward(CurrencyReward currencyReward)
     {
-        this.currency = currency;
-        this.amount = amount;
+        this.currencyReward = currencyReward;
     }
 
-    public override int Amount() { return amount; }
-
-    public override string RewardType() { return currency; }
+    public override int Amount() { return currencyReward.amount; }
+    public override string RewardType() { return "currency"; }
+    public override string GetName() { return currencyReward.currency.name; }
 }
 
 public class ExperienceUIReward : UIReward
 {
-    private int value;
+    private readonly int value;
 
     public ExperienceUIReward(int amount)
     {
@@ -40,10 +45,32 @@ public class ExperienceUIReward : UIReward
 
     public override int Amount() { return value; }
     public override string RewardType() { return "experience"; }
+    public override string GetName() { return "Experience"; }
 }
 
-//// When we implement item rewards:
-// public class ItemUIReward : UIReward {
-//     public Item item;
-//     public int amount;
-// }
+public class ItemUIReward : UIReward
+{
+    public ItemReward itemReward;
+
+    public ItemUIReward(ItemReward itemReward)
+    {
+        this.itemReward = itemReward;
+    }
+
+    public override int Amount() { return itemReward.amount; }
+    public override string RewardType() { return "item"; }
+    public override string GetName() { return itemReward.itemTemplate.name; }
+}
+
+public class UnitUIReward : UIReward
+{
+    public UnitReward unitReward;
+    public UnitUIReward(UnitReward unitReward)
+    {
+        this.unitReward = unitReward;
+    }
+
+    public override int Amount() { return unitReward.amount; }
+    public override string RewardType() { return "unit"; }
+    public override string GetName() { return unitReward.character.name; }
+}

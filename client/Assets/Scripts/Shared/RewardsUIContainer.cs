@@ -18,7 +18,7 @@ public class RewardsUIContainer : MonoBehaviour
             GameObject rewardUIItem = Instantiate(rewardItemUIPrefab, gameObject.transform);
             rewardUIItem.GetComponent<Image>().sprite = reward.Sprite();
             rewardUIItem.GetComponentInChildren<TMP_Text>().text = reward.Amount().ToString();
-            rewardUIItemDictionary.Add(reward.RewardType(), rewardUIItem);
+            rewardUIItemDictionary.Add(reward.GetName(), rewardUIItem);
         });
         gameObject.SetActive(true);
     }
