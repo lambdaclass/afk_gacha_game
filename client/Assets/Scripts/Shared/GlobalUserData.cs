@@ -66,6 +66,11 @@ public class GlobalUserData : MonoBehaviour
         get { return user.units.FindAll(unit => unit.selected); }
     }
 
+    public List<Upgrade> AvailableUpgrades
+    {
+        get { return user.upgrades; }
+    }
+
     public UnityEvent OnChangeUser = new UnityEvent();
     public UnityEvent OnCurrencyModified = new UnityEvent();
     public UnityEvent OnLevelModified = new UnityEvent();

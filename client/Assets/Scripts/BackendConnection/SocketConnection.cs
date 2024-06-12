@@ -1004,4 +1004,41 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-}
+    public void GetDungeonUpgrades(string userId, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        GetDungeonUpgrades getDungeonUpgrades = new GetDungeonUpgrades
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            GetDungeonUpgrades = getDungeonUpgrades
+        };
+        currentMessageHandler = (data) => AwaitGetDungeonUpgradesResponse(data, onLeveledUpUserReceived, onError);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    private void AwaitGetDungeonUpgradesResponse(byte[] data, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    {
+        try
+        {
+            ws.OnMessage -= currentMessageHandler;
+            ws.OnMessage += OnWebSocketMessage;
+            WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
+            if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Upgrades)
+            {
+                GlobalUserData.Instance.AvailableUpgrades = webSocketResponse.Upgrades.Upgrades_.Select(upgrade => new Upgrade
+                {
+                    id = upgrade.Id,
+                    name = upgrade.Name,
+                    description = upgrade.Description,
+                    cost = upgrade.Cost.ToDictionary(cost => cost.Currency.Name, cost => (int)cost.Amount),
+                    level = (int)upgrade.Level,
+                    maxLevel = (int)upgrade.MaxLevel,
+                    type = upgrade.Type,
+                    value = upgrade.Value
+                }).ToList();
+
+            }
