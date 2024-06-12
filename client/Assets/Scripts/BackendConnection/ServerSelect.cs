@@ -25,8 +25,8 @@ public class ServerSelect : MonoBehaviour
         if (string.IsNullOrEmpty(ServerSelect.Name) || string.IsNullOrEmpty(ServerSelect.Domain))
         {
 #if UNITY_EDITOR
-				ServerSelect.Name = "LOCALHOST";
-				ServerSelect.Domain = servers["LOCALHOST"];
+            ServerSelect.Name = "LOCALHOST";
+            ServerSelect.Domain = servers["LOCALHOST"];
 #else
             ServerSelect.Name = "EUROPE";
             ServerSelect.Domain = servers["EUROPE"];
@@ -41,7 +41,7 @@ public class ServerSelect : MonoBehaviour
         ServerSelect.Domain = servers[domainName];
         serverButtonText.text = ServerSelect.Name;
         await SocketConnection.Instance.CloseConnection();
-        SocketConnection.Instance.Init();
+        SocketConnection.Instance.ConnectToSession();
     }
 
     public async void SelectCustomServer()
@@ -49,6 +49,6 @@ public class ServerSelect : MonoBehaviour
         ServerSelect.Name = "CUSTOM";
         ServerSelect.Domain = customServerDomain.text;
         await SocketConnection.Instance.CloseConnection();
-        SocketConnection.Instance.Init();
+        SocketConnection.Instance.ConnectToSession();
     }
 }
