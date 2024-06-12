@@ -31,7 +31,7 @@ public class KalineTreeManager : MonoBehaviour
     public void ShowRewards()
     {
         GlobalUserData user = GlobalUserData.Instance;
-        SocketConnection.Instance.GetAfkRewards(user.User.id, (afkRewards) =>
+        SocketConnection.Instance.GetKalineAfkRewards(user.User.id, (afkRewards) =>
         {
             foreach (Transform child in afkRewardsContainer.transform)
             {
@@ -51,7 +51,7 @@ public class KalineTreeManager : MonoBehaviour
 
     public void ClaimRewards()
     {
-        SocketConnection.Instance.ClaimAfkRewards(GlobalUserData.Instance.User.id, (userReceived) =>
+        SocketConnection.Instance.ClaimKalineAfkRewards(GlobalUserData.Instance.User.id, (userReceived) =>
         {
             GlobalUserData userToUpdate = GlobalUserData.Instance;
             Dictionary<string, int> currenciesToAdd = new Dictionary<string, int>();

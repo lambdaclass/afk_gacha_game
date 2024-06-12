@@ -9,7 +9,6 @@ public class DungeonSettlementManager : MonoBehaviour
     [SerializeField] TMP_Text blueprintsLevelUpCost;
     [SerializeField] TMP_Text suppliesAfkRewardRate;
     [SerializeField] TMP_Text dungeonSettlementLevel;
-    [SerializeField] GameObject confirmPopUp;
     [SerializeField] GameObject insufficientCurrencyPopup;
     [SerializeField] GameObject levelUpButton;
 
