@@ -9,8 +9,7 @@ public class LevelData
     public string campaignId;
     public List<Unit> units;
 
-    public Dictionary<string, int> currencyRewards = new Dictionary<string, int>();
-
+    public List<CurrencyReward> currencyRewards = new();
     public List<ItemReward> itemRewards = new();
     public List<UnitReward> unitRewards = new();
 

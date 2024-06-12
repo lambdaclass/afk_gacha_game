@@ -129,57 +129,57 @@ namespace Protobuf.Messages {
             "cmRzGAcgAygLMgsuVW5pdFJld2FyZBIZChFleHBlcmllbmNlX3Jld2FyZBgJ",
             "IAEoDRIjCgxhdHRlbXB0X2Nvc3QYCiADKAsyDS5DdXJyZW5jeUNvc3QSEQoJ",
             "bWF4X3VuaXRzGAggASgNIj0KDkN1cnJlbmN5UmV3YXJkEhsKCGN1cnJlbmN5",
-            "GAEgASgLMgkuQ3VycmVuY3kSDgoGYW1vdW50GAMgASgEIjcKCkl0ZW1SZXdh",
-            "cmQSGgoSaXRlbV90ZW1wbGF0ZV9uYW1lGAEgASgJEg0KBWxldmVsGAIgASgN",
-            "IjIKClVuaXRSZXdhcmQSFgoOY2hhcmFjdGVyX25hbWUYASABKAkSDAoEcmFu",
-            "axgEIAEoDSItCgpBZmtSZXdhcmRzEh8KC2Fma19yZXdhcmRzGAEgAygLMgou",
-            "QWZrUmV3YXJkIjgKCUFma1Jld2FyZBIbCghjdXJyZW5jeRgBIAEoCzIJLkN1",
-            "cnJlbmN5Eg4KBmFtb3VudBgCIAEoBCIXCgVFcnJvchIOCgZyZWFzb24YASAB",
-            "KAkiHAoFQm94ZXMSEwoFYm94ZXMYASADKAsyBC5Cb3gihwEKA0JveBIKCgJp",
-            "ZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhAK",
-            "CGZhY3Rpb25zGAQgAygJEiIKDHJhbmtfd2VpZ2h0cxgFIAMoCzIMLlJhbmtX",
-            "ZWlnaHRzEhsKBGNvc3QYBiADKAsyDS5DdXJyZW5jeUNvc3QiKwoLUmFua1dl",
-            "aWdodHMSDAoEcmFuaxgBIAEoBRIOCgZ3ZWlnaHQYAiABKAUiOwoMQ3VycmVu",
-            "Y3lDb3N0EhsKCGN1cnJlbmN5GAEgASgLMgkuQ3VycmVuY3kSDgoGYW1vdW50",
-            "GAIgASgFIjcKC1VzZXJBbmRVbml0EhMKBHVzZXIYASABKAsyBS5Vc2VyEhMK",
-            "BHVuaXQYAiABKAsyBS5Vbml0IlMKDEJhdHRsZVJlc3VsdBIdCg1pbml0aWFs",
-            "X3N0YXRlGAEgASgLMgYuU3RhdGUSFAoFc3RlcHMYAiADKAsyBS5TdGVwEg4K",
-            "BnJlc3VsdBgDIAEoCSIjCgVTdGF0ZRIaCgV1bml0cxgBIAMoCzILLkJhdHRs",
-            "ZVVuaXQiagoKQmF0dGxlVW5pdBIKCgJpZBgBIAEoCRIOCgZoZWFsdGgYAiAB",
-            "KAUSDgoGZW5lcmd5GAMgASgFEgwKBHNsb3QYBCABKAUSFAoMY2hhcmFjdGVy",
-            "X2lkGAUgASgJEgwKBHRlYW0YBiABKAUiNQoEU3RlcBITCgtzdGVwX251bWJl",
-            "chgBIAEoBRIYCgdhY3Rpb25zGAIgAygLMgcuQWN0aW9uIv4CCgZBY3Rpb24S",
-            "JAoMc2tpbGxfYWN0aW9uGAEgASgLMgwuU2tpbGxBY3Rpb25IABIuChFtb2Rp",
-            "Zmllcl9yZWNlaXZlZBgCIAEoCzIRLk1vZGlmaWVyUmVjZWl2ZWRIABIkCgx0",
-            "YWdfcmVjZWl2ZWQYAyABKAsyDC5UYWdSZWNlaXZlZEgAEiwKEG1vZGlmaWVy",
-            "X2V4cGlyZWQYBCABKAsyEC5Nb2RpZmllckV4cGlyZWRIABIiCgt0YWdfZXhw",
-            "aXJlZBgFIAEoCzILLlRhZ0V4cGlyZWRIABIXCgVkZWF0aBgGIAEoCzIGLkRl",
-            "YXRoSAASMAoSZXhlY3V0aW9uX3JlY2VpdmVkGAcgASgLMhIuRXhlY3V0aW9u",
-            "UmVjZWl2ZWRIABIkCgxlbmVyZ3lfcmVnZW4YCCABKAsyDC5FbmVyZ3lSZWdl",
-            "bkgAEiYKDXN0YXRfb3ZlcnJpZGUYCSABKAsyDS5TdGF0T3ZlcnJpZGVIAEIN",
-            "CgthY3Rpb25fdHlwZSIzCgxTdGF0QWZmZWN0ZWQSEwoEc3RhdBgBIAEoDjIF",
-            "LlN0YXQSDgoGYW1vdW50GAIgASgCInMKC1NraWxsQWN0aW9uEhEKCWNhc3Rl",
-            "cl9pZBgBIAEoCRISCgp0YXJnZXRfaWRzGAIgAygJEhAKCHNraWxsX2lkGAMg",
-            "ASgJEisKEXNraWxsX2FjdGlvbl90eXBlGAQgASgOMhAuU2tpbGxBY3Rpb25U",
-            "eXBlIkwKEUV4ZWN1dGlvblJlY2VpdmVkEhEKCXRhcmdldF9pZBgBIAEoCRIk",
-            "Cg1zdGF0X2FmZmVjdGVkGAIgASgLMg0uU3RhdEFmZmVjdGVkInAKEE1vZGlm",
-            "aWVyUmVjZWl2ZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIg",
-            "ASgJEiQKDXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5TdGF0QWZmZWN0ZWQSEQoJ",
-            "b3BlcmF0aW9uGAQgASgJIj8KC1RhZ1JlY2VpdmVkEhAKCHNraWxsX2lkGAEg",
-            "ASgJEhEKCXRhcmdldF9pZBgCIAEoCRILCgN0YWcYAyABKAkibwoPTW9kaWZp",
-            "ZXJFeHBpcmVkEhAKCHNraWxsX2lkGAEgASgJEhEKCXRhcmdldF9pZBgCIAEo",
-            "CRIkCg1zdGF0X2FmZmVjdGVkGAMgASgLMg0uU3RhdEFmZmVjdGVkEhEKCW9w",
-            "ZXJhdGlvbhgEIAEoCSI+CgpUYWdFeHBpcmVkEhAKCHNraWxsX2lkGAEgASgJ",
-            "EhEKCXRhcmdldF9pZBgCIAEoCRILCgN0YWcYAyABKAkiGAoFRGVhdGgSDwoH",
-            "dW5pdF9pZBgBIAEoCSJCCgtFbmVyZ3lSZWdlbhIRCgl0YXJnZXRfaWQYASAB",
-            "KAkSEAoIc2tpbGxfaWQYAiABKAkSDgoGYW1vdW50GAMgASgCIkcKDFN0YXRP",
-            "dmVycmlkZRIRCgl0YXJnZXRfaWQYASABKAkSJAoNc3RhdF9hZmZlY3RlZBgC",
-            "IAEoCzINLlN0YXRBZmZlY3RlZCpbCg9Ta2lsbEFjdGlvblR5cGUSEwoPQU5J",
-            "TUFUSU9OX1NUQVJUEAASEgoORUZGRUNUX1RSSUdHRVIQARIOCgpFRkZFQ1Rf",
-            "SElUEAISDwoLRUZGRUNUX01JU1MQAypYCgRTdGF0EgoKBkhFQUxUSBAAEgoK",
-            "BkVORVJHWRABEgoKBkFUVEFDSxACEgsKB0RFRkVOU0UQAxIUChBEQU1BR0Vf",
-            "UkVEVUNUSU9OEAQSCQoFU1BFRUQQBUIUqgIRUHJvdG9idWYuTWVzc2FnZXNi",
-            "BnByb3RvMw=="));
+            "GAEgASgLMgkuQ3VycmVuY3kSDgoGYW1vdW50GAIgASgEIjgKCkl0ZW1SZXdh",
+            "cmQSGgoSaXRlbV90ZW1wbGF0ZV9uYW1lGAEgASgJEg4KBmFtb3VudBgCIAEo",
+            "DSJCCgpVbml0UmV3YXJkEhYKDmNoYXJhY3Rlcl9uYW1lGAEgASgJEgwKBHJh",
+            "bmsYAiABKA0SDgoGYW1vdW50GAMgASgNIi0KCkFma1Jld2FyZHMSHwoLYWZr",
+            "X3Jld2FyZHMYASADKAsyCi5BZmtSZXdhcmQiOAoJQWZrUmV3YXJkEhsKCGN1",
+            "cnJlbmN5GAEgASgLMgkuQ3VycmVuY3kSDgoGYW1vdW50GAIgASgEIhcKBUVy",
+            "cm9yEg4KBnJlYXNvbhgBIAEoCSIcCgVCb3hlcxITCgVib3hlcxgBIAMoCzIE",
+            "LkJveCKHAQoDQm94EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVz",
+            "Y3JpcHRpb24YAyABKAkSEAoIZmFjdGlvbnMYBCADKAkSIgoMcmFua193ZWln",
+            "aHRzGAUgAygLMgwuUmFua1dlaWdodHMSGwoEY29zdBgGIAMoCzINLkN1cnJl",
+            "bmN5Q29zdCIrCgtSYW5rV2VpZ2h0cxIMCgRyYW5rGAEgASgFEg4KBndlaWdo",
+            "dBgCIAEoBSI7CgxDdXJyZW5jeUNvc3QSGwoIY3VycmVuY3kYASABKAsyCS5D",
+            "dXJyZW5jeRIOCgZhbW91bnQYAiABKAUiNwoLVXNlckFuZFVuaXQSEwoEdXNl",
+            "chgBIAEoCzIFLlVzZXISEwoEdW5pdBgCIAEoCzIFLlVuaXQiUwoMQmF0dGxl",
+            "UmVzdWx0Eh0KDWluaXRpYWxfc3RhdGUYASABKAsyBi5TdGF0ZRIUCgVzdGVw",
+            "cxgCIAMoCzIFLlN0ZXASDgoGcmVzdWx0GAMgASgJIiMKBVN0YXRlEhoKBXVu",
+            "aXRzGAEgAygLMgsuQmF0dGxlVW5pdCJqCgpCYXR0bGVVbml0EgoKAmlkGAEg",
+            "ASgJEg4KBmhlYWx0aBgCIAEoBRIOCgZlbmVyZ3kYAyABKAUSDAoEc2xvdBgE",
+            "IAEoBRIUCgxjaGFyYWN0ZXJfaWQYBSABKAkSDAoEdGVhbRgGIAEoBSI1CgRT",
+            "dGVwEhMKC3N0ZXBfbnVtYmVyGAEgASgFEhgKB2FjdGlvbnMYAiADKAsyBy5B",
+            "Y3Rpb24i/gIKBkFjdGlvbhIkCgxza2lsbF9hY3Rpb24YASABKAsyDC5Ta2ls",
+            "bEFjdGlvbkgAEi4KEW1vZGlmaWVyX3JlY2VpdmVkGAIgASgLMhEuTW9kaWZp",
+            "ZXJSZWNlaXZlZEgAEiQKDHRhZ19yZWNlaXZlZBgDIAEoCzIMLlRhZ1JlY2Vp",
+            "dmVkSAASLAoQbW9kaWZpZXJfZXhwaXJlZBgEIAEoCzIQLk1vZGlmaWVyRXhw",
+            "aXJlZEgAEiIKC3RhZ19leHBpcmVkGAUgASgLMgsuVGFnRXhwaXJlZEgAEhcK",
+            "BWRlYXRoGAYgASgLMgYuRGVhdGhIABIwChJleGVjdXRpb25fcmVjZWl2ZWQY",
+            "ByABKAsyEi5FeGVjdXRpb25SZWNlaXZlZEgAEiQKDGVuZXJneV9yZWdlbhgI",
+            "IAEoCzIMLkVuZXJneVJlZ2VuSAASJgoNc3RhdF9vdmVycmlkZRgJIAEoCzIN",
+            "LlN0YXRPdmVycmlkZUgAQg0KC2FjdGlvbl90eXBlIjMKDFN0YXRBZmZlY3Rl",
+            "ZBITCgRzdGF0GAEgASgOMgUuU3RhdBIOCgZhbW91bnQYAiABKAIicwoLU2tp",
+            "bGxBY3Rpb24SEQoJY2FzdGVyX2lkGAEgASgJEhIKCnRhcmdldF9pZHMYAiAD",
+            "KAkSEAoIc2tpbGxfaWQYAyABKAkSKwoRc2tpbGxfYWN0aW9uX3R5cGUYBCAB",
+            "KA4yEC5Ta2lsbEFjdGlvblR5cGUiTAoRRXhlY3V0aW9uUmVjZWl2ZWQSEQoJ",
+            "dGFyZ2V0X2lkGAEgASgJEiQKDXN0YXRfYWZmZWN0ZWQYAiABKAsyDS5TdGF0",
+            "QWZmZWN0ZWQicAoQTW9kaWZpZXJSZWNlaXZlZBIQCghza2lsbF9pZBgBIAEo",
+            "CRIRCgl0YXJnZXRfaWQYAiABKAkSJAoNc3RhdF9hZmZlY3RlZBgDIAEoCzIN",
+            "LlN0YXRBZmZlY3RlZBIRCglvcGVyYXRpb24YBCABKAkiPwoLVGFnUmVjZWl2",
+            "ZWQSEAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEgsKA3Rh",
+            "ZxgDIAEoCSJvCg9Nb2RpZmllckV4cGlyZWQSEAoIc2tpbGxfaWQYASABKAkS",
+            "EQoJdGFyZ2V0X2lkGAIgASgJEiQKDXN0YXRfYWZmZWN0ZWQYAyABKAsyDS5T",
+            "dGF0QWZmZWN0ZWQSEQoJb3BlcmF0aW9uGAQgASgJIj4KClRhZ0V4cGlyZWQS",
+            "EAoIc2tpbGxfaWQYASABKAkSEQoJdGFyZ2V0X2lkGAIgASgJEgsKA3RhZxgD",
+            "IAEoCSIYCgVEZWF0aBIPCgd1bml0X2lkGAEgASgJIkIKC0VuZXJneVJlZ2Vu",
+            "EhEKCXRhcmdldF9pZBgBIAEoCRIQCghza2lsbF9pZBgCIAEoCRIOCgZhbW91",
+            "bnQYAyABKAIiRwoMU3RhdE92ZXJyaWRlEhEKCXRhcmdldF9pZBgBIAEoCRIk",
+            "Cg1zdGF0X2FmZmVjdGVkGAIgASgLMg0uU3RhdEFmZmVjdGVkKlsKD1NraWxs",
+            "QWN0aW9uVHlwZRITCg9BTklNQVRJT05fU1RBUlQQABISCg5FRkZFQ1RfVFJJ",
+            "R0dFUhABEg4KCkVGRkVDVF9ISVQQAhIPCgtFRkZFQ1RfTUlTUxADKlgKBFN0",
+            "YXQSCgoGSEVBTFRIEAASCgoGRU5FUkdZEAESCgoGQVRUQUNLEAISCwoHREVG",
+            "RU5TRRADEhQKEERBTUFHRV9SRURVQ1RJT04QBBIJCgVTUEVFRBAFQhSqAhFQ",
+            "cm90b2J1Zi5NZXNzYWdlc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuf.Messages.SkillActionType), typeof(global::Protobuf.Messages.Stat), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -228,8 +228,8 @@ namespace Protobuf.Messages {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Campaign), global::Protobuf.Messages.Campaign.Parser, new[]{ "Id", "SuperCampaignName", "CampaignNumber", "Levels" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Level), global::Protobuf.Messages.Level.Parser, new[]{ "Id", "CampaignId", "LevelNumber", "Units", "CurrencyRewards", "ItemRewards", "UnitRewards", "ExperienceReward", "AttemptCost", "MaxUnits" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.CurrencyReward), global::Protobuf.Messages.CurrencyReward.Parser, new[]{ "Currency", "Amount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ItemReward), global::Protobuf.Messages.ItemReward.Parser, new[]{ "ItemTemplateName", "Level" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.UnitReward), global::Protobuf.Messages.UnitReward.Parser, new[]{ "CharacterName", "Rank" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.ItemReward), global::Protobuf.Messages.ItemReward.Parser, new[]{ "ItemTemplateName", "Amount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.UnitReward), global::Protobuf.Messages.UnitReward.Parser, new[]{ "CharacterName", "Rank", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.AfkRewards), global::Protobuf.Messages.AfkRewards.Parser, new[]{ "AfkRewards_" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.AfkReward), global::Protobuf.Messages.AfkReward.Parser, new[]{ "Currency", "Amount" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuf.Messages.Error), global::Protobuf.Messages.Error.Parser, new[]{ "Reason" }, null, null, null, null),
@@ -13315,7 +13315,7 @@ namespace Protobuf.Messages {
     }
 
     /// <summary>Field number for the "amount" field.</summary>
-    public const int AmountFieldNumber = 3;
+    public const int AmountFieldNumber = 2;
     private ulong amount_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -13375,7 +13375,7 @@ namespace Protobuf.Messages {
         output.WriteMessage(Currency);
       }
       if (Amount != 0UL) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteUInt64(Amount);
       }
       if (_unknownFields != null) {
@@ -13393,7 +13393,7 @@ namespace Protobuf.Messages {
         output.WriteMessage(Currency);
       }
       if (Amount != 0UL) {
-        output.WriteRawTag(24);
+        output.WriteRawTag(16);
         output.WriteUInt64(Amount);
       }
       if (_unknownFields != null) {
@@ -13455,7 +13455,7 @@ namespace Protobuf.Messages {
             input.ReadMessage(Currency);
             break;
           }
-          case 24: {
+          case 16: {
             Amount = input.ReadUInt64();
             break;
           }
@@ -13481,7 +13481,7 @@ namespace Protobuf.Messages {
             input.ReadMessage(Currency);
             break;
           }
-          case 24: {
+          case 16: {
             Amount = input.ReadUInt64();
             break;
           }
@@ -13528,7 +13528,7 @@ namespace Protobuf.Messages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ItemReward(ItemReward other) : this() {
       itemTemplateName_ = other.itemTemplateName_;
-      level_ = other.level_;
+      amount_ = other.amount_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -13550,15 +13550,15 @@ namespace Protobuf.Messages {
       }
     }
 
-    /// <summary>Field number for the "level" field.</summary>
-    public const int LevelFieldNumber = 2;
-    private uint level_;
+    /// <summary>Field number for the "amount" field.</summary>
+    public const int AmountFieldNumber = 2;
+    private uint amount_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public uint Level {
-      get { return level_; }
+    public uint Amount {
+      get { return amount_; }
       set {
-        level_ = value;
+        amount_ = value;
       }
     }
 
@@ -13578,7 +13578,7 @@ namespace Protobuf.Messages {
         return true;
       }
       if (ItemTemplateName != other.ItemTemplateName) return false;
-      if (Level != other.Level) return false;
+      if (Amount != other.Amount) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -13587,7 +13587,7 @@ namespace Protobuf.Messages {
     public override int GetHashCode() {
       int hash = 1;
       if (ItemTemplateName.Length != 0) hash ^= ItemTemplateName.GetHashCode();
-      if (Level != 0) hash ^= Level.GetHashCode();
+      if (Amount != 0) hash ^= Amount.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -13610,9 +13610,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(10);
         output.WriteString(ItemTemplateName);
       }
-      if (Level != 0) {
+      if (Amount != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt32(Level);
+        output.WriteUInt32(Amount);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -13628,9 +13628,9 @@ namespace Protobuf.Messages {
         output.WriteRawTag(10);
         output.WriteString(ItemTemplateName);
       }
-      if (Level != 0) {
+      if (Amount != 0) {
         output.WriteRawTag(16);
-        output.WriteUInt32(Level);
+        output.WriteUInt32(Amount);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -13645,8 +13645,8 @@ namespace Protobuf.Messages {
       if (ItemTemplateName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemTemplateName);
       }
-      if (Level != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Level);
+      if (Amount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Amount);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -13663,8 +13663,8 @@ namespace Protobuf.Messages {
       if (other.ItemTemplateName.Length != 0) {
         ItemTemplateName = other.ItemTemplateName;
       }
-      if (other.Level != 0) {
-        Level = other.Level;
+      if (other.Amount != 0) {
+        Amount = other.Amount;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -13686,7 +13686,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 16: {
-            Level = input.ReadUInt32();
+            Amount = input.ReadUInt32();
             break;
           }
         }
@@ -13709,7 +13709,7 @@ namespace Protobuf.Messages {
             break;
           }
           case 16: {
-            Level = input.ReadUInt32();
+            Amount = input.ReadUInt32();
             break;
           }
         }
@@ -13756,6 +13756,7 @@ namespace Protobuf.Messages {
     public UnitReward(UnitReward other) : this() {
       characterName_ = other.characterName_;
       rank_ = other.rank_;
+      amount_ = other.amount_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -13778,7 +13779,7 @@ namespace Protobuf.Messages {
     }
 
     /// <summary>Field number for the "rank" field.</summary>
-    public const int RankFieldNumber = 4;
+    public const int RankFieldNumber = 2;
     private uint rank_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -13786,6 +13787,18 @@ namespace Protobuf.Messages {
       get { return rank_; }
       set {
         rank_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "amount" field.</summary>
+    public const int AmountFieldNumber = 3;
+    private uint amount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Amount {
+      get { return amount_; }
+      set {
+        amount_ = value;
       }
     }
 
@@ -13806,6 +13819,7 @@ namespace Protobuf.Messages {
       }
       if (CharacterName != other.CharacterName) return false;
       if (Rank != other.Rank) return false;
+      if (Amount != other.Amount) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -13815,6 +13829,7 @@ namespace Protobuf.Messages {
       int hash = 1;
       if (CharacterName.Length != 0) hash ^= CharacterName.GetHashCode();
       if (Rank != 0) hash ^= Rank.GetHashCode();
+      if (Amount != 0) hash ^= Amount.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -13838,8 +13853,12 @@ namespace Protobuf.Messages {
         output.WriteString(CharacterName);
       }
       if (Rank != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(16);
         output.WriteUInt32(Rank);
+      }
+      if (Amount != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Amount);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -13856,8 +13875,12 @@ namespace Protobuf.Messages {
         output.WriteString(CharacterName);
       }
       if (Rank != 0) {
-        output.WriteRawTag(32);
+        output.WriteRawTag(16);
         output.WriteUInt32(Rank);
+      }
+      if (Amount != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Amount);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -13874,6 +13897,9 @@ namespace Protobuf.Messages {
       }
       if (Rank != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Rank);
+      }
+      if (Amount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Amount);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -13892,6 +13918,9 @@ namespace Protobuf.Messages {
       }
       if (other.Rank != 0) {
         Rank = other.Rank;
+      }
+      if (other.Amount != 0) {
+        Amount = other.Amount;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -13912,8 +13941,12 @@ namespace Protobuf.Messages {
             CharacterName = input.ReadString();
             break;
           }
-          case 32: {
+          case 16: {
             Rank = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            Amount = input.ReadUInt32();
             break;
           }
         }
@@ -13935,8 +13968,12 @@ namespace Protobuf.Messages {
             CharacterName = input.ReadString();
             break;
           }
-          case 32: {
+          case 16: {
             Rank = input.ReadUInt32();
+            break;
+          }
+          case 24: {
+            Amount = input.ReadUInt32();
             break;
           }
         }

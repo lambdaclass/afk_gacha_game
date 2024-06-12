@@ -211,7 +211,7 @@ public class BattleManager : MonoBehaviour
                 Debug.LogError(ex.Message);
             }
             GlobalUserData user = GlobalUserData.Instance;
-            user.AddCurrencies(GetLevelRewards());
+            user.AddCurrencies(GetLevelCurrencyRewards());
             victorySplash.GetComponentInChildren<RewardsUIContainer>().Populate(CreateRewardsList());
             victorySplash.SetActive(true);
             victorySplash.GetComponent<AudioSource>().Play();
@@ -303,9 +303,14 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private Dictionary<string, int> GetLevelRewards()
+    private Dictionary<string, int> GetLevelCurrencyRewards()
     {
-        Dictionary<string, int> rewards = LevelProgress.selectedLevelData.currencyRewards;
+        Dictionary<string, int> rewards = new();
+        foreach (var currencyReward in LevelProgress.selectedLevelData.currencyRewards)
+        {
+            rewards.Add(currencyReward.currency.name, currencyReward.amount);
+        }
+
         if (LevelProgress.selectedLevelData.experienceReward > 0)
         {
             rewards.Add("Experience", LevelProgress.selectedLevelData.experienceReward);
@@ -337,10 +342,7 @@ public class BattleManager : MonoBehaviour
 
         foreach (var currencyReward in LevelProgress.selectedLevelData.currencyRewards)
         {
-            if (currencyReward.Value > 0)
-            {
-                rewards.Add(new CurrencyUIReward(currencyReward.Key, currencyReward.Value));
-            }
+            rewards.Add(new CurrencyUIReward(currencyReward));
         }
 
         foreach (var unitReward in LevelProgress.selectedLevelData.unitRewards)
@@ -351,6 +353,11 @@ public class BattleManager : MonoBehaviour
         foreach (var itemReward in LevelProgress.selectedLevelData.itemRewards)
         {
             rewards.Add(new ItemUIReward(itemReward));
+        }
+
+        if (LevelProgress.selectedLevelData.experienceReward > 0)
+        {
+            rewards.Add(new ExperienceUIReward(LevelProgress.selectedLevelData.experienceReward));
         }
 
         return rewards;

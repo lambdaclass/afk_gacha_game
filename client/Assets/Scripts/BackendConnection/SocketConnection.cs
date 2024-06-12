@@ -270,20 +270,26 @@ public class SocketConnection : MonoBehaviour
                     levelNumber = (int)level.LevelNumber,
                     campaignId = level.CampaignId,
                     units = levelUnits,
-                    currencyRewards = GetLevelCurrencyRewards(level),
-                    itemRewards = level.ItemRewards.Select(itemReward => new ItemReward
+                    currencyRewards = level.CurrencyRewards.Select(currencyReward => new CurrencyReward
+                    {
+                        currency = GlobalUserData.Instance.AvailableCurrencies.Find(currency => currency.name == currencyReward.Currency.Name),
+                        amount = (int)currencyReward.Amount
+                    }).ToList(),
+                    itemRewards = level.ItemRewards.Select(itemReward =>
+                    new ItemReward
                     {
                         itemTemplate = GlobalUserData.Instance.AvailableItemTemplates.Find(itemTemplate => itemTemplate.name.ToLower() == itemReward.ItemTemplateName.ToLower()),
-                        level = (int)itemReward.Level
+                        amount = (int)itemReward.Amount
                     }).ToList(),
                     unitRewards = level.UnitRewards.Select(unitReward => new UnitReward
                     {
                         character = availableCharacters.Find(character => character.name.ToLower() == unitReward.CharacterName.ToLower()),
-                        rank = (int)unitReward.Rank
+                        rank = (int)unitReward.Rank,
+                        amount = (int)unitReward.Amount
                     }).ToList(),
+                    experienceReward = (int)level.ExperienceReward,
                     status = levelStatus
                 });
-
 
                 if (levelStatus == LevelProgress.Status.Unlocked)
                 {
@@ -841,13 +847,6 @@ public class SocketConnection : MonoBehaviour
         {
             Debug.LogError(e.Message);
         }
-    }
-
-    private Dictionary<string, int> GetLevelCurrencyRewards(Level level)
-    {
-        Dictionary<string, int> rewards = level.CurrencyRewards.ToDictionary(currencyReward => currencyReward.Currency.Name, currencyReward => (int)currencyReward.Amount);
-        rewards.Add("Experience", (int)level.ExperienceReward);
-        return rewards;
     }
 
     public void GetAfkRewards(string userId, Action<List<AfkReward>> onAfkRewardsReceived)
