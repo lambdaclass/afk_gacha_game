@@ -31,6 +31,9 @@ public class HeaderManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI blueprints;
 
+    [SerializeField]
+    TextMeshProUGUI supplies;
+
     static GlobalUserData user;
 
     // static bool infoHasBeenSet = false;
@@ -70,6 +73,7 @@ public class HeaderManager : MonoBehaviour
         scrolls.text = user.GetCurrency("Summon Scrolls").ToString();
         fertilizer.text = user.GetCurrency("Fertilizer").ToString();
         blueprints.text = user.GetCurrency("Blueprints").ToString();
+        supplies.text = user.GetCurrency("Supplies").ToString();
     }
 
     void UpdateLevelValues()

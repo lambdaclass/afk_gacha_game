@@ -23,8 +23,8 @@ option csharp_namespace = "Protobuf.Messages";
       GetBoxes get_boxes = 18;
       GetBox get_box = 19;
       Summon summon = 20;
-      GetAfkRewards get_afk_rewards = 21;
-      ClaimAfkRewards claim_afk_rewards = 22;
+      GetKalineAfkRewards get_kaline_afk_rewards = 21;
+      ClaimKalineAfkRewards claim_kaline_afk_rewards = 22;
       GetUserSuperCampaignProgresses get_user_super_campaign_progresses = 23;
       LevelUpKalineTree level_up_kaline_tree = 24;
       ClaimDungeonAfkRewards claim_dungeon_afk_rewards = 25;
@@ -113,11 +113,11 @@ option csharp_namespace = "Protobuf.Messages";
     string item_id = 2;
   }
 
- message GetAfkRewards {
+ message GetKalineAfkRewards {
     string user_id = 1;
  }
 
- message ClaimAfkRewards {
+ message ClaimKalineAfkRewards {
     string user_id = 1;
  }
 
