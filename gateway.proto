@@ -23,12 +23,14 @@ option csharp_namespace = "Protobuf.Messages";
       GetBoxes get_boxes = 18;
       GetBox get_box = 19;
       Summon summon = 20;
-      GetAfkRewards get_afk_rewards = 21;
-      ClaimAfkRewards claim_afk_rewards = 22;
+      GetKalineAfkRewards get_kaline_afk_rewards = 21;
+      ClaimKalineAfkRewards claim_kaline_afk_rewards = 22;
       GetUserSuperCampaignProgresses get_user_super_campaign_progresses = 23;
       LevelUpKalineTree level_up_kaline_tree = 24;
       ClaimDungeonAfkRewards claim_dungeon_afk_rewards = 25;
       LevelUpDungeonSettlement level_up_dungeon_settlement = 26;
+      PurchaseDungeonUpgrade purchase_dungeon_upgrade = 27;
+      GetDungeonAfkRewards get_dungeon_afk_rewards = 28;
     }
   }
 
@@ -111,11 +113,11 @@ option csharp_namespace = "Protobuf.Messages";
     string item_id = 2;
   }
 
- message GetAfkRewards {
+ message GetKalineAfkRewards {
     string user_id = 1;
  }
 
- message ClaimAfkRewards {
+ message ClaimKalineAfkRewards {
     string user_id = 1;
  }
 
@@ -148,6 +150,14 @@ option csharp_namespace = "Protobuf.Messages";
     string user_id = 1;
   }
 
+  message PurchaseDungeonUpgrade {
+    string user_id = 1;
+    string upgrade_id = 2;
+  }
+
+  message GetDungeonAfkRewards {
+    string user_id = 1;
+  }
   ////////////////////////////////////////
 
   message WebSocketResponse {
