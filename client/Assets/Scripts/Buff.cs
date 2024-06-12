@@ -1,7 +1,7 @@
 
 public class Buff
 {
-    string attribute;
-    float value;
-    string operation;
+    public string attribute;
+    public float value;
+    public string operation;
 }

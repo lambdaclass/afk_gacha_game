@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEditor.Build.Utilities;
 using UnityEngine;
 
 public class SocketConnection : MonoBehaviour
@@ -1004,7 +1005,7 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-    public void GetDungeonUpgrades(string userId, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    public void GetDungeonUpgrades(string userId, Action<List<Upgrade>> onUpgradesDataReceived, Action<string> onError = null)
     {
         GetDungeonUpgrades getDungeonUpgrades = new GetDungeonUpgrades
         {
@@ -1014,13 +1015,13 @@ public class SocketConnection : MonoBehaviour
         {
             GetDungeonUpgrades = getDungeonUpgrades
         };
-        currentMessageHandler = (data) => AwaitGetDungeonUpgradesResponse(data, onLeveledUpUserReceived, onError);
+        currentMessageHandler = (data) => AwaitGetDungeonUpgradesResponse(data, onUpgradesDataReceived, onError);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
 
-    private void AwaitGetDungeonUpgradesResponse(byte[] data, Action<User> onLeveledUpUserReceived, Action<string> onError = null)
+    private void AwaitGetDungeonUpgradesResponse(byte[] data, Action<List<Upgrade>> onUpgradesDataReceived, Action<string> onError = null)
     {
         try
         {
@@ -1029,16 +1030,29 @@ public class SocketConnection : MonoBehaviour
             WebSocketResponse webSocketResponse = WebSocketResponse.Parser.ParseFrom(data);
             if (webSocketResponse.ResponseTypeCase == WebSocketResponse.ResponseTypeOneofCase.Upgrades)
             {
-                GlobalUserData.Instance.AvailableUpgrades = webSocketResponse.Upgrades.Upgrades_.Select(upgrade => new Upgrade
-                {
-                    id = upgrade.Id,
-                    name = upgrade.Name,
-                    description = upgrade.Description,
-                    cost = upgrade.Cost.ToDictionary(cost => cost.Currency.Name, cost => (int)cost.Amount),
-                    level = (int)upgrade.Level,
-                    maxLevel = (int)upgrade.MaxLevel,
-                    type = upgrade.Type,
-                    value = upgrade.Value
-                }).ToList();
-
+                List<Upgrade> upgrades = ParseUpgradesFromResponse(webSocketResponse.Upgrades);
+                onUpgradesDataReceived?.Invoke(upgrades);
             }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
+    }
+
+    private List<Upgrade> ParseUpgradesFromResponse(Upgrades upgradesMessage)
+    {
+        return upgradesMessage.Upgrades_.Select(upgrade =>
+        {
+            return new Upgrade
+            {
+                name = upgrade.Name,
+                description = upgrade.Description,
+                costs = upgrade.Cost.Select(cost => new CurrencyCost { currency = new Currency { name = cost.Currency.Name }, amount = (int)cost.Amount }).ToList(),
+                buffs = upgrade.Buffs.Select(buff => new Buff { attribute = buff.Attribute, value = buff.Value, operation = buff.Operation }).ToList()
+            };
+        }).ToList();
+    }
+}
+
+

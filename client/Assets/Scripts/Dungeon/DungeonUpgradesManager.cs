@@ -19,13 +19,7 @@ public class DungeonUpgradesManager : MonoBehaviour
 
         SocketConnection.Instance.GetDungeonUpgrades(user.id, (upgrades) =>
         {
-            foreach (var group in upgrades.GroupBy(upgrade => upgrade.template.name))
-            {
-                GameObject upgradeUIObject = Instantiate(upgradePrefab, upgradesContainer.transform);
-                upgradeUIObject.GetComponent<DungeonUpgradeUI>().SetUpUpgrade(group.First(), group.Count());
-                Button unitUpgradeButton = upgradeUIObject.GetComponent<Button>();
-                unitUpgradeButton.onClick.AddListener(() => ShowUpgradeDetailPopup(group.First()));
-            }
+            Debug.Log("Got dungeon upgrades: " + upgrades.Count);
         },
         (error) =>
         {

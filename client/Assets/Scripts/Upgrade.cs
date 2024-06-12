@@ -2,10 +2,9 @@ using System.Collections.Generic;
 
 public class Upgrade
 {
-    string name;
-    string description;
-    int group;
-    List<CurrencyCost> cost;
-    List<Buff> buffs;
-
+    public string name;
+    public string description;
+    public int group;
+    public List<CurrencyCost> costs;
+    public List<Buff> buffs;
 }
