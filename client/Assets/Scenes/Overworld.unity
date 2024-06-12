@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708708, g: 0.37838137, b: 0.35725543, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -870,7 +870,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904352, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904352, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1105,7 +1105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904352, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904352, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1904,7 +1904,7 @@ RectTransform:
   - {fileID: 552261515}
   - {fileID: 2131167416}
   m_Father: {fileID: 1938758588}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -2251,6 +2251,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fefabd5029b34ec0bc56b5d48394835, type: 2}
   - {fileID: 11400000, guid: 9b881e5e020044a0dbaa5cc150b7f804, type: 2}
   - {fileID: 11400000, guid: 9434b4336cd944dd397476ec3469d409, type: 2}
+  - {fileID: 11400000, guid: 5663b5c0c5629454aa4760b4a3d1e1c6, type: 2}
+  - {fileID: 11400000, guid: 3774397a5e3e8423aacba3ae92f69c39, type: 2}
+  - {fileID: 11400000, guid: 49a1773794120405cacb08d3be32bd74, type: 2}
   OnChangeUser:
     m_PersistentCalls:
       m_Calls: []
@@ -2514,7 +2517,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904352, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7414010533079904352, guid: c36f69f305d3c4336a02acc5a4050f98, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3187,7 +3190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1880474394802326500, guid: 80a0e36580b14449684c7d9d960c6ba2, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1880474394802326500, guid: 80a0e36580b14449684c7d9d960c6ba2, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3570,7 +3573,7 @@ RectTransform:
   - {fileID: 205570529}
   - {fileID: 1988015981}
   m_Father: {fileID: 1938758588}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}

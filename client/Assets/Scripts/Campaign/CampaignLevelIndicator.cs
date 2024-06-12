@@ -36,9 +36,8 @@ public class CampaignLevelIndicator : MonoBehaviour
 
     public void SelectLevel()
     {
-        campaignLevelManager.LevelSelected();
-
         SetLevel();
+        campaignLevelManager.LevelSelected();
     }
 
     private void SetLevel()

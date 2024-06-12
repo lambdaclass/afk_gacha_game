@@ -42,12 +42,22 @@ public class SupercampaignsMapManager : MonoBehaviour
         if (selectedSuperCampaignName == "Main Campaign")
         {
             supercampaignInstance = await addressableInstantiator.InstantiateMainSupercampaign();
-            supercampaignInstance.transform.SetParent(supercampaignContainer.transform, false);
-            supercampaignInstance.transform.SetSiblingIndex(0);
+            SetSupercampaignTransform(supercampaignInstance);
+        }
+        else if (selectedSuperCampaignName == "Dungeon")
+        {
+            supercampaignInstance = await addressableInstantiator.InstantiateDungeonSupercampaign();
+            SetSupercampaignTransform(supercampaignInstance);
         }
         else
         {
             Debug.LogError("Supercampaign not found: " + selectedSuperCampaignName);
         }
+    }
+
+    private void SetSupercampaignTransform(GameObject supercampaignInstance)
+    {
+        supercampaignInstance.transform.SetParent(supercampaignContainer.transform, false);
+        supercampaignInstance.transform.SetSiblingIndex(0);
     }
 }
