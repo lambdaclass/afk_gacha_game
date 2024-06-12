@@ -225,7 +225,7 @@ public class BattleManager : MonoBehaviour
 
             // This should be handled differently
             CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.selectedLevelData.id).status = LevelProgress.Status.Completed;
-            if (CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id))
+            if (LevelProgress.nextLevelData != null && CampaignManager.selectedCampaignData.levels.Any(level => level.id == LevelProgress.nextLevelData.id))
             {
                 CampaignManager.selectedCampaignData.levels.Find(level => level.id == LevelProgress.nextLevelData.id).status = LevelProgress.Status.Unlocked;
             }
@@ -321,6 +321,12 @@ public class BattleManager : MonoBehaviour
     private void SetUpNextButton()
     {
         GameObject nextButton = victorySplash.transform.Find("Next").gameObject;
+        if (LevelProgress.nextLevelData == null)
+        {
+            nextButton.SetActive(false);
+            return;
+        }
+        else
         if (LevelProgress.selectedLevelData.campaignId != LevelProgress.nextLevelData.campaignId)
         {
             nextButton.GetComponentInChildren<TMP_Text>().text = "NEXT CAMPAIGN";

@@ -849,21 +849,38 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-    public void GetAfkRewards(string userId, Action<List<AfkReward>> onAfkRewardsReceived)
+    public void GetKalineAfkRewards(string userId, Action<List<AfkReward>> onAfkRewardsReceived)
     {
-        GetAfkRewards getAfkRewardsRequest = new GetAfkRewards
+        GetKalineAfkRewards getKalineAfkRewardsRequest = new GetKalineAfkRewards
         {
             UserId = userId
         };
         WebSocketRequest request = new WebSocketRequest
         {
-            GetAfkRewards = getAfkRewardsRequest
+            GetKalineAfkRewards = getKalineAfkRewardsRequest
         };
         currentMessageHandler = (data) => AwaitGetAfkRewardsResponse(data, onAfkRewardsReceived);
         ws.OnMessage += currentMessageHandler;
         ws.OnMessage -= OnWebSocketMessage;
         SendWebSocketMessage(request);
     }
+
+    public void GetDungeonAfkRewards(string userId, Action<List<AfkReward>> onAfkRewardsReceived)
+    {
+        GetDungeonAfkRewards getDungeonAfkRewardsRequest = new GetDungeonAfkRewards
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            GetDungeonAfkRewards = getDungeonAfkRewardsRequest
+        };
+        currentMessageHandler = (data) => AwaitGetAfkRewardsResponse(data, onAfkRewardsReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
 
     private void AwaitGetAfkRewardsResponse(byte[] data, Action<List<AfkReward>> onAfkRewardsReceived, Action<string> onError = null)
     {
@@ -893,15 +910,31 @@ public class SocketConnection : MonoBehaviour
         }
     }
 
-    public void ClaimAfkRewards(string userId, Action<User> onAfkRewardsReceived)
+    public void ClaimKalineAfkRewards(string userId, Action<User> onAfkRewardsReceived)
     {
-        ClaimAfkRewards claimAfkRewardsRequest = new ClaimAfkRewards
+        ClaimKalineAfkRewards claimKalineAfkRewardsRequest = new ClaimKalineAfkRewards
         {
             UserId = userId
         };
         WebSocketRequest request = new WebSocketRequest
         {
-            ClaimAfkRewards = claimAfkRewardsRequest
+            ClaimKalineAfkRewards = claimKalineAfkRewardsRequest
+        };
+        currentMessageHandler = (data) => AwaitClaimAfkRewardsResponse(data, onAfkRewardsReceived);
+        ws.OnMessage += currentMessageHandler;
+        ws.OnMessage -= OnWebSocketMessage;
+        SendWebSocketMessage(request);
+    }
+
+    public void ClaimDungeonAfkRewards(string userId, Action<User> onAfkRewardsReceived)
+    {
+        ClaimDungeonAfkRewards claimDungeonAfkRewardsRequest = new ClaimDungeonAfkRewards
+        {
+            UserId = userId
+        };
+        WebSocketRequest request = new WebSocketRequest
+        {
+            ClaimDungeonAfkRewards = claimDungeonAfkRewardsRequest
         };
         currentMessageHandler = (data) => AwaitClaimAfkRewardsResponse(data, onAfkRewardsReceived);
         ws.OnMessage += currentMessageHandler;
